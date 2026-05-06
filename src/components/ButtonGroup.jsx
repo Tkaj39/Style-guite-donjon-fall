@@ -44,7 +44,7 @@ function SideOrnament({ h, uid, flip }) {
   )
 }
 
-function HexOrnament({ uid, flip, edgePadL = 0, edgePadR = 0, textPadL, textPadR }) {
+function HexOrnament({ uid, flip, edgePadL = 0, edgePadR = 0, textPadL, textPadR, hexOffsetX = 0 }) {
   const g = `url(#${uid}-hg)`
   return (
     <div
@@ -77,7 +77,7 @@ function HexOrnament({ uid, flip, edgePadL = 0, edgePadR = 0, textPadL, textPadR
         background: 'linear-gradient(90deg,#8F7458 0%,#FFC183 50%,#8F7458 100%)',
       }} />
       <svg
-        style={{ position: 'absolute', left: '50%', top: 0, transform: 'translateX(-50%)' }}
+        style={{ position: 'absolute', left: '50%', top: 0, transform: `translateX(calc(-50% + ${hexOffsetX}px))` }}
         width="10.14" height="7" viewBox="18.65 0 5.07 7" fill="none"
       >
         <defs>
@@ -172,8 +172,8 @@ export default function ButtonGroup({
               {(isFirst || isOnly) && <SideOrnament h={s.h} uid={`${uid}l`} />}
               {(isLast  || isOnly) && <SideOrnament h={s.h} uid={`${uid}r`} flip />}
 
-              <HexOrnament uid={`${uid}t`} edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} />
-              <HexOrnament uid={`${uid}b`} flip edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} />
+              <HexOrnament uid={`${uid}t`} edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} hexOffsetX={(padL - padR) / 2} />
+              <HexOrnament uid={`${uid}b`} flip edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} hexOffsetX={(padL - padR) / 2} />
 
               {item.icon && (
                 <span style={{
