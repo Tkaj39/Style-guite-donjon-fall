@@ -13,6 +13,7 @@ const sections = [
     label: 'Components',
     items: [
       { to: '/buttons', label: 'Buttons' },
+      { to: '/button-groups', label: 'Button Groups' },
       { to: '/inputs', label: 'Inputs' },
       { to: '/badges', label: 'Badges' },
       { to: '/cards', label: 'Cards' },
