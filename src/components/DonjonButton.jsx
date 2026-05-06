@@ -42,8 +42,10 @@ function octagon(cx) {
   return `polygon(${cx}px 0px,calc(100% - ${cx}px) 0px,100% ${cx}px,100% calc(100% - ${cx}px),calc(100% - ${cx}px) 100%,${cx}px 100%,0px calc(100% - ${cx}px),0px ${cx}px)`
 }
 
-function HexOrnament({ uid, flip }) {
+function HexOrnament({ uid, flip, edgePad = 16, textPad }) {
   const g = `url(#${uid}-hg)`
+  const innerL = textPad != null ? textPad : '23%'
+  const innerR = textPad != null ? textPad : '23%'
   return (
     <div
       aria-hidden="true"
@@ -56,18 +58,19 @@ function HexOrnament({ uid, flip }) {
         transform: flip ? 'scaleY(-1)' : undefined,
       }}
     >
-      {/* outer line — full width, top of ornament */}
+      {/* outer line — inset a few px from edges */}
       <div style={{
         position: 'absolute',
-        left: 0, right: 0,
+        left: edgePad + 1, right: edgePad + 1,
         top: 1,
         height: 1,
         background: 'linear-gradient(90deg,#8F7458 0%,#FFC183 50%,#8F7458 100%)',
       }} />
-      {/* inner line — shorter, bottom of ornament */}
+      {/* inner line — same width as text content */}
       <div style={{
         position: 'absolute',
-        left: '23%', right: '23%',
+        left: typeof innerL === 'number' ? innerL + 2 : innerL,
+        right: typeof innerR === 'number' ? innerR + 2 : innerR,
         bottom: 1,
         height: 1,
         background: 'linear-gradient(90deg,#8F7458 0%,#FFC183 50%,#8F7458 100%)',
@@ -96,7 +99,7 @@ function HexOrnament({ uid, flip }) {
 }
 
 function SideOrnament({ h, uid, flip }) {
-  const w  = Math.round(24 * (h / 66) * 10) / 10
+  const w  = Math.round(24 * (h / 66) * 10) / 10 - 2
   const g  = `url(#${uid}-v)`
   const gh = `url(#${uid}-h)`
 
@@ -109,7 +112,7 @@ function SideOrnament({ h, uid, flip }) {
       style={{
         position: 'absolute',
         top: 0,
-        [flip ? 'right' : 'left']: 0,
+        [flip ? 'right' : 'left']: 1,
         transform: flip ? 'scaleX(-1)' : undefined,
         pointerEvents: 'none',
       }}
@@ -239,8 +242,8 @@ const DonjonButton = forwardRef(function DonjonButton(
       style={{
         position: 'relative',
         height: s.h,
-        width: fullWidth ? '100%' : undefined,
-        padding: iconOnly ? `0 ${ornW + s.px * 0.5}px` : `0 ${s.px + ornW}px`,
+        width: iconOnly ? s.h : (fullWidth ? '100%' : undefined),
+        padding: iconOnly ? 0 : `0 ${s.px + ornW}px`,
         clipPath: octagon(s.cx),
         background: v.bg,
         display: 'inline-flex',
@@ -260,8 +263,8 @@ const DonjonButton = forwardRef(function DonjonButton(
     >
       <SideOrnament h={s.h} uid={`${uid}l`} />
       <SideOrnament h={s.h} uid={`${uid}r`} flip />
-      <HexOrnament uid={`${uid}t`} />
-      <HexOrnament uid={`${uid}b`} flip />
+      <HexOrnament uid={`${uid}t`} edgePad={iconOnly ? s.cx : s.cx + 8} textPad={iconOnly ? s.cx : s.px + ornW} />
+      <HexOrnament uid={`${uid}b`} flip edgePad={iconOnly ? s.cx : s.cx + 8} textPad={iconOnly ? s.cx : s.px + ornW} />
 
       {loading ? (
         <>
