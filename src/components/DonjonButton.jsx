@@ -62,7 +62,7 @@ function HexOrnament({ uid, flip, edgePad = 16, textPad }) {
       <div style={{
         position: 'absolute',
         left: edgePad + 1, right: edgePad + 1,
-        top: 3,
+        top: 1.5,
         height: 1,
         background: 'linear-gradient(90deg,#8F7458 0%,#FFC183 50%,#8F7458 100%)',
       }} />
