@@ -169,8 +169,8 @@ export default function ButtonGroup({
             >
               {(isFirst || isOnly) && <SideOrnament h={s.h} uid={`${uid}l`} />}
               {(isLast  || isOnly) && <SideOrnament h={s.h} uid={`${uid}r`} flip />}
-              {(isFirst || isOnly) && <HexOrnament uid={`${uid}t`} edgePad={s.cx + 8} textPad={s.px + ornW} />}
-              {(isFirst || isOnly) && <HexOrnament uid={`${uid}b`} flip edgePad={s.cx + 8} textPad={s.px + ornW} />}
+              <HexOrnament uid={`${uid}t`} edgePad={isFirst || isOnly ? s.cx + 8 : 0} textPad={s.px} />
+              <HexOrnament uid={`${uid}b`} flip edgePad={isFirst || isOnly ? s.cx + 8 : 0} textPad={s.px} />
 
               {item.icon && (
                 <span style={{
