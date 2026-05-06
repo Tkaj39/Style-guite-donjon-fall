@@ -1,24 +1,3 @@
-const styles = {
-  menu: {
-    container: 'inline-flex items-center gap-0.5 p-1 bg-neutral-900 border border-neutral-800 rounded-xl',
-    button: {
-      base: 'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950',
-      active: 'bg-neutral-800 text-white shadow-sm',
-      inactive: 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/50',
-    },
-    divider: 'w-px h-5 bg-neutral-700/60 mx-0.5 shrink-0',
-  },
-  tabs: {
-    container: 'inline-flex items-center gap-1 p-1 bg-neutral-900 border border-neutral-800 rounded-xl',
-    button: {
-      base: 'flex items-center gap-2 rounded-lg font-medium transition-all duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950',
-      active: 'px-5 py-2.5 text-sm text-white bg-neutral-700 shadow-md',
-      inactive: 'px-3.5 py-1.5 text-xs text-neutral-500 hover:text-neutral-300',
-    },
-    divider: 'w-px h-4 bg-neutral-700/60 mx-0.5 shrink-0',
-  },
-}
-
 /**
  * @param {'menu'|'tabs'} variant
  * @param {boolean} dividers - show vertical dividers between items
@@ -33,32 +12,105 @@ export default function ButtonGroup({
   value,
   onChange,
 }) {
-  const s = styles[variant] ?? styles.menu
-
   return (
-    <div className={s.container} role="group">
+    <div
+      role="group"
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 2,
+        padding: 4,
+        background: 'linear-gradient(150deg,#2E2D4A 0%,#232238 70%)',
+        border: '1px solid #8F7458',
+        borderRadius: 10,
+      }}
+    >
       {items.map((item, i) => {
         const isActive = item.value === value
         return (
-          <div key={item.value} className="flex items-center">
+          <div key={item.value} style={{ display: 'flex', alignItems: 'center' }}>
             {i > 0 && dividers && (
-              <span className={s.divider} aria-hidden="true" />
+              <span
+                aria-hidden="true"
+                style={{
+                  width: 1,
+                  alignSelf: 'stretch',
+                  margin: '4px 3px',
+                  background: '#8F7458',
+                  opacity: 0.5,
+                  flexShrink: 0,
+                }}
+              />
             )}
             <button
               type="button"
               onClick={() => onChange?.(item.value)}
               aria-pressed={isActive}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: variant === 'tabs' && isActive ? '8px 18px' : '6px 14px',
+                borderRadius: 7,
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: variant === 'tabs' && isActive ? '0.8125rem' : '0.75rem',
+                fontWeight: 600,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                transition: 'all 200ms ease',
+                background: isActive
+                  ? 'linear-gradient(150deg,#353751 0%,#2A2948 70%)'
+                  : 'transparent',
+                boxShadow: isActive ? 'inset 0 0 0 1px #8F7458' : 'none',
+                color: isActive ? undefined : '#8F7458',
+                ...(isActive ? {
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: undefined,
+                } : {}),
+              }}
               className={[
-                s.button.base,
-                isActive ? s.button.active : s.button.inactive,
+                'focus-visible:outline-none',
+                isActive
+                  ? ''
+                  : 'hover:!text-[#FFC183]',
               ].join(' ')}
             >
-              {item.icon && (
-                <span className="w-4 h-4 flex items-center shrink-0">
-                  {item.icon}
-                </span>
+              {/* gradient text for active state */}
+              {isActive ? (
+                <>
+                  {item.icon && (
+                    <span style={{
+                      width: 14, height: 14,
+                      display: 'flex', alignItems: 'center', flexShrink: 0,
+                      color: '#FFC183',
+                      filter: 'drop-shadow(0 0 3px #FFC18366)',
+                    }}>
+                      {item.icon}
+                    </span>
+                  )}
+                  <span style={{
+                    background: 'linear-gradient(180deg,#F9F9F9 0%,#B8956A 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}>
+                    {item.label}
+                  </span>
+                </>
+              ) : (
+                <>
+                  {item.icon && (
+                    <span style={{
+                      width: 14, height: 14,
+                      display: 'flex', alignItems: 'center', flexShrink: 0,
+                    }}>
+                      {item.icon}
+                    </span>
+                  )}
+                  {item.label}
+                </>
               )}
-              {item.label}
             </button>
           </div>
         )
