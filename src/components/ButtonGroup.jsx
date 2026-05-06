@@ -1,6 +1,12 @@
 import { useId } from 'react'
 
-function octagon(cx) {
+function clipLeft(cx) {
+  return `polygon(${cx}px 0px,100% 0px,100% 100%,${cx}px 100%,0px calc(100% - ${cx}px),0px ${cx}px)`
+}
+function clipRight(cx) {
+  return `polygon(0px 0px,calc(100% - ${cx}px) 0px,100% ${cx}px,100% calc(100% - ${cx}px),calc(100% - ${cx}px) 100%,0px 100%)`
+}
+function clipBoth(cx) {
   return `polygon(${cx}px 0px,calc(100% - ${cx}px) 0px,100% ${cx}px,100% calc(100% - ${cx}px),calc(100% - ${cx}px) 100%,${cx}px 100%,0px calc(100% - ${cx}px),0px ${cx}px)`
 }
 
@@ -69,9 +75,7 @@ function HexOrnament({ uid, flip, edgePad, textPad }) {
       }} />
       <svg
         style={{ position: 'absolute', left: '50%', top: 0, transform: 'translateX(-50%)' }}
-        width="10.14" height="7"
-        viewBox="18.65 0 5.07 7"
-        fill="none"
+        width="10.14" height="7" viewBox="18.65 0 5.07 7" fill="none"
       >
         <defs>
           <linearGradient id={`${uid}-hg`} x1="21.1848" y1="0" x2="21.1848" y2="7" gradientUnits="userSpaceOnUse">
@@ -85,9 +89,8 @@ function HexOrnament({ uid, flip, edgePad, textPad }) {
 }
 
 const itemSizes = {
-  menu:         { h: 32, cx: 9.61,  px: 10 },
-  tabs:         { h: 32, cx: 9.61,  px: 10 },
-  tabsActive:   { h: 40, cx: 12.01, px: 14 },
+  base:      { h: 32, cx: 9.61,  px: 10 },
+  tabActive: { h: 40, cx: 12.01, px: 14 },
 }
 
 /**
@@ -106,14 +109,26 @@ export default function ButtonGroup({
 }) {
   const rawId = useId()
   const gid   = rawId.replace(/:/g, '')
+  const last  = items.length - 1
 
   return (
-    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }} role="group">
+    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 2 }} role="group">
       {items.map((item, i) => {
         const isActive = item.value === value
-        const s = (variant === 'tabs' && isActive) ? itemSizes.tabsActive : itemSizes[variant]
+        const isFirst  = i === 0
+        const isLast   = i === last
+        const isOnly   = isFirst && isLast
+        const s = (variant === 'tabs' && isActive) ? itemSizes.tabActive : itemSizes.base
         const ornW = Math.round(24 * (s.h / 66) * 10) / 10
-        const uid  = `${gid}-${i}`
+
+        const clipPath = isOnly   ? clipBoth(s.cx)
+                       : isFirst  ? clipLeft(s.cx)
+                       : isLast   ? clipRight(s.cx)
+                       : undefined
+
+        const paddingLeft  = isFirst || isOnly ? s.px + ornW : s.px
+        const paddingRight = isLast  || isOnly ? s.px + ornW : s.px
+        const uid = `${gid}-${i}`
 
         return (
           <div key={item.value} style={{ display: 'flex', alignItems: 'center' }}>
@@ -121,11 +136,10 @@ export default function ButtonGroup({
               <span
                 aria-hidden="true"
                 style={{
-                  width: 1,
-                  height: 20,
-                  margin: '0 2px',
+                  width: 1, height: 20,
+                  margin: '0 1px',
                   background: '#8F7458',
-                  opacity: 0.5,
+                  opacity: 0.4,
                   flexShrink: 0,
                 }}
               />
@@ -137,8 +151,9 @@ export default function ButtonGroup({
               style={{
                 position: 'relative',
                 height: s.h,
-                padding: `0 ${s.px + ornW}px`,
-                clipPath: octagon(s.cx),
+                paddingLeft,
+                paddingRight,
+                clipPath,
                 background: isActive
                   ? 'linear-gradient(150deg,#353751 0%,#2A2948 70%)'
                   : 'linear-gradient(150deg,#232238 0%,#1B1A30 70%)',
@@ -150,12 +165,12 @@ export default function ButtonGroup({
                 cursor: 'pointer',
                 transition: 'filter 150ms',
               }}
-              className="hover:brightness-110 active:brightness-90 focus:outline-none focus-visible:brightness-110 disabled:opacity-40"
+              className="hover:brightness-110 active:brightness-90 focus:outline-none focus-visible:brightness-110"
             >
-              <SideOrnament h={s.h} uid={`${uid}l`} />
-              <SideOrnament h={s.h} uid={`${uid}r`} flip />
-              <HexOrnament uid={`${uid}t`} edgePad={s.cx + 8} textPad={s.px + ornW} />
-              <HexOrnament uid={`${uid}b`} flip edgePad={s.cx + 8} textPad={s.px + ornW} />
+              {(isFirst || isOnly) && <SideOrnament h={s.h} uid={`${uid}l`} />}
+              {(isLast  || isOnly) && <SideOrnament h={s.h} uid={`${uid}r`} flip />}
+              {(isFirst || isOnly) && <HexOrnament uid={`${uid}t`} edgePad={s.cx + 8} textPad={s.px + ornW} />}
+              {(isFirst || isOnly) && <HexOrnament uid={`${uid}b`} flip edgePad={s.cx + 8} textPad={s.px + ornW} />}
 
               {item.icon && (
                 <span style={{
