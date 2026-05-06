@@ -44,7 +44,7 @@ function SideOrnament({ h, uid, flip }) {
   )
 }
 
-function HexOrnament({ uid, flip, edgePad, textPad }) {
+function HexOrnament({ uid, flip, edgePadL = 0, edgePadR = 0, textPadL, textPadR }) {
   const g = `url(#${uid}-hg)`
   return (
     <div
@@ -58,17 +58,20 @@ function HexOrnament({ uid, flip, edgePad, textPad }) {
         transform: flip ? 'scaleY(-1)' : undefined,
       }}
     >
+      {/* outer line — inset by edgePad on each side */}
       <div style={{
         position: 'absolute',
-        left: edgePad + 1, right: edgePad + 1,
+        left: edgePadL + 1,
+        right: edgePadR + 1,
         top: 2,
         height: 1,
         background: 'linear-gradient(90deg,#8F7458 0%,#FFC183 50%,#8F7458 100%)',
       }} />
+      {/* inner line — inset by textPad on each side */}
       <div style={{
         position: 'absolute',
-        left: typeof textPad === 'number' ? textPad + 2 : textPad,
-        right: typeof textPad === 'number' ? textPad + 2 : textPad,
+        left: textPadL + 2,
+        right: textPadR + 2,
         bottom: 1,
         height: 1,
         background: 'linear-gradient(90deg,#8F7458 0%,#FFC183 50%,#8F7458 100%)',
@@ -88,10 +91,8 @@ function HexOrnament({ uid, flip, edgePad, textPad }) {
   )
 }
 
-const itemSizes = {
-  base:      { h: 32, cx: 9.61,  px: 10 },
-  tabActive: { h: 40, cx: 12.01, px: 14 },
-}
+const s = { h: 32, cx: 9.61, px: 10 }
+const ornW = Math.round(24 * (s.h / 66) * 10) / 10
 
 /**
  * @param {'menu'|'tabs'} variant
@@ -112,23 +113,25 @@ export default function ButtonGroup({
   const last  = items.length - 1
 
   return (
-    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 2 }} role="group">
+    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 0 }} role="group">
       {items.map((item, i) => {
         const isActive = item.value === value
         const isFirst  = i === 0
         const isLast   = i === last
         const isOnly   = isFirst && isLast
-        const s = (variant === 'tabs' && isActive) ? itemSizes.tabActive : itemSizes.base
-        const ornW = Math.round(24 * (s.h / 66) * 10) / 10
+        const uid      = `${gid}-${i}`
 
-        const clipPath = isOnly   ? clipBoth(s.cx)
-                       : isFirst  ? clipLeft(s.cx)
-                       : isLast   ? clipRight(s.cx)
+        const clipPath = isOnly  ? clipBoth(s.cx)
+                       : isFirst ? clipLeft(s.cx)
+                       : isLast  ? clipRight(s.cx)
                        : undefined
 
-        const paddingLeft  = isFirst || isOnly ? s.px + ornW : s.px
-        const paddingRight = isLast  || isOnly ? s.px + ornW : s.px
-        const uid = `${gid}-${i}`
+        const padL = isFirst || isOnly ? s.px + ornW : s.px
+        const padR = isLast  || isOnly ? s.px + ornW : s.px
+
+        // edgePad clears the clipped corner area; only apply where clipping exists
+        const edgePadL = isFirst || isOnly ? s.cx + 8 : 0
+        const edgePadR = isLast  || isOnly ? s.cx + 8 : 0
 
         return (
           <div key={item.value} style={{ display: 'flex', alignItems: 'center' }}>
@@ -137,7 +140,6 @@ export default function ButtonGroup({
                 aria-hidden="true"
                 style={{
                   width: 1, height: 20,
-                  margin: '0 1px',
                   background: '#8F7458',
                   opacity: 0.4,
                   flexShrink: 0,
@@ -151,8 +153,8 @@ export default function ButtonGroup({
               style={{
                 position: 'relative',
                 height: s.h,
-                paddingLeft,
-                paddingRight,
+                paddingLeft: padL,
+                paddingRight: padR,
                 clipPath,
                 background: isActive
                   ? 'linear-gradient(150deg,#353751 0%,#2A2948 70%)'
@@ -169,8 +171,9 @@ export default function ButtonGroup({
             >
               {(isFirst || isOnly) && <SideOrnament h={s.h} uid={`${uid}l`} />}
               {(isLast  || isOnly) && <SideOrnament h={s.h} uid={`${uid}r`} flip />}
-              <HexOrnament uid={`${uid}t`} edgePad={isFirst || isOnly ? s.cx + 8 : 0} textPad={s.px} />
-              <HexOrnament uid={`${uid}b`} flip edgePad={isFirst || isOnly ? s.cx + 8 : 0} textPad={s.px} />
+
+              <HexOrnament uid={`${uid}t`} edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} />
+              <HexOrnament uid={`${uid}b`} flip edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} />
 
               {item.icon && (
                 <span style={{
@@ -185,12 +188,13 @@ export default function ButtonGroup({
               )}
 
               <span style={{
-                fontSize: '0.6875rem',
                 fontWeight: 600,
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
                 lineHeight: 1,
                 position: 'relative',
+                fontSize: variant === 'tabs' && isActive ? '0.8125rem' : '0.6875rem',
+                transition: 'font-size 200ms',
                 ...(isActive ? {
                   background: 'linear-gradient(180deg,#F9F9F9 0%,#B8956A 100%)',
                   WebkitBackgroundClip: 'text',
