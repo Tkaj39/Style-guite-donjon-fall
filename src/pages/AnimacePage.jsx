@@ -1,9 +1,12 @@
+import { useState, useRef } from 'react'
 import DonjonCard from '../components/DonjonCard'
 import DonjonBadge from '../components/DonjonBadge'
 import DieFace from '../components/game-assets/DieFace'
 import HexTile from '../components/game-assets/HexTile'
 import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
 import { players } from '../data/gameUiMockData'
+
+/* ── Static spec helpers ── */
 
 function AnimSpec({ duration, easing, trigger, description, children }) {
   return (
@@ -39,6 +42,322 @@ function FrameRow({ children }) {
   )
 }
 
+/* ── Live demo helpers ── */
+
+function PlayButton({ onClick, playing }) {
+  return (
+    <button
+      onClick={onClick}
+      disabled={playing}
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: 6,
+        background: playing ? '#1B1A30' : '#2A2948',
+        border: `1px solid ${playing ? '#3A3858' : '#5A5878'}`,
+        borderRadius: 4, padding: '5px 14px',
+        fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em',
+        color: playing ? '#4A4560' : '#D4C5A9',
+        cursor: playing ? 'default' : 'pointer',
+        transition: 'background 150ms, color 150ms',
+      }}
+    >
+      {playing ? '···' : '▶ Přehrát'}
+    </button>
+  )
+}
+
+function DemoShell({ label, children }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'flex-start', width: '100%' }}>
+      <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+        {label ?? 'Live demo'}
+      </p>
+      {children}
+    </div>
+  )
+}
+
+/* ── Individual demo components ── */
+
+function MoveDieDemo() {
+  const [key, setKey] = useState(0)
+  const [playing, setPlaying] = useState(false)
+
+  function play() {
+    if (playing) return
+    setPlaying(true)
+    setKey(k => k + 1)
+  }
+
+  return (
+    <DemoShell label="Pohyb kostky — live demo">
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <HexTile state="selected" size="sm" />
+        <div key={key} style={{ animation: key > 0 ? 'die-move 280ms ease-out both' : 'none' }}
+          onAnimationEnd={() => setPlaying(false)}>
+          <DieFace value={4} playerColor={p1.color} size="md" />
+        </div>
+        <HexTile state="move" size="sm" />
+      </div>
+      <PlayButton onClick={play} playing={playing} />
+    </DemoShell>
+  )
+}
+
+function MoveTowerDemo() {
+  const [key, setKey] = useState(0)
+  const [playing, setPlaying] = useState(false)
+
+  function play() {
+    if (playing) return
+    setPlaying(true)
+    setKey(k => k + 1)
+  }
+
+  return (
+    <DemoShell label="Pohyb věže — live demo">
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <HexTile state="selected" size="sm" />
+        <div key={key}
+          style={{ display: 'flex', flexDirection: 'column', gap: 2, animation: key > 0 ? 'die-move 360ms ease-in-out both' : 'none' }}
+          onAnimationEnd={() => setPlaying(false)}>
+          <DieFace value={5} playerColor={p1.color} size="md" />
+          <DieFace value={2} playerColor={p1.color} size="md" />
+        </div>
+        <HexTile state="move" size="sm" />
+      </div>
+      <PlayButton onClick={play} playing={playing} />
+    </DemoShell>
+  )
+}
+
+function CombatPhase1Demo() {
+  const [key, setKey] = useState(0)
+  const [value, setValue] = useState(5)
+  const [playing, setPlaying] = useState(false)
+
+  function play() {
+    if (playing) return
+    setValue(5)
+    setPlaying(true)
+    setKey(k => k + 1)
+  }
+
+  function handleEnd() {
+    setValue(v => Math.max(v - 1, 1))
+    setPlaying(false)
+  }
+
+  return (
+    <DemoShell label="Fáze 1 — impakt (shake + −1)">
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div key={key}
+          style={{ animation: key > 0 ? 'die-shake 180ms ease-in both' : 'none' }}
+          onAnimationEnd={handleEnd}>
+          <DieFace value={value} playerColor={p1.color} size="md" />
+        </div>
+        {!playing && key > 0 && (
+          <span style={{ fontSize: '1rem', color: '#E05C5C', fontWeight: 700 }}>−1</span>
+        )}
+      </div>
+      <PlayButton onClick={play} playing={playing} />
+    </DemoShell>
+  )
+}
+
+function PushDemo() {
+  const [key, setKey] = useState(0)
+  const [playing, setPlaying] = useState(false)
+
+  function play() {
+    if (playing) return
+    setPlaying(true)
+    setKey(k => k + 1)
+  }
+
+  return (
+    <DemoShell label="Push — formace odsunuta (bounce)">
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <DieFace value={5} playerColor={p1.color} size="md" />
+        <Arrow />
+        <div key={key}
+          style={{ animation: key > 0 ? 'formation-push 320ms ease-out both' : 'none' }}
+          onAnimationEnd={() => setPlaying(false)}>
+          <DieFace value={2} playerColor={p2.color} size="md" />
+        </div>
+      </div>
+      <PlayButton onClick={play} playing={playing} />
+    </DemoShell>
+  )
+}
+
+function OccupyDemo() {
+  const [key, setKey] = useState(0)
+  const [playing, setPlaying] = useState(false)
+  const [landed, setLanded] = useState(false)
+
+  function play() {
+    if (playing) return
+    setLanded(false)
+    setPlaying(true)
+    setKey(k => k + 1)
+  }
+
+  function handleEnd() {
+    setLanded(true)
+    setPlaying(false)
+  }
+
+  return (
+    <DemoShell label="Occupy — útočník přistane na obránci">
+      <div style={{ position: 'relative', display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+        <div key={key}
+          style={{ animation: key > 0 ? 'die-drop 240ms ease-in-out both' : 'none' }}
+          onAnimationEnd={handleEnd}>
+          <DieFace value={4} playerColor={p1.color} size="md" />
+        </div>
+        <DieFace value={2} playerColor={p2.color} size="md" />
+        {landed && (
+          <DonjonBadge variant="warning" style={{ marginTop: 4 }}>Smíšená věž</DonjonBadge>
+        )}
+      </div>
+      <PlayButton onClick={play} playing={playing} />
+    </DemoShell>
+  )
+}
+
+function RerollDemo() {
+  const [key, setKey] = useState(0)
+  const [value, setValue] = useState(3)
+  const [playing, setPlaying] = useState(false)
+  const timerRef = useRef(null)
+
+  function play() {
+    if (playing) return
+    setValue(3)
+    setPlaying(true)
+    setKey(k => k + 1)
+    timerRef.current = setTimeout(() => setValue(5), 200)
+  }
+
+  function handleEnd() {
+    setPlaying(false)
+  }
+
+  return (
+    <DemoShell label="Přehazování — flip + nová hodnota">
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div key={key}
+          style={{ animation: key > 0 ? 'die-reroll 400ms ease-out both' : 'none' }}
+          onAnimationEnd={handleEnd}>
+          <DieFace value={value} playerColor={p1.color} size="md" />
+        </div>
+        {!playing && key > 0 && (
+          <DonjonBadge variant="success">+2</DonjonBadge>
+        )}
+      </div>
+      <PlayButton onClick={play} playing={playing} />
+    </DemoShell>
+  )
+}
+
+function CollapseDemo() {
+  const [key, setKey] = useState(0)
+  const [playing, setPlaying] = useState(false)
+  const [bottomVisible, setBottomVisible] = useState(true)
+
+  function play() {
+    if (playing) return
+    setBottomVisible(true)
+    setPlaying(true)
+    setKey(k => k + 1)
+  }
+
+  function handleEnd() {
+    setBottomVisible(false)
+    setPlaying(false)
+  }
+
+  return (
+    <DemoShell label="Kolaps věže — spodní kostka zmizí">
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 12 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <DieFace value={5} playerColor={p1.color} size="md" />
+          <DieFace value={3} playerColor={p1.color} size="md" />
+          {bottomVisible ? (
+            <div key={key}
+              style={{ animation: key > 0 ? 'die-collapse 300ms ease-in forwards' : 'none' }}
+              onAnimationEnd={handleEnd}>
+              <DieFace value={1} playerColor={p2.color} size="md" state="damaged" />
+            </div>
+          ) : (
+            <div style={{ height: 48 }} />
+          )}
+        </div>
+        {!playing && key > 0 && (
+          <DonjonBadge variant="danger">+1 VP</DonjonBadge>
+        )}
+      </div>
+      <PlayButton onClick={play} playing={playing} />
+    </DemoShell>
+  )
+}
+
+function FocalDemo() {
+  const [key, setKey] = useState(0)
+  const [playing, setPlaying] = useState(false)
+  const [focalState, setFocalState] = useState('focal-active')
+  const [showVP, setShowVP] = useState(false)
+
+  function play() {
+    if (playing) return
+    setFocalState('focal-active')
+    setShowVP(false)
+    setPlaying(true)
+    setKey(k => k + 1)
+    setTimeout(() => setShowVP(true), 100)
+  }
+
+  function handlePulseEnd() {
+    setFocalState('focal-passive')
+    setShowVP(false)
+    setPlaying(false)
+  }
+
+  return (
+    <DemoShell label="Ohnisko — zlatý záblesk + VP + přepnutí stavu">
+      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        <div style={{ position: 'relative', display: 'inline-flex' }}>
+          <div key={key}
+            style={{ animation: key > 0 ? 'hex-focal-pulse 500ms ease-out' : 'none' }}
+            onAnimationEnd={handlePulseEnd}>
+            <HexTile state={focalState} size="md" />
+          </div>
+          {showVP && (
+            <div key={`vp-${key}`}
+              style={{
+                position: 'absolute', top: -8, left: '50%', transform: 'translateX(-50%)',
+                animation: 'vp-pop 500ms ease-out forwards',
+                fontSize: '0.6875rem', fontWeight: 700, color: '#FFC183',
+                whiteSpace: 'nowrap', pointerEvents: 'none',
+              }}>
+              +1 VP
+            </div>
+          )}
+        </div>
+        {!playing && key > 0 && (
+          <>
+            <Arrow />
+            <HexTile state="focal-active" size="md" />
+          </>
+        )}
+      </div>
+      <PlayButton onClick={play} playing={playing} />
+    </DemoShell>
+  )
+}
+
+/* ── Page ── */
+
 const p1 = players[0]
 const p2 = players[1]
 
@@ -46,7 +365,7 @@ export default function AnimacePage() {
   return (
     <ShowcasePage
       title="Animace"
-      description="Specifikace herních animací — trigger, trvání, easing a popis efektu. Statické klíčové snímky (before → after)."
+      description="Specifikace herních animací — trigger, trvání, easing a popis efektu. Každá sekce obsahuje statické klíčové snímky a živé demo."
     >
       <Section
         id="pohyb-kostky"
@@ -68,6 +387,9 @@ export default function AnimacePage() {
               <DieFace value={4} playerColor={p1.color} size="sm" />
             </FrameRow>
           </AnimSpec>
+        </Preview>
+        <Preview>
+          <MoveDieDemo />
         </Preview>
       </Section>
 
@@ -97,6 +419,9 @@ export default function AnimacePage() {
               </div>
             </FrameRow>
           </AnimSpec>
+        </Preview>
+        <Preview>
+          <MoveTowerDemo />
         </Preview>
       </Section>
 
@@ -136,6 +461,12 @@ export default function AnimacePage() {
             </AnimSpec>
           </div>
         </Preview>
+        <Preview>
+          <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
+            <CombatPhase1Demo />
+            <PushDemo />
+          </div>
+        </Preview>
       </Section>
 
       <Section
@@ -160,6 +491,9 @@ export default function AnimacePage() {
               <DonjonBadge variant="warning">Smíšená věž</DonjonBadge>
             </FrameRow>
           </AnimSpec>
+        </Preview>
+        <Preview>
+          <OccupyDemo />
         </Preview>
       </Section>
 
@@ -196,6 +530,9 @@ export default function AnimacePage() {
             </FrameRow>
           </AnimSpec>
         </Preview>
+        <Preview>
+          <RerollDemo />
+        </Preview>
       </Section>
 
       <Section
@@ -224,6 +561,9 @@ export default function AnimacePage() {
               <DonjonBadge variant="danger">+1 VP</DonjonBadge>
             </FrameRow>
           </AnimSpec>
+        </Preview>
+        <Preview>
+          <CollapseDemo />
         </Preview>
       </Section>
 
@@ -254,6 +594,9 @@ export default function AnimacePage() {
               </FrameRow>
             </AnimSpec>
           </div>
+        </Preview>
+        <Preview>
+          <FocalDemo />
         </Preview>
       </Section>
     </ShowcasePage>
