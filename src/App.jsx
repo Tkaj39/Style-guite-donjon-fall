@@ -9,6 +9,7 @@ import CardsPage from './pages/CardsPage'
 import ColorsPage from './pages/ColorsPage'
 import MoodPage from './pages/MoodPage'
 import TypographyPage from './pages/TypographyPage'
+import SpacingPage from './pages/SpacingPage'
 
 export default function App() {
   return (
@@ -20,7 +21,7 @@ export default function App() {
         <Route path="mood" element={<MoodPage />} />
         <Route path="colors" element={<ColorsPage />} />
         <Route path="typography" element={<TypographyPage />} />
-        <Route path="spacing" element={<PlaceholderPage title="Spacing" />} />
+        <Route path="spacing" element={<SpacingPage />} />
         <Route path="pictograms" element={<PlaceholderPage title="Pictograms" />} />
         <Route path="inputs" element={<InputsPage />} />
         <Route path="badges" element={<BadgesPage />} />
