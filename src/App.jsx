@@ -19,6 +19,7 @@ import VictoryPointsPage from './pages/VictoryPointsPage'
 import DialogyPage from './pages/DialogyPage'
 import HexagonPage from './pages/HexagonPage'
 import DicePage from './pages/DicePage'
+import MapPage from './pages/MapPage'
 
 export default function App() {
   return (
@@ -43,7 +44,7 @@ export default function App() {
         <Route path="dialogs" element={<DialogyPage />} />
         <Route path="hexagon" element={<HexagonPage />} />
         <Route path="dice" element={<DicePage />} />
-        <Route path="map" element={<PlaceholderPage title="Mapa" />} />
+        <Route path="map" element={<MapPage />} />
         <Route path="erb" element={<PlaceholderPage title="Erb" />} />
         <Route path="animations" element={<PlaceholderPage title="Animace" />} />
         <Route path="sounds" element={<PlaceholderPage title="Zvuky" />} />
