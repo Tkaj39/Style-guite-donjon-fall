@@ -138,10 +138,11 @@ export default function ColorsPage() {
           </div>
 
           {[
-            { name: 'Vybraný hex',   note: 'UI gold při 31% opacity — zvýrazní vybranou kostku',              hex: '#FFC183',  alpha: 0.31, fixed: true  },
-            { name: 'Mimo dosah',    note: 'Černá při 55% opacity — políčka kam se nelze dostat se ztmaví',   hex: '#000000',  alpha: 0.55, fixed: true  },
-            { name: 'Souboj možný',  note: 'Primární barva hráče při 31% opacity — políčko kde lze zaútočit', hex: '#C04040',  alpha: 0.31, fixed: false },
-            { name: 'Hover',         note: 'Bílá při 8% opacity — fixní pro všechny stavy',                   hex: '#FFFFFF',  alpha: 0.08, fixed: true  },
+            { name: 'Vybraný hex',   note: 'UI gold při 31% opacity — zvýrazní vybranou kostku',                      hex: '#FFC183',  alpha: 0.31, fixed: true  },
+            { name: 'Mimo dosah',    note: 'Černá při 55% opacity — políčka kam se nelze dostat se ztmaví',           hex: '#000000',  alpha: 0.55, fixed: true  },
+            { name: 'Souboj možný',  note: 'Primární barva hráče při 31% opacity — agrese, útok na nepřítele',        hex: '#C04040',  alpha: 0.31, fixed: false },
+            { name: 'Posílení',      note: 'Zelená při 31% opacity — přesun na vlastní kostku, pozitivní akce',       hex: '#40A055',  alpha: 0.31, fixed: true  },
+            { name: 'Hover',         note: 'Bílá při 8% opacity — fixní pro všechny stavy',                           hex: '#FFFFFF',  alpha: 0.08, fixed: true  },
           ].map((row, i, arr) => (
             <div
               key={row.name}
