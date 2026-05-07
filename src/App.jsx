@@ -17,6 +17,7 @@ import TahPage from './pages/TahPage'
 import AkcePage from './pages/AkcePage'
 import VictoryPointsPage from './pages/VictoryPointsPage'
 import DialogyPage from './pages/DialogyPage'
+import HexagonPage from './pages/HexagonPage'
 
 export default function App() {
   return (
@@ -39,7 +40,7 @@ export default function App() {
         <Route path="actions" element={<AkcePage />} />
         <Route path="victory-points" element={<VictoryPointsPage />} />
         <Route path="dialogs" element={<DialogyPage />} />
-        <Route path="hexagon" element={<PlaceholderPage title="Hexagon" />} />
+        <Route path="hexagon" element={<HexagonPage />} />
         <Route path="dice" element={<PlaceholderPage title="Kostky" />} />
         <Route path="map" element={<PlaceholderPage title="Mapa" />} />
         <Route path="erb" element={<PlaceholderPage title="Erb" />} />
