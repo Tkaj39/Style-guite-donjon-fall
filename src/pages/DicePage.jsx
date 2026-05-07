@@ -3,6 +3,7 @@ import DonjonCard from '../components/DonjonCard'
 import DonjonBadge from '../components/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 import { players } from '../data/gameUiMockData'
+import { useBreakpoint } from '../hooks/useBreakpoint'
 
 function statLabel(s) {
   const labels = { default: 'Default', selected: 'Vybraný', rerolled: 'Přehozeno', damaged: 'Poškozeno' }
@@ -156,6 +157,7 @@ function PushChainDemo({ variant }) {
 }
 
 export default function DicePage() {
+  const isDesktop = useBreakpoint()
   return (
     <ShowcasePage
       title="Kostky"
@@ -170,11 +172,11 @@ export default function DicePage() {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {players.map(player => (
-              <div key={player.id} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div key={player.id} style={{ display: 'flex', alignItems: 'center', gap: 12, overflowX: 'auto' }}>
                 <span style={{ fontSize: '0.625rem', color: '#4A4560', width: 50, textAlign: 'right', flexShrink: 0, letterSpacing: '0.08em' }}>
                   {player.label}
                 </span>
-                <div style={{ display: 'flex', gap: 8 }}>
+                <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
                   {[1, 2, 3, 4, 5, 6].map(v => (
                     <DieFace key={v} value={v} playerColor={player.color} size="sm" />
                   ))}
@@ -225,7 +227,7 @@ export default function DicePage() {
         description="Všechny kostky ve věži patří jednomu hráči. Kontroler = vlastník vrchní kostky."
       >
         <Preview>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32, alignItems: 'flex-start' }}>
+          <div style={{ display: 'flex', flexDirection: isDesktop ? 'row' : 'column', flexWrap: 'wrap', gap: 32, alignItems: 'flex-start' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
               <TowerStack dice={cleanTower} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -302,7 +304,7 @@ export default function DicePage() {
         description="Věž obsahuje kostky více hráčů — vzniká akcí Occupy. Kontroler = vlastník vrchní kostky."
       >
         <Preview>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32, alignItems: 'flex-start' }}>
+          <div style={{ display: 'flex', flexDirection: isDesktop ? 'row' : 'column', flexWrap: 'wrap', gap: 32, alignItems: 'flex-start' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
               <TowerStack dice={mixedTower} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>

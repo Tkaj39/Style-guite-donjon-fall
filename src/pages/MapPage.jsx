@@ -33,6 +33,7 @@ function DefaultMap() {
   const mapH = ROW_SIZES.length * HEX_OFFSET_Y
 
   return (
+    <div style={{ overflowX: 'auto', width: '100%' }}>
     <div style={{ position: 'relative', width: mapW, height: mapH, margin: '0 auto' }}>
       {ROW_SIZES.map((cols, row) => {
         const offsetX = (maxCols - cols) / 2 * HEX_OFFSET_X
@@ -47,6 +48,7 @@ function DefaultMap() {
           )
         })
       })}
+    </div>
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useBreakpoint } from '../hooks/useBreakpoint'
 import DonjonCard from '../components/DonjonCard'
 import DonjonButton from '../components/DonjonButton'
 import DonjonBadge from '../components/DonjonBadge'
@@ -49,6 +50,7 @@ const actionItems = actions.map(a => ({ value: a.value, label: a.label, icon: ic
 
 export default function AkcePage() {
   const [selected, setSelected] = useState('move-die')
+  const isDesktop = useBreakpoint()
   const action = actions.find(a => a.value === selected)
 
   return (
@@ -124,7 +126,7 @@ export default function AkcePage() {
         description="Tower collapse — dostupné jen pro věž se 3 a více kostkami."
       >
         <Preview>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+          <div style={{ display: 'flex', flexDirection: isDesktop ? 'row' : 'column', gap: 16 }}>
             <DonjonCard
               title="Kolaps věže"
               description="Tower collapse — věž má 3+ kostky"
