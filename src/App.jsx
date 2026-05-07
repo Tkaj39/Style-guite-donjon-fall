@@ -20,6 +20,9 @@ import DialogyPage from './pages/DialogyPage'
 import HexagonPage from './pages/HexagonPage'
 import DicePage from './pages/DicePage'
 import MapPage from './pages/MapPage'
+import ErbPage from './pages/ErbPage'
+import AnimacePage from './pages/AnimacePage'
+import ZvukyPage from './pages/ZvukyPage'
 
 export default function App() {
   return (
@@ -45,9 +48,9 @@ export default function App() {
         <Route path="hexagon" element={<HexagonPage />} />
         <Route path="dice" element={<DicePage />} />
         <Route path="map" element={<MapPage />} />
-        <Route path="erb" element={<PlaceholderPage title="Erb" />} />
-        <Route path="animations" element={<PlaceholderPage title="Animace" />} />
-        <Route path="sounds" element={<PlaceholderPage title="Zvuky" />} />
+        <Route path="erb" element={<ErbPage />} />
+        <Route path="animations" element={<AnimacePage />} />
+        <Route path="sounds" element={<ZvukyPage />} />
       </Route>
     </Routes>
   )
