@@ -186,43 +186,83 @@ export default function ColorsPage() {
         description="Globální UI paleta — pozadí, povrchy, zlaté akcenty, texty."
       >
         <div className="rounded-xl border border-neutral-800 bg-neutral-900 p-4 sm:p-6 flex flex-col gap-6">
+
+          {/* Surfaces */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-4">Pozadí &amp; povrchy</p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-1">Pozadí &amp; povrchy</p>
+            <p className="text-xs text-neutral-600 mb-4">Komponenty používají gradienty mezi sousedními kroky — např. tlačítko: <span className="font-mono">#232238 → #1B1A30</span>.</p>
+            <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
               {[
-                { name: 'Background',  hex: '#0F0E1A' },
-                { name: 'Surface',     hex: '#1A1928' },
-                { name: 'Surface +1',  hex: '#222136' },
-                { name: 'Border',      hex: '#353751' },
-              ].map(s => <Swatch key={s.hex} {...s} />)}
+                { name: 'Background',  hex: '#0F0E1A', note: 'Stránka' },
+                { name: 'Surface',     hex: '#1A1928', note: 'Základní' },
+                { name: 'Surface +1',  hex: '#232238', note: 'Komponenty' },
+                { name: 'Surface +2',  hex: '#2A2948', note: 'Zvýšené' },
+                { name: 'Surface +3',  hex: '#353751', note: 'Aktivní / border' },
+                { name: 'Surface +4',  hex: '#3D3A5C', note: 'Header' },
+              ].map(s => (
+                <div key={s.hex} className="flex flex-col gap-1.5">
+                  <div className="h-10 rounded border border-white/10 w-full" style={{ background: s.hex }} />
+                  <div>
+                    <p className="text-xs font-medium text-neutral-300 leading-tight">{s.name}</p>
+                    <p className="text-xs text-neutral-600 leading-tight">{s.note}</p>
+                    <p className="text-xs text-neutral-500 font-mono">{s.hex}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
+
           <div className="border-t border-neutral-800" />
+
+          {/* Gold */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-4">Zlaté akcenty UI</p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {[
-                { name: 'Gold 300', hex: '#FFC183' },
-                { name: 'Gold 500', hex: '#B8956A' },
-                { name: 'Gold 700', hex: '#8F7458' },
-              ].map(s => <Swatch key={s.hex} {...s} large />)}
-            </div>
-            <p className="text-xs text-neutral-600 mt-3">
-              UI zlato je teplé amber — odlišuje se od hráčské žluté (#A09020) záměrně.
+            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-1">Zlaté akcenty</p>
+            <p className="text-xs text-neutral-600 mb-4">
+              Teplé amber — odlišuje se od hráčské žluté <span className="font-mono">#A09020</span> záměrně.
+              Gold 500 slouží zároveň jako barva popisků a labelů.
             </p>
+            <div className="grid grid-cols-3 gap-4">
+              {[
+                { name: 'Gold 300', hex: '#FFC183', note: 'Světlá — focus, ikony' },
+                { name: 'Gold 500', hex: '#B8956A', note: 'Střední — labely, text' },
+                { name: 'Gold 700', hex: '#8F7458', note: 'Tmavá — bordery, muted' },
+              ].map(s => (
+                <div key={s.hex} className="flex flex-col gap-1.5">
+                  <div className="h-16 rounded border border-white/10 w-full" style={{ background: s.hex }} />
+                  <div>
+                    <p className="text-xs font-medium text-neutral-300 leading-tight">{s.name}</p>
+                    <p className="text-xs text-neutral-600 leading-tight">{s.note}</p>
+                    <p className="text-xs text-neutral-500 font-mono">{s.hex}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
+
           <div className="border-t border-neutral-800" />
+
+          {/* Text */}
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-4">Texty</p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {[
-                { name: 'Primární',   hex: '#F9F9F9' },
-                { name: 'Sekundární', hex: '#B8956A' },
-                { name: 'Terciární',  hex: '#6B6A82' },
-                { name: 'Disabled',   hex: '#3A3A52' },
-              ].map(s => <Swatch key={s.hex} {...s} />)}
+                { name: 'Primární',  hex: '#F9F9F9', note: 'Nadpisy, důležitý obsah' },
+                { name: 'Teplá',     hex: '#F0E6D3', note: 'Tělo — inputy, obsah karet' },
+                { name: 'Ztlumená', hex: '#6B6A82', note: 'Popisy, nápověda' },
+                { name: 'Disabled',  hex: '#3A3A52', note: 'Neaktivní prvky' },
+              ].map(s => (
+                <div key={s.hex} className="flex flex-col gap-1.5">
+                  <div className="h-10 rounded border border-white/10 w-full" style={{ background: s.hex }} />
+                  <div>
+                    <p className="text-xs font-medium text-neutral-300 leading-tight">{s.name}</p>
+                    <p className="text-xs text-neutral-600 leading-tight">{s.note}</p>
+                    <p className="text-xs text-neutral-500 font-mono">{s.hex}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
+
         </div>
       </Section>
     </ShowcasePage>
