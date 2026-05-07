@@ -96,33 +96,87 @@ export default function ColorsPage() {
       <Section
         id="stavy-hexu"
         title="Stavy hexů"
-        description="Barvy políček na herní mapě podle jejich stavu. Základna přebírá tmavou barvu příslušného hráče."
+        description="Barvy políček na herní mapě podle jejich stavu."
       >
         <SwatchRow swatches={[
-          { name: 'Prázdný',        hex: '#2A2948' },
+          { name: 'Prázdný',         hex: '#2A2948' },
           { name: 'Ohnisko pasivní', hex: '#2E2D4A' },
           { name: 'Ohnisko aktivní', hex: '#FFC183' },
           { name: 'Okraj hexu',      hex: '#353751' },
         ]} />
-        <p className="text-xs text-neutral-600 -mt-2">
-          Základna hráče — barva pozadí = tmavá varianta barvy hráče (viz tabulka výše).
-        </p>
+
+        <div className="rounded-xl border border-neutral-800 bg-neutral-900 p-4 sm:p-6">
+          <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-4">
+            Základna — pozadí podle hráče
+          </p>
+          <div className="grid grid-cols-6 gap-3">
+            {players.map((p) => (
+              <div key={p.label} className="flex flex-col gap-1.5">
+                <div
+                  className="h-10 rounded border border-white/10"
+                  style={{ background: p.dark }}
+                />
+                <p className="text-xs font-medium text-neutral-300 leading-tight">{p.label}</p>
+                <p className="text-xs text-neutral-500 font-mono">{p.dark}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </Section>
 
       {/* Plánování tahu */}
       <Section
         id="planovani-tahu"
         title="Plánování tahu"
-        description="Zvýraznění políček při výběru akce — pohyb, dosah souboje, blokování."
+        description="Překryvy políček při výběru akce. Fixní barvy jsou vždy stejné, dynamické se odvíjí od primární barvy aktivního hráče."
       >
-        <SwatchRow swatches={[
-          { name: 'Vybraný hex',    hex: '#FFC18350' },
-          { name: 'Dosah pohybu',   hex: '#4070C840' },
-          { name: 'Souboj možný',   hex: '#C0404050' },
-          { name: 'Zablokovaný',    hex: '#3A3A4A' },
-          { name: 'Spojenec',       hex: '#40A05540' },
-          { name: 'Hover',          hex: '#FFFFFF15' },
-        ]} />
+        <div className="rounded-xl border border-neutral-800 bg-neutral-900 overflow-hidden">
+          <div className="grid grid-cols-[1fr_auto_auto] gap-0 border-b border-neutral-800 px-4 py-2 bg-neutral-950">
+            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600">Stav</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600 w-24 text-center">Barva</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600 w-20 text-right">Typ</p>
+          </div>
+
+          {[
+            { name: 'Vybraný hex',  note: 'UI gold při 31% opacity',                    hex: '#FFC183',  alpha: 0.31, fixed: true  },
+            { name: 'Dosah pohybu', note: 'Primární barva hráče při 25% opacity',        hex: '#C04040',  alpha: 0.25, fixed: false },
+            { name: 'Souboj možný', note: 'Primární barva hráče při 31% opacity',        hex: '#C04040',  alpha: 0.31, fixed: false },
+            { name: 'Zablokovaný',  note: 'Fixní — neutrální tmavá',                    hex: '#3A3A4A',  alpha: 1,   fixed: true  },
+            { name: 'Hover',        note: 'Bílá při 8% opacity — fixní pro všechny',    hex: '#FFFFFF',  alpha: 0.08, fixed: true  },
+          ].map((row, i, arr) => (
+            <div
+              key={row.name}
+              className={`grid grid-cols-[1fr_auto_auto] gap-0 px-4 py-3 items-center ${
+                i < arr.length - 1 ? 'border-b border-neutral-800/60' : ''
+              }`}
+            >
+              <div>
+                <p className="text-xs font-semibold text-neutral-300">{row.name}</p>
+                <p className="text-xs text-neutral-600 mt-0.5">{row.note}</p>
+              </div>
+              <div className="w-24 flex justify-center">
+                <div
+                  className="w-10 h-8 rounded border border-white/10"
+                  style={{
+                    background: `${row.hex}${Math.round(row.alpha * 255).toString(16).padStart(2, '0')}`,
+                  }}
+                />
+              </div>
+              <div className="w-20 flex justify-end">
+                <span className={`text-xs font-mono px-1.5 py-0.5 rounded ${
+                  row.fixed
+                    ? 'bg-neutral-800 text-neutral-400'
+                    : 'bg-amber-950/60 text-amber-500'
+                }`}>
+                  {row.fixed ? 'fixní' : 'hráč'}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="text-xs text-neutral-600 -mt-2">
+          Příklad dynamické barvy ukazuje červeného hráče — za běhu se dosadí primární barva aktivního hráče.
+        </p>
       </Section>
 
       {/* Barvy hry */}
