@@ -13,6 +13,9 @@ import SpacingPage from './pages/SpacingPage'
 import PictogramsPage from './pages/PictogramsPage'
 import OrnamentsPage from './pages/OrnamentsPage'
 import ShapesPage from './pages/ShapesPage'
+import TahPage from './pages/TahPage'
+import AkcePage from './pages/AkcePage'
+import VictoryPointsPage from './pages/VictoryPointsPage'
 
 export default function App() {
   return (
@@ -31,9 +34,9 @@ export default function App() {
         <Route path="inputs" element={<InputsPage />} />
         <Route path="badges" element={<BadgesPage />} />
         <Route path="cards" element={<CardsPage />} />
-        <Route path="turn" element={<PlaceholderPage title="Tah" />} />
-        <Route path="actions" element={<PlaceholderPage title="Akce" />} />
-        <Route path="victory-points" element={<PlaceholderPage title="Vítězné body" />} />
+        <Route path="turn" element={<TahPage />} />
+        <Route path="actions" element={<AkcePage />} />
+        <Route path="victory-points" element={<VictoryPointsPage />} />
         <Route path="dialogs" element={<PlaceholderPage title="Dialogy" />} />
         <Route path="hexagon" element={<PlaceholderPage title="Hexagon" />} />
         <Route path="dice" element={<PlaceholderPage title="Kostky" />} />
