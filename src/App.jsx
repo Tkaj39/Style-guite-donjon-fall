@@ -7,14 +7,16 @@ import InputsPage from './pages/InputsPage'
 import BadgesPage from './pages/BadgesPage'
 import CardsPage from './pages/CardsPage'
 import ColorsPage from './pages/ColorsPage'
+import MoodPage from './pages/MoodPage'
 
 export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route index element={<Navigate to="/buttons" replace />} />
+        <Route index element={<Navigate to="/mood" replace />} />
         <Route path="buttons" element={<ButtonsPage />} />
         <Route path="button-groups" element={<ButtonGroupsPage />} />
+        <Route path="mood" element={<MoodPage />} />
         <Route path="colors" element={<ColorsPage />} />
         <Route path="typography" element={<PlaceholderPage title="Typography" />} />
         <Route path="spacing" element={<PlaceholderPage title="Spacing" />} />

@@ -4,6 +4,7 @@ const sections = [
   {
     label: 'Foundations',
     items: [
+      { to: '/mood', label: 'Mood & Vision' },
       {
         to: '/colors', label: 'Colors',
         children: [
