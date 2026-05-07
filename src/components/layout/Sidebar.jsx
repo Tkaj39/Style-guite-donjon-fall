@@ -17,6 +17,8 @@ const sections = [
       { to: '/typography', label: 'Typography' },
       { to: '/spacing', label: 'Spacing' },
       { to: '/pictograms', label: 'Pictograms' },
+      { to: '/ornaments', label: 'Ornaments' },
+      { to: '/shapes', label: 'Shapes' },
     ],
   },
   {
