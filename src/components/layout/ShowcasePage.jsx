@@ -12,9 +12,9 @@ export function ShowcasePage({ title, description, children }) {
   )
 }
 
-export function Section({ title, description, children }) {
+export function Section({ id, title, description, children }) {
   return (
-    <section className="flex flex-col gap-3 lg:gap-4">
+    <section id={id} className="flex flex-col gap-3 lg:gap-4">
       <div>
         <h3 className="text-base lg:text-lg font-semibold text-white">{title}</h3>
         {description && (

@@ -1,6 +1,4 @@
-function octagon(cx) {
-  return `polygon(${cx}px 0px,calc(100% - ${cx}px) 0px,100% ${cx}px,100% calc(100% - ${cx}px),calc(100% - ${cx}px) 100%,${cx}px 100%,0px calc(100% - ${cx}px),0px ${cx}px)`
-}
+import { octagon } from '../utils/octagon'
 
 const variantMap = {
   default: { bg: '#2A2948', border: '#8F7458', text: '#B8956A', dot: '#FFC183' },

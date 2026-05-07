@@ -1,8 +1,5 @@
 import { useState, useId } from 'react'
-
-function octagon(cx) {
-  return `polygon(${cx}px 0px,calc(100% - ${cx}px) 0px,100% ${cx}px,100% calc(100% - ${cx}px),calc(100% - ${cx}px) 100%,${cx}px 100%,0px calc(100% - ${cx}px),0px ${cx}px)`
-}
+import { octagon } from '../utils/octagon'
 
 const sizes = {
   sm: { h: 36, cx: 8, px: 12, fontSize: '0.75rem' },

@@ -1,4 +1,5 @@
 import { forwardRef, useId } from 'react'
+import { octagon } from '../utils/octagon'
 
 function Spinner({ size }) {
   return (
@@ -36,10 +37,6 @@ const variants = {
     bg:   'linear-gradient(150deg,#183D20 0%,#0A250E 70%)',
     text: 'linear-gradient(180deg,#C0F0C8 0%,#40A055 100%)',
   },
-}
-
-function octagon(cx) {
-  return `polygon(${cx}px 0px,calc(100% - ${cx}px) 0px,100% ${cx}px,100% calc(100% - ${cx}px),calc(100% - ${cx}px) 100%,${cx}px 100%,0px calc(100% - ${cx}px),0px ${cx}px)`
 }
 
 function HexOrnament({ uid, flip, edgePad = 16, textPad }) {
