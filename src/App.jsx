@@ -16,6 +16,7 @@ import ShapesPage from './pages/ShapesPage'
 import TahPage from './pages/TahPage'
 import AkcePage from './pages/AkcePage'
 import VictoryPointsPage from './pages/VictoryPointsPage'
+import DialogyPage from './pages/DialogyPage'
 
 export default function App() {
   return (
@@ -37,7 +38,7 @@ export default function App() {
         <Route path="turn" element={<TahPage />} />
         <Route path="actions" element={<AkcePage />} />
         <Route path="victory-points" element={<VictoryPointsPage />} />
-        <Route path="dialogs" element={<PlaceholderPage title="Dialogy" />} />
+        <Route path="dialogs" element={<DialogyPage />} />
         <Route path="hexagon" element={<PlaceholderPage title="Hexagon" />} />
         <Route path="dice" element={<PlaceholderPage title="Kostky" />} />
         <Route path="map" element={<PlaceholderPage title="Mapa" />} />

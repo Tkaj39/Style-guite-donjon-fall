@@ -1,17 +1,13 @@
 import DonjonCard from '../components/DonjonCard'
 import DonjonBadge from '../components/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
+import { players as basePlayers } from '../data/gameUiMockData'
 
 const TARGET_VP = 10
+const DEFAULT_MAP_VP = 5
 
-const players = [
-  { id: 1, color: '#E05C5C', label: 'Hráč 1', vp: 7 },
-  { id: 2, color: '#4D8FE0', label: 'Hráč 2', vp: 5 },
-  { id: 3, color: '#50B86C', label: 'Hráč 3', vp: 4 },
-  { id: 4, color: '#D4A830', label: 'Hráč 4', vp: 3 },
-  { id: 5, color: '#9B6CC8', label: 'Hráč 5', vp: 2 },
-  { id: 6, color: '#E07840', label: 'Hráč 6', vp: 1 },
-]
+const vp = [7, 5, 4, 3, 2, 1]
+const players = basePlayers.map((p, i) => ({ ...p, vp: vp[i] }))
 
 function FireIcon() {
   return (
@@ -57,7 +53,7 @@ export default function VictoryPointsPage() {
   return (
     <ShowcasePage
       title="Vítězné body"
-      description={`Systém skórování — hra se hraje do ${TARGET_VP} bodů. Body lze získat zničením kostky soupeře nebo držením aktivního ohniska na začátku tahu.`}
+      description="Systém skórování — body jsou permanentní a nelze je ztratit. Vítěz je první hráč, který dosáhne cílového počtu bodů."
     >
       {/* Scoreboard */}
       <Section
@@ -134,7 +130,7 @@ export default function VictoryPointsPage() {
       {/* VP earning methods */}
       <Section
         title="Způsoby získání VP"
-        description="Dva způsoby jak získat vítězné body během hry."
+        description="Dva způsoby jak získat vítězné body — oba se vyhodnocují v rámci tahu hráče."
       >
         <Preview>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
@@ -146,7 +142,7 @@ export default function VictoryPointsPage() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <DonjonBadge variant="danger" icon={<SkullIcon />}>+1 VP</DonjonBadge>
                 <p style={{ margin: 0, fontSize: '0.8125rem', color: '#F9C0C0', lineHeight: 1.5 }}>
-                  Vyhraj souboj a získej 1 vítězný bod za zničenou věž soupeře.
+                  Za každou nepřátelskou kostku zničenou vytlačením z mapy, obklíčením nebo kolapsem věže.
                 </p>
               </div>
             </DonjonCard>
@@ -156,10 +152,16 @@ export default function VictoryPointsPage() {
               description="Na začátku tahu — za každé aktivní ohnisko"
               variant="default"
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <DonjonBadge variant="warning" icon={<FireIcon />}>+1 VP</DonjonBadge>
-                <p style={{ margin: 0, fontSize: '0.8125rem', color: '#B8956A', lineHeight: 1.5 }}>
-                  Za každé aktivní ohnisko které držíš na začátku svého tahu získáš 1 bod.
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <DonjonBadge variant="warning" icon={<FireIcon />}>+1 VP</DonjonBadge>
+                  <p style={{ margin: 0, fontSize: '0.8125rem', color: '#B8956A', lineHeight: 1.5 }}>
+                    Za každé aktivní ohnisko, na kterém drží kostka/věž hráče na začátku jeho tahu.
+                  </p>
+                </div>
+                <p style={{ margin: 0, fontSize: '0.75rem', color: '#4A4560', lineHeight: 1.5 }}>
+                  Po vyhodnocení se kostka na ohnisku přehodí: nová hodnota = min(hod, původní − 1).
+                  Ohnisko se přepne na jiné ze skupiny.
                 </p>
               </div>
             </DonjonCard>
@@ -174,6 +176,29 @@ export default function VictoryPointsPage() {
 <DonjonCard title="Držení ohniska">
   <DonjonBadge variant="warning" icon={<FireIcon />}>+1 VP</DonjonBadge>
 </DonjonCard>`} />
+      </Section>
+
+      {/* Default map note */}
+      <Section
+        title="Default mapa — cíl 5 VP"
+        description="Výchozí mapa pro 2 hráče. Showcase výše používá 10 VP jako obecný příklad."
+      >
+        <Preview>
+          <DonjonCard title="Default mapa" description="61 hexů · 2 hráči · 5 kostek každý">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <DonjonBadge variant="warning">{DEFAULT_MAP_VP} VP</DonjonBadge>
+                <p style={{ margin: 0, fontSize: '0.8125rem', color: '#B8956A', lineHeight: 1.5 }}>
+                  Cílový počet vítězných bodů pro výchozí mapu je {DEFAULT_MAP_VP}.
+                </p>
+              </div>
+              <p style={{ margin: 0, fontSize: '0.75rem', color: '#4A4560', lineHeight: 1.5 }}>
+                3 ohniska v jedné skupině — střední je aktivní, levé a pravé jsou pasivní.
+                Ohniska jsou ve středové řadě hexů.
+              </p>
+            </div>
+          </DonjonCard>
+        </Preview>
       </Section>
     </ShowcasePage>
   )

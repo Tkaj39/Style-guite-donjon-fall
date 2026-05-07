@@ -1,17 +1,62 @@
-import { useState } from 'react'
+import { useState, Fragment } from 'react'
 import DonjonCard from '../components/DonjonCard'
 import DonjonButton from '../components/DonjonButton'
 import DonjonBadge from '../components/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
+import { players, turnPhases } from '../data/gameUiMockData'
 
-const players = [
-  { id: 1, color: '#E05C5C', label: 'Hráč 1' },
-  { id: 2, color: '#4D8FE0', label: 'Hráč 2' },
-  { id: 3, color: '#50B86C', label: 'Hráč 3' },
-  { id: 4, color: '#D4A830', label: 'Hráč 4' },
-  { id: 5, color: '#9B6CC8', label: 'Hráč 5' },
-  { id: 6, color: '#E07840', label: 'Hráč 6' },
-]
+function TurnPhaseTimeline({ activeStep = 0 }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'flex-start', maxWidth: 500 }}>
+      {turnPhases.map((step, i) => {
+        const active = i === activeStep
+        const past = i < activeStep
+        return (
+          <Fragment key={step.id}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, flex: 1, minWidth: 0 }}>
+              <div style={{
+                width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
+                background: active ? 'linear-gradient(150deg,#3D3A5C 0%,#2E2B50 70%)' : '#1B1A30',
+                border: `2px solid ${active ? '#FFC183' : past ? '#8F745866' : '#3A3858'}`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '0.75rem', fontWeight: 700,
+                color: active ? '#FFC183' : past ? '#8F7458' : '#3A3858',
+                boxShadow: active ? '0 0 12px #FFC18330' : 'none',
+              }}>
+                {i + 1}
+              </div>
+              <div style={{ textAlign: 'center', paddingLeft: 4, paddingRight: 4 }}>
+                <p style={{
+                  margin: 0, fontSize: '0.6875rem', fontWeight: 700,
+                  letterSpacing: '0.1em', textTransform: 'uppercase', lineHeight: 1.2,
+                  color: active ? '#F0E6D3' : past ? '#8F7458' : '#4A4560',
+                }}>{step.label}</p>
+                <p style={{
+                  margin: '4px 0 0', fontSize: '0.5625rem', lineHeight: 1.4,
+                  color: active ? '#8F7458' : '#3A3858',
+                }}>{step.sub}</p>
+                {step.optional && (
+                  <span style={{
+                    display: 'inline-block', marginTop: 4,
+                    fontSize: '0.5rem', letterSpacing: '0.08em', textTransform: 'uppercase',
+                    color: active ? '#5A5880' : '#3A3858',
+                    background: '#1B1A30', padding: '1px 5px', borderRadius: 2,
+                  }}>volitelné</span>
+                )}
+              </div>
+            </div>
+            {i < turnPhases.length - 1 && (
+              <div style={{
+                marginTop: 16, height: 2, width: 20, flexShrink: 0,
+                background: past ? '#8F745866' : '#2A2948',
+              }} />
+            )}
+          </Fragment>
+        )
+      })}
+    </div>
+  )
+}
 
 function EndTurnIcon() {
   return (
@@ -25,31 +70,19 @@ function TurnCard({ player, turn }) {
   return (
     <DonjonCard>
       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-        {/* Player color chip */}
         <div style={{
-          width: 40,
-          height: 40,
-          borderRadius: 4,
-          background: player.color,
-          flexShrink: 0,
+          width: 40, height: 40, borderRadius: 4,
+          background: player.color, flexShrink: 0,
           boxShadow: `0 0 12px ${player.color}66`,
         }} />
-        {/* Player name + turn */}
         <div style={{ flex: 1 }}>
           <p style={{
-            margin: 0,
-            fontSize: '0.8125rem',
-            fontWeight: 700,
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
+            margin: 0, fontSize: '0.8125rem', fontWeight: 700,
+            letterSpacing: '0.14em', textTransform: 'uppercase',
             background: 'linear-gradient(180deg,#F9F9F9 0%,#B8956A 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
             lineHeight: 1.2,
-          }}>
-            {player.label}
-          </p>
+          }}>{player.label}</p>
           <p style={{ margin: '4px 0 0', fontSize: '0.6875rem', color: '#8F7458', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
             Na tahu
           </p>
@@ -62,16 +95,53 @@ function TurnCard({ player, turn }) {
 
 export default function TahPage() {
   const [activeTurn, setActiveTurn] = useState(0)
+  const [phaseDemo, setPhaseDemo] = useState(0)
 
   return (
     <ShowcasePage
       title="Tah"
-      description="UI indikátor aktuálního tahu — zobrazuje který hráč je na řadě a číslo tahu."
+      description="Každý tah má 3 fáze: vyhodnocení ohnisek, výběr akce a souboj (pokud ho pohyb spustil). Souboj není samostatná volba."
     >
-      {/* All 6 player variants */}
       <Section
+        id="struktura-tahu"
+        title="Struktura tahu"
+        description="Tah je vždy lineární. Souboj nastane automaticky — hráč ho nezvolí jako akci."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            {turnPhases.map((_, i) => (
+              <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                  Aktivní: {turnPhases[i].label}
+                </p>
+                <TurnPhaseTimeline activeStep={i} />
+              </div>
+            ))}
+          </div>
+        </Preview>
+
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'flex-start' }}>
+            <TurnPhaseTimeline activeStep={phaseDemo} />
+            <div style={{ display: 'flex', gap: 8 }}>
+              {turnPhases.map((step, i) => (
+                <DonjonButton key={i} size="xs" onClick={() => setPhaseDemo(i)}>
+                  {step.label}
+                </DonjonButton>
+              ))}
+            </div>
+          </div>
+        </Preview>
+
+        <CodeBlock code={`<TurnPhaseTimeline activeStep={0} /> {/* Ohniska */}
+<TurnPhaseTimeline activeStep={1} /> {/* Akce */}
+<TurnPhaseTimeline activeStep={2} /> {/* Souboj */}`} />
+      </Section>
+
+      <Section
+        id="indikator-hrace"
         title="Indikátor hráče"
-        description="Karta tahu pro každého z šesti hráčů — barva chipsetu odpovídá barvě hráče na mapě."
+        description="Zobrazuje aktuálního hráče, barvu z mapy a číslo tahu."
       >
         <Preview>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
@@ -80,11 +150,25 @@ export default function TahPage() {
             ))}
           </div>
         </Preview>
+
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }}>
+            <TurnCard player={players[activeTurn]} turn={activeTurn + 1} />
+            <DonjonButton
+              size="sm"
+              trailingIcon={<EndTurnIcon />}
+              onClick={() => setActiveTurn(t => (t + 1) % players.length)}
+            >
+              Konec tahu
+            </DonjonButton>
+          </div>
+        </Preview>
+
         <CodeBlock code={`<DonjonCard>
   <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-    <div style={{ width: 40, height: 40, background: playerColor }} />
+    <div style={{ width: 40, height: 40, background: player.color }} />
     <div>
-      <p>{playerLabel}</p>
+      <p>{player.label}</p>
       <p>Na tahu</p>
     </div>
     <DonjonBadge size="sm">Tah {turn}</DonjonBadge>
@@ -92,21 +176,62 @@ export default function TahPage() {
 </DonjonCard>`} />
       </Section>
 
-      {/* Interactive demo */}
       <Section
-        title="Živá ukázka"
-        description="Simulace střídání hráčů — klikni na Konec tahu."
+        id="ohnisko"
+        title="Vyhodnocení ohniska"
+        description="První fáze tahu. Pokud hráč drží kostku/věž na aktivním ohnisku, získá VP a ohnisko se přepíná."
       >
         <Preview>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }}>
-            <TurnCard player={players[activeTurn]} turn={activeTurn + 1} />
-            <DonjonButton
-              size="sm"
-              trailingIcon={<EndTurnIcon />}
-              onClick={() => setActiveTurn((t) => (t + 1) % players.length)}
-            >
-              Konec tahu
-            </DonjonButton>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+            <DonjonCard title="Bez aktivního ohniska" description="Hráč nekontroluje žádné aktivní ohnisko">
+              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
+                Fáze ohniska se přeskočí. Hra přechází přímo na výběr akce.
+              </p>
+            </DonjonCard>
+
+            <DonjonCard title="Aktivní ohnisko — vyhodnocení" description="Hráč drží kostku/věž na aktivním ohnisku">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <DonjonBadge variant="warning">+1 VP</DonjonBadge>
+                  <p style={{ margin: 0, fontSize: '0.8125rem', color: '#B8956A', lineHeight: 1.5 }}>
+                    Hráč získá 1 vítězný bod.
+                  </p>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <DonjonBadge variant="info">Přehoz</DonjonBadge>
+                  <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.5 }}>
+                    Kostka na ohnisku se přehodí: nová hodnota = min(hod, původní − 1).
+                  </p>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <DonjonBadge variant="default">Přepnutí</DonjonBadge>
+                  <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.5 }}>
+                    Náhodné pasivní ohnisko ze skupiny se stane aktivní; toto se stane pasivní.
+                  </p>
+                </div>
+              </div>
+            </DonjonCard>
+          </div>
+        </Preview>
+      </Section>
+
+      <Section
+        id="souboj"
+        title="Souboj"
+        description="Souboj není akcí — spouští ho pohyb kostky nebo věže na pole obsazené nepřítelem s nižší bojovou silou."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+            <DonjonCard title="Pohyb bez souboje" description="Cílové pole je prázdné">
+              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
+                Pohyb proběhne bez dalšího vyhodnocení. Tah přechází na výběr akce (nebo souboj nenastane).
+              </p>
+            </DonjonCard>
+            <DonjonCard title="Pohyb → souboj" description="Cílové pole obsazeno nepřítelem" variant="danger">
+              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#F9C0C0', lineHeight: 1.6 }}>
+                Pokud bojová síla útočníka převyšuje obranu, pohyb automaticky spustí souboj. Hráč následně volí Push nebo Occupy.
+              </p>
+            </DonjonCard>
           </div>
         </Preview>
       </Section>

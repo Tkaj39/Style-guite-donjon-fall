@@ -34,8 +34,24 @@ const sections = [
   {
     label: 'Game UI',
     items: [
-      { to: '/turn', label: 'Tah' },
-      { to: '/actions', label: 'Akce' },
+      {
+        to: '/turn', label: 'Tah',
+        children: [
+          { to: '/turn#struktura-tahu', label: 'Struktura tahu' },
+          { to: '/turn#indikator-hrace', label: 'Indikátor hráče' },
+          { to: '/turn#ohnisko', label: 'Ohnisko' },
+          { to: '/turn#souboj', label: 'Souboj' },
+        ],
+      },
+      {
+        to: '/actions', label: 'Akce',
+        children: [
+          { to: '/actions#pohyb-kostky', label: 'Pohyb kostky' },
+          { to: '/actions#pohyb-veze', label: 'Pohyb věže' },
+          { to: '/actions#kolaps-veze', label: 'Kolaps věže' },
+          { to: '/actions#prehazovani', label: 'Přehazování' },
+        ],
+      },
       { to: '/victory-points', label: 'Vítězné body' },
       {
         to: '/dialogs', label: 'Dialogy',
@@ -44,6 +60,7 @@ const sections = [
           { to: '/dialogs#vitezny-bod', label: 'Vítězný bod' },
           { to: '/dialogs#zacatek-tahu', label: 'Začátek tahu' },
           { to: '/dialogs#vyhra-hry', label: 'Výhra hry' },
+          { to: '/dialogs#nahla-smrt', label: 'Náhlá smrt' },
         ],
       },
     ],
