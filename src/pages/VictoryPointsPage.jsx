@@ -3,10 +3,10 @@ import DonjonBadge from '../components/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 import { players as basePlayers } from '../data/gameUiMockData'
 
-const TARGET_VP = 10
 const DEFAULT_MAP_VP = 5
+const TARGET_VP = DEFAULT_MAP_VP
 
-const vp = [7, 5, 4, 3, 2, 1]
+const vp = [4, 3, 2, 2, 1, 0]
 const players = basePlayers.map((p, i) => ({ ...p, vp: vp[i] }))
 
 function FireIcon() {

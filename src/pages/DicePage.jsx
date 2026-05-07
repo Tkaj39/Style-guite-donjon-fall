@@ -128,6 +128,12 @@ function PushChainDemo({ variant }) {
           </div>
           {arrow}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+            <DieFace value={2} playerColor={p2.color} size="md" state="rerolled" />
+            <DonjonBadge size="sm" variant="default">min(hod, původní)</DonjonBadge>
+            <span style={{ fontSize: '0.5625rem', color: '#8F7458', textTransform: 'uppercase' }}>Reroll</span>
+          </div>
+          {arrow}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
             {cfg.result}
             <span style={{ fontSize: '0.5625rem', color: cfg.resultColor, textTransform: 'uppercase' }}>{cfg.resultLabel}</span>
           </div>
@@ -224,7 +230,8 @@ export default function DicePage() {
               <TowerStack dice={cleanTower} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <StatPill label="Combat Power" value={`${calcCombatPower(cleanTower)} (${cleanTower[cleanTower.length-1].value}+${cleanTower.slice(0,-1).filter(d=>d.owner===cleanTower[cleanTower.length-1].owner).length}−0)`} color={players[0].color} />
-                <StatPill label="Movement Range" value={calcMovementRange(cleanTower)} color="#8F7458" />
+                <StatPill label="Pohyb věže" value={calcMovementRange(cleanTower)} color="#8F7458" />
+                <StatPill label="Pohyb vrcholu (skok)" value={cleanTower[cleanTower.length-1].value} color="#4D8FE0" />
                 <StatPill label="Kontroler" value={players[0].label} color={players[0].color} />
               </div>
             </div>
@@ -300,7 +307,8 @@ export default function DicePage() {
               <TowerStack dice={mixedTower} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <StatPill label="Combat Power" value={`${calcCombatPower(mixedTower)} (${mixedTower[mixedTower.length-1].value}+${mixedTower.slice(0,-1).filter(d=>d.owner===mixedTower[mixedTower.length-1].owner).length}−${mixedTower.slice(0,-1).filter(d=>d.owner!==mixedTower[mixedTower.length-1].owner).length})`} color={players[0].color} />
-                <StatPill label="Movement Range" value={calcMovementRange(mixedTower)} color="#8F7458" />
+                <StatPill label="Pohyb věže" value={calcMovementRange(mixedTower)} color="#8F7458" />
+                <StatPill label="Pohyb vrcholu (skok)" value={mixedTower[mixedTower.length-1].value} color="#4D8FE0" />
                 <StatPill label="Kontroler" value={players[0].label} color={players[0].color} />
               </div>
             </div>

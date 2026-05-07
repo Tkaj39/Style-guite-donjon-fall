@@ -172,14 +172,27 @@ export default function AnimacePage() {
           <AnimSpec
             duration="400 ms"
             easing="ease-out"
-            trigger="Akce Přehazování"
-            description="Kostka rotuje kolem vlastní osy (3D flip efekt) a zobrazí novou hodnotu. Pokud hodnota zůstane stejná, krátký pulse naznačí neúspěšný hod."
+            trigger="Akce Přehazování — úspěch (nová hodnota vyšší)"
+            description="Kostka rotuje kolem vlastní osy (3D flip efekt) a zobrazí novou hodnotu. Nová hodnota je vyšší než původní — kostka posílí."
           >
             <FrameRow>
               <DieFace value={3} playerColor={p1.color} size="sm" state="rerolled" />
               <Arrow />
               <DieFace value={5} playerColor={p1.color} size="sm" />
               <DonjonBadge variant="success">+2</DonjonBadge>
+            </FrameRow>
+          </AnimSpec>
+          <AnimSpec
+            duration="400 ms"
+            easing="ease-out"
+            trigger="Akce Přehazování — neúspěch (hod nižší než původní)"
+            description="Kostka provede flip animaci. Nový hod je nižší než původní — původní hodnota se zachová. Krátký pulse signalizuje zachování hodnoty."
+          >
+            <FrameRow>
+              <DieFace value={3} playerColor={p1.color} size="sm" state="rerolled" />
+              <Arrow />
+              <DieFace value={3} playerColor={p1.color} size="sm" />
+              <DonjonBadge variant="default">zůstane původní</DonjonBadge>
             </FrameRow>
           </AnimSpec>
         </Preview>
@@ -224,12 +237,16 @@ export default function AnimacePage() {
             <AnimSpec
               duration="500 ms"
               easing="ease-out"
-              trigger="Vyhodnocení ohniska — zisk VP"
-              description="Aktivní ohnisko pulzuje zlatou záři, zobrazí +1 VP text a poté přejde do pasivního stavu. Jiné ohnisko ve skupině přejde z pasivního na aktivní."
+              trigger="Vyhodnocení ohniska — zisk VP + reroll kostky"
+              description="Aktivní ohnisko pulzuje zlatou záři, zobrazí +1 VP text. Kostka na ohnisku se přehodí: nová hodnota = min(hod, původní − 1) — nemůže posílit. Poté ohnisko přejde do pasivního stavu a jiné ze skupiny se aktivuje."
             >
               <FrameRow>
                 <HexTile state="focal-active" size="sm" />
+                <DieFace value={4} playerColor={p1.color} size="sm" />
                 <DonjonBadge variant="warning">+1 VP</DonjonBadge>
+                <Arrow />
+                <DieFace value={3} playerColor={p1.color} size="sm" state="rerolled" />
+                <DonjonBadge variant="default">min(hod, 3)</DonjonBadge>
                 <Arrow />
                 <HexTile state="focal-passive" size="sm" />
                 <span style={{ color: '#4A4560', fontSize: '0.75rem' }}>+</span>

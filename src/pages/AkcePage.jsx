@@ -67,10 +67,34 @@ export default function AkcePage() {
             description="Move die"
             footer={<DonjonButton size="sm" variant="default">Vybrat kostku</DonjonButton>}
           >
-            <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
-              Pohni jednou svou kostkou až na vzdálenost její bojové síly. Pohyb může měnit směr.
-              Nelze procházet nepřátelskými kostkami. Pohyb na nepřátelské pole může spustit souboj.
-            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
+                Pohni jednou svou kostkou až na vzdálenost její bojové síly. Pohyb může měnit směr.
+                Přátelskými kostkami/věžemi lze procházet jen pokud má pohybující se kostka vyšší bojovou sílu.
+                Nepřátelskými kostkami nelze procházet vůbec.
+                Pohyb na nepřátelské pole spustí souboj — je legální jen pokud vaše bojová síla překračuje nepřátelskou.
+              </p>
+            </div>
+          </DonjonCard>
+        </Preview>
+
+        <Preview>
+          <DonjonCard
+            title="Skok z věže"
+            description="Jump from tower — speciální případ pohybu kostky"
+          >
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
+                Kostka na vrcholu vlastní věže může odskočit a samostatně se pohybovat. Dosah pohybu = face value vrcholu.
+                Uvnitř dosahu původní věže si nese bojovou sílu celé věže.
+                Za hranicí dosahu věže se bojová síla vrátí na normální (solo hodnota).
+              </p>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <DonjonBadge variant="default">Pohyb = face value vrcholu</DonjonBadge>
+                <DonjonBadge variant="warning">CP věže uvnitř dosahu věže</DonjonBadge>
+                <DonjonBadge variant="default">CP solo za hranicí dosahu</DonjonBadge>
+              </div>
+            </div>
           </DonjonCard>
         </Preview>
       </Section>
