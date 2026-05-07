@@ -132,15 +132,17 @@ export default function DonjonCard({
   const ornH = 66
 
   return (
+    /* Outer border shell */
+    <div style={{ clipPath: octagon(cx), background: v.border, padding: 1, display: 'inline-block', minWidth: 240 }}>
+    {/* Inner fill */}
     <div
       style={{
         position: 'relative',
-        clipPath: octagon(cx),
+        clipPath: octagon(Math.max(cx - 1, 0)),
         background: v.bg,
-        boxShadow: `inset 0 0 0 1px ${v.border}`,
         display: 'flex',
         flexDirection: 'column',
-        minWidth: 240,
+        minWidth: '100%',
       }}
     >
       {/* Side ornaments */}
@@ -210,6 +212,7 @@ export default function DonjonCard({
           {footer}
         </div>
       )}
+    </div>
     </div>
   )
 }
