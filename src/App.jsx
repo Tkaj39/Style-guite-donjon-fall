@@ -8,6 +8,7 @@ import BadgesPage from './pages/BadgesPage'
 import CardsPage from './pages/CardsPage'
 import ColorsPage from './pages/ColorsPage'
 import MoodPage from './pages/MoodPage'
+import TypographyPage from './pages/TypographyPage'
 
 export default function App() {
   return (
@@ -18,7 +19,7 @@ export default function App() {
         <Route path="button-groups" element={<ButtonGroupsPage />} />
         <Route path="mood" element={<MoodPage />} />
         <Route path="colors" element={<ColorsPage />} />
-        <Route path="typography" element={<PlaceholderPage title="Typography" />} />
+        <Route path="typography" element={<TypographyPage />} />
         <Route path="spacing" element={<PlaceholderPage title="Spacing" />} />
         <Route path="pictograms" element={<PlaceholderPage title="Pictograms" />} />
         <Route path="inputs" element={<InputsPage />} />
