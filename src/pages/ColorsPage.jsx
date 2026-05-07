@@ -138,11 +138,10 @@ export default function ColorsPage() {
           </div>
 
           {[
-            { name: 'Vybraný hex',  note: 'UI gold při 31% opacity',                    hex: '#FFC183',  alpha: 0.31, fixed: true  },
-            { name: 'Dosah pohybu', note: 'Primární barva hráče při 25% opacity',        hex: '#C04040',  alpha: 0.25, fixed: false },
-            { name: 'Souboj možný', note: 'Primární barva hráče při 31% opacity',        hex: '#C04040',  alpha: 0.31, fixed: false },
-            { name: 'Zablokovaný',  note: 'Fixní — neutrální tmavá',                    hex: '#3A3A4A',  alpha: 1,   fixed: true  },
-            { name: 'Hover',        note: 'Bílá při 8% opacity — fixní pro všechny',    hex: '#FFFFFF',  alpha: 0.08, fixed: true  },
+            { name: 'Vybraný hex',   note: 'UI gold při 31% opacity — zvýrazní vybranou kostku',              hex: '#FFC183',  alpha: 0.31, fixed: true  },
+            { name: 'Mimo dosah',    note: 'Černá při 55% opacity — políčka kam se nelze dostat se ztmaví',   hex: '#000000',  alpha: 0.55, fixed: true  },
+            { name: 'Souboj možný',  note: 'Primární barva hráče při 31% opacity — políčko kde lze zaútočit', hex: '#C04040',  alpha: 0.31, fixed: false },
+            { name: 'Hover',         note: 'Bílá při 8% opacity — fixní pro všechny stavy',                   hex: '#FFFFFF',  alpha: 0.08, fixed: true  },
           ].map((row, i, arr) => (
             <div
               key={row.name}
