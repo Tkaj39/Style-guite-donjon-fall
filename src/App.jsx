@@ -3,6 +3,9 @@ import Layout from './components/layout/Layout'
 import ButtonsPage from './pages/ButtonsPage'
 import ButtonGroupsPage from './pages/ButtonGroupsPage'
 import PlaceholderPage from './pages/PlaceholderPage'
+import InputsPage from './pages/InputsPage'
+import BadgesPage from './pages/BadgesPage'
+import CardsPage from './pages/CardsPage'
 
 export default function App() {
   return (
@@ -14,9 +17,9 @@ export default function App() {
         <Route path="colors" element={<PlaceholderPage title="Colors" />} />
         <Route path="typography" element={<PlaceholderPage title="Typography" />} />
         <Route path="spacing" element={<PlaceholderPage title="Spacing" />} />
-        <Route path="inputs" element={<PlaceholderPage title="Inputs" />} />
-        <Route path="badges" element={<PlaceholderPage title="Badges" />} />
-        <Route path="cards" element={<PlaceholderPage title="Cards" />} />
+        <Route path="inputs" element={<InputsPage />} />
+        <Route path="badges" element={<BadgesPage />} />
+        <Route path="cards" element={<CardsPage />} />
       </Route>
     </Routes>
   )
