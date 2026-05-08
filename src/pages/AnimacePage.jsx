@@ -54,20 +54,25 @@ function HexWithDie({ hexState = 'empty', owner, dieValue, dieColor, dieState = 
   )
 }
 
-/* Hex s věží — spodní kostka na středu hexu, věž roste nahoru (může přesahovat hex) */
+/* Hex s věží — spodní kostka na středu hexu (top: 20), každá další posunuta o 16px (půlka sm kostky) nahoru.
+   zIndex zajistí že vrchní kostka vždy překrývá spodní ve vzájemném překryvu. */
 function HexWithTower({ hexState = 'empty', owner, dice }) {
+  // dice[0] = vrchní kostka, dice[N-1] = spodní kostka
+  const N = dice.length
   return (
     <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
       <HexTile state={hexState} owner={owner} size="md" />
-      <div style={{
-        position: 'absolute', bottom: 20, left: '50%',
-        transform: 'translateX(-50%)',
-        display: 'flex', flexDirection: 'column', gap: 2,
-      }}>
-        {dice.map((d, i) => (
-          <DieFace key={i} value={d.value} playerColor={d.color} size="sm" state={d.state} />
-        ))}
-      </div>
+      {dice.map((d, i) => (
+        <div key={i} style={{
+          position: 'absolute',
+          top: 20 - (N - 1 - i) * 16,   // spodní kostka: top=20 (střed na y=36), každá výš o 16px
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: N - i,                  // vrchní kostka má nejvyšší z-index
+        }}>
+          <DieFace value={d.value} playerColor={d.color} size="sm" state={d.state} />
+        </div>
+      ))}
     </div>
   )
 }
@@ -153,15 +158,25 @@ function MoveTowerDemo() {
   return (
     <DemoShell label="Pohyb věže — live demo">
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        {/* Zdrojový hex — věž startuje odtud; zIndex: 1 zajistí, že věž při přesunu překryje cílový hex */}
+        {/* Zdrojový hex — věž startuje odtud; zIndex: 1 překryje cílový hex při pohybu */}
         <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible', zIndex: 1 }}>
           <HexTile state="selected" size="md" />
-          <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
+          {/* Animovaný wrapper = celá věž se přesune najednou */}
+          <div style={{ position: 'absolute', inset: 0, overflow: 'visible' }}>
             <div key={key}
-              style={{ display: 'flex', flexDirection: 'column', gap: 2, animation: key > 0 ? 'die-move 360ms ease-in-out both' : 'none' }}
+              style={{
+                position: 'relative', width: '100%', height: '100%', overflow: 'visible',
+                animation: key > 0 ? 'die-move 360ms ease-in-out both' : 'none',
+              }}
               onAnimationEnd={() => setPlaying(false)}>
-              <DieFace value={5} playerColor={p1.color} size="sm" />
-              <DieFace value={2} playerColor={p1.color} size="sm" />
+              {/* Vrchní kostka (i=0, N=2): top = 20 - 1×16 = 4 */}
+              <div style={{ position: 'absolute', top: 4, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
+                <DieFace value={5} playerColor={p1.color} size="sm" />
+              </div>
+              {/* Spodní kostka (i=1, N=2): top = 20 */}
+              <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', zIndex: 1 }}>
+                <DieFace value={2} playerColor={p1.color} size="sm" />
+              </div>
             </div>
           </div>
         </div>
@@ -267,12 +282,12 @@ function OccupyDemo() {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 8 }}>
         <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
           <HexTile state="base" owner={p2.color} size="md" />
-          {/* Obránce — střed hexu (bottom: 20 → center kostky na y=36) */}
-          <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
+          {/* Obránce — spodní kostka věže, střed na y=36 (top: 20), zIndex: 1 */}
+          <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', zIndex: 1 }}>
             <DieFace value={2} playerColor={p2.color} size="sm" />
           </div>
-          {/* Útočník — padá shora, finální pozice těsně nad obráncem (bottom: 54) */}
-          <div style={{ position: 'absolute', bottom: 54, left: '50%', transform: 'translateX(-50%)' }}>
+          {/* Útočník — vrchní kostka věže, finální top: 4 (= top 20 - 16px krok), padá shora, zIndex: 2 */}
+          <div style={{ position: 'absolute', top: 4, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
             <div key={key}
               style={{ animation: key > 0 ? 'die-drop 240ms ease-in-out both' : 'none' }}
               onAnimationEnd={handleEnd}>
@@ -330,42 +345,55 @@ function RerollDemo() {
 function CollapseDemo() {
   const [key, setKey] = useState(0)
   const [playing, setPlaying] = useState(false)
-  const [bottomVisible, setBottomVisible] = useState(true)
+  const [collapsed, setCollapsed] = useState(false)
 
   function play() {
     if (playing) return
-    setBottomVisible(true)
+    setCollapsed(false)
     setPlaying(true)
     setKey(k => k + 1)
   }
 
   function handleEnd() {
-    setBottomVisible(false)
+    setCollapsed(true)
     setPlaying(false)
   }
 
+  // 3-kostkova věž: top=20-2×16=-12, mid=20-1×16=4, bot=20
+  // 2-kostkova věž po kolapsu: top=20-1×16=4, bot=20
   return (
     <DemoShell label="Kolaps věže — spodní kostka zmizí">
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
           <HexTile state="base" owner={p1.color} size="md" />
-          {/* Věž — spodní kostka na středu hexu, přesahuje nahoru */}
-          <div style={{
-            position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)',
-            display: 'flex', flexDirection: 'column', gap: 2,
-          }}>
-            <DieFace value={5} playerColor={p1.color} size="sm" />
-            <DieFace value={3} playerColor={p1.color} size="sm" />
-            {bottomVisible ? (
-              <div key={key}
-                style={{ animation: key > 0 ? 'die-collapse 300ms ease-in forwards' : 'none' }}
-                onAnimationEnd={handleEnd}>
+          {collapsed ? (
+            // Po kolapsu — 2-kostkova věž, spodní kostka na středu
+            <>
+              <div style={{ position: 'absolute', top: 4,  left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
+                <DieFace value={5} playerColor={p1.color} size="sm" />
+              </div>
+              <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', zIndex: 1 }}>
+                <DieFace value={3} playerColor={p1.color} size="sm" />
+              </div>
+            </>
+          ) : (
+            // 3-kostkova věž — spodní (damaged) se animuje ven
+            <>
+              <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', zIndex: 3 }}>
+                <DieFace value={5} playerColor={p1.color} size="sm" />
+              </div>
+              <div style={{ position: 'absolute', top: 4,  left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
+                <DieFace value={3} playerColor={p1.color} size="sm" />
+              </div>
+              <div key={key} style={{
+                position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', zIndex: 1,
+                animation: key > 0 ? 'die-collapse 300ms ease-in forwards' : 'none',
+              }}
+              onAnimationEnd={handleEnd}>
                 <DieFace value={1} playerColor={p2.color} size="sm" state="damaged" />
               </div>
-            ) : (
-              <div style={{ height: 32 }} />
-            )}
-          </div>
+            </>
+          )}
         </div>
         {!playing && key > 0 && (
           <DonjonBadge variant="danger">+1 VP</DonjonBadge>
