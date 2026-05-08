@@ -42,6 +42,36 @@ function FrameRow({ children }) {
   )
 }
 
+/* Hex s jednou kostkou — střed kostky = střed hexu (72px / 2 = 36, sm die 32px → bottom: 20) */
+function HexWithDie({ hexState = 'empty', owner, dieValue, dieColor, dieState = 'default' }) {
+  return (
+    <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
+      <HexTile state={hexState} owner={owner} size="md" />
+      <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
+        <DieFace value={dieValue} playerColor={dieColor} size="sm" state={dieState} />
+      </div>
+    </div>
+  )
+}
+
+/* Hex s věží — spodní kostka na středu hexu, věž roste nahoru (může přesahovat hex) */
+function HexWithTower({ hexState = 'empty', owner, dice }) {
+  return (
+    <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
+      <HexTile state={hexState} owner={owner} size="md" />
+      <div style={{
+        position: 'absolute', bottom: 20, left: '50%',
+        transform: 'translateX(-50%)',
+        display: 'flex', flexDirection: 'column', gap: 2,
+      }}>
+        {dice.map((d, i) => (
+          <DieFace key={i} value={d.value} playerColor={d.color} size="sm" state={d.state} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 /* ── Live demo helpers ── */
 
 function PlayButton({ onClick, playing }) {
@@ -91,12 +121,19 @@ function MoveDieDemo() {
   return (
     <DemoShell label="Pohyb kostky — live demo">
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        <HexTile state="selected" size="sm" />
-        <div key={key} style={{ animation: key > 0 ? 'die-move 280ms ease-out both' : 'none' }}
-          onAnimationEnd={() => setPlaying(false)}>
-          <DieFace value={4} playerColor={p1.color} size="md" />
+        {/* Zdrojový hex — kostka startuje odtud */}
+        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
+          <HexTile state="selected" size="md" />
+          <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
+            <div key={key}
+              style={{ animation: key > 0 ? 'die-move 280ms ease-out both' : 'none' }}
+              onAnimationEnd={() => setPlaying(false)}>
+              <DieFace value={4} playerColor={p1.color} size="sm" />
+            </div>
+          </div>
         </div>
-        <HexTile state="move" size="sm" />
+        {/* Cílový hex */}
+        <HexTile state="move" size="md" />
       </div>
       <PlayButton onClick={play} playing={playing} />
     </DemoShell>
@@ -116,14 +153,20 @@ function MoveTowerDemo() {
   return (
     <DemoShell label="Pohyb věže — live demo">
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        <HexTile state="selected" size="sm" />
-        <div key={key}
-          style={{ display: 'flex', flexDirection: 'column', gap: 2, animation: key > 0 ? 'die-move 360ms ease-in-out both' : 'none' }}
-          onAnimationEnd={() => setPlaying(false)}>
-          <DieFace value={5} playerColor={p1.color} size="md" />
-          <DieFace value={2} playerColor={p1.color} size="md" />
+        {/* Zdrojový hex — věž startuje odtud */}
+        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
+          <HexTile state="selected" size="md" />
+          <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
+            <div key={key}
+              style={{ display: 'flex', flexDirection: 'column', gap: 2, animation: key > 0 ? 'die-move 360ms ease-in-out both' : 'none' }}
+              onAnimationEnd={() => setPlaying(false)}>
+              <DieFace value={5} playerColor={p1.color} size="sm" />
+              <DieFace value={2} playerColor={p1.color} size="sm" />
+            </div>
+          </div>
         </div>
-        <HexTile state="move" size="sm" />
+        {/* Cílový hex */}
+        <HexTile state="move" size="md" />
       </div>
       <PlayButton onClick={play} playing={playing} />
     </DemoShell>
@@ -150,10 +193,15 @@ function CombatPhase1Demo() {
   return (
     <DemoShell label="Fáze 1 — impakt (shake + −1)">
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        <div key={key}
-          style={{ animation: key > 0 ? 'die-shake 180ms ease-in both' : 'none' }}
-          onAnimationEnd={handleEnd}>
-          <DieFace value={value} playerColor={p1.color} size="md" />
+        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
+          <HexTile state="selected" size="md" />
+          <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
+            <div key={key}
+              style={{ animation: key > 0 ? 'die-shake 180ms ease-in both' : 'none' }}
+              onAnimationEnd={handleEnd}>
+              <DieFace value={value} playerColor={p1.color} size="sm" />
+            </div>
+          </div>
         </div>
         {!playing && key > 0 && (
           <span style={{ fontSize: '1rem', color: '#E05C5C', fontWeight: 700 }}>−1</span>
@@ -177,12 +225,19 @@ function PushDemo() {
   return (
     <DemoShell label="Push — formace odsunuta (bounce)">
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <DieFace value={5} playerColor={p1.color} size="md" />
+        {/* Útočník */}
+        <HexWithDie hexState="selected" dieValue={5} dieColor={p1.color} />
         <Arrow />
-        <div key={key}
-          style={{ animation: key > 0 ? 'formation-push 320ms ease-out both' : 'none' }}
-          onAnimationEnd={() => setPlaying(false)}>
-          <DieFace value={2} playerColor={p2.color} size="md" />
+        {/* Obránce — odsunut */}
+        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
+          <HexTile state="base" owner={p2.color} size="md" />
+          <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
+            <div key={key}
+              style={{ animation: key > 0 ? 'formation-push 320ms ease-out both' : 'none' }}
+              onAnimationEnd={() => setPlaying(false)}>
+              <DieFace value={2} playerColor={p2.color} size="sm" />
+            </div>
+          </div>
         </div>
       </div>
       <PlayButton onClick={play} playing={playing} />
@@ -209,16 +264,23 @@ function OccupyDemo() {
 
   return (
     <DemoShell label="Occupy — útočník přistane na obránci">
-      <div style={{ position: 'relative', display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-        <div key={key}
-          style={{ animation: key > 0 ? 'die-drop 240ms ease-in-out both' : 'none' }}
-          onAnimationEnd={handleEnd}>
-          <DieFace value={4} playerColor={p1.color} size="md" />
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 8 }}>
+        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
+          <HexTile state="base" owner={p2.color} size="md" />
+          {/* Obránce — střed hexu (bottom: 20 → center kostky na y=36) */}
+          <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
+            <DieFace value={2} playerColor={p2.color} size="sm" />
+          </div>
+          {/* Útočník — padá shora, finální pozice těsně nad obráncem (bottom: 54) */}
+          <div style={{ position: 'absolute', bottom: 54, left: '50%', transform: 'translateX(-50%)' }}>
+            <div key={key}
+              style={{ animation: key > 0 ? 'die-drop 240ms ease-in-out both' : 'none' }}
+              onAnimationEnd={handleEnd}>
+              <DieFace value={4} playerColor={p1.color} size="sm" />
+            </div>
+          </div>
         </div>
-        <DieFace value={2} playerColor={p2.color} size="md" />
-        {landed && (
-          <DonjonBadge variant="warning" style={{ marginTop: 4 }}>Smíšená věž</DonjonBadge>
-        )}
+        {landed && <DonjonBadge variant="warning">Smíšená věž</DonjonBadge>}
       </div>
       <PlayButton onClick={play} playing={playing} />
     </DemoShell>
@@ -246,10 +308,15 @@ function RerollDemo() {
   return (
     <DemoShell label="Přehazování — flip + nová hodnota">
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        <div key={key}
-          style={{ animation: key > 0 ? 'die-reroll 400ms ease-out both' : 'none' }}
-          onAnimationEnd={handleEnd}>
-          <DieFace value={value} playerColor={p1.color} size="md" />
+        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
+          <HexTile state="selected" size="md" />
+          <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
+            <div key={key}
+              style={{ animation: key > 0 ? 'die-reroll 400ms ease-out both' : 'none' }}
+              onAnimationEnd={handleEnd}>
+              <DieFace value={value} playerColor={p1.color} size="sm" />
+            </div>
+          </div>
         </div>
         {!playing && key > 0 && (
           <DonjonBadge variant="success">+2</DonjonBadge>
@@ -279,19 +346,26 @@ function CollapseDemo() {
 
   return (
     <DemoShell label="Kolaps věže — spodní kostka zmizí">
-      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 12 }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <DieFace value={5} playerColor={p1.color} size="md" />
-          <DieFace value={3} playerColor={p1.color} size="md" />
-          {bottomVisible ? (
-            <div key={key}
-              style={{ animation: key > 0 ? 'die-collapse 300ms ease-in forwards' : 'none' }}
-              onAnimationEnd={handleEnd}>
-              <DieFace value={1} playerColor={p2.color} size="md" state="damaged" />
-            </div>
-          ) : (
-            <div style={{ height: 48 }} />
-          )}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
+          <HexTile state="base" owner={p1.color} size="md" />
+          {/* Věž — spodní kostka na středu hexu, přesahuje nahoru */}
+          <div style={{
+            position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)',
+            display: 'flex', flexDirection: 'column', gap: 2,
+          }}>
+            <DieFace value={5} playerColor={p1.color} size="sm" />
+            <DieFace value={3} playerColor={p1.color} size="sm" />
+            {bottomVisible ? (
+              <div key={key}
+                style={{ animation: key > 0 ? 'die-collapse 300ms ease-in forwards' : 'none' }}
+                onAnimationEnd={handleEnd}>
+                <DieFace value={1} playerColor={p2.color} size="sm" state="damaged" />
+              </div>
+            ) : (
+              <div style={{ height: 32 }} />
+            )}
+          </div>
         </div>
         {!playing && key > 0 && (
           <DonjonBadge variant="danger">+1 VP</DonjonBadge>
@@ -380,11 +454,9 @@ export default function AnimacePage() {
             description="Kostka se přesune po oblouku nad herní plochou z výchozího hexu na cílový. Pohyb naznačuje taktický záměr — ne přímá lineární trajektorie."
           >
             <FrameRow>
-              <HexTile state="selected" size="sm" />
-              <DieFace value={4} playerColor={p1.color} size="sm" />
+              <HexWithDie hexState="selected" dieValue={4} dieColor={p1.color} />
               <Arrow />
-              <HexTile state="move" size="sm" />
-              <DieFace value={4} playerColor={p1.color} size="sm" />
+              <HexWithDie hexState="move" dieValue={4} dieColor={p1.color} />
             </FrameRow>
           </AnimSpec>
         </Preview>
@@ -406,17 +478,15 @@ export default function AnimacePage() {
             description="Věž se přesune jako celek — pomalejší než solo kostka. Vizuálně naznačuje váhu stohovaných kostek. Věž nemůže procházet jinými kostkami."
           >
             <FrameRow>
-              <HexTile state="selected" size="sm" />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <DieFace value={5} playerColor={p1.color} size="sm" />
-                <DieFace value={2} playerColor={p1.color} size="sm" />
-              </div>
+              <HexWithTower hexState="selected" dice={[
+                { value: 5, color: p1.color },
+                { value: 2, color: p1.color },
+              ]} />
               <Arrow />
-              <HexTile state="move" size="sm" />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <DieFace value={5} playerColor={p1.color} size="sm" />
-                <DieFace value={2} playerColor={p1.color} size="sm" />
-              </div>
+              <HexWithTower hexState="move" dice={[
+                { value: 5, color: p1.color },
+                { value: 2, color: p1.color },
+              ]} />
             </FrameRow>
           </AnimSpec>
         </Preview>
@@ -439,9 +509,9 @@ export default function AnimacePage() {
               description="Útočná kostka blikne a sníží hodnotu o 1. Krátký shake efekt naznačuje impakt."
             >
               <FrameRow>
-                <DieFace value={5} playerColor={p1.color} size="sm" />
+                <HexWithDie hexState="selected" dieValue={5} dieColor={p1.color} />
                 <Arrow />
-                <DieFace value={4} playerColor={p1.color} size="sm" />
+                <HexWithDie hexState="selected" dieValue={4} dieColor={p1.color} />
                 <span style={{ fontSize: '0.75rem', color: '#E05C5C', fontWeight: 700 }}>−1</span>
               </FrameRow>
             </AnimSpec>
@@ -452,10 +522,9 @@ export default function AnimacePage() {
               description="Nepřátelská formace se posune o jeden hex ve směru útoku. Slide animace s mírným bounce na konci."
             >
               <FrameRow>
-                <DieFace value={2} playerColor={p2.color} size="sm" />
-                <span style={{ fontSize: '0.75rem', color: '#4A4560' }}>na hex</span>
+                <HexWithDie hexState="base" owner={p2.color} dieValue={2} dieColor={p2.color} />
                 <Arrow />
-                <HexTile state="empty" size="sm" />
+                <HexTile state="empty" size="md" />
                 <span style={{ fontSize: '0.75rem', color: '#4A4560' }}>/ zničení</span>
               </FrameRow>
             </AnimSpec>
@@ -482,12 +551,12 @@ export default function AnimacePage() {
             description="Útočná kostka se přesune na vrchol obráncovy pozice — plynulý drop efekt shora dolů. Vytvoří smíšenou věž."
           >
             <FrameRow>
-              <DieFace value={4} playerColor={p1.color} size="sm" />
+              <HexWithDie hexState="base" owner={p2.color} dieValue={2} dieColor={p2.color} />
               <Arrow />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <DieFace value={4} playerColor={p1.color} size="sm" />
-                <DieFace value={2} playerColor={p2.color} size="sm" />
-              </div>
+              <HexWithTower hexState="base" owner={p2.color} dice={[
+                { value: 4, color: p1.color },
+                { value: 2, color: p2.color },
+              ]} />
               <DonjonBadge variant="warning">Smíšená věž</DonjonBadge>
             </FrameRow>
           </AnimSpec>
@@ -510,9 +579,9 @@ export default function AnimacePage() {
             description="Kostka rotuje kolem vlastní osy (3D flip efekt) a zobrazí novou hodnotu. Nová hodnota je vyšší než původní — kostka posílí."
           >
             <FrameRow>
-              <DieFace value={3} playerColor={p1.color} size="sm" state="rerolled" />
+              <HexWithDie hexState="selected" dieValue={3} dieColor={p1.color} dieState="rerolled" />
               <Arrow />
-              <DieFace value={5} playerColor={p1.color} size="sm" />
+              <HexWithDie hexState="selected" dieValue={5} dieColor={p1.color} />
               <DonjonBadge variant="success">+2</DonjonBadge>
             </FrameRow>
           </AnimSpec>
@@ -523,9 +592,9 @@ export default function AnimacePage() {
             description="Kostka provede flip animaci. Nový hod je nižší než původní — původní hodnota se zachová. Krátký pulse signalizuje zachování hodnoty."
           >
             <FrameRow>
-              <DieFace value={3} playerColor={p1.color} size="sm" state="rerolled" />
+              <HexWithDie hexState="selected" dieValue={3} dieColor={p1.color} dieState="rerolled" />
               <Arrow />
-              <DieFace value={3} playerColor={p1.color} size="sm" />
+              <HexWithDie hexState="selected" dieValue={3} dieColor={p1.color} />
               <DonjonBadge variant="default">zůstane původní</DonjonBadge>
             </FrameRow>
           </AnimSpec>
@@ -548,16 +617,16 @@ export default function AnimacePage() {
             description="Spodní kostka fade-out a klesne dolů pod hrací plochu. Zbylé kostky se plynule posunou dolů a věž se vizuálně zkrátí."
           >
             <FrameRow>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <DieFace value={5} playerColor={p1.color} size="sm" />
-                <DieFace value={3} playerColor={p1.color} size="sm" />
-                <DieFace value={1} playerColor={p2.color} size="sm" state="damaged" />
-              </div>
+              <HexWithTower hexState="base" owner={p1.color} dice={[
+                { value: 5, color: p1.color },
+                { value: 3, color: p1.color },
+                { value: 1, color: p2.color, state: 'damaged' },
+              ]} />
               <Arrow />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <DieFace value={5} playerColor={p1.color} size="sm" />
-                <DieFace value={3} playerColor={p1.color} size="sm" />
-              </div>
+              <HexWithTower hexState="base" owner={p1.color} dice={[
+                { value: 5, color: p1.color },
+                { value: 3, color: p1.color },
+              ]} />
               <DonjonBadge variant="danger">+1 VP</DonjonBadge>
             </FrameRow>
           </AnimSpec>
@@ -581,16 +650,15 @@ export default function AnimacePage() {
               description="Aktivní ohnisko pulzuje zlatou záři, zobrazí +1 VP text. Kostka na ohnisku se přehodí: nová hodnota = min(hod, původní − 1) — nemůže posílit. Poté ohnisko přejde do pasivního stavu a jiné ze skupiny se aktivuje."
             >
               <FrameRow>
-                <HexTile state="focal-active" size="sm" />
-                <DieFace value={4} playerColor={p1.color} size="sm" />
+                <HexWithDie hexState="focal-active" dieValue={4} dieColor={p1.color} />
                 <DonjonBadge variant="warning">+1 VP</DonjonBadge>
                 <Arrow />
-                <DieFace value={3} playerColor={p1.color} size="sm" state="rerolled" />
+                <HexWithDie hexState="focal-passive" dieValue={3} dieColor={p1.color} dieState="rerolled" />
                 <DonjonBadge variant="default">min(hod, 3)</DonjonBadge>
                 <Arrow />
-                <HexTile state="focal-passive" size="sm" />
+                <HexTile state="focal-passive" size="md" />
                 <span style={{ color: '#4A4560', fontSize: '0.75rem' }}>+</span>
-                <HexTile state="focal-active" size="sm" />
+                <HexTile state="focal-active" size="md" />
               </FrameRow>
             </AnimSpec>
           </div>
