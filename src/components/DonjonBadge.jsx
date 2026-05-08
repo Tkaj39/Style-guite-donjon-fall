@@ -25,7 +25,7 @@ export default function DonjonBadge({
 
   return (
     /* Outer border shell */
-    <span style={{ display: 'inline-flex', clipPath: octagon(s.cx), background: v.border, padding: 1 }}>
+    <span style={{ display: 'inline-flex', alignSelf: 'flex-start', clipPath: octagon(s.cx), background: v.border, padding: 1 }}>
       {/* Inner fill */}
       <span
         style={{

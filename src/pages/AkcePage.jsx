@@ -186,7 +186,7 @@ export default function AkcePage() {
                 <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                   Vybrán: {a.label}
                 </p>
-                <ButtonGroup items={actionItems} value={a.value} onChange={() => {}} />
+                <ButtonGroup variant="tabs" items={actionItems} value={a.value} onChange={() => {}} />
               </div>
             ))}
           </div>
@@ -210,7 +210,7 @@ export default function AkcePage() {
       >
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'flex-start' }}>
-            <ButtonGroup items={actionItems} value={selected} onChange={setSelected} />
+            <ButtonGroup variant="tabs" items={actionItems} value={selected} onChange={setSelected} />
             <DonjonCard
               title={action.label}
               description={action.ruleLabel}

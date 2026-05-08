@@ -1,8 +1,9 @@
 import { octagon } from '../../utils/octagon'
 
 const sizeMap = {
-  sm: { box: 32, dot: 4, cx: 5,   fontSize: '0.625rem'  },
-  md: { box: 48, dot: 6, cx: 7.5, fontSize: '0.75rem'   },
+  xs: { box: 24, dot: 3, cx: 3.5, fontSize: '0.5rem'    }, // fits sm hex (42×48), tower of 3 ≤ 44px
+  sm: { box: 32, dot: 4, cx: 5,   fontSize: '0.625rem'  }, // fits md hex (62×72), tower of 3 ≤ 64px
+  md: { box: 48, dot: 6, cx: 7.5, fontSize: '0.75rem'   }, // fits lg hex (83×96), tower of 3 ≤ 88px
   lg: { box: 64, dot: 8, cx: 10,  fontSize: '0.875rem'  },
 }
 
@@ -28,12 +29,12 @@ export default function DieFace({ value = 1, playerColor = '#8F7458', size = 'md
   const cfg = stateConfig[state] ?? stateConfig.default
   const dots = dotPositions[value] ?? dotPositions[1]
 
-  const borderColor = playerColor
-  const bgColor     = playerColor + cfg.bgMod
-  const dotColor    = playerColor
+  const borderGrad  = `linear-gradient(145deg, ${playerColor} 0%, ${playerColor}99 100%)`
+  const bgGrad      = `linear-gradient(145deg, ${playerColor}${cfg.bgMod} 0%, #0D0C1A 100%)`
+  const dotColor    = '#E8D8C0'
 
-  const innerPad = Math.round(s.box * 0.15)
-  const gridSize = s.box - innerPad * 2 - 8 // area for dots
+  const innerPad = Math.round(s.box * 0.12)
+  const gridSize = s.box - innerPad * 2 - 4 // area for dots
   const cellSize = gridSize / 3
 
   return (
@@ -46,14 +47,14 @@ export default function DieFace({ value = 1, playerColor = '#8F7458', size = 'md
       <div style={{
         width: s.box, height: s.box,
         clipPath: octagon(s.cx),
-        background: borderColor,
+        background: borderGrad,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
         {/* Inner fill */}
         <div style={{
           width: s.box - 2, height: s.box - 2,
           clipPath: octagon(Math.max(s.cx - 1, 0)),
-          background: bgColor,
+          background: bgGrad,
           position: 'relative',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>

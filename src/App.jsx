@@ -23,6 +23,7 @@ import MapPage from './pages/MapPage'
 import ErbPage from './pages/ErbPage'
 import AnimacePage from './pages/AnimacePage'
 import ZvukyPage from './pages/ZvukyPage'
+import ScreensPage from './pages/ScreensPage'
 
 export default function App() {
   return (
@@ -51,6 +52,7 @@ export default function App() {
         <Route path="erb" element={<ErbPage />} />
         <Route path="animations" element={<AnimacePage />} />
         <Route path="sounds" element={<ZvukyPage />} />
+        <Route path="screens" element={<ScreensPage />} />
       </Route>
     </Routes>
   )

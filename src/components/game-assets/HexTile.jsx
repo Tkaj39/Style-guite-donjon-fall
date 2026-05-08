@@ -1,9 +1,9 @@
-const HEX_CLIP = 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)'
+const HEX_CLIP = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
 
 const sizeMap = {
-  sm: { w: 48,  h: 42  },
-  md: { w: 72,  h: 62  },
-  lg: { w: 96,  h: 83  },
+  sm: { w: 42,  h: 48  },
+  md: { w: 62,  h: 72  },
+  lg: { w: 83,  h: 96  },
 }
 
 const stateMap = {

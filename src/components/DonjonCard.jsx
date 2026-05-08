@@ -50,6 +50,7 @@ export default function DonjonCard({
         display: 'flex',
         flexDirection: 'column',
         minWidth: '100%',
+        height: '100%',
       }}
     >
       {/* Side ornaments — only when there's a header to anchor them to */}
@@ -77,7 +78,7 @@ export default function DonjonCard({
                 letterSpacing: '0.14em',
                 textTransform: 'uppercase',
                 lineHeight: 1.2,
-                background: v.titleGrad,
+                backgroundImage: v.titleGrad,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',

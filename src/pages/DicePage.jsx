@@ -1,4 +1,5 @@
 import DieFace from '../components/game-assets/DieFace'
+import HexTile from '../components/game-assets/HexTile'
 import DonjonCard from '../components/DonjonCard'
 import DonjonBadge from '../components/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
@@ -10,15 +11,27 @@ function statLabel(s) {
   return labels[s] ?? s
 }
 
-function TowerStack({ dice }) {
+// PEEK and box per size — coordinated with HexTile sizeMap so tower fits on hex
+const towerSizeConfig = {
+  xs: { box: 24, peek: 10 }, // tower of 3: 44px ≤ sm hex height 48px
+  sm: { box: 32, peek: 16 }, // tower of 3: 64px ≤ md hex height 72px
+  md: { box: 48, peek: 20 }, // tower of 3: 88px ≤ lg hex height 96px
+  lg: { box: 64, peek: 26 },
+}
+
+function TowerStack({ dice, size = 'md' }) {
+  const cfg = towerSizeConfig[size] ?? towerSizeConfig.md
   return (
-    <div style={{ display: 'flex', flexDirection: 'column-reverse', gap: 3, alignItems: 'center' }}>
-      {dice.map((die, i) => {
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {[...dice].reverse().map((die, i) => {
         const p = players.find(p => p.id === die.owner)
-        const isTop = i === dice.length - 1
         return (
-          <div key={i} style={{ opacity: isTop ? 1 : 0.85, transform: isTop ? 'none' : 'scale(0.96)' }}>
-            <DieFace value={die.value} playerColor={p?.color ?? '#8F7458'} size="md" state={isTop ? 'default' : 'default'} />
+          <div key={i} style={{
+            position: 'relative',
+            zIndex: dice.length - i,
+            marginTop: i === 0 ? 0 : -(cfg.box - cfg.peek),
+          }}>
+            <DieFace value={die.value} playerColor={p?.color ?? '#8F7458'} size={size} />
           </div>
         )
       })}
@@ -35,6 +48,41 @@ function StatPill({ label, value, color }) {
     }}>
       <span style={{ fontSize: '0.5625rem', color: '#4A4560', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{label}</span>
       <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: color ?? '#F0E6D3' }}>{value}</span>
+    </div>
+  )
+}
+
+const hexDims = { sm: { w: 42, h: 48 }, md: { w: 62, h: 72 }, lg: { w: 83, h: 96 } }
+
+function DieOnHex({ dieValue = 4, dieSize = 'xs', playerColor, hexState = 'empty', hexSize = 'sm', owner }) {
+  const p = owner != null ? players.find(p => p.id === owner) : players[0]
+  const color = playerColor ?? p?.color ?? '#8F7458'
+  const { w, h } = hexDims[hexSize] ?? hexDims.sm
+  return (
+    <div style={{ position: 'relative', width: w, height: h, flexShrink: 0 }}>
+      <HexTile state={hexState} owner={color} size={hexSize} />
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+        <DieFace value={dieValue} playerColor={color} size={dieSize} />
+      </div>
+    </div>
+  )
+}
+
+function TowerOnHex({ tower, dieSize = 'xs', hexState = 'empty', hexSize = 'sm' }) {
+  const { w, h } = hexDims[hexSize] ?? hexDims.sm
+  const cfg = towerSizeConfig[dieSize] ?? towerSizeConfig.xs
+  const n = tower.length
+  // bottom die center from top of tower = (n-1)*peek + box/2
+  const bottomDieCenter = (n - 1) * cfg.peek + cfg.box / 2
+  // align bottom die center with hex vertical center
+  const topOffset = h / 2 - bottomDieCenter
+
+  return (
+    <div style={{ position: 'relative', width: w, height: h, flexShrink: 0 }}>
+      <HexTile state={hexState} size={hexSize} />
+      <div style={{ position: 'absolute', top: topOffset, left: '50%', transform: 'translateX(-50%)' }}>
+        <TowerStack dice={tower} size={dieSize} />
+      </div>
     </div>
   )
 }
@@ -343,6 +391,62 @@ const cleanTower = [{ owner:1, value:2 }, { owner:1, value:4 }, { owner:1, value
 const mixedTower = [{ owner:2, value:3 }, { owner:1, value:1 }, { owner:1, value:6 }]
 // combat power = 6 + 1 - 1 = 6
 // movement range = max(2 - 1, 1) = 1`} />
+      </Section>
+
+      <Section
+        id="kostka-na-hexu"
+        title="Kostka na hexu"
+        description="Koordinované velikosti — xs kostka na sm hexu, sm na md, md na lg. Věž 3 kostek se vejde do výšky hexu."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            {/* Single die on hex */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Kostka na hexu</p>
+              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <DieOnHex dieValue={5} dieSize="xs" hexSize="sm" owner={1} />
+                  <span style={{ fontSize: '0.5rem', color: '#4A4560', letterSpacing: '0.08em', textTransform: 'uppercase' }}>xs / sm hex</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <DieOnHex dieValue={3} dieSize="xs" hexSize="sm" owner={2} />
+                  <span style={{ fontSize: '0.5rem', color: '#4A4560', letterSpacing: '0.08em', textTransform: 'uppercase' }}>xs / sm hex</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <DieOnHex dieValue={4} dieSize="sm" hexSize="md" owner={1} />
+                  <span style={{ fontSize: '0.5rem', color: '#4A4560', letterSpacing: '0.08em', textTransform: 'uppercase' }}>sm / md hex</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <DieOnHex dieValue={6} dieSize="md" hexSize="lg" owner={1} />
+                  <span style={{ fontSize: '0.5rem', color: '#4A4560', letterSpacing: '0.08em', textTransform: 'uppercase' }}>md / lg hex</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Tower on hex */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Věž na hexu — 3 kostky</p>
+              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <TowerOnHex tower={[{ owner:1,value:2 },{ owner:1,value:4 },{ owner:1,value:5 }]} dieSize="xs" hexSize="sm" />
+                  <span style={{ fontSize: '0.5rem', color: '#4A4560', letterSpacing: '0.08em', textTransform: 'uppercase' }}>xs / sm hex</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <TowerOnHex tower={[{ owner:2,value:3 },{ owner:1,value:1 },{ owner:1,value:6 }]} dieSize="xs" hexSize="sm" />
+                  <span style={{ fontSize: '0.5rem', color: '#4A4560', letterSpacing: '0.08em', textTransform: 'uppercase' }}>smíšená / sm hex</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <TowerOnHex tower={[{ owner:1,value:2 },{ owner:1,value:4 },{ owner:1,value:5 }]} dieSize="sm" hexSize="md" />
+                  <span style={{ fontSize: '0.5rem', color: '#4A4560', letterSpacing: '0.08em', textTransform: 'uppercase' }}>sm / md hex</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <TowerOnHex tower={[{ owner:1,value:2 },{ owner:1,value:4 },{ owner:1,value:5 }]} dieSize="md" hexSize="lg" />
+                  <span style={{ fontSize: '0.5rem', color: '#4A4560', letterSpacing: '0.08em', textTransform: 'uppercase' }}>md / lg hex</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Preview>
       </Section>
     </ShowcasePage>
   )

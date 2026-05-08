@@ -4,11 +4,16 @@ import { SideOrnament, HexOrnament } from './Ornaments'
 
 
 
-const s = { h: 32, cx: 9.61, px: 10 }
-const ornW = Math.round(24 * (s.h / 66) * 10) / 10
+const sizeMap = {
+  xs: { h: 32, cx: 9.61,  px: 10, fontSize: '0.6875rem' },
+  sm: { h: 40, cx: 12.01, px: 14, fontSize: '0.75rem'   },
+  md: { h: 52, cx: 15.62, px: 18, fontSize: '0.8125rem' },
+  lg: { h: 64, cx: 19.22, px: 22, fontSize: '0.875rem'  },
+}
 
 /**
  * @param {'menu'|'tabs'} variant
+ * @param {'sm'|'md'|'lg'} size
  * @param {boolean} dividers
  * @param {{ value: string, label: string, icon?: React.ReactNode }[]} items
  * @param {string} value
@@ -16,11 +21,15 @@ const ornW = Math.round(24 * (s.h / 66) * 10) / 10
  */
 export default function ButtonGroup({
   variant = 'menu',
+  size = 'md',
   dividers = false,
   items = [],
   value,
   onChange,
 }) {
+  const s = sizeMap[size] ?? sizeMap.md
+  const ornW = Math.round(24 * (s.h / 66) * 10) / 10
+  const iconSize = { xs: 12, sm: 14, md: 18, lg: 22 }[size] ?? 14
   const rawId = useId()
   const gid   = rawId.replace(/:/g, '')
   const last  = items.length - 1
@@ -90,7 +99,7 @@ export default function ButtonGroup({
 
               {item.icon && (
                 <span style={{
-                  width: 14, height: 14,
+                  width: iconSize, height: iconSize,
                   display: 'flex', alignItems: 'center', flexShrink: 0,
                   color: isActive ? '#FFC183' : '#8F7458',
                   filter: isActive ? 'drop-shadow(0 0 3px #FFC18366)' : undefined,
@@ -106,10 +115,10 @@ export default function ButtonGroup({
                 textTransform: 'uppercase',
                 lineHeight: 1,
                 position: 'relative',
-                fontSize: variant === 'tabs' && isActive ? '0.8125rem' : '0.6875rem',
+                fontSize: s.fontSize,
                 transition: 'font-size 200ms',
                 ...(isActive ? {
-                  background: 'linear-gradient(180deg,#F9F9F9 0%,#B8956A 100%)',
+                  backgroundImage: 'linear-gradient(180deg,#F9F9F9 0%,#B8956A 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',

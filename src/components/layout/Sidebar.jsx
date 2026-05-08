@@ -116,6 +116,7 @@ const sections = [
           { to: '/animations#ohnisko', label: 'Ohnisko' },
         ],
       },
+      { to: '/screens', label: 'Obrazovky' },
       {
         to: '/sounds', label: 'Zvuky',
         children: [

@@ -10,10 +10,10 @@ import { players, turnPhases } from '../data/gameUiMockData'
 // Row sizes: 6-7-8-9-8-7-6 (7 rows)
 const ROW_SIZES = [6, 7, 8, 9, 8, 7, 6]
 const HEX_SIZE = 'sm'
-const HEX_W = 48
-const HEX_H = 42
-const HEX_OFFSET_X = HEX_W * 0.75 // horizontal step for flat-top hex
-const HEX_OFFSET_Y = HEX_H         // vertical step
+const HEX_W = 42
+const HEX_H = 48
+const HEX_OFFSET_X = HEX_W          // horizontal step for pointy-top hex
+const HEX_OFFSET_Y = HEX_H * 0.75  // vertical step
 
 // Default map hex state definitions (col, row from 0)
 // Red base: top row (row 0), Blue base: bottom row (row 6)
