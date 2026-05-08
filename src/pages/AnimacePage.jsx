@@ -131,7 +131,7 @@ function MoveDieDemo() {
           <HexTile state="selected" size="md" />
           <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
             <div key={key}
-              style={{ animation: key > 0 ? 'die-move 380ms linear both' : 'none' }}
+              style={{ animation: key > 0 ? 'die-move 260ms ease-in-out both' : 'none' }}
               onAnimationEnd={() => setPlaying(false)}>
               <DieFace value={4} playerColor={p1.color} size="sm" />
             </div>
@@ -166,7 +166,7 @@ function MoveTowerDemo() {
             <div key={key}
               style={{
                 position: 'relative', width: '100%', height: '100%', overflow: 'visible',
-                animation: key > 0 ? 'die-move 460ms linear both' : 'none',
+                animation: key > 0 ? 'die-move 320ms ease-in-out both' : 'none',
               }}
               onAnimationEnd={() => setPlaying(false)}>
               {/* Vrchní kostka (i=0, N=2): top = 20 - 1×16 = 4 */}
@@ -476,8 +476,8 @@ export default function AnimacePage() {
       >
         <Preview>
           <AnimSpec
-            duration="380 ms"
-            easing="linear + per-keyframe cubic-bezier"
+            duration="260 ms"
+            easing="ease-in-out"
             trigger="Výběr cílového hexu"
             description="Kostka se přesune po oblouku nad herní plochou z výchozího hexu na cílový. Pohyb naznačuje taktický záměr — ne přímá lineární trajektorie."
           >
@@ -500,8 +500,8 @@ export default function AnimacePage() {
       >
         <Preview>
           <AnimSpec
-            duration="460 ms"
-            easing="linear + per-keyframe cubic-bezier"
+            duration="320 ms"
+            easing="ease-in-out"
             trigger="Výběr cílového hexu pro věž"
             description="Věž se přesune jako celek — pomalejší než solo kostka. Vizuálně naznačuje váhu stohovaných kostek. Věž nemůže procházet jinými kostkami."
           >
