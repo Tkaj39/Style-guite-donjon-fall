@@ -489,7 +489,11 @@ export default function AnimacePage() {
           </AnimSpec>
         </Preview>
         <Preview>
-          <MoveDieDemo />
+          <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
+            <MoveDieDemo />
+            <OccupyDemo />
+            <CollapseDemo />
+          </div>
         </Preview>
       </Section>
 
