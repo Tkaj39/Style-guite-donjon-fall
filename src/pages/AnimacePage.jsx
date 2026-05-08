@@ -121,8 +121,8 @@ function MoveDieDemo() {
   return (
     <DemoShell label="Pohyb kostky — live demo">
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        {/* Zdrojový hex — kostka startuje odtud */}
-        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
+        {/* Zdrojový hex — kostka startuje odtud; zIndex: 1 zajistí překrytí cílového hexu při pohybu */}
+        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible', zIndex: 1 }}>
           <HexTile state="selected" size="md" />
           <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
             <div key={key}
@@ -153,8 +153,8 @@ function MoveTowerDemo() {
   return (
     <DemoShell label="Pohyb věže — live demo">
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        {/* Zdrojový hex — věž startuje odtud */}
-        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
+        {/* Zdrojový hex — věž startuje odtud; zIndex: 1 zajistí, že věž při přesunu překryje cílový hex */}
+        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible', zIndex: 1 }}>
           <HexTile state="selected" size="md" />
           <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
             <div key={key}
