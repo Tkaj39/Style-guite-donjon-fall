@@ -29,7 +29,7 @@ export function Section({ id, title, description, children }) {
 export function Preview({ children, dark = true }) {
   return (
     <div
-      className={`rounded-xl border border-neutral-800 p-4 sm:p-6 lg:p-8 flex flex-wrap items-center gap-3 lg:gap-4 ${
+      className={`rounded-xl border border-neutral-800 p-4 sm:p-6 lg:p-8 flex flex-wrap items-start gap-3 lg:gap-4 overflow-x-auto ${
         dark ? 'bg-neutral-900' : 'bg-neutral-100'
       }`}
     >

@@ -70,6 +70,7 @@ export default function ButtonGroupsPage() {
   const [tabPeriod, setTabPeriod] = useState('week')
   const [tabWithIcon, setTabWithIcon] = useState('calendar')
   const [tabDivider, setTabDivider] = useState('design')
+  const [sizeActive, setSizeActive] = useState('grid')
 
   return (
     <ShowcasePage
@@ -212,6 +213,26 @@ export default function ButtonGroupsPage() {
   value={active}
   onChange={setActive}
 />`} />
+      </Section>
+
+      <Section
+        title="Velikosti"
+        description="Výšky odpovídají Button komponentě — xs=32px, sm=40px, md=52px, lg=64px."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'flex-start' }}>
+            {['xs', 'sm', 'md', 'lg'].map(sz => (
+              <div key={sz} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span style={{ fontSize: '0.65rem', color: '#4A4560', letterSpacing: '0.08em', textTransform: 'uppercase', width: 24 }}>{sz}</span>
+                <ButtonGroup variant="tabs" size={sz} items={viewItems} value={sizeActive} onChange={setSizeActive} />
+              </div>
+            ))}
+          </div>
+        </Preview>
+        <CodeBlock code={`<ButtonGroup variant="tabs" size="xs" … />  {/* 32px */}
+<ButtonGroup variant="tabs" size="sm" … />  {/* 40px */}
+<ButtonGroup variant="tabs" size="md" … />  {/* 52px — výchozí */}
+<ButtonGroup variant="tabs" size="lg" … />  {/* 64px */}`} />
       </Section>
 
     </ShowcasePage>

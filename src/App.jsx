@@ -13,6 +13,17 @@ import SpacingPage from './pages/SpacingPage'
 import PictogramsPage from './pages/PictogramsPage'
 import OrnamentsPage from './pages/OrnamentsPage'
 import ShapesPage from './pages/ShapesPage'
+import TahPage from './pages/TahPage'
+import AkcePage from './pages/AkcePage'
+import VictoryPointsPage from './pages/VictoryPointsPage'
+import DialogyPage from './pages/DialogyPage'
+import HexagonPage from './pages/HexagonPage'
+import DicePage from './pages/DicePage'
+import MapPage from './pages/MapPage'
+import ErbPage from './pages/ErbPage'
+import AnimacePage from './pages/AnimacePage'
+import ZvukyPage from './pages/ZvukyPage'
+import ScreensPage from './pages/ScreensPage'
 
 export default function App() {
   return (
@@ -31,16 +42,17 @@ export default function App() {
         <Route path="inputs" element={<InputsPage />} />
         <Route path="badges" element={<BadgesPage />} />
         <Route path="cards" element={<CardsPage />} />
-        <Route path="turn" element={<PlaceholderPage title="Tah" />} />
-        <Route path="actions" element={<PlaceholderPage title="Akce" />} />
-        <Route path="victory-points" element={<PlaceholderPage title="Vítězné body" />} />
-        <Route path="dialogs" element={<PlaceholderPage title="Dialogy" />} />
-        <Route path="hexagon" element={<PlaceholderPage title="Hexagon" />} />
-        <Route path="dice" element={<PlaceholderPage title="Kostky" />} />
-        <Route path="map" element={<PlaceholderPage title="Mapa" />} />
-        <Route path="erb" element={<PlaceholderPage title="Erb" />} />
-        <Route path="animations" element={<PlaceholderPage title="Animace" />} />
-        <Route path="sounds" element={<PlaceholderPage title="Zvuky" />} />
+        <Route path="turn" element={<TahPage />} />
+        <Route path="actions" element={<AkcePage />} />
+        <Route path="victory-points" element={<VictoryPointsPage />} />
+        <Route path="dialogs" element={<DialogyPage />} />
+        <Route path="hexagon" element={<HexagonPage />} />
+        <Route path="dice" element={<DicePage />} />
+        <Route path="map" element={<MapPage />} />
+        <Route path="erb" element={<ErbPage />} />
+        <Route path="animations" element={<AnimacePage />} />
+        <Route path="sounds" element={<ZvukyPage />} />
+        <Route path="screens" element={<ScreensPage />} />
       </Route>
     </Routes>
   )

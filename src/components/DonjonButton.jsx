@@ -106,7 +106,7 @@ const DonjonButton = forwardRef(function DonjonButton(
   }
 
   const textStyle = {
-    background: v.text,
+    backgroundImage: v.text,
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     backgroundClip: 'text',
@@ -130,6 +130,7 @@ const DonjonButton = forwardRef(function DonjonButton(
         clipPath: octagon(s.cx),
         background: v.bg,
         display: 'inline-flex',
+        alignSelf: fullWidth ? undefined : 'flex-start',
         alignItems: 'center',
         justifyContent: 'center',
         gap: s.px * 0.4,
