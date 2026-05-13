@@ -96,6 +96,18 @@ export default function DialogyPage() {
 
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'flex-start' }}>
+            {/* Dostupnost na první pohled */}
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <span style={{ fontSize: '0.5625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Push</span>
+                <DonjonBadge variant="success">Vždy dostupné</DonjonBadge>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <span style={{ fontSize: '0.5625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Occupy</span>
+                <DonjonBadge variant="warning">Pouze solo kostka jako útočník</DonjonBadge>
+              </div>
+            </div>
+
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 Fáze 2 — výběr
@@ -107,7 +119,7 @@ export default function DialogyPage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <DonjonCard title="Push — vytlačení" description="Dostupné vždy">
                   <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6, marginBottom: 12 }}>
-                    Obránce (a všechny za ním v přímé linii útoku) se přehodí — nová hodnota = min(hod, původní).
+                    První kostka/vrchol věže nepřátelské formace se přehodí — nová hodnota = min(hod, původní).
                     Celá formace se posune o jeden hex ve směru útoku.
                   </p>
                   <p style={{ margin: 0, fontSize: '0.75rem', color: '#4A4560', fontStyle: 'italic' }}>
@@ -128,24 +140,23 @@ export default function DialogyPage() {
 
             {combatChoice === 'occupy' && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <DonjonCard title="Occupy — obsazení" description="Pouze pro solo kostku (ne věž) jako útočník">
+                <DonjonCard title="Occupy — obsazení" description="Pouze pro solo kostku jako útočník">
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                    <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
-                      Útočná kostka naskočí na vrchol nepřátelské kostky/věže a vytvoří smíšenou věž.
-                      Obránce se nepřehodí.
-                    </p>
                     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                       <DonjonBadge variant="warning">Solo kostka only</DonjonBadge>
-                      <DonjonBadge variant="default">Obránce zůstává</DonjonBadge>
+                      <DonjonBadge variant="default">Obránce se nepřehazuje</DonjonBadge>
                     </div>
+                    <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
+                      Útočná kostka naskočí na vrchol nepřátelské kostky/věže a vytvoří smíšenou věž.
+                    </p>
                   </div>
                 </DonjonCard>
 
-                <DonjonCard title="Occupy při útoku věží" description="Nedostupné" variant="danger">
+                <DonjonCard title="Occupy při útoku věží" description="Nedostupné — věž musí vždy Push" variant="danger">
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                    <DonjonBadge variant="danger">Nedostupné</DonjonBadge>
+                    <DonjonBadge variant="danger">Nedostupné pro věž</DonjonBadge>
                     <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
-                      Věž nemůže použít Occupy. Při útoku věží je dostupné pouze Push.
+                      Věž nemůže použít Occupy — při útoku věží je dostupné výhradně Push.
                     </p>
                   </div>
                 </DonjonCard>

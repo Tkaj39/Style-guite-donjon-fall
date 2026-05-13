@@ -45,6 +45,21 @@
   100% { transform: translateX(42px); }
 }
 
+/* Push o celý hex (74px = 62px šířka + 12px mezera) — obránce přistane na sousedním hexu */
+@keyframes formation-push-full {
+  0%   { transform: translateX(0);    }
+  75%  { transform: translateX(80px); }
+  88%  { transform: translateX(68px); }
+  100% { transform: translateX(74px); }
+}
+
+/* Push mimo mapu — kostka vyjede doprava a zmizí */
+@keyframes formation-push-off-map {
+  0%   { transform: translateX(0);    opacity: 1; }
+  60%  { transform: translateX(52px); opacity: 1; }
+  100% { transform: translateX(90px); opacity: 0; }
+}
+
 @keyframes die-move {
   0%   { transform: translate(0, 0); }
   50%  { transform: translate(37px, -12px); }
@@ -72,12 +87,51 @@
   100% { transform: translate(74px, 16px); }
 }
 
+/* Pohyb kostky nahoru o jeden hex (84px = 72px výška + 12px mezera) — pro lomený pohyb */
+@keyframes die-move-up {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(-8px, -42px); }
+  100% { transform: translate(0, -84px); }
+}
+
 /* Plovoucí feedback změny hodnoty nebo VP — stoupá nahoru a mizí */
 @keyframes float-feedback {
   0%   { transform: translateY(0)     scale(0.75); opacity: 0; }
   20%  { transform: translateY(-8px)  scale(1.1);  opacity: 1; }
   60%  { transform: translateY(-16px) scale(1);    opacity: 1; }
   100% { transform: translateY(-28px) scale(0.9);  opacity: 0; }
+}
+
+/* Highlight vrchní kostky věže — krátký záblesk signalizující akci */
+@keyframes die-top-highlight {
+  0%   { filter: drop-shadow(0 0 0px transparent); }
+  35%  { filter: drop-shadow(0 0 14px #F0E6D3cc); }
+  100% { filter: drop-shadow(0 0 0px transparent); }
+}
+
+/* Reject — nelegální tah: kostka se třese a zůstane na místě */
+@keyframes die-reject {
+  0%   { transform: translateX(0); }
+  15%  { transform: translateX(-7px); }
+  30%  { transform: translateX(7px); }
+  45%  { transform: translateX(-5px); }
+  60%  { transform: translateX(5px); }
+  75%  { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+/* Stuck pulse — kostka bez legální akce / sudden death stav, pulzuje červeně dokola */
+@keyframes die-stuck-pulse {
+  0%, 100% { filter: drop-shadow(0 0 3px #E05C5C44); }
+  50%       { filter: drop-shadow(0 0 12px #E05C5Caa); }
+}
+
+/* Aktivace nového ohniska ve skupině — rychlejší a ostřejší než evaluační pulse */
+@keyframes focal-activate {
+  0%   { filter: drop-shadow(0 0 0px transparent); }
+  25%  { filter: drop-shadow(0 0 32px #FFC183ee); }
+  60%  { filter: drop-shadow(0 0 18px #FFC18399); }
+  100% { filter: drop-shadow(0 0 14px #FFC18366); }
 }
 
 /* Reroll — rotace kolem osy Y (3D spin), hodnota se mění uprostřed */

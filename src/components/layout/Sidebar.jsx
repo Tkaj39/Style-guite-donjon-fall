@@ -2,6 +2,21 @@ import { NavLink } from 'react-router-dom'
 
 const sections = [
   {
+    label: 'System',
+    items: [
+      {
+        to: '/components', label: 'Components',
+        children: [
+          { to: '/components#ui-components',  label: 'UI Components' },
+          { to: '/components#game-assets',    label: 'Game Assets' },
+          { to: '/components#layout',         label: 'Layout' },
+          { to: '/components#bez-komponenty',  label: 'Bez komponenty' },
+          { to: '/components#legenda',        label: 'Legenda' },
+        ],
+      },
+    ],
+  },
+  {
     label: 'Foundations',
     items: [
       { to: '/mood', label: 'Mood & Vision' },
@@ -39,6 +54,7 @@ const sections = [
         children: [
           { to: '/turn#struktura-tahu', label: 'Struktura tahu' },
           { to: '/turn#indikator-hrace', label: 'Indikátor hráče' },
+          { to: '/turn#scenare', label: 'Flow scénáře' },
           { to: '/turn#ohnisko', label: 'Ohnisko' },
           { to: '/turn#souboj', label: 'Souboj' },
         ],
@@ -46,10 +62,12 @@ const sections = [
       {
         to: '/actions', label: 'Akce',
         children: [
+          { to: '/actions#prehled', label: 'Přehled akcí' },
           { to: '/actions#pohyb-kostky', label: 'Pohyb kostky' },
           { to: '/actions#pohyb-veze', label: 'Pohyb věže' },
           { to: '/actions#kolaps-veze', label: 'Kolaps věže' },
           { to: '/actions#prehazovani', label: 'Přehazování' },
+          { to: '/actions#vyber-akce', label: 'Výběr akce' },
         ],
       },
       { to: '/victory-points', label: 'Vítězné body' },
@@ -111,18 +129,84 @@ const sections = [
           { to: '/animations#pohyb-veze', label: 'Pohyb věže' },
           { to: '/animations#souboj-push', label: 'Souboj — Push' },
           { to: '/animations#souboj-occupy', label: 'Souboj — Occupy' },
+          { to: '/animations#souboj-tower', label: 'Souboj — Tower' },
           { to: '/animations#prehazovani', label: 'Přehazování' },
           { to: '/animations#kolaps-veze', label: 'Kolaps věže' },
           { to: '/animations#ohnisko', label: 'Ohnisko' },
+          { to: '/animations#nelegalni-akce', label: 'Nelegální akce' },
+          { to: '/animations#sudden-death', label: 'Sudden death' },
         ],
       },
-      { to: '/screens', label: 'Obrazovky' },
+      {
+        to: '/screens', label: 'Obrazovky',
+        children: [
+          { to: '/screens#desktop',   label: 'PC — 1280px+' },
+          { to: '/screens#tablet',    label: 'Tablet — 768px' },
+          { to: '/screens#mobile',    label: 'Mobil — 375px' },
+          { to: '/screens#srovnani',  label: 'Srovnání' },
+        ],
+      },
       {
         to: '/sounds', label: 'Zvuky',
         children: [
           { to: '/sounds#hudba', label: 'Hudba' },
           { to: '/sounds#ui-zvuky', label: 'UI zvuky' },
           { to: '/sounds#herni-zvuky', label: 'Herní zvuky' },
+        ],
+      },
+    ],
+  },
+  {
+    label: 'Obrazovky aplikace',
+    items: [
+      {
+        to: '/menu', label: 'Hlavní menu',
+        children: [
+          { to: '/menu#desktop',  label: 'Desktop' },
+          { to: '/menu#tablet',   label: 'Tablet' },
+          { to: '/menu#mobile',   label: 'Mobil' },
+          { to: '/menu#srovnani', label: 'Srovnání' },
+        ],
+      },
+      {
+        to: '/map-select', label: 'Výběr mapy',
+        children: [
+          { to: '/map-select#desktop',    label: 'Desktop' },
+          { to: '/map-select#tablet',     label: 'Tablet' },
+          { to: '/map-select#mobile',     label: 'Mobil' },
+          { to: '/map-select#srovnani',   label: 'Srovnání' },
+          { to: '/map-select#karta-mapy', label: 'Karta mapy' },
+        ],
+      },
+      {
+        to: '/loading-app', label: 'Načítání aplikace',
+        children: [
+          { to: '/loading-app#desktop',  label: 'Desktop' },
+          { to: '/loading-app#tablet',   label: 'Tablet' },
+          { to: '/loading-app#mobile',   label: 'Mobil' },
+          { to: '/loading-app#srovnani', label: 'Srovnání' },
+        ],
+      },
+      {
+        to: '/loading-game', label: 'Načítání hry',
+        children: [
+          { to: '/loading-game#desktop',  label: 'Desktop' },
+          { to: '/loading-game#tablet',   label: 'Tablet' },
+          { to: '/loading-game#mobile',   label: 'Mobil' },
+          { to: '/loading-game#srovnani', label: 'Srovnání' },
+        ],
+      },
+      {
+        to: '/settings', label: 'Nastavení',
+        children: [
+          { to: '/settings#desktop',      label: 'Desktop' },
+          { to: '/settings#tablet',       label: 'Tablet' },
+          { to: '/settings#mobile',       label: 'Mobil' },
+          { to: '/settings#srovnani',     label: 'Srovnání' },
+          { to: '/settings#tab-zvuk',     label: 'Tab — Zvuk' },
+          { to: '/settings#tab-jazyk',    label: 'Tab — Jazyk' },
+          { to: '/settings#tab-ovladani', label: 'Tab — Ovládání' },
+          { to: '/settings#tab-grafika',  label: 'Tab — Grafika' },
         ],
       },
     ],

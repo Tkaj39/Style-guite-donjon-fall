@@ -38,6 +38,7 @@ export default function InputsPage() {
     <ShowcasePage
       title="Inputs"
       description="Donjon Fall fantasy text inputs — octagon clip-path, gold/bronze borders, focus glow and error states."
+      componentSlug="donjon-input"
     >
       {/* Sizes */}
       <Section

@@ -18,6 +18,7 @@ export default function HexagonPage() {
     <ShowcasePage
       title="Hexagon"
       description="Základní herní pole — hexagonální dlaždice s 8 vizuálními stavy. Pasivní ohniska fungují jako normální hex, aktivní ohnisko přidává VP a přehodí kostku."
+      componentSlug="hex-tile"
     >
       {/* All states overview */}
       <Section

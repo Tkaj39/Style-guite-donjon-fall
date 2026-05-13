@@ -48,6 +48,43 @@ const iconMap = {
 
 const actionItems = actions.map(a => ({ value: a.value, label: a.label, icon: iconMap[a.value] }))
 
+/* ── Dostupnostní podmínky ── */
+const availability = [
+  {
+    value: 'move-die',
+    label: 'Pohyb kostky',
+    icon: <MoveDieIcon />,
+    condition: 'Vždy — pokud má kostka kam jít',
+    conditionVariant: 'success',
+    note: 'Souboj spustí pohyb na nepřátelské pole, ne výběr akce.',
+  },
+  {
+    value: 'move-tower',
+    label: 'Pohyb věže',
+    icon: <MoveTowerIcon />,
+    condition: 'Vždy — věž nesmí procházet jinými jednotkami',
+    conditionVariant: 'success',
+    note: 'Occupy není dostupné při útoku věží — pouze Push.',
+  },
+  {
+    value: 'collapse',
+    label: 'Kolaps věže',
+    icon: <CollapseIcon />,
+    condition: 'Pouze věž se 3+ kostkami',
+    conditionVariant: 'warning',
+    note: 'Solo kostka ani věž 2 kostek tuto akci neumožňují.',
+    disabledNote: 'Disabled: věž má méně než 3 kostky',
+  },
+  {
+    value: 'reroll',
+    label: 'Přehazování',
+    icon: <RerollIcon />,
+    condition: 'Vždy — solo nebo vrchol věže',
+    conditionVariant: 'success',
+    note: 'Nová hodnota musí být ≥ původní, jinak ponech původní.',
+  },
+]
+
 export default function AkcePage() {
   const [selected, setSelected] = useState('move-die')
   const isDesktop = useBreakpoint()
@@ -58,6 +95,37 @@ export default function AkcePage() {
       title="Akce"
       description="Hráč musí každý tah zvolit právě jednu ze 4 akcí. Souboj není akce — spouští ho pohyb."
     >
+      {/* ── Přehled dostupnosti ── */}
+      <Section
+        id="prehled"
+        title="Přehled akcí"
+        description="Čtyři legální akce a jejich podmínky dostupnosti — jedna z nich musí být vybrána každý tah."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%' }}>
+            {availability.map(a => (
+              <div key={a.value} style={{
+                display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
+                background: '#1B1A30', border: '1px solid #2A2948',
+                borderRadius: 6, padding: '10px 14px',
+              }}>
+                <span style={{ color: '#4A4560', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+                  {a.icon}
+                </span>
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#D4C5A9', width: 130, flexShrink: 0 }}>
+                  {a.label}
+                </span>
+                <DonjonBadge variant={a.conditionVariant}>{a.condition}</DonjonBadge>
+                <span style={{ fontSize: '0.6875rem', color: '#4A4560', flex: 1 }}>
+                  {a.note}
+                </span>
+              </div>
+            ))}
+          </div>
+        </Preview>
+      </Section>
+
+      {/* ── Jednotlivé akce ── */}
       <Section
         id="pohyb-kostky"
         title="Pohyb kostky"
@@ -69,32 +137,24 @@ export default function AkcePage() {
             description="Move die"
             footer={<DonjonButton size="sm" variant="default">Vybrat kostku</DonjonButton>}
           >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <DonjonBadge variant="success">Vždy dostupné</DonjonBadge>
+                <DonjonBadge variant="default">Dosah = face value kostky</DonjonBadge>
+              </div>
               <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
                 Pohni jednou svou kostkou až na vzdálenost její bojové síly. Pohyb může měnit směr.
-                Přátelskými kostkami/věžemi lze procházet jen pokud má pohybující se kostka vyšší bojovou sílu.
-                Nepřátelskými kostkami nelze procházet vůbec.
-                Pohyb na nepřátelské pole spustí souboj — je legální jen pokud vaše bojová síla překračuje nepřátelskou.
+                Přátelskými kostkami/věžemi lze procházet, nepřátelskými nelze.
+                Pohyb na nepřátelské pole spustí souboj — je legální jen pokud vaše síla převyšuje nepřátelskou.
               </p>
-            </div>
-          </DonjonCard>
-        </Preview>
-
-        <Preview>
-          <DonjonCard
-            title="Skok z věže"
-            description="Jump from tower — speciální případ pohybu kostky"
-          >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
-                Kostka na vrcholu vlastní věže může odskočit a samostatně se pohybovat. Dosah pohybu = face value vrcholu.
-                Uvnitř dosahu původní věže si nese bojovou sílu celé věže.
-                Za hranicí dosahu věže se bojová síla vrátí na normální (solo hodnota).
-              </p>
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                <DonjonBadge variant="default">Pohyb = face value vrcholu</DonjonBadge>
-                <DonjonBadge variant="warning">CP věže uvnitř dosahu věže</DonjonBadge>
-                <DonjonBadge variant="default">CP solo za hranicí dosahu</DonjonBadge>
+              <div style={{ borderTop: '1px solid #2A2948', paddingTop: 10 }}>
+                <p style={{ margin: '0 0 6px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                  Speciální případ — seskočení z věže
+                </p>
+                <p style={{ margin: 0, fontSize: '0.75rem', color: '#4A4560', lineHeight: 1.5 }}>
+                  Vrchní kostka věže může odskočit a pohybovat se samostatně. Dosah = face value vrcholu.
+                  Uvnitř dosahu věže si nese bojovou sílu celé věže; za tímto dosahem jde o solo kostku.
+                </p>
               </div>
             </div>
           </DonjonCard>
@@ -112,10 +172,16 @@ export default function AkcePage() {
             description="Move tower"
             footer={<DonjonButton size="sm" variant="default">Vybrat věž</DonjonButton>}
           >
-            <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
-              Pohni celou věží. Věž nemůže procházet jinými kostkami ani věžemi (přátelskými nebo nepřátelskými).
-              Pohyb na nepřátelské pole spustí Push — Occupy není pro věž dostupné.
-            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <DonjonBadge variant="success">Vždy dostupné</DonjonBadge>
+                <DonjonBadge variant="danger">Occupy nedostupné</DonjonBadge>
+              </div>
+              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
+                Pohni celou věží jako celkem. Věž nemůže procházet jinými kostkami ani věžemi.
+                Pohyb na nepřátelské pole spustí výhradně Push — Occupy pro věž neexistuje.
+              </p>
+            </div>
           </DonjonCard>
         </Preview>
       </Section>
@@ -133,9 +199,12 @@ export default function AkcePage() {
               variant="danger"
               footer={<DonjonButton size="sm" variant="danger">Vybrat věž</DonjonButton>}
             >
-              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#F9C0C0', lineHeight: 1.6 }}>
-                Odstraň spodní kostku věže ze hry. Za každou zničenou nepřátelskou kostku získáš 1 VP.
-              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <DonjonBadge variant="warning">Pouze věž se 3+ kostkami</DonjonBadge>
+                <p style={{ margin: 0, fontSize: '0.8125rem', color: '#F9C0C0', lineHeight: 1.6 }}>
+                  Odstraň spodní kostku věže ze hry. Za každou zničenou nepřátelskou kostku získáš 1 VP.
+                </p>
+              </div>
             </DonjonCard>
 
             <DonjonCard
@@ -143,10 +212,10 @@ export default function AkcePage() {
               description="Nedostupné — věž má méně než 3 kostky"
               variant="danger"
             >
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <DonjonBadge variant="danger">Nedostupné</DonjonBadge>
                 <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
-                  Kolaps věže vyžaduje věž se 3 a více kostkami. Solo kostka ani věž ze dvou kostek tuto akci neumožňují.
+                  Solo kostka ani věž ze dvou kostek tuto akci neumožňují.
                 </p>
                 <DonjonButton size="sm" variant="danger" disabled>Vybrat věž</DonjonButton>
               </div>
@@ -167,15 +236,19 @@ export default function AkcePage() {
             variant="success"
             footer={<DonjonButton size="sm" variant="success">Vybrat kostku</DonjonButton>}
           >
-            <p style={{ margin: 0, fontSize: '0.8125rem', color: '#C0F0C8', lineHeight: 1.6 }}>
-              Přehoď jednu svou kostku (solo nebo vrchol věže). Pokud nový hod je nižší než původní hodnota,
-              ponech původní. Kostka může jen posílit nebo zůstat stejná. Přehazování kostky s hodnotou 6 je legální akce.
-            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <DonjonBadge variant="success">Vždy dostupné</DonjonBadge>
+              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#C0F0C8', lineHeight: 1.6 }}>
+                Přehoď jednu svou kostku (solo nebo vrchol věže). Nová hodnota musí být ≥ původní — jinak se ponechá původní.
+                Kostka může jen posílit nebo zůstat stejná. Přehazování kostky s hodnotou 6 je legální.
+              </p>
+            </div>
           </DonjonCard>
         </Preview>
       </Section>
 
       <Section
+        id="vyber-akce"
         title="Výběr akce"
         description="ButtonGroup se 4 akcemi — ukázka všech stavů."
       >
@@ -205,6 +278,7 @@ export default function AkcePage() {
       </Section>
 
       <Section
+        id="kompozice"
         title="Živá kompozice"
         description="Interaktivní spojení výběru akce a detailní karty."
       >

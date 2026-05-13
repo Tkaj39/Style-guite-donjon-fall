@@ -24,6 +24,13 @@ import ErbPage from './pages/ErbPage'
 import AnimacePage from './pages/AnimacePage'
 import ZvukyPage from './pages/ZvukyPage'
 import ScreensPage from './pages/ScreensPage'
+import MenuPage from './pages/MenuPage'
+import MapSelectPage from './pages/MapSelectPage'
+import LoadingAppPage from './pages/LoadingAppPage'
+import LoadingGamePage from './pages/LoadingGamePage'
+import SettingsPage from './pages/SettingsPage'
+import ComponentsPage from './pages/ComponentsPage'
+import ComponentDetailPage from './pages/ComponentDetailPage'
 
 export default function App() {
   return (
@@ -53,6 +60,13 @@ export default function App() {
         <Route path="animations" element={<AnimacePage />} />
         <Route path="sounds" element={<ZvukyPage />} />
         <Route path="screens" element={<ScreensPage />} />
+        <Route path="menu" element={<MenuPage />} />
+        <Route path="map-select" element={<MapSelectPage />} />
+        <Route path="loading-app" element={<LoadingAppPage />} />
+        <Route path="loading-game" element={<LoadingGamePage />} />
+        <Route path="settings" element={<SettingsPage />} />
+        <Route path="components" element={<ComponentsPage />} />
+        <Route path="components/:slug" element={<ComponentDetailPage />} />
       </Route>
     </Routes>
   )

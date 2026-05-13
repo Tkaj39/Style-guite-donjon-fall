@@ -27,6 +27,7 @@ export default function ButtonsPage() {
     <ShowcasePage
       title="Buttons"
       description="Herní tlačítka Donjon Fall — osmihranný tvar s ornamenty. Každá varianta nese sémantický význam."
+      componentSlug="donjon-button"
     >
       {/* Sizes */}
       <Section

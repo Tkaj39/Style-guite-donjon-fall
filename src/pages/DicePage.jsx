@@ -210,6 +210,7 @@ export default function DicePage() {
     <ShowcasePage
       title="Kostky"
       description="D6 kostky jako základní herní jednotka. Každý hráč vlastní sadu kostek barevně označených jeho barvou. Kostky se stohují do věží."
+      componentSlug="die-face"
     >
       {/* Values */}
       <Section

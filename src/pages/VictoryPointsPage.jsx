@@ -6,7 +6,7 @@ import { players as basePlayers } from '../data/gameUiMockData'
 const DEFAULT_MAP_VP = 5
 const TARGET_VP = DEFAULT_MAP_VP
 
-const vp = [4, 3, 2, 2, 1, 0]
+const vp = [5, 3, 2, 1, 0, 0]
 const players = basePlayers.map((p, i) => ({ ...p, vp: vp[i] }))
 
 function FireIcon() {
@@ -115,13 +115,13 @@ export default function VictoryPointsPage() {
             </div>
           </DonjonCard>
         </Preview>
-        <CodeBlock code={`<DonjonCard title="Skóre — cíl 10 bodů" description="Seřazeno od vedoucího hráče">
+        <CodeBlock code={`<DonjonCard title="Skóre — cíl 5 bodů" description="Seřazeno od vedoucího hráče">
   {players.map(player => (
     <div key={player.id}>
       <ColorChip color={player.color} />
       <span>{player.label}</span>
-      <ProgressBar vp={player.vp} target={10} />
-      <span>{player.vp} / 10</span>
+      <ProgressBar vp={player.vp} target={5} />
+      <span>{player.vp} / 5</span>
     </div>
   ))}
 </DonjonCard>`} />
@@ -178,10 +178,28 @@ export default function VictoryPointsPage() {
 </DonjonCard>`} />
       </Section>
 
+      {/* Permanence */}
+      <Section
+        title="Permanentní body"
+        description="VP jsou trvalé — nelze je ztratit ani o ně přijít jiným způsobem."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+            <DonjonBadge variant="success">Body jsou permanentní</DonjonBadge>
+            <DonjonBadge variant="danger">Nelze ztratit VP</DonjonBadge>
+            <DonjonBadge variant="default">Vítěz = první na cílovém počtu</DonjonBadge>
+          </div>
+          <p style={{ margin: '8px 0 0', fontSize: '0.8125rem', color: '#4A4560', lineHeight: 1.6 }}>
+            Jakmile jsou body připsány, zůstávají. Neexistuje mechanismus odebrání VP — ani porážka na bojišti neubírá body.
+            Hra skončí okamžitě, jakmile hráč dosáhne cílového počtu VP.
+          </p>
+        </Preview>
+      </Section>
+
       {/* Default map note */}
       <Section
         title="Default mapa — cíl 5 VP"
-        description="Výchozí mapa pro 2 hráče. Showcase výše používá 10 VP jako obecný příklad."
+        description="Výchozí mapa pro 2 hráče. Cíl 5 VP."
       >
         <Preview>
           <DonjonCard title="Default mapa" description="61 hexů · 2 hráči · 5 kostek každý">

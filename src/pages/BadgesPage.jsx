@@ -36,6 +36,7 @@ export default function BadgesPage() {
     <ShowcasePage
       title="Badges"
       description="Donjon Fall status badges — slight octagon clip, semantic color variants, optional dot and icon."
+      componentSlug="donjon-badge"
     >
       {/* Variants */}
       <Section

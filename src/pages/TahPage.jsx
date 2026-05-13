@@ -177,6 +177,80 @@ export default function TahPage() {
       </Section>
 
       <Section
+        id="scenare"
+        title="Flow scénáře"
+        description="Tři typické průběhy tahu — každý začíná ohniskem, ale fáze souboje nastane jen při pohybu na nepřátelské pole."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            {/* Scénář A */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Scénář A — tah bez ohniska
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                <DonjonBadge variant="default">Ohnisko — přeskočeno</DonjonBadge>
+                <span style={{ color: '#2A2948', fontSize: '1rem' }}>→</span>
+                <DonjonBadge variant="info">Akce</DonjonBadge>
+                <span style={{ color: '#2A2948', fontSize: '1rem' }}>→</span>
+                <DonjonBadge variant="default">Konec tahu</DonjonBadge>
+              </div>
+              <p style={{ margin: 0, fontSize: '0.75rem', color: '#4A4560', lineHeight: 1.5 }}>
+                Hráč nemá kostku na aktivním ohnisku. Fáze ohniska se přeskočí, tah přechází přímo na výběr akce.
+              </p>
+            </div>
+
+            <div style={{ height: 1, background: '#2A2948' }} />
+
+            {/* Scénář B */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <p style={{ margin: 0, fontSize: '0.625rem', color: '#FFC18388', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Scénář B — tah s ohniskem
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-start' }}>
+                  <DonjonBadge variant="warning">Ohnisko → +1 VP</DonjonBadge>
+                  <span style={{ fontSize: '0.5625rem', color: '#6A6040' }}>kostka přehozena</span>
+                </div>
+                <span style={{ color: '#2A2948', fontSize: '1rem' }}>→</span>
+                <DonjonBadge variant="info">Akce</DonjonBadge>
+                <span style={{ color: '#2A2948', fontSize: '1rem' }}>→</span>
+                <DonjonBadge variant="default">Konec tahu</DonjonBadge>
+              </div>
+              <p style={{ margin: 0, fontSize: '0.75rem', color: '#4A4560', lineHeight: 1.5 }}>
+                Hráč drží kostku/věž na aktivním ohnisku. Na začátku tahu získá 1 VP, kostka se přehodí (nová hodnota ≤ původní − 1) a ohnisko se přepne.
+              </p>
+            </div>
+
+            <div style={{ height: 1, background: '#2A2948' }} />
+
+            {/* Scénář C */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <p style={{ margin: 0, fontSize: '0.625rem', color: '#E05C5C88', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Scénář C — akce spustí souboj
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                <DonjonBadge variant="default">Ohnisko</DonjonBadge>
+                <span style={{ color: '#2A2948', fontSize: '1rem' }}>→</span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-start' }}>
+                  <DonjonBadge variant="info">Akce: Pohyb</DonjonBadge>
+                  <span style={{ fontSize: '0.5625rem', color: '#4A4560' }}>vstup na nepřátelské pole</span>
+                </div>
+                <span style={{ color: '#2A2948', fontSize: '1rem' }}>→</span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-start' }}>
+                  <DonjonBadge variant="danger">Souboj — automaticky</DonjonBadge>
+                  <span style={{ fontSize: '0.5625rem', color: '#803030' }}>Push nebo Occupy</span>
+                </div>
+              </div>
+              <p style={{ margin: 0, fontSize: '0.75rem', color: '#4A4560', lineHeight: 1.5 }}>
+                Pohyb kostky nebo věže na nepřátelské pole spustí souboj automaticky. Hráč souboj nevolí — je důsledkem pohybu.
+              </p>
+            </div>
+          </div>
+        </Preview>
+      </Section>
+
+      <Section
         id="ohnisko"
         title="Vyhodnocení ohniska"
         description="První fáze tahu. Pokud hráč drží kostku/věž na aktivním ohnisku, získá VP a ohnisko se přepíná."

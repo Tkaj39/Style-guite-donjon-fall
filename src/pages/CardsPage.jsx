@@ -44,6 +44,7 @@ export default function CardsPage() {
     <ShowcasePage
       title="Cards"
       description="Donjon Fall panel cards — octagon clip-path with SideOrnament and HexOrnament, variant-coloured headers."
+      componentSlug="donjon-card"
     >
       {/* Basic card */}
       <Section
