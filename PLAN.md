@@ -39,6 +39,7 @@ Rozšíření TkajUI o kompletní vizuální jazyk hry Donjon Fall.
 - Game Assets specifické pro Donjon Fall — HexTile, DieFace, FloatFeedback
 - Konkrétní animace — hod kostkou, kolaps věže, ohnisko, souboj
 - Konkrétní zvukový design — Donjon Fall audio soubory a sound mapping
+- Piktogramy — Donjon Fall sada ikon postavená na TkajUI icon API
 - Erb, Mapa a další Donjon Fall-specifické komponenty
 
 **Cíl:** Kompletní Donjon Fall vizuální systém připravený k použití v dalších projektech hry.
@@ -51,6 +52,9 @@ Rozšíření TkajUI o kompletní vizuální jazyk hry Donjon Fall.
 - Konkrétní animace tahové hry — patří do donjon-fall-ui
 - Konkrétní audio soubory — patří do donjon-fall-ui
 - Erb, Mapa — Donjon Fall-specifické vizuální prvky
+- Konkrétní piktogramy — Donjon Fall piktogramy patří do donjon-fall-ui; TkajUI poskytuje pouze generické icon API (způsob registrace a použití ikon)
+
+TkajUI tedy definuje **jak ikony fungují**, donjon-fall-ui dodává **které ikony existují**.
 
 ---
 
