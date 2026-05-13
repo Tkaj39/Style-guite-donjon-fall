@@ -77,6 +77,7 @@ TkajUI tedy definuje **jak ikony fungují**, donjon-fall-ui dodává **které ik
 | Ornaments | žádné | SideOrnament, HexOrnament, CornerOrnament |
 | Game Assets | žádné | HexTile, DieFace, FloatFeedback, Erb, Mapa |
 | Výběr textu | browser default | zlatá (::selection barva) |
+| Textury | žádné | atmosférické textury panelů, karet a pozadí |
 
 ### Distribuce
 
@@ -884,6 +885,44 @@ Scrollbar není nikde dokumentovaný ani stylovaný.
 - tmavý stylovaný scrollbar pro donjon-fall-ui
 - CSS vlastnosti: `scrollbar-width`, `scrollbar-color`, `::-webkit-scrollbar`
 - pravidla pro kdy scrollbar zobrazit (vždy, hover, auto)
+
+### Texturový systém
+
+**Stav dnes**
+
+Textury v systému zatím neexistují. Komponenty používají barevné gradienty, ale žádnou povrchovou texturu.
+
+**Proč doplnit**
+
+- atmosférická hloubka herního UI — pergamen, kámen, kov, kůže
+- vizuální odlišení vrstev UI (pozadí, panel, dialog, HUD)
+- silnější vizuální identita Donjon Fall bez závislosti jen na barvách
+
+**Co má pokrýt**
+
+- katalog dostupných textur a jejich pojmenování
+- pravidla kde textury použít a kde ne (co má zůstat čisté)
+- jak textury kombinovat s gradienty a ornamenty
+- technické formáty — CSS noise, SVG filter nebo PNG/WebP overlay
+- pravidla pro opacity textury podle vrstvy UI
+- přístupnost — textura nesmí snižovat čitelnost textu
+
+**Navržené vrstvy použití**
+
+- `background` — atmosférické pozadí aplikace (nejsilnější textura)
+- `surface` — povrch panelů a karet (střední intenzita)
+- `overlay` — modaly a dialogy (jemnější textura)
+- `hud` — herní HUD prvky (velmi jemná nebo žádná)
+
+**Technické možnosti**
+
+- CSS `noise` přes SVG `feTurbulence` filter — žádný extra soubor, generované v prohlížeči
+- PNG/WebP overlay s `mix-blend-mode: overlay` nebo `multiply`
+- CSS `background-image` s opakujícím se vzorem
+
+**Návaznost na donjon-fall-ui**
+
+Textury jsou výhradně součástí donjon-fall-ui tématu. TkajUI žádné textury neobsahuje — povrchy komponent jsou čisté.
 
 ### Text selection
 
