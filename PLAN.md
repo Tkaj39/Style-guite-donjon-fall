@@ -829,6 +829,74 @@ Chybí systém pro vrstvení překryvných prvků.
 - zásady pro nové overlay komponenty
 - prevenci konfliktů mezi tooltipem, modalem a toastem
 
+## Vizuální systém — chybějící sekce
+
+Tyto oblasti jsou definované v tabulce override TkajUI → donjon-fall-ui, ale dosud nemají vlastní dokumentaci ani implementaci.
+
+### Typografie — volba fontů
+
+**Stav dnes**
+
+Typography stránka existuje, ale řeší hlavně škálu velikostí a vah. Chybí dokumentace volby konkrétních fontů pro TkajUI a donjon-fall-ui.
+
+**Co má pokrýt**
+
+- výchozí systémový font stack pro TkajUI
+- fantasy / herní font pro nadpisy v donjon-fall-ui
+- specifický font pro číselné hodnoty (kostky, VP, statistiky)
+- jak fonty registrovat a přepsat v tématu
+
+### Focus ring systém
+
+**Stav dnes**
+
+Focus stavy jsou zmíněné v Accessibility, ale chybí samostatná specifikace jak focus ring vypadá a jak se mění podle tématu.
+
+**Co má pokrýt**
+
+- výchozí neutrální focus ring pro TkajUI (offset, šířka, barva)
+- zlatý focus ring pro donjon-fall-ui
+- chování u různých typů komponent (button, input, card, modal)
+- pravidlo kdy focus ring zobrazit (jen keyboard, vždy)
+
+### Glow a shadow systém
+
+**Stav dnes**
+
+Glow efekty se používají v komponentách, ale nejsou zdokumentované jako systém.
+
+**Co má pokrýt**
+
+- škála shadow tokenů pro TkajUI (neutrální stíny)
+- brand glow tokeny pro donjon-fall-ui (hover, selected, active, danger)
+- pravidla kdy použít glow a kdy stín
+- návaznost na barevné varianty komponent
+
+### Scrollbar
+
+**Stav dnes**
+
+Scrollbar není nikde dokumentovaný ani stylovaný.
+
+**Co má pokrýt**
+
+- výchozí scrollbar pro TkajUI (minimální, neutrální)
+- tmavý stylovaný scrollbar pro donjon-fall-ui
+- CSS vlastnosti: `scrollbar-width`, `scrollbar-color`, `::-webkit-scrollbar`
+- pravidla pro kdy scrollbar zobrazit (vždy, hover, auto)
+
+### Text selection
+
+**Stav dnes**
+
+`::selection` barva není nikde řešená.
+
+**Co má pokrýt**
+
+- výchozí selection pro TkajUI (neutrální)
+- zlatá selection pro donjon-fall-ui (`::selection` background + color)
+- doporučení pro čitelnost textu při selektu
+
 ## Herně specifické věci
 
 ### HUD elementy
