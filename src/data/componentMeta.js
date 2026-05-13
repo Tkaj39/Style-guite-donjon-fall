@@ -15,6 +15,57 @@ export const componentMeta = {
 
   /* ── UI Components ─────────────────────────────────────────────────── */
 
+  'tabs': {
+    description: 'Horizontální záložková navigace. Varianta underline pro hlavní navigaci, pills pro in-panel navigaci. Podporuje ikony, badge počty, disabled záložky a klávesnicové šipky.',
+    status: 'documented',
+    showcaseRoute: '/tabs',
+    props: [
+      { name: 'items',    type: 'Array<{value, label, icon?, badge?, disabled?}>',         required: true,  description: 'Seznam záložek.' },
+      { name: 'value',    type: 'string',                                                   required: true,  description: 'Hodnota aktivní záložky.' },
+      { name: 'onChange', type: '(value: string) => void',                                 required: true,  description: 'Callback při změně záložky.' },
+      { name: 'variant',  type: "'underline'|'pills'",                                    required: false, default: "'underline'", description: 'Vizuální styl.' },
+      { name: 'size',     type: "'sm'|'md'|'lg'",                                         required: false, default: "'md'",        description: 'Velikost záložek.' },
+    ],
+    relatedSlugs: ['button-group', 'donjon-card', 'modal'],
+  },
+
+  'select': {
+    description: 'Vlastní dropdown pro výběr jedné hodnoty ze seznamu. Oktagonální trigger, klávesnicová navigace šipkami a Escape, podpora disabled položek.',
+    status: 'documented',
+    showcaseRoute: '/select',
+    props: [
+      { name: 'value',       type: 'string | null',                                        required: true,  description: 'Vybraná hodnota.' },
+      { name: 'onChange',    type: '(value: string) => void',                              required: true,  description: 'Callback při výběru.' },
+      { name: 'options',     type: 'Array<{value, label, disabled?}>',                    required: true,  description: 'Seznam možností.' },
+      { name: 'placeholder', type: 'string',                                               required: false, default: "'Vyber možnost…'", description: 'Text prázdného stavu.' },
+      { name: 'label',       type: 'string',                                               required: false, description: 'Popisek nad triggerem.' },
+      { name: 'size',        type: "'sm'|'md'|'lg'",                                      required: false, default: "'md'",      description: 'Výška triggeru.' },
+      { name: 'variant',     type: "'default'|'success'|'danger'|'warning'",              required: false, default: "'default'", description: 'Barevná varianta.' },
+      { name: 'disabled',    type: 'boolean',                                              required: false, default: 'false',     description: 'Zakáže celý select.' },
+    ],
+    relatedSlugs: ['donjon-input', 'button-group', 'toggle'],
+  },
+
+  'slider': {
+    description: 'Range input pro výběr hodnoty v rozsahu. Nativní <input type=range> překrytý vlastním vizuálem navazujícím na ProgressBar. Podpora formatValue pro jednotky.',
+    status: 'documented',
+    showcaseRoute: '/slider',
+    props: [
+      { name: 'value',       type: 'number',                                               required: true,  description: 'Aktuální hodnota.' },
+      { name: 'onChange',    type: '(value: number) => void',                             required: true,  description: 'Callback při změně.' },
+      { name: 'min',         type: 'number',                                               required: false, default: '0',         description: 'Minimální hodnota.' },
+      { name: 'max',         type: 'number',                                               required: false, default: '100',        description: 'Maximální hodnota.' },
+      { name: 'step',        type: 'number',                                               required: false, default: '1',         description: 'Krok změny.' },
+      { name: 'size',        type: "'sm'|'md'|'lg'",                                      required: false, default: "'md'",       description: 'Výška traku.' },
+      { name: 'variant',     type: "'default'|'success'|'danger'|'warning'|'info'",       required: false, default: "'default'",  description: 'Barevná varianta.' },
+      { name: 'label',       type: 'string',                                               required: false, description: 'Popisek nad sliderem.' },
+      { name: 'showValue',   type: 'boolean',                                              required: false, default: 'false',      description: 'Zobrazí aktuální hodnotu vpravo.' },
+      { name: 'formatValue', type: '(value: number) => string',                           required: false, description: 'Formátuje zobrazenou hodnotu (např. přidá jednotky).' },
+      { name: 'disabled',    type: 'boolean',                                              required: false, default: 'false',      description: 'Zakáže interakci.' },
+    ],
+    relatedSlugs: ['progress-bar', 'toggle', 'donjon-input'],
+  },
+
   'progress-bar': {
     description: 'Lineární ukazatel průběhu. Determinate (value 0–100) nebo indeterminate (animovaný shimmer). Pět variant, tři velikosti, volitelný popisek a procenta.',
     status: 'documented',

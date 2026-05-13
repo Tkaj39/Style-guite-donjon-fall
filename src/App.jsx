@@ -36,6 +36,9 @@ import ModalPage from './pages/ModalPage'
 import ToastPage from './pages/ToastPage'
 import TogglePage from './pages/TogglePage'
 import ProgressBarPage from './pages/ProgressBarPage'
+import SelectPage from './pages/SelectPage'
+import SliderPage from './pages/SliderPage'
+import TabsPage from './pages/TabsPage'
 
 export default function App() {
   return (
@@ -77,6 +80,9 @@ export default function App() {
         <Route path="toast" element={<ToastPage />} />
         <Route path="toggle"       element={<TogglePage />} />
         <Route path="progress-bar" element={<ProgressBarPage />} />
+        <Route path="select"       element={<SelectPage />} />
+        <Route path="slider"       element={<SliderPage />} />
+        <Route path="tabs"         element={<TabsPage />} />
       </Route>
     </Routes>
   )
