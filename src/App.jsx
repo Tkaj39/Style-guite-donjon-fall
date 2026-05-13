@@ -31,6 +31,7 @@ import LoadingGamePage from './pages/LoadingGamePage'
 import SettingsPage from './pages/SettingsPage'
 import ComponentsPage from './pages/ComponentsPage'
 import ComponentDetailPage from './pages/ComponentDetailPage'
+import TooltipPage from './pages/TooltipPage'
 
 export default function App() {
   return (
@@ -67,6 +68,7 @@ export default function App() {
         <Route path="settings" element={<SettingsPage />} />
         <Route path="components" element={<ComponentsPage />} />
         <Route path="components/:slug" element={<ComponentDetailPage />} />
+        <Route path="tooltip" element={<TooltipPage />} />
       </Route>
     </Routes>
   )

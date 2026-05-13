@@ -15,6 +15,22 @@ export const componentMeta = {
 
   /* ── UI Components ─────────────────────────────────────────────────── */
 
+  'tooltip': {
+    description: 'Kontextová nápověda zobrazená při najetí myší nebo focusu. Podporuje 4 směry umístění, 5 barevných variant a volitelný titulek.',
+    status: 'documented',
+    showcaseRoute: '/tooltip',
+    props: [
+      { name: 'children',   type: 'ReactNode',                                         required: true,  description: 'Trigger element — tooltip se zobrazí při jeho hover/focus.' },
+      { name: 'content',    type: 'string',                                            required: true,  description: 'Text tooltipové bubliny.' },
+      { name: 'title',      type: 'string',                                            required: false, description: 'Volitelný titulek nad obsahem.' },
+      { name: 'placement',  type: "'top'|'bottom'|'left'|'right'",                    required: false, default: "'top'",     description: 'Směr zobrazení vůči triggeru.' },
+      { name: 'variant',    type: "'default'|'danger'|'success'|'warning'|'info'",    required: false, default: "'default'", description: 'Barevná varianta.' },
+      { name: 'delay',      type: 'number',                                            required: false, default: '120',       description: 'Prodleva zobrazení v ms.' },
+      { name: 'disabled',   type: 'boolean',                                           required: false, default: 'false',     description: 'Zakáže zobrazení tooltipu.' },
+    ],
+    relatedSlugs: ['donjon-button', 'donjon-badge', 'float-feedback'],
+  },
+
   'donjon-button': {
     description: 'Primární akční prvek design systému. Podporuje čtyři barevné varianty, čtyři velikosti, ikonové módy a loading / disabled stav.',
     status: 'documented',
