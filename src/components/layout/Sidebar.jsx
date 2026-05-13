@@ -40,6 +40,7 @@ const sections = [
     label: 'Components',
     items: [
       { to: '/tooltip', label: 'Tooltip' },
+      { to: '/modal', label: 'Modal' },
       { to: '/buttons', label: 'Buttons' },
       { to: '/button-groups', label: 'Button Groups' },
       { to: '/inputs', label: 'Inputs' },

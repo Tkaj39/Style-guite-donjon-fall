@@ -15,6 +15,26 @@ export const componentMeta = {
 
   /* ── UI Components ─────────────────────────────────────────────────── */
 
+  'modal': {
+    description: 'Modální dialog s fokusovým uzamčením, Escape zavřením a zamčeným scrollem. Sdílí vizuální styl s DonjonCard — oktagonální border, ornamenti, barevné varianty.',
+    status: 'documented',
+    showcaseRoute: '/modal',
+    props: [
+      { name: 'isOpen',          type: 'boolean',                                           required: true,  description: 'Řídí viditelnost modálu.' },
+      { name: 'onClose',         type: '() => void',                                        required: true,  description: 'Callback pro zavření — volán Escape, backdropem i close tlačítkem.' },
+      { name: 'title',           type: 'string',                                            required: false, description: 'Nadpis v hlavičce. Pokud není, hlavička se nezobrazí.' },
+      { name: 'description',     type: 'string',                                            required: false, description: 'Podnadpis pod title.' },
+      { name: 'children',        type: 'ReactNode',                                         required: false, description: 'Obsah těla modálu.' },
+      { name: 'footer',          type: 'ReactNode',                                         required: false, description: 'Obsah patičky — typicky tlačítka.' },
+      { name: 'size',            type: "'sm'|'md'|'lg'",                                   required: false, default: "'md'",      description: 'Maximální šířka panelu (sm=360, md=480, lg=640).' },
+      { name: 'variant',         type: "'default'|'danger'|'success'|'warning'",           required: false, default: "'default'", description: 'Barevná varianta — border, hlavička, titulek.' },
+      { name: 'closeOnBackdrop', type: 'boolean',                                           required: false, default: 'true',      description: 'Klik na backdrop zavře modál.' },
+      { name: 'closeOnEscape',   type: 'boolean',                                           required: false, default: 'true',      description: 'Klávesa Escape zavře modál.' },
+      { name: 'showCloseButton', type: 'boolean',                                           required: false, default: 'true',      description: 'Zobrazí tlačítko × v hlavičce (nebo těle bez title).' },
+    ],
+    relatedSlugs: ['donjon-card', 'donjon-button', 'tooltip'],
+  },
+
   'tooltip': {
     description: 'Kontextová nápověda zobrazená při najetí myší nebo focusu. Podporuje 4 směry umístění, 5 barevných variant a volitelný titulek.',
     status: 'documented',
