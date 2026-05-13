@@ -15,6 +15,22 @@ export const componentMeta = {
 
   /* ── UI Components ─────────────────────────────────────────────────── */
 
+  'progress-bar': {
+    description: 'Lineární ukazatel průběhu. Determinate (value 0–100) nebo indeterminate (animovaný shimmer). Pět variant, tři velikosti, volitelný popisek a procenta.',
+    status: 'documented',
+    showcaseRoute: '/progress-bar',
+    props: [
+      { name: 'value',         type: 'number',                                                    required: false, default: '0',         description: 'Aktuální hodnota (0 až max).' },
+      { name: 'max',           type: 'number',                                                    required: false, default: '100',        description: 'Maximální hodnota.' },
+      { name: 'size',          type: "'sm'|'md'|'lg'",                                           required: false, default: "'md'",       description: 'Výška lišty (4 / 8 / 14 px).' },
+      { name: 'variant',       type: "'default'|'success'|'danger'|'warning'|'info'",            required: false, default: "'default'",  description: 'Barevná varianta výplně.' },
+      { name: 'label',         type: 'string',                                                    required: false, description: 'Popisek nad lištou (také aria-label).' },
+      { name: 'showValue',     type: 'boolean',                                                   required: false, default: 'false',      description: 'Zobrazí procentuální hodnotu vpravo nad lištou.' },
+      { name: 'indeterminate', type: 'boolean',                                                   required: false, default: 'false',      description: 'Animovaný shimmer pro neznámý průběh.' },
+    ],
+    relatedSlugs: ['toggle', 'donjon-badge', 'toast'],
+  },
+
   'toggle': {
     description: 'Přepínač on/off pro binární nastavení s okamžitým efektem. Pill tvar, animovaný thumb, plná klávesnicová přístupnost. Čtyři varianty a dvě velikosti.',
     status: 'documented',
