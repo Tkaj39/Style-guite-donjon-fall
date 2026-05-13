@@ -58,6 +58,26 @@ TkajUI tedy definuje **jak ikony fungují**, donjon-fall-ui dodává **které ik
 
 ---
 
+### Co donjon-fall-ui přepisuje nad TkajUI
+
+| Oblast | TkajUI | donjon-fall-ui |
+|---|---|---|
+| Barvy | neutrální paleta | zlatá/bronz (#FFC183 → #8F7458), tmavé pozadí |
+| Tvary | obecné (žádný default) | octagon systém (cut/round/scoop, 5 velikostí) |
+| Fonty | systémové / neutrální | fantasy/herní font pro nadpisy, specifický pro čísla |
+| Focus ring | modrý (browser default) | zlatý (brand-500) |
+| Glow / shadow | neutrální stíny | brand glow na hover, selected a active stavech |
+| Ikony | generické icon API | Donjon Fall piktogramy |
+| Kurzor | default OS kurzor | herní varianty (výběr, útok, pohyb, blocked) |
+| Scrollbar | browser default | tmavý stylovaný scrollbar |
+| Easing křivky | standardní ease-in-out | těžší, dramatičtější easing pro herní animace |
+| Animace | generické přechody | konkrétní herní animace (hod kostkou, kolaps věže…) |
+| Zvuky | generické audio API | Donjon Fall sound design a audio soubory |
+| Piktogramy | icon API bez obsahu | Donjon Fall sada piktogramů |
+| Ornaments | žádné | SideOrnament, HexOrnament, CornerOrnament |
+| Game Assets | žádné | HexTile, DieFace, FloatFeedback, Erb, Mapa |
+| Výběr textu | browser default | zlatá (::selection barva) |
+
 ### Distribuce
 
 Obě knihovny budou distribuované jako npm balíčky s prebuildnutým CSS:
