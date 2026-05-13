@@ -37,6 +37,14 @@ const sections = [
     ],
   },
   {
+    label: 'Principy',
+    items: [
+      { to: '/motion',             label: 'Motion' },
+      { to: '/interaction-states', label: 'Interaction States' },
+      { to: '/z-index',            label: 'Z-index škála' },
+    ],
+  },
+  {
     label: 'Components',
     items: [
       { to: '/tooltip', label: 'Tooltip' },

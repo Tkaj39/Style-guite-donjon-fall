@@ -39,6 +39,9 @@ import ProgressBarPage from './pages/ProgressBarPage'
 import SelectPage from './pages/SelectPage'
 import SliderPage from './pages/SliderPage'
 import TabsPage from './pages/TabsPage'
+import MotionPage from './pages/MotionPage'
+import InteractionStatesPage from './pages/InteractionStatesPage'
+import ZIndexPage from './pages/ZIndexPage'
 
 export default function App() {
   return (
@@ -82,7 +85,10 @@ export default function App() {
         <Route path="progress-bar" element={<ProgressBarPage />} />
         <Route path="select"       element={<SelectPage />} />
         <Route path="slider"       element={<SliderPage />} />
-        <Route path="tabs"         element={<TabsPage />} />
+        <Route path="tabs"               element={<TabsPage />} />
+        <Route path="motion"             element={<MotionPage />} />
+        <Route path="interaction-states" element={<InteractionStatesPage />} />
+        <Route path="z-index"            element={<ZIndexPage />} />
       </Route>
     </Routes>
   )
