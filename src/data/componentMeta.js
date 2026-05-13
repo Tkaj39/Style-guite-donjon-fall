@@ -15,6 +15,21 @@ export const componentMeta = {
 
   /* ── UI Components ─────────────────────────────────────────────────── */
 
+  'toast': {
+    description: 'Plovoucí notifikace pro krátkodobá oznámení. Automaticky se zavře po uplynutí duration. Globální stav spravuje ToastProvider, přístupný přes useToast hook.',
+    status: 'documented',
+    showcaseRoute: '/toast',
+    props: [
+      { name: 'title',    type: 'string',                                                    required: false, description: '[addToast] Titulek notifikace.' },
+      { name: 'message',  type: 'string',                                                    required: false, description: '[addToast] Tělo zprávy.' },
+      { name: 'variant',  type: "'default'|'success'|'danger'|'warning'|'info'",            required: false, default: "'default'", description: '[addToast] Barevná varianta.' },
+      { name: 'duration', type: 'number',                                                    required: false, default: '4000',      description: '[addToast] Čas v ms do automatického zavření. 0 = trvalý.' },
+      { name: 'position', type: "'bottom-right'|'top-right'|'bottom-left'|'top-left'",      required: false, default: "'bottom-right'", description: '[ToastProvider] Pozice stacku na obrazovce.' },
+      { name: 'children', type: 'ReactNode',                                                 required: true,  description: '[ToastProvider] Obsah aplikace — hook je dostupný uvnitř.' },
+    ],
+    relatedSlugs: ['modal', 'donjon-badge', 'float-feedback'],
+  },
+
   'modal': {
     description: 'Modální dialog s fokusovým uzamčením, Escape zavřením a zamčeným scrollem. Sdílí vizuální styl s DonjonCard — oktagonální border, ornamenti, barevné varianty.',
     status: 'documented',

@@ -33,6 +33,7 @@ import ComponentsPage from './pages/ComponentsPage'
 import ComponentDetailPage from './pages/ComponentDetailPage'
 import TooltipPage from './pages/TooltipPage'
 import ModalPage from './pages/ModalPage'
+import ToastPage from './pages/ToastPage'
 
 export default function App() {
   return (
@@ -71,6 +72,7 @@ export default function App() {
         <Route path="components/:slug" element={<ComponentDetailPage />} />
         <Route path="tooltip" element={<TooltipPage />} />
         <Route path="modal" element={<ModalPage />} />
+        <Route path="toast" element={<ToastPage />} />
       </Route>
     </Routes>
   )
