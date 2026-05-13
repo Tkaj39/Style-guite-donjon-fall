@@ -458,6 +458,135 @@ function FocalDemo() {
   )
 }
 
+/* ── Move variant demos ── */
+
+function MoveTwoHexDemo() {
+  const [key, setKey] = useState(0)
+  const [playing, setPlaying] = useState(false)
+
+  function play() {
+    if (playing) return
+    setPlaying(true)
+    setKey(k => k + 1)
+  }
+
+  return (
+    <DemoShell label="Pohyb o dvě políčka">
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible', zIndex: 1 }}>
+          <HexTile state="selected" size="md" />
+          <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
+            <div key={key}
+              style={{ animation: key > 0 ? 'die-move-2 380ms ease-in-out both' : 'none' }}
+              onAnimationEnd={() => setPlaying(false)}>
+              <DieFace value={4} playerColor={p1.color} size="sm" />
+            </div>
+          </div>
+        </div>
+        <HexTile state="move" size="md" />
+        <HexTile state="move" size="md" />
+      </div>
+      <PlayButton onClick={play} playing={playing} />
+    </DemoShell>
+  )
+}
+
+function JumpOntoDieDemo() {
+  const [key, setKey] = useState(0)
+  const [playing, setPlaying] = useState(false)
+  const [landed, setLanded] = useState(false)
+
+  function play() {
+    if (playing) return
+    setLanded(false)
+    setPlaying(true)
+    setKey(k => k + 1)
+  }
+
+  return (
+    <DemoShell label="Naskočení na kostku">
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        {/* Levý hex — skákající kostka; zIndex:1 překryje pravý hex při pohybu */}
+        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible', zIndex: 1 }}>
+          <HexTile state={landed ? 'empty' : 'selected'} size="md" />
+          {!landed && (
+            <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
+              <div key={key}
+                style={{ animation: key > 0 ? 'die-move-onto 280ms ease-in-out both' : 'none' }}
+                onAnimationEnd={() => { setLanded(true); setPlaying(false) }}>
+                <DieFace value={4} playerColor={p1.color} size="sm" />
+              </div>
+            </div>
+          )}
+        </div>
+        {/* Pravý hex — cílová kostka + přistání */}
+        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
+          <HexTile state="base" owner={p2.color} size="md" />
+          {/* Spodní kostka věže (vždy viditelná) */}
+          <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', zIndex: 1 }}>
+            <DieFace value={2} playerColor={p2.color} size="sm" />
+          </div>
+          {/* Vrchní kostka po přistání */}
+          {landed && (
+            <div style={{ position: 'absolute', top: 4, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
+              <DieFace value={4} playerColor={p1.color} size="sm" />
+            </div>
+          )}
+        </div>
+      </div>
+      <PlayButton onClick={play} playing={playing} />
+    </DemoShell>
+  )
+}
+
+function JumpOffTowerDemo() {
+  const [key, setKey] = useState(0)
+  const [playing, setPlaying] = useState(false)
+  const [moved, setMoved] = useState(false)
+
+  function play() {
+    if (playing) return
+    setMoved(false)
+    setPlaying(true)
+    setKey(k => k + 1)
+  }
+
+  return (
+    <DemoShell label="Seskočení z vrcholu věže">
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        {/* Levý hex — věž, vrchní kostka odskočí; zIndex:1 */}
+        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible', zIndex: 1 }}>
+          <HexTile state="base" owner={p1.color} size="md" />
+          {/* Spodní kostka — vždy zůstává */}
+          <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', zIndex: 1 }}>
+            <DieFace value={2} playerColor={p1.color} size="sm" />
+          </div>
+          {/* Vrchní kostka — animuje pryč */}
+          {!moved && (
+            <div style={{ position: 'absolute', top: 4, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
+              <div key={key}
+                style={{ animation: key > 0 ? 'die-move-off-tower 280ms ease-in-out both' : 'none' }}
+                onAnimationEnd={() => { setMoved(true); setPlaying(false) }}>
+                <DieFace value={5} playerColor={p1.color} size="sm" />
+              </div>
+            </div>
+          )}
+        </div>
+        {/* Pravý hex — prázdný cíl */}
+        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
+          <HexTile state="move" size="md" />
+          {moved && (
+            <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
+              <DieFace value={5} playerColor={p1.color} size="sm" />
+            </div>
+          )}
+        </div>
+      </div>
+      <PlayButton onClick={play} playing={playing} />
+    </DemoShell>
+  )
+}
+
 /* ── Page ── */
 
 const p1 = players[0]
@@ -493,6 +622,13 @@ export default function AnimacePage() {
             <MoveDieDemo />
             <OccupyDemo />
             <CollapseDemo />
+          </div>
+        </Preview>
+        <Preview>
+          <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
+            <MoveTwoHexDemo />
+            <JumpOntoDieDemo />
+            <JumpOffTowerDemo />
           </div>
         </Preview>
       </Section>

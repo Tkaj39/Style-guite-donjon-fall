@@ -51,6 +51,27 @@
   100% { transform: translate(74px, 0); }
 }
 
+/* Pohyb o dvě políčka (148px = 2 × 74px) */
+@keyframes die-move-2 {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(74px, -18px); }
+  100% { transform: translate(148px, 0); }
+}
+
+/* Naskočení na kostku: končí o 16px výš (= pozice vrchní kostky věže) */
+@keyframes die-move-onto {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(37px, -32px); }
+  100% { transform: translate(74px, -16px); }
+}
+
+/* Seskočení z vrcholu věže: začíná 16px výš, končí na středu hexu */
+@keyframes die-move-off-tower {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(37px, -10px); }
+  100% { transform: translate(74px, 16px); }
+}
+
 @keyframes hex-focal-pulse {
   0%, 100% { filter: drop-shadow(0 0 8px #FFC18355); }
   50%       { filter: drop-shadow(0 0 28px #FFC183cc) brightness(1.25); }
