@@ -42,6 +42,10 @@ import TabsPage from './pages/TabsPage'
 import MotionPage from './pages/MotionPage'
 import InteractionStatesPage from './pages/InteractionStatesPage'
 import ZIndexPage from './pages/ZIndexPage'
+import AccessibilityPage from './pages/AccessibilityPage'
+import FeedbackHierarchyPage from './pages/FeedbackHierarchyPage'
+import ErrorStatesPage from './pages/ErrorStatesPage'
+import EmptyStatesPage from './pages/EmptyStatesPage'
 
 export default function App() {
   return (
@@ -89,6 +93,10 @@ export default function App() {
         <Route path="motion"             element={<MotionPage />} />
         <Route path="interaction-states" element={<InteractionStatesPage />} />
         <Route path="z-index"            element={<ZIndexPage />} />
+        <Route path="accessibility"      element={<AccessibilityPage />} />
+        <Route path="feedback-hierarchy" element={<FeedbackHierarchyPage />} />
+        <Route path="error-states"       element={<ErrorStatesPage />} />
+        <Route path="empty-states"       element={<EmptyStatesPage />} />
       </Route>
     </Routes>
   )

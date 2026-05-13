@@ -42,6 +42,10 @@ const sections = [
       { to: '/motion',             label: 'Motion' },
       { to: '/interaction-states', label: 'Interaction States' },
       { to: '/z-index',            label: 'Z-index škála' },
+      { to: '/accessibility',      label: 'Accessibility' },
+      { to: '/feedback-hierarchy', label: 'Feedback Hierarchy' },
+      { to: '/error-states',       label: 'Error States' },
+      { to: '/empty-states',       label: 'Empty States' },
     ],
   },
   {
