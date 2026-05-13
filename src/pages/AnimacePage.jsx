@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import DonjonCard from '../components/DonjonCard'
 import DonjonBadge from '../components/DonjonBadge'
 import DieFace from '../components/game-assets/DieFace'
+import FloatFeedback from '../components/game-assets/FloatFeedback'
 import HexTile from '../components/game-assets/HexTile'
 import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
 import { players } from '../data/gameUiMockData'
@@ -191,17 +192,20 @@ function MoveTowerDemo() {
 function CombatPhase1Demo() {
   const [key, setKey] = useState(0)
   const [value, setValue] = useState(5)
+  const [showFeedback, setShowFeedback] = useState(false)
   const [playing, setPlaying] = useState(false)
 
   function play() {
     if (playing) return
     setValue(5)
+    setShowFeedback(false)
     setPlaying(true)
     setKey(k => k + 1)
   }
 
   function handleEnd() {
     setValue(v => Math.max(v - 1, 1))
+    setShowFeedback(true)
     setPlaying(false)
   }
 
@@ -210,17 +214,22 @@ function CombatPhase1Demo() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
           <HexTile state="selected" size="md" />
-          <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
+          <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
             <div key={key}
               style={{ animation: key > 0 ? 'die-shake 180ms ease-in both' : 'none' }}
               onAnimationEnd={handleEnd}>
               <DieFace value={value} playerColor={p1.color} size="sm" />
             </div>
           </div>
+          <FloatFeedback
+            text="−1"
+            variant="loss"
+            visible={showFeedback}
+            animKey={key}
+            onDone={() => setShowFeedback(false)}
+            style={{ top: 0 }}
+          />
         </div>
-        {!playing && key > 0 && (
-          <span style={{ fontSize: '1rem', color: '#E05C5C', fontWeight: 700 }}>−1</span>
-        )}
       </div>
       <PlayButton onClick={play} playing={playing} />
     </DemoShell>
@@ -304,38 +313,55 @@ function OccupyDemo() {
 
 function RerollDemo() {
   const [key, setKey] = useState(0)
+  const [before] = useState(3)
   const [value, setValue] = useState(3)
+  const [showFeedback, setShowFeedback] = useState(false)
   const [playing, setPlaying] = useState(false)
   const timerRef = useRef(null)
 
   function play() {
     if (playing) return
     setValue(3)
+    setShowFeedback(false)
     setPlaying(true)
     setKey(k => k + 1)
+    // Hodnota se přepne uprostřed spinové animace (40 % z 500 ms ≈ 200 ms)
     timerRef.current = setTimeout(() => setValue(5), 200)
   }
 
   function handleEnd() {
+    setShowFeedback(true)
     setPlaying(false)
   }
 
+  const diff = value - before
+  const feedbackText = diff > 0 ? `+${diff}` : diff < 0 ? `${diff}` : '='
+  const feedbackVariant = diff > 0 ? 'gain' : diff < 0 ? 'loss' : 'neutral'
+
   return (
-    <DemoShell label="Přehazování — flip + nová hodnota">
+    <DemoShell label="Přehazování — rotace + nová hodnota">
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
           <HexTile state="selected" size="md" />
-          <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
+          <div style={{
+            position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)',
+            perspective: 200,
+          }}>
             <div key={key}
-              style={{ animation: key > 0 ? 'die-reroll 400ms ease-out both' : 'none' }}
+              style={{ animation: key > 0 ? 'die-reroll-spin 500ms ease-in-out both' : 'none' }}
               onAnimationEnd={handleEnd}>
               <DieFace value={value} playerColor={p1.color} size="sm" />
             </div>
           </div>
+          <FloatFeedback
+            text={feedbackText}
+            variant={feedbackVariant}
+            visible={showFeedback}
+            animKey={key}
+            onDone={() => setShowFeedback(false)}
+            style={{ top: 0 }}
+          />
         </div>
-        {!playing && key > 0 && (
-          <DonjonBadge variant="success">+2</DonjonBadge>
-        )}
       </div>
       <PlayButton onClick={play} playing={playing} />
     </DemoShell>
@@ -616,13 +642,6 @@ export default function AnimacePage() {
               <HexWithDie hexState="move" dieValue={4} dieColor={p1.color} />
             </FrameRow>
           </AnimSpec>
-        </Preview>
-        <Preview>
-          <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
-            <MoveDieDemo />
-            <OccupyDemo />
-            <CollapseDemo />
-          </div>
         </Preview>
         <Preview>
           <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
