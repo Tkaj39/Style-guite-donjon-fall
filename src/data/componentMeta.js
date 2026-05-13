@@ -15,6 +15,23 @@ export const componentMeta = {
 
   /* ── UI Components ─────────────────────────────────────────────────── */
 
+  'toggle': {
+    description: 'Přepínač on/off pro binární nastavení s okamžitým efektem. Pill tvar, animovaný thumb, plná klávesnicová přístupnost. Čtyři varianty a dvě velikosti.',
+    status: 'documented',
+    showcaseRoute: '/toggle',
+    props: [
+      { name: 'checked',       type: 'boolean',                                           required: true,  description: 'Aktuální stav přepínače.' },
+      { name: 'onChange',      type: '(value: boolean) => void',                          required: true,  description: 'Callback při změně stavu.' },
+      { name: 'label',         type: 'string',                                            required: false, description: 'Textový popisek vedle přepínače.' },
+      { name: 'labelPosition', type: "'right'|'left'",                                   required: false, default: "'right'",   description: 'Pozice popisku vůči přepínači.' },
+      { name: 'size',          type: "'sm'|'md'",                                        required: false, default: "'md'",      description: 'Velikost přepínače.' },
+      { name: 'variant',       type: "'default'|'success'|'danger'|'warning'",           required: false, default: "'default'", description: 'Barevná varianta aktivního stavu.' },
+      { name: 'disabled',      type: 'boolean',                                           required: false, default: 'false',     description: 'Zakáže interakci.' },
+      { name: 'id',            type: 'string',                                            required: false, description: 'HTML id pro propojení s externím <label>.' },
+    ],
+    relatedSlugs: ['button-group', 'donjon-input', 'modal'],
+  },
+
   'toast': {
     description: 'Plovoucí notifikace pro krátkodobá oznámení. Automaticky se zavře po uplynutí duration. Globální stav spravuje ToastProvider, přístupný přes useToast hook.',
     status: 'documented',
