@@ -2,6 +2,74 @@
 
 Tento dokument shrnuje návrh dalších komponent a dokumentačních sekcí, které dávají smysl doplnit do style guidu Donjon Fall. Cíl je rozšířit knihovnu o prvky, které jsou běžné napříč hrami, a současně doplnit systémové zásady, které dnes v dokumentaci chybí.
 
+## Architektura knihovny
+
+Projekt je navržen jako dvouvrstvá knihovna. Obě vrstvy jsou samostatné npm balíčky.
+
+### TkajUI — core knihovna
+
+Generická herní UI knihovna bez vizuální závislosti na konkrétní hře.
+
+**npm:** `tkaj-ui`
+
+**Obsah:**
+
+- Komponenty: Button, Card, Badge, Input, Modal, Toast, Tooltip, Toggle, ProgressBar
+- Animace jako principy a utility — timing tokeny, easing křivky, generické přechody (Fade, Slide, Scale)
+- Zvuky jako generické API — správce zvuků, kategorie, volume management, hooks (`useSound`) — bez konkrétních audio souborů
+- HUD elementy genericky — progress bar, stat display, timer
+- Interaction states, Accessibility
+- Shapes systém — octagon utility a rozšíření (cut, round, scoop, notch)
+
+**Cíl:** Jiný vývojář her může použít TkajUI a přinést si vlastní vizuální téma.
+
+---
+
+### donjon-fall-ui — Donjon Fall téma
+
+Rozšíření TkajUI o kompletní vizuální jazyk hry Donjon Fall.
+
+**npm:** `donjon-fall-ui`
+
+**Závisí na:** `tkaj-ui`
+
+**Obsah:**
+
+- Vše z TkajUI + Donjon Fall styling — octagon tvar, zlaté gradienty (#FFC183 → #8F7458), ornamenty, tmavá paleta
+- Game Assets specifické pro Donjon Fall — HexTile, DieFace, FloatFeedback
+- Konkrétní animace — hod kostkou, kolaps věže, ohnisko, souboj
+- Konkrétní zvukový design — Donjon Fall audio soubory a sound mapping
+- Erb, Mapa a další Donjon Fall-specifické komponenty
+
+**Cíl:** Kompletní Donjon Fall vizuální systém připravený k použití v dalších projektech hry.
+
+---
+
+### Co nepatří do TkajUI
+
+- Game Assets (HexTile, DieFace, FloatFeedback) — příliš specifické pro Donjon Fall
+- Konkrétní animace tahové hry — patří do donjon-fall-ui
+- Konkrétní audio soubory — patří do donjon-fall-ui
+- Erb, Mapa — Donjon Fall-specifické vizuální prvky
+
+---
+
+### Distribuce
+
+Obě knihovny budou distribuované jako npm balíčky s prebuildnutým CSS:
+
+```js
+// TkajUI
+import { Button, Modal, Toast } from 'tkaj-ui'
+import 'tkaj-ui/dist/styles.css'
+
+// donjon-fall-ui
+import { HexTile, DieFace, DonjonButton } from 'donjon-fall-ui'
+import 'donjon-fall-ui/dist/styles.css'
+```
+
+Formát balíčku je identický pro lokální použití (`npm install file:../tkaj-ui`) i pro publikování na npm (`npm publish`).
+
 ## Cíl plánu
 
 - doplnit chybějící reusable komponenty
