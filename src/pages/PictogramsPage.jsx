@@ -1,150 +1,214 @@
-import { ShowcasePage, Section } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
+import Pictogram from '../lib/tkajui/Pictogram'
+import DonjonPictogram from '../lib/donjon/Pictogram'
+import { SwordIcon, ShieldIcon, TowerIcon } from '../lib/donjon/icons'
 
-const inter = '"Inter", sans-serif'
-
-function SwordIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
-      <path d="M4 20L14 10M14 10L18 4L20 6L14 10M14 10L10 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M8 16L4 20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M10 12L12 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-    </svg>
-  )
-}
-
-function ShieldIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
-      <path d="M12 3L4 7V12C4 16.4 7.4 20.5 12 21C16.6 20.5 20 16.4 20 12V7L12 3Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-      <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  )
-}
-
-function TowerIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
-      <rect x="6" y="11" width="12" height="10" rx="1" stroke="currentColor" strokeWidth="1.5"/>
-      <path d="M6 11V7H8V9H10V7H14V9H16V7H18V11" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-      <path d="M10 21V17H14V21" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-    </svg>
-  )
-}
-
-const placeholders = [
-  { id: 'sword',  label: 'Meč',    icon: <SwordIcon />,  note: 'Útok / souboj' },
-  { id: 'shield', label: 'Štít',   icon: <ShieldIcon />, note: 'Obrana / základna' },
-  { id: 'tower',  label: 'Věž',    icon: <TowerIcon />,  note: 'Donjon / pevnost' },
+const ICONS = [
+  { icon: SwordIcon,  label: 'SwordIcon',  note: 'Útok / souboj' },
+  { icon: ShieldIcon, label: 'ShieldIcon', note: 'Obrana / základna' },
+  { icon: TowerIcon,  label: 'TowerIcon',  note: 'Donjon / pevnost' },
 ]
 
-const sizes = [
-  { name: 'sm', px: 16 },
-  { name: 'md', px: 24 },
-  { name: 'lg', px: 32 },
-  { name: 'xl', px: 48 },
-]
-
-function PictogramCard({ icon, label, note }) {
-  return (
-    <div style={{
-      background: 'linear-gradient(150deg,#1E1C30 0%,#141324 100%)',
-      border: '1px solid #353751',
-      borderRadius: 2,
-      padding: '28px 20px 20px',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: 20,
-    }}>
-      {/* Main display */}
-      <div style={{ color: '#FFC183', width: 48, height: 48 }}>
-        {icon}
-      </div>
-
-      {/* Sizes */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'flex-end',
-        gap: 16,
-      }}>
-        {sizes.map(s => (
-          <div key={s.name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-            <div style={{ color: '#8F7458', width: s.px, height: s.px }}>
-              {icon}
-            </div>
-            <p style={{ margin: 0, fontFamily: inter, fontSize: '0.5625rem', color: '#3A3A52' }}>{s.name}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Label */}
-      <div style={{ textAlign: 'center' }}>
-        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.8125rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#B8956A' }}>{label}</p>
-        <p style={{ margin: '3px 0 0', fontFamily: inter, fontSize: '0.6875rem', color: '#3A3A52' }}>{note}</p>
-      </div>
-
-      {/* Color variants */}
-      <div style={{
-        display: 'flex',
-        gap: 12,
-        padding: '12px 16px',
-        background: '#0F0E1A',
-        borderRadius: 1,
-        width: '100%',
-        justifyContent: 'center',
-      }}>
-        {[
-          { color: '#FFC183', label: 'Aktivní' },
-          { color: '#8F7458', label: 'Pasivní' },
-          { color: '#3A3A52', label: 'Disabled' },
-          { color: '#C04040', label: 'Danger' },
-          { color: '#40A055', label: 'Success' },
-        ].map(v => (
-          <div key={v.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-            <div style={{ color: v.color, width: 20, height: 20 }}>{icon}</div>
-            <p style={{ margin: 0, fontFamily: inter, fontSize: '0.5rem', color: '#3A3A52' }}>{v.label}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
+const SIZES   = ['sm', 'md', 'lg', 'xl']
+const VARIANTS = ['active', 'passive', 'disabled', 'danger', 'success']
 
 export default function PictogramsPage() {
   return (
     <ShowcasePage
       title="Pictograms"
-      description="Ikonový systém hry. Tři výchozí placeholder ikony — finální grafika bude dodána."
+      description="Ikonový systém — dvě úrovně: TkajUI definuje generický wrapper (Pictogram), donjon-fall-ui přepisuje vizuální styl (DonjonPictogram) a dodává herní ikony."
     >
-      <Section
-        title="Ikony"
-        description="Každá ikona existuje ve 4 velikostech (sm/md/lg/xl) a 5 barevných stavech."
-      >
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 12 }}>
-          {placeholders.map(p => (
-            <PictogramCard key={p.id} {...p} />
-          ))}
-        </div>
-      </Section>
 
+      {/* ── TkajUI Pictogram ── */}
       <Section
-        title="Použití"
-        description="Ikony se renderují jako SVG — barva se přebírá z CSS color (currentColor)."
+        id="tkajui"
+        title="TkajUI — Pictogram"
+        description="Generický wrapper. Přijme libovolnou SVG komponentu, vykreslí ji ve správné velikosti. Bez pozadí, bez dekorace — barva přes prop color nebo CSS currentColor."
       >
-        <div style={{
-          background: '#0F0E1A',
-          border: '1px solid #1E1C30',
-          borderRadius: 2,
-          padding: '16px 20px',
-        }}>
-          <pre style={{ margin: 0, fontFamily: 'monospace', fontSize: '0.75rem', color: '#6B6A82', lineHeight: 1.7 }}>
-{`<SwordIcon style={{ width: 24, height: 24, color: '#FFC183' }} />
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+            {/* Velikosti */}
+            <div>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Velikosti — size prop
+              </p>
+              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 24 }}>
+                {SIZES.map(s => (
+                  <div key={s} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+                    <Pictogram icon={SwordIcon} size={s} color="#8F7458" />
+                    <span style={{ fontSize: '0.5rem', color: '#4A4560', fontFamily: 'monospace' }}>{s}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-// nebo jako třída
-<SwordIcon className="w-6 h-6 text-gold-300" />`}
+            {/* Barva přes prop */}
+            <div>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Barva — color prop (nebo CSS currentColor)
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                {[
+                  { color: '#FFC183', label: '#FFC183' },
+                  { color: '#8F7458', label: '#8F7458' },
+                  { color: '#D4C5A9', label: '#D4C5A9' },
+                  { color: '#4A4560', label: '#4A4560' },
+                  { color: '#C04040', label: 'danger' },
+                  { color: '#40A055', label: 'success' },
+                ].map(c => (
+                  <div key={c.color} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                    <Pictogram icon={ShieldIcon} size="md" color={c.color} />
+                    <span style={{ fontSize: '0.4375rem', color: '#4A4560', fontFamily: 'monospace' }}>{c.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Všechny ikony */}
+            <div>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Dostupné ikony
+              </p>
+              <div style={{ display: 'flex', gap: 20 }}>
+                {ICONS.map(({ icon, label, note }) => (
+                  <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                    <Pictogram icon={icon} size="lg" color="#8F7458" />
+                    <span style={{ fontSize: '0.5rem', color: '#D4C5A9', fontFamily: 'monospace' }}>{label}</span>
+                    <span style={{ fontSize: '0.4375rem', color: '#4A4560' }}>{note}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Preview>
+
+        <Preview label="Použití">
+          <pre style={{ margin: 0, fontFamily: 'monospace', fontSize: '0.75rem', color: '#8F7458', lineHeight: 1.7, background: '#0F0E1A', padding: '16px 20px', borderRadius: 4 }}>
+{`import Pictogram from 'src/lib/tkajui/Pictogram'
+import { SwordIcon } from 'src/lib/donjon/icons'
+
+<Pictogram icon={SwordIcon} size="lg" color="#FFC183" />`}
           </pre>
-        </div>
+        </Preview>
       </Section>
+
+      {/* ── donjon-fall-ui DonjonPictogram ── */}
+      <Section
+        id="donjon"
+        title="donjon-fall-ui — DonjonPictogram"
+        description="Herní varianta. Přepisuje vizuální styl: tmavé oktagonální pozadí, zlatá / fantasy barevná schémata podle variant. Volitelný bare mód (jen ikona s herní barvou, bez bg)."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+
+            {/* Varianty */}
+            <div>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Varianty — variant prop (s pozadím)
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                {VARIANTS.map(v => (
+                  <div key={v} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+                    <DonjonPictogram icon={SwordIcon} size="lg" variant={v} />
+                    <span style={{ fontSize: '0.4375rem', color: '#4A4560', fontFamily: 'monospace' }}>{v}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Bare mód */}
+            <div>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                bare — jen ikona s herní barvou, bez pozadí
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                {VARIANTS.map(v => (
+                  <div key={v} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+                    <DonjonPictogram icon={ShieldIcon} size="lg" variant={v} bare />
+                    <span style={{ fontSize: '0.4375rem', color: '#4A4560', fontFamily: 'monospace' }}>{v}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Velikosti */}
+            <div>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Velikosti — size prop
+              </p>
+              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 24 }}>
+                {SIZES.map(s => (
+                  <div key={s} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+                    <DonjonPictogram icon={TowerIcon} size={s} variant="active" />
+                    <span style={{ fontSize: '0.5rem', color: '#4A4560', fontFamily: 'monospace' }}>{s}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Všechny ikony × active */}
+            <div>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Herní ikony × active variant
+              </p>
+              <div style={{ display: 'flex', gap: 20 }}>
+                {ICONS.map(({ icon, label, note }) => (
+                  <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+                    <DonjonPictogram icon={icon} size="xl" variant="active" />
+                    <span style={{ fontSize: '0.5rem', color: '#D4C5A9', fontFamily: 'monospace' }}>{label}</span>
+                    <span style={{ fontSize: '0.4375rem', color: '#4A4560' }}>{note}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Preview>
+
+        <Preview label="Použití">
+          <pre style={{ margin: 0, fontFamily: 'monospace', fontSize: '0.75rem', color: '#8F7458', lineHeight: 1.7, background: '#0F0E1A', padding: '16px 20px', borderRadius: 4 }}>
+{`import DonjonPictogram from 'src/lib/donjon/Pictogram'
+import { SwordIcon } from 'src/lib/donjon/icons'
+
+// S herním pozadím (oktagonální clip)
+<DonjonPictogram icon={SwordIcon} size="lg" variant="active" />
+
+// Jen barevná ikona, bez pozadí
+<DonjonPictogram icon={SwordIcon} size="md" variant="passive" bare />`}
+          </pre>
+        </Preview>
+      </Section>
+
+      {/* ── Srovnání ── */}
+      <Section
+        id="srovnani"
+        title="Srovnání TkajUI vs donjon-fall-ui"
+        description="Stejná ikona, stejná velikost — výchozí neutrální styl vs herní estetika s pozadím."
+      >
+        <Preview>
+          <div style={{ display: 'flex', gap: 48, alignItems: 'flex-start' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>TkajUI</p>
+              <div style={{ display: 'flex', gap: 12 }}>
+                {ICONS.map(({ icon, label }) => (
+                  <Pictogram key={label} icon={icon} size="xl" color="#8F7458" />
+                ))}
+              </div>
+              <p style={{ margin: 0, fontSize: '0.5rem', color: '#3A3858' }}>color="currentColor" — žádné pozadí</p>
+            </div>
+            <div style={{ width: 1, background: '#2A2948', alignSelf: 'stretch' }} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>donjon-fall-ui</p>
+              <div style={{ display: 'flex', gap: 12 }}>
+                {ICONS.map(({ icon, label }) => (
+                  <DonjonPictogram key={label} icon={icon} size="xl" variant="active" />
+                ))}
+              </div>
+              <p style={{ margin: 0, fontSize: '0.5rem', color: '#3A3858' }}>variant="active" — tmavé pozadí, glow, oktagon</p>
+            </div>
+          </div>
+        </Preview>
+      </Section>
+
     </ShowcasePage>
   )
 }

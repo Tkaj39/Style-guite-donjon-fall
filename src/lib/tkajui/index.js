@@ -19,5 +19,7 @@ export { default as ScoopClip }      from './ScoopClip'
 export { default as CornerOrnament } from './CornerOrnament'
 export { default as Ornaments }      from './Ornaments'
 
+export { default as Pictogram }      from './Pictogram'
+
 // Utils
 export * from '../../utils/octagon'
