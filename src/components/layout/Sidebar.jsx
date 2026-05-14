@@ -52,6 +52,9 @@ const sections = [
       { to: '/responsive',         label: 'Responsive Design' },
       { to: '/focus-ring',         label: 'Focus Ring' },
       { to: '/glow-shadow',        label: 'Glow & Shadow' },
+      { to: '/cursor',             label: 'Cursor States' },
+      { to: '/scrollbar',          label: 'Scrollbar' },
+      { to: '/text-selection',     label: 'Text Selection' },
     ],
   },
   {

@@ -52,6 +52,9 @@ import MicrocopyPage from './pages/MicrocopyPage'
 import ResponsivePage from './pages/ResponsivePage'
 import FocusRingPage from './pages/FocusRingPage'
 import GlowShadowPage from './pages/GlowShadowPage'
+import CursorPage from './pages/CursorPage'
+import ScrollbarPage from './pages/ScrollbarPage'
+import TextSelectionPage from './pages/TextSelectionPage'
 
 export default function App() {
   return (
@@ -109,6 +112,9 @@ export default function App() {
         <Route path="responsive"         element={<ResponsivePage />} />
         <Route path="focus-ring"         element={<FocusRingPage />} />
         <Route path="glow-shadow"        element={<GlowShadowPage />} />
+        <Route path="cursor"             element={<CursorPage />} />
+        <Route path="scrollbar"          element={<ScrollbarPage />} />
+        <Route path="text-selection"     element={<TextSelectionPage />} />
       </Route>
     </Routes>
   )
