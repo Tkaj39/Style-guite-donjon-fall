@@ -1,6 +1,7 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
-import { octagon, clipLeft, clipRight, octagonWithNotch } from '../utils/octagon'
+import { octagon, clipLeft, clipRight, octagonWithNotch, roundRect, pill, scoopPath, SHAPE_SIZES } from '../utils/octagon'
 import { buttonSizes } from '../utils/sizes'
+import ScoopClip from '../components/ScoopClip'
 
 /* ── sdílené styly ── */
 const inter = '"Inter", sans-serif'
@@ -447,12 +448,232 @@ octagonWithNotch(
 />`} />
       </Section>
 
+      {/* Shape varianty */}
+      <Section
+        id="shape-varianty"
+        title="Shape varianty — Cut / Round / Scoop / Curve"
+        description="Čtyři rohové styly tvoří kompletní shapes systém. Cut je výchozí pro Donjon Fall; ostatní varianty pro specifické kontexty."
+      >
+        {/* Srovnávací matice — 4 varianty × 5 velikostí */}
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%' }}>
+            {[
+              {
+                key: 'cut', label: 'Cut', desc: 'Zkosené rohy — výchozí Donjon styl',
+                color: '#B8956A',
+                getClip: (s) => octagon(s.cut),
+              },
+              {
+                key: 'round', label: 'Round', desc: 'Konvexní zaoblení — inset(round r)',
+                color: '#4080C0',
+                getClip: (s) => roundRect(s.round),
+              },
+              {
+                key: 'scoop', label: 'Scoop', desc: 'Konkávní rohy — path() s pevnými px',
+                color: '#40A055',
+                getClip: (s) => scoopPath(s.w, s.h, s.scoop),
+              },
+              {
+                key: 'pill', label: 'Curve / Pill', desc: 'Plně zaoblené — stadium tvar',
+                color: '#C08040',
+                getClip: () => pill(),
+              },
+            ].map(({ key, label, desc, color, getClip }) => (
+              <div key={key} style={{ display: 'flex', gap: 16, alignItems: 'flex-end' }}>
+                {/* Label vlevo */}
+                <div style={{ width: 70, flexShrink: 0, textAlign: 'right', paddingBottom: 4 }}>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color, fontFamily: inter, letterSpacing: '0.04em' }}>{label}</span>
+                </div>
+                {/* Tvary pro každou velikost */}
+                <div style={{ display: 'flex', gap: 12, alignItems: 'flex-end', flexWrap: 'wrap' }}>
+                  {Object.entries(SHAPE_SIZES).map(([sKey, s]) => (
+                    <div key={sKey} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                      <div style={{
+                        clipPath: getClip(s),
+                        background: `linear-gradient(150deg, ${color}18 0%, ${color}08 100%)`,
+                        border: `1.5px solid ${color}55`,
+                        width: s.w, height: s.h,
+                        flexShrink: 0,
+                      }} />
+                      <span style={{ ...lbl, color: '#4A4870' }}>{sKey}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Preview>
+
+        {/* Detail Cut */}
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: '#B8956A', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: inter }}>Cut — zkosené rohy (Donjon výchozí)</p>
+            <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end', marginTop: 8, flexWrap: 'wrap' }}>
+              {Object.entries(SHAPE_SIZES).map(([key, s]) => (
+                <div key={key} style={{ clipPath: octagon(s.cut), background: '#1E1C3A', border: '1px solid #B8956A40', width: s.w, height: s.h, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontSize: '0.5625rem', color: '#B8956A', fontFamily: inter }}>cx={s.cut}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Preview>
+
+        {/* Detail Round */}
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: '#4080C0', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: inter }}>Round — konvexní zaoblení (responsive ✓)</p>
+            <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end', marginTop: 8, flexWrap: 'wrap' }}>
+              {Object.entries(SHAPE_SIZES).map(([key, s]) => (
+                <div key={key} style={{ clipPath: roundRect(s.round), background: '#12102A', border: '1px solid #4080C040', width: s.w, height: s.h, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontSize: '0.5625rem', color: '#4080C0', fontFamily: inter }}>r={s.round}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Preview>
+
+        {/* Detail Scoop */}
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: '#40A055', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: inter }}>Scoop — konkávní rohy (pevné px nebo ScoopClip)</p>
+            <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end', marginTop: 8, flexWrap: 'wrap' }}>
+              {Object.entries(SHAPE_SIZES).map(([key, s]) => (
+                <div key={key} style={{ clipPath: scoopPath(s.w, s.h, s.scoop), background: '#12102A', border: '1px solid #40A05540', width: s.w, height: s.h, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontSize: '0.5625rem', color: '#40A055', fontFamily: inter }}>r={s.scoop}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Preview>
+
+        {/* Detail Curve/Pill */}
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: '#C08040', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: inter }}>Curve / Pill — stadium tvar (responsive ✓)</p>
+            <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end', marginTop: 8, flexWrap: 'wrap' }}>
+              {Object.entries(SHAPE_SIZES).map(([key, s]) => (
+                <div key={key} style={{ clipPath: pill(), background: '#12102A', border: '1px solid #C0804040', width: s.w, height: s.h, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontSize: '0.5625rem', color: '#C08040', fontFamily: inter }}>pill</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Preview>
+
+        <CodeBlock code={`import { octagon, roundRect, scoopPath, pill, SHAPE_SIZES } from '../utils/octagon'
+import ScoopClip from '../components/ScoopClip'
+
+// ── Cut — zkosené rohy (výchozí Donjon) ──
+<div style={{ clipPath: octagon(15.62) }}>Obsah</div>
+
+// ── Round — konvexně zaoblené, responsive ──
+<div style={{ clipPath: roundRect(8) }}>Obsah</div>
+
+// ── Scoop (A) — pevné rozměry, path() ──
+// Element MUSÍ mít přesně w × h px
+<div style={{ width: 170, height: 52, clipPath: scoopPath(170, 52, 13) }}>
+  Obsah
+</div>
+
+// ── Scoop (B) — ScoopClip, pseudo-responsive ──
+// Vhodné pro pevnou výšku + proměnnou šířku
+<ScoopClip r={0.25} style={{ height: 52, padding: '0 18px', background: '#1E1C3A' }}>
+  Obsah
+</ScoopClip>
+
+// ── Curve / Pill — plně zaoblené, responsive ──
+<div style={{ clipPath: pill() }}>Obsah</div>
+
+// ── Velikostní tabulka (SHAPE_SIZES) ──
+// SHAPE_SIZES.md = { w:170, h:52, cut:15.62, round:8, scoop:13, bb:0.25 }`} />
+      </Section>
+
+      {/* ScoopClip — responzivní scoop */}
+      <Section
+        id="scoop-responsive"
+        title="Responzivní Scoop — ScoopClip"
+        description="ScoopClip používá SVG clipPath s clipPathUnits='objectBoundingBox' — souřadnice 0–1 relativně k elementu. Funguje nejlépe pro pevnou výšku + variabilní šířku (tlačítka, panely)."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-start' }}>
+            {/* Různé šířky — stejný r */}
+            {[100, 160, 240].map(w => (
+              <ScoopClip
+                key={w}
+                r={0.25}
+                style={{
+                  width: w, height: 48,
+                  background: 'linear-gradient(150deg, #40A05518 0%, #12102A 100%)',
+                  border: '1px solid #40A05540',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}
+              >
+                <span style={{ fontSize: '0.75rem', color: '#40A055', fontFamily: inter }}>w={w}px · r=0.25</span>
+              </ScoopClip>
+            ))}
+          </div>
+        </Preview>
+        <CodeBlock code={`// ScoopClip — responzivní scoop přes SVG clipPathUnits="objectBoundingBox"
+import ScoopClip from '../components/ScoopClip'
+
+<ScoopClip
+  r={0.25}        // relativní hloubka 0–1 (doporučeno 0.20–0.28)
+  style={{        // předáno na vnitřní div
+    height: 52,
+    padding: '0 18px',
+    background: '#1E1C3A',
+  }}
+>
+  Obsah komponenty
+</ScoopClip>
+
+// Jak to funguje:
+// 1. ScoopClip renderuje inline <svg> s <clipPath clipPathUnits="objectBoundingBox">
+// 2. Cesta je definovaná v 0–1 souřadnicích (relativní k elementu)
+// 3. clip-path: url(#id) aplikuje tvar na div
+// ⚠ Prohnutí se mírně deformuje u extrémních poměrů stran (velmi úzké/velmi široké)`} />
+      </Section>
+
+      {/* Kdy jakou variantu */}
+      <Section
+        id="kdy-jakou"
+        title="Kdy jakou variantu použít"
+        description="Každá varianta komunikuje jiný vizuální charakter — volba musí odpovídat kontextu."
+      >
+        <Preview dark={false}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 600 }}>
+            {[
+              { variant: 'Cut',         color: '#B8956A', use: 'Výchozí — všechna tlačítka, karty, HUD. Geometrický, středověký charakter.', avoid: 'Kontexty vyžadující soft/organický vzhled' },
+              { variant: 'Round',       color: '#4080C0', use: 'Informační panely, tooltips, modaly ve světlém kontextu. Přátelský, moderní.', avoid: 'Herní akce — příliš soft pro bojový kontext' },
+              { variant: 'Scoop',       color: '#40A055', use: 'Speciální herní prvky, výsledkové karty, dekorativní rámce. Neobvyklý akcent.', avoid: 'Běžné UI komponenty — scoop je nápadný, šetři ho' },
+              { variant: 'Curve / Pill', color: '#C08040', use: 'Badgy, toggle trackery, search pole. Organický, hravý.', avoid: 'Tlačítka v herním kontextu — příliš mírné' },
+            ].map(({ variant, color, use, avoid }) => (
+              <div key={variant} style={{ display: 'grid', gridTemplateColumns: '80px 1fr 1fr', gap: 10, padding: '10px 12px', background: '#12102A', border: `1px solid ${color}22`, borderLeft: `3px solid ${color}`, borderRadius: 3 }}>
+                <code style={{ fontSize: '0.8125rem', fontWeight: 700, color }}>{variant}</code>
+                <div>
+                  <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#40A055', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Použij</p>
+                  <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3', lineHeight: 1.4 }}>{use}</p>
+                </div>
+                <div>
+                  <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#C04040', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Vyhni se</p>
+                  <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3', lineHeight: 1.4 }}>{avoid}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Preview>
+      </Section>
+
       {/* Pravidla */}
       <Section id="pravidla" title="Pravidla">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">
           <p>✓ Poměr cx/h je přibližně <strong className="text-[#8F7458]">0.300</strong> pro všechny velikosti — zkosení je vždy ~30 % výšky.</p>
           <p>✓ <code className="text-neutral-300">clip-path</code> ořezává i border — DonjonCard simuluje border jako vrstvu (outer cx=16, inner cx=15, padding: 1px).</p>
           <p>✓ Notch: nw=28, nh=12 je výchozí pro md kontext. Škáluj proporcionálně s cx.</p>
+          <p>✓ Cut je výchozí varianta pro Donjon Fall — geometrický herní charakter.</p>
+          <p>✓ Round a Pill jsou responsive (inset round) — fungují s libovolnou šířkou.</p>
+          <p>✓ Scoop s pevnými rozměry: element musí mít přesně w×h — scoopPath(w, h, r).</p>
+          <p>✓ Scoop s variabilní šířkou: použij ScoopClip s r=0.25 — objectBoundingBox přístup.</p>
           <p>✓ Corner ornaments: vždy 4× — TL, TR, BL, BR pomocí CSS transform (scaleX/scaleY/-1).</p>
           <p>✓ Ornament color: <code className="text-neutral-300">#8F7458</code> (gold-dark) pro výchozí, player color pro herní kontexty.</p>
           <p>✗ Nikdy nepoužívej <code className="text-neutral-300">border-radius</code> a <code className="text-neutral-300">clip-path</code> zároveň — clip-path vždy vyhraje.</p>
