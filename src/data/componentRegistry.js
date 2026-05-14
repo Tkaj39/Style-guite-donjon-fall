@@ -1,28 +1,25 @@
-/* ── Fáze 1 + 2: datová vrstva komponent ─────────────────────────────────
-   Fáze 1: Automaticky načítá seznam komponent ze src/components.
-   Fáze 2: Merguje ruční metadata z componentMeta.js.
+/* ── Datová vrstva komponent ──────────────────────────────────────────────
+   Automaticky načítá seznam komponent z lib/ a sestavuje registr.
+   Merguje ruční metadata z componentMeta.js.
 
    Zdroj pravdy pro existenci = filesystem.
    Zdroj pravdy pro obsah     = componentMeta.js.
 
    Kategorizace:
-     src/components/*.jsx         → UI Components   (public)
-     src/components/game-assets/  → Game Assets     (public)
-     src/components/layout/       → Layout          (internal)
+     src/lib/tkajui/*.jsx   → UI Components   (public)
+     src/lib/donjon/*.jsx   → Game Assets     (public)
+     src/components/layout/ → Layout          (internal)
 
    Výjimka visibility:
-     Ornaments.jsx je internal i přes umístění v root UI Components.
+     Ornaments.jsx je internal i přes umístění v tkajui.
    ─────────────────────────────────────────────────────────────────────── */
 
 import { componentMeta } from './componentMeta'
 
 /* import.meta.glob — cesty relativní k tomuto souboru (src/data/) */
-const ROOT_GLOB       = import.meta.glob('../components/*.jsx')
-const GAME_ASSET_GLOB = import.meta.glob('../components/game-assets/*.jsx')
-const LAYOUT_GLOB     = import.meta.glob('../components/layout/*.jsx')
-// Komponenty přesunuté do lib/ během migrace na TkajUI + donjon-fall-ui
-const TKAJUI_GLOB     = import.meta.glob('../lib/tkajui/*.jsx')
-const DONJON_GLOB     = import.meta.glob('../lib/donjon/*.jsx')
+const LAYOUT_GLOB = import.meta.glob('../components/layout/*.jsx')
+const TKAJUI_GLOB = import.meta.glob('../lib/tkajui/*.jsx')
+const DONJON_GLOB = import.meta.glob('../lib/donjon/*.jsx')
 
 /* Explicitní override viditelnosti pro konkrétní komponenty */
 const VISIBILITY_OVERRIDES = {
@@ -104,12 +101,6 @@ function applyMeta(entry) {
 function buildRegistry() {
   const entries = []
 
-  Object.keys(ROOT_GLOB).forEach(path => {
-    entries.push(applyMeta(makeEntry(path, 'root')))
-  })
-  Object.keys(GAME_ASSET_GLOB).forEach(path => {
-    entries.push(applyMeta(makeEntry(path, 'game-assets')))
-  })
   Object.keys(LAYOUT_GLOB).forEach(path => {
     entries.push(applyMeta(makeEntry(path, 'layout')))
   })
