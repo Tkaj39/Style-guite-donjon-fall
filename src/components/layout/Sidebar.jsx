@@ -55,6 +55,8 @@ const sections = [
       { to: '/cursor',             label: 'Cursor States' },
       { to: '/scrollbar',          label: 'Scrollbar' },
       { to: '/text-selection',     label: 'Text Selection' },
+      { to: '/tokens',             label: 'Design Tokens' },
+      { to: '/texture',            label: 'Texture systém' },
     ],
   },
   {
@@ -100,6 +102,7 @@ const sections = [
         ],
       },
       { to: '/victory-points', label: 'Vítězné body' },
+      { to: '/hud', label: 'HUD Elementy' },
       {
         to: '/dialogs', label: 'Dialogy',
         children: [

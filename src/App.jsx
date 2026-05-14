@@ -55,6 +55,9 @@ import GlowShadowPage from './pages/GlowShadowPage'
 import CursorPage from './pages/CursorPage'
 import ScrollbarPage from './pages/ScrollbarPage'
 import TextSelectionPage from './pages/TextSelectionPage'
+import TokensPage from './pages/TokensPage'
+import HudPage from './pages/HudPage'
+import TexturePage from './pages/TexturePage'
 
 export default function App() {
   return (
@@ -115,6 +118,9 @@ export default function App() {
         <Route path="cursor"             element={<CursorPage />} />
         <Route path="scrollbar"          element={<ScrollbarPage />} />
         <Route path="text-selection"     element={<TextSelectionPage />} />
+        <Route path="tokens"             element={<TokensPage />} />
+        <Route path="hud"                element={<HudPage />} />
+        <Route path="texture"            element={<TexturePage />} />
       </Route>
     </Routes>
   )
