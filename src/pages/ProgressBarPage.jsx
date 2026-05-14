@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import ProgressBar from '../components/ProgressBar'
+import ProgressBar from '../lib/tkajui/ProgressBar'
 import DonjonButton from '../components/DonjonButton'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 

@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 import DonjonButton from '../components/DonjonButton'
 import DonjonBadge from '../components/DonjonBadge'
-import Toggle from '../components/Toggle'
-import ProgressBar from '../components/ProgressBar'
+import Toggle from '../lib/tkajui/Toggle'
+import ProgressBar from '../lib/tkajui/ProgressBar'
 
 /* ── State matrix row ── */
 function StateRow({ state, required, description, components }) {

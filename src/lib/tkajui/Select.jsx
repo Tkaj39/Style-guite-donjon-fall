@@ -3,7 +3,7 @@
    na DonjonInput. Klávesnicová navigace, Escape zavírání, click-outside.
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useRef, useEffect, useId } from 'react'
-import { octagon } from '../utils/octagon'
+import { octagon } from '../../utils/octagon'
 
 const VARIANTS = {
   default: { border: '#8F7458', bg: '#8F745818', focus: '#8F745866' },

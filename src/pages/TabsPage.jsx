@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Tabs from '../components/Tabs'
+import Tabs from '../lib/tkajui/Tabs'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 
 /* ── Ikony ── */

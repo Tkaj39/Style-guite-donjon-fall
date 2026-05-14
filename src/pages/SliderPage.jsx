@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Slider from '../components/Slider'
+import Slider from '../lib/tkajui/Slider'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 
 function Demo({ initial = 50, ...props }) {

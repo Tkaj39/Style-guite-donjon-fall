@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Toggle from '../components/Toggle'
+import Toggle from '../lib/tkajui/Toggle'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 
 /* ── Controlled wrapper ── */
