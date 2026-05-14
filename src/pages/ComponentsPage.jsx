@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { registry, CATEGORIES, getCategoryCounts } from '../data/componentRegistry'
 import { ShowcasePage, Section } from '../components/layout/ShowcasePage'
 
@@ -116,11 +116,15 @@ function VisibilityTag({ visibility }) {
 
 /* ── ComponentCard ── */
 function ComponentCard({ comp }) {
+  const navigate = useNavigate()
   const propsCount = comp.props?.length ?? 0
+  const hasShowcase = !!comp.showcaseRoute
+  // Primární akce: showcase stránka pokud existuje, jinak detail
+  const primaryTo = comp.showcaseRoute || `/components/${comp.slug}`
 
   return (
     <Link
-      to={`/components/${comp.slug}`}
+      to={primaryTo}
       className="group flex flex-col gap-3 p-4 rounded-lg bg-neutral-900 border border-neutral-800 hover:border-brand-600/60 hover:bg-neutral-800/80 transition-all duration-150"
     >
       {/* Header */}
@@ -156,9 +160,19 @@ function ComponentCard({ comp }) {
             </span>
           )}
         </div>
-        <span className="text-neutral-700 group-hover:text-brand-500 transition-colors">
-          <ArrowIcon />
-        </span>
+        <div className="flex items-center gap-2">
+          {/* "detail" chip — přístup k /components/:slug, zastaví bubblování na Link */}
+          <span
+            onClick={e => { e.preventDefault(); e.stopPropagation(); navigate(`/components/${comp.slug}`) }}
+            className="text-[10px] font-mono text-neutral-700 hover:text-neutral-400 transition-colors cursor-pointer px-1.5 py-0.5 rounded hover:bg-neutral-800"
+            title="Otevřít detail komponenty"
+          >
+            detail
+          </span>
+          <span className={`transition-colors ${hasShowcase ? 'text-neutral-700 group-hover:text-brand-500' : 'text-neutral-800'}`}>
+            <ArrowIcon />
+          </span>
+        </div>
       </div>
     </Link>
   )
