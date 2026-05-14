@@ -19,6 +19,7 @@ export default function Toggle({
   checked = false,
   onChange,
   label,
+  'aria-label': ariaLabel,
   labelPosition = 'right',
   size = 'md',
   variant = 'default',
@@ -86,7 +87,7 @@ export default function Toggle({
       role="switch"
       aria-checked={checked}
       aria-disabled={disabled}
-      aria-label={label || undefined}
+      aria-label={ariaLabel || label || undefined}
       tabIndex={disabled ? -1 : 0}
       id={id}
       style={trackStyle}

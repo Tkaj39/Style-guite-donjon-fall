@@ -19,6 +19,8 @@ const SIZES = { sm: 16, md: 24, lg: 32, xl: 48 }
 export default function Pictogram({ icon: Icon, size = 'md', color = 'currentColor', className, style = {} }) {
   const px = SIZES[size] ?? SIZES.md
 
+  if (!Icon) return null
+
   return (
     <span
       className={className}

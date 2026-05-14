@@ -111,12 +111,14 @@ describe('ProgressBar edge values', () => {
 // ─── Pictogram — null/undefined safety ─────────────────────────────────────
 
 describe('Pictogram null/undefined safety', () => {
-  it('icon={undefined} → necrashne', () => {
-    // Pictogram renders Icon() — undefined() throws; test that it handles it
-    // In practice this would crash — test documents expected behavior
-    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
-    expect(() => render(<Pictogram icon={undefined} />)).toThrow()
-    consoleError.mockRestore()
+  it('icon={undefined} → necrashne, vrátí null', () => {
+    const { container } = render(<Pictogram icon={undefined} />)
+    expect(container.firstChild).toBeNull()
+  })
+
+  it('icon={null} → necrashne, vrátí null', () => {
+    const { container } = render(<Pictogram icon={null} />)
+    expect(container.firstChild).toBeNull()
   })
 
   it('icon definovaný → necrashne', () => {

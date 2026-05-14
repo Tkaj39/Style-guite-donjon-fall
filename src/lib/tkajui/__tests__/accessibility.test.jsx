@@ -42,15 +42,11 @@ describe('Accessibility (axe audit)', () => {
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('Toggle bez label → axe HLÁSÍ porušení nebo přijme (závisí na a11y implemenaci)', async () => {
+  it('Toggle s aria-label (bez label prop) projde axe audit', async () => {
     const { container } = render(
-      <Toggle checked={false} onChange={() => {}} />
+      <Toggle aria-label="Přepínač zvuku" checked={false} onChange={() => {}} />
     )
-    // Bez label/aria-label axe hlásí porušení "aria-toggle-field-name".
-    // Tento test dokumentuje chování — pokud Toggle bez labelu projde,
-    // implementace přidala fallback; pokud ne, je to dokumentované porušení.
-    const result = await axe(container)
-    expect(result).toBeDefined() // axe proběhlo bez chyby (nezávisle na violations)
+    expect(await axe(container)).toHaveNoViolations()
   })
 
   it('Slider s label projde axe audit', async () => {
