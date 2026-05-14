@@ -1,4 +1,4 @@
-import DonjonBadge from '../components/DonjonBadge'
+import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 
 const SwordIcon = () => (

@@ -1,5 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
-import DonjonButton from '../components/DonjonButton'
+import DonjonButton from '../lib/donjon/DonjonButton'
 
 /* ── Focus ring demo ── */
 function FocusDemo({ label, style, desc }) {

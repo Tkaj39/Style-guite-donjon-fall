@@ -1,4 +1,4 @@
-import HexTile from '../components/game-assets/HexTile'
+import HexTile from '../lib/donjon/HexTile'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 import { players } from '../data/gameUiMockData'
 

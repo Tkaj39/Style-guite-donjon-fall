@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
-import DonjonButton from '../components/DonjonButton'
+import DonjonButton from '../lib/donjon/DonjonButton'
 
 /* ── Timing demo box ── */
 function TimingDemo({ duration, label, easing = 'ease' }) {

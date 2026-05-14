@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
-import DonjonButton from '../components/DonjonButton'
-import DonjonBadge from '../components/DonjonBadge'
+import DonjonButton from '../lib/donjon/DonjonButton'
+import DonjonBadge from '../lib/donjon/DonjonBadge'
 import Toggle from '../lib/tkajui/Toggle'
 import ProgressBar from '../lib/tkajui/ProgressBar'
 

@@ -1,5 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
-import DonjonBadge from '../components/DonjonBadge'
+import DonjonBadge from '../lib/donjon/DonjonBadge'
 
 /* ── Breakpoint vizuál ── */
 function BpBar({ label, min, max, color, desc, items }) {

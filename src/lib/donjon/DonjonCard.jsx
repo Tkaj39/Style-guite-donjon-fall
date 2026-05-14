@@ -1,6 +1,6 @@
 import { useId } from 'react'
-import { octagon } from '../utils/octagon'
-import { SideOrnament, HexOrnament } from '../lib/tkajui/Ornaments'
+import { octagon } from '../../utils/octagon'
+import { SideOrnament, HexOrnament } from '../tkajui/Ornaments'
 
 const variants = {
   default: {

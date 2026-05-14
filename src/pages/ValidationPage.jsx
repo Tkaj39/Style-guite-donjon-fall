@@ -1,5 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
-import DonjonBadge from '../components/DonjonBadge'
+import DonjonBadge from '../lib/donjon/DonjonBadge'
 
 /* ── Field with state ── */
 function ValidatedField({ label, value, state = 'default', hint, error, success }) {

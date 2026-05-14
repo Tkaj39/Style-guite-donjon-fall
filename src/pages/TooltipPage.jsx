@@ -1,6 +1,6 @@
 import Tooltip from '../lib/tkajui/Tooltip'
-import DonjonButton from '../components/DonjonButton'
-import DonjonBadge from '../components/DonjonBadge'
+import DonjonButton from '../lib/donjon/DonjonButton'
+import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 
 const InfoIcon = () => (

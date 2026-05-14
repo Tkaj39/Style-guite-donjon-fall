@@ -1,5 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
-import DonjonBadge from '../components/DonjonBadge'
+import DonjonBadge from '../lib/donjon/DonjonBadge'
 
 /* ── Token row ── */
 function TokenRow({ name, value, computed, usage, category }) {

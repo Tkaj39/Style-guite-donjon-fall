@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import HexTile from '../components/game-assets/HexTile'
-import DieFace from '../components/game-assets/DieFace'
-import DonjonCard from '../components/DonjonCard'
-import DonjonBadge from '../components/DonjonBadge'
+import HexTile from '../lib/donjon/HexTile'
+import DieFace from '../lib/donjon/DieFace'
+import DonjonCard from '../lib/donjon/DonjonCard'
+import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
 import { players, turnPhases } from '../data/gameUiMockData'
 

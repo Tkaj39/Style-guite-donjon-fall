@@ -1,7 +1,7 @@
 import { forwardRef, useId } from 'react'
-import { octagon } from '../utils/octagon'
-import { buttonSizes as sizes } from '../utils/sizes'
-import { SideOrnament, HexOrnament } from '../lib/tkajui/Ornaments'
+import { octagon } from '../../utils/octagon'
+import { buttonSizes as sizes } from '../../utils/sizes'
+import { SideOrnament, HexOrnament } from '../tkajui/Ornaments'
 
 function Spinner({ size }) {
   return (

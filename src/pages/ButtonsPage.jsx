@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import DonjonButton from '../components/DonjonButton'
+import DonjonButton from '../lib/donjon/DonjonButton'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 
 const PlusIcon = () => (

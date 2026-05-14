@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import ProgressBar from '../lib/tkajui/ProgressBar'
-import DonjonButton from '../components/DonjonButton'
+import DonjonButton from '../lib/donjon/DonjonButton'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 
 /* ── Animovaný demo ── */

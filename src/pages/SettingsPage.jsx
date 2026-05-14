@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import DonjonBadge from '../components/DonjonBadge'
-import DonjonCard from '../components/DonjonCard'
+import DonjonBadge from '../lib/donjon/DonjonBadge'
+import DonjonCard from '../lib/donjon/DonjonCard'
 import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
 import DeviceFrame, { ComparisonRow } from '../components/layout/DeviceFrame'
 import { players } from '../data/gameUiMockData'

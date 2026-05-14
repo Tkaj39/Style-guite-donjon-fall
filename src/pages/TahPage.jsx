@@ -1,7 +1,7 @@
 import { useState, Fragment } from 'react'
-import DonjonCard from '../components/DonjonCard'
-import DonjonButton from '../components/DonjonButton'
-import DonjonBadge from '../components/DonjonBadge'
+import DonjonCard from '../lib/donjon/DonjonCard'
+import DonjonButton from '../lib/donjon/DonjonButton'
+import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 import { players, turnPhases } from '../data/gameUiMockData'
 

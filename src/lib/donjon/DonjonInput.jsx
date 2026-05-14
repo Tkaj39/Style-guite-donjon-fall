@@ -1,5 +1,5 @@
 import { useState, useId } from 'react'
-import { octagon } from '../utils/octagon'
+import { octagon } from '../../utils/octagon'
 
 const sizes = {
   sm: { h: 36, cx: 8, px: 12, fontSize: '0.75rem' },

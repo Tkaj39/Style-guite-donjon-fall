@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import DonjonInput from '../components/DonjonInput'
+import DonjonInput from '../lib/donjon/DonjonInput'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 
 const SearchIcon = () => (

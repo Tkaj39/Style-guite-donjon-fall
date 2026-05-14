@@ -1,4 +1,4 @@
-import { octagon } from '../utils/octagon'
+import { octagon } from '../../utils/octagon'
 
 const variantMap = {
   default: { bg: '#2A2948', border: '#8F7458', text: '#B8956A', dot: '#FFC183' },

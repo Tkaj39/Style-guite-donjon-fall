@@ -1,5 +1,5 @@
-import HexTile from '../components/game-assets/HexTile'
-import DonjonBadge from '../components/DonjonBadge'
+import HexTile from '../lib/donjon/HexTile'
+import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
 import DeviceFrame, { ComparisonRow } from '../components/layout/DeviceFrame'
 

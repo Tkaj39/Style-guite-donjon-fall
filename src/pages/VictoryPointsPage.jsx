@@ -1,5 +1,5 @@
-import DonjonCard from '../components/DonjonCard'
-import DonjonBadge from '../components/DonjonBadge'
+import DonjonCard from '../lib/donjon/DonjonCard'
+import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 import { players as basePlayers } from '../data/gameUiMockData'
 

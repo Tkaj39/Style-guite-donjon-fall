@@ -1,6 +1,6 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
-import DonjonButton from '../components/DonjonButton'
-import DonjonBadge from '../components/DonjonBadge'
+import DonjonButton from '../lib/donjon/DonjonButton'
+import DonjonBadge from '../lib/donjon/DonjonBadge'
 
 /* ── Prázdný stav template ── */
 function EmptyState({ icon, title, description, cta, ctaLabel = 'Začít', variant = 'default' }) {

@@ -1,5 +1,5 @@
 import { ToastProvider, useToast } from '../lib/tkajui/Toast'
-import DonjonButton from '../components/DonjonButton'
+import DonjonButton from '../lib/donjon/DonjonButton'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 
 /* ── Demo helpers ─ musí být uvnitř ToastProvider ── */

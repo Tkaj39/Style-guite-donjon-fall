@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Modal from '../lib/tkajui/Modal'
-import DonjonButton from '../components/DonjonButton'
+import DonjonButton from '../lib/donjon/DonjonButton'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 
 /* ── Demo helper ── */
