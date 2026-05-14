@@ -177,6 +177,7 @@ export default function MapPage() {
 
   return (
     <ShowcasePage
+      library="donjon"
       title="Mapa"
       description="Herní plocha složená z hexagonálních polí. Default mapa: 61 hexů, 2 hráči, 3 ohniska v jedné skupině."
     >

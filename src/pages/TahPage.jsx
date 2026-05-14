@@ -99,6 +99,7 @@ export default function TahPage() {
 
   return (
     <ShowcasePage
+      library="donjon"
       title="Tah"
       description="Každý tah má 3 fáze: vyhodnocení ohnisek, výběr akce a souboj (pokud ho pohyb spustil). Souboj není samostatná volba."
     >

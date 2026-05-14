@@ -19,6 +19,7 @@ function ModalDemo({ label, buttonVariant = 'default', ...modalProps }) {
 export default function ModalPage() {
   return (
     <ShowcasePage
+      library="tkajui"
       title="Modal"
       description="Modální dialog s fokusovým uzamčením, Escape zavřením a zamčeným scrollem. Vizuálně navazuje na DonjonCard — oktagonální border, ornamenti, barevné varianty."
       componentSlug="modal"

@@ -74,6 +74,7 @@ export default function ButtonGroupsPage() {
 
   return (
     <ShowcasePage
+      library="tkajui"
       title="Button Groups"
       description="Skupiny tlačítek pro přepínání pohledů, navigaci nebo filtrování. Vždy jedno tlačítko je aktivní."
       componentSlug="button-group"

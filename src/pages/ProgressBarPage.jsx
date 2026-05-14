@@ -64,6 +64,7 @@ function HpBar({ label, value, max, variant }) {
 export default function ProgressBarPage() {
   return (
     <ShowcasePage
+      library="tkajui"
       title="Progress Bar"
       description="Lineární ukazatel průběhu pro loading stavy, herní statistiky nebo vícekrokové procesy. Determinate i indeterminate (animovaný shimmer) mód."
       componentSlug="progress-bar"

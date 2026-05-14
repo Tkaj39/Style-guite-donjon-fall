@@ -386,6 +386,7 @@ function ComparisonRow() {
 export default function ScreensPage() {
   return (
     <ShowcasePage
+      library="donjon"
       title="Obrazovky"
       description="Ukázka herního rozložení na třech zařízeních — PC, tablet a mobil. Každý breakpoint přizpůsobuje rozmístění herních prvků. Obsah je statický — jde o prioritizaci a rozmístění, ne o živou herní logiku."
     >

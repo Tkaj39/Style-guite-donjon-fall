@@ -1,5 +1,50 @@
 import { Link } from 'react-router-dom'
 
+/* ── Library icons ── */
+function TkajuiIcon({ size = 13 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 14 14" fill="none">
+      <rect x="1" y="1"   width="12" height="3" rx="0.8" fill="currentColor" opacity="0.4" />
+      <rect x="1" y="5.5" width="12" height="3" rx="0.8" fill="currentColor" opacity="0.7" />
+      <rect x="1" y="10"  width="12" height="3" rx="0.8" fill="currentColor" />
+    </svg>
+  )
+}
+
+function DonjonIcon({ size = 13 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 14 14" fill="none">
+      <path d="M7 1.5V10.5"  stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M3.5 5H10.5"  stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M5.5 10.5H8.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+      <path d="M7 10.5V12.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+const LIBRARY_CFG = {
+  tkajui: { label: 'TkajUI',         color: '#7BAED4', Icon: TkajuiIcon },
+  donjon: { label: 'donjon-fall-ui', color: '#B8956A', Icon: DonjonIcon },
+}
+
+function LibraryBadge({ library }) {
+  const c = LIBRARY_CFG[library]
+  if (!c) return null
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 5,
+      padding: '3px 9px', borderRadius: 4,
+      background: `${c.color}14`, border: `1px solid ${c.color}3A`,
+      color: c.color, fontSize: '0.6875rem', fontWeight: 600,
+      fontFamily: '"Inter", sans-serif', letterSpacing: '0.04em',
+      flexShrink: 0, lineHeight: 1,
+    }}>
+      <c.Icon size={12} />
+      {c.label}
+    </span>
+  )
+}
+
 function ApiChip({ slug }) {
   return (
     <Link
@@ -14,13 +59,16 @@ function ApiChip({ slug }) {
   )
 }
 
-export function ShowcasePage({ title, description, children, componentSlug }) {
+export function ShowcasePage({ title, description, children, componentSlug, library }) {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
       <header className="mb-8 lg:mb-10 border-b border-neutral-800 pb-6 lg:pb-8">
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div className="flex flex-col gap-2">
-            <h2 className="text-2xl lg:text-3xl font-bold text-white">{title}</h2>
+            <div className="flex items-center gap-3 flex-wrap">
+              <h2 className="text-2xl lg:text-3xl font-bold text-white">{title}</h2>
+              <LibraryBadge library={library} />
+            </div>
             {description && (
               <p className="text-neutral-400 text-sm lg:text-base">{description}</p>
             )}
@@ -47,14 +95,19 @@ export function Section({ id, title, description, children }) {
   )
 }
 
-export function Preview({ children, dark = true }) {
+export function Preview({ children, dark = true, label }) {
   return (
-    <div
-      className={`rounded-xl border border-neutral-800 p-4 sm:p-6 lg:p-8 flex flex-wrap items-start gap-3 lg:gap-4 overflow-x-auto ${
-        dark ? 'bg-neutral-900' : 'bg-neutral-100'
-      }`}
-    >
-      {children}
+    <div className="flex flex-col gap-1.5">
+      {label && (
+        <p className="text-xs text-neutral-600 font-mono">{label}</p>
+      )}
+      <div
+        className={`rounded-xl border border-neutral-800 p-4 sm:p-6 lg:p-8 flex flex-wrap items-start gap-3 lg:gap-4 overflow-x-auto ${
+          dark ? 'bg-neutral-900' : 'bg-neutral-100'
+        }`}
+      >
+        {children}
+      </div>
     </div>
   )
 }

@@ -42,6 +42,7 @@ const valueStyle = { color: '#F0E6D3', fontWeight: 600 }
 export default function CardsPage() {
   return (
     <ShowcasePage
+      library="donjon"
       title="Cards"
       description="Donjon Fall panel cards — octagon clip-path with SideOrnament and HexOrnament, variant-coloured headers."
       componentSlug="donjon-card"

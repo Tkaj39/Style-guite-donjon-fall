@@ -92,6 +92,7 @@ export default function AkcePage() {
 
   return (
     <ShowcasePage
+      library="donjon"
       title="Akce"
       description="Hráč musí každý tah zvolit právě jednu ze 4 akcí. Souboj není akce — spouští ho pohyb."
     >

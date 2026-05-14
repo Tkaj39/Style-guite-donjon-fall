@@ -78,6 +78,7 @@ export default function DialogyPage() {
 
   return (
     <ShowcasePage
+      library="donjon"
       title="Dialogy"
       description="Systémové herní dialogy — rozhodnutí souboje, zpětná vazba na VP, přechody tahu a výsledky hry."
     >

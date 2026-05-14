@@ -55,6 +55,7 @@ function SettingsGroup({ items }) {
 export default function TogglePage() {
   return (
     <ShowcasePage
+      library="tkajui"
       title="Toggle"
       description="Přepínač on/off pro binární nastavení. Pill tvar kontrastuje s oktagonálními prvky systému. Plně přístupný — ovládatelný myší i klávesnicí."
       componentSlug="toggle"

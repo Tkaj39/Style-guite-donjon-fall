@@ -18,6 +18,7 @@ const ShieldIcon = () => (
 export default function TooltipPage() {
   return (
     <ShowcasePage
+      library="tkajui"
       title="Tooltip"
       description="Kontextová nápověda zobrazená při najetí myší nebo focusu. Krátký text, volitelný titulek, 4 směry umístění a 5 barevných variant."
       componentSlug="tooltip"

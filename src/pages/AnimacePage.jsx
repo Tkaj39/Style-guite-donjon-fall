@@ -1686,6 +1686,7 @@ const p2 = players[1]
 export default function AnimacePage() {
   return (
     <ShowcasePage
+      library="donjon"
       title="Animace"
       description="Specifikace herních animací — trigger, trvání, easing a popis efektu. Každá sekce obsahuje statické klíčové snímky a živé demo."
     >

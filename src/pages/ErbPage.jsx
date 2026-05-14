@@ -74,6 +74,7 @@ function PlayerIdentityBadge({ player }) {
 export default function ErbPage() {
   return (
     <ShowcasePage
+      library="donjon"
       title="Erb"
       description="Vizuální identita hráče — heraldický štít s barvou a symbolem hráče. Používán v HUDu, scoreboardu a dialogu výhry."
     >

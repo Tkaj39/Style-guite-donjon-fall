@@ -63,6 +63,7 @@ const GAME_TABS = [
 export default function TabsPage() {
   return (
     <ShowcasePage
+      library="tkajui"
       title="Tabs"
       description="Horizontální záložková navigace. Dvě varianty vizuálu — underline (čárka pod aktivní záložkou) a pills (vyplněné pozadí). Klávesnicová navigace šipkami."
       componentSlug="tabs"

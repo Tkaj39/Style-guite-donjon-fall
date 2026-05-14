@@ -14,6 +14,7 @@ export default function SliderPage() {
 
   return (
     <ShowcasePage
+      library="tkajui"
       title="Slider"
       description="Táhlo pro výběr hodnoty v rozsahu. Nativní <input type=range> zajišťuje drag a klávesnicové ovládání; vlastní vizuál navazuje na ProgressBar."
       componentSlug="slider"

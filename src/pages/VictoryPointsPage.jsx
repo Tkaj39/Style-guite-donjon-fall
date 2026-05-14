@@ -52,6 +52,7 @@ const sorted = [...players].sort((a, b) => b.vp - a.vp)
 export default function VictoryPointsPage() {
   return (
     <ShowcasePage
+      library="donjon"
       title="Vítězné body"
       description="Systém skórování — body jsou permanentní a nelze je ztratit. Vítěz je první hráč, který dosáhne cílového počtu bodů."
     >

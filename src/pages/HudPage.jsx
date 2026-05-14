@@ -132,6 +132,7 @@ const ACTIONS = [
 export default function HudPage() {
   return (
     <ShowcasePage
+      library="donjon"
       title="HUD Elementy"
       description="Herní HUD (heads-up display) — prvky zobrazující stav hry přes herní plochu. Informace musí být čitelné a dostupné bez přerušení herního toku."
     >

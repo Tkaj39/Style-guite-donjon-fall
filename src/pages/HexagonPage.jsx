@@ -16,6 +16,7 @@ const allStates = [
 export default function HexagonPage() {
   return (
     <ShowcasePage
+      library="donjon"
       title="Hexagon"
       description="Základní herní pole — hexagonální dlaždice s 8 vizuálními stavy. Pasivní ohniska fungují jako normální hex, aktivní ohnisko přidává VP a přehodí kostku."
       componentSlug="hex-tile"

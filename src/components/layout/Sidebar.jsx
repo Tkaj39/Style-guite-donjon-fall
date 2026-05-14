@@ -1,5 +1,25 @@
 import { NavLink } from 'react-router-dom'
 
+/* ── Library icons (miniaturní verze) ── */
+function LibIcon({ library }) {
+  if (library === 'tkajui') return (
+    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
+      <rect x="1" y="1"   width="12" height="3" rx="0.8" fill="#7BAED4" opacity="0.45" />
+      <rect x="1" y="5.5" width="12" height="3" rx="0.8" fill="#7BAED4" opacity="0.72" />
+      <rect x="1" y="10"  width="12" height="3" rx="0.8" fill="#7BAED4" />
+    </svg>
+  )
+  if (library === 'donjon') return (
+    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
+      <path d="M7 1.5V10.5"   stroke="#B8956A" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M3.5 5H10.5"   stroke="#B8956A" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M5.5 10.5H8.5" stroke="#B8956A" strokeWidth="1.1" strokeLinecap="round" />
+      <path d="M7 10.5V12.5"  stroke="#B8956A" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  )
+  return null
+}
+
 const sections = [
   {
     label: 'System',
@@ -19,21 +39,21 @@ const sections = [
   {
     label: 'Foundations',
     items: [
-      { to: '/mood', label: 'Mood & Vision' },
+      { to: '/mood',       label: 'Mood & Vision' },
       {
         to: '/colors', label: 'Colors',
         children: [
-          { to: '/colors#barvy-hracu', label: 'Barvy hráčů' },
-          { to: '/colors#stavy-hexu', label: 'Stavy hexů' },
+          { to: '/colors#barvy-hracu',   label: 'Barvy hráčů' },
+          { to: '/colors#stavy-hexu',    label: 'Stavy hexů' },
           { to: '/colors#planovani-tahu', label: 'Plánování tahu' },
-          { to: '/colors#barvy-hry', label: 'Barvy hry' },
+          { to: '/colors#barvy-hry',     label: 'Barvy hry' },
         ],
       },
-      { to: '/typography', label: 'Typography' },
-      { to: '/spacing', label: 'Spacing' },
-      { to: '/pictograms', label: 'Pictograms' },
-      { to: '/ornaments', label: 'Ornaments' },
-      { to: '/shapes', label: 'Shapes' },
+      { to: '/typography',  label: 'Typography' },
+      { to: '/spacing',     label: 'Spacing' },
+      { to: '/pictograms',  label: 'Pictograms' },
+      { to: '/ornaments',   label: 'Ornaments' },
+      { to: '/shapes',      label: 'Shapes' },
     ],
   },
   {
@@ -62,66 +82,68 @@ const sections = [
   {
     label: 'Components',
     items: [
-      { to: '/tooltip', label: 'Tooltip' },
-      { to: '/modal', label: 'Modal' },
-      { to: '/toast',  label: 'Toast' },
-      { to: '/toggle',       label: 'Toggle' },
-      { to: '/progress-bar', label: 'Progress Bar' },
-      { to: '/select',       label: 'Select' },
-      { to: '/slider',       label: 'Slider' },
-      { to: '/tabs',         label: 'Tabs' },
-      { to: '/buttons', label: 'Buttons' },
-      { to: '/button-groups', label: 'Button Groups' },
-      { to: '/inputs', label: 'Inputs' },
-      { to: '/badges', label: 'Badges' },
-      { to: '/cards', label: 'Cards' },
+      { to: '/tooltip',      label: 'Tooltip',       library: 'tkajui' },
+      { to: '/modal',        label: 'Modal',         library: 'tkajui' },
+      { to: '/toast',        label: 'Toast',         library: 'tkajui' },
+      { to: '/toggle',       label: 'Toggle',        library: 'tkajui' },
+      { to: '/progress-bar', label: 'Progress Bar',  library: 'tkajui' },
+      { to: '/select',       label: 'Select',        library: 'tkajui' },
+      { to: '/slider',       label: 'Slider',        library: 'tkajui' },
+      { to: '/tabs',         label: 'Tabs',          library: 'tkajui' },
+      { to: '/buttons',      label: 'Buttons',       library: 'tkajui' },
+      { to: '/button-groups', label: 'Button Groups', library: 'tkajui' },
+      { to: '/inputs',       label: 'Inputs',        library: 'donjon' },
+      { to: '/badges',       label: 'Badges',        library: 'donjon' },
+      { to: '/cards',        label: 'Cards',         library: 'donjon' },
     ],
   },
   {
     label: 'Game UI',
+    library: 'donjon',
     items: [
       {
         to: '/turn', label: 'Tah',
         children: [
-          { to: '/turn#struktura-tahu', label: 'Struktura tahu' },
+          { to: '/turn#struktura-tahu',  label: 'Struktura tahu' },
           { to: '/turn#indikator-hrace', label: 'Indikátor hráče' },
-          { to: '/turn#scenare', label: 'Flow scénáře' },
-          { to: '/turn#ohnisko', label: 'Ohnisko' },
-          { to: '/turn#souboj', label: 'Souboj' },
+          { to: '/turn#scenare',         label: 'Flow scénáře' },
+          { to: '/turn#ohnisko',         label: 'Ohnisko' },
+          { to: '/turn#souboj',          label: 'Souboj' },
         ],
       },
       {
         to: '/actions', label: 'Akce',
         children: [
-          { to: '/actions#prehled', label: 'Přehled akcí' },
+          { to: '/actions#prehled',      label: 'Přehled akcí' },
           { to: '/actions#pohyb-kostky', label: 'Pohyb kostky' },
-          { to: '/actions#pohyb-veze', label: 'Pohyb věže' },
-          { to: '/actions#kolaps-veze', label: 'Kolaps věže' },
-          { to: '/actions#prehazovani', label: 'Přehazování' },
-          { to: '/actions#vyber-akce', label: 'Výběr akce' },
+          { to: '/actions#pohyb-veze',   label: 'Pohyb věže' },
+          { to: '/actions#kolaps-veze',  label: 'Kolaps věže' },
+          { to: '/actions#prehazovani',  label: 'Přehazování' },
+          { to: '/actions#vyber-akce',   label: 'Výběr akce' },
         ],
       },
       { to: '/victory-points', label: 'Vítězné body' },
-      { to: '/hud', label: 'HUD Elementy' },
+      { to: '/hud',            label: 'HUD Elementy' },
       {
         to: '/dialogs', label: 'Dialogy',
         children: [
           { to: '/dialogs#rozhodnuti-souboje', label: 'Rozhodnutí souboje' },
-          { to: '/dialogs#vitezny-bod', label: 'Vítězný bod' },
-          { to: '/dialogs#zacatek-tahu', label: 'Začátek tahu' },
-          { to: '/dialogs#vyhra-hry', label: 'Výhra hry' },
-          { to: '/dialogs#nahla-smrt', label: 'Náhlá smrt' },
+          { to: '/dialogs#vitezny-bod',        label: 'Vítězný bod' },
+          { to: '/dialogs#zacatek-tahu',       label: 'Začátek tahu' },
+          { to: '/dialogs#vyhra-hry',          label: 'Výhra hry' },
+          { to: '/dialogs#nahla-smrt',         label: 'Náhlá smrt' },
         ],
       },
     ],
   },
   {
     label: 'Game Assets',
+    library: 'donjon',
     items: [
       {
         to: '/hexagon', label: 'Hexagon',
         children: [
-          { to: '/hexagon#prazdny', label: 'Prázdný' },
+          { to: '/hexagon#prazdny',  label: 'Prázdný' },
           { to: '/hexagon#zakladna', label: 'Základna' },
           {
             to: '/hexagon#ohniska', label: 'Ohniska',
@@ -135,54 +157,54 @@ const sections = [
       {
         to: '/dice', label: 'Kostky',
         children: [
-          { to: '/dice#hodnoty', label: 'Hodnoty' },
-          { to: '/dice#vez-cista', label: 'Věž čistá' },
+          { to: '/dice#hodnoty',    label: 'Hodnoty' },
+          { to: '/dice#vez-cista',  label: 'Věž čistá' },
           { to: '/dice#vez-smisena', label: 'Věž smíšená' },
         ],
       },
       {
         to: '/map', label: 'Mapa',
         children: [
-          { to: '/map#default', label: 'Default' },
+          { to: '/map#default',  label: 'Default' },
           { to: '/map#varianty', label: 'Varianty' },
         ],
       },
       {
         to: '/erb', label: 'Erb',
         children: [
-          { to: '/erb#stit', label: 'Štít' },
+          { to: '/erb#stit',   label: 'Štít' },
           { to: '/erb#symbol', label: 'Symbol' },
         ],
       },
       {
         to: '/animations', label: 'Animace',
         children: [
-          { to: '/animations#pohyb-kostky', label: 'Pohyb kostky' },
-          { to: '/animations#pohyb-veze', label: 'Pohyb věže' },
-          { to: '/animations#souboj-push', label: 'Souboj — Push' },
-          { to: '/animations#souboj-occupy', label: 'Souboj — Occupy' },
-          { to: '/animations#souboj-tower', label: 'Souboj — Tower' },
-          { to: '/animations#prehazovani', label: 'Přehazování' },
-          { to: '/animations#kolaps-veze', label: 'Kolaps věže' },
-          { to: '/animations#ohnisko', label: 'Ohnisko' },
+          { to: '/animations#pohyb-kostky',   label: 'Pohyb kostky' },
+          { to: '/animations#pohyb-veze',     label: 'Pohyb věže' },
+          { to: '/animations#souboj-push',    label: 'Souboj — Push' },
+          { to: '/animations#souboj-occupy',  label: 'Souboj — Occupy' },
+          { to: '/animations#souboj-tower',   label: 'Souboj — Tower' },
+          { to: '/animations#prehazovani',    label: 'Přehazování' },
+          { to: '/animations#kolaps-veze',    label: 'Kolaps věže' },
+          { to: '/animations#ohnisko',        label: 'Ohnisko' },
           { to: '/animations#nelegalni-akce', label: 'Nelegální akce' },
-          { to: '/animations#sudden-death', label: 'Sudden death' },
+          { to: '/animations#sudden-death',   label: 'Sudden death' },
         ],
       },
       {
         to: '/screens', label: 'Obrazovky',
         children: [
-          { to: '/screens#desktop',   label: 'PC — 1280px+' },
-          { to: '/screens#tablet',    label: 'Tablet — 768px' },
-          { to: '/screens#mobile',    label: 'Mobil — 375px' },
-          { to: '/screens#srovnani',  label: 'Srovnání' },
+          { to: '/screens#desktop',  label: 'PC — 1280px+' },
+          { to: '/screens#tablet',   label: 'Tablet — 768px' },
+          { to: '/screens#mobile',   label: 'Mobil — 375px' },
+          { to: '/screens#srovnani', label: 'Srovnání' },
         ],
       },
       {
         to: '/sounds', label: 'Zvuky',
         children: [
-          { to: '/sounds#hudba', label: 'Hudba' },
-          { to: '/sounds#ui-zvuky', label: 'UI zvuky' },
+          { to: '/sounds#hudba',       label: 'Hudba' },
+          { to: '/sounds#ui-zvuky',    label: 'UI zvuky' },
           { to: '/sounds#herni-zvuky', label: 'Herní zvuky' },
         ],
       },
@@ -190,6 +212,7 @@ const sections = [
   },
   {
     label: 'Obrazovky aplikace',
+    library: 'donjon',
     items: [
       {
         to: '/menu', label: 'Hlavní menu',
@@ -289,13 +312,14 @@ function NavItem({ item, onClose }) {
         to={item.to}
         onClick={onClose}
         className={({ isActive }) =>
-          `block px-3 py-2 rounded-md text-sm transition-colors ${
+          `flex items-center gap-1.5 px-3 py-2 rounded-md text-sm transition-colors ${
             isActive
               ? 'bg-brand-500/20 text-brand-400 font-medium'
               : 'text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800'
           }`
         }
       >
+        {item.library && <LibIcon library={item.library} />}
         {item.label}
       </NavLink>
       {item.children && (
@@ -342,7 +366,8 @@ export default function Sidebar({ isOpen, onClose }) {
       <nav className="flex flex-col gap-6 flex-1 overflow-y-auto">
         {sections.map((section) => (
           <div key={section.label}>
-            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-2">
+            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-2 flex items-center gap-1.5">
+              {section.library && <LibIcon library={section.library} />}
               {section.label}
             </p>
             <ul className="flex flex-col gap-0.5">

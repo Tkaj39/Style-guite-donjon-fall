@@ -82,6 +82,7 @@ export default function ToastPage() {
   return (
     <ToastProvider position="bottom-right">
       <ShowcasePage
+      library="tkajui"
         title="Toast"
         description="Plovoucí notifikace pro krátkodobá oznámení — výsledky akcí, chyby, potvrzení. Automaticky se zavře po uplynutí doby nebo manuálně tlačítkem ×. Používá useToast hook uvnitř ToastProvider."
         componentSlug="toast"

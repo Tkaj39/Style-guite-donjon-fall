@@ -478,11 +478,12 @@ octagonWithNotch(
               </div>
             )
             if (variant === 'scoop') {
-              const iw = s.w - bw * 2, ih = s.h - bw * 2, ir = Math.max(1, s.scoop - bw)
+              const { w, h, scoop: r } = s
+              const d = `M ${r},0 H ${w-r} Q ${w-r},${r} ${w},${r} V ${h-r} Q ${w-r},${h-r} ${w-r},${h} H ${r} Q ${r},${h-r} 0,${h-r} V ${r} Q ${r},${r} ${r},0 Z`
               return (
-                <div style={{ ...base, clipPath: scoopPath(s.w, s.h, s.scoop), background: bc }}>
-                  <div style={{ clipPath: scoopPath(iw, ih, ir), background: fill, flex: 1 }} />
-                </div>
+                <svg width={w} height={h} style={{ display: 'block', flexShrink: 0 }}>
+                  <path d={d} fill={`${color}18`} stroke={`${color}66`} strokeWidth="1.5" />
+                </svg>
               )
             }
             if (variant === 'pill') return (
@@ -563,13 +564,13 @@ octagonWithNotch(
                   <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: '#40A055', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: inter }}>Scoop — konkávní rohy (pevné px nebo ScoopClip)</p>
                   <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end', marginTop: 8, flexWrap: 'wrap' }}>
                     {Object.entries(SHAPE_SIZES).map(([key, s]) => {
-                      const iw = s.w - bw * 2, ih = s.h - bw * 2, ir = Math.max(1, s.scoop - bw)
+                      const { w, h, scoop: r } = s
+                      const d = `M ${r},0 H ${w-r} Q ${w-r},${r} ${w},${r} V ${h-r} Q ${w-r},${h-r} ${w-r},${h} H ${r} Q ${r},${h-r} 0,${h-r} V ${r} Q ${r},${r} ${r},0 Z`
                       return (
-                        <div key={key} style={{ clipPath: scoopPath(s.w, s.h, s.scoop), background: '#40A05555', padding: bw, display: 'inline-flex', width: s.w, height: s.h, boxSizing: 'border-box' }}>
-                          <div style={{ clipPath: scoopPath(iw, ih, ir), background: '#12102A', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <span style={{ fontSize: '0.5625rem', color: '#40A055', fontFamily: inter }}>r={s.scoop}</span>
-                          </div>
-                        </div>
+                        <svg key={key} width={w} height={h} style={{ display: 'block', flexShrink: 0 }}>
+                          <path d={d} fill="#101C14" stroke="#40A05555" strokeWidth="1.5" />
+                          <text x={w/2} y={h/2} textAnchor="middle" dominantBaseline="central" fill="#40A055" fontSize="9" fontFamily="Inter, sans-serif">r={s.scoop}</text>
+                        </svg>
                       )
                     })}
                   </div>

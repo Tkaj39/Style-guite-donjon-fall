@@ -36,6 +36,7 @@ export default function SelectPage() {
 
   return (
     <ShowcasePage
+      library="tkajui"
       title="Select"
       description="Vlastní dropdown pro výběr jedné hodnoty ze seznamu. Oktagonální trigger navazuje na DonjonInput. Klávesnicová navigace šipkami, Escape a Enter."
       componentSlug="select"

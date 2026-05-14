@@ -160,6 +160,7 @@ function VariantTail({ label, ms, variant = 'default', description }) {
 export default function ZvukyPage() {
   return (
     <ShowcasePage
+      library="donjon"
       title="Zvuky"
       description="Specifikace herního zvukového designu — hudba, UI zvuky a herní události. Každý zvuk je popsán triggerem, charakterem a délkou."
     >

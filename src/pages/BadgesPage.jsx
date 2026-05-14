@@ -34,6 +34,7 @@ const SkullIcon = () => (
 export default function BadgesPage() {
   return (
     <ShowcasePage
+      library="donjon"
       title="Badges"
       description="Donjon Fall status badges — slight octagon clip, semantic color variants, optional dot and icon."
       componentSlug="donjon-badge"

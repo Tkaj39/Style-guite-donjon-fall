@@ -25,6 +25,7 @@ export default function ButtonsPage() {
 
   return (
     <ShowcasePage
+      library="tkajui"
       title="Buttons"
       description="Herní tlačítka Donjon Fall — osmihranný tvar s ornamenty. Každá varianta nese sémantický význam."
       componentSlug="donjon-button"
