@@ -46,6 +46,9 @@ import AccessibilityPage from './pages/AccessibilityPage'
 import FeedbackHierarchyPage from './pages/FeedbackHierarchyPage'
 import ErrorStatesPage from './pages/ErrorStatesPage'
 import EmptyStatesPage from './pages/EmptyStatesPage'
+import LoadingSkeletonPage from './pages/LoadingSkeletonPage'
+import ValidationPage from './pages/ValidationPage'
+import MicrocopyPage from './pages/MicrocopyPage'
 
 export default function App() {
   return (
@@ -97,6 +100,9 @@ export default function App() {
         <Route path="feedback-hierarchy" element={<FeedbackHierarchyPage />} />
         <Route path="error-states"       element={<ErrorStatesPage />} />
         <Route path="empty-states"       element={<EmptyStatesPage />} />
+        <Route path="loading-skeleton"   element={<LoadingSkeletonPage />} />
+        <Route path="validation"         element={<ValidationPage />} />
+        <Route path="microcopy"          element={<MicrocopyPage />} />
       </Route>
     </Routes>
   )

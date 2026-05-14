@@ -46,6 +46,9 @@ const sections = [
       { to: '/feedback-hierarchy', label: 'Feedback Hierarchy' },
       { to: '/error-states',       label: 'Error States' },
       { to: '/empty-states',       label: 'Empty States' },
+      { to: '/loading-skeleton',   label: 'Loading & Skeleton' },
+      { to: '/validation',         label: 'Validation' },
+      { to: '/microcopy',          label: 'Content & Microcopy' },
     ],
   },
   {
