@@ -1,6 +1,6 @@
 import { useId } from 'react'
 import { octagon, clipLeft, clipRight } from '../../utils/octagon'
-import { SideOrnament, HexOrnament } from '../../components/Ornaments'
+import { SideOrnament, HexOrnament } from './Ornaments'
 
 
 

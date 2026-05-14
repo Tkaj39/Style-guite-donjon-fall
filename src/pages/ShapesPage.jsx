@@ -1,7 +1,7 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 import { octagon, clipLeft, clipRight, octagonWithNotch, roundRect, pill, scoopPath, SHAPE_SIZES } from '../utils/octagon'
 import { buttonSizes } from '../utils/sizes'
-import ScoopClip from '../components/ScoopClip'
+import ScoopClip from '../lib/tkajui/ScoopClip'
 
 /* ── sdílené styly ── */
 const inter = '"Inter", sans-serif'
@@ -429,7 +429,7 @@ octagonWithNotch(
           ))}
         </Preview>
 
-        <CodeBlock code={`import CornerOrnament from '../components/CornerOrnament'
+        <CodeBlock code={`import CornerOrnament from '../lib/tkajui/CornerOrnament'
 
 {/* Karta s rohovými ozdobami */}
 <div style={{ position: 'relative', clipPath: octagon(15), ... }}>
@@ -561,7 +561,7 @@ octagonWithNotch(
         </Preview>
 
         <CodeBlock code={`import { octagon, roundRect, scoopPath, pill, SHAPE_SIZES } from '../utils/octagon'
-import ScoopClip from '../components/ScoopClip'
+import ScoopClip from '../lib/tkajui/ScoopClip'
 
 // ── Cut — zkosené rohy (výchozí Donjon) ──
 <div style={{ clipPath: octagon(15.62) }}>Obsah</div>
@@ -614,7 +614,7 @@ import ScoopClip from '../components/ScoopClip'
           </div>
         </Preview>
         <CodeBlock code={`// ScoopClip — responzivní scoop přes SVG clipPathUnits="objectBoundingBox"
-import ScoopClip from '../components/ScoopClip'
+import ScoopClip from '../lib/tkajui/ScoopClip'
 
 <ScoopClip
   r={0.25}        // relativní hloubka 0–1 (doporučeno 0.20–0.28)

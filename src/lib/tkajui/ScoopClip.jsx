@@ -1,5 +1,5 @@
 import { useId } from 'react'
-import { scoopBBPath } from '../utils/octagon'
+import { scoopBBPath } from '../../utils/octagon'
 
 /**
  * ScoopClip — obal pro elementy s responzivním konkávním rohováním

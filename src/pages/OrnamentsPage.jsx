@@ -1,4 +1,4 @@
-import { SideOrnament, HexOrnament } from '../components/Ornaments'
+import { SideOrnament, HexOrnament } from '../lib/tkajui/Ornaments'
 import { buttonSizes, CARD_ORN_H } from '../utils/sizes'
 
 const sectionStyle = {

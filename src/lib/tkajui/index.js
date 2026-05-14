@@ -14,10 +14,10 @@ export { default as Slider }         from './Slider'
 export { default as Tabs }           from './Tabs'
 export { default as Toggle }         from './Toggle'
 
-// Zatím v src/components/ — re-export (bude přesunuto v dalších krocích)
-export { default as ScoopClip }      from '../../components/ScoopClip'
-export { default as CornerOrnament } from '../../components/CornerOrnament'
-export { default as Ornaments }      from '../../components/Ornaments'
+// Přesunuté — přímý import z lib/tkajui/
+export { default as ScoopClip }      from './ScoopClip'
+export { default as CornerOrnament } from './CornerOrnament'
+export { default as Ornaments }      from './Ornaments'
 
 // Utils
 export * from '../../utils/octagon'

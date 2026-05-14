@@ -1,6 +1,6 @@
 import { useEffect, useRef, useId } from 'react'
 import { octagon } from '../../utils/octagon'
-import { SideOrnament, HexOrnament } from '../../components/Ornaments'
+import { SideOrnament, HexOrnament } from './Ornaments'
 
 /* ── Varianty ── */
 const VARIANTS = {
