@@ -52,9 +52,9 @@ function makeEntry(globKey, subdir) {
   const filePath   = toSrcPath(globKey)
 
   const category =
-    subdir === 'game-assets' ? 'Game Assets'
+    subdir === 'game-assets' ? 'donjon-fall-ui'
     : subdir === 'layout'    ? 'Layout'
-    :                          'UI Components'
+    :                          'TkajUI'
 
   const defaultVisibility = category === 'Layout' ? 'internal' : 'public'
   const visibility = VISIBILITY_OVERRIDES[name] ?? defaultVisibility
@@ -120,7 +120,7 @@ function buildRegistry() {
 export const registry = buildRegistry()
 
 /** Všechny podporované kategorie v pořadí zobrazení. */
-export const CATEGORIES = ['UI Components', 'Game Assets', 'Layout']
+export const CATEGORIES = ['TkajUI', 'donjon-fall-ui', 'Layout']
 
 /** Vrátí jednu komponentu podle slug. */
 export function getBySlug(slug) {

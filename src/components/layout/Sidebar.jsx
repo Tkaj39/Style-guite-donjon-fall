@@ -7,10 +7,10 @@ const sections = [
       {
         to: '/components', label: 'Components',
         children: [
-          { to: '/components#ui-components',  label: 'UI Components' },
-          { to: '/components#game-assets',    label: 'Game Assets' },
+          { to: '/components#tkajui',         label: 'TkajUI' },
+          { to: '/components#donjon-fall-ui', label: 'donjon-fall-ui' },
           { to: '/components#layout',         label: 'Layout' },
-          { to: '/components#bez-komponenty',  label: 'Bez komponenty' },
+          { to: '/components#bez-komponenty', label: 'Bez komponenty' },
           { to: '/components#legenda',        label: 'Legenda' },
         ],
       },

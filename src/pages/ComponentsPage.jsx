@@ -205,7 +205,7 @@ export default function ComponentsPage() {
   return (
     <ShowcasePage
       title="Components"
-      description="Přehled všech komponent Donjon Fall design systému. Automaticky generováno z filesystému, doplněno ručními metadaty."
+      description="Přehled všech komponent Donjon Fall design systému, rozdělených do dvou knihoven: TkajUI (generické UI) a donjon-fall-ui (herní komponenty). Automaticky generováno z filesystému, doplněno ručními metadaty."
     >
       {/* ── Statistiky ── */}
       <Section id="statistiky" description="Aktuální stav dokumentace komponent.">
