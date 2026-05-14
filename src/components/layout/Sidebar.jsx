@@ -49,6 +49,9 @@ const sections = [
       { to: '/loading-skeleton',   label: 'Loading & Skeleton' },
       { to: '/validation',         label: 'Validation' },
       { to: '/microcopy',          label: 'Content & Microcopy' },
+      { to: '/responsive',         label: 'Responsive Design' },
+      { to: '/focus-ring',         label: 'Focus Ring' },
+      { to: '/glow-shadow',        label: 'Glow & Shadow' },
     ],
   },
   {

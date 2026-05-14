@@ -49,6 +49,9 @@ import EmptyStatesPage from './pages/EmptyStatesPage'
 import LoadingSkeletonPage from './pages/LoadingSkeletonPage'
 import ValidationPage from './pages/ValidationPage'
 import MicrocopyPage from './pages/MicrocopyPage'
+import ResponsivePage from './pages/ResponsivePage'
+import FocusRingPage from './pages/FocusRingPage'
+import GlowShadowPage from './pages/GlowShadowPage'
 
 export default function App() {
   return (
@@ -103,6 +106,9 @@ export default function App() {
         <Route path="loading-skeleton"   element={<LoadingSkeletonPage />} />
         <Route path="validation"         element={<ValidationPage />} />
         <Route path="microcopy"          element={<MicrocopyPage />} />
+        <Route path="responsive"         element={<ResponsivePage />} />
+        <Route path="focus-ring"         element={<FocusRingPage />} />
+        <Route path="glow-shadow"        element={<GlowShadowPage />} />
       </Route>
     </Routes>
   )
