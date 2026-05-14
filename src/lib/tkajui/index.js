@@ -4,7 +4,7 @@
 // Přesunuté — přímý import z lib/tkajui/
 export { default as ButtonGroup }    from './ButtonGroup'
 export { default as Modal }          from './Modal'
-export { default as Toast }          from './Toast'
+export { ToastProvider, useToast }   from './Toast'
 export { default as Tooltip }        from './Tooltip'
 
 // Přesunuté — přímý import z lib/tkajui/
@@ -17,7 +17,7 @@ export { default as Toggle }         from './Toggle'
 // Přesunuté — přímý import z lib/tkajui/
 export { default as ScoopClip }      from './ScoopClip'
 export { default as CornerOrnament } from './CornerOrnament'
-export { default as Ornaments }      from './Ornaments'
+export { SideOrnament, HexOrnament } from './Ornaments'
 
 export { default as Pictogram }      from './Pictogram'
 

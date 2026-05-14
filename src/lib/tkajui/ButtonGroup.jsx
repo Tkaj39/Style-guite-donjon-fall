@@ -32,11 +32,12 @@ export default function ButtonGroup({
   const iconSize = { xs: 12, sm: 14, md: 18, lg: 22 }[size] ?? 14
   const rawId = useId()
   const gid   = rawId.replace(/:/g, '')
-  const last  = items.length - 1
+  const safeItems = items ?? []
+  const last  = safeItems.length - 1
 
   return (
     <div style={{ display: 'inline-flex', alignItems: 'center', gap: 0 }} role="group">
-      {items.map((item, i) => {
+      {safeItems.map((item, i) => {
         const isActive = item.value === value
         const isFirst  = i === 0
         const isLast   = i === last

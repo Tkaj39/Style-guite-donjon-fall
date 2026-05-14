@@ -86,6 +86,7 @@ export default function Toggle({
       role="switch"
       aria-checked={checked}
       aria-disabled={disabled}
+      aria-label={label || undefined}
       tabIndex={disabled ? -1 : 0}
       id={id}
       style={trackStyle}

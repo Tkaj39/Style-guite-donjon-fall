@@ -33,11 +33,12 @@ export default function Tabs({
 }) {
   const v = VARIANTS[variant] ?? VARIANTS.underline
   const s = SIZES[size] ?? SIZES.md
+  const safeItems = items ?? []
 
   const handleKeyDown = (e, item, i) => {
     if (item.disabled) return
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onChange?.(item.value); return }
-    const enabled = items.map((it, idx) => ({ it, idx })).filter(x => !x.it.disabled)
+    const enabled = safeItems.map((it, idx) => ({ it, idx })).filter(x => !x.it.disabled)
     const cur = enabled.findIndex(x => x.idx === i)
     if (e.key === 'ArrowRight') {
       const next = enabled[(cur + 1) % enabled.length]
@@ -59,7 +60,7 @@ export default function Tabs({
         ...v.track,
       }}
     >
-      {items.map((item, i) => {
+      {safeItems.map((item, i) => {
         const isActive = item.value === value
         const tabStyle = isActive ? v.activeTab : v.inactiveTab
 

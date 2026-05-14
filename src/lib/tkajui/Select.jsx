@@ -62,7 +62,8 @@ export default function Select({
   const v = VARIANTS[variant] ?? VARIANTS.default
   const s = SIZES[size] ?? SIZES.md
 
-  const selected = options.find(o => o.value === value)
+  const safeOptions = options ?? []
+  const selected = safeOptions.find(o => o.value === value)
 
   /* Close on outside click */
   useEffect(() => {
@@ -79,7 +80,7 @@ export default function Select({
   /* Reset highlight on open */
   useEffect(() => {
     if (open) {
-      const idx = options.findIndex(o => o.value === value)
+      const idx = safeOptions.findIndex(o => o.value === value)
       setHighlighted(idx >= 0 ? idx : 0)
     }
   }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -91,11 +92,11 @@ export default function Select({
     }
     if (!open) return
     if (e.key === 'Escape') { e.preventDefault(); setOpen(false); triggerRef.current?.focus(); return }
-    if (e.key === 'ArrowDown') { e.preventDefault(); setHighlighted(i => Math.min(i + 1, options.length - 1)) }
+    if (e.key === 'ArrowDown') { e.preventDefault(); setHighlighted(i => Math.min(i + 1, safeOptions.length - 1)) }
     if (e.key === 'ArrowUp')   { e.preventDefault(); setHighlighted(i => Math.max(i - 1, 0)) }
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault()
-      if (options[highlighted]) { onChange?.(options[highlighted].value); setOpen(false) }
+      if (safeOptions[highlighted]) { onChange?.(safeOptions[highlighted].value); setOpen(false) }
     }
     if (e.key === 'Tab') { setOpen(false) }
   }
@@ -187,7 +188,7 @@ export default function Select({
           }}
         >
           <style>{`@keyframes selectOpen { from { opacity:0; transform:translateY(-4px) } to { opacity:1; transform:translateY(0) } }`}</style>
-          {options.map((opt, i) => (
+          {safeOptions.map((opt, i) => (
             <div
               key={opt.value}
               role="option"
@@ -205,7 +206,7 @@ export default function Select({
                 background: i === highlighted && !opt.disabled ? `${v.border}18` : 'transparent',
                 cursor: opt.disabled ? 'not-allowed' : 'pointer',
                 transition: 'background 0.1s, color 0.1s',
-                borderBottom: i < options.length - 1 ? `1px solid ${v.border}18` : 'none',
+                borderBottom: i < safeOptions.length - 1 ? `1px solid ${v.border}18` : 'none',
               }}
             >
               <span>{opt.label}</span>
