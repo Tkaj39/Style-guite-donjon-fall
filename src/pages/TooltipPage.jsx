@@ -1,4 +1,4 @@
-import Tooltip from '../components/Tooltip'
+import Tooltip from '../lib/tkajui/Tooltip'
 import DonjonButton from '../components/DonjonButton'
 import DonjonBadge from '../components/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'

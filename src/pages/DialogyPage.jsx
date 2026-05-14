@@ -2,7 +2,7 @@ import { useState } from 'react'
 import DonjonCard from '../components/DonjonCard'
 import DonjonButton from '../components/DonjonButton'
 import DonjonBadge from '../components/DonjonBadge'
-import ButtonGroup from '../components/ButtonGroup'
+import ButtonGroup from '../lib/tkajui/ButtonGroup'
 import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
 import { players } from '../data/gameUiMockData'
 

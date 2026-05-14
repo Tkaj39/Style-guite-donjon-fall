@@ -1,4 +1,4 @@
-import { ToastProvider, useToast } from '../components/Toast'
+import { ToastProvider, useToast } from '../lib/tkajui/Toast'
 import DonjonButton from '../components/DonjonButton'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 

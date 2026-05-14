@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import ButtonGroup from '../components/ButtonGroup'
+import ButtonGroup from '../lib/tkajui/ButtonGroup'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 
 /* ── Icons ── */

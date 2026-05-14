@@ -20,6 +20,9 @@ import { componentMeta } from './componentMeta'
 const ROOT_GLOB       = import.meta.glob('../components/*.jsx')
 const GAME_ASSET_GLOB = import.meta.glob('../components/game-assets/*.jsx')
 const LAYOUT_GLOB     = import.meta.glob('../components/layout/*.jsx')
+// Komponenty přesunuté do lib/ během migrace na TkajUI + donjon-fall-ui
+const TKAJUI_GLOB     = import.meta.glob('../lib/tkajui/*.jsx')
+const DONJON_GLOB     = import.meta.glob('../lib/donjon/*.jsx')
 
 /* Explicitní override viditelnosti pro konkrétní komponenty */
 const VISIBILITY_OVERRIDES = {
@@ -109,6 +112,12 @@ function buildRegistry() {
   })
   Object.keys(LAYOUT_GLOB).forEach(path => {
     entries.push(applyMeta(makeEntry(path, 'layout')))
+  })
+  Object.keys(TKAJUI_GLOB).forEach(path => {
+    entries.push(applyMeta(makeEntry(path, 'root')))
+  })
+  Object.keys(DONJON_GLOB).forEach(path => {
+    entries.push(applyMeta(makeEntry(path, 'game-assets')))
   })
 
   return entries.sort((a, b) => a.name.localeCompare(b.name, 'cs'))

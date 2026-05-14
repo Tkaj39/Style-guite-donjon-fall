@@ -3,7 +3,7 @@ import { useBreakpoint } from '../hooks/useBreakpoint'
 import DonjonCard from '../components/DonjonCard'
 import DonjonButton from '../components/DonjonButton'
 import DonjonBadge from '../components/DonjonBadge'
-import ButtonGroup from '../components/ButtonGroup'
+import ButtonGroup from '../lib/tkajui/ButtonGroup'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 import { actions } from '../data/gameUiMockData'
 

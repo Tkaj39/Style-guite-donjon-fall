@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
-import { octagon } from '../utils/octagon'
+import { octagon } from '../../utils/octagon'
 
 /* ── Varianty ── */
 const VARIANTS = {

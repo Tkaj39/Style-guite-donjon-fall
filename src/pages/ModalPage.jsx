@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Modal from '../components/Modal'
+import Modal from '../lib/tkajui/Modal'
 import DonjonButton from '../components/DonjonButton'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 
