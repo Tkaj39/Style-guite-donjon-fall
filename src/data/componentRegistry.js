@@ -29,8 +29,11 @@ const VISIBILITY_OVERRIDES = {
 
 /* Explicitní override kategorie — přesune komponentu do jiné knihovny */
 const CATEGORY_OVERRIDES = {
-  Ornaments:      'donjon-fall-ui',   // herní dekorace, patří k donjon komponentám
+  // Herní dekorace + komponenty které je používají → donjon-fall-ui
+  Ornaments:      'donjon-fall-ui',
   CornerOrnament: 'donjon-fall-ui',
+  ButtonGroup:    'donjon-fall-ui',   // používá SideOrnament + HexOrnament
+  Modal:          'donjon-fall-ui',   // používá SideOrnament + HexOrnament + CornerOrnament
 }
 
 /* ── Helpers ── */
