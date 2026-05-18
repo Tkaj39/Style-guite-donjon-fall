@@ -23,8 +23,14 @@ const DONJON_GLOB = import.meta.glob('../lib/donjon/*.jsx')
 
 /* Explicitní override viditelnosti pro konkrétní komponenty */
 const VISIBILITY_OVERRIDES = {
-  Ornaments: 'internal',
-  icons:     'internal',   // sada SVG exportů, ne samostatná komponenta
+  Ornaments:      'internal',
+  icons:          'internal',   // sada SVG exportů, ne samostatná komponenta
+}
+
+/* Explicitní override kategorie — přesune komponentu do jiné knihovny */
+const CATEGORY_OVERRIDES = {
+  Ornaments:      'donjon-fall-ui',   // herní dekorace, patří k donjon komponentám
+  CornerOrnament: 'donjon-fall-ui',
 }
 
 /* ── Helpers ── */
@@ -52,12 +58,14 @@ function makeEntry(globKey, subdir) {
   const slug       = toKebab(name)
   const filePath   = toSrcPath(globKey)
 
-  const category =
+  const baseCategory =
     subdir === 'game-assets' ? 'donjon-fall-ui'
     : subdir === 'layout'    ? 'Layout'
     :                          'TkajUI'
 
-  const defaultVisibility = category === 'Layout' ? 'internal' : 'public'
+  const category = CATEGORY_OVERRIDES[name] ?? baseCategory
+
+  const defaultVisibility = baseCategory === 'Layout' ? 'internal' : 'public'
   const visibility = VISIBILITY_OVERRIDES[name] ?? defaultVisibility
 
   return {
