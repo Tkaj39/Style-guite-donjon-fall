@@ -11,6 +11,7 @@ function ModalContent() {
   const ModalCmp = lib === 'tkajui' ? Modal : DonjonModal
   const Btn      = lib === 'tkajui' ? Button : DonjonButton
   const cmp      = lib === 'tkajui' ? 'Modal' : 'DonjonModal'
+  const btnCmp   = lib === 'tkajui' ? 'Button' : 'DonjonButton'
 
   /* Demo helper — definováno uvnitř ModalContent aby mělo přístup k Btn */
   function ModalDemo({ label, buttonVariant = 'default', ...modalProps }) {
@@ -34,19 +35,19 @@ function ModalContent() {
         description="Tři předdefinované šířky — sm (360 px), md (480 px, výchozí), lg (640 px)."
       >
         <Preview>
-          <ModalDemo ModalCmp={ModalCmp} label="Small"  size="sm" title="Malý modál"   description="Maximální šířka 360 px.">
+          <ModalDemo label="Small"  size="sm" title="Malý modál"   description="Maximální šířka 360 px.">
             <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Vhodný pro rychlá potvrzení nebo krátké zprávy, kde nepotřebuješ mnoho obsahu.
             </p>
           </ModalDemo>
 
-          <ModalDemo ModalCmp={ModalCmp} label="Medium (výchozí)" size="md" title="Středný modál" description="Maximální šířka 480 px — výchozí velikost.">
+          <ModalDemo label="Medium (výchozí)" size="md" title="Středný modál" description="Maximální šířka 480 px — výchozí velikost.">
             <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Standardní volba pro většinu dialogů — dostatečný prostor pro formulář nebo popis akce.
             </p>
           </ModalDemo>
 
-          <ModalDemo ModalCmp={ModalCmp} label="Large" size="lg" title="Velký modál" description="Maximální šířka 640 px.">
+          <ModalDemo label="Large" size="lg" title="Velký modál" description="Maximální šířka 640 px.">
             <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Pro složitější obsah — tabulky, delší formuláře, nastavení s více poli.
             </p>
@@ -119,8 +120,8 @@ function ModalContent() {
             buttonVariant="danger"
             footer={
               <>
-                <DonjonButton size="sm">Zrušit</DonjonButton>
-                <DonjonButton size="sm" variant="danger">Opustit hru</DonjonButton>
+                <Btn size="sm">Zrušit</Btn>
+                <Btn size="sm" variant="danger">Opustit hru</Btn>
               </>
             }
           >
@@ -135,8 +136,8 @@ function ModalContent() {
             title="Zahájit nové kolo?"
             footer={
               <>
-                <DonjonButton size="sm">Zpět</DonjonButton>
-                <DonjonButton size="sm" variant="success">Zahájit kolo</DonjonButton>
+                <Btn size="sm">Zpět</Btn>
+                <Btn size="sm" variant="success">Zahájit kolo</Btn>
               </>
             }
           >
@@ -152,8 +153,8 @@ function ModalContent() {
   variant="danger"
   footer={
     <>
-      <DonjonButton size="sm">Zrušit</DonjonButton>
-      <DonjonButton size="sm" variant="danger">Opustit hru</DonjonButton>
+      <${btnCmp} size="sm">Zrušit</${btnCmp}>
+      <${btnCmp} size="sm" variant="danger">Opustit hru</${btnCmp}>
     </>
   }
 >
@@ -168,7 +169,7 @@ function ModalContent() {
         description="Modál bez prop title — jen čistý obsah s close tlačítkem v těle."
       >
         <Preview>
-          <ModalDemo ModalCmp={ModalCmp} label="Bez hlavičky">
+          <ModalDemo label="Bez hlavičky">
             <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Modál bez title nezobrazí hlavičku. Close tlačítko se přesune do pravého horního rohu těla.
               Vhodné pro obrazové dialogy nebo vlastní layout bez standardní struktury.
@@ -187,13 +188,13 @@ function ModalContent() {
         description="Konfigurace způsobů zavření — backdrop, Escape a close tlačítko lze individuálně vypnout."
       >
         <Preview>
-          <ModalDemo ModalCmp={ModalCmp} label="Bez Escape" title="Escape nefunguje" description="closeOnEscape={false}" closeOnEscape={false}>
+          <ModalDemo label="Bez Escape" title="Escape nefunguje" description="closeOnEscape={false}" closeOnEscape={false}>
             <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Modál nelze zavřít klávesou Escape — použij close tlačítko nebo backdrop.
             </p>
           </ModalDemo>
 
-          <ModalDemo ModalCmp={ModalCmp} label="Bez backdrops" title="Backdrop nefunguje" description="closeOnBackdrop={false}" closeOnBackdrop={false}>
+          <ModalDemo label="Bez backdrops" title="Backdrop nefunguje" description="closeOnBackdrop={false}" closeOnBackdrop={false}>
             <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Klik mimo modál ho nezavře — uživatel musí použít close tlačítko nebo Escape.
             </p>
@@ -205,7 +206,7 @@ function ModalContent() {
             title="Bez close tlačítka"
             description="showCloseButton={false}"
             showCloseButton={false}
-            footer={<DonjonButton size="sm" onClick={undefined}>Zavřít</DonjonButton>}
+            footer={<Btn size="sm" onClick={undefined}>Zavřít</Btn>}
           >
             <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Tlačítko × je skryto — zavření zajistí vlastní UI v patičce.
