@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { registry, CATEGORIES, getCategoryCounts } from '../data/componentRegistry'
 import { ShowcasePage, Section } from '../components/layout/ShowcasePage'
@@ -218,23 +219,89 @@ function StatCard({ value, label }) {
   )
 }
 
+/* ── LibTabs ── */
+const LIB_TABS = [
+  { id: null,            label: 'Vše',           desc: 'Všechny knihovny' },
+  { id: 'TkajUI',        label: 'TkajUI',        desc: 'Generické UI komponenty bez herního stylu' },
+  { id: 'donjon-fall-ui',label: 'donjon-fall-ui', desc: 'Herní komponenty — rozšiřují TkajUI o Ornaments' },
+  { id: 'Layout',        label: 'Layout',         desc: 'Interní layout komponenty style guidu' },
+]
+
+function LibTabs({ active, onChange }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center gap-1 p-1 rounded-xl bg-neutral-900 border border-neutral-800 w-fit">
+        {LIB_TABS.map(tab => (
+          <button
+            key={String(tab.id)}
+            onClick={() => onChange(tab.id)}
+            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-150 ${
+              active === tab.id
+                ? 'bg-neutral-700 text-neutral-100 shadow-sm'
+                : 'text-neutral-500 hover:text-neutral-300 hover:bg-neutral-800'
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+      {/* Popis aktivní záložky */}
+      {active !== null && (
+        <p className="text-xs text-neutral-600 pl-1">
+          {LIB_TABS.find(t => t.id === active)?.desc}
+        </p>
+      )}
+    </div>
+  )
+}
+
 /* ── Main page ── */
 export default function ComponentsPage() {
+  const [activeLib, setActiveLib] = useState(null)
+
   const counts = getCategoryCounts()
-  const totalComponents  = registry.length
-  const documentedCount  = registry.filter(c => c.status === 'documented').length
-  const publicCount      = registry.filter(c => c.visibility === 'public').length
-  const showcaseCount    = registry.filter(c => !!c.showcaseRoute).length
+
+  // Filtrovaný registr podle aktivní záložky
+  const filteredRegistry = activeLib
+    ? registry.filter(c => c.category === activeLib)
+    : registry
+
+  const totalComponents  = filteredRegistry.length
+  const documentedCount  = filteredRegistry.filter(c => c.status === 'documented').length
+  const publicCount      = filteredRegistry.filter(c => c.visibility === 'public').length
+  const showcaseCount    = filteredRegistry.filter(c => !!c.showcaseRoute).length
+
+  // Zobrazované kategorie — buď všechny, nebo jen ta aktivní
+  const visibleCategories = activeLib ? [activeLib] : CATEGORIES
 
   return (
     <ShowcasePage
       title="Components"
       description="Přehled všech komponent Donjon Fall design systému, rozdělených do dvou knihoven: TkajUI (generické UI) a donjon-fall-ui (herní komponenty). Automaticky generováno z filesystému, doplněno ručními metadaty."
     >
+      {/* ── Přepínač knihoven ── */}
+      <Section id="knihovny">
+        <LibTabs active={activeLib} onChange={setActiveLib} />
+
+        {/* Srovnávací poznámka při přepnutí */}
+        {activeLib === 'TkajUI' && (
+          <div className="mt-4 flex items-start gap-2 px-3 py-2.5 rounded-lg bg-blue-950/30 border border-blue-900/40 text-xs text-blue-300/80">
+            <span className="shrink-0 mt-0.5">ℹ</span>
+            <span>TkajUI komponenty používají zkosené rohy a jsou <strong>dekorace-free</strong> — žádné Ornaments, žádný herní styl. Přepni na <button onClick={() => setActiveLib('donjon-fall-ui')} className="underline hover:text-blue-200">donjon-fall-ui</button> pro varianty s ozdobami.</span>
+          </div>
+        )}
+        {activeLib === 'donjon-fall-ui' && (
+          <div className="mt-4 flex items-start gap-2 px-3 py-2.5 rounded-lg bg-amber-950/30 border border-amber-900/40 text-xs text-amber-300/80">
+            <span className="shrink-0 mt-0.5">⚔</span>
+            <span>donjon-fall-ui rozšiřuje TkajUI o herní Ornaments (SideOrnament, HexOrnament, CornerOrnament). Závislost jde vždy <strong>donjon → tkajui</strong>, nikdy naopak. Přepni na <button onClick={() => setActiveLib('TkajUI')} className="underline hover:text-amber-200">TkajUI</button> pro čistý základ.</span>
+          </div>
+        )}
+      </Section>
+
       {/* ── Statistiky ── */}
-      <Section id="statistiky" description="Aktuální stav dokumentace komponent.">
+      <Section id="statistiky" description={activeLib ? `Statistiky pro ${activeLib}` : 'Aktuální stav dokumentace komponent.'}>
         <div className="flex flex-wrap gap-3">
-          <StatCard value={totalComponents} label="celkem komponent" />
+          <StatCard value={totalComponents} label={activeLib ? 'komponent ve výběru' : 'celkem komponent'} />
           <StatCard value={publicCount}     label="public" />
           <StatCard value={totalComponents - publicCount} label="internal" />
           <StatCard value={documentedCount} label="documented" />
@@ -245,8 +312,8 @@ export default function ComponentsPage() {
       </Section>
 
       {/* ── Kategorie ── */}
-      {CATEGORIES.map(category => {
-        const comps = registry.filter(c => c.category === category)
+      {visibleCategories.map(category => {
+        const comps = filteredRegistry.filter(c => c.category === category)
         if (comps.length === 0) return null
 
         // Řazení: public first, pak internal; v rámci skupiny abecedně (už seřazeno z registru)
