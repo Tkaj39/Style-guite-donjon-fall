@@ -1689,6 +1689,7 @@ export default function AnimacePage() {
       library="donjon"
       title="Animace"
       description="Specifikace herních animací — trigger, trvání, easing a popis efektu. Každá sekce obsahuje statické klíčové snímky a živé demo."
+      componentSlug="float-feedback"
     >
       <Section
         id="pohyb-kostky"

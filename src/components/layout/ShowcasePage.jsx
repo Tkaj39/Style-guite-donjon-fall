@@ -59,7 +59,10 @@ function ApiChip({ slug }) {
   )
 }
 
-export function ShowcasePage({ title, description, children, componentSlug, library }) {
+export function ShowcasePage({ title, description, children, componentSlug, componentSlugs, library }) {
+  // Normalizace: componentSlugs má přednost, componentSlug je zkratka pro jeden slug
+  const slugs = componentSlugs ?? (componentSlug ? [componentSlug] : [])
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
       <header className="mb-8 lg:mb-10 border-b border-neutral-800 pb-6 lg:pb-8">
@@ -73,7 +76,11 @@ export function ShowcasePage({ title, description, children, componentSlug, libr
               <p className="text-neutral-400 text-sm lg:text-base">{description}</p>
             )}
           </div>
-          {componentSlug && <ApiChip slug={componentSlug} />}
+          {slugs.length > 0 && (
+            <div className="flex items-center gap-2 flex-wrap">
+              {slugs.map(slug => <ApiChip key={slug} slug={slug} />)}
+            </div>
+          )}
         </div>
       </header>
       <div className="flex flex-col gap-10 lg:gap-12">{children}</div>

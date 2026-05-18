@@ -161,13 +161,22 @@ function ComponentCard({ comp }) {
           )}
         </div>
         <div className="flex items-center gap-2">
-          {/* "detail" chip — přístup k /components/:slug, zastaví bubblování na Link */}
+          {!hasShowcase && (
+            <span className="text-[10px] font-mono text-neutral-800 px-1.5 py-0.5 rounded border border-neutral-800/60" title="Chybí showcase stránka">
+              no showcase
+            </span>
+          )}
+          {/* API chip — vždy viditelný, zastaví bubblování na Link */}
           <span
             onClick={e => { e.preventDefault(); e.stopPropagation(); navigate(`/components/${comp.slug}`) }}
-            className="text-[10px] font-mono text-neutral-700 hover:text-neutral-400 transition-colors cursor-pointer px-1.5 py-0.5 rounded hover:bg-neutral-800"
-            title="Otevřít detail komponenty"
+            className={`text-[10px] font-mono transition-colors cursor-pointer px-1.5 py-0.5 rounded border ${
+              hasShowcase
+                ? 'text-neutral-500 border-neutral-700 hover:text-neutral-200 hover:border-neutral-500 hover:bg-neutral-800'
+                : 'text-neutral-700 border-transparent hover:text-neutral-400 hover:bg-neutral-800'
+            }`}
+            title="Otevřít API dokumentaci komponenty"
           >
-            detail
+            API
           </span>
           <span className={`transition-colors ${hasShowcase ? 'text-neutral-700 group-hover:text-brand-500' : 'text-neutral-800'}`}>
             <ArrowIcon />
@@ -212,9 +221,10 @@ function StatCard({ value, label }) {
 /* ── Main page ── */
 export default function ComponentsPage() {
   const counts = getCategoryCounts()
-  const totalComponents = registry.length
-  const documentedCount = registry.filter(c => c.status === 'documented').length
-  const publicCount     = registry.filter(c => c.visibility === 'public').length
+  const totalComponents  = registry.length
+  const documentedCount  = registry.filter(c => c.status === 'documented').length
+  const publicCount      = registry.filter(c => c.visibility === 'public').length
+  const showcaseCount    = registry.filter(c => !!c.showcaseRoute).length
 
   return (
     <ShowcasePage
@@ -229,6 +239,8 @@ export default function ComponentsPage() {
           <StatCard value={totalComponents - publicCount} label="internal" />
           <StatCard value={documentedCount} label="documented" />
           <StatCard value={totalComponents - documentedCount} label="zbývá zdokumentovat" />
+          <StatCard value={showcaseCount}   label="se showcase stránkou" />
+          <StatCard value={totalComponents - showcaseCount} label="bez showcase" />
         </div>
       </Section>
 

@@ -17,6 +17,7 @@ export default function PictogramsPage() {
     <ShowcasePage
       title="Pictograms"
       description="Ikonový systém — dvě úrovně: TkajUI definuje generický wrapper (Pictogram), donjon-fall-ui přepisuje vizuální styl (DonjonPictogram) a dodává herní ikony."
+      componentSlug="pictogram"
     >
 
       {/* ── TkajUI Pictogram ── */}

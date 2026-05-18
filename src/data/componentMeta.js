@@ -283,6 +283,7 @@ export const componentMeta = {
   'float-feedback': {
     description: 'Krátká plovoucí zpětná vazba zobrazující herní event (zisk VP, zničení, souboj). Animuje se a poté zmizí.',
     status: 'documented',
+    showcaseRoute: '/animations',
     props: [
       { name: 'text',     type: 'string',                              required: true,  description: 'Text zpětné vazby (např. "+1 VP").' },
       { name: 'variant',  type: "'default'|'danger'|'success'|'warning'", required: false, default: "'default'", description: 'Barevná varianta.' },
@@ -292,6 +293,48 @@ export const componentMeta = {
       { name: 'style',    type: 'CSSProperties',                       required: false, description: 'Přidání inline stylů pro pozicování.' },
     ],
     relatedSlugs: ['hex-tile', 'donjon-badge'],
+  },
+
+  /* ── Utility / Clip components ────────────────────────────────────── */
+
+  'pictogram': {
+    description: 'Generický SVG icon wrapper (TkajUI). Přijme libovolnou SVG komponentu jako `icon` prop a vykreslí ji ve správné velikosti a barvě. Bez pozadí, bez dekorace — čistá ikona.',
+    status: 'documented',
+    showcaseRoute: '/pictograms',
+    props: [
+      { name: 'icon',      type: 'React.ComponentType<{width, height, color}>', required: true,  description: 'SVG komponenta (přijímá width, height, color).' },
+      { name: 'size',      type: "'sm'|'md'|'lg'|'xl'",                         required: false, default: "'md'",          description: 'Velikost (16 / 24 / 32 / 48 px).' },
+      { name: 'color',     type: 'string',                                       required: false, default: "'currentColor'", description: 'CSS barva ikony.' },
+      { name: 'className', type: 'string',                                       required: false, description: 'Tailwind třídy na obalový span.' },
+      { name: 'style',     type: 'CSSProperties',                               required: false, description: 'Inline styly na obalový span.' },
+    ],
+    relatedSlugs: ['donjon-badge', 'donjon-button'],
+  },
+
+  'scoop-clip': {
+    description: 'Obal s konkávně zaoblenými rohy (scoop tvar) via SVG clipPath s objectBoundingBox — přizpůsobí se libovolným rozměrům elementu. Interní utilita pro tvarování panelů a tlačítek.',
+    status: 'documented',
+    showcaseRoute: '/shapes',
+    props: [
+      { name: 'r',         type: 'number',      required: false, default: '0.25',  description: 'Poloměr vydlabání jako podíl výšky (0–0.5).' },
+      { name: 'children',  type: 'ReactNode',   required: false, description: 'Obsah obalený clipPath tvarem.' },
+      { name: 'style',     type: 'CSSProperties', required: false, description: 'Inline styly na obalový div (výška, padding…).' },
+      { name: 'className', type: 'string',      required: false, description: 'Tailwind třídy na obalový div.' },
+    ],
+    relatedSlugs: ['corner-ornament', 'ornaments'],
+  },
+
+  'corner-ornament': {
+    description: 'Dekorativní rohová ozdoba. Umisťuje se absolutně do rohu panelu nebo rámečku. Čtyři varianty tvaru, libovolná barva a velikost.',
+    status: 'documented',
+    showcaseRoute: '/ornaments',
+    props: [
+      { name: 'size',    type: 'number',                                        required: false, default: '16',       description: 'Rozměr ornamenty v px.' },
+      { name: 'color',   type: 'string',                                        required: false, default: "'#8F7458'", description: 'CSS barva výplně.' },
+      { name: 'variant', type: "'bracket'|'dot'|'diamond'|'cross'",            required: false, default: "'bracket'", description: 'Tvar ornamenty.' },
+      { name: 'style',   type: 'CSSProperties',                                required: false, description: 'Inline styly pro pozicování (position, top, left…).' },
+    ],
+    relatedSlugs: ['ornaments', 'scoop-clip'],
   },
 
   /* ── Layout (internal) ─────────────────────────────────────────────── */
