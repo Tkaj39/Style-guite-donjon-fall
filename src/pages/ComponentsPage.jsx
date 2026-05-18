@@ -316,38 +316,96 @@ export default function ComponentsPage() {
         const comps = filteredRegistry.filter(c => c.category === category)
         if (comps.length === 0) return null
 
-        // Řazení: public first, pak internal; v rámci skupiny abecedně (už seřazeno z registru)
         const publicComps   = comps.filter(c => c.visibility === 'public')
         const internalComps = comps.filter(c => c.visibility === 'internal')
+
+        // donjon-fall-ui: public komponenty rozdělíme do podskupin
+        const isDonjon = category === 'donjon-fall-ui'
+        const extendsTkajui = isDonjon ? publicComps.filter(c => c.subcategory === 'extends-tkajui') : []
+        const exclusive     = isDonjon ? publicComps.filter(c => c.subcategory === 'exclusive')      : []
+        const uncategorized = isDonjon ? publicComps.filter(c => !c.subcategory)                     : publicComps
 
         return (
           <Section key={category} id={category.toLowerCase().replace(/\s+/g, '-')}>
             <CategoryHeader category={category} counts={counts} />
 
-            {/* Public */}
-            {publicComps.length > 0 && (
-              <div className="mt-4">
-                {internalComps.length > 0 && (
-                  <p className="text-[11px] font-semibold uppercase tracking-widest text-neutral-600 mb-3">Public</p>
+            {/* donjon-fall-ui: podskupiny */}
+            {isDonjon ? (
+              <div className="mt-4 flex flex-col gap-8">
+                {/* Rozšiřuje TkajUI */}
+                {extendsTkajui.length > 0 && (
+                  <div>
+                    <div className="flex items-center gap-3 mb-3">
+                      <p className="text-[11px] font-semibold uppercase tracking-widest text-neutral-500">Rozšiřuje TkajUI</p>
+                      <div className="h-px flex-1 bg-neutral-800" />
+                      <span className="text-[10px] text-neutral-700">{extendsTkajui.length}</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {extendsTkajui.map(comp => <ComponentCard key={comp.slug} comp={comp} />)}
+                    </div>
+                  </div>
                 )}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {publicComps.map(comp => (
-                    <ComponentCard key={comp.slug} comp={comp} />
-                  ))}
-                </div>
-              </div>
-            )}
 
-            {/* Internal */}
-            {internalComps.length > 0 && (
-              <div className="mt-6">
-                <p className="text-[11px] font-semibold uppercase tracking-widest text-neutral-600 mb-3">Internal</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {internalComps.map(comp => (
-                    <ComponentCard key={comp.slug} comp={comp} />
-                  ))}
-                </div>
+                {/* Vlastní donjon-fall-ui */}
+                {exclusive.length > 0 && (
+                  <div>
+                    <div className="flex items-center gap-3 mb-3">
+                      <p className="text-[11px] font-semibold uppercase tracking-widest text-neutral-500">Vlastní herní komponenty</p>
+                      <div className="h-px flex-1 bg-neutral-800" />
+                      <span className="text-[10px] text-neutral-700">{exclusive.length}</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {exclusive.map(comp => <ComponentCard key={comp.slug} comp={comp} />)}
+                    </div>
+                  </div>
+                )}
+
+                {/* Ostatní (bez subcategory) */}
+                {uncategorized.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {uncategorized.map(comp => <ComponentCard key={comp.slug} comp={comp} />)}
+                  </div>
+                )}
+
+                {/* Internal */}
+                {internalComps.length > 0 && (
+                  <div>
+                    <div className="flex items-center gap-3 mb-3">
+                      <p className="text-[11px] font-semibold uppercase tracking-widest text-neutral-600">Internal</p>
+                      <div className="h-px flex-1 bg-neutral-800" />
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {internalComps.map(comp => <ComponentCard key={comp.slug} comp={comp} />)}
+                    </div>
+                  </div>
+                )}
               </div>
+            ) : (
+              /* Ostatní kategorie — původní layout */
+              <>
+                {publicComps.length > 0 && (
+                  <div className="mt-4">
+                    {internalComps.length > 0 && (
+                      <p className="text-[11px] font-semibold uppercase tracking-widest text-neutral-600 mb-3">Public</p>
+                    )}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {publicComps.map(comp => (
+                        <ComponentCard key={comp.slug} comp={comp} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {internalComps.length > 0 && (
+                  <div className="mt-6">
+                    <p className="text-[11px] font-semibold uppercase tracking-widest text-neutral-600 mb-3">Internal</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {internalComps.map(comp => (
+                        <ComponentCard key={comp.slug} comp={comp} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </Section>
         )

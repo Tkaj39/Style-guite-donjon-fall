@@ -136,6 +136,7 @@ export const componentMeta = {
 
   'donjon-modal': {
     description: 'Herní varianta Modal — rozšiřuje TkajUI Modal o SideOrnament a HexOrnament dekoraci v hlavičce, těle a patičce. Zachovává identické API.',
+    subcategory: 'extends-tkajui',
     status: 'documented',
     showcaseRoute: '/modal',
     props: [
@@ -172,6 +173,7 @@ export const componentMeta = {
 
   'donjon-button': {
     description: 'Primární akční prvek design systému. Podporuje čtyři barevné varianty, čtyři velikosti, ikonové módy a loading / disabled stav.',
+    subcategory: 'extends-tkajui',
     status: 'documented',
     showcaseRoute: '/buttons',
     props: [
@@ -207,6 +209,7 @@ export const componentMeta = {
 
   'donjon-button-group': {
     description: 'Herní varianta ButtonGroup — rozšiřuje TkajUI ButtonGroup o SideOrnament a HexOrnament dekoraci. Zachovává identické API.',
+    subcategory: 'extends-tkajui',
     status: 'documented',
     showcaseRoute: '/button-groups',
     props: [
@@ -222,6 +225,7 @@ export const componentMeta = {
 
   'donjon-input': {
     description: 'Textové vstupní pole pro formuláře. Podporuje label, hint, chybový stav, ikony a disabled.',
+    subcategory: 'extends-tkajui',
     status: 'documented',
     showcaseRoute: '/inputs',
     props: [
@@ -241,6 +245,7 @@ export const componentMeta = {
 
   'donjon-badge': {
     description: 'Statusový štítek pro stav, kategorii nebo krátký label. Podporuje barevné varianty, tečku a ikonu.',
+    subcategory: 'extends-tkajui',
     status: 'documented',
     showcaseRoute: '/badges',
     props: [
@@ -255,6 +260,7 @@ export const componentMeta = {
 
   'donjon-card': {
     description: 'Kontejner pro seskupený obsah. Má pevnou strukturu hlavička–tělo–patička a barevné varianty pro různé kontexty.',
+    subcategory: 'extends-tkajui',
     status: 'documented',
     showcaseRoute: '/cards',
     props: [
@@ -290,6 +296,7 @@ export const componentMeta = {
 
   'hex-tile': {
     description: 'Hexagonální políčko herní mapy. Zobrazuje různé stavy hexu (prázdný, základna, ohnisko) a vlastnictví hráče.',
+    subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/hexagon',
     props: [
@@ -304,6 +311,7 @@ export const componentMeta = {
 
   'die-face': {
     description: 'Vizuální reprezentace jedné D6 kostky — zobrazuje hodnotu 1–6, barvu hráče a stavové módy (selected, rerolled).',
+    subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/dice',
     props: [
@@ -317,6 +325,7 @@ export const componentMeta = {
 
   'float-feedback': {
     description: 'Krátká plovoucí zpětná vazba zobrazující herní event (zisk VP, zničení, souboj). Animuje se a poté zmizí.',
+    subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/float-feedback',
     props: [
@@ -334,6 +343,7 @@ export const componentMeta = {
 
   'donjon-pictogram': {
     description: 'Herní varianta Pictogram — ikona s tmavým oktagonálním pozadím a zlatou/fantasy barevnou paletou. Pět variant (active, passive, disabled, danger, success), čtyři velikosti, volitelný bare mód bez pozadí.',
+    subcategory: 'extends-tkajui',
     status: 'documented',
     showcaseRoute: '/pictograms',
     props: [

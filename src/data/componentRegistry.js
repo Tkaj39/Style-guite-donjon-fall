@@ -83,6 +83,7 @@ function makeEntry(globKey, subdir) {
     propsSource: 'undocumented', // 'undocumented' | 'manual' | 'parsed'
     status: 'generated',         // 'generated' | 'draft' | 'documented'
     relatedSlugs: [],
+    subcategory: null,           // 'extends-tkajui' | 'exclusive' | null
   }
 }
 
@@ -104,6 +105,7 @@ function applyMeta(entry) {
     status:        meta.status         ?? entry.status,
     relatedSlugs:  meta.relatedSlugs   ?? entry.relatedSlugs,
     showcaseRoute: meta.showcaseRoute  ?? entry.showcaseRoute,
+    subcategory:   meta.subcategory    ?? entry.subcategory,
   }
 }
 
