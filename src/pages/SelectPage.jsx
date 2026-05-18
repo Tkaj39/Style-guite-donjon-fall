@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Select from '../lib/tkajui/Select'
-import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
+import DonjonSelect from '../lib/donjon/DonjonSelect'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
 
 const MAPS = [
   { value: 'default',  label: 'Default mapa' },
@@ -25,23 +26,21 @@ const QUALITY = [
   { value: 'ultra',  label: 'Ultra — neomezeno' },
 ]
 
-function Demo({ options, placeholder, ...props }) {
-  const [value, setValue] = useState(null)
-  return <Select value={value} onChange={setValue} options={options} placeholder={placeholder} {...props} />
-}
+function SelectContent() {
+  const lib = useLibVariant()
+  const S   = lib === 'tkajui' ? Select : DonjonSelect
+  const cmp = lib === 'tkajui' ? 'Select' : 'DonjonSelect'
 
-export default function SelectPage() {
-  const [map, setMap]  = useState('default')
+  const [map,  setMap]  = useState('default')
   const [lang, setLang] = useState('cs')
 
-  return (
-    <ShowcasePage
-      library="tkajui"
-      title="Select"
-      description="Vlastní dropdown pro výběr jedné hodnoty ze seznamu. Oktagonální trigger navazuje na DonjonInput. Klávesnicová navigace šipkami, Escape a Enter."
-      componentSlug="select"
-    >
+  function Demo({ options, placeholder, ...props }) {
+    const [value, setValue] = useState(null)
+    return <S value={value} onChange={setValue} options={options} placeholder={placeholder} {...props} />
+  }
 
+  return (
+    <>
       {/* Základní */}
       <Section
         id="basic"
@@ -55,7 +54,7 @@ export default function SelectPage() {
         </Preview>
         <CodeBlock code={`const [value, setValue] = useState(null)
 
-<Select
+<${cmp}
   value={value}
   onChange={setValue}
   options={[
@@ -75,13 +74,13 @@ export default function SelectPage() {
       >
         <Preview>
           <div style={{ width: 260 }}>
-            <Select value={map} onChange={setMap} options={MAPS} label="Výběr mapy" />
+            <S value={map} onChange={setMap} options={MAPS} label="Výběr mapy" />
           </div>
           <div style={{ width: 220 }}>
-            <Select value={lang} onChange={setLang} options={LANGS} label="Jazyk rozhraní" />
+            <S value={lang} onChange={setLang} options={LANGS} label="Jazyk rozhraní" />
           </div>
         </Preview>
-        <CodeBlock code={`<Select
+        <CodeBlock code={`<${cmp}
   value={value}
   onChange={setValue}
   options={langOptions}
@@ -107,8 +106,8 @@ export default function SelectPage() {
             </div>
           ))}
         </Preview>
-        <CodeBlock code={`<Select variant="danger"  options={…} value={v} onChange={set} />
-<Select variant="success" options={…} value={v} onChange={set} />`} />
+        <CodeBlock code={`<${cmp} variant="danger"  options={…} value={v} onChange={set} />
+<${cmp} variant="success" options={…} value={v} onChange={set} />`} />
       </Section>
 
       {/* Velikosti */}
@@ -118,15 +117,15 @@ export default function SelectPage() {
         description="Tři výšky triggeru — sm (30 px), md (36 px, výchozí), lg (44 px)."
       >
         <Preview>
-          {(['sm', 'md', 'lg'] ).map(size => (
+          {(['sm', 'md', 'lg']).map(size => (
             <div key={size} style={{ width: 200 }}>
               <Demo options={MAPS} size={size} placeholder={`${size.toUpperCase()} — vyber…`} />
             </div>
           ))}
         </Preview>
-        <CodeBlock code={`<Select size="sm" options={…} value={v} onChange={set} />
-<Select size="md" options={…} value={v} onChange={set} />
-<Select size="lg" options={…} value={v} onChange={set} />`} />
+        <CodeBlock code={`<${cmp} size="sm" options={…} value={v} onChange={set} />
+<${cmp} size="md" options={…} value={v} onChange={set} />
+<${cmp} size="lg" options={…} value={v} onChange={set} />`} />
       </Section>
 
       {/* Disabled položky */}
@@ -137,7 +136,7 @@ export default function SelectPage() {
       >
         <Preview>
           <div style={{ width: 240 }}>
-            <Select value={lang} onChange={setLang} options={LANGS} label="Jazyk (FR a PL zatím nepodporováno)" />
+            <S value={lang} onChange={setLang} options={LANGS} label="Jazyk (FR a PL zatím nepodporováno)" />
           </div>
         </Preview>
         <CodeBlock code={`const options = [
@@ -155,13 +154,13 @@ export default function SelectPage() {
       >
         <Preview>
           <div style={{ width: 240 }}>
-            <Select value="default" options={MAPS} label="Mapa (uzamčeno)" disabled />
+            <S value="default" options={MAPS} label="Mapa (uzamčeno)" disabled />
           </div>
         </Preview>
-        <CodeBlock code={`<Select disabled value="default" options={…} />`} />
+        <CodeBlock code={`<${cmp} disabled value="default" options={…} />`} />
       </Section>
 
-      {/* Grafika — praktický příklad */}
+      {/* Herní nastavení */}
       <Section
         id="game-settings"
         title="Herní nastavení — příklad"
@@ -169,14 +168,14 @@ export default function SelectPage() {
       >
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%', maxWidth: 300 }}>
-            <Select value={map}  onChange={setMap}  options={MAPS}    label="Mapa" />
-            <Select value={lang} onChange={setLang} options={LANGS}   label="Jazyk" />
+            <S value={map}  onChange={setMap}  options={MAPS}    label="Mapa" />
+            <S value={lang} onChange={setLang} options={LANGS}   label="Jazyk" />
             <Demo options={QUALITY} label="Kvalita grafiky" placeholder="Vyber kvalitu…" />
           </div>
         </Preview>
-        <CodeBlock code={`<Select value={map}     onChange={setMap}     options={mapOptions}     label="Mapa" />
-<Select value={lang}    onChange={setLang}    options={langOptions}    label="Jazyk" />
-<Select value={quality} onChange={setQuality} options={qualityOptions} label="Kvalita grafiky" />`} />
+        <CodeBlock code={`<${cmp} value={map}     onChange={setMap}     options={mapOptions}     label="Mapa" />
+<${cmp} value={lang}    onChange={setLang}    options={langOptions}    label="Jazyk" />
+<${cmp} value={quality} onChange={setQuality} options={qualityOptions} label="Kvalita grafiky" />`} />
       </Section>
 
       {/* Pravidla */}
@@ -189,7 +188,22 @@ export default function SelectPage() {
           <p>✗ Nepoužívej Select pokud potřebuješ multi-select — to je jiná komponenta.</p>
         </div>
       </Section>
+    </>
+  )
+}
 
+export default function SelectPage() {
+  return (
+    <ShowcasePage
+      title="Select"
+      description="Vlastní dropdown pro výběr jedné hodnoty ze seznamu. Oktagonální trigger navazuje na DonjonInput. Klávesnicová navigace šipkami, Escape a Enter."
+      componentSlugs={['donjon-select', 'select']}
+      variants={[
+        { id: 'donjon', label: 'donjon-fall-ui' },
+        { id: 'tkajui', label: 'TkajUI' },
+      ]}
+    >
+      <SelectContent />
     </ShowcasePage>
   )
 }

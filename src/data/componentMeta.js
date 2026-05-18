@@ -352,6 +352,127 @@ export const componentMeta = {
     relatedSlugs: ['hex-tile', 'donjon-badge'],
   },
 
+  /* ── donjon-fall-ui rozšíření TkajUI (re-exporty) ─────────────────── */
+
+  'donjon-tabs': {
+    description: 'Herní varianta Tabs. Vizuálně identická s TkajUI — herní barevná paleta je zabudovaná v základní komponentě. Stejné API jako Tabs.',
+    subcategory: 'extends-tkajui',
+    status: 'documented',
+    showcaseRoute: '/tabs',
+    props: [
+      { name: 'items',    type: 'Array<{value, label, icon?, badge?, disabled?}>',         required: true,  description: 'Seznam záložek.' },
+      { name: 'value',    type: 'string',                                                   required: true,  description: 'Hodnota aktivní záložky.' },
+      { name: 'onChange', type: '(value: string) => void',                                 required: true,  description: 'Callback při změně záložky.' },
+      { name: 'variant',  type: "'underline'|'pills'",                                    required: false, default: "'underline'", description: 'Vizuální styl.' },
+      { name: 'size',     type: "'sm'|'md'|'lg'",                                         required: false, default: "'md'",        description: 'Velikost záložek.' },
+    ],
+    relatedSlugs: ['tabs', 'donjon-card', 'donjon-modal'],
+  },
+
+  'donjon-select': {
+    description: 'Herní varianta Select. Vizuálně identická s TkajUI — oktagonální trigger a herní barevná paleta jsou zabudované v základní komponentě. Stejné API jako Select.',
+    subcategory: 'extends-tkajui',
+    status: 'documented',
+    showcaseRoute: '/select',
+    props: [
+      { name: 'value',       type: 'string | null',                                        required: true,  description: 'Vybraná hodnota.' },
+      { name: 'onChange',    type: '(value: string) => void',                              required: true,  description: 'Callback při výběru.' },
+      { name: 'options',     type: 'Array<{value, label, disabled?}>',                    required: true,  description: 'Seznam možností.' },
+      { name: 'placeholder', type: 'string',                                               required: false, default: "'Vyber možnost…'", description: 'Text prázdného stavu.' },
+      { name: 'label',       type: 'string',                                               required: false, description: 'Popisek nad triggerem.' },
+      { name: 'size',        type: "'sm'|'md'|'lg'",                                      required: false, default: "'md'",      description: 'Výška triggeru.' },
+      { name: 'variant',     type: "'default'|'success'|'danger'|'warning'",              required: false, default: "'default'", description: 'Barevná varianta.' },
+      { name: 'disabled',    type: 'boolean',                                              required: false, default: 'false',     description: 'Zakáže celý select.' },
+    ],
+    relatedSlugs: ['select', 'donjon-input', 'donjon-toggle'],
+  },
+
+  'donjon-slider': {
+    description: 'Herní varianta Slider. Vizuálně identická s TkajUI — herní gradients a glow jsou zabudované v základní komponentě. Stejné API jako Slider.',
+    subcategory: 'extends-tkajui',
+    status: 'documented',
+    showcaseRoute: '/slider',
+    props: [
+      { name: 'value',       type: 'number',                              required: true,  description: 'Aktuální hodnota.' },
+      { name: 'onChange',    type: '(value: number) => void',            required: true,  description: 'Callback při změně hodnoty.' },
+      { name: 'min',         type: 'number',                              required: false, default: '0',         description: 'Minimální hodnota.' },
+      { name: 'max',         type: 'number',                              required: false, default: '100',       description: 'Maximální hodnota.' },
+      { name: 'step',        type: 'number',                              required: false, default: '1',         description: 'Krok změny.' },
+      { name: 'size',        type: "'sm'|'md'|'lg'",                     required: false, default: "'md'",      description: 'Výška traku.' },
+      { name: 'variant',     type: "'default'|'success'|'danger'|'warning'|'info'", required: false, default: "'default'", description: 'Barevná varianta.' },
+      { name: 'label',       type: 'string',                              required: false, description: 'Popisek nad sliderem.' },
+      { name: 'showValue',   type: 'boolean',                             required: false, default: 'false', description: 'Zobrazí aktuální hodnotu.' },
+      { name: 'disabled',    type: 'boolean',                             required: false, default: 'false', description: 'Znepřístupní slider.' },
+      { name: 'formatValue', type: '(value: number) => string',          required: false, description: 'Formátovací funkce pro zobrazení hodnoty.' },
+    ],
+    relatedSlugs: ['slider', 'donjon-progress-bar'],
+  },
+
+  'donjon-toggle': {
+    description: 'Herní varianta Toggle. Vizuálně identická s TkajUI — herní barevná schémata jsou zabudovaná v základní komponentě. Stejné API jako Toggle.',
+    subcategory: 'extends-tkajui',
+    status: 'documented',
+    showcaseRoute: '/toggle',
+    props: [
+      { name: 'checked',       type: 'boolean',                                   required: true,  description: 'Stav přepínače.' },
+      { name: 'onChange',      type: '(checked: boolean) => void',               required: true,  description: 'Callback při přepnutí.' },
+      { name: 'label',         type: 'string',                                    required: false, description: 'Textový popisek.' },
+      { name: 'labelPosition', type: "'left'|'right'",                            required: false, default: "'right'",   description: 'Pozice popisku.' },
+      { name: 'size',          type: "'sm'|'md'",                                 required: false, default: "'md'",      description: 'Velikost přepínače.' },
+      { name: 'variant',       type: "'default'|'success'|'danger'|'warning'",   required: false, default: "'default'", description: 'Barevná varianta.' },
+      { name: 'disabled',      type: 'boolean',                                   required: false, default: 'false',     description: 'Znepřístupní přepínač.' },
+    ],
+    relatedSlugs: ['toggle', 'donjon-select'],
+  },
+
+  'donjon-progress-bar': {
+    description: 'Herní varianta ProgressBar. Vizuálně identická s TkajUI — herní gradients a glow jsou zabudované v základní komponentě. Stejné API jako ProgressBar.',
+    subcategory: 'extends-tkajui',
+    status: 'documented',
+    showcaseRoute: '/progress-bar',
+    props: [
+      { name: 'value',         type: 'number',                                                   required: false, default: '0',     description: 'Aktuální hodnota (0 – max).' },
+      { name: 'max',           type: 'number',                                                   required: false, default: '100',   description: 'Maximální hodnota.' },
+      { name: 'size',          type: "'sm'|'md'|'lg'",                                           required: false, default: "'md'",  description: 'Výška traku.' },
+      { name: 'variant',       type: "'default'|'success'|'danger'|'warning'|'info'",            required: false, default: "'default'", description: 'Barevná varianta.' },
+      { name: 'label',         type: 'string',                                                   required: false, description: 'Popisek nad barem.' },
+      { name: 'showValue',     type: 'boolean',                                                  required: false, default: 'false', description: 'Zobrazí procenta vpravo.' },
+      { name: 'indeterminate', type: 'boolean',                                                  required: false, default: 'false', description: 'Animovaný shimmer (neznámá délka).' },
+    ],
+    relatedSlugs: ['progress-bar', 'donjon-slider'],
+  },
+
+  'donjon-tooltip': {
+    description: 'Herní varianta Tooltip. Vizuálně identická s TkajUI — herní barevná schémata jsou zabudovaná v základní komponentě. Stejné API jako Tooltip.',
+    subcategory: 'extends-tkajui',
+    status: 'documented',
+    showcaseRoute: '/tooltip',
+    props: [
+      { name: 'children',   type: 'ReactNode',                                              required: true,  description: 'Trigger element.' },
+      { name: 'content',    type: 'string',                                                  required: true,  description: 'Text tooltipu.' },
+      { name: 'title',      type: 'string',                                                  required: false, description: 'Volitelný titulek nad textem.' },
+      { name: 'placement',  type: "'top'|'bottom'|'left'|'right'",                          required: false, default: "'top'",     description: 'Směr zobrazení.' },
+      { name: 'variant',    type: "'default'|'danger'|'success'|'warning'|'info'",          required: false, default: "'default'", description: 'Barevná varianta.' },
+      { name: 'delay',      type: 'number',                                                  required: false, default: '120',       description: 'Zpoždění zobrazení v ms.' },
+      { name: 'disabled',   type: 'boolean',                                                 required: false, default: 'false',     description: 'Zakáže zobrazení tooltipu.' },
+    ],
+    relatedSlugs: ['tooltip', 'donjon-badge'],
+  },
+
+  'donjon-toast': {
+    description: 'Herní varianta Toast. Vizuálně identická s TkajUI — oktagonální shell a herní varianty jsou zabudované v základní komponentě. Použití: ToastProvider + useToast hook. Stejné API jako Toast.',
+    subcategory: 'extends-tkajui',
+    status: 'documented',
+    showcaseRoute: '/toast',
+    props: [
+      { name: 'title',    type: 'string',                                              required: false, description: 'Titulek toastu (tučný, gradientový).' },
+      { name: 'message',  type: 'string',                                              required: false, description: 'Doplňující text zprávy.' },
+      { name: 'variant',  type: "'default'|'success'|'danger'|'warning'|'info'",      required: false, default: "'default'", description: 'Barevná varianta.' },
+      { name: 'duration', type: 'number',                                              required: false, default: '4000',      description: 'Čas do auto-zavření v ms. 0 = trvalý.' },
+    ],
+    relatedSlugs: ['toast', 'float-feedback'],
+  },
+
   /* ── Utility / Clip components ────────────────────────────────────── */
 
   'donjon-pictogram': {

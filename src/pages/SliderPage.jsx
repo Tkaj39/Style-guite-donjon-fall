@@ -1,25 +1,24 @@
 import { useState } from 'react'
 import Slider from '../lib/tkajui/Slider'
-import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
+import DonjonSlider from '../lib/donjon/DonjonSlider'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
 
-function Demo({ initial = 50, ...props }) {
-  const [value, setValue] = useState(initial)
-  return <Slider value={value} onChange={setValue} {...props} />
-}
+function SliderContent() {
+  const lib = useLibVariant()
+  const Sl  = lib === 'tkajui' ? Slider : DonjonSlider
+  const cmp = lib === 'tkajui' ? 'Slider' : 'DonjonSlider'
 
-export default function SliderPage() {
-  const [vol, setVol]  = useState(70)
-  const [sfx, setSfx]  = useState(85)
-  const [msc, setMsc]  = useState(40)
+  const [vol, setVol] = useState(70)
+  const [sfx, setSfx] = useState(85)
+  const [msc, setMsc] = useState(40)
+
+  function Demo({ initial = 50, ...props }) {
+    const [value, setValue] = useState(initial)
+    return <Sl value={value} onChange={setValue} {...props} />
+  }
 
   return (
-    <ShowcasePage
-      library="tkajui"
-      title="Slider"
-      description="Táhlo pro výběr hodnoty v rozsahu. Nativní <input type=range> zajišťuje drag a klávesnicové ovládání; vlastní vizuál navazuje na ProgressBar."
-      componentSlug="slider"
-    >
-
+    <>
       {/* Základní */}
       <Section
         id="basic"
@@ -33,7 +32,7 @@ export default function SliderPage() {
         </Preview>
         <CodeBlock code={`const [value, setValue] = useState(60)
 
-<Slider value={value} onChange={setValue} label="Hlasitost" showValue />`} />
+<${cmp} value={value} onChange={setValue} label="Hlasitost" showValue />`} />
       </Section>
 
       {/* Varianty */}
@@ -55,8 +54,8 @@ export default function SliderPage() {
             ))}
           </div>
         </Preview>
-        <CodeBlock code={`<Slider value={v} onChange={set} variant="success" label="HP" showValue />
-<Slider value={v} onChange={set} variant="danger"  label="Damage" showValue />`} />
+        <CodeBlock code={`<${cmp} value={v} onChange={set} variant="success" label="HP" showValue />
+<${cmp} value={v} onChange={set} variant="danger"  label="Damage" showValue />`} />
       </Section>
 
       {/* Velikosti */}
@@ -72,9 +71,9 @@ export default function SliderPage() {
             <Demo size="lg" label="Large"  initial={65} showValue />
           </div>
         </Preview>
-        <CodeBlock code={`<Slider size="sm" value={v} onChange={set} />
-<Slider size="md" value={v} onChange={set} />
-<Slider size="lg" value={v} onChange={set} />`} />
+        <CodeBlock code={`<${cmp} size="sm" value={v} onChange={set} />
+<${cmp} size="md" value={v} onChange={set} />
+<${cmp} size="lg" value={v} onChange={set} />`} />
       </Section>
 
       {/* Vlastní rozsah a krok */}
@@ -111,7 +110,7 @@ export default function SliderPage() {
             />
           </div>
         </Preview>
-        <CodeBlock code={`<Slider
+        <CodeBlock code={`<${cmp}
   min={2} max={6} step={1}
   value={players} onChange={setPlayers}
   label="Počet hráčů"
@@ -128,14 +127,14 @@ export default function SliderPage() {
       >
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%', maxWidth: 340 }}>
-            <Slider value={vol} onChange={setVol} label="Celková hlasitost" showValue formatValue={v => `${v} %`} />
-            <Slider value={sfx} onChange={setSfx} label="Zvukové efekty"    showValue formatValue={v => `${v} %`} variant="info" />
-            <Slider value={msc} onChange={setMsc} label="Hudba"             showValue formatValue={v => `${v} %`} variant="warning" />
+            <Sl value={vol} onChange={setVol} label="Celková hlasitost" showValue formatValue={v => `${v} %`} />
+            <Sl value={sfx} onChange={setSfx} label="Zvukové efekty"    showValue formatValue={v => `${v} %`} variant="info" />
+            <Sl value={msc} onChange={setMsc} label="Hudba"             showValue formatValue={v => `${v} %`} variant="warning" />
           </div>
         </Preview>
-        <CodeBlock code={`<Slider value={vol} onChange={setVol} label="Celková hlasitost" showValue formatValue={v => \`\${v} %\`} />
-<Slider value={sfx} onChange={setSfx} label="Zvukové efekty"    showValue variant="info" />
-<Slider value={msc} onChange={setMsc} label="Hudba"             showValue variant="warning" />`} />
+        <CodeBlock code={`<${cmp} value={vol} onChange={setVol} label="Celková hlasitost" showValue formatValue={v => \`\${v} %\`} />
+<${cmp} value={sfx} onChange={setSfx} label="Zvukové efekty"    showValue variant="info" />
+<${cmp} value={msc} onChange={setMsc} label="Hudba"             showValue variant="warning" />`} />
       </Section>
 
       {/* Disabled */}
@@ -146,10 +145,10 @@ export default function SliderPage() {
       >
         <Preview>
           <div style={{ width: '100%', maxWidth: 360 }}>
-            <Slider value={60} label="Uzamčená hodnota" showValue disabled />
+            <Sl value={60} label="Uzamčená hodnota" showValue disabled />
           </div>
         </Preview>
-        <CodeBlock code={`<Slider value={60} label="Uzamčeno" disabled />`} />
+        <CodeBlock code={`<${cmp} value={60} label="Uzamčeno" disabled />`} />
       </Section>
 
       {/* Pravidla */}
@@ -163,7 +162,22 @@ export default function SliderPage() {
           <p>✗ Nepoužívej Slider pro hodnoty z diskrétní množiny (jazyk, mapa) — na to je Select.</p>
         </div>
       </Section>
+    </>
+  )
+}
 
+export default function SliderPage() {
+  return (
+    <ShowcasePage
+      title="Slider"
+      description="Táhlo pro výběr hodnoty v rozsahu. Nativní <input type=range> zajišťuje drag a klávesnicové ovládání; vlastní vizuál navazuje na ProgressBar."
+      componentSlugs={['donjon-slider', 'slider']}
+      variants={[
+        { id: 'donjon', label: 'donjon-fall-ui' },
+        { id: 'tkajui', label: 'TkajUI' },
+      ]}
+    >
+      <SliderContent />
     </ShowcasePage>
   )
 }

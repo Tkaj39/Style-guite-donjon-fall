@@ -18,3 +18,12 @@ export { default as FloatFeedback } from './FloatFeedback'
 
 // Heraldika
 export { Shield, PlayerIdentityBadge } from './Erb'
+
+// Rozšíření TkajUI komponent (vizuálně identické — re-exporty)
+export { default as DonjonTabs }        from './DonjonTabs'
+export { default as DonjonSelect }      from './DonjonSelect'
+export { default as DonjonSlider }      from './DonjonSlider'
+export { default as DonjonToggle }      from './DonjonToggle'
+export { default as DonjonProgressBar } from './DonjonProgressBar'
+export { default as DonjonTooltip }     from './DonjonTooltip'
+export { ToastProvider as DonjonToastProvider, useToast as useDonjonToast } from './DonjonToast'

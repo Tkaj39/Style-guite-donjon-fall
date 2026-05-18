@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Tabs from '../lib/tkajui/Tabs'
-import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
+import DonjonTabs from '../lib/donjon/DonjonTabs'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
 
 /* ── Ikony ── */
 const SoundIcon = () => (
@@ -24,28 +25,6 @@ const MonitorIcon = () => (
   </svg>
 )
 
-function Demo({ items, variant, size }) {
-  const [tab, setTab] = useState(items.find(i => !i.disabled)?.value ?? items[0]?.value)
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <Tabs items={items} value={tab} onChange={setTab} variant={variant} size={size} />
-      <div style={{
-        padding: '14px 16px',
-        background: '#12102A',
-        border: '1px solid #8F745430',
-        borderRadius: 4,
-        fontSize: '0.8125rem',
-        color: '#8F9CB3',
-        lineHeight: 1.5,
-      }}>
-        Obsah záložky: <span style={{ color: '#B8956A', fontWeight: 600 }}>
-          {items.find(i => i.value === tab)?.label}
-        </span>
-      </div>
-    </div>
-  )
-}
-
 const SETTINGS_TABS = [
   { value: 'sound',    label: 'Zvuk',     icon: <SoundIcon /> },
   { value: 'language', label: 'Jazyk',    icon: <GlobeIcon /> },
@@ -60,15 +39,35 @@ const GAME_TABS = [
   { value: 'log',     label: 'Log', disabled: true },
 ]
 
-export default function TabsPage() {
-  return (
-    <ShowcasePage
-      library="tkajui"
-      title="Tabs"
-      description="Horizontální záložková navigace. Dvě varianty vizuálu — underline (čárka pod aktivní záložkou) a pills (vyplněné pozadí). Klávesnicová navigace šipkami."
-      componentSlug="tabs"
-    >
+function TabsContent() {
+  const lib = useLibVariant()
+  const T   = lib === 'tkajui' ? Tabs : DonjonTabs
+  const cmp = lib === 'tkajui' ? 'Tabs' : 'DonjonTabs'
 
+  function Demo({ items, variant, size }) {
+    const [tab, setTab] = useState(items.find(i => !i.disabled)?.value ?? items[0]?.value)
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <T items={items} value={tab} onChange={setTab} variant={variant} size={size} />
+        <div style={{
+          padding: '14px 16px',
+          background: '#12102A',
+          border: '1px solid #8F745430',
+          borderRadius: 4,
+          fontSize: '0.8125rem',
+          color: '#8F9CB3',
+          lineHeight: 1.5,
+        }}>
+          Obsah záložky: <span style={{ color: '#B8956A', fontWeight: 600 }}>
+            {items.find(i => i.value === tab)?.label}
+          </span>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <>
       {/* Underline */}
       <Section
         id="underline"
@@ -90,7 +89,7 @@ export default function TabsPage() {
         </Preview>
         <CodeBlock code={`const [tab, setTab] = useState('overview')
 
-<Tabs
+<${cmp}
   variant="underline"
   value={tab}
   onChange={setTab}
@@ -121,7 +120,7 @@ export default function TabsPage() {
             />
           </div>
         </Preview>
-        <CodeBlock code={`<Tabs variant="pills" value={tab} onChange={setTab} items={items} />`} />
+        <CodeBlock code={`<${cmp} variant="pills" value={tab} onChange={setTab} items={items} />`} />
       </Section>
 
       {/* S ikonami */}
@@ -146,7 +145,7 @@ export default function TabsPage() {
   { value: 'controls', label: 'Ovládání',icon: <KeyboardIcon /> },
 ]
 
-<Tabs items={items} value={tab} onChange={setTab} />`} />
+<${cmp} items={items} value={tab} onChange={setTab} />`} />
       </Section>
 
       {/* Badge */}
@@ -192,9 +191,9 @@ export default function TabsPage() {
             ))}
           </div>
         </Preview>
-        <CodeBlock code={`<Tabs size="sm" items={items} value={tab} onChange={setTab} />
-<Tabs size="md" items={items} value={tab} onChange={setTab} />
-<Tabs size="lg" items={items} value={tab} onChange={setTab} />`} />
+        <CodeBlock code={`<${cmp} size="sm" items={items} value={tab} onChange={setTab} />
+<${cmp} size="md" items={items} value={tab} onChange={setTab} />
+<${cmp} size="lg" items={items} value={tab} onChange={setTab} />`} />
       </Section>
 
       {/* Pravidla */}
@@ -208,7 +207,22 @@ export default function TabsPage() {
           <p>✗ Maximálně 5–6 záložek — více patří do Select nebo do jiné struktury.</p>
         </div>
       </Section>
+    </>
+  )
+}
 
+export default function TabsPage() {
+  return (
+    <ShowcasePage
+      title="Tabs"
+      description="Horizontální záložková navigace. Dvě varianty vizuálu — underline (čárka pod aktivní záložkou) a pills (vyplněné pozadí). Klávesnicová navigace šipkami."
+      componentSlugs={['donjon-tabs', 'tabs']}
+      variants={[
+        { id: 'donjon', label: 'donjon-fall-ui' },
+        { id: 'tkajui', label: 'TkajUI' },
+      ]}
+    >
+      <TabsContent />
     </ShowcasePage>
   )
 }

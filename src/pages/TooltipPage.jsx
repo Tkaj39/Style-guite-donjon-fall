@@ -1,7 +1,8 @@
 import Tooltip from '../lib/tkajui/Tooltip'
+import DonjonTooltip from '../lib/donjon/DonjonTooltip'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
-import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
 
 const InfoIcon = () => (
   <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">
@@ -15,14 +16,13 @@ const ShieldIcon = () => (
   </svg>
 )
 
-export default function TooltipPage() {
+function TooltipContent() {
+  const lib = useLibVariant()
+  const Tip = lib === 'tkajui' ? Tooltip : DonjonTooltip
+  const cmp = lib === 'tkajui' ? 'Tooltip' : 'DonjonTooltip'
+
   return (
-    <ShowcasePage
-      library="tkajui"
-      title="Tooltip"
-      description="Kontextová nápověda zobrazená při najetí myší nebo focusu. Krátký text, volitelný titulek, 4 směry umístění a 5 barevných variant."
-      componentSlug="tooltip"
-    >
+    <>
       {/* Placement */}
       <Section
         id="placement"
@@ -30,26 +30,26 @@ export default function TooltipPage() {
         description="Čtyři směry — top (výchozí), bottom, left, right."
       >
         <Preview>
-          <Tooltip content="Umístění nahoře" placement="top">
+          <Tip content="Umístění nahoře" placement="top">
             <DonjonButton size="sm">Top</DonjonButton>
-          </Tooltip>
-          <Tooltip content="Umístění dole" placement="bottom">
+          </Tip>
+          <Tip content="Umístění dole" placement="bottom">
             <DonjonButton size="sm">Bottom</DonjonButton>
-          </Tooltip>
-          <Tooltip content="Umístění vlevo" placement="left">
+          </Tip>
+          <Tip content="Umístění vlevo" placement="left">
             <DonjonButton size="sm">Left</DonjonButton>
-          </Tooltip>
-          <Tooltip content="Umístění vpravo" placement="right">
+          </Tip>
+          <Tip content="Umístění vpravo" placement="right">
             <DonjonButton size="sm">Right</DonjonButton>
-          </Tooltip>
+          </Tip>
         </Preview>
-        <CodeBlock code={`<Tooltip content="Umístění nahoře" placement="top">
+        <CodeBlock code={`<${cmp} content="Umístění nahoře" placement="top">
   <DonjonButton>Top</DonjonButton>
-</Tooltip>
+</${cmp}>
 
-<Tooltip content="Umístění dole" placement="bottom">
+<${cmp} content="Umístění dole" placement="bottom">
   <DonjonButton>Bottom</DonjonButton>
-</Tooltip>`} />
+</${cmp}>`} />
       </Section>
 
       {/* S titulkem */}
@@ -59,28 +59,28 @@ export default function TooltipPage() {
         description="Volitelný titulek pro složitější vysvětlení."
       >
         <Preview>
-          <Tooltip
+          <Tip
             title="Ohnisko"
             content="Aktivní ohnisko dává +1 VP a přehodí vrchol věže na tomto hexu."
             placement="top"
           >
             <DonjonButton size="sm" leadingIcon={<InfoIcon />}>Co je ohnisko?</DonjonButton>
-          </Tooltip>
-          <Tooltip
+          </Tip>
+          <Tip
             title="Základna"
             content="Výchozí pozice věže každého hráče. Nelze obsadit cizí základnu."
             placement="bottom"
           >
             <DonjonButton size="sm" leadingIcon={<ShieldIcon />}>Základna</DonjonButton>
-          </Tooltip>
+          </Tip>
         </Preview>
-        <CodeBlock code={`<Tooltip
+        <CodeBlock code={`<${cmp}
   title="Ohnisko"
   content="Aktivní ohnisko dává +1 VP a přehodí vrchol věže na tomto hexu."
   placement="top"
 >
   <DonjonButton>Co je ohnisko?</DonjonButton>
-</Tooltip>`} />
+</${cmp}>`} />
       </Section>
 
       {/* Varianty */}
@@ -97,14 +97,14 @@ export default function TooltipPage() {
             { variant: 'warning', label: 'Warning',  content: 'Pozor, zkontroluj stav' },
             { variant: 'info',    label: 'Info',     content: 'Doplňující informace' },
           ].map(({ variant, label, content }) => (
-            <Tooltip key={variant} content={content} variant={variant} placement="top">
+            <Tip key={variant} content={content} variant={variant} placement="top">
               <DonjonBadge variant={variant === 'default' ? 'default' : variant}>{label}</DonjonBadge>
-            </Tooltip>
+            </Tip>
           ))}
         </Preview>
-        <CodeBlock code={`<Tooltip content="Nebezpečná akce" variant="danger" placement="top">
+        <CodeBlock code={`<${cmp} content="Nebezpečná akce" variant="danger" placement="top">
   <DonjonBadge variant="danger">Danger</DonjonBadge>
-</Tooltip>`} />
+</${cmp}>`} />
       </Section>
 
       {/* Na různých prvcích */}
@@ -114,27 +114,27 @@ export default function TooltipPage() {
         description="Tooltip funguje na libovolném child elementu."
       >
         <Preview>
-          <Tooltip content="Toto tlačítko zahájí novou hru" placement="top">
+          <Tip content="Toto tlačítko zahájí novou hru" placement="top">
             <DonjonButton>Nová hra</DonjonButton>
-          </Tooltip>
-          <Tooltip content="Stavový štítek hráče" placement="top">
+          </Tip>
+          <Tip content="Stavový štítek hráče" placement="top">
             <DonjonBadge dot variant="success">Aktivní</DonjonBadge>
-          </Tooltip>
-          <Tooltip content="Ikonový trigger bez textu" placement="right">
+          </Tip>
+          <Tip content="Ikonový trigger bez textu" placement="right">
             <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 32, height: 32, borderRadius: 4, background: '#2A2948', border: '1px solid #8F7458', cursor: 'help', color: '#8F7458' }}>
               <InfoIcon />
             </span>
-          </Tooltip>
+          </Tip>
         </Preview>
-        <CodeBlock code={`<Tooltip content="Toto tlačítko zahájí novou hru">
+        <CodeBlock code={`<${cmp} content="Toto tlačítko zahájí novou hru">
   <DonjonButton>Nová hra</DonjonButton>
-</Tooltip>
+</${cmp}>
 
-<Tooltip content="Ikonový trigger" placement="right">
+<${cmp} content="Ikonový trigger" placement="right">
   <span>
     <InfoIcon />
   </span>
-</Tooltip>`} />
+</${cmp}>`} />
       </Section>
 
       {/* Disabled */}
@@ -144,23 +144,20 @@ export default function TooltipPage() {
         description="Tooltip lze vypnout prop disabled — hodí se pro dynamické podmínky."
       >
         <Preview>
-          <Tooltip content="Tenhle tooltip se nezobrazí" disabled>
+          <Tip content="Tenhle tooltip se nezobrazí" disabled>
             <DonjonButton size="sm" disabled>Disabled tooltip</DonjonButton>
-          </Tooltip>
-          <Tooltip content="Tenhle tooltip funguje normálně">
+          </Tip>
+          <Tip content="Tenhle tooltip funguje normálně">
             <DonjonButton size="sm">Aktivní tooltip</DonjonButton>
-          </Tooltip>
+          </Tip>
         </Preview>
-        <CodeBlock code={`<Tooltip content="Skrytý tooltip" disabled>
+        <CodeBlock code={`<${cmp} content="Skrytý tooltip" disabled>
   <DonjonButton disabled>Disabled</DonjonButton>
-</Tooltip>`} />
+</${cmp}>`} />
       </Section>
 
       {/* Pravidla */}
-      <Section
-        id="pravidla"
-        title="Pravidla použití"
-      >
+      <Section id="pravidla" title="Pravidla použití">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">
           <p>✓ Použij pro ikony bez viditelného popisku — vždy musí mít tooltip nebo aria-label.</p>
           <p>✓ Maximálně 2–3 věty. Pokud potřebuješ víc textu, použij dialog.</p>
@@ -169,6 +166,22 @@ export default function TooltipPage() {
           <p>✗ Nepoužívej tooltip pro kritické informace — uživatel ho může přehlédnout.</p>
         </div>
       </Section>
+    </>
+  )
+}
+
+export default function TooltipPage() {
+  return (
+    <ShowcasePage
+      title="Tooltip"
+      description="Kontextová nápověda zobrazená při najetí myší nebo focusu. Krátký text, volitelný titulek, 4 směry umístění a 5 barevných variant."
+      componentSlugs={['donjon-tooltip', 'tooltip']}
+      variants={[
+        { id: 'donjon', label: 'donjon-fall-ui' },
+        { id: 'tkajui', label: 'TkajUI' },
+      ]}
+    >
+      <TooltipContent />
     </ShowcasePage>
   )
 }
