@@ -24,6 +24,7 @@ const sections = [
   {
     label: 'System',
     items: [
+      { to: '/todo', label: '✦ TODO' },
       {
         to: '/components', label: 'Components',
         children: [

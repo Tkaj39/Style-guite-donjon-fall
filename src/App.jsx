@@ -31,6 +31,7 @@ import LoadingAppPage from './pages/LoadingAppPage'
 import LoadingGamePage from './pages/LoadingGamePage'
 import SettingsPage from './pages/SettingsPage'
 import ComponentsPage from './pages/ComponentsPage'
+import TodoPage from './pages/TodoPage'
 import ComponentDetailPage from './pages/ComponentDetailPage'
 import TooltipPage from './pages/TooltipPage'
 import ModalPage from './pages/ModalPage'
@@ -94,6 +95,7 @@ export default function App() {
         <Route path="loading-app" element={<LoadingAppPage />} />
         <Route path="loading-game" element={<LoadingGamePage />} />
         <Route path="settings" element={<SettingsPage />} />
+        <Route path="todo" element={<TodoPage />} />
         <Route path="components" element={<ComponentsPage />} />
         <Route path="components/:slug" element={<ComponentDetailPage />} />
         <Route path="tooltip" element={<TooltipPage />} />
