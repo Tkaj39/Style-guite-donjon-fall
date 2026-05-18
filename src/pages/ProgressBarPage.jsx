@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import ProgressBar from '../lib/tkajui/ProgressBar'
 import DonjonProgressBar from '../lib/donjon/DonjonProgressBar'
+import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
 
 function ProgressBarContent() {
   const lib = useLibVariant()
   const PB  = lib === 'tkajui' ? ProgressBar : DonjonProgressBar
+  const Btn = lib === 'tkajui' ? Button : DonjonButton
   const cmp = lib === 'tkajui' ? 'ProgressBar' : 'DonjonProgressBar'
 
   function AnimatedDemo() {
@@ -40,12 +42,12 @@ function ProgressBarContent() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%', maxWidth: 400 }}>
         <PB value={value} label="Načítání herních dat…" showValue variant="default" size="md" />
         <div style={{ display: 'flex', gap: 8 }}>
-          <DonjonButton size="sm" onClick={() => setRunning(true)} disabled={running || value === 100}>
+          <Btn size="sm" onClick={() => setRunning(true)} disabled={running || value === 100}>
             Spustit
-          </DonjonButton>
-          <DonjonButton size="sm" onClick={reset}>
+          </Btn>
+          <Btn size="sm" onClick={reset}>
             Reset
-          </DonjonButton>
+          </Btn>
         </div>
       </div>
     )

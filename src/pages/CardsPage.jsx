@@ -1,6 +1,8 @@
 import Card from '../lib/tkajui/Card'
 import DonjonCard from '../lib/donjon/DonjonCard'
+import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
+import Badge from '../lib/tkajui/Badge'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
 
@@ -36,7 +38,11 @@ const valueStyle = { color: '#F0E6D3', fontWeight: 600 }
 function CardContent() {
   const lib = useLibVariant()                      // 'donjon' | 'tkajui'
   const C   = lib === 'tkajui' ? Card : DonjonCard
+  const Btn = lib === 'tkajui' ? Button : DonjonButton
+  const Bdg = lib === 'tkajui' ? Badge : DonjonBadge
   const cmp = lib === 'tkajui' ? 'Card' : 'DonjonCard'
+  const btnCmp = lib === 'tkajui' ? 'Button' : 'DonjonButton'
+  const bdgCmp = lib === 'tkajui' ? 'Badge' : 'DonjonBadge'
 
   return (
     <>
@@ -72,7 +78,7 @@ function CardContent() {
               <C title="Quest Active" description="Variant: default" variant="default">
                 <div style={statStyle}>
                   <span style={labelStyle}>Status</span>
-                  <DonjonBadge size="sm" variant="info">In Progress</DonjonBadge>
+                  <Bdg size="sm" variant="info">In Progress</Bdg>
                 </div>
                 <div style={statStyle}>
                   <span style={labelStyle}>Difficulty</span>
@@ -84,7 +90,7 @@ function CardContent() {
               <C title="Mission Failed" description="Variant: danger" variant="danger">
                 <div style={statStyle}>
                   <span style={labelStyle}>Status</span>
-                  <DonjonBadge size="sm" variant="danger">Failed</DonjonBadge>
+                  <Bdg size="sm" variant="danger">Failed</Bdg>
                 </div>
                 <div style={statStyle}>
                   <span style={labelStyle}>Penalty</span>
@@ -96,7 +102,7 @@ function CardContent() {
               <C title="Victory!" description="Variant: success" variant="success">
                 <div style={statStyle}>
                   <span style={labelStyle}>Status</span>
-                  <DonjonBadge size="sm" variant="success">Complete</DonjonBadge>
+                  <Bdg size="sm" variant="success">Complete</Bdg>
                 </div>
                 <div style={statStyle}>
                   <span style={labelStyle}>Reward</span>
@@ -124,8 +130,8 @@ function CardContent() {
                 description="Boss encounter — recommended party of 4."
                 footer={
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <DonjonBadge variant="warning" dot size="sm">Active Threat</DonjonBadge>
-                    <DonjonButton size="sm" trailingIcon={<ArrowRightIcon />}>Enter</DonjonButton>
+                    <Bdg variant="warning" dot size="sm">Active Threat</Bdg>
+                    <Btn size="sm" trailingIcon={<ArrowRightIcon />}>Enter</Btn>
                   </div>
                 }
               >
@@ -141,7 +147,7 @@ function CardContent() {
                 variant="danger"
                 footer={
                   <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
-                    <DonjonButton size="sm" variant="danger" leadingIcon={<SkullIcon />}>Accept Bounty</DonjonButton>
+                    <Btn size="sm" variant="danger" leadingIcon={<SkullIcon />}>Accept Bounty</Btn>
                   </div>
                 }
               >
@@ -157,8 +163,8 @@ function CardContent() {
   description="Boss encounter"
   footer={
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <DonjonBadge variant="warning" dot size="sm">Active Threat</DonjonBadge>
-      <DonjonButton size="sm">Enter</DonjonButton>
+      <${bdgCmp} variant="warning" dot size="sm">Active Threat</${bdgCmp}>
+      <${btnCmp} size="sm">Enter</${btnCmp}>
     </div>
   }
 >
@@ -179,8 +185,8 @@ function CardContent() {
                 description="Warrior · Level 24"
                 footer={
                   <div style={{ display: 'flex', gap: 6 }}>
-                    <DonjonButton size="sm" variant="default" leadingIcon={<SwordIcon />}>Attack</DonjonButton>
-                    <DonjonButton size="sm" variant="success" leadingIcon={<ShieldIcon />}>Defend</DonjonButton>
+                    <Btn size="sm" variant="default" leadingIcon={<SwordIcon />}>Attack</Btn>
+                    <Btn size="sm" variant="success" leadingIcon={<ShieldIcon />}>Defend</Btn>
                   </div>
                 }
               >
@@ -205,7 +211,7 @@ function CardContent() {
                 footer={
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ color: '#C0F0C8', fontSize: '0.75rem' }}>3 items found</span>
-                    <DonjonButton size="sm" variant="success">Collect All</DonjonButton>
+                    <Btn size="sm" variant="success">Collect All</Btn>
                   </div>
                 }
               >
@@ -216,12 +222,12 @@ function CardContent() {
                 ].map(({ name, rarity }) => (
                   <div key={name} style={{ ...statStyle, borderBottom: '1px solid #183D20' }}>
                     <span style={{ color: '#C0F0C8', fontSize: '0.8125rem' }}>{name}</span>
-                    <DonjonBadge
+                    <Bdg
                       size="sm"
                       variant={rarity === 'Rare' ? 'warning' : rarity === 'Uncommon' ? 'info' : 'default'}
                     >
                       {rarity}
-                    </DonjonBadge>
+                    </Bdg>
                   </div>
                 ))}
               </C>
