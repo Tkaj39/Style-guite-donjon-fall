@@ -1,6 +1,8 @@
 import Tooltip from '../lib/tkajui/Tooltip'
 import DonjonTooltip from '../lib/donjon/DonjonTooltip'
+import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
+import Badge from '../lib/tkajui/Badge'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
 
@@ -19,7 +21,11 @@ const ShieldIcon = () => (
 function TooltipContent() {
   const lib = useLibVariant()
   const Tip = lib === 'tkajui' ? Tooltip : DonjonTooltip
+  const Btn = lib === 'tkajui' ? Button : DonjonButton
+  const Bdg = lib === 'tkajui' ? Badge : DonjonBadge
   const cmp = lib === 'tkajui' ? 'Tooltip' : 'DonjonTooltip'
+  const btnCmp = lib === 'tkajui' ? 'Button' : 'DonjonButton'
+  const bdgCmp = lib === 'tkajui' ? 'Badge' : 'DonjonBadge'
 
   return (
     <>
@@ -31,24 +37,24 @@ function TooltipContent() {
       >
         <Preview>
           <Tip content="Umístění nahoře" placement="top">
-            <DonjonButton size="sm">Top</DonjonButton>
+            <Btn size="sm">Top</Btn>
           </Tip>
           <Tip content="Umístění dole" placement="bottom">
-            <DonjonButton size="sm">Bottom</DonjonButton>
+            <Btn size="sm">Bottom</Btn>
           </Tip>
           <Tip content="Umístění vlevo" placement="left">
-            <DonjonButton size="sm">Left</DonjonButton>
+            <Btn size="sm">Left</Btn>
           </Tip>
           <Tip content="Umístění vpravo" placement="right">
-            <DonjonButton size="sm">Right</DonjonButton>
+            <Btn size="sm">Right</Btn>
           </Tip>
         </Preview>
         <CodeBlock code={`<${cmp} content="Umístění nahoře" placement="top">
-  <DonjonButton>Top</DonjonButton>
+  <${btnCmp}>Top</${btnCmp}>
 </${cmp}>
 
 <${cmp} content="Umístění dole" placement="bottom">
-  <DonjonButton>Bottom</DonjonButton>
+  <${btnCmp}>Bottom</${btnCmp}>
 </${cmp}>`} />
       </Section>
 
@@ -64,14 +70,14 @@ function TooltipContent() {
             content="Aktivní ohnisko dává +1 VP a přehodí vrchol věže na tomto hexu."
             placement="top"
           >
-            <DonjonButton size="sm" leadingIcon={<InfoIcon />}>Co je ohnisko?</DonjonButton>
+            <Btn size="sm" leadingIcon={<InfoIcon />}>Co je ohnisko?</Btn>
           </Tip>
           <Tip
             title="Základna"
             content="Výchozí pozice věže každého hráče. Nelze obsadit cizí základnu."
             placement="bottom"
           >
-            <DonjonButton size="sm" leadingIcon={<ShieldIcon />}>Základna</DonjonButton>
+            <Btn size="sm" leadingIcon={<ShieldIcon />}>Základna</Btn>
           </Tip>
         </Preview>
         <CodeBlock code={`<${cmp}
@@ -79,7 +85,7 @@ function TooltipContent() {
   content="Aktivní ohnisko dává +1 VP a přehodí vrchol věže na tomto hexu."
   placement="top"
 >
-  <DonjonButton>Co je ohnisko?</DonjonButton>
+  <${btnCmp}>Co je ohnisko?</${btnCmp}>
 </${cmp}>`} />
       </Section>
 
@@ -98,12 +104,12 @@ function TooltipContent() {
             { variant: 'info',    label: 'Info',     content: 'Doplňující informace' },
           ].map(({ variant, label, content }) => (
             <Tip key={variant} content={content} variant={variant} placement="top">
-              <DonjonBadge variant={variant === 'default' ? 'default' : variant}>{label}</DonjonBadge>
+              <Bdg variant={variant === 'default' ? 'default' : variant}>{label}</Bdg>
             </Tip>
           ))}
         </Preview>
         <CodeBlock code={`<${cmp} content="Nebezpečná akce" variant="danger" placement="top">
-  <DonjonBadge variant="danger">Danger</DonjonBadge>
+  <${bdgCmp} variant="danger">Danger</${bdgCmp}>
 </${cmp}>`} />
       </Section>
 
@@ -115,10 +121,10 @@ function TooltipContent() {
       >
         <Preview>
           <Tip content="Toto tlačítko zahájí novou hru" placement="top">
-            <DonjonButton>Nová hra</DonjonButton>
+            <Btn>Nová hra</Btn>
           </Tip>
           <Tip content="Stavový štítek hráče" placement="top">
-            <DonjonBadge dot variant="success">Aktivní</DonjonBadge>
+            <Bdg dot variant="success">Aktivní</Bdg>
           </Tip>
           <Tip content="Ikonový trigger bez textu" placement="right">
             <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 32, height: 32, borderRadius: 4, background: '#2A2948', border: '1px solid #8F7458', cursor: 'help', color: '#8F7458' }}>
@@ -127,7 +133,7 @@ function TooltipContent() {
           </Tip>
         </Preview>
         <CodeBlock code={`<${cmp} content="Toto tlačítko zahájí novou hru">
-  <DonjonButton>Nová hra</DonjonButton>
+  <${btnCmp}>Nová hra</${btnCmp}>
 </${cmp}>
 
 <${cmp} content="Ikonový trigger" placement="right">
@@ -145,14 +151,14 @@ function TooltipContent() {
       >
         <Preview>
           <Tip content="Tenhle tooltip se nezobrazí" disabled>
-            <DonjonButton size="sm" disabled>Disabled tooltip</DonjonButton>
+            <Btn size="sm" disabled>Disabled tooltip</Btn>
           </Tip>
           <Tip content="Tenhle tooltip funguje normálně">
-            <DonjonButton size="sm">Aktivní tooltip</DonjonButton>
+            <Btn size="sm">Aktivní tooltip</Btn>
           </Tip>
         </Preview>
         <CodeBlock code={`<${cmp} content="Skrytý tooltip" disabled>
-  <DonjonButton disabled>Disabled</DonjonButton>
+  <${btnCmp} disabled>Disabled</${btnCmp}>
 </${cmp}>`} />
       </Section>
 

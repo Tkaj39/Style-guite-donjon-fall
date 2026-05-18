@@ -1,10 +1,11 @@
 import { ToastProvider, useToast } from '../lib/tkajui/Toast'
 import { ToastProvider as DonjonToastProvider, useToast as useDonjonToast } from '../lib/donjon/DonjonToast'
+import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
 
-/* ── Demo helpers ─ musí být uvnitř ToastProvider ── */
-function VariantDemo() {
+/* ── Demo helpers — přijímají Btn jako prop, musí být uvnitř ToastProvider ── */
+function VariantDemo({ Btn }) {
   const { addToast } = useToast()
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
@@ -15,57 +16,57 @@ function VariantDemo() {
         { variant: 'warning', label: 'Warning',  title: 'Upozornění',      message: 'Zkontroluj stav před pokračováním.' },
         { variant: 'info',    label: 'Info',     title: 'Tip',             message: 'Doplňující informace pro hráče.' },
       ].map(({ variant, label, title, message }) => (
-        <DonjonButton
+        <Btn
           key={variant}
           size="sm"
           variant={variant === 'default' || variant === 'info' ? 'default' : variant}
           onClick={() => addToast({ title, message, variant })}
         >
           {label}
-        </DonjonButton>
+        </Btn>
       ))}
     </div>
   )
 }
 
-function TitleDemo() {
+function TitleDemo({ Btn }) {
   const { addToast } = useToast()
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-      <DonjonButton size="sm" onClick={() => addToast({ title: 'S titulkem', message: 'Titulek zvýrazní hlavní sdělení, zpráva doplňuje detail.', variant: 'default' })}>
+      <Btn size="sm" onClick={() => addToast({ title: 'S titulkem', message: 'Titulek zvýrazní hlavní sdělení, zpráva doplňuje detail.', variant: 'default' })}>
         S titulkem
-      </DonjonButton>
-      <DonjonButton size="sm" onClick={() => addToast({ message: 'Jen krátká zpráva bez titulku — jednodušší kontexty.', variant: 'default' })}>
+      </Btn>
+      <Btn size="sm" onClick={() => addToast({ message: 'Jen krátká zpráva bez titulku — jednodušší kontexty.', variant: 'default' })}>
         Jen zpráva
-      </DonjonButton>
-      <DonjonButton size="sm" onClick={() => addToast({ title: 'Jen titulek', variant: 'success' })}>
+      </Btn>
+      <Btn size="sm" onClick={() => addToast({ title: 'Jen titulek', variant: 'success' })}>
         Jen titulek
-      </DonjonButton>
+      </Btn>
     </div>
   )
 }
 
-function DurationDemo() {
+function DurationDemo({ Btn }) {
   const { addToast } = useToast()
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-      <DonjonButton size="sm" onClick={() => addToast({ title: '2 sekundy', message: 'Rychlé potvrzení.', variant: 'success', duration: 2000 })}>
+      <Btn size="sm" onClick={() => addToast({ title: '2 sekundy', message: 'Rychlé potvrzení.', variant: 'success', duration: 2000 })}>
         2 s
-      </DonjonButton>
-      <DonjonButton size="sm" onClick={() => addToast({ title: '6 sekund', message: 'Více času na přečtení.', variant: 'warning', duration: 6000 })}>
+      </Btn>
+      <Btn size="sm" onClick={() => addToast({ title: '6 sekund', message: 'Více času na přečtení.', variant: 'warning', duration: 6000 })}>
         6 s
-      </DonjonButton>
-      <DonjonButton size="sm" onClick={() => addToast({ title: 'Trvalý toast', message: 'Nezavírá se automaticky — uživatel musí kliknout ×.', variant: 'danger', duration: 0 })}>
+      </Btn>
+      <Btn size="sm" onClick={() => addToast({ title: 'Trvalý toast', message: 'Nezavírá se automaticky — uživatel musí kliknout ×.', variant: 'danger', duration: 0 })}>
         Trvalý (duration=0)
-      </DonjonButton>
+      </Btn>
     </div>
   )
 }
 
-function StackDemo() {
+function StackDemo({ Btn }) {
   const { addToast } = useToast()
   return (
-    <DonjonButton
+    <Btn
       size="sm"
       onClick={() => {
         addToast({ title: 'Hráč 1 pohyb',    message: 'Kostka přesunuta na hex C4.',     variant: 'default', duration: 5000 })
@@ -74,12 +75,13 @@ function StackDemo() {
       }}
     >
       Vyvolat 3 toasty najednou
-    </DonjonButton>
+    </Btn>
   )
 }
 
 function ToastContent() {
   const lib = useLibVariant()
+  const Btn       = lib === 'tkajui' ? Button : DonjonButton
   const cmp       = lib === 'tkajui' ? 'ToastProvider / useToast' : 'DonjonToastProvider / useDonjonToast'
   const importSrc = lib === 'tkajui'
     ? `import { ToastProvider, useToast } from 'src/lib/tkajui/Toast'`
@@ -94,7 +96,7 @@ function ToastContent() {
         description="Pět sémantických variant — default, success, danger, warning, info. Kliknutím na tlačítko zobrazíš toast vpravo dole."
       >
         <Preview>
-          <VariantDemo />
+          <VariantDemo Btn={Btn} />
         </Preview>
         <CodeBlock code={`const { addToast } = useToast()
 
@@ -110,7 +112,7 @@ addToast({ message: 'Neutrální oznámení.', variant: 'default' })`} />
         description="Titulek i zpráva jsou volitelné — lze kombinovat libovolně."
       >
         <Preview>
-          <TitleDemo />
+          <TitleDemo Btn={Btn} />
         </Preview>
         <CodeBlock code={`{/* S titulkem i zprávou */}
 addToast({ title: 'S titulkem', message: 'Detail akce.', variant: 'default' })
@@ -129,7 +131,7 @@ addToast({ title: 'Jen titulek', variant: 'success' })`} />
         description="Prop duration nastaví čas v ms, po které se toast automaticky zavře. duration={0} vytvoří trvalý toast (musí být zavřen ručně)."
       >
         <Preview>
-          <DurationDemo />
+          <DurationDemo Btn={Btn} />
         </Preview>
         <CodeBlock code={`{/* Výchozí — 4 sekundy */}
 addToast({ title: 'Hotovo', variant: 'success' })
@@ -148,7 +150,7 @@ addToast({ title: 'Chyba připojení', variant: 'danger', duration: 0 })`} />
         description="Více toastů se zobrazí nad sebou. Maximum je 5 — starší toasty jsou automaticky odstraněny, pokud přijde šestý."
       >
         <Preview>
-          <StackDemo />
+          <StackDemo Btn={Btn} />
         </Preview>
         <CodeBlock code={`{/* Více toastů naráz */}
 addToast({ title: 'Hráč 1 pohyb',  message: 'Kostka přesunuta.', variant: 'default' })
