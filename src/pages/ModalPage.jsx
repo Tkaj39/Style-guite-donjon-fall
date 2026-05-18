@@ -1,30 +1,30 @@
 import { useState } from 'react'
+import Modal from '../lib/tkajui/Modal'
 import DonjonModal from '../lib/donjon/DonjonModal'
 import DonjonButton from '../lib/donjon/DonjonButton'
-import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
 
-/* ── Demo helper ── */
-function ModalDemo({ label, buttonVariant = 'default', ...modalProps }) {
+/* ── Demo helper — přijme aktivní komponentu jako prop ── */
+function ModalDemo({ ModalCmp, label, buttonVariant = 'default', ...modalProps }) {
   const [open, setOpen] = useState(false)
   return (
     <>
       <DonjonButton variant={buttonVariant} size="sm" onClick={() => setOpen(true)}>
         {label}
       </DonjonButton>
-      <DonjonModal isOpen={open} onClose={() => setOpen(false)} {...modalProps} />
+      <ModalCmp isOpen={open} onClose={() => setOpen(false)} {...modalProps} />
     </>
   )
 }
 
-export default function ModalPage() {
-  return (
-    <ShowcasePage
-      library="tkajui"
-      title="Modal"
-      description="Modální dialog s fokusovým uzamčením, Escape zavřením a zamčeným scrollem. Vizuálně navazuje na DonjonCard — oktagonální border, ornamenti, barevné varianty."
-      componentSlug="modal"
-    >
+/* ── Obsah stránky — čte aktivní variantu přes hook ── */
+function ModalContent() {
+  const lib = useLibVariant()                    // 'donjon' | 'tkajui'
+  const ModalCmp = lib === 'tkajui' ? Modal : DonjonModal
+  const cmp      = lib === 'tkajui' ? 'Modal' : 'DonjonModal'
 
+  return (
+    <>
       {/* Sizes */}
       <Section
         id="sizes"
@@ -32,50 +32,35 @@ export default function ModalPage() {
         description="Tři předdefinované šířky — sm (360 px), md (480 px, výchozí), lg (640 px)."
       >
         <Preview>
-          <ModalDemo
-            label="Small"
-            size="sm"
-            title="Malý modál"
-            description="Maximální šířka 360 px."
-          >
+          <ModalDemo ModalCmp={ModalCmp} label="Small"  size="sm" title="Malý modál"   description="Maximální šířka 360 px.">
             <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Vhodný pro rychlá potvrzení nebo krátké zprávy, kde nepotřebuješ mnoho obsahu.
             </p>
           </ModalDemo>
 
-          <ModalDemo
-            label="Medium (výchozí)"
-            size="md"
-            title="Středný modál"
-            description="Maximální šířka 480 px — výchozí velikost."
-          >
+          <ModalDemo ModalCmp={ModalCmp} label="Medium (výchozí)" size="md" title="Středný modál" description="Maximální šířka 480 px — výchozí velikost.">
             <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Standardní volba pro většinu dialogů — dostatečný prostor pro formulář nebo popis akce.
             </p>
           </ModalDemo>
 
-          <ModalDemo
-            label="Large"
-            size="lg"
-            title="Velký modál"
-            description="Maximální šířka 640 px."
-          >
+          <ModalDemo ModalCmp={ModalCmp} label="Large" size="lg" title="Velký modál" description="Maximální šířka 640 px.">
             <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Pro složitější obsah — tabulky, delší formuláře, nastavení s více poli.
             </p>
           </ModalDemo>
         </Preview>
-        <CodeBlock code={`<DonjonModal isOpen={open} onClose={() => setOpen(false)} size="sm" title="Malý modál">
+        <CodeBlock code={`<${cmp} isOpen={open} onClose={() => setOpen(false)} size="sm" title="Malý modál">
   …obsah…
-</DonjonModal>
+</${cmp}>
 
-<DonjonModal isOpen={open} onClose={() => setOpen(false)} size="md" title="Středný modál">
+<${cmp} isOpen={open} onClose={() => setOpen(false)} size="md" title="Středný modál">
   …obsah…
-</DonjonModal>
+</${cmp}>
 
-<DonjonModal isOpen={open} onClose={() => setOpen(false)} size="lg" title="Velký modál">
+<${cmp} isOpen={open} onClose={() => setOpen(false)} size="lg" title="Velký modál">
   …obsah…
-</DonjonModal>`} />
+</${cmp}>`} />
       </Section>
 
       {/* Variants */}
@@ -93,6 +78,7 @@ export default function ModalPage() {
           ].map(({ variant, label, buttonVariant, title, desc }) => (
             <ModalDemo
               key={variant}
+              ModalCmp={ModalCmp}
               label={label}
               buttonVariant={buttonVariant}
               variant={variant}
@@ -106,13 +92,13 @@ export default function ModalPage() {
             </ModalDemo>
           ))}
         </Preview>
-        <CodeBlock code={`<DonjonModal variant="danger" title="Nebezpečná akce" isOpen={open} onClose={onClose}>
+        <CodeBlock code={`<${cmp} variant="danger" title="Nebezpečná akce" isOpen={open} onClose={onClose}>
   Tato akce je nevratná.
-</DonjonModal>
+</${cmp}>
 
-<DonjonModal variant="success" title="Úspěch" isOpen={open} onClose={onClose}>
+<${cmp} variant="success" title="Úspěch" isOpen={open} onClose={onClose}>
   Operace proběhla úspěšně.
-</DonjonModal>`} />
+</${cmp}>`} />
       </Section>
 
       {/* With footer */}
@@ -123,6 +109,7 @@ export default function ModalPage() {
       >
         <Preview>
           <ModalDemo
+            ModalCmp={ModalCmp}
             label="S patičkou"
             title="Opustit hru?"
             description="Veškerý postup v aktuálním kole bude ztracen."
@@ -141,6 +128,7 @@ export default function ModalPage() {
           </ModalDemo>
 
           <ModalDemo
+            ModalCmp={ModalCmp}
             label="Potvrzení"
             title="Zahájit nové kolo?"
             footer={
@@ -155,7 +143,7 @@ export default function ModalPage() {
             </p>
           </ModalDemo>
         </Preview>
-        <CodeBlock code={`<DonjonModal
+        <CodeBlock code={`<${cmp}
   isOpen={open}
   onClose={() => setOpen(false)}
   title="Opustit hru?"
@@ -168,7 +156,7 @@ export default function ModalPage() {
   }
 >
   Aktuální hra bude ukončena.
-</DonjonModal>`} />
+</${cmp}>`} />
       </Section>
 
       {/* No title */}
@@ -178,18 +166,16 @@ export default function ModalPage() {
         description="Modál bez prop title — jen čistý obsah s close tlačítkem v těle."
       >
         <Preview>
-          <ModalDemo
-            label="Bez hlavičky"
-          >
+          <ModalDemo ModalCmp={ModalCmp} label="Bez hlavičky">
             <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Modál bez title nezobrazí hlavičku. Close tlačítko se přesune do pravého horního rohu těla.
               Vhodné pro obrazové dialogy nebo vlastní layout bez standardní struktury.
             </p>
           </ModalDemo>
         </Preview>
-        <CodeBlock code={`<DonjonModal isOpen={open} onClose={() => setOpen(false)}>
+        <CodeBlock code={`<${cmp} isOpen={open} onClose={() => setOpen(false)}>
   Vlastní obsah bez standardní hlavičky.
-</DonjonModal>`} />
+</${cmp}>`} />
       </Section>
 
       {/* Close behaviors */}
@@ -199,29 +185,20 @@ export default function ModalPage() {
         description="Konfigurace způsobů zavření — backdrop, Escape a close tlačítko lze individuálně vypnout."
       >
         <Preview>
-          <ModalDemo
-            label="Bez Escape"
-            title="Escape nefunguje"
-            description="closeOnEscape={false}"
-            closeOnEscape={false}
-          >
+          <ModalDemo ModalCmp={ModalCmp} label="Bez Escape" title="Escape nefunguje" description="closeOnEscape={false}" closeOnEscape={false}>
             <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Modál nelze zavřít klávesou Escape — použij close tlačítko nebo backdrop.
             </p>
           </ModalDemo>
 
-          <ModalDemo
-            label="Bez backdrops"
-            title="Backdrop nefunguje"
-            description="closeOnBackdrop={false}"
-            closeOnBackdrop={false}
-          >
+          <ModalDemo ModalCmp={ModalCmp} label="Bez backdrops" title="Backdrop nefunguje" description="closeOnBackdrop={false}" closeOnBackdrop={false}>
             <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Klik mimo modál ho nezavře — uživatel musí použít close tlačítko nebo Escape.
             </p>
           </ModalDemo>
 
           <ModalDemo
+            ModalCmp={ModalCmp}
             label="Bez close tlačítka"
             title="Bez close tlačítka"
             description="showCloseButton={false}"
@@ -234,20 +211,17 @@ export default function ModalPage() {
           </ModalDemo>
         </Preview>
         <CodeBlock code={`{/* Nelze zavřít Escape */}
-<DonjonModal closeOnEscape={false} …>…</DonjonModal>
+<${cmp} closeOnEscape={false} …>…</${cmp}>
 
 {/* Nelze zavřít klikem mimo */}
-<DonjonModal closeOnBackdrop={false} …>…</DonjonModal>
+<${cmp} closeOnBackdrop={false} …>…</${cmp}>
 
 {/* Bez × tlačítka */}
-<DonjonModal showCloseButton={false} …>…</DonjonModal>`} />
+<${cmp} showCloseButton={false} …>…</${cmp}>`} />
       </Section>
 
       {/* Pravidla */}
-      <Section
-        id="pravidla"
-        title="Pravidla použití"
-      >
+      <Section id="pravidla" title="Pravidla použití">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">
           <p>✓ Vždy poskytni jasnou cestu zavření — alespoň jeden ze způsobů (Escape, backdrop, tlačítko) musí zůstat aktivní.</p>
           <p>✓ Použij variant odpovídající kontextu — danger pro nevratné akce, success pro potvrzení, warning pro varování.</p>
@@ -258,7 +232,23 @@ export default function ModalPage() {
           <p>✗ Nepoužívej modál pro rychlé notifikace — na to slouží Toast / FloatFeedback.</p>
         </div>
       </Section>
+    </>
+  )
+}
 
+/* ── Page ── */
+export default function ModalPage() {
+  return (
+    <ShowcasePage
+      title="Modal"
+      description="Modální dialog s fokusovým uzamčením, Escape zavřením a zamčeným scrollem. Vizuálně navazuje na DonjonCard — oktagonální border, ornamenti, barevné varianty."
+      componentSlugs={['donjon-modal', 'modal']}
+      variants={[
+        { id: 'donjon', label: 'donjon-fall-ui' },
+        { id: 'tkajui', label: 'TkajUI' },
+      ]}
+    >
+      <ModalContent />
     </ShowcasePage>
   )
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import ButtonGroup from '../lib/tkajui/ButtonGroup'
 import DonjonButtonGroup from '../lib/donjon/DonjonButtonGroup'
-import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
 
 /* ── Icons ── */
 const GridIcon = () => (
@@ -29,77 +30,62 @@ const SettingsIcon = () => (
   </svg>
 )
 
-/* ── Menu items ── */
+/* ── Statická data ── */
 const viewItems = [
   { value: 'grid', label: 'Grid', icon: <GridIcon /> },
   { value: 'list', label: 'List', icon: <ListIcon /> },
   { value: 'chart', label: 'Chart', icon: <BarChartIcon /> },
 ]
-
 const navItems = [
   { value: 'overview', label: 'Overview' },
   { value: 'analytics', label: 'Analytics' },
   { value: 'reports', label: 'Reports' },
   { value: 'settings', label: 'Settings' },
 ]
-
 const periodItems = [
   { value: 'day', label: 'Day' },
   { value: 'week', label: 'Week' },
   { value: 'month', label: 'Month' },
   { value: 'year', label: 'Year' },
 ]
-
 const tabItems = [
   { value: 'design', label: 'Design' },
   { value: 'prototype', label: 'Prototype' },
   { value: 'code', label: 'Code' },
 ]
-
 const tabsWithIcons = [
   { value: 'calendar', label: 'Calendar', icon: <CalendarIcon /> },
   { value: 'list', label: 'List', icon: <ListIcon /> },
   { value: 'settings', label: 'Settings', icon: <SettingsIcon /> },
 ]
 
-export default function ButtonGroupsPage() {
-  const [menuView, setMenuView] = useState('grid')
-  const [menuNav, setMenuNav] = useState('overview')
+/* ── Obsah stránky — čte aktivní variantu přes hook ── */
+function ButtonGroupContent() {
+  const lib = useLibVariant()                        // 'donjon' | 'tkajui'
+  const BG  = lib === 'tkajui' ? ButtonGroup : DonjonButtonGroup
+  const cmp = lib === 'tkajui' ? 'ButtonGroup' : 'DonjonButtonGroup'
+
+  const [menuView,       setMenuView]       = useState('grid')
+  const [menuNav,        setMenuNav]        = useState('overview')
   const [menuNavDivider, setMenuNavDivider] = useState('overview')
-  const [tabActive, setTabActive] = useState('design')
-  const [tabPeriod, setTabPeriod] = useState('week')
-  const [tabWithIcon, setTabWithIcon] = useState('calendar')
-  const [tabDivider, setTabDivider] = useState('design')
-  const [sizeActive, setSizeActive] = useState('grid')
+  const [tabActive,      setTabActive]      = useState('design')
+  const [tabPeriod,      setTabPeriod]      = useState('week')
+  const [tabWithIcon,    setTabWithIcon]    = useState('calendar')
+  const [tabDivider,     setTabDivider]     = useState('design')
+  const [sizeActive,     setSizeActive]     = useState('grid')
 
   return (
-    <ShowcasePage
-      library="tkajui"
-      title="Button Groups"
-      description="Skupiny tlačítek pro přepínání pohledů, navigaci nebo filtrování. Vždy jedno tlačítko je aktivní."
-      componentSlug="button-group"
-    >
-
+    <>
       {/* ── MENU variant ── */}
       <Section
         title="Menu — bez oddělovačů"
         description="Decentní varianta — aktivní tlačítko má jen lehké zvýraznění pozadím. Všechna tlačítka stejně velká."
       >
         <Preview>
-          <DonjonButtonGroup
-            variant="menu"
-            items={viewItems}
-            value={menuView}
-            onChange={setMenuView}
-          />
-          <DonjonButtonGroup
-            variant="menu"
-            items={navItems}
-            value={menuNav}
-            onChange={setMenuNav}
-          />
+          <BG variant="menu" items={viewItems} value={menuView}  onChange={setMenuView} />
+          <BG variant="menu" items={navItems}  value={menuNav}   onChange={setMenuNav} />
         </Preview>
-        <CodeBlock code={`<DonjonButtonGroup
+        <CodeBlock code={`<${cmp}
   variant="menu"
   items={[
     { value: 'grid', label: 'Grid', icon: <GridIcon /> },
@@ -116,22 +102,10 @@ export default function ButtonGroupsPage() {
         description="Oddělovač dividers={true} — tenká čára mezi tlačítky."
       >
         <Preview>
-          <DonjonButtonGroup
-            variant="menu"
-            dividers
-            items={navItems}
-            value={menuNavDivider}
-            onChange={setMenuNavDivider}
-          />
-          <DonjonButtonGroup
-            variant="menu"
-            dividers
-            items={viewItems}
-            value={menuView}
-            onChange={setMenuView}
-          />
+          <BG variant="menu" dividers items={navItems}  value={menuNavDivider} onChange={setMenuNavDivider} />
+          <BG variant="menu" dividers items={viewItems} value={menuView}       onChange={setMenuView} />
         </Preview>
-        <CodeBlock code={`<DonjonButtonGroup
+        <CodeBlock code={`<${cmp}
   variant="menu"
   dividers
   items={navItems}
@@ -146,20 +120,10 @@ export default function ButtonGroupsPage() {
         description="Aktivní záložka je viditelně větší — větší padding a text. Přechod je plynulý (200 ms)."
       >
         <Preview>
-          <DonjonButtonGroup
-            variant="tabs"
-            items={tabItems}
-            value={tabActive}
-            onChange={setTabActive}
-          />
-          <DonjonButtonGroup
-            variant="tabs"
-            items={periodItems}
-            value={tabPeriod}
-            onChange={setTabPeriod}
-          />
+          <BG variant="tabs" items={tabItems}   value={tabActive} onChange={setTabActive} />
+          <BG variant="tabs" items={periodItems} value={tabPeriod} onChange={setTabPeriod} />
         </Preview>
-        <CodeBlock code={`<DonjonButtonGroup
+        <CodeBlock code={`<${cmp}
   variant="tabs"
   items={[
     { value: 'design', label: 'Design' },
@@ -176,15 +140,9 @@ export default function ButtonGroupsPage() {
         description="Oddělovač se zobrazuje pouze mezi neaktivními záložkami, aby nerušil aktivní zvýraznění."
       >
         <Preview>
-          <DonjonButtonGroup
-            variant="tabs"
-            dividers
-            items={tabItems}
-            value={tabDivider}
-            onChange={setTabDivider}
-          />
+          <BG variant="tabs" dividers items={tabItems} value={tabDivider} onChange={setTabDivider} />
         </Preview>
-        <CodeBlock code={`<DonjonButtonGroup
+        <CodeBlock code={`<${cmp}
   variant="tabs"
   dividers
   items={tabItems}
@@ -198,14 +156,9 @@ export default function ButtonGroupsPage() {
         description="Ikony fungují stejně jako u Button komponenty — vlevo před textem."
       >
         <Preview>
-          <DonjonButtonGroup
-            variant="tabs"
-            items={tabsWithIcons}
-            value={tabWithIcon}
-            onChange={setTabWithIcon}
-          />
+          <BG variant="tabs" items={tabsWithIcons} value={tabWithIcon} onChange={setTabWithIcon} />
         </Preview>
-        <CodeBlock code={`<DonjonButtonGroup
+        <CodeBlock code={`<${cmp}
   variant="tabs"
   items={[
     { value: 'calendar', label: 'Calendar', icon: <CalendarIcon /> },
@@ -226,17 +179,33 @@ export default function ButtonGroupsPage() {
             {['xs', 'sm', 'md', 'lg'].map(sz => (
               <div key={sz} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span style={{ fontSize: '0.65rem', color: '#4A4560', letterSpacing: '0.08em', textTransform: 'uppercase', width: 24 }}>{sz}</span>
-                <DonjonButtonGroup variant="tabs" size={sz} items={viewItems} value={sizeActive} onChange={setSizeActive} />
+                <BG variant="tabs" size={sz} items={viewItems} value={sizeActive} onChange={setSizeActive} />
               </div>
             ))}
           </div>
         </Preview>
-        <CodeBlock code={`<DonjonButtonGroup variant="tabs" size="xs" … />  {/* 32px */}
-<DonjonButtonGroup variant="tabs" size="sm" … />  {/* 40px */}
-<DonjonButtonGroup variant="tabs" size="md" … />  {/* 52px — výchozí */}
-<DonjonButtonGroup variant="tabs" size="lg" … />  {/* 64px */}`} />
+        <CodeBlock code={`<${cmp} variant="tabs" size="xs" … />  {/* 32px */}
+<${cmp} variant="tabs" size="sm" … />  {/* 40px */}
+<${cmp} variant="tabs" size="md" … />  {/* 52px — výchozí */}
+<${cmp} variant="tabs" size="lg" … />  {/* 64px */}`} />
       </Section>
+    </>
+  )
+}
 
+/* ── Page ── */
+export default function ButtonGroupsPage() {
+  return (
+    <ShowcasePage
+      title="Button Groups"
+      description="Skupiny tlačítek pro přepínání pohledů, navigaci nebo filtrování. Vždy jedno tlačítko je aktivní."
+      componentSlugs={['donjon-button-group', 'button-group']}
+      variants={[
+        { id: 'donjon', label: 'donjon-fall-ui' },
+        { id: 'tkajui', label: 'TkajUI' },
+      ]}
+    >
+      <ButtonGroupContent />
     </ShowcasePage>
   )
 }

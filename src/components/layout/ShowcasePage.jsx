@@ -1,4 +1,13 @@
+import { useState, createContext, useContext } from 'react'
 import { Link } from 'react-router-dom'
+
+/* ── Variant context — sdílí aktivní knihovnu se všemi dětmi ── */
+const LibVariantContext = createContext(null)
+
+/** Hook pro čtení aktivní varianty ('tkajui' | 'donjon' | null) ze ShowcasePage. */
+export function useLibVariant() {
+  return useContext(LibVariantContext)
+}
 
 /* ── Library icons ── */
 function TkajuiIcon({ size = 13 }) {
@@ -22,7 +31,7 @@ function DonjonIcon({ size = 13 }) {
   )
 }
 
-const LIBRARY_CFG = {
+export const LIBRARY_CFG = {
   tkajui: { label: 'TkajUI',         color: '#7BAED4', Icon: TkajuiIcon },
   donjon: { label: 'donjon-fall-ui', color: '#B8956A', Icon: DonjonIcon },
 }
@@ -45,6 +54,44 @@ function LibraryBadge({ library }) {
   )
 }
 
+/* ── VariantSwitcher ── */
+/**
+ * Přepínač variant — zobrazí se v hlavičce ShowcasePage místo statického LibraryBadge.
+ * variants: [{ id: 'donjon' | 'tkajui', label?: string }]
+ */
+function VariantSwitcher({ variants, active, onChange }) {
+  return (
+    <div className="flex items-center gap-0.5 p-0.5 rounded-lg border border-neutral-700/50 bg-neutral-800/40 w-fit">
+      {variants.map(v => {
+        const cfg = LIBRARY_CFG[v.id]
+        const isActive = active === v.id
+        const label = v.label ?? cfg?.label ?? v.id
+        return (
+          <button
+            key={v.id}
+            onClick={() => onChange(v.id)}
+            title={cfg?.label}
+            style={isActive && cfg ? {
+              color: cfg.color,
+              background: `${cfg.color}18`,
+              borderColor: `${cfg.color}45`,
+            } : {}}
+            className={[
+              'flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all duration-150 border',
+              isActive
+                ? 'border-current shadow-sm'
+                : 'text-neutral-500 hover:text-neutral-300 border-transparent hover:bg-neutral-700/40',
+            ].join(' ')}
+          >
+            {cfg && <cfg.Icon size={11} />}
+            {label}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
 function ApiChip({ slug }) {
   return (
     <Link
@@ -59,32 +106,54 @@ function ApiChip({ slug }) {
   )
 }
 
-export function ShowcasePage({ title, description, children, componentSlug, componentSlugs, library }) {
-  // Normalizace: componentSlugs má přednost, componentSlug je zkratka pro jeden slug
+/* ── ShowcasePage ── */
+/**
+ * @param {string}   title
+ * @param {string}   [description]
+ * @param {string}   [library]          'tkajui' | 'donjon' — statický badge (pokud není variants)
+ * @param {string}   [componentSlug]    zkratka pro jeden API chip
+ * @param {string[]} [componentSlugs]   více API chipů
+ * @param {Array}    [variants]         [{ id: 'donjon'|'tkajui', label?: string }, ...]
+ *                                      První položka = výchozí varianta.
+ *                                      Přidá VariantSwitcher + poskytne LibVariantContext dětem.
+ */
+export function ShowcasePage({ title, description, children, componentSlug, componentSlugs, library, variants }) {
   const slugs = componentSlugs ?? (componentSlug ? [componentSlug] : [])
 
+  // Varianta — jen pokud je variants prop
+  const [activeVariant, setActiveVariant] = useState(variants?.[0]?.id ?? null)
+
+  // Aktivní knihovna: buď z varianty nebo ze statického library prop
+  const effectiveLibrary = activeVariant ?? library
+
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-      <header className="mb-8 lg:mb-10 border-b border-neutral-800 pb-6 lg:pb-8">
-        <div className="flex items-start justify-between gap-4 flex-wrap">
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-3 flex-wrap">
-              <h2 className="text-2xl lg:text-3xl font-bold text-white">{title}</h2>
-              <LibraryBadge library={library} />
+    <LibVariantContext.Provider value={activeVariant}>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+        <header className="mb-8 lg:mb-10 border-b border-neutral-800 pb-6 lg:pb-8">
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-3 flex-wrap">
+                <h2 className="text-2xl lg:text-3xl font-bold text-white">{title}</h2>
+                {/* Variantní přepínač — nahrazuje statický LibraryBadge */}
+                {variants
+                  ? <VariantSwitcher variants={variants} active={activeVariant} onChange={setActiveVariant} />
+                  : <LibraryBadge library={effectiveLibrary} />
+                }
+              </div>
+              {description && (
+                <p className="text-neutral-400 text-sm lg:text-base">{description}</p>
+              )}
             </div>
-            {description && (
-              <p className="text-neutral-400 text-sm lg:text-base">{description}</p>
+            {slugs.length > 0 && (
+              <div className="flex items-center gap-2 flex-wrap">
+                {slugs.map(slug => <ApiChip key={slug} slug={slug} />)}
+              </div>
             )}
           </div>
-          {slugs.length > 0 && (
-            <div className="flex items-center gap-2 flex-wrap">
-              {slugs.map(slug => <ApiChip key={slug} slug={slug} />)}
-            </div>
-          )}
-        </div>
-      </header>
-      <div className="flex flex-col gap-10 lg:gap-12">{children}</div>
-    </div>
+        </header>
+        <div className="flex flex-col gap-10 lg:gap-12">{children}</div>
+      </div>
+    </LibVariantContext.Provider>
   )
 }
 
