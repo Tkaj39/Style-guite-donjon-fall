@@ -1,27 +1,29 @@
 import { useState } from 'react'
 import Modal from '../lib/tkajui/Modal'
 import DonjonModal from '../lib/donjon/DonjonModal'
+import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
-
-/* ── Demo helper — přijme aktivní komponentu jako prop ── */
-function ModalDemo({ ModalCmp, label, buttonVariant = 'default', ...modalProps }) {
-  const [open, setOpen] = useState(false)
-  return (
-    <>
-      <DonjonButton variant={buttonVariant} size="sm" onClick={() => setOpen(true)}>
-        {label}
-      </DonjonButton>
-      <ModalCmp isOpen={open} onClose={() => setOpen(false)} {...modalProps} />
-    </>
-  )
-}
 
 /* ── Obsah stránky — čte aktivní variantu přes hook ── */
 function ModalContent() {
   const lib = useLibVariant()                    // 'donjon' | 'tkajui'
   const ModalCmp = lib === 'tkajui' ? Modal : DonjonModal
+  const Btn      = lib === 'tkajui' ? Button : DonjonButton
   const cmp      = lib === 'tkajui' ? 'Modal' : 'DonjonModal'
+
+  /* Demo helper — definováno uvnitř ModalContent aby mělo přístup k Btn */
+  function ModalDemo({ label, buttonVariant = 'default', ...modalProps }) {
+    const [open, setOpen] = useState(false)
+    return (
+      <>
+        <Btn variant={buttonVariant} size="sm" onClick={() => setOpen(true)}>
+          {label}
+        </Btn>
+        <ModalCmp isOpen={open} onClose={() => setOpen(false)} {...modalProps} />
+      </>
+    )
+  }
 
   return (
     <>
@@ -78,7 +80,7 @@ function ModalContent() {
           ].map(({ variant, label, buttonVariant, title, desc }) => (
             <ModalDemo
               key={variant}
-              ModalCmp={ModalCmp}
+              
               label={label}
               buttonVariant={buttonVariant}
               variant={variant}
@@ -109,7 +111,7 @@ function ModalContent() {
       >
         <Preview>
           <ModalDemo
-            ModalCmp={ModalCmp}
+            
             label="S patičkou"
             title="Opustit hru?"
             description="Veškerý postup v aktuálním kole bude ztracen."
@@ -128,7 +130,7 @@ function ModalContent() {
           </ModalDemo>
 
           <ModalDemo
-            ModalCmp={ModalCmp}
+            
             label="Potvrzení"
             title="Zahájit nové kolo?"
             footer={
@@ -198,7 +200,7 @@ function ModalContent() {
           </ModalDemo>
 
           <ModalDemo
-            ModalCmp={ModalCmp}
+            
             label="Bez close tlačítka"
             title="Bez close tlačítka"
             description="showCloseButton={false}"
@@ -241,7 +243,7 @@ export default function ModalPage() {
   return (
     <ShowcasePage
       title="Modal"
-      description="Modální dialog s fokusovým uzamčením, Escape zavřením a zamčeným scrollem. Vizuálně navazuje na DonjonCard — oktagonální border, ornamenti, barevné varianty."
+      description="Modální dialog s fokusovým uzamčením, Escape zavřením a zamčeným scrollem. Oktagonální border, barevné varianty. DonjonModal rozšiřuje TkajUI Modal o herní ornaments."
       componentSlugs={['donjon-modal', 'modal']}
       variants={[
         { id: 'donjon', label: 'donjon-fall-ui' },
