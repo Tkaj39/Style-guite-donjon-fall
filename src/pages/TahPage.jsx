@@ -2,7 +2,7 @@ import { useState, Fragment } from 'react'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
-import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { players, turnPhases } from '../data/gameUiMockData'
 
 function TurnPhaseTimeline({ activeStep = 0 }) {

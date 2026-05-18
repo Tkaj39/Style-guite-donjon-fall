@@ -1,4 +1,4 @@
-import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 
 /* ── Shadow demo box ── */
 function ShadowBox({ label, shadow, desc }) {

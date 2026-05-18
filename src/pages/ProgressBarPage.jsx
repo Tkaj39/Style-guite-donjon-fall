@@ -3,7 +3,7 @@ import ProgressBar from '../lib/tkajui/ProgressBar'
 import DonjonProgressBar from '../lib/donjon/DonjonProgressBar'
 import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
-import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 function ProgressBarContent() {
   const lib = useLibVariant()

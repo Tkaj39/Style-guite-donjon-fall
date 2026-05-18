@@ -4,7 +4,7 @@ import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DieFace from '../lib/donjon/DieFace'
 import FloatFeedback from '../lib/donjon/FloatFeedback'
 import HexTile from '../lib/donjon/HexTile'
-import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import { players } from '../data/gameUiMockData'
 
 /* ── Static spec helpers ── */

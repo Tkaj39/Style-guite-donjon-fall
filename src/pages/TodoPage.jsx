@@ -1,5 +1,5 @@
 import { registry } from '../data/componentRegistry'
-import { ShowcasePage, Section } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section } from '../styleguide/ShowcasePage'
 
 /* ──────────────────────────────────────────────────────────────────────────
    RUČNÍ CHECKLIST — přidávej / odebírej / přepisuj položky zde

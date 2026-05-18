@@ -1,4 +1,4 @@
-import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 
 /* ── Cursor demo ── */
 function CursorDemo({ cursor, label, desc, children }) {

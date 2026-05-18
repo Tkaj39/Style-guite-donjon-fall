@@ -1,4 +1,4 @@
-import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { octagon, clipLeft, clipRight, octagonWithNotch, roundRect, pill, scoopPath, SHAPE_SIZES } from '../utils/octagon'
 import { buttonSizes } from '../utils/sizes'
 import ScoopClip from '../lib/tkajui/ScoopClip'

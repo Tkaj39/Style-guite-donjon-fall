@@ -1,4 +1,4 @@
-import { ShowcasePage, Section, Preview, useLibVariant } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, useLibVariant } from '../styleguide/ShowcasePage'
 import Pictogram from '../lib/tkajui/Pictogram'
 import DonjonPictogram from '../lib/donjon/DonjonPictogram'
 import { SwordIcon, ShieldIcon, TowerIcon } from '../lib/donjon/icons'

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
-import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 const PlusIcon = () => (
   <svg viewBox="0 0 16 16" fill="currentColor">

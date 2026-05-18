@@ -1,6 +1,6 @@
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { getBySlug, registry } from '../data/componentRegistry'
-import { ShowcasePage, Section } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section } from '../styleguide/ShowcasePage'
 
 /* ── Ikony ── */
 function ChevronLeftIcon() {

@@ -3,7 +3,7 @@ import HexTile from '../lib/donjon/HexTile'
 import DieFace from '../lib/donjon/DieFace'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
-import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import { players, turnPhases } from '../data/gameUiMockData'
 
 // Default map: 61 hexes in large hexagon shape

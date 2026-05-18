@@ -4,7 +4,7 @@ import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import Badge from '../lib/tkajui/Badge'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
-import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 const SwordIcon = () => (
   <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">

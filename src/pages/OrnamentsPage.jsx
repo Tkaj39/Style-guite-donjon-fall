@@ -1,7 +1,7 @@
 import { SideOrnament, HexOrnament } from '../lib/tkajui/Ornaments'
 import CornerOrnament from '../lib/tkajui/CornerOrnament'
 import { buttonSizes, CARD_ORN_H } from '../utils/sizes'
-import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 
 const SIZES = Object.entries(buttonSizes).map(([key, s]) => ({ key, h: s.h }))
 const CARD_SIZE = { key: 'card', h: CARD_ORN_H }

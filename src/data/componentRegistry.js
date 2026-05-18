@@ -8,7 +8,7 @@
    Kategorizace:
      src/lib/tkajui/*.jsx   → UI Components   (public)
      src/lib/donjon/*.jsx   → Game Assets     (public)
-     src/components/layout/ → Layout          (internal)
+     src/styleguide/ → Layout          (internal)
 
    Výjimka visibility:
      Ornaments.jsx je internal i přes umístění v tkajui.
@@ -17,7 +17,7 @@
 import { componentMeta } from './componentMeta'
 
 /* import.meta.glob — cesty relativní k tomuto souboru (src/data/) */
-const LAYOUT_GLOB = import.meta.glob('../components/layout/*.jsx')
+const LAYOUT_GLOB = import.meta.glob('../styleguide/*.jsx')
 const TKAJUI_GLOB = import.meta.glob('../lib/tkajui/*.jsx')
 const DONJON_GLOB = import.meta.glob('../lib/donjon/*.jsx')
 

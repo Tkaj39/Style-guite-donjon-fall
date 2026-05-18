@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Input from '../lib/tkajui/Input'
 import DonjonInput from '../lib/donjon/DonjonInput'
-import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 const SearchIcon = () => (
   <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">

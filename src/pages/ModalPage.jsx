@@ -3,7 +3,7 @@ import Modal from '../lib/tkajui/Modal'
 import DonjonModal from '../lib/donjon/DonjonModal'
 import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
-import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 /* ── Obsah stránky — čte aktivní variantu přes hook ── */
 function ModalContent() {

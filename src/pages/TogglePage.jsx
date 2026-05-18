@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Toggle from '../lib/tkajui/Toggle'
 import DonjonToggle from '../lib/donjon/DonjonToggle'
-import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 function ToggleContent() {
   const lib = useLibVariant()

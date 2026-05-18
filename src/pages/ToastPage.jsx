@@ -2,7 +2,7 @@ import { ToastProvider, useToast } from '../lib/tkajui/Toast'
 import { ToastProvider as DonjonToastProvider, useToast as useDonjonToast } from '../lib/donjon/DonjonToast'
 import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
-import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 /* ── Demo helpers — přijímají Btn jako prop, musí být uvnitř ToastProvider ── */
 function VariantDemo({ Btn }) {

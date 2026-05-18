@@ -1,6 +1,6 @@
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
-import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 
 /* ── Badge variant → accent color ── */
 const variantColor = {

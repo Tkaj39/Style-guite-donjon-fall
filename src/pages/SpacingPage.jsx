@@ -1,4 +1,4 @@
-import { ShowcasePage, Section } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section } from '../styleguide/ShowcasePage'
 
 const inter = '"Inter", sans-serif'
 

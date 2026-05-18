@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DonjonCard from '../lib/donjon/DonjonCard'
-import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
-import DeviceFrame, { ComparisonRow } from '../components/layout/DeviceFrame'
+import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
+import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
 import { players } from '../data/gameUiMockData'
 
 const p1 = players[0]

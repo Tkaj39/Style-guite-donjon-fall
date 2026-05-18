@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import Layout from './components/layout/Layout'
+import Layout from './styleguide/Layout'
 import ButtonsPage from './pages/ButtonsPage'
 import ButtonGroupsPage from './pages/ButtonGroupsPage'
 import PlaceholderPage from './pages/PlaceholderPage'

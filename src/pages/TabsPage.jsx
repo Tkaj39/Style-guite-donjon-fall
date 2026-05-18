@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Tabs from '../lib/tkajui/Tabs'
 import DonjonTabs from '../lib/donjon/DonjonTabs'
-import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 /* ── Ikony ── */
 const SoundIcon = () => (

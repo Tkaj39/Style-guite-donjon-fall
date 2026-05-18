@@ -1,8 +1,8 @@
 import HexTile from '../lib/donjon/HexTile'
 import DieFace from '../lib/donjon/DieFace'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
-import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
-import DeviceFrame, { FRAME } from '../components/layout/DeviceFrame'
+import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
+import DeviceFrame, { FRAME } from '../styleguide/DeviceFrame'
 import { players } from '../data/gameUiMockData'
 
 const p1 = players[0] // červený
@@ -72,7 +72,7 @@ function HexGrid({ cellW = 42, cellH = 48, gap = 4 }) {
   )
 }
 
-/* FRAME + DeviceFrame importovány ze sdíleného ../components/layout/DeviceFrame */
+/* FRAME + DeviceFrame importovány ze sdíleného ../styleguide/DeviceFrame */
 
 /* ── Sdílené mini-UI komponenty ── */
 

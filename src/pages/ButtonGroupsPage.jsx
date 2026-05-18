@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import ButtonGroup from '../lib/tkajui/ButtonGroup'
 import DonjonButtonGroup from '../lib/donjon/DonjonButtonGroup'
-import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 /* ── Icons ── */
 const GridIcon = () => (

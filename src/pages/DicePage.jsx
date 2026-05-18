@@ -2,7 +2,7 @@ import DieFace from '../lib/donjon/DieFace'
 import HexTile from '../lib/donjon/HexTile'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
-import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { players } from '../data/gameUiMockData'
 import { useBreakpoint } from '../hooks/useBreakpoint'
 

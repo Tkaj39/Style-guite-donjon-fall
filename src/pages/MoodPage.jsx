@@ -1,4 +1,4 @@
-import { ShowcasePage } from '../components/layout/ShowcasePage'
+import { ShowcasePage } from '../styleguide/ShowcasePage'
 
 function Pillar({ title, children }) {
   return (

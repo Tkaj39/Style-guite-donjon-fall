@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Slider from '../lib/tkajui/Slider'
 import DonjonSlider from '../lib/donjon/DonjonSlider'
-import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 function SliderContent() {
   const lib = useLibVariant()

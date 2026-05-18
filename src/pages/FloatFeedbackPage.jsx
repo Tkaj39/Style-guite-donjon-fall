@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import FloatFeedback from '../lib/donjon/FloatFeedback'
-import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 
 /* ── Trigger tlačítko ── */
 function TriggerButton({ label, color, onClick }) {

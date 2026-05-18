@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Select from '../lib/tkajui/Select'
 import DonjonSelect from '../lib/donjon/DonjonSelect'
-import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 const MAPS = [
   { value: 'default',  label: 'Default mapa' },

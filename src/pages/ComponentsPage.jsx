@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { registry, CATEGORIES, getCategoryCounts } from '../data/componentRegistry'
-import { ShowcasePage, Section } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section } from '../styleguide/ShowcasePage'
 
 /* ── Stránky style guidu bez odpovídající komponenty ── */
 const NON_COMPONENT_PAGES = [

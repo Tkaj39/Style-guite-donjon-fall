@@ -1,4 +1,4 @@
-import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 
 const LAYERS = [
   { name: 'base',         z: 0,    color: '#2A2948', label: 'Základní obsah', desc: 'Herní plán, text, statické elementy stránky.' },

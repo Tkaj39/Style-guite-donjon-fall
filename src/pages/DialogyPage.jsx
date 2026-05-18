@@ -3,7 +3,7 @@ import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DonjonButtonGroup from '../lib/donjon/DonjonButtonGroup'
-import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import { players } from '../data/gameUiMockData'
 
 function PushIcon() {
