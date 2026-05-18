@@ -283,7 +283,7 @@ export const componentMeta = {
   'float-feedback': {
     description: 'Krátká plovoucí zpětná vazba zobrazující herní event (zisk VP, zničení, souboj). Animuje se a poté zmizí.',
     status: 'documented',
-    showcaseRoute: '/animations',
+    showcaseRoute: '/float-feedback',
     props: [
       { name: 'text',     type: 'string',                              required: true,  description: 'Text zpětné vazby (např. "+1 VP").' },
       { name: 'variant',  type: "'default'|'danger'|'success'|'warning'", required: false, default: "'default'", description: 'Barevná varianta.' },
@@ -296,6 +296,21 @@ export const componentMeta = {
   },
 
   /* ── Utility / Clip components ────────────────────────────────────── */
+
+  'donjon-pictogram': {
+    description: 'Herní varianta Pictogram — ikona s tmavým oktagonálním pozadím a zlatou/fantasy barevnou paletou. Pět variant (active, passive, disabled, danger, success), čtyři velikosti, volitelný bare mód bez pozadí.',
+    status: 'documented',
+    showcaseRoute: '/pictograms',
+    props: [
+      { name: 'icon',      type: 'React.ComponentType<{width, height}>', required: true,  description: 'SVG komponenta z donjon/icons.' },
+      { name: 'size',      type: "'sm'|'md'|'lg'|'xl'",                  required: false, default: "'md'",      description: 'Velikost ikony (16 / 24 / 32 / 48 px).' },
+      { name: 'variant',   type: "'active'|'passive'|'disabled'|'danger'|'success'", required: false, default: "'active'", description: 'Barevná varianta — určuje barvu ikony a pozadí.' },
+      { name: 'bare',      type: 'boolean',                              required: false, default: 'false',     description: 'Bez pozadí — jen ikona s herní barvou.' },
+      { name: 'className', type: 'string',                               required: false, description: 'Tailwind třídy na obalový span.' },
+      { name: 'style',     type: 'CSSProperties',                        required: false, description: 'Inline styly na obalový span.' },
+    ],
+    relatedSlugs: ['pictogram', 'donjon-badge', 'donjon-button'],
+  },
 
   'pictogram': {
     description: 'Generický SVG icon wrapper (TkajUI). Přijme libovolnou SVG komponentu jako `icon` prop a vykreslí ji ve správné velikosti a barvě. Bez pozadí, bez dekorace — čistá ikona.',
@@ -335,6 +350,17 @@ export const componentMeta = {
       { name: 'style',   type: 'CSSProperties',                                required: false, description: 'Inline styly pro pozicování (position, top, left…).' },
     ],
     relatedSlugs: ['ornaments', 'scoop-clip'],
+  },
+
+  'icons': {
+    description: 'Sada herních SVG ikon pro donjon-fall-ui. Každá ikona je čistá SVG komponenta přijímající width a height — barvu řídí currentColor. Určeno k použití přes DonjonPictogram nebo Pictogram wrapper.',
+    status: 'documented',
+    showcaseRoute: '/pictograms',
+    props: [
+      { name: 'width',  type: 'number', required: false, default: '24', description: 'Šířka SVG v px.' },
+      { name: 'height', type: 'number', required: false, default: '24', description: 'Výška SVG v px.' },
+    ],
+    relatedSlugs: ['donjon-pictogram', 'pictogram'],
   },
 
   /* ── Layout (internal) ─────────────────────────────────────────────── */

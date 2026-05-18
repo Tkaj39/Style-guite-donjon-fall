@@ -6,7 +6,7 @@ export { default as DonjonCard }   from './DonjonCard'
 export { default as DonjonInput }  from './DonjonInput'
 
 // Pictogram + herní ikony
-export { default as DonjonPictogram } from './Pictogram'
+export { default as DonjonPictogram } from './DonjonPictogram'
 export { SwordIcon, ShieldIcon, TowerIcon } from './icons'
 
 // Game assets

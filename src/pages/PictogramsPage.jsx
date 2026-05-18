@@ -1,6 +1,6 @@
 import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
 import Pictogram from '../lib/tkajui/Pictogram'
-import DonjonPictogram from '../lib/donjon/Pictogram'
+import DonjonPictogram from '../lib/donjon/DonjonPictogram'
 import { SwordIcon, ShieldIcon, TowerIcon } from '../lib/donjon/icons'
 
 const ICONS = [

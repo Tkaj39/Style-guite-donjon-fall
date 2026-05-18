@@ -22,6 +22,7 @@ import DicePage from './pages/DicePage'
 import MapPage from './pages/MapPage'
 import ErbPage from './pages/ErbPage'
 import AnimacePage from './pages/AnimacePage'
+import FloatFeedbackPage from './pages/FloatFeedbackPage'
 import ZvukyPage from './pages/ZvukyPage'
 import ScreensPage from './pages/ScreensPage'
 import MenuPage from './pages/MenuPage'
@@ -85,6 +86,7 @@ export default function App() {
         <Route path="map" element={<MapPage />} />
         <Route path="erb" element={<ErbPage />} />
         <Route path="animations" element={<AnimacePage />} />
+        <Route path="float-feedback" element={<FloatFeedbackPage />} />
         <Route path="sounds" element={<ZvukyPage />} />
         <Route path="screens" element={<ScreensPage />} />
         <Route path="menu" element={<MenuPage />} />

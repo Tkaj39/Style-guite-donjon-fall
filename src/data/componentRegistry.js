@@ -24,6 +24,7 @@ const DONJON_GLOB = import.meta.glob('../lib/donjon/*.jsx')
 /* Explicitní override viditelnosti pro konkrétní komponenty */
 const VISIBILITY_OVERRIDES = {
   Ornaments: 'internal',
+  icons:     'internal',   // sada SVG exportů, ne samostatná komponenta
 }
 
 /* ── Helpers ── */

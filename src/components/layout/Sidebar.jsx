@@ -177,6 +177,15 @@ const sections = [
         ],
       },
       {
+        to: '/float-feedback', label: 'FloatFeedback',
+        children: [
+          { to: '/float-feedback#varianty',  label: 'Varianty' },
+          { to: '/float-feedback#animace',   label: 'Animační průběh' },
+          { to: '/float-feedback#props',     label: 'Props' },
+          { to: '/float-feedback#pouziti',   label: 'Použití' },
+        ],
+      },
+      {
         to: '/animations', label: 'Animace',
         children: [
           { to: '/animations#pohyb-kostky',   label: 'Pohyb kostky' },
