@@ -134,6 +134,26 @@ export const componentMeta = {
     relatedSlugs: ['donjon-card', 'donjon-button', 'tooltip'],
   },
 
+  'donjon-modal': {
+    description: 'Herní varianta Modal — rozšiřuje TkajUI Modal o SideOrnament a HexOrnament dekoraci v hlavičce, těle a patičce. Zachovává identické API.',
+    status: 'documented',
+    showcaseRoute: '/modal',
+    props: [
+      { name: 'isOpen',          type: 'boolean',                                           required: true,  description: 'Řídí viditelnost modálu.' },
+      { name: 'onClose',         type: '() => void',                                        required: true,  description: 'Callback pro zavření.' },
+      { name: 'title',           type: 'string',                                            required: false, description: 'Nadpis v hlavičce.' },
+      { name: 'description',     type: 'string',                                            required: false, description: 'Podnadpis pod title.' },
+      { name: 'children',        type: 'ReactNode',                                         required: false, description: 'Obsah těla modálu.' },
+      { name: 'footer',          type: 'ReactNode',                                         required: false, description: 'Obsah patičky.' },
+      { name: 'size',            type: "'sm'|'md'|'lg'",                                   required: false, default: "'md'",      description: 'Maximální šířka panelu.' },
+      { name: 'variant',         type: "'default'|'danger'|'success'|'warning'",           required: false, default: "'default'", description: 'Barevná varianta.' },
+      { name: 'closeOnBackdrop', type: 'boolean',                                           required: false, default: 'true',      description: 'Klik na backdrop zavře modál.' },
+      { name: 'closeOnEscape',   type: 'boolean',                                           required: false, default: 'true',      description: 'Escape zavře modál.' },
+      { name: 'showCloseButton', type: 'boolean',                                           required: false, default: 'true',      description: 'Zobrazí tlačítko × v hlavičce.' },
+    ],
+    relatedSlugs: ['modal', 'donjon-card', 'donjon-button'],
+  },
+
   'tooltip': {
     description: 'Kontextová nápověda zobrazená při najetí myší nebo focusu. Podporuje 4 směry umístění, 5 barevných variant a volitelný titulek.',
     status: 'documented',
@@ -183,6 +203,21 @@ export const componentMeta = {
       { name: 'dividers', type: 'boolean',                                                 required: false, default: 'false',     description: 'Zobrazí oddělovače mezi položkami.' },
     ],
     relatedSlugs: ['donjon-button', 'donjon-card'],
+  },
+
+  'donjon-button-group': {
+    description: 'Herní varianta ButtonGroup — rozšiřuje TkajUI ButtonGroup o SideOrnament a HexOrnament dekoraci. Zachovává identické API.',
+    status: 'documented',
+    showcaseRoute: '/button-groups',
+    props: [
+      { name: 'items',    type: 'Array<{value, label, icon?}>', required: true,  description: 'Seznam přepínatelných možností.' },
+      { name: 'value',    type: 'string',                       required: true,  description: 'Aktuálně vybraná hodnota.' },
+      { name: 'onChange', type: '(value: string) => void',      required: true,  description: 'Callback při změně výběru.' },
+      { name: 'variant',  type: "'menu'|'tabs'",                required: false, default: "'menu'", description: 'Vizuální styl skupiny.' },
+      { name: 'size',     type: "'xs'|'sm'|'md'|'lg'",         required: false, default: "'md'",   description: 'Velikost skupiny.' },
+      { name: 'dividers', type: 'boolean',                      required: false, default: 'false',  description: 'Zobrazí oddělovače mezi položkami.' },
+    ],
+    relatedSlugs: ['button-group', 'donjon-button', 'donjon-card'],
   },
 
   'donjon-input': {

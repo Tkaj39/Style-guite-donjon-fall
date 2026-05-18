@@ -1,9 +1,11 @@
 // donjon-fall-ui — herní komponenty specifické pro Donjon Fall
 
-export { default as DonjonButton } from './DonjonButton'
-export { default as DonjonBadge }  from './DonjonBadge'
-export { default as DonjonCard }   from './DonjonCard'
-export { default as DonjonInput }  from './DonjonInput'
+export { default as DonjonButton }      from './DonjonButton'
+export { default as DonjonBadge }       from './DonjonBadge'
+export { default as DonjonCard }        from './DonjonCard'
+export { default as DonjonInput }       from './DonjonInput'
+export { default as DonjonButtonGroup } from './DonjonButtonGroup'
+export { default as DonjonModal }       from './DonjonModal'
 
 // Pictogram + herní ikony
 export { default as DonjonPictogram } from './DonjonPictogram'

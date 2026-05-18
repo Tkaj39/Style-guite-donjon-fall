@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import ButtonGroup from '../lib/tkajui/ButtonGroup'
+import DonjonButtonGroup from '../lib/donjon/DonjonButtonGroup'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 
 /* ── Icons ── */
@@ -86,20 +86,20 @@ export default function ButtonGroupsPage() {
         description="Decentní varianta — aktivní tlačítko má jen lehké zvýraznění pozadím. Všechna tlačítka stejně velká."
       >
         <Preview>
-          <ButtonGroup
+          <DonjonButtonGroup
             variant="menu"
             items={viewItems}
             value={menuView}
             onChange={setMenuView}
           />
-          <ButtonGroup
+          <DonjonButtonGroup
             variant="menu"
             items={navItems}
             value={menuNav}
             onChange={setMenuNav}
           />
         </Preview>
-        <CodeBlock code={`<ButtonGroup
+        <CodeBlock code={`<DonjonButtonGroup
   variant="menu"
   items={[
     { value: 'grid', label: 'Grid', icon: <GridIcon /> },
@@ -116,14 +116,14 @@ export default function ButtonGroupsPage() {
         description="Oddělovač dividers={true} — tenká čára mezi tlačítky."
       >
         <Preview>
-          <ButtonGroup
+          <DonjonButtonGroup
             variant="menu"
             dividers
             items={navItems}
             value={menuNavDivider}
             onChange={setMenuNavDivider}
           />
-          <ButtonGroup
+          <DonjonButtonGroup
             variant="menu"
             dividers
             items={viewItems}
@@ -131,7 +131,7 @@ export default function ButtonGroupsPage() {
             onChange={setMenuView}
           />
         </Preview>
-        <CodeBlock code={`<ButtonGroup
+        <CodeBlock code={`<DonjonButtonGroup
   variant="menu"
   dividers
   items={navItems}
@@ -146,20 +146,20 @@ export default function ButtonGroupsPage() {
         description="Aktivní záložka je viditelně větší — větší padding a text. Přechod je plynulý (200 ms)."
       >
         <Preview>
-          <ButtonGroup
+          <DonjonButtonGroup
             variant="tabs"
             items={tabItems}
             value={tabActive}
             onChange={setTabActive}
           />
-          <ButtonGroup
+          <DonjonButtonGroup
             variant="tabs"
             items={periodItems}
             value={tabPeriod}
             onChange={setTabPeriod}
           />
         </Preview>
-        <CodeBlock code={`<ButtonGroup
+        <CodeBlock code={`<DonjonButtonGroup
   variant="tabs"
   items={[
     { value: 'design', label: 'Design' },
@@ -176,7 +176,7 @@ export default function ButtonGroupsPage() {
         description="Oddělovač se zobrazuje pouze mezi neaktivními záložkami, aby nerušil aktivní zvýraznění."
       >
         <Preview>
-          <ButtonGroup
+          <DonjonButtonGroup
             variant="tabs"
             dividers
             items={tabItems}
@@ -184,7 +184,7 @@ export default function ButtonGroupsPage() {
             onChange={setTabDivider}
           />
         </Preview>
-        <CodeBlock code={`<ButtonGroup
+        <CodeBlock code={`<DonjonButtonGroup
   variant="tabs"
   dividers
   items={tabItems}
@@ -198,14 +198,14 @@ export default function ButtonGroupsPage() {
         description="Ikony fungují stejně jako u Button komponenty — vlevo před textem."
       >
         <Preview>
-          <ButtonGroup
+          <DonjonButtonGroup
             variant="tabs"
             items={tabsWithIcons}
             value={tabWithIcon}
             onChange={setTabWithIcon}
           />
         </Preview>
-        <CodeBlock code={`<ButtonGroup
+        <CodeBlock code={`<DonjonButtonGroup
   variant="tabs"
   items={[
     { value: 'calendar', label: 'Calendar', icon: <CalendarIcon /> },
@@ -226,15 +226,15 @@ export default function ButtonGroupsPage() {
             {['xs', 'sm', 'md', 'lg'].map(sz => (
               <div key={sz} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span style={{ fontSize: '0.65rem', color: '#4A4560', letterSpacing: '0.08em', textTransform: 'uppercase', width: 24 }}>{sz}</span>
-                <ButtonGroup variant="tabs" size={sz} items={viewItems} value={sizeActive} onChange={setSizeActive} />
+                <DonjonButtonGroup variant="tabs" size={sz} items={viewItems} value={sizeActive} onChange={setSizeActive} />
               </div>
             ))}
           </div>
         </Preview>
-        <CodeBlock code={`<ButtonGroup variant="tabs" size="xs" … />  {/* 32px */}
-<ButtonGroup variant="tabs" size="sm" … />  {/* 40px */}
-<ButtonGroup variant="tabs" size="md" … />  {/* 52px — výchozí */}
-<ButtonGroup variant="tabs" size="lg" … />  {/* 64px */}`} />
+        <CodeBlock code={`<DonjonButtonGroup variant="tabs" size="xs" … />  {/* 32px */}
+<DonjonButtonGroup variant="tabs" size="sm" … />  {/* 40px */}
+<DonjonButtonGroup variant="tabs" size="md" … />  {/* 52px — výchozí */}
+<DonjonButtonGroup variant="tabs" size="lg" … />  {/* 64px */}`} />
       </Section>
 
     </ShowcasePage>

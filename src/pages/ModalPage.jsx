@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Modal from '../lib/tkajui/Modal'
+import DonjonModal from '../lib/donjon/DonjonModal'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 
@@ -11,7 +11,7 @@ function ModalDemo({ label, buttonVariant = 'default', ...modalProps }) {
       <DonjonButton variant={buttonVariant} size="sm" onClick={() => setOpen(true)}>
         {label}
       </DonjonButton>
-      <Modal isOpen={open} onClose={() => setOpen(false)} {...modalProps} />
+      <DonjonModal isOpen={open} onClose={() => setOpen(false)} {...modalProps} />
     </>
   )
 }
@@ -65,17 +65,17 @@ export default function ModalPage() {
             </p>
           </ModalDemo>
         </Preview>
-        <CodeBlock code={`<Modal isOpen={open} onClose={() => setOpen(false)} size="sm" title="Malý modál">
+        <CodeBlock code={`<DonjonModal isOpen={open} onClose={() => setOpen(false)} size="sm" title="Malý modál">
   …obsah…
-</Modal>
+</DonjonModal>
 
-<Modal isOpen={open} onClose={() => setOpen(false)} size="md" title="Středný modál">
+<DonjonModal isOpen={open} onClose={() => setOpen(false)} size="md" title="Středný modál">
   …obsah…
-</Modal>
+</DonjonModal>
 
-<Modal isOpen={open} onClose={() => setOpen(false)} size="lg" title="Velký modál">
+<DonjonModal isOpen={open} onClose={() => setOpen(false)} size="lg" title="Velký modál">
   …obsah…
-</Modal>`} />
+</DonjonModal>`} />
       </Section>
 
       {/* Variants */}
@@ -106,13 +106,13 @@ export default function ModalPage() {
             </ModalDemo>
           ))}
         </Preview>
-        <CodeBlock code={`<Modal variant="danger" title="Nebezpečná akce" isOpen={open} onClose={onClose}>
+        <CodeBlock code={`<DonjonModal variant="danger" title="Nebezpečná akce" isOpen={open} onClose={onClose}>
   Tato akce je nevratná.
-</Modal>
+</DonjonModal>
 
-<Modal variant="success" title="Úspěch" isOpen={open} onClose={onClose}>
+<DonjonModal variant="success" title="Úspěch" isOpen={open} onClose={onClose}>
   Operace proběhla úspěšně.
-</Modal>`} />
+</DonjonModal>`} />
       </Section>
 
       {/* With footer */}
@@ -155,7 +155,7 @@ export default function ModalPage() {
             </p>
           </ModalDemo>
         </Preview>
-        <CodeBlock code={`<Modal
+        <CodeBlock code={`<DonjonModal
   isOpen={open}
   onClose={() => setOpen(false)}
   title="Opustit hru?"
@@ -168,7 +168,7 @@ export default function ModalPage() {
   }
 >
   Aktuální hra bude ukončena.
-</Modal>`} />
+</DonjonModal>`} />
       </Section>
 
       {/* No title */}
@@ -187,9 +187,9 @@ export default function ModalPage() {
             </p>
           </ModalDemo>
         </Preview>
-        <CodeBlock code={`<Modal isOpen={open} onClose={() => setOpen(false)}>
+        <CodeBlock code={`<DonjonModal isOpen={open} onClose={() => setOpen(false)}>
   Vlastní obsah bez standardní hlavičky.
-</Modal>`} />
+</DonjonModal>`} />
       </Section>
 
       {/* Close behaviors */}
@@ -234,13 +234,13 @@ export default function ModalPage() {
           </ModalDemo>
         </Preview>
         <CodeBlock code={`{/* Nelze zavřít Escape */}
-<Modal closeOnEscape={false} …>…</Modal>
+<DonjonModal closeOnEscape={false} …>…</DonjonModal>
 
 {/* Nelze zavřít klikem mimo */}
-<Modal closeOnBackdrop={false} …>…</Modal>
+<DonjonModal closeOnBackdrop={false} …>…</DonjonModal>
 
 {/* Bez × tlačítka */}
-<Modal showCloseButton={false} …>…</Modal>`} />
+<DonjonModal showCloseButton={false} …>…</DonjonModal>`} />
       </Section>
 
       {/* Pravidla */}

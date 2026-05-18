@@ -1,6 +1,5 @@
 import { useEffect, useRef, useId } from 'react'
 import { octagon } from '../../utils/octagon'
-import { SideOrnament, HexOrnament } from './Ornaments'
 
 /* ── Varianty ── */
 const VARIANTS = {
@@ -60,6 +59,10 @@ export default function Modal({
   closeOnBackdrop = true,
   closeOnEscape = true,
   showCloseButton = true,
+  renderPanelOrnaments,
+  renderHeaderOrnaments,
+  renderBodyOrnaments,
+  renderFooterOrnaments,
 }) {
   const uid = useId().replace(/:/g, '')
   const titleId = `modal-title-${uid}`
@@ -146,9 +149,8 @@ export default function Modal({
             display: 'flex',
             flexDirection: 'column',
           }}>
-            {/* Side ornaments */}
-            {title && <SideOrnament h={66} uid={`${uid}l`} />}
-            {title && <SideOrnament h={66} uid={`${uid}r`} flip />}
+            {/* Panel ornaments slot */}
+            {renderPanelOrnaments?.(uid)}
 
             {/* Header */}
             {title && (
@@ -158,7 +160,7 @@ export default function Modal({
                 borderBottom: `1px solid ${v.border}44`,
                 padding: '14px 48px 12px 40px',
               }}>
-                <HexOrnament uid={`${uid}ht`} edgePadL={cx} />
+                {renderHeaderOrnaments?.(uid)}
 
                 <h2
                   id={titleId}
@@ -214,7 +216,7 @@ export default function Modal({
 
             {/* Body */}
             <div style={{ position: 'relative', padding: '20px 28px', flex: 1 }}>
-              {!title && <HexOrnament uid={`${uid}ht`} edgePadL={cx} />}
+              {!title && renderBodyOrnaments?.(uid)}
               {!title && showCloseButton && (
                 <button
                   onClick={onClose}
@@ -250,7 +252,7 @@ export default function Modal({
                 borderTop: `1px solid ${v.border}44`,
                 padding: '12px 28px 14px',
               }}>
-                <HexOrnament uid={`${uid}hb`} flip edgePadL={cx} />
+                {renderFooterOrnaments?.(uid)}
                 <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
                   {footer}
                 </div>

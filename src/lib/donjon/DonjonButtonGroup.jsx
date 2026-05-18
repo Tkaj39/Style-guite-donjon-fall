@@ -1,6 +1,6 @@
+import { useId } from 'react'
 import { octagon, clipLeft, clipRight } from '../../utils/octagon'
-
-
+import { SideOrnament, HexOrnament } from '../tkajui/Ornaments'
 
 const sizeMap = {
   xs: { h: 32, cx: 9.61,  px: 10, fontSize: '0.6875rem' },
@@ -9,15 +9,7 @@ const sizeMap = {
   lg: { h: 64, cx: 19.22, px: 22, fontSize: '0.875rem'  },
 }
 
-/**
- * @param {'menu'|'tabs'} variant
- * @param {'sm'|'md'|'lg'} size
- * @param {boolean} dividers
- * @param {{ value: string, label: string, icon?: React.ReactNode }[]} items
- * @param {string} value
- * @param {(value: string) => void} onChange
- */
-export default function ButtonGroup({
+export default function DonjonButtonGroup({
   variant = 'menu',
   size = 'md',
   dividers = false,
@@ -26,7 +18,10 @@ export default function ButtonGroup({
   onChange,
 }) {
   const s = sizeMap[size] ?? sizeMap.md
+  const ornW = Math.round(24 * (s.h / 66) * 10) / 10
   const iconSize = { xs: 12, sm: 14, md: 18, lg: 22 }[size] ?? 14
+  const rawId = useId()
+  const gid   = rawId.replace(/:/g, '')
   const safeItems = items ?? []
   const last  = safeItems.length - 1
 
@@ -37,14 +32,18 @@ export default function ButtonGroup({
         const isFirst  = i === 0
         const isLast   = i === last
         const isOnly   = isFirst && isLast
+        const uid      = `${gid}-${i}`
 
         const clipPath = isOnly  ? octagon(s.cx)
                        : isFirst ? clipLeft(s.cx)
                        : isLast  ? clipRight(s.cx)
                        : undefined
 
-        const padL = s.px
-        const padR = s.px
+        const padL = isFirst || isOnly ? s.px + ornW : s.px
+        const padR = isLast  || isOnly ? s.px + ornW : s.px
+
+        const edgePadL = isFirst || isOnly ? s.cx + 8 : 0
+        const edgePadR = isLast  || isOnly ? s.cx + 8 : 0
 
         return (
           <div key={item.value} style={{ display: 'flex', alignItems: 'center' }}>
@@ -82,6 +81,12 @@ export default function ButtonGroup({
               }}
               className="hover:brightness-110 active:brightness-90 focus:outline-none focus-visible:brightness-110"
             >
+              {(isFirst || isOnly) && <SideOrnament h={s.h} uid={`${uid}l`} />}
+              {(isLast  || isOnly) && <SideOrnament h={s.h} uid={`${uid}r`} flip />}
+
+              <HexOrnament uid={`${uid}t`} edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} hexOffsetX={(padL - padR) / 2} />
+              <HexOrnament uid={`${uid}b`} flip edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} hexOffsetX={(padL - padR) / 2} />
+
               {item.icon && (
                 <span style={{
                   width: iconSize, height: iconSize,

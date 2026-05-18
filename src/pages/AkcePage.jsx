@@ -3,7 +3,7 @@ import { useBreakpoint } from '../hooks/useBreakpoint'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
-import ButtonGroup from '../lib/tkajui/ButtonGroup'
+import DonjonButtonGroup from '../lib/donjon/DonjonButtonGroup'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
 import { actions } from '../data/gameUiMockData'
 
@@ -251,7 +251,7 @@ export default function AkcePage() {
       <Section
         id="vyber-akce"
         title="Výběr akce"
-        description="ButtonGroup se 4 akcemi — ukázka všech stavů."
+        description="DonjonButtonGroup se 4 akcemi — ukázka všech stavů."
       >
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -260,13 +260,13 @@ export default function AkcePage() {
                 <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                   Vybrán: {a.label}
                 </p>
-                <ButtonGroup variant="tabs" items={actionItems} value={a.value} onChange={() => {}} />
+                <DonjonButtonGroup variant="tabs" items={actionItems} value={a.value} onChange={() => {}} />
               </div>
             ))}
           </div>
         </Preview>
 
-        <CodeBlock code={`<ButtonGroup
+        <CodeBlock code={`<DonjonButtonGroup
   items={[
     { value: 'move-die',    label: 'Pohyb kostky', icon: <MoveDieIcon /> },
     { value: 'move-tower',  label: 'Pohyb věže',   icon: <MoveTowerIcon /> },
@@ -285,7 +285,7 @@ export default function AkcePage() {
       >
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'flex-start' }}>
-            <ButtonGroup variant="tabs" items={actionItems} value={selected} onChange={setSelected} />
+            <DonjonButtonGroup variant="tabs" items={actionItems} value={selected} onChange={setSelected} />
             <DonjonCard
               title={action.label}
               description={action.ruleLabel}

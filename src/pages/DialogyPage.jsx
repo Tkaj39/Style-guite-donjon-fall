@@ -2,7 +2,7 @@ import { useState } from 'react'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
-import ButtonGroup from '../lib/tkajui/ButtonGroup'
+import DonjonButtonGroup from '../lib/donjon/DonjonButtonGroup'
 import { ShowcasePage, Section, Preview } from '../components/layout/ShowcasePage'
 import { players } from '../data/gameUiMockData'
 
@@ -113,7 +113,7 @@ export default function DialogyPage() {
               <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 Fáze 2 — výběr
               </p>
-              <ButtonGroup items={combatItems} value={combatChoice} onChange={setCombatChoice} />
+              <DonjonButtonGroup items={combatItems} value={combatChoice} onChange={setCombatChoice} />
             </div>
 
             {combatChoice === 'push' && (

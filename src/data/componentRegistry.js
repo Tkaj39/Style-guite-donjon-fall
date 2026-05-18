@@ -32,8 +32,6 @@ const CATEGORY_OVERRIDES = {
   // Herní dekorace + komponenty které je používají → donjon-fall-ui
   Ornaments:      'donjon-fall-ui',
   CornerOrnament: 'donjon-fall-ui',
-  ButtonGroup:    'donjon-fall-ui',   // používá SideOrnament + HexOrnament
-  Modal:          'donjon-fall-ui',   // používá SideOrnament + HexOrnament + CornerOrnament
 }
 
 /* ── Helpers ── */
