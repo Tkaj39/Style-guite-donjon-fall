@@ -1,50 +1,49 @@
 import { useState } from 'react'
+import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
-import { ShowcasePage, Section, Preview, CodeBlock } from '../components/layout/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../components/layout/ShowcasePage'
 
 const PlusIcon = () => (
   <svg viewBox="0 0 16 16" fill="currentColor">
     <path d="M8 2a.75.75 0 0 1 .75.75v4.5h4.5a.75.75 0 0 1 0 1.5h-4.5v4.5a.75.75 0 0 1-1.5 0v-4.5h-4.5a.75.75 0 0 1 0-1.5h4.5v-4.5A.75.75 0 0 1 8 2Z" />
   </svg>
 )
-
 const ArrowRightIcon = () => (
   <svg viewBox="0 0 16 16" fill="currentColor">
     <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 1 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" />
   </svg>
 )
-
 const TrashIcon = () => (
   <svg viewBox="0 0 16 16" fill="currentColor">
     <path fillRule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.712Z" />
   </svg>
 )
 
-export default function ButtonsPage() {
+/* ── Obsah stránky — čte aktivní variantu přes hook ── */
+function ButtonContent() {
+  const lib = useLibVariant()                      // 'donjon' | 'tkajui'
+  const Btn = lib === 'tkajui' ? Button : DonjonButton
+  const cmp = lib === 'tkajui' ? 'Button' : 'DonjonButton'
+
   const [previewText, setPreviewText] = useState('Start')
 
   return (
-    <ShowcasePage
-      library="tkajui"
-      title="Buttons"
-      description="Herní tlačítka Donjon Fall — osmihranný tvar s ornamenty. Každá varianta nese sémantický význam."
-      componentSlug="donjon-button"
-    >
+    <>
       {/* Sizes */}
       <Section
         title="Sizes"
         description="Čtyři pevné výšky. Rohy jsou vždy stejný pixel cut bez deformace."
       >
         <Preview>
-          <DonjonButton size="xs">Extra Small</DonjonButton>
-          <DonjonButton size="sm">Small</DonjonButton>
-          <DonjonButton size="md">Medium</DonjonButton>
-          <DonjonButton size="lg">Large</DonjonButton>
+          <Btn size="xs">Extra Small</Btn>
+          <Btn size="sm">Small</Btn>
+          <Btn size="md">Medium</Btn>
+          <Btn size="lg">Large</Btn>
         </Preview>
-        <CodeBlock code={`<DonjonButton size="xs">Extra Small</DonjonButton>
-<DonjonButton size="sm">Small</DonjonButton>
-<DonjonButton size="md">Medium</DonjonButton>
-<DonjonButton size="lg">Large</DonjonButton>`} />
+        <CodeBlock code={`<${cmp} size="xs">Extra Small</${cmp}>
+<${cmp} size="sm">Small</${cmp}>
+<${cmp} size="md">Medium</${cmp}>
+<${cmp} size="lg">Large</${cmp}>`} />
       </Section>
 
       {/* Variants */}
@@ -53,38 +52,38 @@ export default function ButtonsPage() {
         description="default · danger · success · link"
       >
         <Preview>
-          <DonjonButton variant="default">Default</DonjonButton>
-          <DonjonButton variant="danger">Danger</DonjonButton>
-          <DonjonButton variant="success">Success</DonjonButton>
+          <Btn variant="default">Default</Btn>
+          <Btn variant="danger">Danger</Btn>
+          <Btn variant="success">Success</Btn>
           <p className="text-neutral-300 text-sm w-full">
             Souhlasím s{' '}
-            <DonjonButton variant="link" size="sm">podmínkami</DonjonButton>
+            <Btn variant="link" size="sm">podmínkami</Btn>
             {' '}a{' '}
-            <DonjonButton variant="link" size="sm">ochranou soukromí</DonjonButton>.
+            <Btn variant="link" size="sm">ochranou soukromí</Btn>.
           </p>
         </Preview>
-        <CodeBlock code={`<DonjonButton variant="default">Default</DonjonButton>
-<DonjonButton variant="danger">Danger</DonjonButton>
-<DonjonButton variant="success">Success</DonjonButton>
-<DonjonButton variant="link" size="sm">podmínkami</DonjonButton>`} />
+        <CodeBlock code={`<${cmp} variant="default">Default</${cmp}>
+<${cmp} variant="danger">Danger</${cmp}>
+<${cmp} variant="success">Success</${cmp}>
+<${cmp} variant="link" size="sm">podmínkami</${cmp}>`} />
       </Section>
 
       {/* Content */}
       <Section
         title="Content"
-        description="text · pictogram + text · text + pictogram · pictogram"
+        description="text · ikona + text · text + ikona · jen ikona"
       >
         <Preview>
-          <DonjonButton>Jen text</DonjonButton>
-          <DonjonButton leadingIcon={<PlusIcon />}>Ikona + text</DonjonButton>
-          <DonjonButton trailingIcon={<ArrowRightIcon />}>Text + ikona</DonjonButton>
-          <DonjonButton iconOnly aria-label="Přidat"><PlusIcon /></DonjonButton>
-          <DonjonButton iconOnly aria-label="Smazat"><TrashIcon /></DonjonButton>
+          <Btn>Jen text</Btn>
+          <Btn leadingIcon={<PlusIcon />}>Ikona + text</Btn>
+          <Btn trailingIcon={<ArrowRightIcon />}>Text + ikona</Btn>
+          <Btn iconOnly aria-label="Přidat"><PlusIcon /></Btn>
+          <Btn iconOnly aria-label="Smazat"><TrashIcon /></Btn>
         </Preview>
-        <CodeBlock code={`<DonjonButton>Text</DonjonButton>
-<DonjonButton leadingIcon={<PlusIcon />}>Ikona + text</DonjonButton>
-<DonjonButton trailingIcon={<ArrowRightIcon />}>Text + ikona</DonjonButton>
-<DonjonButton iconOnly aria-label="Přidat"><PlusIcon /></DonjonButton>`} />
+        <CodeBlock code={`<${cmp}>Text</${cmp}>
+<${cmp} leadingIcon={<PlusIcon />}>Ikona + text</${cmp}>
+<${cmp} trailingIcon={<ArrowRightIcon />}>Text + ikona</${cmp}>
+<${cmp} iconOnly aria-label="Přidat"><PlusIcon /></${cmp}>`} />
       </Section>
 
       {/* Loading */}
@@ -93,14 +92,14 @@ export default function ButtonsPage() {
         description="Při loading=true je tlačítko disabled a zobrazí zlatý spinner."
       >
         <Preview>
-          <DonjonButton size="xs" loading>Ukládám</DonjonButton>
-          <DonjonButton size="sm" loading>Ukládám</DonjonButton>
-          <DonjonButton size="md" loading>Zpracovávám</DonjonButton>
-          <DonjonButton size="lg" loading>Načítám</DonjonButton>
-          <DonjonButton size="md" loading iconOnly aria-label="Načítání" />
+          <Btn size="xs" loading>Ukládám</Btn>
+          <Btn size="sm" loading>Ukládám</Btn>
+          <Btn size="md" loading>Zpracovávám</Btn>
+          <Btn size="lg" loading>Načítám</Btn>
+          <Btn size="md" loading iconOnly aria-label="Načítání" />
         </Preview>
-        <CodeBlock code={`<DonjonButton loading>Ukládám</DonjonButton>
-<DonjonButton loading iconOnly aria-label="Načítání" />`} />
+        <CodeBlock code={`<${cmp} loading>Ukládám</${cmp}>
+<${cmp} loading iconOnly aria-label="Načítání" />`} />
       </Section>
 
       {/* Disabled */}
@@ -109,13 +108,13 @@ export default function ButtonsPage() {
         description="Disabled tlačítka nejsou klikatelná a mají sníženou opacitu."
       >
         <Preview>
-          <DonjonButton disabled>Default</DonjonButton>
-          <DonjonButton disabled variant="danger">Danger</DonjonButton>
-          <DonjonButton disabled variant="success">Success</DonjonButton>
-          <DonjonButton disabled leadingIcon={<PlusIcon />}>S ikonou</DonjonButton>
-          <DonjonButton disabled iconOnly aria-label="Disabled"><TrashIcon /></DonjonButton>
+          <Btn disabled>Default</Btn>
+          <Btn disabled variant="danger">Danger</Btn>
+          <Btn disabled variant="success">Success</Btn>
+          <Btn disabled leadingIcon={<PlusIcon />}>S ikonou</Btn>
+          <Btn disabled iconOnly aria-label="Disabled"><TrashIcon /></Btn>
         </Preview>
-        <CodeBlock code={`<DonjonButton disabled>Disabled</DonjonButton>`} />
+        <CodeBlock code={`<${cmp} disabled>Disabled</${cmp}>`} />
       </Section>
 
       {/* Full Width */}
@@ -125,11 +124,11 @@ export default function ButtonsPage() {
       >
         <Preview>
           <div className="w-full flex flex-col gap-3">
-            <DonjonButton fullWidth>Full Width Default</DonjonButton>
-            <DonjonButton fullWidth variant="danger">Full Width Danger</DonjonButton>
+            <Btn fullWidth>Full Width Default</Btn>
+            <Btn fullWidth variant="danger">Full Width Danger</Btn>
           </div>
         </Preview>
-        <CodeBlock code={`<DonjonButton fullWidth>Full Width</DonjonButton>`} />
+        <CodeBlock code={`<${cmp} fullWidth>Full Width</${cmp}>`} />
       </Section>
 
       {/* Live preview */}
@@ -149,12 +148,29 @@ export default function ButtonsPage() {
             {['xs', 'sm', 'md', 'lg'].map(size => (
               <div key={size} className="flex items-center gap-4">
                 <span className="text-xs text-neutral-500 w-6 shrink-0">{size}</span>
-                <DonjonButton size={size}>{previewText || 'Text'}</DonjonButton>
+                <Btn size={size}>{previewText || 'Text'}</Btn>
               </div>
             ))}
           </div>
         </Preview>
       </Section>
+    </>
+  )
+}
+
+/* ── Page ── */
+export default function ButtonsPage() {
+  return (
+    <ShowcasePage
+      title="Buttons"
+      description="Herní tlačítka Donjon Fall — osmihranný tvar. donjon-fall-ui varianta přidává SideOrnament a HexOrnament, TkajUI základ je čistý bez ornamentů."
+      componentSlugs={['donjon-button', 'button']}
+      variants={[
+        { id: 'donjon', label: 'donjon-fall-ui' },
+        { id: 'tkajui', label: 'TkajUI' },
+      ]}
+    >
+      <ButtonContent />
     </ShowcasePage>
   )
 }

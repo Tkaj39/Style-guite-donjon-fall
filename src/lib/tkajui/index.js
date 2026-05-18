@@ -1,7 +1,12 @@
 // TkajUI — generické UI komponenty
-// Fáze 1: re-exporty ze stávajících cest (žádné přesouvání souborů)
 
-// Přesunuté — přímý import z lib/tkajui/
+// Základní interaktivní prvky
+export { default as Button }         from './Button'
+export { default as Badge }          from './Badge'
+export { default as Card }           from './Card'
+export { default as Input }          from './Input'
+
+// Složené komponenty
 export { default as ButtonGroup }    from './ButtonGroup'
 export { default as Modal }          from './Modal'
 export { ToastProvider, useToast }   from './Toast'
