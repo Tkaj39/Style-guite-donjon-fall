@@ -15,3 +15,6 @@ export { SwordIcon, ShieldIcon, TowerIcon } from './icons'
 export { default as HexTile }       from './HexTile'
 export { default as DieFace }       from './DieFace'
 export { default as FloatFeedback } from './FloatFeedback'
+
+// Heraldika
+export { Shield, PlayerIdentityBadge } from './Erb'

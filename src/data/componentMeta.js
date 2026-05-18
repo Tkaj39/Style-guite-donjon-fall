@@ -294,6 +294,19 @@ export const componentMeta = {
 
   /* ── Game Assets ───────────────────────────────────────────────────── */
 
+  'erb': {
+    description: 'Heraldická identita hráče — hexagonální štít s barvou a volitelným symbolem (I–VI). Komponenta Shield pro herní UI, PlayerIdentityBadge pro scoreboard a HUD.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/erb',
+    props: [
+      { name: 'player',     type: '{ color: string, label: string, id: number }', required: true,  description: 'Hráčský objekt — barva, popisek, ID (1–6).' },
+      { name: 'size',       type: "'xs'|'sm'|'md'|'lg'",                          required: false, default: "'md'",  description: 'Velikost štítu (24 / 40 / 64 / 96 px šířka).' },
+      { name: 'showSymbol', type: 'boolean',                                       required: false, default: 'true', description: 'Zobrazí římskou číslici uvnitř štítu.' },
+    ],
+    relatedSlugs: ['hex-tile', 'die-face', 'donjon-badge'],
+  },
+
   'hex-tile': {
     description: 'Hexagonální políčko herní mapy. Zobrazuje různé stavy hexu (prázdný, základna, ohnisko) a vlastnictví hráče.',
     subcategory: 'exclusive',
