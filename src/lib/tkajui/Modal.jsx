@@ -59,10 +59,6 @@ export default function Modal({
   closeOnBackdrop = true,
   closeOnEscape = true,
   showCloseButton = true,
-  renderPanelOrnaments,
-  renderHeaderOrnaments,
-  renderBodyOrnaments,
-  renderFooterOrnaments,
 }) {
   const uid = useId().replace(/:/g, '')
   const titleId = `modal-title-${uid}`
@@ -149,18 +145,14 @@ export default function Modal({
             display: 'flex',
             flexDirection: 'column',
           }}>
-            {/* Panel ornaments slot */}
-            {renderPanelOrnaments?.(uid)}
-
             {/* Header */}
             {title && (
               <div style={{
                 position: 'relative',
                 background: v.headerBg,
                 borderBottom: `1px solid ${v.border}44`,
-                padding: '14px 48px 12px 40px',
+                padding: '14px 28px 12px',
               }}>
-                {renderHeaderOrnaments?.(uid)}
 
                 <h2
                   id={titleId}
@@ -216,7 +208,6 @@ export default function Modal({
 
             {/* Body */}
             <div style={{ position: 'relative', padding: '20px 28px', flex: 1 }}>
-              {!title && renderBodyOrnaments?.(uid)}
               {!title && showCloseButton && (
                 <button
                   onClick={onClose}
@@ -252,7 +243,6 @@ export default function Modal({
                 borderTop: `1px solid ${v.border}44`,
                 padding: '12px 28px 14px',
               }}>
-                {renderFooterOrnaments?.(uid)}
                 <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
                   {footer}
                 </div>
