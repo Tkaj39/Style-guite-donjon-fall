@@ -1,5 +1,7 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
+import { Shield, PlayerIdentityBadge } from '../lib/donjon/Erb'
+import { players } from '../data/gameUiMockData'
 
 /* ── Player indicator ── */
 function PlayerIndicator({ name, color, vp, isActive, diceCount }) {
@@ -313,6 +315,218 @@ function FloatFeedback({ text, color, x, y, onDone }) {
   20%  { opacity: 1 }
   100% { opacity: 0; transform: translateY(-56px) }
 }`} />
+      </Section>
+
+      {/* Shield */}
+      <Section
+        id="shield"
+        title="Shield — heraldický štít hráče"
+        description="Hexagonální štít s barvou a symbolem hráče. Čtyři velikosti — xs pro HUD, sm pro scoreboard, md/lg pro win dialog a profilový pohled."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <div>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Velikosti — size prop
+              </p>
+              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 24 }}>
+                {['xs', 'sm', 'md', 'lg'].map(size => (
+                  <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+                    <Shield player={players[0]} size={size} />
+                    <span style={{ fontSize: '0.5rem', color: '#4A4560', fontFamily: 'monospace' }}>{size}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Barvy hráčů — 6 hráčů, size sm
+              </p>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                {players.map(p => (
+                  <Shield key={p.id} player={p} size="sm" />
+                ))}
+              </div>
+            </div>
+            <div>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                showSymbol=false — barevný štít bez symbolu (kompaktní HUD)
+              </p>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {players.slice(0, 4).map(p => (
+                  <Shield key={p.id} player={p} size="xs" showSymbol={false} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </Preview>
+        <CodeBlock code={`import { Shield } from 'src/lib/donjon/Erb'
+
+// Standardní štít s symbolem
+<Shield player={{ id: 1, color: '#E05C5C', label: 'Hráč 1' }} size="sm" />
+
+// Bez symbolu — kompaktní HUD varianta
+<Shield player={player} size="xs" showSymbol={false} />`} />
+      </Section>
+
+      {/* PlayerIdentityBadge */}
+      <Section
+        id="player-identity-badge"
+        title="PlayerIdentityBadge — kompaktní identita hráče"
+        description="Malý štít + jméno hráče se zlatým gradientem. Určen pro scoreboard, HUD horní lištu a win dialog. Kombinuje Shield xs a jméno hráče."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <div>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Všichni hráči
+              </p>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {players.map(p => (
+                  <PlayerIdentityBadge key={p.id} player={p} />
+                ))}
+              </div>
+            </div>
+            <div>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                V HUD kontextu — hráč 1 vs hráč 2 (2-hráčová partie)
+              </p>
+              <div style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                background: '#0E0C22', border: '1px solid #1E1D30',
+                borderRadius: 4, padding: '8px 16px', maxWidth: 400,
+              }}>
+                <PlayerIdentityBadge player={players[0]} />
+                <span style={{ fontSize: '0.625rem', color: '#3A3858', fontWeight: 700, padding: '0 12px' }}>vs</span>
+                <PlayerIdentityBadge player={players[1]} />
+              </div>
+            </div>
+          </div>
+        </Preview>
+        <CodeBlock code={`import { PlayerIdentityBadge } from 'src/lib/donjon/Erb'
+
+// Kompaktní badge — štít xs + jméno s gradientem
+<PlayerIdentityBadge player={{ id: 1, color: '#E05C5C', label: 'Hráč 1' }} />
+
+// HUD horní lišta — 2 hráči vs
+<div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+  <PlayerIdentityBadge player={player1} />
+  <span style={{ color: '#3A3858' }}>vs</span>
+  <PlayerIdentityBadge player={player2} />
+</div>`} />
+      </Section>
+
+      {/* Herní status */}
+      <Section
+        id="herni-status"
+        title="Herní status — stavové indikátory"
+        description="Vizuální signály pro kritické herní stavy — blokovaná akce, danger zóna, vítězství na dosah, neaktivní hráč. Používají barvu hráče nebo sémantickou barvu (danger/success)."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            {/* Blokováno */}
+            <div>
+              <p style={{ margin: '0 0 8px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Blokovaná akce
+              </p>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <div style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  padding: '5px 10px', borderRadius: 3,
+                  background: '#3D181815', border: '1px solid #C0404030',
+                  fontSize: '0.75rem', color: '#C04040',
+                }}>
+                  <svg viewBox="0 0 10 10" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                    <circle cx="5" cy="5" r="4" /><path d="M3 3l4 4M7 3l-4 4" />
+                  </svg>
+                  Akce blokována
+                </div>
+                <div style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  padding: '5px 10px', borderRadius: 3,
+                  background: '#3D181815', border: '1px solid #C0404030',
+                  fontSize: '0.75rem', color: '#C04040',
+                }}>
+                  <svg viewBox="0 0 10 10" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                    <circle cx="5" cy="5" r="4" /><path d="M3 3l4 4M7 3l-4 4" />
+                  </svg>
+                  Pohyb na toto pole zakázán
+                </div>
+              </div>
+            </div>
+            {/* Danger — kritický VP */}
+            <div>
+              <p style={{ margin: '0 0 8px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Danger — soupeř na dosah vítězství (4 z 5 VP)
+              </p>
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: 10,
+                padding: '8px 14px', borderRadius: 4,
+                background: '#3D181820', border: '1px solid #C04040',
+                boxShadow: '0 0 12px #C0404035',
+              }}>
+                <Shield player={players[1]} size="xs" showSymbol={false} />
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#C04040' }}>Hráč 2</span>
+                <span style={{ fontSize: '0.6875rem', color: '#8F7458' }}>4 / 5 VP</span>
+                <DonjonBadge variant="danger" size="sm">Pozor!</DonjonBadge>
+              </div>
+            </div>
+            {/* Neaktivní hráč */}
+            <div>
+              <p style={{ margin: '0 0 8px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Aktivní vs neaktivní hráč
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {/* Aktivní */}
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  padding: '6px 12px', borderRadius: 4, maxWidth: 260,
+                  background: `${players[0].color}12`, border: `1px solid ${players[0].color}55`,
+                  boxShadow: `0 0 10px ${players[0].color}30`,
+                }}>
+                  <Shield player={players[0]} size="xs" />
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#F0E6D3' }}>Hráč 1</span>
+                  <DonjonBadge variant="success" size="sm">Na tahu</DonjonBadge>
+                </div>
+                {/* Neaktivní */}
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  padding: '6px 12px', borderRadius: 4, maxWidth: 260,
+                  background: '#12102A', border: '1px solid #1E1D3060',
+                  opacity: 0.6,
+                }}>
+                  <Shield player={players[1]} size="xs" showSymbol={false} />
+                  <span style={{ fontSize: '0.75rem', color: '#6A6880' }}>Hráč 2</span>
+                  <DonjonBadge variant="default" size="sm">Čeká</DonjonBadge>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Preview>
+        <CodeBlock code={`/* Blokovaná akce */
+<div style={{ color: '#C04040', border: '1px solid #C0404030', background: '#3D181815' }}>
+  <BlockIcon />
+  Akce blokována
+</div>
+
+/* Danger — soupeř blízko vítězství */
+{opponent.vp >= targetVP - 1 && (
+  <div style={{ border: '1px solid #C04040', boxShadow: '0 0 12px #C0404035' }}>
+    <Shield player={opponent} size="xs" showSymbol={false} />
+    <span>{opponent.label}</span>
+    <Badge variant="danger">Pozor!</Badge>
+  </div>
+)}
+
+/* Aktivní vs neaktivní hráč */
+<PlayerRow
+  style={{
+    background: isActive ? \`\${player.color}12\` : '#12102A',
+    border:     \`1px solid \${isActive ? player.color + '55' : '#1E1D3060'}\`,
+    boxShadow:  isActive ? \`0 0 10px \${player.color}30\` : 'none',
+    opacity:    isActive ? 1 : 0.6,
+  }}
+/>`} />
       </Section>
 
       {/* HUD pravidla */}

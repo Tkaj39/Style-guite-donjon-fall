@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import Input from '../lib/tkajui/Input'
 import DonjonInput from '../lib/donjon/DonjonInput'
+import Select from '../lib/tkajui/Select'
+import DonjonSelect from '../lib/donjon/DonjonSelect'
+import Button from '../lib/tkajui/Button'
+import DonjonButton from '../lib/donjon/DonjonButton'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 const SearchIcon = () => (
@@ -24,10 +28,21 @@ const AtIcon = () => (
   </svg>
 )
 
+const DIFFICULTY_OPTIONS = [
+  { value: 'easy',     label: 'Lehká — pro začátečníky' },
+  { value: 'standard', label: 'Standardní' },
+  { value: 'hard',     label: 'Těžká — zkušení hráči' },
+  { value: 'hardcore', label: 'Hardcore — žádné chyby' },
+]
+
 function InputContent() {
   const lib = useLibVariant()
   const I   = lib === 'tkajui' ? Input : DonjonInput
+  const S   = lib === 'tkajui' ? Select : DonjonSelect
+  const Btn = lib === 'tkajui' ? Button : DonjonButton
   const cmp = lib === 'tkajui' ? 'Input' : 'DonjonInput'
+  const sCmp  = lib === 'tkajui' ? 'Select' : 'DonjonSelect'
+  const bCmp  = lib === 'tkajui' ? 'Button' : 'DonjonButton'
 
   const [basicValue,    setBasicValue]    = useState('')
   const [emailValue,    setEmailValue]    = useState('')
@@ -35,6 +50,34 @@ function InputContent() {
   const [searchValue,   setSearchValue]   = useState('')
   const [errorValue,    setErrorValue]    = useState('wrong_password')
   const [hintValue,     setHintValue]     = useState('')
+
+  // Login form state
+  const [loginEmail,    setLoginEmail]    = useState('')
+  const [loginPassword, setLoginPassword] = useState('')
+  const [loginErrors,   setLoginErrors]   = useState({})
+  const [loginOk,       setLoginOk]       = useState(false)
+
+  function handleLogin() {
+    const errs = {}
+    if (!loginEmail.includes('@')) errs.email = 'Zadej platnou e-mailovou adresu.'
+    if (loginPassword.length < 6)  errs.password = 'Heslo musí mít alespoň 6 znaků.'
+    setLoginErrors(errs)
+    setLoginOk(Object.keys(errs).length === 0)
+  }
+
+  // Settings form state
+  const [heroName,     setHeroName]     = useState('')
+  const [difficulty,   setDifficulty]   = useState('standard')
+  const [settingsErrors, setSettingsErrors] = useState({})
+  const [settingsSaved,  setSettingsSaved]  = useState(false)
+
+  function handleSettings() {
+    const errs = {}
+    if (heroName.trim().length < 3) errs.heroName = 'Jméno hrdiny musí mít alespoň 3 znaky.'
+    if (heroName.trim().length > 24) errs.heroName = 'Jméno hrdiny nesmí být delší než 24 znaků.'
+    setSettingsErrors(errs)
+    setSettingsSaved(Object.keys(errs).length === 0)
+  }
 
   return (
     <>
@@ -115,6 +158,138 @@ function InputContent() {
   value={val}
   onChange={e => setVal(e.target.value)}
 />`} />
+      </Section>
+
+      {/* Kompozice — login form */}
+      <Section
+        id="form-prihlaseni"
+        title="Kompozice — přihlašovací formulář"
+        description="Input + Button + live validace po kliknutí na Přihlásit. Ukazuje typický pattern: validace až po submit, ne při psaní."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14, width: '100%', maxWidth: 360 }}>
+            {loginOk && (
+              <div style={{
+                padding: '8px 12px', borderRadius: 4,
+                background: '#183D2020', border: '1px solid #40A05550',
+                fontSize: '0.8125rem', color: '#40A055',
+              }}>
+                ✓ Přihlášení úspěšné! (demo)
+              </div>
+            )}
+            <I
+              label="E-mail"
+              type="email"
+              placeholder="hero@dungeon.fall"
+              leadingIcon={<AtIcon />}
+              value={loginEmail}
+              onChange={e => { setLoginEmail(e.target.value); setLoginOk(false) }}
+              error={loginErrors.email}
+            />
+            <I
+              label="Heslo"
+              type="password"
+              placeholder="Alespoň 6 znaků…"
+              leadingIcon={<KeyIcon />}
+              value={loginPassword}
+              onChange={e => { setLoginPassword(e.target.value); setLoginOk(false) }}
+              error={loginErrors.password}
+            />
+            <Btn onClick={handleLogin} style={{ width: '100%', justifyContent: 'center' }}>
+              Přihlásit se
+            </Btn>
+          </div>
+        </Preview>
+        <CodeBlock code={`const [email,    setEmail]    = useState('')
+const [password, setPassword] = useState('')
+const [errors,   setErrors]   = useState({})
+
+function handleSubmit() {
+  const errs = {}
+  if (!email.includes('@'))    errs.email    = 'Zadej platnou e-mailovou adresu.'
+  if (password.length < 6)     errs.password = 'Heslo musí mít alespoň 6 znaků.'
+  setErrors(errs)
+  if (Object.keys(errs).length === 0) login(email, password)
+}
+
+<${cmp} label="E-mail" type="email" value={email}
+  onChange={e => setEmail(e.target.value)} error={errors.email} />
+<${cmp} label="Heslo"  type="password" value={password}
+  onChange={e => setPassword(e.target.value)} error={errors.password} />
+<${bCmp} onClick={handleSubmit}>Přihlásit se</${bCmp}>`} />
+      </Section>
+
+      {/* Kompozice — settings form */}
+      <Section
+        id="form-nastaveni"
+        title="Kompozice — formulář nastavení"
+        description="Input + Select + Button — typický profil / nastavení hráče. Kombinuje textové pole, výběr a potvrzovací tlačítko."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14, width: '100%', maxWidth: 360 }}>
+            {settingsSaved && (
+              <div style={{
+                padding: '8px 12px', borderRadius: 4,
+                background: '#183D2020', border: '1px solid #40A05550',
+                fontSize: '0.8125rem', color: '#40A055',
+              }}>
+                ✓ Nastavení uloženo! (demo)
+              </div>
+            )}
+            <I
+              label="Jméno hrdiny"
+              placeholder="3–24 znaků…"
+              hint="Zobrazí se ostatním hráčům."
+              value={heroName}
+              onChange={e => { setHeroName(e.target.value); setSettingsSaved(false) }}
+              error={settingsErrors.heroName}
+            />
+            <S
+              label="Obtížnost"
+              options={DIFFICULTY_OPTIONS}
+              value={difficulty}
+              onChange={setDifficulty}
+            />
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+              <Btn variant="link" size="sm" onClick={() => { setHeroName(''); setDifficulty('standard'); setSettingsSaved(false); setSettingsErrors({}) }}>
+                Reset
+              </Btn>
+              <Btn onClick={handleSettings}>
+                Uložit nastavení
+              </Btn>
+            </div>
+          </div>
+        </Preview>
+        <CodeBlock code={`const [heroName,   setHeroName]   = useState('')
+const [difficulty, setDifficulty] = useState('standard')
+const [errors,     setErrors]     = useState({})
+
+function handleSave() {
+  const errs = {}
+  if (heroName.trim().length < 3)  errs.heroName = 'Alespoň 3 znaky.'
+  if (heroName.trim().length > 24) errs.heroName = 'Max 24 znaků.'
+  setErrors(errs)
+  if (Object.keys(errs).length === 0) saveSettings({ heroName, difficulty })
+}
+
+<${cmp}
+  label="Jméno hrdiny"
+  hint="Zobrazí se ostatním hráčům."
+  value={heroName}
+  onChange={e => setHeroName(e.target.value)}
+  error={errors.heroName}
+/>
+<${sCmp}
+  label="Obtížnost"
+  options={[
+    { value: 'easy',     label: 'Lehká' },
+    { value: 'standard', label: 'Standardní' },
+    { value: 'hard',     label: 'Těžká' },
+  ]}
+  value={difficulty}
+  onChange={setDifficulty}
+/>
+<${bCmp} onClick={handleSave}>Uložit nastavení</${bCmp}>`} />
       </Section>
 
       {/* Pravidla */}
