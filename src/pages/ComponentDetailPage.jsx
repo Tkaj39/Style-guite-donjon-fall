@@ -258,7 +258,7 @@ export default function ComponentDetailPage() {
           {comp.showcaseRoute && (
             <MetaItem label="Showcase">
               <Link
-                to={comp.showcaseRoute}
+                to={`${comp.showcaseRoute}?lib=${comp.category === 'TkajUI' ? 'tkajui' : 'donjon'}`}
                 className="inline-flex items-center gap-1.5 text-[11px] font-mono text-brand-400 hover:text-brand-300 transition-colors"
               >
                 <ExternalIcon />

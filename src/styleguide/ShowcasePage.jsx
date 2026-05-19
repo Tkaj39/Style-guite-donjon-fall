@@ -1,5 +1,5 @@
 import { useState, createContext, useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 
 /* ── Variant context — sdílí aktivní knihovnu se všemi dětmi ── */
 const LibVariantContext = createContext(null)
@@ -120,8 +120,11 @@ function ApiChip({ slug }) {
 export function ShowcasePage({ title, description, children, componentSlug, componentSlugs, library, variants }) {
   const slugs = componentSlugs ?? (componentSlug ? [componentSlug] : [])
 
-  // Varianta — jen pokud je variants prop
-  const [activeVariant, setActiveVariant] = useState(variants?.[0]?.id ?? null)
+  // Varianta — inicializuje z ?lib= URL parametru, pak z první položky variants
+  const [searchParams] = useSearchParams()
+  const libParam = searchParams.get('lib')
+  const initVariant = variants?.find(v => v.id === libParam)?.id ?? variants?.[0]?.id ?? null
+  const [activeVariant, setActiveVariant] = useState(initVariant)
 
   // Aktivní knihovna: buď z varianty nebo ze statického library prop
   const effectiveLibrary = activeVariant ?? library
