@@ -177,10 +177,11 @@ export default function OrnamentsPage() {
             </thead>
             <tbody className="divide-y divide-neutral-800/60">
               {[
-                ['size',    '16',         'Rozměr ornamenty v px.'],
-                ['color',   '#8F7458',    'CSS barva výplně.'],
-                ['variant', 'bracket',    "Tvar: 'bracket' | 'dot' | 'diamond' | 'cross'"],
-                ['style',   '{}',         'Inline styly pro pozicování (position, top, left…)'],
+                ['size',       '16',       'Rozměr ornamenty v px.'],
+                ['color',      '#8F7458',  'CSS barva výplně.'],
+                ['variant',    'bracket',  "Tvar: 'bracket' | 'dot' | 'diamond' | 'cross'"],
+                ['cornerType', 'cut',      "Geometrie rohu: 'cut' (ostrý L) | 'round' (konvexní oblouk) | 'scoop' (konkávní oblouk)"],
+                ['style',      '{}',       'Inline styly pro pozicování (position, top, left…)'],
               ].map(([p, d, desc]) => (
                 <tr key={p} className="hover:bg-neutral-800/30 transition-colors">
                   <td className="px-3 py-2.5"><code className="font-mono text-brand-300 text-[11px]">{p}</code></td>
@@ -200,6 +201,76 @@ export default function OrnamentsPage() {
 <CornerOrnament style={{ position: 'absolute', top: 0, right: 0, transform: 'scaleX(-1)' }} />
 <CornerOrnament style={{ position: 'absolute', bottom: 0, left: 0, transform: 'scaleY(-1)' }} />
 <CornerOrnament style={{ position: 'absolute', bottom: 0, right: 0, transform: 'scale(-1)' }} />`}</pre>
+      </Section>
+
+      {/* ── CornerOrnament — cornerType ── */}
+      <Section
+        id="corner-ornament-corner-type"
+        description="cornerType přizpůsobí geometrii ornamentu tvaru rohu komponenty, na které sedí. 'cut' = ostrý L-bracket (výchozí Donjon), 'round' = konvexní oblouk, 'scoop' = konkávní oblouk."
+      >
+        <h2 className="text-base font-semibold text-neutral-100 mb-4">CornerOrnament — cornerType</h2>
+
+        {/* 3 cornerType × 4 pozice */}
+        <Preview>
+          <div className="flex flex-col gap-8 w-full">
+            {(['cut', 'round', 'scoop']).map(ct => (
+              <div key={ct} className="flex gap-8 items-start">
+                <div className="w-16 shrink-0 text-right pt-1">
+                  <code className="text-[11px] text-brand-400 font-mono">{ct}</code>
+                </div>
+                <div className="flex gap-6 items-center flex-wrap">
+                  {/* TL */}
+                  <div className="flex flex-col items-center gap-1.5">
+                    <div className="p-2.5 bg-neutral-950 border border-neutral-800 rounded relative" style={{ width: 52, height: 52 }}>
+                      <CornerOrnament cornerType={ct} size={20} style={{ position: 'absolute', top: 6, left: 6 }} />
+                    </div>
+                    <span className="text-[9px] text-neutral-700 font-mono">TL</span>
+                  </div>
+                  {/* TR */}
+                  <div className="flex flex-col items-center gap-1.5">
+                    <div className="p-2.5 bg-neutral-950 border border-neutral-800 rounded relative" style={{ width: 52, height: 52 }}>
+                      <CornerOrnament cornerType={ct} size={20} style={{ position: 'absolute', top: 6, right: 6, transform: 'scaleX(-1)' }} />
+                    </div>
+                    <span className="text-[9px] text-neutral-700 font-mono">TR</span>
+                  </div>
+                  {/* BL */}
+                  <div className="flex flex-col items-center gap-1.5">
+                    <div className="p-2.5 bg-neutral-950 border border-neutral-800 rounded relative" style={{ width: 52, height: 52 }}>
+                      <CornerOrnament cornerType={ct} size={20} style={{ position: 'absolute', bottom: 6, left: 6, transform: 'scaleY(-1)' }} />
+                    </div>
+                    <span className="text-[9px] text-neutral-700 font-mono">BL</span>
+                  </div>
+                  {/* BR */}
+                  <div className="flex flex-col items-center gap-1.5">
+                    <div className="p-2.5 bg-neutral-950 border border-neutral-800 rounded relative" style={{ width: 52, height: 52 }}>
+                      <CornerOrnament cornerType={ct} size={20} style={{ position: 'absolute', bottom: 6, right: 6, transform: 'scale(-1)' }} />
+                    </div>
+                    <span className="text-[9px] text-neutral-700 font-mono">BR</span>
+                  </div>
+                  {/* All 4 on one card */}
+                  <div className="flex flex-col items-center gap-1.5">
+                    <div className="bg-neutral-950 border border-neutral-800 rounded relative" style={{ width: 80, height: 52 }}>
+                      <CornerOrnament cornerType={ct} size={16} style={{ position: 'absolute', top: 4, left: 4 }} />
+                      <CornerOrnament cornerType={ct} size={16} style={{ position: 'absolute', top: 4, right: 4, transform: 'scaleX(-1)' }} />
+                      <CornerOrnament cornerType={ct} size={16} style={{ position: 'absolute', bottom: 4, left: 4, transform: 'scaleY(-1)' }} />
+                      <CornerOrnament cornerType={ct} size={16} style={{ position: 'absolute', bottom: 4, right: 4, transform: 'scale(-1)' }} />
+                    </div>
+                    <span className="text-[9px] text-neutral-700 font-mono">všechny 4</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Preview>
+
+        <pre className="mt-4 p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-[11px] font-mono text-brand-400 overflow-x-auto leading-relaxed">{`{/* Komponenta s octagonem (cut rohy) */}
+<CornerOrnament cornerType="cut"   style={{ position: 'absolute', top: 6, left: 6 }} />
+
+{/* Komponenta s border-radius (round rohy) */}
+<CornerOrnament cornerType="round" style={{ position: 'absolute', top: 6, left: 6 }} />
+
+{/* Komponenta se scoop tvarem (concave rohy) */}
+<CornerOrnament cornerType="scoop" style={{ position: 'absolute', top: 6, left: 6 }} />`}</pre>
       </Section>
 
       {/* ── Pravidla použití ── */}

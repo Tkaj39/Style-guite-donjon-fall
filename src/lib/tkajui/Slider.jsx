@@ -104,7 +104,7 @@ export default function Slider({
           step={step}
           value={value}
           disabled={disabled}
-          onChange={e => onChange?.(Number(e.target.value))}
+          onChange={e => !disabled && onChange?.(Number(e.target.value))}
           aria-label={label}
           aria-valuenow={value}
           aria-valuemin={min}

@@ -91,6 +91,12 @@ describe('barrel export (index.js)', () => {
     expect(typeof TkajUI.CornerOrnament).toBe('function')
   })
 
+  it('NotchedBox je exportován jako React komponenta', () => {
+    expect(TkajUI.NotchedBox).toBeDefined()
+    // forwardRef vrací objekt, ne funkci — testujeme jen existenci
+    expect(TkajUI.NotchedBox).not.toBeNull()
+  })
+
   it('SideOrnament je exportován jako funkce', () => {
     expect(TkajUI.SideOrnament).toBeDefined()
     expect(typeof TkajUI.SideOrnament).toBe('function')

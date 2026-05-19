@@ -2,6 +2,7 @@ import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/Showcas
 import { octagon, clipLeft, clipRight, octagonWithNotch, roundRect, pill, scoopPath, SHAPE_SIZES } from '../utils/octagon'
 import { buttonSizes } from '../utils/sizes'
 import ScoopClip from '../lib/tkajui/ScoopClip'
+import NotchedBox from '../lib/tkajui/NotchedBox'
 
 /* ── sdílené styly ── */
 const inter = '"Inter", sans-serif'
@@ -102,8 +103,8 @@ function CornerOrnament({ size = 20, color = '#8F7458', variant = 'bracket', sty
   return null
 }
 
-/* ── NotchedBox — karta s rohovou ozdobou ── */
-function NotchedBox({ cx = 15, nw = 28, nh = 12, side = 'bottom', label, color = '#8F7458' }) {
+/* ── NotchDemo — lokální demo pro shape ilustraci ── */
+function NotchDemo({ cx = 15, nw = 28, nh = 12, side = 'bottom', label, color = '#8F7458' }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
       <div style={{
@@ -294,10 +295,10 @@ const clipPath = clipFn?.(cx)`} />
         description="Octagon s V-zářezem na jedné straně. Zářez jde dovnitř tvaru — použití: tooltip pointer, panel konektor, herní ukazatel směru."
       >
         <Preview>
-          <NotchedBox side="bottom" cx={12} nw={28} nh={14} label="notch bottom (default)" />
-          <NotchedBox side="top"    cx={12} nw={28} nh={14} label="notch top" />
-          <NotchedBox side="left"   cx={12} nw={28} nh={14} label="notch left" />
-          <NotchedBox side="right"  cx={12} nw={28} nh={14} label="notch right" />
+          <NotchDemo side="bottom" cx={12} nw={28} nh={14} label="notch bottom (default)" />
+          <NotchDemo side="top"    cx={12} nw={28} nh={14} label="notch top" />
+          <NotchDemo side="left"   cx={12} nw={28} nh={14} label="notch left" />
+          <NotchDemo side="right"  cx={12} nw={28} nh={14} label="notch right" />
         </Preview>
 
         {/* Variace šířky a hloubky */}
@@ -320,6 +321,70 @@ const clipPath = clipFn?.(cx)`} />
               <p style={lbl}>{label}</p>
             </div>
           ))}
+        </Preview>
+
+        {/* NotchedBox komponenta — se Slotem */}
+        <Preview>
+          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+            {/* Slot na bottom — badge v zářezu */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+              <NotchedBox cx={12} nw={32} nh={14} side="bottom"
+                style={{
+                  width: 140, height: 72,
+                  background: 'linear-gradient(150deg,#2A2948 0%,#1B1A30 100%)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '0.75rem', color: '#8F9CB3', fontFamily: inter,
+                }}
+              >
+                Obsah panelu
+                <NotchedBox.Slot>
+                  <div style={{
+                    background: '#B8956A', color: '#1B1A30', borderRadius: 3,
+                    fontSize: '0.625rem', fontWeight: 700, padding: '2px 7px',
+                    letterSpacing: '0.08em', fontFamily: inter,
+                  }}>5 VP</div>
+                </NotchedBox.Slot>
+              </NotchedBox>
+              <p style={lbl}>side="bottom" + Slot</p>
+            </div>
+
+            {/* Slot na top */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+              <NotchedBox cx={12} nw={32} nh={14} side="top"
+                style={{
+                  width: 140, height: 72,
+                  background: 'linear-gradient(150deg,#2A2948 0%,#1B1A30 100%)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '0.75rem', color: '#8F9CB3', fontFamily: inter,
+                }}
+              >
+                Obsah panelu
+                <NotchedBox.Slot>
+                  <div style={{
+                    background: '#4080C0', color: '#fff', borderRadius: 3,
+                    fontSize: '0.625rem', fontWeight: 700, padding: '2px 7px',
+                    letterSpacing: '0.08em', fontFamily: inter,
+                  }}>Hráč 2</div>
+                </NotchedBox.Slot>
+              </NotchedBox>
+              <p style={lbl}>side="top" + Slot</p>
+            </div>
+
+            {/* Bez slotu */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+              <NotchedBox cx={12} nw={32} nh={14} side="right"
+                style={{
+                  width: 140, height: 72,
+                  background: 'linear-gradient(150deg,#2A2948 0%,#1B1A30 100%)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '0.75rem', color: '#8F9CB3', fontFamily: inter,
+                }}
+              >
+                side="right"
+              </NotchedBox>
+              <p style={lbl}>side="right" bez slotu</p>
+            </div>
+          </div>
         </Preview>
 
         {/* Použití — tooltip nad hexem */}

@@ -5,18 +5,56 @@
  * Pro ostatní rohy použij CSS transform: scaleX(-1), scaleY(-1), scale(-1).
  *
  * Props:
- *   size    {number}  px — výchozí 16
- *   color   {string}  barva fill — výchozí #8F7458 (gold-dark)
- *   variant {'bracket'|'dot'|'diamond'|'cross'} — tvar ornamentu
- *   style   {object}  extra inline styly (position, top, left…)
+ *   size       {number}                        px — výchozí 16
+ *   color      {string}                        barva fill — výchozí #8F7458 (gold-dark)
+ *   variant    {'bracket'|'dot'|'diamond'|'cross'}  tvar ornamentu
+ *   cornerType {'cut'|'round'|'scoop'}         geometrie rohu, na kterém ornament sedí (výchozí 'cut')
+ *   style      {object}                        extra inline styly (position, top, left…)
  */
-export default function CornerOrnament({ size = 16, color = '#8F7458', variant = 'bracket', style = {} }) {
+export default function CornerOrnament({
+  size       = 16,
+  color      = '#8F7458',
+  variant    = 'bracket',
+  cornerType = 'cut',
+  style      = {},
+}) {
   const s = size
 
+  // ── bracket ────────────────────────────────────────────────────────────────
   if (variant === 'bracket') {
-    // L-závorka — dvě obdélníkové čáry
-    const t   = Math.max(1, Math.round(s * 0.15))   // tloušťka
+    const t   = Math.max(1, Math.round(s * 0.15))   // tloušťka čáry
     const len = Math.round(s * 0.55)                  // délka ramene
+    const r   = Math.round(s * 0.22)                  // poloměr oblouku (round / scoop)
+
+    // round — hladký konvexní oblouk v lokti (odpovídá zaoblenému rohu)
+    if (cornerType === 'round') {
+      return (
+        <svg width={s} height={s} viewBox={`0 0 ${s} ${s}`} fill="none" style={style} aria-hidden="true">
+          <path
+            d={`M 0,${len} L 0,${r} A ${r},${r} 0 0 1 ${r},0 L ${len},0`}
+            stroke={color}
+            strokeWidth={t}
+            strokeLinecap="square"
+          />
+        </svg>
+      )
+    }
+
+    // scoop — konkávní oblouk v lokti (odpovídá konkávně zaoblenému rohu)
+    if (cornerType === 'scoop') {
+      return (
+        <svg width={s} height={s} viewBox={`0 0 ${s} ${s}`} fill="none" style={style} aria-hidden="true">
+          <path
+            d={`M 0,${len} L 0,${r} A ${r},${r} 0 0 0 ${r},0 L ${len},0`}
+            stroke={color}
+            strokeWidth={t}
+            strokeLinecap="square"
+          />
+        </svg>
+      )
+    }
+
+    // cut (výchozí) — ostrý L-bracket (dva obdélníky)
     return (
       <svg width={s} height={s} viewBox={`0 0 ${s} ${s}`} fill="none" style={style} aria-hidden="true">
         <rect x={0} y={0} width={t}   height={len} fill={color} />
@@ -25,8 +63,8 @@ export default function CornerOrnament({ size = 16, color = '#8F7458', variant =
     )
   }
 
+  // ── dot ────────────────────────────────────────────────────────────────────
   if (variant === 'dot') {
-    // Tečka v rohu + dvě krátké čáry
     const r      = Math.round(s * 0.14)
     const gap    = Math.round(s * 0.28)
     const lineL  = Math.round(s * 0.40)
@@ -40,8 +78,8 @@ export default function CornerOrnament({ size = 16, color = '#8F7458', variant =
     )
   }
 
+  // ── diamond ────────────────────────────────────────────────────────────────
   if (variant === 'diamond') {
-    // Malý kosočtverec
     const d = Math.round(s * 0.24)
     return (
       <svg width={s} height={s} viewBox={`0 0 ${s} ${s}`} fill="none" style={style} aria-hidden="true">
@@ -50,8 +88,8 @@ export default function CornerOrnament({ size = 16, color = '#8F7458', variant =
     )
   }
 
+  // ── cross ──────────────────────────────────────────────────────────────────
   if (variant === 'cross') {
-    // Heraldický kříž s tečkou
     const t   = Math.max(1, Math.round(s * 0.13))
     const arm = Math.round(s * 0.50)
     const dot = Math.round(s * 0.09)
