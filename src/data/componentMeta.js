@@ -15,6 +15,71 @@ export const componentMeta = {
 
   /* ── UI Components ─────────────────────────────────────────────────── */
 
+  'badge': {
+    description: 'Stavový odznak s oktagonálním tvarem. Sémantické barevné varianty, volitelná tečka pro živý stav a ikona. DonjonBadge je vizuálně identický re-export.',
+    status: 'documented',
+    showcaseRoute: '/badges',
+    props: [
+      { name: 'children', type: 'ReactNode',                                              required: true,  description: 'Text odznaku.' },
+      { name: 'variant',  type: "'default'|'success'|'danger'|'warning'|'info'",          required: false, default: "'default'", description: 'Barevná varianta.' },
+      { name: 'size',     type: "'sm'|'md'",                                              required: false, default: "'md'",      description: 'Velikost.' },
+      { name: 'dot',      type: 'boolean',                                                required: false, default: 'false',     description: 'Zobrazí barevnou tečku vlevo.' },
+      { name: 'icon',     type: 'ReactNode',                                              required: false, default: 'undefined', description: 'Ikona místo tečky.' },
+    ],
+    relatedSlugs: ['donjon-badge', 'button', 'donjon-card'],
+  },
+
+  'button': {
+    description: 'Základní akční tlačítko s oktagonálním tvarem. Čtyři sémantické varianty, tři velikosti, podpora ikon a loading stavu. DonjonButton rozšiřuje o SideOrnament a HexOrnament.',
+    status: 'documented',
+    showcaseRoute: '/buttons',
+    props: [
+      { name: 'children',      type: 'ReactNode',                                         required: false, description: 'Obsah tlačítka.' },
+      { name: 'variant',       type: "'default'|'danger'|'success'|'warning'|'link'",     required: false, default: "'default'", description: 'Barevná varianta.' },
+      { name: 'size',          type: "'xs'|'sm'|'md'|'lg'",                              required: false, default: "'md'",      description: 'Velikost.' },
+      { name: 'leadingIcon',   type: 'ReactNode',                                         required: false, default: 'undefined', description: 'Ikona vlevo od textu.' },
+      { name: 'trailingIcon',  type: 'ReactNode',                                         required: false, default: 'undefined', description: 'Ikona vpravo od textu.' },
+      { name: 'iconOnly',      type: 'boolean',                                           required: false, default: 'false',     description: 'Čtvercové tlačítko jen s ikonou.' },
+      { name: 'fullWidth',     type: 'boolean',                                           required: false, default: 'false',     description: 'Roztáhne tlačítko na plnou šířku.' },
+      { name: 'loading',       type: 'boolean',                                           required: false, default: 'false',     description: 'Zobrazí spinner a zablokuje klikání.' },
+      { name: 'disabled',      type: 'boolean',                                           required: false, default: 'false',     description: 'Deaktivuje tlačítko.' },
+    ],
+    relatedSlugs: ['donjon-button', 'button-group', 'modal'],
+  },
+
+  'card': {
+    description: 'Kontejnerová karta s oktagonálním rámem. Volitelná hlavička (title + description), tělo a patička. DonjonCard rozšiřuje o SideOrnament a HexOrnament.',
+    status: 'documented',
+    showcaseRoute: '/cards',
+    props: [
+      { name: 'children',    type: 'ReactNode',                             required: false, description: 'Obsah těla karty.' },
+      { name: 'title',       type: 'string',                                required: false, default: 'undefined', description: 'Nadpis v hlavičce.' },
+      { name: 'description', type: 'string',                                required: false, default: 'undefined', description: 'Podnadpis v hlavičce.' },
+      { name: 'footer',      type: 'ReactNode',                             required: false, default: 'undefined', description: 'Obsah patičky — typicky akční tlačítka.' },
+      { name: 'variant',     type: "'default'|'danger'|'success'",          required: false, default: "'default'", description: 'Barevná varianta rámu a hlavičky.' },
+    ],
+    relatedSlugs: ['donjon-card', 'modal', 'button'],
+  },
+
+  'input': {
+    description: 'Textové vstupní pole s oktagonálním rámem. Label, hint, error stav, leading/trailing ikony. DonjonInput je vizuálně identický re-export.',
+    status: 'documented',
+    showcaseRoute: '/inputs',
+    props: [
+      { name: 'label',        type: 'string',                               required: false, description: 'Popisek pole — zobrazí se nad polem.' },
+      { name: 'value',        type: 'string',                               required: true,  description: 'Aktuální hodnota pole.' },
+      { name: 'onChange',     type: '(e: ChangeEvent) => void',             required: true,  description: 'Handler změny hodnoty.' },
+      { name: 'placeholder',  type: 'string',                               required: false, default: 'undefined', description: 'Zástupný text.' },
+      { name: 'size',         type: "'sm'|'md'|'lg'",                      required: false, default: "'md'",      description: 'Výška pole.' },
+      { name: 'leadingIcon',  type: 'ReactNode',                            required: false, default: 'undefined', description: 'Ikona vlevo uvnitř pole.' },
+      { name: 'trailingIcon', type: 'ReactNode',                            required: false, default: 'undefined', description: 'Ikona vpravo uvnitř pole.' },
+      { name: 'error',        type: 'string',                               required: false, default: 'undefined', description: 'Chybová zpráva — zbarví rámeček červeně.' },
+      { name: 'hint',         type: 'string',                               required: false, default: 'undefined', description: 'Nápověda pod polem (šedá, bez error stavu).' },
+      { name: 'disabled',     type: 'boolean',                              required: false, default: 'false',     description: 'Deaktivuje pole.' },
+    ],
+    relatedSlugs: ['donjon-input', 'select', 'button'],
+  },
+
   'tabs': {
     description: 'Horizontální záložková navigace. Varianta underline pro hlavní navigaci, pills pro in-panel navigaci. Podporuje ikony, badge počty, disabled záložky a klávesnicové šipky.',
     status: 'documented',

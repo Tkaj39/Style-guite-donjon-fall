@@ -253,6 +253,18 @@ function CardContent() {
   <p>Tělo bez hlavičky.</p>
 </${cmp}>`} />
       </Section>
+
+      {/* Pravidla */}
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Card = kontejner pro tematicky příbuzné informace — quest, hráč, lokace, herní entita.</p>
+          <p>✓ Footer používej pro akční tlačítka vztahující se ke kartě, ne pro globální akce.</p>
+          <p>✓ Variantu <code className="text-brand-300">danger</code> pro hrozby a nevratné stavy, <code className="text-brand-300">success</code> pro úspěchy a odměny.</p>
+          <p>✓ Vynech <code className="text-brand-300">title</code> a <code className="text-brand-300">description</code> pokud chceš čistý panel bez titulkové hierarchie.</p>
+          <p>✗ Nedávej do karty nekonečně scrollující obsah — pokud je obsah dlouhý, nastav explicitně <code className="text-brand-300">max-height</code> a <code className="text-brand-300">overflow-y: auto</code>.</p>
+          <p>✗ Nehnízduj karty do karet — pro hierarchii obsahu použij sekce uvnitř jedné karty.</p>
+        </div>
+      </Section>
     </>
   )
 }

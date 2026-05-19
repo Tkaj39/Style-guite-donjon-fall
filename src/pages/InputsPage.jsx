@@ -116,6 +116,19 @@ function InputContent() {
   onChange={e => setVal(e.target.value)}
 />`} />
       </Section>
+
+      {/* Pravidla */}
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Vždy přidej <code className="text-brand-300">label</code> — i vizuálně skrytý label je nutný pro přístupnost.</p>
+          <p>✓ <code className="text-brand-300">hint</code> pro nápovědu před interakcí, <code className="text-brand-300">error</code> až po validaci (ne hned při psaní).</p>
+          <p>✓ <code className="text-brand-300">leadingIcon</code> pro kontext pole — lupa pro hledání, štít pro heslo, postava pro jméno hráče.</p>
+          <p>✓ Pro výběr ze seznamu hodnot použij Select místo manuálního psaní.</p>
+          <p>✗ Nepoužívej <code className="text-brand-300">placeholder</code> jako náhradu labelu — placeholder zmizí při psaní.</p>
+          <p>✗ Nezobrazuj <code className="text-brand-300">error</code> hned při načtení stránky — až po první interakci uživatele.</p>
+          <p>✗ Neblokuj odeslání formuláře jen proto, že pole je prázdné bez vizuálního error stavu.</p>
+        </div>
+      </Section>
     </>
   )
 }

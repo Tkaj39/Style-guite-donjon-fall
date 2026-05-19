@@ -189,6 +189,18 @@ function ButtonGroupContent() {
 <${cmp} variant="tabs" size="md" … />  {/* 52px — výchozí */}
 <${cmp} variant="tabs" size="lg" … />  {/* 64px */}`} />
       </Section>
+
+      {/* Pravidla */}
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Používej pro sady vzájemně se vylučujících voleb — výběr zobrazení, filter, přepínač módu.</p>
+          <p>✓ Maximálně 4–5 položek — víc je nepřehledné, zvlášť na mobilech.</p>
+          <p>✓ Varianta <code className="text-brand-300">"tabs"</code> pro navigaci uvnitř panelu, <code className="text-brand-300">"default"</code> pro akce.</p>
+          <p>✗ Nemíchej ButtonGroup s izolovanými tlačítky ve stejné řadě akcí — vizuálně to nesedí.</p>
+          <p>✗ Nepoužívej ButtonGroup pro primární navigaci aplikace — k tomu slouží Tabs nebo sidebar.</p>
+          <p>✗ Nevkládej ButtonGroup do ButtonGroup — to je anti-pattern.</p>
+        </div>
+      </Section>
     </>
   )
 }

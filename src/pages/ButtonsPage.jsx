@@ -154,6 +154,19 @@ function ButtonContent() {
           </div>
         </Preview>
       </Section>
+
+      {/* Pravidla */}
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Primární akce (nová hra, potvrzení) → <code className="text-brand-300">variant="default"</code> nebo <code className="text-brand-300">"success"</code>.</p>
+          <p>✓ Destruktivní akce (smazat, opustit hru) → <code className="text-brand-300">variant="danger"</code>.</p>
+          <p>✓ Ikony používej pro posílení kontextu — <code className="text-brand-300">leadingIcon</code> pro akci, <code className="text-brand-300">trailingIcon</code> pro směr/výstup.</p>
+          <p>✓ Pro ikonová tlačítka bez textu vždy přidej <code className="text-brand-300">aria-label</code>.</p>
+          <p>✗ Nestackuj víc než 3 tlačítka v řadě — použij ButtonGroup nebo oddělení mezerou.</p>
+          <p>✗ Nepoužívej <code className="text-brand-300">disabled</code> bez kontextu — pokud to není zřejmé, přidej Tooltip s vysvětlením.</p>
+          <p>✗ Nepoužívej <code className="text-brand-300">variant="link"</code> pro navigaci — to patří do routeru, ne do akčního tlačítka.</p>
+        </div>
+      </Section>
     </>
   )
 }

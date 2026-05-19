@@ -140,6 +140,18 @@ function BadgeContent() {
           </div>
         </Preview>
       </Section>
+
+      {/* Pravidla */}
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Používej pro stavové štítky — stav úkolu, herní role, výsledek akce.</p>
+          <p>✓ Kombinuj s <code className="text-brand-300">dot</code> pro "živý" stav (hráč online, aktivní ohnisko).</p>
+          <p>✓ Drž text krátký — 1–3 slova, badge není místo pro věty.</p>
+          <p>✗ Nepoužívej badge jako náhradu tlačítka — badge není klikatelný prvek.</p>
+          <p>✗ Nepřeplňuj kartu víc než 2–3 badge najednou — ztrácí se kontext.</p>
+          <p>✗ Nepoužívej <code className="text-brand-300">icon</code> a <code className="text-brand-300">dot</code> zároveň — jsou vzájemně alternativní.</p>
+        </div>
+      </Section>
     </>
   )
 }
