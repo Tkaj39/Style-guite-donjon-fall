@@ -1,33 +1,49 @@
 /* ── ProgressBar ────────────────────────────────────────────────────────
    Lineární ukazatel průběhu. Determinate (value 0–100) nebo indeterminate
    (animovaný shimmer). Varianty, velikosti, volitelný popisek a hodnota.
+   Čistá TkajUI paleta.
    ─────────────────────────────────────────────────────────────────────── */
+
+import {
+  surface2, borderDefault,
+  accent, accentDim,
+  textMid,
+  successColor, successBorder, successDim,
+  dangerColor, dangerBorder, dangerDim,
+  warningColor, warningBorder, warningDim,
+  infoColor, infoBorder, infoDim,
+} from './tokens'
 
 const VARIANTS = {
   default: {
-    fill:   'linear-gradient(90deg,#FFC183 0%,#8F7458 100%)',
-    glow:   '#B8956A',
-    border: '#8F745440',
+    fill:   `linear-gradient(90deg,${accent} 0%,${accentDim} 100%)`,
+    glow:   accent,
+    border: `${accent}33`,
+    valueColor: accent,
   },
   success: {
-    fill:   'linear-gradient(90deg,#60C070 0%,#40A055 100%)',
-    glow:   '#40A055',
-    border: '#40A05540',
+    fill:   `linear-gradient(90deg,${successColor} 0%,${successDim} 100%)`,
+    glow:   successColor,
+    border: successBorder,
+    valueColor: successColor,
   },
   danger: {
-    fill:   'linear-gradient(90deg,#E06060 0%,#C04040 100%)',
-    glow:   '#C04040',
-    border: '#C0404040',
+    fill:   `linear-gradient(90deg,${dangerColor} 0%,${dangerDim} 100%)`,
+    glow:   dangerColor,
+    border: dangerBorder,
+    valueColor: dangerColor,
   },
   warning: {
-    fill:   'linear-gradient(90deg,#FFD580 0%,#C08040 100%)',
-    glow:   '#C08040',
-    border: '#C0804040',
+    fill:   `linear-gradient(90deg,${warningColor} 0%,${warningDim} 100%)`,
+    glow:   warningColor,
+    border: warningBorder,
+    valueColor: warningColor,
   },
   info: {
-    fill:   'linear-gradient(90deg,#60A0E0 0%,#4080C0 100%)',
-    glow:   '#4080C0',
-    border: '#4080C040',
+    fill:   `linear-gradient(90deg,${infoColor} 0%,${infoDim} 100%)`,
+    glow:   infoColor,
+    border: infoBorder,
+    valueColor: infoColor,
   },
 }
 
@@ -59,7 +75,6 @@ export default function ProgressBar({
   return (
     <div style={{ width: '100%', ...style }} className={className}>
 
-      {/* Label row */}
       {hasHeader && (
         <div style={{
           display: 'flex',
@@ -68,16 +83,16 @@ export default function ProgressBar({
           marginBottom: 5,
         }}>
           {label && (
-            <span style={{ fontSize: '0.75rem', color: '#8F9CB3', letterSpacing: '0.04em' }}>
+            <span style={{ fontSize: '0.75rem', color: textMid, letterSpacing: '0.04em' }}>
               {label}
             </span>
           )}
           {showValue && !indeterminate && (
             <span style={{
               fontSize: '0.6875rem',
-              fontWeight: 700,
-              letterSpacing: '0.08em',
-              color: '#B8956A',
+              fontWeight: 600,
+              letterSpacing: '0.06em',
+              color: v.valueColor,
               marginLeft: 'auto',
             }}>
               {displayPct} %
@@ -86,7 +101,6 @@ export default function ProgressBar({
         </div>
       )}
 
-      {/* Track */}
       <div
         role="progressbar"
         aria-valuenow={indeterminate ? undefined : value}
@@ -97,34 +111,25 @@ export default function ProgressBar({
           position: 'relative',
           width: '100%',
           height: s.h,
-          background: '#12102A',
+          background: surface2,
           borderRadius: s.radius,
           border: `1px solid ${v.border}`,
           overflow: 'hidden',
         }}
       >
-        {/* Fill */}
         <div style={{
           position: 'absolute',
           inset: 0,
           width: `${pct}%`,
           background: v.fill,
           borderRadius: s.radius,
-          boxShadow: pct > 0 ? `0 0 8px ${v.glow}66` : 'none',
+          boxShadow: pct > 0 ? `0 0 6px ${v.glow}55` : 'none',
           transition: indeterminate ? 'none' : 'width 0.35s ease',
           animation: indeterminate ? 'pbIndeterminate 1.4s ease-in-out infinite' : 'none',
           transformOrigin: 'left center',
         }} />
       </div>
 
-      {/* Keyframes injected once */}
-      <style>{`
-        @keyframes pbIndeterminate {
-          0%   { transform: translateX(-100%) scaleX(0.4) }
-          50%  { transform: translateX(60%)   scaleX(0.6) }
-          100% { transform: translateX(200%)  scaleX(0.4) }
-        }
-      `}</style>
     </div>
   )
 }

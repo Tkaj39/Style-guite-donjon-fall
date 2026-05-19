@@ -94,6 +94,7 @@ export default function LoadingAppPage() {
     <ShowcasePage
       title="Načítání aplikace"
       description="Úvodní obrazovka při spuštění hry — zobrazí se před načtením herních dat a assetů. Minimální, atmosférický design: logo + progress bar + status. Stejné rozložení na všech zařízeních."
+      library="donjon"
     >
       <Section
         id="desktop"

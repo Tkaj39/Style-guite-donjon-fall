@@ -1,5 +1,11 @@
 import { useState, useId } from 'react'
 import { octagon } from '../../utils/octagon'
+import {
+  surface2, borderDefault, borderMid,
+  accent, accentBorder,
+  textHigh, textMid, textLow,
+  dangerColor, dangerBorder, dangerText,
+} from './tokens'
 
 const sizes = {
   sm: { h: 36, cx: 8, px: 12, fontSize: '0.75rem' },
@@ -9,8 +15,7 @@ const sizes = {
 
 /**
  * Input — TkajUI základní textové pole.
- * Oktagonální tvar, bez Ornaments.
- * DonjonInput je re-export — obě jsou vizuálně identické (Input nemá ornaments).
+ * Oktagonální tvar, čistá UI paleta.
  */
 export default function Input({
   label,
@@ -29,11 +34,13 @@ export default function Input({
   const id = useId()
   const s = sizes[size] ?? sizes.md
 
-  const borderColor = error ? '#C04040' : isFocused ? '#FFC183' : '#8F7458'
-  const glowColor   = error ? 'rgba(192,64,64,0.3)' : 'rgba(255,193,131,0.2)'
-  const innerBg     = disabled
-    ? 'linear-gradient(150deg,#1A1928 0%,#141322 70%)'
-    : 'linear-gradient(150deg,#232238 0%,#1B1A30 70%)'
+  const borderColor = error
+    ? dangerColor
+    : isFocused ? accent : borderDefault
+
+  const glowColor = error
+    ? 'rgba(240,85,85,0.18)'
+    : 'rgba(101,118,255,0.15)'
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: '100%' }}>
@@ -42,10 +49,10 @@ export default function Input({
           htmlFor={id}
           style={{
             fontSize: '0.6875rem',
-            fontWeight: 700,
-            letterSpacing: '0.12em',
+            fontWeight: 600,
+            letterSpacing: '0.08em',
             textTransform: 'uppercase',
-            color: error ? '#F9C0C0' : '#B8956A',
+            color: error ? dangerText : textMid,
             lineHeight: 1,
             userSelect: 'none',
           }}
@@ -61,8 +68,8 @@ export default function Input({
           clipPath: octagon(s.cx),
           background: borderColor,
           transition: 'background 150ms ease, filter 150ms ease',
-          filter: (isFocused || error) ? `drop-shadow(0 0 6px ${glowColor})` : undefined,
-          opacity: disabled ? 0.5 : 1,
+          filter: (isFocused || error) ? `drop-shadow(0 0 5px ${glowColor})` : undefined,
+          opacity: disabled ? 0.45 : 1,
           flexShrink: 0,
         }}
       >
@@ -71,13 +78,20 @@ export default function Input({
             position: 'absolute',
             inset: 1,
             clipPath: octagon(Math.max(s.cx - 1, 0)),
-            background: innerBg,
+            background: surface2,
             display: 'flex',
             alignItems: 'center',
           }}
         >
           {leadingIcon && (
-            <span style={{ position: 'absolute', left: s.px, display: 'flex', alignItems: 'center', width: 16, height: 16, color: '#FFC183', flexShrink: 0, pointerEvents: 'none' }}>
+            <span style={{
+              position: 'absolute', left: s.px,
+              display: 'flex', alignItems: 'center',
+              width: 16, height: 16,
+              color: isFocused ? accent : textMid,
+              flexShrink: 0, pointerEvents: 'none',
+              transition: 'color 150ms',
+            }}>
               {leadingIcon}
             </span>
           )}
@@ -98,13 +112,20 @@ export default function Input({
               paddingLeft:  leadingIcon  ? s.px + 24 : s.px,
               paddingRight: trailingIcon ? s.px + 24 : s.px,
               fontSize: s.fontSize,
-              color: '#F0E6D3',
-              caretColor: '#FFC183',
+              color: textHigh,
+              caretColor: accent,
             }}
             {...props}
           />
           {trailingIcon && (
-            <span style={{ position: 'absolute', right: s.px, display: 'flex', alignItems: 'center', width: 16, height: 16, color: '#FFC183', flexShrink: 0, pointerEvents: 'none' }}>
+            <span style={{
+              position: 'absolute', right: s.px,
+              display: 'flex', alignItems: 'center',
+              width: 16, height: 16,
+              color: isFocused ? accent : textMid,
+              flexShrink: 0, pointerEvents: 'none',
+              transition: 'color 150ms',
+            }}>
               {trailingIcon}
             </span>
           )}
@@ -112,12 +133,12 @@ export default function Input({
       </div>
 
       {(error || hint) && (
-        <p style={{ fontSize: '0.6875rem', lineHeight: 1.4, color: error ? '#F9C0C0' : '#8F7458', margin: 0 }}>
+        <p style={{ fontSize: '0.6875rem', lineHeight: 1.4, color: error ? dangerText : textMid, margin: 0 }}>
           {error || hint}
         </p>
       )}
 
-      <style>{`input::placeholder { color: #8F7458; }`}</style>
+      <style>{`input::placeholder { color: ${textLow}; }`}</style>
     </div>
   )
 }

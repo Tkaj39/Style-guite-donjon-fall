@@ -1,6 +1,7 @@
 import { useId } from 'react'
 import { octagon, clipLeft, clipRight } from '../../utils/octagon'
 import { SideOrnament, HexOrnament } from '../tkajui/Ornaments'
+import { gold, goldDim, bgInactive, VARIANT_BG, VARIANT_TITLE_GRAD } from './tokens'
 
 const sizeMap = {
   xs: { h: 32, cx: 9.61,  px: 10, fontSize: '0.6875rem' },
@@ -52,7 +53,7 @@ export default function DonjonButtonGroup({
                 aria-hidden="true"
                 style={{
                   width: 1, height: 20,
-                  background: '#8F7458',
+                  background: goldDim,
                   opacity: 0.4,
                   flexShrink: 0,
                 }}
@@ -69,8 +70,8 @@ export default function DonjonButtonGroup({
                 paddingRight: padR,
                 clipPath,
                 background: isActive
-                  ? 'linear-gradient(150deg,#353751 0%,#2A2948 70%)'
-                  : 'linear-gradient(150deg,#232238 0%,#1B1A30 70%)',
+                  ? VARIANT_BG.default
+                  : `linear-gradient(150deg,${bgInactive} 0%,#1B1A30 70%)`,
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -91,8 +92,8 @@ export default function DonjonButtonGroup({
                 <span style={{
                   width: iconSize, height: iconSize,
                   display: 'flex', alignItems: 'center', flexShrink: 0,
-                  color: isActive ? '#FFC183' : '#8F7458',
-                  filter: isActive ? 'drop-shadow(0 0 3px #FFC18366)' : undefined,
+                  color: isActive ? gold : goldDim,
+                  filter: isActive ? `drop-shadow(0 0 3px ${gold}66)` : undefined,
                   position: 'relative',
                 }}>
                   {item.icon}
@@ -108,12 +109,12 @@ export default function DonjonButtonGroup({
                 fontSize: s.fontSize,
                 transition: 'font-size 200ms',
                 ...(isActive ? {
-                  backgroundImage: 'linear-gradient(180deg,#F9F9F9 0%,#B8956A 100%)',
+                  backgroundImage: VARIANT_TITLE_GRAD.default,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
                 } : {
-                  color: '#8F7458',
+                  color: goldDim,
                 }),
               }}>
                 {item.label}

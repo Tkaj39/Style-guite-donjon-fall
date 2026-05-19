@@ -1,11 +1,20 @@
 import { octagon } from '../../utils/octagon'
+import {
+  accent, accentBg, accentBorder,
+  surface3, borderDefault, textHigh, textMid,
+  successColor, successBg, successBorder, successText,
+  dangerColor, dangerBg, dangerBorder, dangerText,
+  warningColor, warningBg, warningBorder, warningText,
+  infoColor, infoBg, infoBorder, infoText,
+} from './tokens'
 
 const variantMap = {
-  default: { bg: '#2A2948', border: '#8F7458', text: '#B8956A', dot: '#FFC183' },
-  success: { bg: '#183D20', border: '#40A055', text: '#C0F0C8', dot: '#40A055' },
-  danger:  { bg: '#3D1818', border: '#C04040', text: '#F9C0C0', dot: '#C04040' },
-  warning: { bg: '#3D2E10', border: '#C08040', text: '#FFD580', dot: '#C08040' },
-  info:    { bg: '#102040', border: '#4080C0', text: '#A0C8F0', dot: '#4080C0' },
+  default: { bg: surface3,    border: borderDefault, text: textMid,      dot: textMid      },
+  primary: { bg: accentBg,    border: accentBorder,  text: accent,        dot: accent        },
+  success: { bg: successBg,   border: successBorder,  text: successText,   dot: successColor  },
+  danger:  { bg: dangerBg,    border: dangerBorder,   text: dangerText,    dot: dangerColor   },
+  warning: { bg: warningBg,   border: warningBorder,  text: warningText,   dot: warningColor  },
+  info:    { bg: infoBg,      border: infoBorder,     text: infoText,      dot: infoColor     },
 }
 
 const sizeMap = {
@@ -15,8 +24,8 @@ const sizeMap = {
 
 /**
  * Badge — TkajUI základní odznak.
- * Oktagonální tvar, bez Ornaments.
- * DonjonBadge je re-export — obě jsou vizuálně identické (Badge nemá ornaments).
+ * Oktagonální tvar, čistá UI paleta.
+ * Varianty: default | primary | success | danger | warning | info
  */
 export default function Badge({
   children,
@@ -42,8 +51,8 @@ export default function Badge({
           paddingTop: s.py,
           paddingBottom: s.py,
           fontSize: s.fontSize,
-          fontWeight: 700,
-          letterSpacing: '0.1em',
+          fontWeight: 600,
+          letterSpacing: '0.06em',
           textTransform: 'uppercase',
           color: v.text,
           lineHeight: 1,

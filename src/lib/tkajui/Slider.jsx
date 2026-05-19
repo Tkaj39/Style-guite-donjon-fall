@@ -1,15 +1,42 @@
 /* ── Slider ─────────────────────────────────────────────────────────────
    Vlastní range input — nativní <input type="range"> překryje průhlednou
-   vrstvou náš vizuál, takže drag/kláves chování dostaneme zadarmo.
-   Navazuje vizuálně na ProgressBar (gradient, glow, stejné varianty).
+   vrstvou náš vizuál. Vizuálně navazuje na ProgressBar.
+   Čistá TkajUI paleta.
    ─────────────────────────────────────────────────────────────────────── */
 
+import {
+  surface2,
+  accent, accentDim,
+  textMid, textLow,
+  successColor, successBorder, successDim,
+  dangerColor, dangerBorder, dangerDim,
+  warningColor, warningBorder, warningDim,
+  infoColor, infoBorder, infoDim,
+} from './tokens'
+
 const VARIANTS = {
-  default: { fill: 'linear-gradient(90deg,#FFC183 0%,#8F7458 100%)', thumb: '#B8956A', glow: '#B8956A', border: '#8F745440' },
-  success: { fill: 'linear-gradient(90deg,#60C070 0%,#40A055 100%)', thumb: '#40A055', glow: '#40A055', border: '#40A05540' },
-  danger:  { fill: 'linear-gradient(90deg,#E06060 0%,#C04040 100%)', thumb: '#C04040', glow: '#C04040', border: '#C0404040' },
-  warning: { fill: 'linear-gradient(90deg,#FFD580 0%,#C08040 100%)', thumb: '#C08040', glow: '#C08040', border: '#C0804040' },
-  info:    { fill: 'linear-gradient(90deg,#60A0E0 0%,#4080C0 100%)', thumb: '#4080C0', glow: '#4080C0', border: '#4080C040' },
+  default: {
+    fill:  `linear-gradient(90deg,${accent} 0%,${accentDim} 100%)`,
+    thumb: accent,
+    glow:  accent,
+    border: `${accent}33`,
+  },
+  success: {
+    fill:  `linear-gradient(90deg,${successColor} 0%,${successDim} 100%)`,
+    thumb: successColor, glow: successColor, border: successBorder,
+  },
+  danger: {
+    fill:  `linear-gradient(90deg,${dangerColor} 0%,${dangerDim} 100%)`,
+    thumb: dangerColor, glow: dangerColor, border: dangerBorder,
+  },
+  warning: {
+    fill:  `linear-gradient(90deg,${warningColor} 0%,${warningDim} 100%)`,
+    thumb: warningColor, glow: warningColor, border: warningBorder,
+  },
+  info: {
+    fill:  `linear-gradient(90deg,${infoColor} 0%,${infoDim} 100%)`,
+    thumb: infoColor, glow: infoColor, border: infoBorder,
+  },
 }
 
 const SIZES = {
@@ -40,16 +67,15 @@ export default function Slider({
   return (
     <div style={{ width: '100%', opacity: disabled ? 0.45 : 1 }}>
 
-      {/* Header row */}
       {(label || showValue) && (
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 }}>
           {label && (
-            <span style={{ fontSize: s.fontSize, color: '#8F9CB3', letterSpacing: '0.04em' }}>{label}</span>
+            <span style={{ fontSize: s.fontSize, color: textMid, letterSpacing: '0.04em' }}>{label}</span>
           )}
           {showValue && (
             <span style={{
-              fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em',
-              color: '#B8956A', marginLeft: 'auto',
+              fontSize: '0.6875rem', fontWeight: 600, letterSpacing: '0.06em',
+              color: v.thumb, marginLeft: 'auto',
             }}>
               {displayValue}
             </span>
@@ -57,7 +83,6 @@ export default function Slider({
         </div>
       )}
 
-      {/* Track wrapper */}
       <div style={{ position: 'relative', height: s.thumbD, display: 'flex', alignItems: 'center' }}>
 
         {/* Visual track */}
@@ -65,13 +90,12 @@ export default function Slider({
           position: 'absolute',
           left: 0, right: 0,
           height: s.trackH,
-          background: '#12102A',
+          background: surface2,
           borderRadius: s.radius,
           border: `1px solid ${v.border}`,
           overflow: 'hidden',
           pointerEvents: 'none',
         }}>
-          {/* Fill */}
           <div style={{
             height: '100%',
             width: `${pct}%`,
@@ -89,14 +113,14 @@ export default function Slider({
           width: s.thumbD,
           height: s.thumbD,
           borderRadius: '50%',
-          background: `radial-gradient(circle at 35% 35%, ${v.thumb}EE, ${v.thumb}88)`,
-          border: `2px solid ${v.thumb}`,
-          boxShadow: `0 0 8px ${v.glow}66, 0 2px 4px rgba(0,0,0,0.4)`,
+          background: v.thumb,
+          border: `2px solid #ffffff22`,
+          boxShadow: `0 0 6px ${v.glow}55, 0 2px 4px rgba(0,0,0,0.4)`,
           pointerEvents: 'none',
           transition: 'left 0.05s',
         }} />
 
-        {/* Native input — transparent, handles interaction */}
+        {/* Native input */}
         <input
           type="range"
           min={min}
@@ -121,12 +145,11 @@ export default function Slider({
         />
       </div>
 
-      {/* Min / max hints */}
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 4 }}>
-        <span style={{ fontSize: '0.625rem', color: '#4A4870', letterSpacing: '0.05em' }}>
+        <span style={{ fontSize: '0.625rem', color: textLow, letterSpacing: '0.05em' }}>
           {formatValue ? formatValue(min) : min}
         </span>
-        <span style={{ fontSize: '0.625rem', color: '#4A4870', letterSpacing: '0.05em' }}>
+        <span style={{ fontSize: '0.625rem', color: textLow, letterSpacing: '0.05em' }}>
           {formatValue ? formatValue(max) : max}
         </span>
       </div>

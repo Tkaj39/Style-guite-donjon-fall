@@ -8,6 +8,7 @@
  *   Props: uid, flip (bottom variant), edgePadL/R (outer line inset), textPadL/R (inner line inset),
  *          hexOffsetX (horizontal shift of hexagon for asymmetric layouts)
  */
+import { gold, goldDim, bg4 } from '../donjon/tokens'
 
 export function SideOrnament({ h, uid, flip }) {
   const w  = Math.round(24 * (h / 66) * 10) / 10 - 2
@@ -30,12 +31,12 @@ export function SideOrnament({ h, uid, flip }) {
     >
       <defs>
         <linearGradient id={`${uid}-v`} x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-          <stop stopColor="#FFC183" />
-          <stop offset="1" stopColor="#8F7458" />
+          <stop stopColor={gold} />
+          <stop offset="1" stopColor={goldDim} />
         </linearGradient>
         <linearGradient id={`${uid}-h`} x1="1" y1="0" x2="0" y2="0" gradientUnits="objectBoundingBox">
-          <stop stopColor="#FFC183" />
-          <stop offset="1" stopColor="#8F7458" />
+          <stop stopColor={gold} />
+          <stop offset="1" stopColor={goldDim} />
         </linearGradient>
       </defs>
 
@@ -52,7 +53,7 @@ export function SideOrnament({ h, uid, flip }) {
       <path d="M23.2658 4.5297C23.3323 4.458 23.3702 4.36342 23.3693 4.26505C23.3685 4.1667 23.3293 4.07291 23.26 4.00399C23.1908 3.93506 23.0968 3.8963 22.9984 3.89591C22.9001 3.8955 22.8057 3.93377 22.7343 4.0006C21.8663 4.81353 20.9998 5.62794 20.1348 6.44381C15.0848 11.2071 10.085 16.0204 5.13558 20.8838L4.86693 21.1478L4.86253 21.5452C4.82088 25.3029 4.80005 29.0606 4.80005 32.8183C4.80005 36.6606 4.82182 40.5029 4.86538 44.3452L4.86106 44.7262L5.14458 45.0115C10.0852 49.7627 15.0743 54.4644 20.1121 59.1168C20.9856 59.9235 21.8606 60.7287 22.7371 61.5325C22.8092 61.5986 22.904 61.6358 23.0023 61.6344C23.1007 61.633 23.1942 61.5932 23.2627 61.5236C23.3313 61.4539 23.3695 61.3597 23.3693 61.2614C23.3691 61.163 23.3303 61.0688 23.263 60.9978C22.445 60.1347 21.6255 59.273 20.8046 58.4128C16.0701 53.4521 11.2871 48.5408 6.45552 43.6789L6.73472 44.3452C6.77827 40.5029 6.80005 36.6606 6.80005 32.8183C6.80005 29.0606 6.77922 25.3029 6.73757 21.5452L6.46451 22.2066C11.3049 17.2347 16.095 12.2126 20.8347 7.14045C21.6466 6.27167 22.4569 5.40142 23.2658 4.5297Z" fill={g} />
 
       {/* diamond */}
-      <path d="M7.27832 33.0152C7.36763 33.1699 7.36763 33.3605 7.27832 33.5152L5.85547 35.979C5.76619 36.1337 5.60141 36.229 5.42285 36.229L2.57715 36.229C2.39859 36.229 2.23381 36.1337 2.14453 35.979L0.72168 33.5152C0.643532 33.3798 0.633775 33.217 0.692383 33.0747L0.72168 33.0152L2.14453 30.5513C2.23381 30.3967 2.39859 30.3014 2.57715 30.3013L5.42285 30.3013C5.60141 30.3014 5.76619 30.3967 5.85547 30.5513L7.27832 33.0152Z" fill="#2A2948" stroke={gh} />
+      <path d="M7.27832 33.0152C7.36763 33.1699 7.36763 33.3605 7.27832 33.5152L5.85547 35.979C5.76619 36.1337 5.60141 36.229 5.42285 36.229L2.57715 36.229C2.39859 36.229 2.23381 36.1337 2.14453 35.979L0.72168 33.5152C0.643532 33.3798 0.633775 33.217 0.692383 33.0747L0.72168 33.0152L2.14453 30.5513C2.23381 30.3967 2.39859 30.3014 2.57715 30.3013L5.42285 30.3013C5.60141 30.3014 5.76619 30.3967 5.85547 30.5513L7.27832 33.0152Z" fill={bg4} stroke={gh} />
 
       {/* top small rect */}
       <rect x="15.1799" y="12.1652" width="2.04" height="2.04" rx="0.5" transform="rotate(90 15.1799 12.1652)" fill={g} stroke={g} />
@@ -96,7 +97,7 @@ export function HexOrnament({
         right: padR + 1,
         top: 2,
         height: 1,
-        background: 'linear-gradient(90deg,#8F7458 0%,#FFC183 50%,#8F7458 100%)',
+        background: `linear-gradient(90deg,${goldDim} 0%,${gold} 50%,${goldDim} 100%)`,
       }} />
       {/* inner line */}
       <div style={{
@@ -105,7 +106,7 @@ export function HexOrnament({
         right: innerR,
         bottom: 1,
         height: 1,
-        background: 'linear-gradient(90deg,#8F7458 0%,#FFC183 50%,#8F7458 100%)',
+        background: `linear-gradient(90deg,${goldDim} 0%,${gold} 50%,${goldDim} 100%)`,
       }} />
       {/* hexagon */}
       <svg
@@ -121,13 +122,13 @@ export function HexOrnament({
       >
         <defs>
           <linearGradient id={`${uid}-hg`} x1="21.1848" y1="0" x2="21.1848" y2="7" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#FFC183" />
-            <stop offset="1" stopColor="#8F7458" />
+            <stop stopColor={gold} />
+            <stop offset="1" stopColor={goldDim} />
           </linearGradient>
         </defs>
         <path
           d="M20.9348 0.72168C21.0895 0.632366 21.2801 0.632366 21.4348 0.72168L23.4661 1.89453C23.6206 1.98384 23.716 2.14867 23.7161 2.32715V4.67285C23.716 4.85133 23.6206 5.01616 23.4661 5.10547L21.4348 6.27832C21.2801 6.36763 21.0895 6.36763 20.9348 6.27832L18.9036 5.10547C18.749 5.01616 18.6536 4.85133 18.6536 4.67285V2.32715C18.6536 2.14867 18.749 1.98384 18.9036 1.89453L20.9348 0.72168Z"
-          fill="#2A2948"
+          fill={bg4}
           stroke={g}
         />
       </svg>

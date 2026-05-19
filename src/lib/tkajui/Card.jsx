@@ -1,23 +1,34 @@
 import { octagon } from '../../utils/octagon'
+import {
+  surface2, surface3, surface4,
+  borderDefault, borderMid,
+  textHigh, textMid,
+  accent,
+  dangerColor, dangerBg, dangerBorder, dangerText, dangerHeaderBg, dangerDescColor,
+  successColor, successBg, successBorder, successText, successHeaderBg, successDescColor,
+} from './tokens'
 
 const variants = {
   default: {
-    bg: 'linear-gradient(150deg,#353751 0%,#2A2948 70%)',
-    border: '#8F7458',
-    headerBg: 'linear-gradient(150deg,#3D3A5C 0%,#2E2B50 70%)',
-    titleGrad: 'linear-gradient(180deg,#F9F9F9 0%,#B8956A 100%)',
+    bg:        surface3,
+    border:    borderDefault,
+    headerBg:  surface4,
+    titleGrad: `linear-gradient(180deg,${textHigh} 0%,${textMid} 100%)`,
+    descColor: textMid,
   },
   danger: {
-    bg: 'linear-gradient(150deg,#3D1818 0%,#250A0A 70%)',
-    border: '#C04040',
-    headerBg: 'linear-gradient(150deg,#4A1A1A 0%,#2E0C0C 70%)',
-    titleGrad: 'linear-gradient(180deg,#F9C0C0 0%,#C04040 100%)',
+    bg:        dangerBg,
+    border:    dangerBorder,
+    headerBg:  dangerHeaderBg,
+    titleGrad: `linear-gradient(180deg,${dangerText} 0%,${dangerColor} 100%)`,
+    descColor: dangerDescColor,
   },
   success: {
-    bg: 'linear-gradient(150deg,#183D20 0%,#0A250E 70%)',
-    border: '#40A055',
-    headerBg: 'linear-gradient(150deg,#1E4A28 0%,#0D2E12 70%)',
-    titleGrad: 'linear-gradient(180deg,#C0F0C8 0%,#40A055 100%)',
+    bg:        successBg,
+    border:    successBorder,
+    headerBg:  successHeaderBg,
+    titleGrad: `linear-gradient(180deg,${successText} 0%,${successColor} 100%)`,
+    descColor: successDescColor,
   },
 }
 
@@ -79,7 +90,7 @@ export default function Card({
               </h3>
             )}
             {description && (
-              <p style={{ margin: '4px 0 0', fontSize: '0.75rem', color: '#8F7458', lineHeight: 1.4 }}>
+              <p style={{ margin: '4px 0 0', fontSize: '0.75rem', color: v.descColor, lineHeight: 1.4 }}>
                 {description}
               </p>
             )}

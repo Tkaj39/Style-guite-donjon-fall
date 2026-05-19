@@ -32,6 +32,7 @@ export default function ScrollbarPage() {
     <ShowcasePage
       title="Scrollbar Styling"
       description="Vlastní scrollbar odpovídá tmavé paletě Donjon Fall. Webkit scrollbar API + scrollbar-width pro Firefox."
+      library="donjon"
     >
 
       {/* Live ukázky */}

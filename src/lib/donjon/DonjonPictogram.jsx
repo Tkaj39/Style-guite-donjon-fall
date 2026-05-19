@@ -17,16 +17,17 @@
  */
 
 import { octagon } from '../../utils/octagon'
+import { gold, goldDim, bg0, bg1, bg2, borderDefault, borderMid, VARIANT_BORDER } from './tokens'
 
 const SIZES = { sm: 16, md: 24, lg: 32, xl: 48 }
 
 // Donjon barevná paleta variant
 const VARIANTS = {
-  active:   { color: '#FFC183', bg: '#1C1830', border: '#FFC18333', glow: '0 0 10px #FFC18333' },
-  passive:  { color: '#8F7458', bg: '#161424', border: '#8F745833', glow: 'none' },
-  disabled: { color: '#3A3A52', bg: '#111020', border: '#2A2848',   glow: 'none' },
-  danger:   { color: '#C04040', bg: '#1C1020', border: '#C0404033', glow: '0 0 8px #C0404022' },
-  success:  { color: '#40A055', bg: '#101C14', border: '#40A05533', glow: '0 0 8px #40A05522' },
+  active:   { color: gold,            bg: bg2,    border: `${gold}33`,                    glow: `0 0 10px ${gold}33` },
+  passive:  { color: goldDim,         bg: bg1,    border: `${goldDim}33`,                 glow: 'none' },
+  disabled: { color: borderDefault,   bg: bg0,    border: borderMid,                      glow: 'none' },
+  danger:   { color: VARIANT_BORDER.danger,  bg: '#1C1020', border: `${VARIANT_BORDER.danger}33`,  glow: `0 0 8px ${VARIANT_BORDER.danger}22` },
+  success:  { color: VARIANT_BORDER.success, bg: '#101C14', border: `${VARIANT_BORDER.success}33`, glow: `0 0 8px ${VARIANT_BORDER.success}22` },
 }
 
 // Padding obklopující ikonu (proporcionální k velikosti)

@@ -1,13 +1,23 @@
 /* ── Toggle / Switch ────────────────────────────────────────────────────
    Přepínač on/off s animovaným thumbem. Pill tvar — kontrast k ostatním
    oktagonálním prvkům. Varianty, velikosti, label vlevo/vpravo, disabled.
+   Čistá TkajUI paleta.
    ─────────────────────────────────────────────────────────────────────── */
 
+import {
+  accent, accentBg, accentBorder,
+  surface2, borderDefault, borderMid,
+  textHigh, textMid, textLow,
+  successColor, successBg, successBorder,
+  dangerColor, dangerBg, dangerBorder,
+  warningColor, warningBg, warningBorder,
+} from './tokens'
+
 const VARIANTS = {
-  default: { border: '#8F7458', bg: '#8F745822', thumb: '#B8956A' },
-  success: { border: '#40A055', bg: '#40A05522', thumb: '#40A055' },
-  danger:  { border: '#C04040', bg: '#C0404022', thumb: '#C04040' },
-  warning: { border: '#C08040', bg: '#C0804022', thumb: '#C08040' },
+  default: { border: accent,        bg: accentBg,    thumb: accent       },
+  success: { border: successColor,  bg: successBg,   thumb: successColor  },
+  danger:  { border: dangerColor,   bg: dangerBg,    thumb: dangerColor   },
+  warning: { border: warningColor,  bg: warningBg,   thumb: warningColor  },
 }
 
 const SIZES = {
@@ -38,10 +48,8 @@ export default function Toggle({
     width: s.trackW,
     height: s.trackH,
     borderRadius: s.trackH / 2,
-    border: `1.5px solid ${checked ? v.border : '#8F745444'}`,
-    background: checked
-      ? v.bg
-      : 'linear-gradient(135deg,#1A1830 0%,#12102A 100%)',
+    border: `1.5px solid ${checked ? v.border : borderDefault}`,
+    background: checked ? v.bg : surface2,
     cursor: disabled ? 'not-allowed' : 'pointer',
     transition: 'border-color 0.18s, background 0.18s',
     flexShrink: 0,
@@ -55,8 +63,8 @@ export default function Toggle({
     width: s.thumb,
     height: s.thumb,
     borderRadius: '50%',
-    background: checked ? v.thumb : '#4A4870',
-    boxShadow: checked ? `0 0 6px ${v.thumb}66` : 'none',
+    background: checked ? v.thumb : borderMid,
+    boxShadow: checked ? `0 0 6px ${v.thumb}55` : 'none',
     transform: `translateX(${checked ? thumbTravel : 0}px)`,
     transition: 'transform 0.18s ease, background 0.18s, box-shadow 0.18s',
     pointerEvents: 'none',
@@ -64,7 +72,7 @@ export default function Toggle({
 
   const labelStyle = {
     fontSize: s.fontSize,
-    color: disabled ? '#4A4870' : (checked ? '#F0E6D3' : '#8F9CB3'),
+    color: disabled ? textLow : (checked ? textHigh : textMid),
     userSelect: 'none',
     cursor: disabled ? 'not-allowed' : 'pointer',
     transition: 'color 0.18s',
@@ -93,7 +101,7 @@ export default function Toggle({
       style={trackStyle}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-      onFocus={e => { if (!disabled) e.currentTarget.style.boxShadow = `0 0 0 2px ${v.border}55` }}
+      onFocus={e => { if (!disabled) e.currentTarget.style.boxShadow = `0 0 0 2px ${v.border}44` }}
       onBlur={e => { e.currentTarget.style.boxShadow = 'none' }}
     >
       <div style={thumbStyle} />

@@ -350,6 +350,7 @@ export default function SettingsPage() {
     <ShowcasePage
       title="Nastavení"
       description="Modální dialog nastavení — zobrazí se jako overlay přes aktivní herní obrazovku. Obsahuje čtyři taby: Zvuk, Jazyk, Ovládání, Grafika."
+      library="donjon"
     >
       <Section
         id="desktop"

@@ -1,30 +1,44 @@
-import { ShowcasePage, Section } from '../styleguide/ShowcasePage'
+import { useLibVariant, ShowcasePage, Section } from '../styleguide/ShowcasePage'
+import * as T from '../lib/tkajui/tokens'
+import * as D from '../lib/donjon/tokens'
 
-function Swatch({ name, hex, large = false }) {
+/* ── Swatch ── */
+function Swatch({ name, hex, note, large = false, textPreview }) {
   return (
     <div className="flex flex-col gap-1.5">
       <div
-        className={`rounded border border-white/10 w-full ${large ? 'h-16' : 'h-10'}`}
+        className={`rounded border border-white/8 w-full ${large ? 'h-16' : 'h-10'} flex items-center justify-center`}
         style={{ background: hex }}
-      />
+      >
+        {textPreview && (
+          <span style={{ fontSize: '0.625rem', fontWeight: 600, color: '#ffffff88' }}>
+            {textPreview}
+          </span>
+        )}
+      </div>
       <div>
         <p className="text-xs font-medium text-neutral-300 leading-tight">{name}</p>
+        {note && <p className="text-xs text-neutral-600 leading-tight">{note}</p>}
         <p className="text-xs text-neutral-500 font-mono">{hex}</p>
       </div>
     </div>
   )
 }
 
-function SwatchRow({ swatches }) {
+function Block({ label, description, swatches, cols = 'grid-cols-3 sm:grid-cols-6' }) {
   return (
-    <div className="rounded-xl border border-neutral-800 bg-neutral-900 p-4 sm:p-6">
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        {swatches.map((s) => (
-          <Swatch key={s.hex + s.name} {...s} />
-        ))}
+    <div>
+      <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-1">{label}</p>
+      {description && <p className="text-xs text-neutral-600 mb-4">{description}</p>}
+      <div className={`grid ${cols} gap-3`}>
+        {swatches.map(s => <Swatch key={s.hex + s.name} {...s} />)}
       </div>
     </div>
   )
+}
+
+function Divider() {
+  return <div className="border-t border-neutral-800" />
 }
 
 const players = [
@@ -36,235 +50,344 @@ const players = [
   { label: 'Hráč 6', name: 'Ocelová',   primary: '#5080A0', light: '#B8D8F0', dark: '#142030' },
 ]
 
-export default function ColorsPage() {
+/* ── TkajUI ── */
+function TkajuiPaleta() {
   return (
-    <ShowcasePage
-      title="Colors"
-      description="Barevná paleta Donjon Fall — hráčské barvy, stavy herní plochy, plánování tahu a globální barvy UI."
-    >
-      {/* Barvy hráčů */}
+    <div className="rounded-xl border border-neutral-800 bg-neutral-900 p-4 sm:p-6 flex flex-col gap-6">
+      <Block
+        label="Pozadí & povrchy"
+        description="Chladné slate odstíny — kontrast skrze kroky, žádné teplé fialové tóny."
+        cols="grid-cols-3 sm:grid-cols-6"
+        swatches={[
+          { name: 'surface0', hex: T.surface0,      note: 'Stránka' },
+          { name: 'surface1', hex: T.surface1,      note: 'Base dark' },
+          { name: 'surface2', hex: T.surface2,      note: 'Input / card' },
+          { name: 'surface3', hex: T.surface3,      note: 'Elevated' },
+          { name: 'surface4', hex: T.surface4,      note: 'Hover' },
+          { name: 'border',   hex: T.borderDefault, note: 'Default border' },
+        ]}
+      />
+      <Divider />
+      <Block
+        label="Akcent — interaktivní modrá"
+        description="Focus ring, checked stav, primary button, caret, links."
+        cols="grid-cols-3"
+        swatches={[
+          { name: 'accent',       hex: T.accent,      note: 'Primární', large: true },
+          { name: 'accentLight',  hex: T.accentLight, note: 'Hover',    large: true },
+          { name: 'accentDim',    hex: T.accentDim,   note: 'Pressed',  large: true },
+        ]}
+      />
+      <Divider />
+      <Block
+        label="Texty"
+        description="Hierarchie přes odstíny — žádné teplé tóny."
+        cols="grid-cols-2 sm:grid-cols-4"
+        swatches={[
+          { name: 'textHigh',     hex: T.textHigh,     note: 'Nadpisy, obsah',    textPreview: 'Aa' },
+          { name: 'textMid',      hex: T.textMid,      note: 'Labely, hints',     textPreview: 'Aa' },
+          { name: 'textLow',      hex: T.textLow,      note: 'Placeholder',       textPreview: 'Aa' },
+          { name: 'textDisabled', hex: T.textDisabled, note: 'Neaktivní',         textPreview: 'Aa' },
+        ]}
+      />
+      <Divider />
+      <Block
+        label="Sémantické barvy"
+        cols="grid-cols-2 sm:grid-cols-4"
+        swatches={[
+          { name: 'success', hex: T.successColor, note: 'Úspěch',    large: true },
+          { name: 'danger',  hex: T.dangerColor,  note: 'Chyba',     large: true },
+          { name: 'warning', hex: T.warningColor, note: 'Varování',  large: true },
+          { name: 'info',    hex: T.infoColor,    note: 'Informace', large: true },
+        ]}
+      />
+      <Divider />
+      <Block
+        label="Sémantická pozadí"
+        description="Pro badge / toast / alert kontejnery."
+        cols="grid-cols-2 sm:grid-cols-4"
+        swatches={[
+          { name: 'successBg', hex: T.successBg, note: 'Success' },
+          { name: 'dangerBg',  hex: T.dangerBg,  note: 'Danger'  },
+          { name: 'warningBg', hex: T.warningBg, note: 'Warning' },
+          { name: 'infoBg',    hex: T.infoBg,    note: 'Info'    },
+        ]}
+      />
+    </div>
+  )
+}
+
+function TkajuiVsDonjon() {
+  return (
+    <div className="rounded-xl border border-neutral-800 overflow-hidden">
+      <div className="grid grid-cols-2 border-b border-neutral-800 bg-neutral-950">
+        <div className="p-3 flex items-center gap-2 border-r border-neutral-800">
+          <div className="w-2 h-2 rounded-full bg-[#6576ff] flex-shrink-0" />
+          <span className="text-xs font-semibold text-neutral-300">TkajUI</span>
+        </div>
+        <div className="p-3 flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-[#FFC183] flex-shrink-0" />
+          <span className="text-xs font-semibold text-neutral-300">donjon-fall-ui</span>
+        </div>
+      </div>
+      {[
+        { label: 'Akcent',    tkajui: T.accent,        tkNote: 'Chladná modrá',    donjon: D.gold,      dnNote: 'Teplá zlatá'   },
+        { label: 'Surface',   tkajui: T.surface2,      tkNote: 'Slate, bez tónu',  donjon: D.bgInactive,dnNote: 'Teplá fialová' },
+        { label: 'Border',    tkajui: T.borderDefault, tkNote: 'Neutrální šedá',   donjon: D.goldDim,   dnNote: 'Bronze / gold' },
+        { label: 'Text mid',  tkajui: T.textMid,       tkNote: 'Cool grey',        donjon: D.goldMid,   dnNote: 'Muted gold'    },
+        { label: 'Text caret',tkajui: T.accent,        tkNote: 'Accent blue',      donjon: D.gold,      dnNote: 'Gold 300'      },
+      ].map((row, i, arr) => (
+        <div key={row.label} className={`grid grid-cols-2 ${i < arr.length - 1 ? 'border-b border-neutral-800' : ''}`}>
+          <div className="p-3 flex items-center gap-3 border-r border-neutral-800">
+            <div className="w-8 h-8 rounded flex-shrink-0 border border-white/10" style={{ background: row.tkajui }} />
+            <div>
+              <p className="text-xs font-medium text-neutral-300">{row.label}</p>
+              <p className="text-[10px] text-neutral-500">{row.tkNote}</p>
+              <p className="text-[10px] font-mono text-neutral-600">{row.tkajui}</p>
+            </div>
+          </div>
+          <div className="p-3 flex items-center gap-3">
+            <div className="w-8 h-8 rounded flex-shrink-0 border border-white/10" style={{ background: row.donjon }} />
+            <div>
+              <p className="text-xs font-medium text-neutral-300">{row.label}</p>
+              <p className="text-[10px] text-neutral-500">{row.dnNote}</p>
+              <p className="text-[10px] font-mono text-neutral-600">{row.donjon}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/* ── donjon-fall-ui ── */
+function DonjonPaleta() {
+  return (
+    <div className="rounded-xl border border-neutral-800 bg-neutral-900 p-4 sm:p-6 flex flex-col gap-6">
+      <Block
+        label="Pozadí & povrchy"
+        description="Teplé fialové — atmosféra hlubokého dungeonu. Komponenty používají gradienty mezi kroky."
+        cols="grid-cols-3 sm:grid-cols-6"
+        swatches={[
+          { name: 'Background', hex: '#0F0E1A',      note: 'Stránka'        },
+          { name: 'Surface',    hex: '#1A1928',      note: 'Základní'       },
+          { name: 'Surface +1', hex: D.bgInactive,   note: 'Komponenty'     },
+          { name: 'Surface +2', hex: D.bg4,          note: 'Zvýšené'        },
+          { name: 'Surface +3', hex: D.borderDefault,note: 'Aktivní/border' },
+          { name: 'Surface +4', hex: '#3D3A5C',      note: 'Header panely'  },
+        ]}
+      />
+      <Divider />
+      <Block
+        label="Zlaté akcenty"
+        description='Teplý amber — herní "prestige" feeling. Záměrně odlišné od hráčské žluté #A09020.'
+        cols="grid-cols-3"
+        swatches={[
+          { name: 'Gold 300', hex: D.gold,    note: 'Focus, ikony, caret', large: true },
+          { name: 'Gold 500', hex: D.goldMid, note: 'Labely, text',        large: true },
+          { name: 'Gold 700', hex: D.goldDim, note: 'Bordery, muted',      large: true },
+        ]}
+      />
+      <Divider />
+      <Block
+        label="Texty"
+        description="Teplá bílá — atmosférické, ne klinicky čisté."
+        cols="grid-cols-2 sm:grid-cols-4"
+        swatches={[
+          { name: 'Primární',  hex: '#F9F9F9',       note: 'Nadpisy',          textPreview: 'Aa' },
+          { name: 'Teplá',     hex: D.textActive,    note: 'Tělo, inputy',     textPreview: 'Aa' },
+          { name: 'Ztlumená',  hex: D.textDisabled,  note: 'Popisy, nápověda', textPreview: 'Aa' },
+          { name: 'Disabled',  hex: '#3A3A52',       note: 'Neaktivní',        textPreview: 'Aa' },
+        ]}
+      />
+    </div>
+  )
+}
+
+function DonjonHraci() {
+  return (
+    <div className="flex flex-col gap-4">
+      {/* Tabulka trojic */}
+      <div className="rounded-xl border border-neutral-800 bg-neutral-900 overflow-hidden">
+        <div className="grid grid-cols-[140px_1fr_1fr_1fr] border-b border-neutral-800 bg-neutral-950 px-4 py-2.5">
+          <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600">Hráč</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600">Primární</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600">Světlá</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600">Tmavá</p>
+        </div>
+        {players.map((p, i) => (
+          <div
+            key={p.label}
+            className={`grid grid-cols-[140px_1fr_1fr_1fr] px-4 py-3 items-center ${i < players.length - 1 ? 'border-b border-neutral-800/60' : ''}`}
+          >
+            <div>
+              <p className="text-xs font-semibold text-neutral-300">{p.label}</p>
+              <p className="text-xs text-neutral-600">{p.name}</p>
+            </div>
+            {[p.primary, p.light, p.dark].map((hex) => (
+              <div key={hex} className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded flex-shrink-0 border border-white/10" style={{ background: hex }} />
+                <p className="text-xs font-mono text-neutral-500 hidden sm:block">{hex}</p>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      {/* Rychlý přehled — primární barvy */}
+      <div className="rounded-xl border border-neutral-800 bg-neutral-900 p-4">
+        <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600 mb-3">Primární — přehled</p>
+        <div className="grid grid-cols-6 gap-2">
+          {players.map((p) => (
+            <div key={p.label} className="flex flex-col gap-1.5">
+              <div className="h-10 rounded border border-white/10" style={{ background: p.primary }} />
+              <p className="text-[10px] text-neutral-500 text-center font-mono">{p.primary}</p>
+              <p className="text-[10px] text-neutral-600 text-center">{p.name}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function DonjonHexy() {
+  return (
+    <div className="flex flex-col gap-4">
+      <Block
+        label="Stav políčka"
+        cols="grid-cols-2 sm:grid-cols-4"
+        swatches={[
+          { name: 'Prázdný',         hex: D.bg4          },
+          { name: 'Ohnisko pasivní', hex: '#2E2D4A'      },
+          { name: 'Ohnisko aktivní', hex: D.gold         },
+          { name: 'Okraj hexu',      hex: D.borderDefault},
+        ]}
+      />
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-3">Základna — tmavá barva hráče</p>
+        <div className="grid grid-cols-6 gap-2">
+          {players.map((p) => (
+            <div key={p.label} className="flex flex-col gap-1.5">
+              <div className="h-9 rounded border border-white/10" style={{ background: p.dark }} />
+              <p className="text-[10px] font-mono text-neutral-500 text-center">{p.dark}</p>
+              <p className="text-[10px] text-neutral-600 text-center">{p.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function DonjonPlanovani() {
+  return (
+    <div className="rounded-xl border border-neutral-800 bg-neutral-900 overflow-hidden">
+      <div className="grid grid-cols-[1fr_auto_auto] border-b border-neutral-800 bg-neutral-950 px-4 py-2">
+        <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600">Stav</p>
+        <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600 w-24 text-center">Barva</p>
+        <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600 w-20 text-right">Typ</p>
+      </div>
+      {[
+        { name: 'Vybraný hex',   note: 'UI gold při 31% opacity',              hex: D.gold,          alpha: 0.31, fixed: true  },
+        { name: 'Mimo dosah',    note: 'Černá při 55% opacity',                hex: '#000000',       alpha: 0.55, fixed: true  },
+        { name: 'Souboj možný',  note: 'Primární barva hráče při 31%',         hex: '#C04040',       alpha: 0.31, fixed: false },
+        { name: 'Posílení',      note: 'Zelená při 31% opacity',               hex: D.successColor,  alpha: 0.31, fixed: true  },
+        { name: 'Hover',         note: 'Bílá při 8% opacity',                  hex: '#FFFFFF',       alpha: 0.08, fixed: true  },
+      ].map((row, i, arr) => (
+        <div key={row.name} className={`grid grid-cols-[1fr_auto_auto] px-4 py-3 items-center ${i < arr.length - 1 ? 'border-b border-neutral-800/60' : ''}`}>
+          <div>
+            <p className="text-xs font-semibold text-neutral-300">{row.name}</p>
+            <p className="text-xs text-neutral-600 mt-0.5">{row.note}</p>
+          </div>
+          <div className="w-24 flex justify-center">
+            <div className="w-10 h-8 rounded border border-white/10" style={{ background: `${row.hex}${Math.round(row.alpha * 255).toString(16).padStart(2, '0')}` }} />
+          </div>
+          <div className="w-20 flex justify-end">
+            <span className={`text-xs font-mono px-1.5 py-0.5 rounded ${row.fixed ? 'bg-neutral-800 text-neutral-400' : 'bg-amber-950/60 text-amber-500'}`}>
+              {row.fixed ? 'fixní' : 'hráč'}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/* ── Obsah stránky ── */
+function ColorsContent() {
+  const lib = useLibVariant()
+
+  if (lib === 'tkajui') {
+    return (
+      <>
+        <Section
+          id="tkajui-paleta"
+          title="TkajUI paleta"
+          description="Chladné slate povrchy + modrý interaktivní akcent. Kontrast skrze odstíny — žádné herní gradientní tóny."
+        >
+          <TkajuiPaleta />
+        </Section>
+
+        <Section
+          id="tkajui-vs-donjon"
+          title="TkajUI vs donjon-fall-ui"
+          description="Klíčový rozdíl na první pohled — stejné role, opačný charakter."
+        >
+          <TkajuiVsDonjon />
+        </Section>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <Section
+        id="barvy-hry"
+        title="Základní paleta"
+        description="Teplé fialové povrchy + zlatý akcent — herní atmosféra dungeonu."
+      >
+        <DonjonPaleta />
+      </Section>
+
       <Section
         id="barvy-hracu"
         title="Barvy hráčů"
-        description="Hra podporuje 2–6 hráčů. Každý hráč má trojici barev: primární (kostky, UI akcenty), světlá (text na tmavém pozadí) a tmavá (pozadí základny na mapě)."
+        description="Hra podporuje 2–6 hráčů. Každý hráč má trojici: primární (kostky, UI akcenty), světlá (text na tmavém), tmavá (základna na mapě)."
       >
-        <div className="rounded-xl border border-neutral-800 bg-neutral-900 overflow-hidden">
-          {/* Header row */}
-          <div className="grid grid-cols-4 gap-0 border-b border-neutral-800 px-4 py-2 bg-neutral-950">
-            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600">Hráč</p>
-            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600">Primární</p>
-            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600">Světlá</p>
-            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600">Tmavá</p>
-          </div>
-          {/* Player rows */}
-          {players.map((p, i) => (
-            <div
-              key={p.label}
-              className={`grid grid-cols-4 gap-0 px-4 py-4 items-center ${
-                i < players.length - 1 ? 'border-b border-neutral-800/60' : ''
-              }`}
-            >
-              <div>
-                <p className="text-xs font-semibold text-neutral-400">{p.label}</p>
-                <p className="text-xs text-neutral-600">{p.name}</p>
-              </div>
-              {[p.primary, p.light, p.dark].map((hex) => (
-                <div key={hex} className="flex items-center gap-2">
-                  <div
-                    className="w-8 h-8 rounded flex-shrink-0 border border-white/10"
-                    style={{ background: hex }}
-                  />
-                  <p className="text-xs font-mono text-neutral-400 hidden sm:block">{hex}</p>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-
-        {/* Colour chips full-width for quick reference */}
-        <div className="grid grid-cols-6 gap-2 mt-2">
-          {players.map((p) => (
-            <div key={p.label} className="flex flex-col gap-1">
-              <div className="h-8 rounded border border-white/10" style={{ background: p.primary }} />
-              <p className="text-xs text-neutral-500 text-center">{p.name}</p>
-            </div>
-          ))}
-        </div>
+        <DonjonHraci />
       </Section>
 
-      {/* Stavy hexů */}
       <Section
         id="stavy-hexu"
         title="Stavy hexů"
         description="Barvy políček na herní mapě podle jejich stavu."
       >
-        <SwatchRow swatches={[
-          { name: 'Prázdný',         hex: '#2A2948' },
-          { name: 'Ohnisko pasivní', hex: '#2E2D4A' },
-          { name: 'Ohnisko aktivní', hex: '#FFC183' },
-          { name: 'Okraj hexu',      hex: '#353751' },
-        ]} />
-
-        <div className="rounded-xl border border-neutral-800 bg-neutral-900 p-4 sm:p-6">
-          <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-4">
-            Základna — pozadí podle hráče
-          </p>
-          <div className="grid grid-cols-6 gap-3">
-            {players.map((p) => (
-              <div key={p.label} className="flex flex-col gap-1.5">
-                <div
-                  className="h-10 rounded border border-white/10"
-                  style={{ background: p.dark }}
-                />
-                <p className="text-xs font-medium text-neutral-300 leading-tight">{p.label}</p>
-                <p className="text-xs text-neutral-500 font-mono">{p.dark}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        <DonjonHexy />
       </Section>
 
-      {/* Plánování tahu */}
       <Section
         id="planovani-tahu"
         title="Plánování tahu"
-        description="Překryvy políček při výběru akce. Fixní barvy jsou vždy stejné, dynamické se odvíjí od primární barvy aktivního hráče."
+        description="Překryvy políček při výběru akce — fixní barvy jsou vždy stejné, dynamické se odvíjí od primární barvy aktivního hráče."
       >
-        <div className="rounded-xl border border-neutral-800 bg-neutral-900 overflow-hidden">
-          <div className="grid grid-cols-[1fr_auto_auto] gap-0 border-b border-neutral-800 px-4 py-2 bg-neutral-950">
-            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600">Stav</p>
-            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600 w-24 text-center">Barva</p>
-            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-600 w-20 text-right">Typ</p>
-          </div>
-
-          {[
-            { name: 'Vybraný hex',   note: 'UI gold při 31% opacity — zvýrazní vybranou kostku',                      hex: '#FFC183',  alpha: 0.31, fixed: true  },
-            { name: 'Mimo dosah',    note: 'Černá při 55% opacity — políčka kam se nelze dostat se ztmaví',           hex: '#000000',  alpha: 0.55, fixed: true  },
-            { name: 'Souboj možný',  note: 'Primární barva hráče při 31% opacity — agrese, útok na nepřítele',        hex: '#C04040',  alpha: 0.31, fixed: false },
-            { name: 'Posílení',      note: 'Zelená při 31% opacity — přesun na vlastní kostku, pozitivní akce',       hex: '#40A055',  alpha: 0.31, fixed: true  },
-            { name: 'Hover',         note: 'Bílá při 8% opacity — fixní pro všechny stavy',                           hex: '#FFFFFF',  alpha: 0.08, fixed: true  },
-          ].map((row, i, arr) => (
-            <div
-              key={row.name}
-              className={`grid grid-cols-[1fr_auto_auto] gap-0 px-4 py-3 items-center ${
-                i < arr.length - 1 ? 'border-b border-neutral-800/60' : ''
-              }`}
-            >
-              <div>
-                <p className="text-xs font-semibold text-neutral-300">{row.name}</p>
-                <p className="text-xs text-neutral-600 mt-0.5">{row.note}</p>
-              </div>
-              <div className="w-24 flex justify-center">
-                <div
-                  className="w-10 h-8 rounded border border-white/10"
-                  style={{
-                    background: `${row.hex}${Math.round(row.alpha * 255).toString(16).padStart(2, '0')}`,
-                  }}
-                />
-              </div>
-              <div className="w-20 flex justify-end">
-                <span className={`text-xs font-mono px-1.5 py-0.5 rounded ${
-                  row.fixed
-                    ? 'bg-neutral-800 text-neutral-400'
-                    : 'bg-amber-950/60 text-amber-500'
-                }`}>
-                  {row.fixed ? 'fixní' : 'hráč'}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-        <p className="text-xs text-neutral-600 -mt-2">
-          Příklad dynamické barvy ukazuje červeného hráče — za běhu se dosadí primární barva aktivního hráče.
-        </p>
+        <DonjonPlanovani />
       </Section>
+    </>
+  )
+}
 
-      {/* Barvy hry */}
-      <Section
-        id="barvy-hry"
-        title="Barvy hry"
-        description="Globální UI paleta — pozadí, povrchy, zlaté akcenty, texty."
-      >
-        <div className="rounded-xl border border-neutral-800 bg-neutral-900 p-4 sm:p-6 flex flex-col gap-6">
-
-          {/* Surfaces */}
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-1">Pozadí &amp; povrchy</p>
-            <p className="text-xs text-neutral-600 mb-4">Komponenty používají gradienty mezi sousedními kroky — např. tlačítko: <span className="font-mono">#232238 → #1B1A30</span>.</p>
-            <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-              {[
-                { name: 'Background',  hex: '#0F0E1A', note: 'Stránka' },
-                { name: 'Surface',     hex: '#1A1928', note: 'Základní' },
-                { name: 'Surface +1',  hex: '#232238', note: 'Komponenty' },
-                { name: 'Surface +2',  hex: '#2A2948', note: 'Zvýšené' },
-                { name: 'Surface +3',  hex: '#353751', note: 'Aktivní / border' },
-                { name: 'Surface +4',  hex: '#3D3A5C', note: 'Header' },
-              ].map(s => (
-                <div key={s.hex} className="flex flex-col gap-1.5">
-                  <div className="h-10 rounded border border-white/10 w-full" style={{ background: s.hex }} />
-                  <div>
-                    <p className="text-xs font-medium text-neutral-300 leading-tight">{s.name}</p>
-                    <p className="text-xs text-neutral-600 leading-tight">{s.note}</p>
-                    <p className="text-xs text-neutral-500 font-mono">{s.hex}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="border-t border-neutral-800" />
-
-          {/* Gold */}
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-1">Zlaté akcenty</p>
-            <p className="text-xs text-neutral-600 mb-4">
-              Teplé amber — odlišuje se od hráčské žluté <span className="font-mono">#A09020</span> záměrně.
-              Gold 500 slouží zároveň jako barva popisků a labelů.
-            </p>
-            <div className="grid grid-cols-3 gap-4">
-              {[
-                { name: 'Gold 300', hex: '#FFC183', note: 'Světlá — focus, ikony' },
-                { name: 'Gold 500', hex: '#B8956A', note: 'Střední — labely, text' },
-                { name: 'Gold 700', hex: '#8F7458', note: 'Tmavá — bordery, muted' },
-              ].map(s => (
-                <div key={s.hex} className="flex flex-col gap-1.5">
-                  <div className="h-16 rounded border border-white/10 w-full" style={{ background: s.hex }} />
-                  <div>
-                    <p className="text-xs font-medium text-neutral-300 leading-tight">{s.name}</p>
-                    <p className="text-xs text-neutral-600 leading-tight">{s.note}</p>
-                    <p className="text-xs text-neutral-500 font-mono">{s.hex}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="border-t border-neutral-800" />
-
-          {/* Text */}
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-4">Texty</p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              {[
-                { name: 'Primární',  hex: '#F9F9F9', note: 'Nadpisy, důležitý obsah' },
-                { name: 'Teplá',     hex: '#F0E6D3', note: 'Tělo — inputy, obsah karet' },
-                { name: 'Ztlumená', hex: '#6B6A82', note: 'Popisy, nápověda' },
-                { name: 'Disabled',  hex: '#3A3A52', note: 'Neaktivní prvky' },
-              ].map(s => (
-                <div key={s.hex} className="flex flex-col gap-1.5">
-                  <div className="h-10 rounded border border-white/10 w-full" style={{ background: s.hex }} />
-                  <div>
-                    <p className="text-xs font-medium text-neutral-300 leading-tight">{s.name}</p>
-                    <p className="text-xs text-neutral-600 leading-tight">{s.note}</p>
-                    <p className="text-xs text-neutral-500 font-mono">{s.hex}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-        </div>
-      </Section>
+export default function ColorsPage() {
+  return (
+    <ShowcasePage
+      title="Colors"
+      description="Barevné palety obou knihoven — každá má vlastní vizuální jazyk."
+      variants={[
+        { id: 'tkajui', label: 'TkajUI' },
+        { id: 'donjon', label: 'donjon-fall-ui' },
+      ]}
+    >
+      <ColorsContent />
     </ShowcasePage>
   )
 }

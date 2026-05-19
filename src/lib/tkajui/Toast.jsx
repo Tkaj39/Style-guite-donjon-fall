@@ -1,43 +1,53 @@
 import { createContext, useContext, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { octagon } from '../../utils/octagon'
+import {
+  surface3,
+  borderDefault, borderMid,
+  accent,
+  textHigh, textMid,
+  successColor, successBg, successBorder, successText,
+  dangerColor, dangerBg, dangerBorder, dangerText,
+  warningColor, warningBg, warningBorder, warningText,
+  infoColor, infoBg, infoBorder, infoText,
+} from './tokens'
 
 /* ── Varianty ── */
 const VARIANTS = {
   default: {
-    bg:        'linear-gradient(150deg,#353751 0%,#2A2948 70%)',
-    border:    '#8F7458',
-    titleGrad: 'linear-gradient(90deg,#F9F9F9 0%,#B8956A 100%)',
-    icon:      '#8F7458',
-    bar:       '#8F7458',
+    bg:     surface3,
+    border: borderMid,
+    title:  textHigh,
+    icon:   accent,
+    bar:    accent,
   },
   success: {
-    bg:        'linear-gradient(150deg,#183D20 0%,#0A250E 70%)',
-    border:    '#40A055',
-    titleGrad: 'linear-gradient(90deg,#C0F0C8 0%,#40A055 100%)',
-    icon:      '#40A055',
-    bar:       '#40A055',
+    bg:     successBg,
+    border: successBorder,
+    title:  successText,
+    icon:   successColor,
+    bar:    successColor,
   },
   danger: {
-    bg:        'linear-gradient(150deg,#3D1818 0%,#250A0A 70%)',
-    border:    '#C04040',
-    titleGrad: 'linear-gradient(90deg,#F9C0C0 0%,#C04040 100%)',
-    icon:      '#C04040',
-    bar:       '#C04040',
+    bg:     dangerBg,
+    border: dangerBorder,
+    title:  dangerText,
+    icon:   dangerColor,
+    bar:    dangerColor,
   },
   warning: {
-    bg:        'linear-gradient(150deg,#3D2E10 0%,#250E04 70%)',
-    border:    '#C08040',
-    titleGrad: 'linear-gradient(90deg,#FFD580 0%,#C08040 100%)',
-    icon:      '#C08040',
-    bar:       '#C08040',
+    bg:     warningBg,
+    border: warningBorder,
+    title:  warningText,
+    icon:   warningColor,
+    bar:    warningColor,
   },
   info: {
-    bg:        'linear-gradient(150deg,#182A3D 0%,#0A1525 70%)',
-    border:    '#4080C0',
-    titleGrad: 'linear-gradient(90deg,#C0D8F0 0%,#4080C0 100%)',
-    icon:      '#4080C0',
-    bar:       '#4080C0',
+    bg:     infoBg,
+    border: infoBorder,
+    title:  infoText,
+    icon:   infoColor,
+    bar:    infoColor,
   },
 }
 
@@ -72,7 +82,6 @@ function VariantIcon({ variant, color }) {
       <circle cx="8" cy="11.5" r="0.75" fill={color} />
     </svg>
   )
-  /* default + info */
   return (
     <svg viewBox="0 0 16 16" fill="none" width="16" height="16">
       <circle cx="8" cy="8" r="6.5" stroke={color} strokeWidth="1.5" />
@@ -96,42 +105,33 @@ function ToastItem({ id, title, message, variant = 'default', duration = 4000, o
 
   return (
     <div style={{ width: 320, animation: 'toastSlideIn 0.2s ease' }}>
-      {/* Outer border shell */}
       <div style={{ clipPath: octagon(cx), background: v.border, padding: 1 }}>
-        {/* Inner fill */}
         <div style={{ clipPath: octagon(cx - 1), background: v.bg, display: 'flex', flexDirection: 'column' }}>
 
-          {/* Content row */}
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '12px 14px 10px' }}>
-            {/* Ikona */}
             <div style={{ flexShrink: 0, marginTop: 1 }}>
               <VariantIcon variant={variant} color={v.icon} />
             </div>
 
-            {/* Text */}
             <div style={{ flex: 1, minWidth: 0 }}>
               {title && (
                 <p style={{
                   margin: '0 0 2px',
                   fontSize: '0.8125rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  backgroundImage: v.titleGrad,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
+                  fontWeight: 600,
+                  color: v.title,
+                  letterSpacing: '0.02em',
                 }}>
                   {title}
                 </p>
               )}
               {message && (
-                <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3', lineHeight: 1.4 }}>
+                <p style={{ margin: 0, fontSize: '0.75rem', color: textMid, lineHeight: 1.4 }}>
                   {message}
                 </p>
               )}
             </div>
 
-            {/* Close button */}
             <button
               onClick={() => onRemove(id)}
               aria-label="Zavřít"
@@ -143,23 +143,22 @@ function ToastItem({ id, title, message, variant = 'default', duration = 4000, o
                 width: 22,
                 height: 22,
                 background: 'transparent',
-                border: `1px solid ${v.border}44`,
+                border: `1px solid ${borderDefault}`,
                 borderRadius: 3,
-                color: '#8F7458',
+                color: textMid,
                 cursor: 'pointer',
                 marginTop: -2,
                 transition: 'background 0.12s, color 0.12s',
               }}
-              onMouseEnter={e => { e.currentTarget.style.background = `${v.border}22`; e.currentTarget.style.color = '#F0E6D3' }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#8F7458' }}
+              onMouseEnter={e => { e.currentTarget.style.background = borderDefault; e.currentTarget.style.color = textHigh }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = textMid }}
             >
               <CloseIcon />
             </button>
           </div>
 
-          {/* Progress bar */}
           {duration > 0 && (
-            <div style={{ height: 2, background: `${v.border}33`, margin: '0 12px 10px', borderRadius: 1, overflow: 'hidden' }}>
+            <div style={{ height: 2, background: `${v.border}44`, margin: '0 12px 10px', borderRadius: 1, overflow: 'hidden' }}>
               <div style={{
                 height: '100%',
                 background: v.bar,

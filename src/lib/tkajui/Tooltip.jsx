@@ -1,12 +1,22 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
+import {
+  surface3,
+  borderDefault, borderMid,
+  accent,
+  textHigh, textMid,
+  successColor, successBg, successBorder, successText,
+  dangerColor, dangerBg, dangerBorder, dangerText,
+  warningColor, warningBg, warningBorder, warningText,
+  infoColor, infoBg, infoBorder, infoText,
+} from './tokens'
 
 /* ── Varianty ── */
 const VARIANTS = {
-  default: { bg: '#1E1C30', border: '#8F7458', text: '#D4C5A9' },
-  danger:  { bg: '#2A1010', border: '#C04040', text: '#F9C0C0' },
-  success: { bg: '#102018', border: '#40A055', text: '#C0F0C8' },
-  warning: { bg: '#2A1E08', border: '#C08040', text: '#FFD580' },
-  info:    { bg: '#0E1828', border: '#4080C0', text: '#A0C8F0' },
+  default: { bg: surface3,    border: borderMid,     title: accent,        text: textMid  },
+  danger:  { bg: dangerBg,    border: dangerBorder,   title: dangerColor,   text: dangerText  },
+  success: { bg: successBg,   border: successBorder,  title: successColor,  text: successText },
+  warning: { bg: warningBg,   border: warningBorder,  title: warningColor,  text: warningText },
+  info:    { bg: infoBg,      border: infoBorder,     title: infoColor,     text: infoText    },
 }
 
 /* ── Výpočet pozice ── */
@@ -100,7 +110,7 @@ export default function Tooltip({
           }}>
             <Arrow placement={placement} color={v.border} />
             {title && (
-              <p style={{ margin: '0 0 3px 0', fontSize: '0.6875rem', fontWeight: 700, color: v.border, letterSpacing: '0.05em' }}>
+              <p style={{ margin: '0 0 3px 0', fontSize: '0.6875rem', fontWeight: 600, color: v.title, letterSpacing: '0.04em' }}>
                 {title}
               </p>
             )}

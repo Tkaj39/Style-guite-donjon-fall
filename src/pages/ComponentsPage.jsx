@@ -210,11 +210,54 @@ function CategoryHeader({ category, counts }) {
 }
 
 /* ── StatCard ── */
-function StatCard({ value, label }) {
+function StatCard({ value, label, accent }) {
   return (
     <div className="flex flex-col gap-1 px-4 py-3 rounded-lg bg-neutral-900 border border-neutral-800">
-      <span className="text-2xl font-bold text-white tabular-nums">{value}</span>
+      <span className={`text-2xl font-bold tabular-nums ${accent ? 'text-[#6576ff]' : 'text-white'}`}>{value}</span>
       <span className="text-xs text-neutral-500">{label}</span>
+    </div>
+  )
+}
+
+/* ── LibStatBlock — per-knihovna breakdown ── */
+function LibStatBlock({ libId, libLabel, accent, reg }) {
+  const comps      = reg.filter(c => c.category === libId)
+  const total      = comps.length
+  const pubCount   = comps.filter(c => c.visibility === 'public').length
+  const intCount   = total - pubCount
+  const docCount   = comps.filter(c => c.status === 'documented').length
+  const undocCount = total - docCount
+  const showCount  = comps.filter(c => !!c.showcaseRoute).length
+
+  const rows = [
+    { value: total,      label: 'komponent celkem', bold: true },
+    { value: pubCount,   label: 'public' },
+    { value: intCount,   label: 'internal' },
+    { value: docCount,   label: 'documented' },
+    { value: undocCount, label: 'zbývá zdokumentovat', warn: undocCount > 0 },
+    { value: showCount,  label: 'se showcase stránkou' },
+  ]
+
+  return (
+    <div style={{ flex: '1 1 220px', minWidth: 0 }} className="flex flex-col gap-3 p-4 rounded-xl bg-neutral-900 border border-neutral-800">
+      {/* Header */}
+      <div className="flex items-center gap-2 pb-2 border-b border-neutral-800">
+        <span style={{ width: 8, height: 8, borderRadius: '50%', background: accent, flexShrink: 0, display: 'inline-block' }} />
+        <span className="text-sm font-semibold text-neutral-200">{libLabel}</span>
+      </div>
+      {/* Řádky */}
+      <div className="flex flex-col gap-1.5">
+        {rows.map(({ value, label, bold, warn }) => (
+          <div key={label} className="flex items-baseline justify-between gap-3">
+            <span className="text-xs text-neutral-500 leading-tight">{label}</span>
+            <span className={`tabular-nums text-sm font-${bold ? '700' : '500'} ${
+              bold   ? 'text-neutral-100' :
+              warn && value > 0 ? 'text-amber-400' :
+              'text-neutral-300'
+            }`}>{value}</span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
@@ -300,15 +343,35 @@ export default function ComponentsPage() {
 
       {/* ── Statistiky ── */}
       <Section id="statistiky" description={activeLib ? `Statistiky pro ${activeLib}` : 'Aktuální stav dokumentace komponent.'}>
-        <div className="flex flex-wrap gap-3">
-          <StatCard value={totalComponents} label={activeLib ? 'komponent ve výběru' : 'celkem komponent'} />
-          <StatCard value={publicCount}     label="public" />
-          <StatCard value={totalComponents - publicCount} label="internal" />
-          <StatCard value={documentedCount} label="documented" />
-          <StatCard value={totalComponents - documentedCount} label="zbývá zdokumentovat" />
-          <StatCard value={showcaseCount}   label="se showcase stránkou" />
-          <StatCard value={totalComponents - showcaseCount} label="bez showcase" />
-        </div>
+        {activeLib === null ? (
+          /* Zobrazení "Vše" — rozděleno per-knihovna */
+          <div className="flex flex-col gap-4">
+            {/* Celkový součet */}
+            <div className="flex flex-wrap gap-3">
+              <StatCard value={totalComponents} label="komponent celkem" />
+              <StatCard value={registry.filter(c => c.status === 'documented').length} label="documented" />
+              <StatCard value={registry.filter(c => c.status !== 'documented').length} label="zbývá zdokumentovat" />
+              <StatCard value={registry.filter(c => !!c.showcaseRoute).length} label="se showcase stránkou" />
+            </div>
+            {/* Per-knihovna breakdown */}
+            <div className="flex flex-wrap gap-4">
+              <LibStatBlock libId="TkajUI"         libLabel="TkajUI"         accent="#6576ff" reg={registry} />
+              <LibStatBlock libId="donjon-fall-ui"  libLabel="donjon-fall-ui" accent="#B8956A" reg={registry} />
+              <LibStatBlock libId="Layout"          libLabel="Layout (internal)" accent="#484860" reg={registry} />
+            </div>
+          </div>
+        ) : (
+          /* Vybraná knihovna — původní flat karty */
+          <div className="flex flex-wrap gap-3">
+            <StatCard value={totalComponents} label="komponent ve výběru" />
+            <StatCard value={publicCount}     label="public" />
+            <StatCard value={totalComponents - publicCount} label="internal" />
+            <StatCard value={documentedCount} label="documented" accent={documentedCount === totalComponents} />
+            <StatCard value={totalComponents - documentedCount} label="zbývá zdokumentovat" />
+            <StatCard value={showcaseCount}   label="se showcase stránkou" />
+            <StatCard value={totalComponents - showcaseCount} label="bez showcase" />
+          </div>
+        )}
       </Section>
 
       {/* ── Kategorie ── */}

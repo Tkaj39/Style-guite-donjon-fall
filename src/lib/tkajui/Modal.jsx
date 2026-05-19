@@ -1,31 +1,52 @@
 import { useEffect, useRef, useId } from 'react'
 import { octagon } from '../../utils/octagon'
+import {
+  surface2, surface3,
+  borderDefault, borderMid,
+  accent,
+  textHigh, textMid,
+  successColor, successBg, successBorder, successText,
+  dangerColor, dangerBg, dangerBorder, dangerText,
+  warningColor, warningBg, warningBorder, warningText,
+} from './tokens'
 
 /* ── Varianty ── */
 const VARIANTS = {
   default: {
-    bg:        'linear-gradient(150deg,#353751 0%,#2A2948 70%)',
-    border:    '#8F7458',
-    headerBg:  'linear-gradient(150deg,#3D3A5C 0%,#2E2B50 70%)',
-    titleGrad: 'linear-gradient(180deg,#F9F9F9 0%,#B8956A 100%)',
+    bg:       surface2,
+    border:   borderMid,
+    headerBg: surface3,
+    title:    textHigh,
+    desc:     textMid,
+    closeBg:  borderDefault,
+    closeColor: textMid,
   },
   danger: {
-    bg:        'linear-gradient(150deg,#3D1818 0%,#250A0A 70%)',
-    border:    '#C04040',
-    headerBg:  'linear-gradient(150deg,#4A1A1A 0%,#2E0C0C 70%)',
-    titleGrad: 'linear-gradient(180deg,#F9C0C0 0%,#C04040 100%)',
+    bg:       dangerBg,
+    border:   dangerBorder,
+    headerBg: '#2a0606',
+    title:    dangerText,
+    desc:     '#c07070',
+    closeBg:  dangerBorder,
+    closeColor: dangerColor,
   },
   success: {
-    bg:        'linear-gradient(150deg,#183D20 0%,#0A250E 70%)',
-    border:    '#40A055',
-    headerBg:  'linear-gradient(150deg,#1E4A28 0%,#0D2E12 70%)',
-    titleGrad: 'linear-gradient(180deg,#C0F0C8 0%,#40A055 100%)',
+    bg:       successBg,
+    border:   successBorder,
+    headerBg: '#0a2814',
+    title:    successText,
+    desc:     '#50a870',
+    closeBg:  successBorder,
+    closeColor: successColor,
   },
   warning: {
-    bg:        'linear-gradient(150deg,#3D2E10 0%,#250E04 70%)',
-    border:    '#C08040',
-    headerBg:  'linear-gradient(150deg,#4A3412 0%,#2E1006 70%)',
-    titleGrad: 'linear-gradient(180deg,#FFD580 0%,#C08040 100%)',
+    bg:       warningBg,
+    border:   warningBorder,
+    headerBg: '#271402',
+    title:    warningColor,
+    desc:     '#906040',
+    closeBg:  warningBorder,
+    closeColor: warningColor,
   },
 }
 
@@ -37,7 +58,6 @@ const SIZES = {
 
 const cx = 16
 
-/* ── CloseIcon ── */
 function CloseIcon() {
   return (
     <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14">
@@ -46,7 +66,6 @@ function CloseIcon() {
   )
 }
 
-/* ── Modal ── */
 export default function Modal({
   isOpen,
   onClose,
@@ -67,7 +86,6 @@ export default function Modal({
   const modalRef = useRef(null)
   const previousFocusRef = useRef(null)
 
-  /* Escape key + focus management */
   useEffect(() => {
     if (!isOpen) return
 
@@ -78,7 +96,6 @@ export default function Modal({
     }
     document.addEventListener('keydown', handle)
 
-    /* Focus první focusovatelný element */
     const frame = requestAnimationFrame(() => {
       const focusable = modalRef.current?.querySelectorAll(
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
@@ -93,7 +110,6 @@ export default function Modal({
     }
   }, [isOpen, closeOnEscape, onClose])
 
-  /* Zamknutí scrollu */
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
@@ -106,14 +122,13 @@ export default function Modal({
   if (!isOpen) return null
 
   return (
-    /* Backdrop */
     <div
       onClick={closeOnBackdrop ? onClose : undefined}
       style={{
         position: 'fixed',
         inset: 0,
         zIndex: 1000,
-        background: 'rgba(10, 8, 20, 0.80)',
+        background: 'rgba(6, 6, 12, 0.80)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -122,7 +137,6 @@ export default function Modal({
         animation: 'modalBackdropIn 0.15s ease',
       }}
     >
-      {/* Modal panel */}
       <div
         ref={modalRef}
         role="dialog"
@@ -150,33 +164,27 @@ export default function Modal({
               <div style={{
                 position: 'relative',
                 background: v.headerBg,
-                borderBottom: `1px solid ${v.border}44`,
+                borderBottom: `1px solid ${v.border}`,
                 padding: '14px 28px 12px',
               }}>
-
                 <h2
                   id={titleId}
                   style={{
                     margin: 0,
-                    fontSize: '0.8125rem',
-                    fontWeight: 700,
-                    letterSpacing: '0.14em',
-                    textTransform: 'uppercase',
-                    backgroundImage: v.titleGrad,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
+                    fontSize: '0.875rem',
+                    fontWeight: 600,
+                    letterSpacing: '0.04em',
+                    color: v.title,
                   }}
                 >
                   {title}
                 </h2>
                 {description && (
-                  <p style={{ margin: '4px 0 0', fontSize: '0.75rem', color: '#8F7458', lineHeight: 1.4 }}>
+                  <p style={{ margin: '4px 0 0', fontSize: '0.75rem', color: v.desc, lineHeight: 1.4 }}>
                     {description}
                   </p>
                 )}
 
-                {/* Close button */}
                 {showCloseButton && (
                   <button
                     onClick={onClose}
@@ -191,14 +199,14 @@ export default function Modal({
                       width: 28,
                       height: 28,
                       background: 'transparent',
-                      border: `1px solid ${v.border}44`,
-                      borderRadius: 3,
-                      color: '#8F7458',
+                      border: `1px solid ${v.border}`,
+                      borderRadius: 4,
+                      color: v.closeColor,
                       cursor: 'pointer',
                       transition: 'background 0.12s, color 0.12s',
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.background = `${v.border}22`; e.currentTarget.style.color = '#F0E6D3' }}
-                    onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#8F7458' }}
+                    onMouseEnter={e => { e.currentTarget.style.background = v.closeBg; e.currentTarget.style.color = textHigh }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = v.closeColor }}
                   >
                     <CloseIcon />
                   </button>
@@ -222,12 +230,13 @@ export default function Modal({
                     width: 28,
                     height: 28,
                     background: 'transparent',
-                    border: `1px solid ${v.border}44`,
-                    borderRadius: 3,
-                    color: '#8F7458',
+                    border: `1px solid ${borderDefault}`,
+                    borderRadius: 4,
+                    color: textMid,
                     cursor: 'pointer',
+                    transition: 'background 0.12s',
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.background = `${v.border}22` }}
+                  onMouseEnter={e => { e.currentTarget.style.background = borderDefault }}
                   onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
                 >
                   <CloseIcon />
@@ -240,7 +249,7 @@ export default function Modal({
             {footer && (
               <div style={{
                 position: 'relative',
-                borderTop: `1px solid ${v.border}44`,
+                borderTop: `1px solid ${v.border}`,
                 padding: '12px 28px 14px',
               }}>
                 <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
@@ -252,7 +261,6 @@ export default function Modal({
         </div>
       </div>
 
-      {/* Animace */}
       <style>{`
         @keyframes modalBackdropIn {
           from { opacity: 0 }

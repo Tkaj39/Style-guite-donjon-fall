@@ -1,20 +1,25 @@
 import { NavLink } from 'react-router-dom'
+import { LIBRARY_CFG } from './ShowcasePage'
 
 /* ── Library icons (miniaturní verze) ── */
 function LibIcon({ library }) {
+  const cfg = LIBRARY_CFG[library]
+  if (!cfg) return null
+  const color = cfg.color
+
   if (library === 'tkajui') return (
     <svg width="11" height="11" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
-      <rect x="1" y="1"   width="12" height="3" rx="0.8" fill="#7BAED4" opacity="0.45" />
-      <rect x="1" y="5.5" width="12" height="3" rx="0.8" fill="#7BAED4" opacity="0.72" />
-      <rect x="1" y="10"  width="12" height="3" rx="0.8" fill="#7BAED4" />
+      <rect x="1" y="1"   width="12" height="3" rx="0.8" fill={color} opacity="0.45" />
+      <rect x="1" y="5.5" width="12" height="3" rx="0.8" fill={color} opacity="0.72" />
+      <rect x="1" y="10"  width="12" height="3" rx="0.8" fill={color} />
     </svg>
   )
   if (library === 'donjon') return (
     <svg width="11" height="11" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
-      <path d="M7 1.5V10.5"   stroke="#B8956A" strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M3.5 5H10.5"   stroke="#B8956A" strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M5.5 10.5H8.5" stroke="#B8956A" strokeWidth="1.1" strokeLinecap="round" />
-      <path d="M7 10.5V12.5"  stroke="#B8956A" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M7 1.5V10.5"   stroke={color} strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M3.5 5H10.5"   stroke={color} strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M5.5 10.5H8.5" stroke={color} strokeWidth="1.1" strokeLinecap="round" />
+      <path d="M7 10.5V12.5"  stroke={color} strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   )
   return null
@@ -40,18 +45,38 @@ const sections = [
   {
     label: 'Foundations',
     items: [
-      { to: '/mood',       label: 'Mood & Vision' },
+      {
+        to: '/mood', label: 'Mood & Vision',
+        children: [
+          { to: '/mood?lib=tkajui#manifesto',         label: 'TkajUI — manifest' },
+          { to: '/mood?lib=tkajui#pilire',            label: 'TkajUI — pilíře' },
+          { to: '/mood?lib=tkajui#co-tkajui-neni',    label: 'Co TkajUI není' },
+          { to: '/mood?lib=donjon#dramaticnost',      label: 'donjon — pilíře' },
+          { to: '/mood?lib=donjon#materialovy-jazyk', label: 'Materiálový jazyk' },
+          { to: '/mood?lib=donjon#cilovy-hrac',       label: 'Cílový hráč' },
+        ],
+      },
       {
         to: '/colors', label: 'Colors',
         children: [
-          { to: '/colors#barvy-hracu',   label: 'Barvy hráčů' },
-          { to: '/colors#stavy-hexu',    label: 'Stavy hexů' },
-          { to: '/colors#planovani-tahu', label: 'Plánování tahu' },
-          { to: '/colors#barvy-hry',     label: 'Barvy hry' },
+          { to: '/colors?lib=tkajui#tkajui-paleta',   label: 'TkajUI paleta' },
+          { to: '/colors?lib=tkajui#tkajui-vs-donjon', label: 'TkajUI vs donjon' },
+          { to: '/colors?lib=donjon#barvy-hry',        label: 'donjon paleta' },
+          { to: '/colors?lib=donjon#barvy-hracu',      label: 'Barvy hráčů' },
+          { to: '/colors?lib=donjon#stavy-hexu',       label: 'Stavy hexů' },
+          { to: '/colors?lib=donjon#planovani-tahu',   label: 'Plánování tahu' },
         ],
       },
-      { to: '/typography',  label: 'Typography' },
-      { to: '/spacing',     label: 'Spacing' },
+      {
+        to: '/typography', label: 'Typography',
+        children: [
+          { to: '/typography?lib=tkajui#tkajui-skala',    label: 'TkajUI — škála' },
+          { to: '/typography?lib=tkajui#tkajui-vahy',     label: 'TkajUI — váhy' },
+          { to: '/typography?lib=donjon#donjon-display',   label: 'donjon — display' },
+          { to: '/typography?lib=donjon#donjon-ui',        label: 'donjon — UI škála' },
+        ],
+      },
+      { to: '/spacing',     label: 'Spacing',    library: 'donjon' },
       { to: '/pictograms',  label: 'Pictograms' },
       { to: '/ornaments',   label: 'Ornaments' },
       { to: '/shapes',      label: 'Shapes' },
@@ -60,23 +85,60 @@ const sections = [
   {
     label: 'Principy',
     items: [
-      { to: '/motion',             label: 'Motion' },
-      { to: '/interaction-states', label: 'Interaction States' },
-      { to: '/z-index',            label: 'Z-index škála' },
-      { to: '/accessibility',      label: 'Accessibility' },
-      { to: '/feedback-hierarchy', label: 'Feedback Hierarchy' },
-      { to: '/error-states',       label: 'Error States' },
-      { to: '/empty-states',       label: 'Empty States' },
-      { to: '/loading-skeleton',   label: 'Loading & Skeleton' },
-      { to: '/validation',         label: 'Validation' },
-      { to: '/microcopy',          label: 'Content & Microcopy' },
-      { to: '/responsive',         label: 'Responsive Design' },
-      { to: '/focus-ring',         label: 'Focus Ring' },
-      { to: '/glow-shadow',        label: 'Glow & Shadow' },
-      { to: '/cursor',             label: 'Cursor States' },
+      { to: '/motion',             label: 'Motion',              library: 'donjon' },
+      {
+        to: '/interaction-states', label: 'Interaction States',
+        children: [
+          { to: '/interaction-states?lib=tkajui#matrix',  label: 'Matice stavů' },
+          { to: '/interaction-states?lib=tkajui#hover',   label: 'TkajUI — Hover' },
+          { to: '/interaction-states?lib=tkajui#focus',   label: 'TkajUI — Focus' },
+          { to: '/interaction-states?lib=donjon#hover',   label: 'donjon — Hover' },
+          { to: '/interaction-states?lib=donjon#blocked', label: 'donjon — Blocked' },
+        ],
+      },
+      { to: '/z-index',            label: 'Z-index škála',       library: 'donjon' },
+      { to: '/accessibility',      label: 'Accessibility',       library: 'donjon' },
+      { to: '/feedback-hierarchy', label: 'Feedback Hierarchy',  library: 'donjon' },
+      { to: '/error-states',       label: 'Error States',        library: 'donjon' },
+      { to: '/empty-states',       label: 'Empty States',        library: 'donjon' },
+      { to: '/loading-skeleton',   label: 'Loading & Skeleton',  library: 'donjon' },
+      { to: '/validation',         label: 'Validation',          library: 'donjon' },
+      { to: '/microcopy',          label: 'Content & Microcopy', library: 'donjon' },
+      { to: '/responsive',         label: 'Responsive Design',   library: 'donjon' },
+      {
+        to: '/focus-ring', label: 'Focus Ring',
+        children: [
+          { to: '/focus-ring?lib=tkajui#vychozi',  label: 'TkajUI — výchozí ring' },
+          { to: '/focus-ring?lib=donjon#vychozi',  label: 'donjon — výchozí ring' },
+          { to: '/focus-ring?lib=tkajui#varianty', label: 'Varianty' },
+          { to: '/focus-ring#focus-trap',          label: 'Focus trap' },
+          { to: '/focus-ring#skip-link',           label: 'Skip link' },
+        ],
+      },
+      {
+        to: '/glow-shadow', label: 'Glow & Shadow',
+        children: [
+          { to: '/glow-shadow?lib=tkajui#stiny',          label: 'Stíny' },
+          { to: '/glow-shadow?lib=tkajui#glow',           label: 'TkajUI — glow' },
+          { to: '/glow-shadow?lib=donjon#glow',           label: 'donjon — glow' },
+          { to: '/glow-shadow?lib=donjon#animovana-glow', label: 'Animovaná záře' },
+          { to: '/glow-shadow#pouziti',                   label: 'Příklady' },
+        ],
+      },
+      { to: '/cursor',             label: 'Cursor States',       library: 'donjon' },
       { to: '/scrollbar',          label: 'Scrollbar' },
-      { to: '/text-selection',     label: 'Text Selection' },
-      { to: '/tokens',             label: 'Design Tokens' },
+      { to: '/text-selection',     label: 'Text Selection',      library: 'donjon' },
+      {
+        to: '/tokens', label: 'Design Tokens',
+        children: [
+          { to: '/tokens?lib=tkajui#co-jsou',  label: 'Co jsou tokeny' },
+          { to: '/tokens?lib=tkajui#surfaces', label: 'TkajUI — surfaces' },
+          { to: '/tokens?lib=tkajui#akcent',   label: 'TkajUI — akcent' },
+          { to: '/tokens?lib=tkajui#semantic', label: 'TkajUI — semantic' },
+          { to: '/tokens?lib=donjon#barvy',    label: 'donjon — barvy' },
+          { to: '/tokens?lib=donjon#pravidla', label: 'Pravidla' },
+        ],
+      },
       { to: '/texture',            label: 'Texture systém' },
     ],
   },
@@ -91,9 +153,15 @@ const sections = [
       { to: '/select',       label: 'Select',        library: 'tkajui' },
       { to: '/slider',       label: 'Slider',        library: 'tkajui' },
       { to: '/tabs',         label: 'Tabs',          library: 'tkajui' },
-      { to: '/buttons',      label: 'Buttons',       library: 'tkajui' },
-      { to: '/button-groups', label: 'Button Groups', library: 'tkajui' },
-      { to: '/inputs',       label: 'Inputs',        library: 'donjon' },
+      { to: '/buttons',       label: 'Buttons' },
+      { to: '/button-groups', label: 'Button Groups' },
+      {
+        to: '/inputs', label: 'Inputs',
+        children: [
+          { to: '/inputs#form-prihlaseni', label: 'Form — Přihlášení' },
+          { to: '/inputs#form-nastaveni',  label: 'Form — Nastavení' },
+        ],
+      },
       { to: '/badges',       label: 'Badges',        library: 'donjon' },
       { to: '/cards',        label: 'Cards',         library: 'donjon' },
     ],
@@ -124,7 +192,20 @@ const sections = [
         ],
       },
       { to: '/victory-points', label: 'Vítězné body' },
-      { to: '/hud',            label: 'HUD Elementy' },
+      {
+        to: '/hud', label: 'HUD Elementy',
+        children: [
+          { to: '/hud#player-indicators',    label: 'Indikátory hráčů' },
+          { to: '/hud#turn-tracker',         label: 'Turn Tracker' },
+          { to: '/hud#vp-counter',           label: 'VP Counter' },
+          { to: '/hud#action-bar',           label: 'Action Bar' },
+          { to: '/hud#shield',               label: 'Shield' },
+          { to: '/hud#player-identity-badge', label: 'PlayerIdentityBadge' },
+          { to: '/hud#herni-status',         label: 'Herní status' },
+          { to: '/hud#float-feedback',       label: 'FloatFeedback' },
+          { to: '/hud#pravidla-hud',         label: 'Pravidla' },
+        ],
+      },
       {
         to: '/dialogs', label: 'Dialogy',
         children: [

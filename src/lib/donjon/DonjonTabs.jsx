@@ -5,6 +5,7 @@
    ─────────────────────────────────────────────────────────────────────── */
 import { useId } from 'react'
 import { HexOrnament } from '../tkajui/Ornaments'
+import { gold, goldMid, goldDim, bg0, bg3, bg4, textActive, textDisabled } from './tokens'
 
 const SIZES = {
   sm: { fontSize: '0.75rem',   px: 10, py: 5,  gap: 2  },
@@ -13,12 +14,12 @@ const SIZES = {
 }
 
 const ACTIVE_TAB = {
-  underline: { color: '#F0E6D3', borderBottom: '2px solid #B8956A' },
-  pills:     { color: '#F0E6D3', background: 'linear-gradient(135deg,#2E2B50 0%,#252340 100%)', border: '1px solid #8F745466', borderRadius: 4 },
+  underline: { color: textActive, borderBottom: `2px solid ${goldMid}` },
+  pills:     { color: textActive, background: `linear-gradient(135deg,${bg4} 0%,${bg3} 100%)`, border: `1px solid ${goldDim}66`, borderRadius: 4 },
 }
 const INACTIVE_TAB = {
-  underline: { color: '#8F9CB3', borderBottom: '2px solid transparent' },
-  pills:     { color: '#8F9CB3', background: 'transparent', border: '1px solid transparent', borderRadius: 4 },
+  underline: { color: textDisabled, borderBottom: '2px solid transparent' },
+  pills:     { color: textDisabled, background: 'transparent', border: '1px solid transparent', borderRadius: 4 },
 }
 
 export default function DonjonTabs({
@@ -56,8 +57,8 @@ export default function DonjonTabs({
         flexWrap: 'wrap',
         gap: s.gap,
         ...(variant === 'pills' ? {
-          background: '#12102A',
-          border: '1px solid #8F745430',
+          background: bg0,
+          border: `1px solid ${goldDim}30`,
           borderRadius: 6,
           padding: 3,
         } : {}),
@@ -77,7 +78,7 @@ export default function DonjonTabs({
             tabIndex={item.disabled ? -1 : (isActive ? 0 : -1)}
             onClick={() => !item.disabled && onChange?.(item.value)}
             onKeyDown={e => handleKeyDown(e, item, i)}
-            onMouseEnter={e => { if (!isActive && !item.disabled) e.currentTarget.style.color = '#C8A87A' }}
+            onMouseEnter={e => { if (!isActive && !item.disabled) e.currentTarget.style.color = goldMid }}
             onMouseLeave={e => { if (!isActive && !item.disabled) e.currentTarget.style.color = INACTIVE_TAB[variant].color }}
             style={{
               display: 'inline-flex',
@@ -96,7 +97,7 @@ export default function DonjonTabs({
               marginBottom: variant === 'underline' ? -1 : 0,
               ...tabStyle,
             }}
-            onFocus={e => { e.currentTarget.style.outline = '2px solid #8F745566'; e.currentTarget.style.outlineOffset = '2px' }}
+            onFocus={e => { e.currentTarget.style.outline = `2px solid ${goldDim}55`; e.currentTarget.style.outlineOffset = '2px' }}
             onBlur={e => { e.currentTarget.style.outline = 'none' }}
           >
             {item.icon && <span style={{ display: 'flex', alignItems: 'center', opacity: isActive ? 1 : 0.6 }}>{item.icon}</span>}
@@ -106,8 +107,8 @@ export default function DonjonTabs({
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                 minWidth: 16, height: 16, padding: '0 4px',
                 fontSize: '0.625rem', fontWeight: 700,
-                background: isActive ? '#8F745466' : '#8F745433',
-                color: '#B8956A',
+                background: isActive ? `${goldDim}66` : `${goldDim}33`,
+                color: goldMid,
                 borderRadius: 8,
               }}>
                 {item.badge}

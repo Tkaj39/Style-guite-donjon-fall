@@ -1,27 +1,35 @@
 /* ── Tabs ───────────────────────────────────────────────────────────────
    Horizontální záložková navigace. Dvě varianty vizuálu (underline / pills),
    dvě velikosti, podpora ikon, disabled záložky, plná klávesnicová přístupnost.
+   Čistá TkajUI paleta.
    ─────────────────────────────────────────────────────────────────────── */
+
+import {
+  accent,
+  surface1, surface2, surface3,
+  borderDefault, borderMid,
+  textHigh, textMid, textLow,
+} from './tokens'
 
 const VARIANTS = {
   underline: {
-    track:       { borderBottom: '1px solid #8F745430' },
-    activeTab:   { color: '#F0E6D3', borderBottom: '2px solid #B8956A' },
-    inactiveTab: { color: '#8F9CB3', borderBottom: '2px solid transparent' },
-    hoverColor:  '#C8A87A',
+    track:       { borderBottom: `1px solid ${borderDefault}` },
+    activeTab:   { color: textHigh, borderBottom: `2px solid ${accent}` },
+    inactiveTab: { color: textMid,  borderBottom: '2px solid transparent' },
+    hoverColor:  textHigh,
   },
   pills: {
-    track:       { background: '#12102A', border: '1px solid #8F745430', borderRadius: 6, padding: 3 },
-    activeTab:   { color: '#F0E6D3', background: 'linear-gradient(135deg,#2E2B50 0%,#252340 100%)', border: '1px solid #8F745466', borderRadius: 4 },
-    inactiveTab: { color: '#8F9CB3', background: 'transparent', border: '1px solid transparent', borderRadius: 4 },
-    hoverColor:  '#C8A87A',
+    track:       { background: surface1, border: `1px solid ${borderDefault}`, borderRadius: 6, padding: 3 },
+    activeTab:   { color: textHigh, background: surface3, border: `1px solid ${borderMid}`, borderRadius: 4 },
+    inactiveTab: { color: textMid,  background: 'transparent', border: '1px solid transparent', borderRadius: 4 },
+    hoverColor:  textHigh,
   },
 }
 
 const SIZES = {
-  sm: { fontSize: '0.75rem',   px: 10, py: 5,  gap: 2  },
-  md: { fontSize: '0.8125rem', px: 14, py: 7,  gap: 4  },
-  lg: { fontSize: '0.875rem',  px: 18, py: 9,  gap: 6  },
+  sm: { fontSize: '0.75rem',   px: 10, py: 5,  gap: 2 },
+  md: { fontSize: '0.8125rem', px: 14, py: 7,  gap: 4 },
+  lg: { fontSize: '0.875rem',  px: 18, py: 9,  gap: 6 },
 }
 
 export default function Tabs({
@@ -83,7 +91,7 @@ export default function Tabs({
               padding: `${s.py}px ${s.px}px`,
               fontSize: s.fontSize,
               fontWeight: isActive ? 600 : 400,
-              letterSpacing: isActive ? '0.04em' : '0.02em',
+              letterSpacing: isActive ? '0.02em' : '0.01em',
               cursor: item.disabled ? 'not-allowed' : 'pointer',
               opacity: item.disabled ? 0.35 : 1,
               background: 'transparent',
@@ -93,7 +101,7 @@ export default function Tabs({
               marginBottom: variant === 'underline' ? -1 : 0,
               ...tabStyle,
             }}
-            onFocus={e => { e.currentTarget.style.outline = '2px solid #8F745566'; e.currentTarget.style.outlineOffset = '2px' }}
+            onFocus={e => { e.currentTarget.style.outline = `2px solid ${accent}44`; e.currentTarget.style.outlineOffset = '2px' }}
             onBlur={e => { e.currentTarget.style.outline = 'none' }}
           >
             {item.icon && <span style={{ display: 'flex', alignItems: 'center', opacity: isActive ? 1 : 0.6 }}>{item.icon}</span>}
@@ -103,8 +111,8 @@ export default function Tabs({
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                 minWidth: 16, height: 16, padding: '0 4px',
                 fontSize: '0.625rem', fontWeight: 700,
-                background: isActive ? '#8F745466' : '#8F745433',
-                color: '#B8956A',
+                background: isActive ? `${accent}33` : `${accent}18`,
+                color: accent,
                 borderRadius: 8,
               }}>
                 {item.badge}

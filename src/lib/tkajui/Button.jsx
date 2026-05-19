@@ -1,6 +1,14 @@
-import { forwardRef, useId } from 'react'
+import { forwardRef } from 'react'
 import { octagon } from '../../utils/octagon'
 import { buttonSizes as sizes } from '../../utils/sizes'
+import {
+  accent, accentLight, surface2, surface3, surface4,
+  borderDefault, borderMid,
+  textHigh, textMid,
+  dangerColor, dangerBg, dangerBgHover, dangerBorder, dangerText,
+  successColor, successBg, successBgHover, successBorder, successText,
+  warningColor, warningBg, warningBgHover, warningBorder, warningText,
+} from './tokens'
 
 function Spinner({ size }) {
   return (
@@ -11,29 +19,52 @@ function Spinner({ size }) {
       style={{ animation: 'spin 1s linear infinite', flexShrink: 0, position: 'relative' }}
       aria-hidden="true"
     >
-      <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
-      <circle cx="12" cy="12" r="10" stroke="#8F7458" strokeWidth="3" opacity="0.3" />
-      <path d="M12 2a10 10 0 0 1 10 10" stroke="#FFC183" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="12" cy="12" r="10" stroke={borderMid} strokeWidth="3" />
+      <path d="M12 2a10 10 0 0 1 10 10" stroke={accent} strokeWidth="3" strokeLinecap="round" />
     </svg>
   )
 }
 
 const variants = {
   default: {
-    bg:   'linear-gradient(150deg,#353751 0%,#2A2948 70%)',
-    text: 'linear-gradient(180deg,#F9F9F9 0%,#B8956A 100%)',
+    bg:          surface3,
+    bgHover:     surface4,
+    border:      borderDefault,
+    borderHover: borderMid,
+    text:        textHigh,
+    icon:        textMid,
+  },
+  primary: {
+    bg:          accent,
+    bgHover:     accentLight,
+    border:      accent,
+    borderHover: accentLight,
+    text:        '#ffffff',
+    icon:        '#ffffffcc',
   },
   danger: {
-    bg:   'linear-gradient(150deg,#3D1818 0%,#250A0A 70%)',
-    text: 'linear-gradient(180deg,#F9C0C0 0%,#C04040 100%)',
+    bg:          dangerBg,
+    bgHover:     dangerBgHover,
+    border:      dangerBorder,
+    borderHover: dangerColor,
+    text:        dangerText,
+    icon:        dangerColor,
   },
   success: {
-    bg:   'linear-gradient(150deg,#183D20 0%,#0A250E 70%)',
-    text: 'linear-gradient(180deg,#C0F0C8 0%,#40A055 100%)',
+    bg:          successBg,
+    bgHover:     successBgHover,
+    border:      successBorder,
+    borderHover: successColor,
+    text:        successText,
+    icon:        successColor,
   },
   warning: {
-    bg:   'linear-gradient(150deg,#3D2E10 0%,#251C05 70%)',
-    text: 'linear-gradient(180deg,#FFD580 0%,#C08040 100%)',
+    bg:          warningBg,
+    bgHover:     warningBgHover,
+    border:      warningBorder,
+    borderHover: warningColor,
+    text:        warningText,
+    icon:        warningColor,
   },
 }
 
@@ -41,8 +72,8 @@ const iconSize = { xs: 14, sm: 16, md: 20, lg: 24 }
 
 /**
  * Button — TkajUI základní tlačítko.
- * Oktagonální tvar, bez Ornaments. DonjonButton rozšiřuje tuto komponentu
- * o SideOrnament + HexOrnament pro herní vzhled.
+ * Oktagonální tvar, čistá UI paleta (bez herních gradientů).
+ * Varianty: default | primary | danger | success | warning | link
  */
 const Button = forwardRef(function Button(
   {
@@ -74,18 +105,17 @@ const Button = forwardRef(function Button(
           border: 'none',
           padding: 0,
           fontSize: s.fontSize,
-          fontWeight: 600,
-          letterSpacing: '0.12em',
-          textTransform: 'uppercase',
+          fontWeight: 500,
+          letterSpacing: '0.02em',
           cursor: 'pointer',
-          color: '#FFC183',
+          color: accent,
           textDecoration: 'underline',
           textDecorationColor: 'transparent',
           textUnderlineOffset: '3px',
-          transition: 'text-decoration-color 150ms',
+          transition: 'color 150ms, text-decoration-color 150ms',
         }}
         className={[
-          'hover:[text-decoration-color:#FFC183]',
+          `hover:[text-decoration-color:${accent}]`,
           'disabled:opacity-40 disabled:pointer-events-none',
           className,
         ].filter(Boolean).join(' ')}
@@ -94,31 +124,6 @@ const Button = forwardRef(function Button(
         {children}
       </button>
     )
-  }
-
-  const iconStyle = {
-    width: iSize,
-    height: iSize,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-    position: 'relative',
-    color: '#FFC183',
-    filter: 'drop-shadow(0 0 3px #FFC18388)',
-  }
-
-  const textStyle = {
-    backgroundImage: v.text,
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
-    fontSize: s.fontSize,
-    fontWeight: 600,
-    letterSpacing: '0.12em',
-    textTransform: 'uppercase',
-    lineHeight: 1,
-    position: 'relative',
   }
 
   return (
@@ -131,12 +136,11 @@ const Button = forwardRef(function Button(
         width: iconOnly ? s.h : (fullWidth ? '100%' : undefined),
         padding: iconOnly ? 0 : `0 ${s.px}px`,
         clipPath: octagon(s.cx),
-        background: v.bg,
+        background: v.border,    // outer 1px "border" via clip inset
         display: 'inline-flex',
         alignSelf: fullWidth ? undefined : 'flex-start',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: s.px * 0.4,
       }}
       className={[
         'cursor-pointer select-none',
@@ -148,17 +152,49 @@ const Button = forwardRef(function Button(
       ].filter(Boolean).join(' ')}
       {...props}
     >
+      {/* Inner fill */}
+      <span
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 1,
+          clipPath: octagon(Math.max(s.cx - 1, 0)),
+          background: v.bg,
+          transition: 'background 120ms',
+        }}
+      />
+      {/* Content */}
       {loading ? (
         <>
           <Spinner size={iSize} />
-          {!iconOnly && <span style={textStyle}>{children}</span>}
+          {!iconOnly && (
+            <span style={{ position: 'relative', fontSize: s.fontSize, fontWeight: 500, letterSpacing: '0.04em', color: v.text }}>
+              {children}
+            </span>
+          )}
         </>
       ) : (
         <>
-          {leadingIcon && <span style={iconStyle}>{leadingIcon}</span>}
-          {!iconOnly && <span style={textStyle}>{children}</span>}
-          {trailingIcon && <span style={iconStyle}>{trailingIcon}</span>}
-          {iconOnly && <span style={iconStyle}>{children}</span>}
+          {leadingIcon && (
+            <span style={{ position: 'relative', width: iSize, height: iSize, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: v.icon }}>
+              {leadingIcon}
+            </span>
+          )}
+          {!iconOnly && (
+            <span style={{ position: 'relative', fontSize: s.fontSize, fontWeight: 500, letterSpacing: '0.04em', color: v.text, lineHeight: 1 }}>
+              {children}
+            </span>
+          )}
+          {trailingIcon && (
+            <span style={{ position: 'relative', width: iSize, height: iSize, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: v.icon }}>
+              {trailingIcon}
+            </span>
+          )}
+          {iconOnly && (
+            <span style={{ position: 'relative', width: iSize, height: iSize, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: v.icon }}>
+              {children}
+            </span>
+          )}
         </>
       )}
     </button>

@@ -1,21 +1,31 @@
 /* ── Select / Dropdown ──────────────────────────────────────────────────
-   Vlastní dropdown (ne nativní <select>). Oktagonální trigger navazuje
-   na DonjonInput. Klávesnicová navigace, Escape zavírání, click-outside.
+   Vlastní dropdown (ne nativní <select>). Oktagonální trigger.
+   Klávesnicová navigace, Escape zavírání, click-outside.
+   Čistá TkajUI paleta.
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useRef, useEffect, useId } from 'react'
 import { octagon } from '../../utils/octagon'
+import {
+  surface2, surface4,
+  borderDefault, borderMid,
+  accent, accentBg, accentBorder,
+  textHigh, textMid, textLow,
+  successColor, successBg, successBorder,
+  dangerColor, dangerBg, dangerBorder,
+  warningColor, warningBg, warningBorder,
+} from './tokens'
 
 const VARIANTS = {
-  default: { border: '#8F7458', bg: '#8F745818', focus: '#8F745866' },
-  success: { border: '#40A055', bg: '#40A05518', focus: '#40A05566' },
-  danger:  { border: '#C04040', bg: '#C0404018', focus: '#C0404066' },
-  warning: { border: '#C08040', bg: '#C0804018', focus: '#C0804066' },
+  default: { border: borderDefault, bg: accentBg,    focus: `${accent}44`        },
+  success: { border: successBorder, bg: successBg,   focus: `${successColor}44`  },
+  danger:  { border: dangerBorder,  bg: dangerBg,    focus: `${dangerColor}44`   },
+  warning: { border: warningBorder, bg: warningBg,   focus: `${warningColor}44`  },
 }
 
 const SIZES = {
-  sm: { h: 30, fontSize: '0.75rem',   px: 10, cx: 5  },
-  md: { h: 36, fontSize: '0.8125rem', px: 12, cx: 7  },
-  lg: { h: 44, fontSize: '0.875rem',  px: 14, cx: 9  },
+  sm: { h: 30, fontSize: '0.75rem',   px: 10, cx: 5 },
+  md: { h: 36, fontSize: '0.8125rem', px: 12, cx: 7 },
+  lg: { h: 44, fontSize: '0.875rem',  px: 14, cx: 9 },
 }
 
 function ChevronIcon({ open }) {
@@ -108,6 +118,9 @@ export default function Select({
     triggerRef.current?.focus()
   }
 
+  // Dynamic border: open → accent, else default
+  const outerBorder = open ? accent : borderDefault
+
   return (
     <div style={{ position: 'relative', display: 'inline-block', width: '100%' }}>
 
@@ -115,14 +128,14 @@ export default function Select({
       {label && (
         <label
           htmlFor={triggerId}
-          style={{ display: 'block', marginBottom: 5, fontSize: '0.75rem', color: '#8F9CB3', letterSpacing: '0.04em' }}
+          style={{ display: 'block', marginBottom: 5, fontSize: '0.75rem', color: textMid, letterSpacing: '0.04em', fontWeight: 500 }}
         >
           {label}
         </label>
       )}
 
       {/* Trigger */}
-      <div style={{ clipPath: octagon(s.cx), background: open ? v.border : `${v.border}55`, padding: 1 }}>
+      <div style={{ clipPath: octagon(s.cx), background: outerBorder, padding: 1, transition: 'background 150ms' }}>
         <button
           ref={triggerRef}
           id={triggerId}
@@ -144,23 +157,21 @@ export default function Select({
             width: '100%',
             height: s.h,
             padding: `0 ${s.px}px`,
-            background: open ? v.bg : 'linear-gradient(135deg,#1A1830 0%,#12102A 100%)',
+            background: surface2,
             border: 'none',
             fontSize: s.fontSize,
-            color: selected ? '#F0E6D3' : '#4A4870',
+            color: selected ? textHigh : textLow,
             cursor: disabled ? 'not-allowed' : 'pointer',
             opacity: disabled ? 0.45 : 1,
             transition: 'background 0.15s',
             textAlign: 'left',
             outline: 'none',
           }}
-          onFocus={e => { e.currentTarget.parentElement.style.background = v.focus }}
-          onBlur={e => { if (!open) e.currentTarget.parentElement.style.background = open ? v.border : `${v.border}55` }}
         >
           <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {selected ? selected.label : placeholder}
           </span>
-          <span style={{ color: '#8F7458' }}>
+          <span style={{ color: textMid, transition: 'color 150ms' }}>
             <ChevronIcon open={open} />
           </span>
         </button>
@@ -179,42 +190,46 @@ export default function Select({
             left: 0,
             right: 0,
             zIndex: 900,
-            background: 'linear-gradient(150deg,#252340 0%,#1A1830 100%)',
-            border: `1px solid ${v.border}66`,
+            background: surface2,
+            border: `1px solid ${borderMid}`,
             borderRadius: 4,
             overflow: 'hidden',
-            boxShadow: `0 8px 24px rgba(0,0,0,0.5), 0 0 0 1px ${v.border}22`,
+            boxShadow: `0 8px 24px rgba(0,0,0,0.5), 0 0 0 1px ${accent}22`,
             animation: 'selectOpen 0.12s ease',
           }}
         >
           <style>{`@keyframes selectOpen { from { opacity:0; transform:translateY(-4px) } to { opacity:1; transform:translateY(0) } }`}</style>
-          {safeOptions.map((opt, i) => (
-            <div
-              key={opt.value}
-              role="option"
-              aria-selected={opt.value === value}
-              aria-disabled={opt.disabled}
-              onMouseEnter={() => !opt.disabled && setHighlighted(i)}
-              onClick={() => handleSelect(opt)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: `8px ${s.px}px`,
-                fontSize: s.fontSize,
-                color: opt.disabled ? '#4A4870' : (i === highlighted ? '#F0E6D3' : '#B8956A'),
-                background: i === highlighted && !opt.disabled ? `${v.border}18` : 'transparent',
-                cursor: opt.disabled ? 'not-allowed' : 'pointer',
-                transition: 'background 0.1s, color 0.1s',
-                borderBottom: i < safeOptions.length - 1 ? `1px solid ${v.border}18` : 'none',
-              }}
-            >
-              <span>{opt.label}</span>
-              {opt.value === value && (
-                <span style={{ color: v.border }}><CheckIcon /></span>
-              )}
-            </div>
-          ))}
+          {safeOptions.map((opt, i) => {
+            const isHighlighted = i === highlighted && !opt.disabled
+            const isSelected = opt.value === value
+            return (
+              <div
+                key={opt.value}
+                role="option"
+                aria-selected={isSelected}
+                aria-disabled={opt.disabled}
+                onMouseEnter={() => !opt.disabled && setHighlighted(i)}
+                onClick={() => handleSelect(opt)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: `8px ${s.px}px`,
+                  fontSize: s.fontSize,
+                  color: opt.disabled ? textLow : (isHighlighted ? textHigh : textMid),
+                  background: isHighlighted ? surface4 : 'transparent',
+                  cursor: opt.disabled ? 'not-allowed' : 'pointer',
+                  transition: 'background 0.1s, color 0.1s',
+                  borderBottom: i < safeOptions.length - 1 ? `1px solid ${borderDefault}` : 'none',
+                }}
+              >
+                <span>{opt.label}</span>
+                {isSelected && (
+                  <span style={{ color: accent }}><CheckIcon /></span>
+                )}
+              </div>
+            )
+          })}
         </div>
       )}
     </div>

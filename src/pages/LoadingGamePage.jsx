@@ -154,6 +154,7 @@ export default function LoadingGamePage() {
     <ShowcasePage
       title="Načítání hry"
       description="Přechodová obrazovka mezi výběrem mapy a spuštěním herního plánu. Zobrazuje hráče, název mapy, schématickou mapu v obrysu a progress bar."
+      library="donjon"
     >
       <Section
         id="desktop"

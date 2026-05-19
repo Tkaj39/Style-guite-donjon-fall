@@ -6,14 +6,14 @@
  *
  * Props:
  *   size       {number}                        px — výchozí 16
- *   color      {string}                        barva fill — výchozí #8F7458 (gold-dark)
+ *   color      {string}                        barva fill — výchozí 'currentColor' (dědí z rodiče)
  *   variant    {'bracket'|'dot'|'diamond'|'cross'}  tvar ornamentu
  *   cornerType {'cut'|'round'|'scoop'}         geometrie rohu, na kterém ornament sedí (výchozí 'cut')
  *   style      {object}                        extra inline styly (position, top, left…)
  */
 export default function CornerOrnament({
   size       = 16,
-  color      = '#8F7458',
+  color      = 'currentColor',
   variant    = 'bracket',
   cornerType = 'cut',
   style      = {},

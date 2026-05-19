@@ -248,6 +248,7 @@ export default function MapSelectPage() {
     <ShowcasePage
       title="Výběr mapy"
       description="Obrazovka výběru herní mapy před spuštěním partie. Každá karta ukazuje název, počet hexů, hráčů a cílový VP. Vybraná karta je zvýrazněna zlatým okrajem."
+      library="donjon"
     >
       <Section
         id="desktop"

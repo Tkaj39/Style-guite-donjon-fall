@@ -57,6 +57,7 @@ export default function TexturePage() {
     <ShowcasePage
       title="Texture systém"
       description="Vizuální textury pro atmosféru — noise overlay, gradient vignette, scanlines a corner accent. Textury jsou CSS-only, nepoužívají obrázky."
+      library="donjon"
     >
 
       {/* Typy textur */}

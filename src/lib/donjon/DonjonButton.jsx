@@ -2,6 +2,7 @@ import { forwardRef, useId } from 'react'
 import { octagon } from '../../utils/octagon'
 import { buttonSizes as sizes } from '../../utils/sizes'
 import { SideOrnament, HexOrnament } from '../tkajui/Ornaments'
+import { gold, goldDim, VARIANT_BG, VARIANT_TITLE_GRAD } from './tokens'
 
 function Spinner({ size }) {
   return (
@@ -12,25 +13,24 @@ function Spinner({ size }) {
       style={{ animation: 'spin 1s linear infinite', flexShrink: 0, position: 'relative' }}
       aria-hidden="true"
     >
-      <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
-      <circle cx="12" cy="12" r="10" stroke="#8F7458" strokeWidth="3" opacity="0.3" />
-      <path d="M12 2a10 10 0 0 1 10 10" stroke="#FFC183" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="12" cy="12" r="10" stroke={goldDim} strokeWidth="3" opacity="0.3" />
+      <path d="M12 2a10 10 0 0 1 10 10" stroke={gold} strokeWidth="3" strokeLinecap="round" />
     </svg>
   )
 }
 
 const variants = {
   default: {
-    bg:   'linear-gradient(150deg,#353751 0%,#2A2948 70%)',
-    text: 'linear-gradient(180deg,#F9F9F9 0%,#B8956A 100%)',
+    bg:   VARIANT_BG.default,
+    text: VARIANT_TITLE_GRAD.default,
   },
   danger: {
-    bg:   'linear-gradient(150deg,#3D1818 0%,#250A0A 70%)',
-    text: 'linear-gradient(180deg,#F9C0C0 0%,#C04040 100%)',
+    bg:   VARIANT_BG.danger,
+    text: VARIANT_TITLE_GRAD.danger,
   },
   success: {
-    bg:   'linear-gradient(150deg,#183D20 0%,#0A250E 70%)',
-    text: 'linear-gradient(180deg,#C0F0C8 0%,#40A055 100%)',
+    bg:   VARIANT_BG.success,
+    text: VARIANT_TITLE_GRAD.success,
   },
 }
 
@@ -75,7 +75,7 @@ const DonjonButton = forwardRef(function DonjonButton(
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
           cursor: 'pointer',
-          color: '#FFC183',
+          color: gold,
           textDecoration: 'underline',
           textDecorationColor: 'transparent',
           textUnderlineOffset: '3px',
@@ -101,8 +101,8 @@ const DonjonButton = forwardRef(function DonjonButton(
     justifyContent: 'center',
     flexShrink: 0,
     position: 'relative',
-    color: '#FFC183',
-    filter: 'drop-shadow(0 0 3px #FFC18388)',
+    color: gold,
+    filter: `drop-shadow(0 0 3px ${gold}88)`,
   }
 
   const textStyle = {

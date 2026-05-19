@@ -12,6 +12,7 @@ export default function OrnamentsPage() {
       title="Ornaments"
       description="Sdílené dekorativní prvky používané v tlačítkách, skupinách tlačítek a kartách. Každý ornament automaticky škáluje podle rozměrů komponenty a používá gradienty zlaté palety."
       componentSlugs={['ornaments', 'corner-ornament']}
+      library="donjon"
     >
 
       {/* ── SideOrnament ── */}

@@ -185,6 +185,7 @@ export default function MenuPage() {
     <ShowcasePage
       title="Hlavní menu"
       description="Vstupní bod aplikace — výběr herního režimu před spuštěním partie. Desktop zobrazuje dvoupanelové rozložení s dekorativní mapou; tablet a mobil centrovaný sloupec."
+      library="donjon"
     >
       <Section
         id="desktop"

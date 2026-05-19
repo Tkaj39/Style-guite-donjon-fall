@@ -21,6 +21,7 @@ export default function SpacingPage() {
     <ShowcasePage
       title="Spacing"
       description="Škála postavená na základní jednotce 4px. Všechny mezery, padding a gap v komponentách jsou násobky této hodnoty."
+      library="donjon"
     >
       <Section
         title="Škála"

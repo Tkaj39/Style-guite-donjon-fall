@@ -5,17 +5,17 @@ export default {
     extend: {
       colors: {
         brand: {
-          50:  '#f0f4ff',
-          100: '#dde6ff',
-          200: '#c3d0ff',
-          300: '#9db0ff',
-          400: '#7485ff',
-          500: '#4f57f7',
-          600: '#3d3eed',
-          700: '#3030d1',
-          800: '#2a2ba9',
-          900: '#272b85',
-          950: '#18194d',
+          50:  '#f0f2ff',
+          100: '#e2e5ff',
+          200: '#c8cdff',
+          300: '#a8b0ff',
+          400: '#8591ff',  // = accentLight z tokens.js
+          500: '#6576ff',  // = accent z tokens.js  ← hlavní hodnota
+          600: '#4455ee',  // = accentDim z tokens.js
+          700: '#3344cc',
+          800: '#2a36a8',
+          900: '#252f85',
+          950: '#151a4d',
         },
       },
       fontFamily: {
