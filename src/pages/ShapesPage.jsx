@@ -496,7 +496,7 @@ octagonWithNotch(
           ))}
         </Preview>
 
-        <CodeBlock code={`import CornerOrnament from '../lib/tkajui/CornerOrnament'
+        <CodeBlock code={`import CornerOrnament from '../lib/donjon/CornerOrnament'
 
 {/* Karta s rohovými ozdobami */}
 <div style={{ position: 'relative', clipPath: octagon(15), ... }}>

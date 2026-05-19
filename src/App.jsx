@@ -1,130 +1,132 @@
+import { lazy, Suspense } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './styleguide/Layout'
-import ButtonsPage from './pages/ButtonsPage'
-import ButtonGroupsPage from './pages/ButtonGroupsPage'
-import PlaceholderPage from './pages/PlaceholderPage'
-import InputsPage from './pages/InputsPage'
-import BadgesPage from './pages/BadgesPage'
-import CardsPage from './pages/CardsPage'
-import ColorsPage from './pages/ColorsPage'
-import MoodPage from './pages/MoodPage'
-import TypographyPage from './pages/TypographyPage'
-import SpacingPage from './pages/SpacingPage'
-import PictogramsPage from './pages/PictogramsPage'
-import OrnamentsPage from './pages/OrnamentsPage'
-import ShapesPage from './pages/ShapesPage'
-import TahPage from './pages/TahPage'
-import AkcePage from './pages/AkcePage'
-import VictoryPointsPage from './pages/VictoryPointsPage'
-import DialogyPage from './pages/DialogyPage'
-import HexagonPage from './pages/HexagonPage'
-import DicePage from './pages/DicePage'
-import MapPage from './pages/MapPage'
-import ErbPage from './pages/ErbPage'
-import AnimacePage from './pages/AnimacePage'
-import FloatFeedbackPage from './pages/FloatFeedbackPage'
-import ZvukyPage from './pages/ZvukyPage'
-import ScreensPage from './pages/ScreensPage'
-import MenuPage from './pages/MenuPage'
-import MapSelectPage from './pages/MapSelectPage'
-import LoadingAppPage from './pages/LoadingAppPage'
-import LoadingGamePage from './pages/LoadingGamePage'
-import SettingsPage from './pages/SettingsPage'
-import ComponentsPage from './pages/ComponentsPage'
-import TodoPage from './pages/TodoPage'
-import ComponentDetailPage from './pages/ComponentDetailPage'
-import TooltipPage from './pages/TooltipPage'
-import ModalPage from './pages/ModalPage'
-import ToastPage from './pages/ToastPage'
-import TogglePage from './pages/TogglePage'
-import ProgressBarPage from './pages/ProgressBarPage'
-import SelectPage from './pages/SelectPage'
-import SliderPage from './pages/SliderPage'
-import TabsPage from './pages/TabsPage'
-import MotionPage from './pages/MotionPage'
-import InteractionStatesPage from './pages/InteractionStatesPage'
-import ZIndexPage from './pages/ZIndexPage'
-import AccessibilityPage from './pages/AccessibilityPage'
-import FeedbackHierarchyPage from './pages/FeedbackHierarchyPage'
-import ErrorStatesPage from './pages/ErrorStatesPage'
-import EmptyStatesPage from './pages/EmptyStatesPage'
-import LoadingSkeletonPage from './pages/LoadingSkeletonPage'
-import ValidationPage from './pages/ValidationPage'
-import MicrocopyPage from './pages/MicrocopyPage'
-import ResponsivePage from './pages/ResponsivePage'
-import FocusRingPage from './pages/FocusRingPage'
-import GlowShadowPage from './pages/GlowShadowPage'
-import CursorPage from './pages/CursorPage'
-import ScrollbarPage from './pages/ScrollbarPage'
-import TextSelectionPage from './pages/TextSelectionPage'
-import TokensPage from './pages/TokensPage'
-import HudPage from './pages/HudPage'
-import TexturePage from './pages/TexturePage'
+
+const ButtonsPage          = lazy(() => import('./pages/ButtonsPage'))
+const ButtonGroupsPage     = lazy(() => import('./pages/ButtonGroupsPage'))
+const PlaceholderPage      = lazy(() => import('./pages/PlaceholderPage'))
+const InputsPage           = lazy(() => import('./pages/InputsPage'))
+const BadgesPage           = lazy(() => import('./pages/BadgesPage'))
+const CardsPage            = lazy(() => import('./pages/CardsPage'))
+const ColorsPage           = lazy(() => import('./pages/ColorsPage'))
+const MoodPage             = lazy(() => import('./pages/MoodPage'))
+const TypographyPage       = lazy(() => import('./pages/TypographyPage'))
+const SpacingPage          = lazy(() => import('./pages/SpacingPage'))
+const PictogramsPage       = lazy(() => import('./pages/PictogramsPage'))
+const OrnamentsPage        = lazy(() => import('./pages/OrnamentsPage'))
+const ShapesPage           = lazy(() => import('./pages/ShapesPage'))
+const TahPage              = lazy(() => import('./pages/TahPage'))
+const AkcePage             = lazy(() => import('./pages/AkcePage'))
+const VictoryPointsPage    = lazy(() => import('./pages/VictoryPointsPage'))
+const DialogyPage          = lazy(() => import('./pages/DialogyPage'))
+const HexagonPage          = lazy(() => import('./pages/HexagonPage'))
+const DicePage             = lazy(() => import('./pages/DicePage'))
+const MapPage              = lazy(() => import('./pages/MapPage'))
+const ErbPage              = lazy(() => import('./pages/ErbPage'))
+const AnimacePage          = lazy(() => import('./pages/AnimacePage'))
+const FloatFeedbackPage    = lazy(() => import('./pages/FloatFeedbackPage'))
+const ZvukyPage            = lazy(() => import('./pages/ZvukyPage'))
+const ScreensPage          = lazy(() => import('./pages/ScreensPage'))
+const MenuPage             = lazy(() => import('./pages/MenuPage'))
+const MapSelectPage        = lazy(() => import('./pages/MapSelectPage'))
+const LoadingAppPage       = lazy(() => import('./pages/LoadingAppPage'))
+const LoadingGamePage      = lazy(() => import('./pages/LoadingGamePage'))
+const SettingsPage         = lazy(() => import('./pages/SettingsPage'))
+const ComponentsPage       = lazy(() => import('./pages/ComponentsPage'))
+const TodoPage             = lazy(() => import('./pages/TodoPage'))
+const ComponentDetailPage  = lazy(() => import('./pages/ComponentDetailPage'))
+const TooltipPage          = lazy(() => import('./pages/TooltipPage'))
+const ModalPage            = lazy(() => import('./pages/ModalPage'))
+const ToastPage            = lazy(() => import('./pages/ToastPage'))
+const TogglePage           = lazy(() => import('./pages/TogglePage'))
+const ProgressBarPage      = lazy(() => import('./pages/ProgressBarPage'))
+const SelectPage           = lazy(() => import('./pages/SelectPage'))
+const SliderPage           = lazy(() => import('./pages/SliderPage'))
+const TabsPage             = lazy(() => import('./pages/TabsPage'))
+const MotionPage           = lazy(() => import('./pages/MotionPage'))
+const InteractionStatesPage = lazy(() => import('./pages/InteractionStatesPage'))
+const ZIndexPage           = lazy(() => import('./pages/ZIndexPage'))
+const AccessibilityPage    = lazy(() => import('./pages/AccessibilityPage'))
+const FeedbackHierarchyPage = lazy(() => import('./pages/FeedbackHierarchyPage'))
+const ErrorStatesPage      = lazy(() => import('./pages/ErrorStatesPage'))
+const EmptyStatesPage      = lazy(() => import('./pages/EmptyStatesPage'))
+const LoadingSkeletonPage  = lazy(() => import('./pages/LoadingSkeletonPage'))
+const ValidationPage       = lazy(() => import('./pages/ValidationPage'))
+const MicrocopyPage        = lazy(() => import('./pages/MicrocopyPage'))
+const ResponsivePage       = lazy(() => import('./pages/ResponsivePage'))
+const FocusRingPage        = lazy(() => import('./pages/FocusRingPage'))
+const GlowShadowPage       = lazy(() => import('./pages/GlowShadowPage'))
+const CursorPage           = lazy(() => import('./pages/CursorPage'))
+const ScrollbarPage        = lazy(() => import('./pages/ScrollbarPage'))
+const TextSelectionPage    = lazy(() => import('./pages/TextSelectionPage'))
+const TokensPage           = lazy(() => import('./pages/TokensPage'))
+const HudPage              = lazy(() => import('./pages/HudPage'))
+const TexturePage          = lazy(() => import('./pages/TexturePage'))
 
 export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Navigate to="/mood" replace />} />
-        <Route path="buttons" element={<ButtonsPage />} />
-        <Route path="button-groups" element={<ButtonGroupsPage />} />
-        <Route path="mood" element={<MoodPage />} />
-        <Route path="colors" element={<ColorsPage />} />
-        <Route path="typography" element={<TypographyPage />} />
-        <Route path="spacing" element={<SpacingPage />} />
-        <Route path="pictograms" element={<PictogramsPage />} />
-        <Route path="ornaments" element={<OrnamentsPage />} />
-        <Route path="shapes" element={<ShapesPage />} />
-        <Route path="inputs" element={<InputsPage />} />
-        <Route path="badges" element={<BadgesPage />} />
-        <Route path="cards" element={<CardsPage />} />
-        <Route path="turn" element={<TahPage />} />
-        <Route path="actions" element={<AkcePage />} />
-        <Route path="victory-points" element={<VictoryPointsPage />} />
-        <Route path="dialogs" element={<DialogyPage />} />
-        <Route path="hexagon" element={<HexagonPage />} />
-        <Route path="dice" element={<DicePage />} />
-        <Route path="map" element={<MapPage />} />
-        <Route path="erb" element={<ErbPage />} />
-        <Route path="animations" element={<AnimacePage />} />
-        <Route path="float-feedback" element={<FloatFeedbackPage />} />
-        <Route path="sounds" element={<ZvukyPage />} />
-        <Route path="screens" element={<ScreensPage />} />
-        <Route path="menu" element={<MenuPage />} />
-        <Route path="map-select" element={<MapSelectPage />} />
-        <Route path="loading-app" element={<LoadingAppPage />} />
-        <Route path="loading-game" element={<LoadingGamePage />} />
-        <Route path="settings" element={<SettingsPage />} />
-        <Route path="todo" element={<TodoPage />} />
-        <Route path="components" element={<ComponentsPage />} />
-        <Route path="components/:slug" element={<ComponentDetailPage />} />
-        <Route path="tooltip" element={<TooltipPage />} />
-        <Route path="modal" element={<ModalPage />} />
-        <Route path="toast" element={<ToastPage />} />
-        <Route path="toggle"       element={<TogglePage />} />
-        <Route path="progress-bar" element={<ProgressBarPage />} />
-        <Route path="select"       element={<SelectPage />} />
-        <Route path="slider"       element={<SliderPage />} />
-        <Route path="tabs"               element={<TabsPage />} />
-        <Route path="motion"             element={<MotionPage />} />
-        <Route path="interaction-states" element={<InteractionStatesPage />} />
-        <Route path="z-index"            element={<ZIndexPage />} />
-        <Route path="accessibility"      element={<AccessibilityPage />} />
-        <Route path="feedback-hierarchy" element={<FeedbackHierarchyPage />} />
-        <Route path="error-states"       element={<ErrorStatesPage />} />
-        <Route path="empty-states"       element={<EmptyStatesPage />} />
-        <Route path="loading-skeleton"   element={<LoadingSkeletonPage />} />
-        <Route path="validation"         element={<ValidationPage />} />
-        <Route path="microcopy"          element={<MicrocopyPage />} />
-        <Route path="responsive"         element={<ResponsivePage />} />
-        <Route path="focus-ring"         element={<FocusRingPage />} />
-        <Route path="glow-shadow"        element={<GlowShadowPage />} />
-        <Route path="cursor"             element={<CursorPage />} />
-        <Route path="scrollbar"          element={<ScrollbarPage />} />
-        <Route path="text-selection"     element={<TextSelectionPage />} />
-        <Route path="tokens"             element={<TokensPage />} />
-        <Route path="hud"                element={<HudPage />} />
-        <Route path="texture"            element={<TexturePage />} />
+        <Route path="buttons"      element={<Suspense><ButtonsPage /></Suspense>} />
+        <Route path="button-groups" element={<Suspense><ButtonGroupsPage /></Suspense>} />
+        <Route path="mood"         element={<Suspense><MoodPage /></Suspense>} />
+        <Route path="colors"       element={<Suspense><ColorsPage /></Suspense>} />
+        <Route path="typography"   element={<Suspense><TypographyPage /></Suspense>} />
+        <Route path="spacing"      element={<Suspense><SpacingPage /></Suspense>} />
+        <Route path="pictograms"   element={<Suspense><PictogramsPage /></Suspense>} />
+        <Route path="ornaments"    element={<Suspense><OrnamentsPage /></Suspense>} />
+        <Route path="shapes"       element={<Suspense><ShapesPage /></Suspense>} />
+        <Route path="inputs"       element={<Suspense><InputsPage /></Suspense>} />
+        <Route path="badges"       element={<Suspense><BadgesPage /></Suspense>} />
+        <Route path="cards"        element={<Suspense><CardsPage /></Suspense>} />
+        <Route path="turn"         element={<Suspense><TahPage /></Suspense>} />
+        <Route path="actions"      element={<Suspense><AkcePage /></Suspense>} />
+        <Route path="victory-points" element={<Suspense><VictoryPointsPage /></Suspense>} />
+        <Route path="dialogs"      element={<Suspense><DialogyPage /></Suspense>} />
+        <Route path="hexagon"      element={<Suspense><HexagonPage /></Suspense>} />
+        <Route path="dice"         element={<Suspense><DicePage /></Suspense>} />
+        <Route path="map"          element={<Suspense><MapPage /></Suspense>} />
+        <Route path="erb"          element={<Suspense><ErbPage /></Suspense>} />
+        <Route path="animations"   element={<Suspense><AnimacePage /></Suspense>} />
+        <Route path="float-feedback" element={<Suspense><FloatFeedbackPage /></Suspense>} />
+        <Route path="sounds"       element={<Suspense><ZvukyPage /></Suspense>} />
+        <Route path="screens"      element={<Suspense><ScreensPage /></Suspense>} />
+        <Route path="menu"         element={<Suspense><MenuPage /></Suspense>} />
+        <Route path="map-select"   element={<Suspense><MapSelectPage /></Suspense>} />
+        <Route path="loading-app"  element={<Suspense><LoadingAppPage /></Suspense>} />
+        <Route path="loading-game" element={<Suspense><LoadingGamePage /></Suspense>} />
+        <Route path="settings"     element={<Suspense><SettingsPage /></Suspense>} />
+        <Route path="todo"         element={<Suspense><TodoPage /></Suspense>} />
+        <Route path="components"   element={<Suspense><ComponentsPage /></Suspense>} />
+        <Route path="components/:slug" element={<Suspense><ComponentDetailPage /></Suspense>} />
+        <Route path="tooltip"      element={<Suspense><TooltipPage /></Suspense>} />
+        <Route path="modal"        element={<Suspense><ModalPage /></Suspense>} />
+        <Route path="toast"        element={<Suspense><ToastPage /></Suspense>} />
+        <Route path="toggle"       element={<Suspense><TogglePage /></Suspense>} />
+        <Route path="progress-bar" element={<Suspense><ProgressBarPage /></Suspense>} />
+        <Route path="select"       element={<Suspense><SelectPage /></Suspense>} />
+        <Route path="slider"       element={<Suspense><SliderPage /></Suspense>} />
+        <Route path="tabs"               element={<Suspense><TabsPage /></Suspense>} />
+        <Route path="motion"             element={<Suspense><MotionPage /></Suspense>} />
+        <Route path="interaction-states" element={<Suspense><InteractionStatesPage /></Suspense>} />
+        <Route path="z-index"            element={<Suspense><ZIndexPage /></Suspense>} />
+        <Route path="accessibility"      element={<Suspense><AccessibilityPage /></Suspense>} />
+        <Route path="feedback-hierarchy" element={<Suspense><FeedbackHierarchyPage /></Suspense>} />
+        <Route path="error-states"       element={<Suspense><ErrorStatesPage /></Suspense>} />
+        <Route path="empty-states"       element={<Suspense><EmptyStatesPage /></Suspense>} />
+        <Route path="loading-skeleton"   element={<Suspense><LoadingSkeletonPage /></Suspense>} />
+        <Route path="validation"         element={<Suspense><ValidationPage /></Suspense>} />
+        <Route path="microcopy"          element={<Suspense><MicrocopyPage /></Suspense>} />
+        <Route path="responsive"         element={<Suspense><ResponsivePage /></Suspense>} />
+        <Route path="focus-ring"         element={<Suspense><FocusRingPage /></Suspense>} />
+        <Route path="glow-shadow"        element={<Suspense><GlowShadowPage /></Suspense>} />
+        <Route path="cursor"             element={<Suspense><CursorPage /></Suspense>} />
+        <Route path="scrollbar"          element={<Suspense><ScrollbarPage /></Suspense>} />
+        <Route path="text-selection"     element={<Suspense><TextSelectionPage /></Suspense>} />
+        <Route path="tokens"             element={<Suspense><TokensPage /></Suspense>} />
+        <Route path="hud"                element={<Suspense><HudPage /></Suspense>} />
+        <Route path="texture"            element={<Suspense><TexturePage /></Suspense>} />
       </Route>
     </Routes>
   )

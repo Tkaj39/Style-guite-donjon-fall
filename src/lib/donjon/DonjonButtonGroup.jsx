@@ -1,6 +1,6 @@
 import { useId } from 'react'
 import { octagon, clipLeft, clipRight } from '../../utils/octagon'
-import { SideOrnament, HexOrnament } from '../tkajui/Ornaments'
+import { SideOrnament, HexOrnament } from './Ornaments'
 import { gold, goldDim, bgInactive, VARIANT_BG, VARIANT_TITLE_GRAD } from './tokens'
 
 const sizeMap = {

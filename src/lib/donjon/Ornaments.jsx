@@ -8,7 +8,7 @@
  *   Props: uid, flip (bottom variant), edgePadL/R (outer line inset), textPadL/R (inner line inset),
  *          hexOffsetX (horizontal shift of hexagon for asymmetric layouts)
  */
-import { gold, goldDim, bg4 } from '../donjon/tokens'
+import { gold, goldDim, bg4 } from './tokens'
 
 export function SideOrnament({ h, uid, flip }) {
   const w  = Math.round(24 * (h / 66) * 10) / 10 - 2

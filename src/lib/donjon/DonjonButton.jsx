@@ -1,7 +1,7 @@
 import { forwardRef, useId } from 'react'
 import { octagon } from '../../utils/octagon'
 import { buttonSizes as sizes } from '../../utils/sizes'
-import { SideOrnament, HexOrnament } from '../tkajui/Ornaments'
+import { SideOrnament, HexOrnament } from './Ornaments'
 import { gold, goldDim, VARIANT_BG, VARIANT_TITLE_GRAD } from './tokens'
 
 function Spinner({ size }) {
@@ -80,9 +80,10 @@ const DonjonButton = forwardRef(function DonjonButton(
           textDecorationColor: 'transparent',
           textUnderlineOffset: '3px',
           transition: 'text-decoration-color 150ms',
+          '--db-gold': gold,
         }}
         className={[
-          'hover:[text-decoration-color:#FFC183]',
+          'hover:[text-decoration-color:var(--db-gold)]',
           'disabled:opacity-40 disabled:pointer-events-none',
           className,
         ].filter(Boolean).join(' ')}

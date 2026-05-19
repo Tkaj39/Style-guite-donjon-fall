@@ -1,6 +1,6 @@
 import { useId } from 'react'
 import { octagon } from '../../utils/octagon'
-import { SideOrnament, HexOrnament } from '../tkajui/Ornaments'
+import { SideOrnament, HexOrnament } from './Ornaments'
 import {
   goldDim,
   VARIANT_BG, VARIANT_BORDER, VARIANT_HEADER_BG, VARIANT_TITLE_GRAD,

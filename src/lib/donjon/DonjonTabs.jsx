@@ -4,7 +4,7 @@
    - pills:     HexOrnament nahoře i dole kolem tracku
    ─────────────────────────────────────────────────────────────────────── */
 import { useId } from 'react'
-import { HexOrnament } from '../tkajui/Ornaments'
+import { HexOrnament } from './Ornaments'
 import { gold, goldMid, goldDim, bg0, bg3, bg4, textActive, textDisabled } from './tokens'
 
 const SIZES = {

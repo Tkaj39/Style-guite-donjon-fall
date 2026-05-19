@@ -1,5 +1,5 @@
-import { SideOrnament, HexOrnament } from '../lib/tkajui/Ornaments'
-import CornerOrnament from '../lib/tkajui/CornerOrnament'
+import { SideOrnament, HexOrnament } from '../lib/donjon/Ornaments'
+import CornerOrnament from '../lib/donjon/CornerOrnament'
 import { buttonSizes, CARD_ORN_H } from '../utils/sizes'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 

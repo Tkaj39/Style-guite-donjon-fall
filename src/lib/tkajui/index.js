@@ -19,11 +19,11 @@ export { default as Slider }         from './Slider'
 export { default as Tabs }           from './Tabs'
 export { default as Toggle }         from './Toggle'
 
-// Přesunuté — přímý import z lib/tkajui/
 export { default as ScoopClip }      from './ScoopClip'
-export { default as CornerOrnament } from './CornerOrnament'
 export { default as NotchedBox }     from './NotchedBox'
-export { SideOrnament, HexOrnament } from './Ornaments'
+// Přesunuto do lib/donjon/ — re-exporty pro zpětnou kompatibilitu
+export { default as CornerOrnament } from '../donjon/CornerOrnament'
+export { SideOrnament, HexOrnament } from '../donjon/Ornaments'
 
 export { default as Pictogram }      from './Pictogram'
 

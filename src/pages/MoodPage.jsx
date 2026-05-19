@@ -1,15 +1,4 @@
-import { useLibVariant, ShowcasePage } from '../styleguide/ShowcasePage'
-
-/* ── Sdílené primitiva ── */
-
-function SectionLabel({ children }) {
-  return (
-    <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase' }}
-       className="text-neutral-500">
-      {children}
-    </p>
-  )
-}
+import { useLibVariant, ShowcasePage, Section } from '../styleguide/ShowcasePage'
 
 /* ══════════════════════════════════════════════════════════════════════════
    TkajUI — Mood & Vision
@@ -43,8 +32,7 @@ function TkajuiPrinciple({ icon, title, children }) {
 function TkajuiContent() {
   return (
     <>
-      {/* Manifesto */}
-      <section id="manifesto" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <Section id="manifesto">
         <blockquote style={{ margin: 0, padding: '20px 28px', background: '#13131c', borderLeft: '3px solid #6576ff', borderRadius: 4 }}>
           <p style={{ margin: 0, fontSize: '1.125rem', fontStyle: 'italic', color: '#eeeef8', lineHeight: 1.7 }}>
             Dobrá komponenta je ta, na kterou uživatel nemyslí.
@@ -56,11 +44,9 @@ function TkajuiContent() {
           teprve budují. Každá komponenta musí fungovat v dashboardu, e-shopu i interní aplikaci.
           Pokud design volání o pozornost, selhal.
         </p>
-      </section>
+      </Section>
 
-      {/* Pilíře */}
-      <section id="pilire" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <SectionLabel>Tři pilíře</SectionLabel>
+      <Section id="pilire" title="Tři pilíře">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <TkajuiPillar title="Neviditelnost">
             Komponenta se podřídí obsahu. Barvy, tvary i animace nesmí volat po pozornosti —
@@ -77,11 +63,9 @@ function TkajuiContent() {
             Složitost patří do produktu, ne do knihovny.
           </TkajuiPillar>
         </div>
-      </section>
+      </Section>
 
-      {/* Designové principy */}
-      <section id="co-tkajui-neni" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <SectionLabel>Co TkajUI není</SectionLabel>
+      <Section id="co-tkajui-neni" title="Co TkajUI není">
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 8 }}>
           <TkajuiPrinciple icon="🚫" title="Není téma">
             TkajUI nedodává „vibe". Chladné slate barvy a modrý akcent záměrně nic neříkají —
@@ -100,11 +84,9 @@ function TkajuiContent() {
             vizuální volba — vše ostatní je čistá funkce.
           </TkajuiPrinciple>
         </div>
-      </section>
+      </Section>
 
-      {/* Reference */}
-      <section id="reference" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <SectionLabel>Reference</SectionLabel>
+      <Section id="reference" title="Reference">
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 8 }}>
           {[
             { label: 'Radix UI',     note: 'Bezstylistické primitive — přístupnost first, vizuál po tobě' },
@@ -118,7 +100,7 @@ function TkajuiContent() {
             </div>
           ))}
         </div>
-      </section>
+      </Section>
     </>
   )
 }
@@ -155,7 +137,7 @@ function MaterialBlock({ label, description, swatch }) {
 function DonjonContent() {
   return (
     <>
-      <section id="manifesto-donjon" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <Section id="manifesto-donjon">
         <blockquote style={{ margin: 0, padding: '24px 32px', background: 'linear-gradient(150deg,#252340 0%,#1A1830 100%)', borderLeft: '3px solid #FFC183', borderRadius: 2 }}>
           <p style={{ margin: 0, fontSize: '1.125rem', fontStyle: 'italic', color: '#E8DDD0', lineHeight: 1.7 }}>
             Donjon Fall není šachy. Je to bitva s osudem.
@@ -167,10 +149,9 @@ function DonjonContent() {
           nevydržela. Hra musí být <strong style={{ color: '#C8BFAF' }}>čitelná okamžitě</strong> (15 minut,
           žádné zdržování), ale každý moment musí mít <strong style={{ color: '#C8BFAF' }}>váhu</strong>.
         </p>
-      </section>
+      </Section>
 
-      <section id="dramaticnost" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <SectionLabel>Tři designové pilíře</SectionLabel>
+      <Section id="dramaticnost" title="Tři designové pilíře">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           <DonjonPillar title="Dramatičnost">
             Přechody, animace a stavy mají pocit filmového střihu, ne softwarového klikání.
@@ -185,10 +166,9 @@ function DonjonContent() {
             tesaný kámen, odlitý kov, zlato jako odměna, ne dekorace. Dvě vrstvy jednoho světa.
           </DonjonPillar>
         </div>
-      </section>
+      </Section>
 
-      <section id="materialovy-jazyk" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <SectionLabel>Materiálový jazyk</SectionLabel>
+      <Section id="materialovy-jazyk" title="Materiálový jazyk">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <MaterialBlock
             label="Herní pole"
@@ -201,20 +181,18 @@ function DonjonContent() {
             swatch="linear-gradient(135deg, #4A3C28 0%, #2A2218 50%, #FFC18330 100%)"
           />
         </div>
-      </section>
+      </Section>
 
-      <section id="cilovy-hrac" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <SectionLabel>Cílový hráč</SectionLabel>
+      <Section id="cilovy-hrac" title="Cílový hráč">
         <p style={{ margin: 0, fontSize: '0.9375rem', color: '#9A9080', lineHeight: 1.75 }}>
           Hráč který nevydrží u šachů — ne proto že by je neuměl, ale proto že mu chybí
           napětí a příběh. Chce strategii, ale chce i moment kdy se otočí ke spoluhráči
           a říká <em style={{ color: '#C8BFAF' }}>"nemůžeš věřit co se právě stalo"</em>.
           Hra trvá 15 minut. Bude jich hrát pět za sebou.
         </p>
-      </section>
+      </Section>
 
-      <section id="reference-donjon" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <SectionLabel>Reference</SectionLabel>
+      <Section id="reference-donjon" title="Reference">
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 8 }}>
           {[
             { label: 'Guardians of the Galaxy', note: 'Blockbuster vizuál s neočekávanými emočními momenty' },
@@ -228,7 +206,7 @@ function DonjonContent() {
             </div>
           ))}
         </div>
-      </section>
+      </Section>
     </>
   )
 }
