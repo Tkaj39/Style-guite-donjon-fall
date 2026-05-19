@@ -3,6 +3,28 @@ import * as TkajUI from '../index'
 // ─── Barrel export ─────────────────────────────────────────────────────────
 
 describe('barrel export (index.js)', () => {
+  // Komponenty — base (Badge, Button, Card, Input)
+  it('Badge je exportován jako funkce', () => {
+    expect(TkajUI.Badge).toBeDefined()
+    expect(typeof TkajUI.Badge).toBe('function')
+  })
+
+  it('Button je exportován jako React komponenta', () => {
+    expect(TkajUI.Button).toBeDefined()
+    // forwardRef vrací objekt, ne funkci — testujeme jen existenci
+    expect(TkajUI.Button).not.toBeNull()
+  })
+
+  it('Card je exportován jako funkce', () => {
+    expect(TkajUI.Card).toBeDefined()
+    expect(typeof TkajUI.Card).toBe('function')
+  })
+
+  it('Input je exportován jako funkce', () => {
+    expect(TkajUI.Input).toBeDefined()
+    expect(typeof TkajUI.Input).toBe('function')
+  })
+
   // Komponenty
   it('Pictogram je exportován jako funkce', () => {
     expect(TkajUI.Pictogram).toBeDefined()
