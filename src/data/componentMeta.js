@@ -584,16 +584,33 @@ export const componentMeta = {
   },
 
   'corner-ornament': {
-    description: 'Dekorativní rohová ozdoba. Umisťuje se absolutně do rohu panelu nebo rámečku. Čtyři varianty tvaru, libovolná barva a velikost.',
+    description: 'Dekorativní rohová ozdoba. Umisťuje se absolutně do rohu panelu nebo rámečku. Čtyři varianty tvaru a tři typy geometrie rohu (cut/round/scoop).',
     status: 'documented',
     showcaseRoute: '/ornaments',
     props: [
-      { name: 'size',    type: 'number',                                        required: false, default: '16',       description: 'Rozměr ornamenty v px.' },
-      { name: 'color',   type: 'string',                                        required: false, default: "'#8F7458'", description: 'CSS barva výplně.' },
-      { name: 'variant', type: "'bracket'|'dot'|'diamond'|'cross'",            required: false, default: "'bracket'", description: 'Tvar ornamenty.' },
-      { name: 'style',   type: 'CSSProperties',                                required: false, description: 'Inline styly pro pozicování (position, top, left…).' },
+      { name: 'size',       type: 'number',                                     required: false, default: '16',       description: 'Rozměr ornamenty v px.' },
+      { name: 'color',      type: 'string',                                     required: false, default: "'#8F7458'", description: 'CSS barva výplně.' },
+      { name: 'variant',    type: "'bracket'|'dot'|'diamond'|'cross'",         required: false, default: "'bracket'", description: 'Dekorativní tvar ornamenty.' },
+      { name: 'cornerType', type: "'cut'|'round'|'scoop'",                     required: false, default: "'cut'",     description: 'Geometrie rohu komponenty — přizpůsobí tvar elbow (bracket variant).' },
+      { name: 'style',      type: 'CSSProperties',                             required: false, description: 'Inline styly pro pozicování (position, top, left…).' },
     ],
-    relatedSlugs: ['ornaments', 'scoop-clip'],
+    relatedSlugs: ['ornaments', 'scoop-clip', 'notched-box'],
+  },
+
+  'notched-box': {
+    description: 'Kontejner s V-zářezem na jedné straně (octagonWithNotch). Volitelný NotchedBox.Slot pozicuje obsah do středu zářezu vně clip-path — typicky badge nebo indikátor.',
+    status: 'documented',
+    showcaseRoute: '/shapes',
+    props: [
+      { name: 'cx',       type: 'number',                                required: false, default: '15',       description: 'Rohové zkosení v px — stejný parametr jako octagon(cx).' },
+      { name: 'nw',       type: 'number',                                required: false, default: '28',       description: 'Šířka zářezu v px.' },
+      { name: 'nh',       type: 'number',                                required: false, default: '12',       description: 'Hloubka zářezu v px.' },
+      { name: 'side',     type: "'top'|'bottom'|'left'|'right'",        required: false, default: "'bottom'", description: 'Strana na které je zářez.' },
+      { name: 'children', type: 'ReactNode',                             required: false, description: 'Obsah panelu + volitelný NotchedBox.Slot.' },
+      { name: 'style',    type: 'CSSProperties',                        required: false, description: 'Inline styly na clipped div (width, height, background…).' },
+      { name: 'className', type: 'string',                              required: false, description: 'Tailwind třídy na clipped div.' },
+    ],
+    relatedSlugs: ['scoop-clip', 'corner-ornament', 'ornaments'],
   },
 
   'icons': {

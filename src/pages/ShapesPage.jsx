@@ -169,7 +169,7 @@ export default function ShapesPage() {
     <ShowcasePage
       title="Shapes"
       description="Systém zkosených rohů pomocí CSS clip-path. Všechny komponenty hry sdílejí stejnou geometrii — osmihranný střih se zachovaným poměrem zkosení k výšce."
-      componentSlug="scoop-clip"
+      componentSlugs={['scoop-clip', 'notched-box']}
     >
 
       {/* Octagon */}
