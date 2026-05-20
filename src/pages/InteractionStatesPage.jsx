@@ -61,7 +61,7 @@ function TBtn({ children, variant = 'default', disabled, loading, onClick, style
         gap: 6,
         ...extraStyle,
       }}
-      className={disabled || loading ? '' : 'hover:brightness-110 active:brightness-90 focus-visible:outline-[2px] focus-visible:outline-[#6576ff] focus-visible:outline-offset-2'}
+      className={disabled || loading ? '' : 'hover:brightness-110 active:brightness-90 focus-visible:outline-2 focus-visible:outline-brand-500 focus-visible:outline-offset-2'}
     >
       {loading ? '⏳ ' : ''}{children}
     </button>
@@ -275,7 +275,7 @@ background: #6576ff18;
 color: #eeeef8;
 
 /* Tailwind */
-className={\`border-[#6576ff] bg-[#6576ff18] text-[#eeeef8]\`}`} />
+className={\`border-brand-500 bg-[#6576ff18] text-[#eeeef8]\`}`} />
       </Section>
 
       {/* Blocked */}

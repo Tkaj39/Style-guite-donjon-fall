@@ -7,7 +7,7 @@ function Swatch({ name, hex, note, large = false, textPreview }) {
   return (
     <div className="flex flex-col gap-1.5">
       <div
-        className={`rounded border border-white/8 w-full ${large ? 'h-16' : 'h-10'} flex items-center justify-center`}
+        className={`rounded-sm border border-white/8 w-full ${large ? 'h-16' : 'h-10'} flex items-center justify-center`}
         style={{ background: hex }}
       >
         {textPreview && (
@@ -122,11 +122,11 @@ function TkajuiVsDonjon() {
     <div className="rounded-xl border border-neutral-800 overflow-hidden">
       <div className="grid grid-cols-2 border-b border-neutral-800 bg-neutral-950">
         <div className="p-3 flex items-center gap-2 border-r border-neutral-800">
-          <div className="w-2 h-2 rounded-full bg-[#6576ff] flex-shrink-0" />
+          <div className="w-2 h-2 rounded-full bg-brand-500 shrink-0" />
           <span className="text-xs font-semibold text-neutral-300">TkajUI</span>
         </div>
         <div className="p-3 flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[#FFC183] flex-shrink-0" />
+          <div className="w-2 h-2 rounded-full bg-[#FFC183] shrink-0" />
           <span className="text-xs font-semibold text-neutral-300">donjon-fall-ui</span>
         </div>
       </div>
@@ -139,7 +139,7 @@ function TkajuiVsDonjon() {
       ].map((row, i, arr) => (
         <div key={row.label} className={`grid grid-cols-2 ${i < arr.length - 1 ? 'border-b border-neutral-800' : ''}`}>
           <div className="p-3 flex items-center gap-3 border-r border-neutral-800">
-            <div className="w-8 h-8 rounded flex-shrink-0 border border-white/10" style={{ background: row.tkajui }} />
+            <div className="w-8 h-8 rounded-sm shrink-0 border border-white/10" style={{ background: row.tkajui }} />
             <div>
               <p className="text-xs font-medium text-neutral-300">{row.label}</p>
               <p className="text-[10px] text-neutral-500">{row.tkNote}</p>
@@ -147,7 +147,7 @@ function TkajuiVsDonjon() {
             </div>
           </div>
           <div className="p-3 flex items-center gap-3">
-            <div className="w-8 h-8 rounded flex-shrink-0 border border-white/10" style={{ background: row.donjon }} />
+            <div className="w-8 h-8 rounded-sm shrink-0 border border-white/10" style={{ background: row.donjon }} />
             <div>
               <p className="text-xs font-medium text-neutral-300">{row.label}</p>
               <p className="text-[10px] text-neutral-500">{row.dnNote}</p>
@@ -226,7 +226,7 @@ function DonjonHraci() {
             </div>
             {[p.primary, p.light, p.dark].map((hex) => (
               <div key={hex} className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded flex-shrink-0 border border-white/10" style={{ background: hex }} />
+                <div className="w-7 h-7 rounded-sm shrink-0 border border-white/10" style={{ background: hex }} />
                 <p className="text-xs font-mono text-neutral-500 hidden sm:block">{hex}</p>
               </div>
             ))}
@@ -240,7 +240,7 @@ function DonjonHraci() {
         <div className="grid grid-cols-6 gap-2">
           {players.map((p) => (
             <div key={p.label} className="flex flex-col gap-1.5">
-              <div className="h-10 rounded border border-white/10" style={{ background: p.primary }} />
+              <div className="h-10 rounded-sm border border-white/10" style={{ background: p.primary }} />
               <p className="text-[10px] text-neutral-500 text-center font-mono">{p.primary}</p>
               <p className="text-[10px] text-neutral-600 text-center">{p.name}</p>
             </div>
@@ -269,7 +269,7 @@ function DonjonHexy() {
         <div className="grid grid-cols-6 gap-2">
           {players.map((p) => (
             <div key={p.label} className="flex flex-col gap-1.5">
-              <div className="h-9 rounded border border-white/10" style={{ background: p.dark }} />
+              <div className="h-9 rounded-sm border border-white/10" style={{ background: p.dark }} />
               <p className="text-[10px] font-mono text-neutral-500 text-center">{p.dark}</p>
               <p className="text-[10px] text-neutral-600 text-center">{p.label}</p>
             </div>
@@ -301,10 +301,10 @@ function DonjonPlanovani() {
             <p className="text-xs text-neutral-600 mt-0.5">{row.note}</p>
           </div>
           <div className="w-24 flex justify-center">
-            <div className="w-10 h-8 rounded border border-white/10" style={{ background: `${row.hex}${Math.round(row.alpha * 255).toString(16).padStart(2, '0')}` }} />
+            <div className="w-10 h-8 rounded-sm border border-white/10" style={{ background: `${row.hex}${Math.round(row.alpha * 255).toString(16).padStart(2, '0')}` }} />
           </div>
           <div className="w-20 flex justify-end">
-            <span className={`text-xs font-mono px-1.5 py-0.5 rounded ${row.fixed ? 'bg-neutral-800 text-neutral-400' : 'bg-amber-950/60 text-amber-500'}`}>
+            <span className={`text-xs font-mono px-1.5 py-0.5 rounded-sm ${row.fixed ? 'bg-neutral-800 text-neutral-400' : 'bg-amber-950/60 text-amber-500'}`}>
               {row.fixed ? 'fixní' : 'hráč'}
             </span>
           </div>

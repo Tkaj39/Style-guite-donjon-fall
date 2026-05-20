@@ -261,7 +261,7 @@ export default function FloatFeedbackPage() {
                     <span className={`inline-block w-1.5 h-1.5 rounded-full ${req ? 'bg-brand-500' : 'bg-neutral-700'}`} title={req ? 'required' : 'optional'} />
                   </td>
                   <td className="px-3 py-2.5"><code className="font-mono text-brand-300 text-[11px]">{name}</code></td>
-                  <td className="px-3 py-2.5 max-w-[160px]"><code className="font-mono text-neutral-400 text-[10px] break-words">{type}</code></td>
+                  <td className="px-3 py-2.5 max-w-[160px]"><code className="font-mono text-neutral-400 text-[10px] wrap-break-word">{type}</code></td>
                   <td className="px-3 py-2.5 hidden sm:table-cell">
                     {def ? <code className="font-mono text-neutral-500 text-[10px]">{def}</code> : <span className="text-neutral-700">—</span>}
                   </td>

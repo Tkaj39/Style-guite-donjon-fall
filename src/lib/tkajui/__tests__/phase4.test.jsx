@@ -332,7 +332,7 @@ describe('Tooltip', () => {
     expect(screen.getByRole('tooltip')).toBeInTheDocument()
   })
 
-  it('blur → tooltip zmizí', () => {
+  it('blur-sm → tooltip zmizí', () => {
     render(<Tooltip content="Nápověda" delay={120}><button>Trigger</button></Tooltip>)
     const span = screen.getByRole('button').parentElement
     fireEvent.focus(span)

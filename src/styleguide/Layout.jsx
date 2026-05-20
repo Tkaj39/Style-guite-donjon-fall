@@ -36,7 +36,7 @@ export default function Layout() {
       {/* Overlay */}
       {sidebarOpen && (
         <div
-          className="lg:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+          className="lg:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-xs"
           onClick={() => setSidebarOpen(false)}
         />
       )}

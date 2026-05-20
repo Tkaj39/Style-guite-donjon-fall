@@ -153,7 +153,7 @@ export default function ResponsivePage() {
         <CodeBlock code={`{/* Sidebar — responsivní přepínání */}
 <aside
   className={[
-    'fixed lg:sticky top-0 h-screen z-[300]',
+    'fixed lg:sticky top-0 h-screen z-300',
     'w-64 shrink-0',
     'transition-transform duration-300 ease-in-out',
     'lg:translate-x-0',          // desktop: vždy viditelný
@@ -166,7 +166,7 @@ export default function ResponsivePage() {
 {/* Overlay pozadí (mobil) */}
 {isOpen && (
   <div
-    className="fixed inset-0 bg-black/60 z-[299] lg:hidden"
+    className="fixed inset-0 bg-black/60 z-299 lg:hidden"
     onClick={closeSidebar}
   />
 )}`} />

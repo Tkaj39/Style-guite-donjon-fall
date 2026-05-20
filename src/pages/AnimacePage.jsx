@@ -1457,7 +1457,7 @@ function SignalTravelDemo() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         {[0, 1, 2].map(i => (
           <div key={i} style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
-            {/* Wrapper s animací focal-activate — drop-shadow záblesk */}
+            {/* Wrapper s animací focal-activate — drop-shadow-sm záblesk */}
             <div
               key={keys[i]}
               style={{

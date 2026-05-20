@@ -141,7 +141,7 @@ function ButtonContent() {
           value={previewText}
           onChange={e => setPreviewText(e.target.value)}
           placeholder="Napiš text tlačítka…"
-          className="w-full rounded-lg border border-neutral-700 bg-neutral-900 px-4 py-2.5 text-sm text-neutral-100 placeholder-neutral-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
+          className="w-full rounded-lg border border-neutral-700 bg-neutral-900 px-4 py-2.5 text-sm text-neutral-100 placeholder-neutral-500 focus:outline-hidden focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
         />
         <Preview>
           <div className="w-full flex flex-col items-start gap-4">

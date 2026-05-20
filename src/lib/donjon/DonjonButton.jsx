@@ -81,7 +81,7 @@ function DonjonButton({
           '--db-gold': gold,
         }}
         className={[
-          'hover:[text-decoration-color:var(--db-gold)]',
+          'hover:decoration-(--db-gold)',
           'disabled:opacity-40 disabled:pointer-events-none',
           className,
         ].filter(Boolean).join(' ')}
@@ -138,7 +138,7 @@ function DonjonButton({
         'cursor-pointer select-none',
         'transition-[filter] duration-150',
         'hover:brightness-110 active:brightness-90',
-        'focus:outline-none focus-visible:brightness-110',
+        'focus:outline-hidden focus-visible:brightness-110',
         'disabled:opacity-40 disabled:pointer-events-none',
         className,
       ].filter(Boolean).join(' ')}

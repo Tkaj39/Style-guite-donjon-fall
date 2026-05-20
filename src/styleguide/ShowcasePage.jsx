@@ -79,7 +79,7 @@ function VariantSwitcher({ variants, active, onChange }) {
             className={[
               'flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all duration-150 border',
               isActive
-                ? 'border-current shadow-sm'
+                ? 'border-current shadow-xs'
                 : 'text-neutral-500 hover:text-neutral-300 border-transparent hover:bg-neutral-700/40',
             ].join(' ')}
           >

@@ -73,7 +73,7 @@ const STATUS = {
 function StatusBadge({ status }) {
   const s = STATUS[status] ?? STATUS.todo
   return (
-    <span className={`inline-flex items-center gap-1.5 px-1.5 py-0.5 rounded text-[10px] font-mono font-medium border ${s.badge}`}>
+    <span className={`inline-flex items-center gap-1.5 px-1.5 py-0.5 rounded-sm text-[10px] font-mono font-medium border ${s.badge}`}>
       <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${s.dot}`} />
       {s.label}
     </span>
@@ -119,7 +119,7 @@ function ComponentBacklog() {
                   <span className="text-sm text-neutral-400 truncate">{c.name}</span>
                   <code className="text-[10px] text-neutral-700 font-mono hidden sm:block">{c.filePath}</code>
                 </div>
-                <span className="text-[10px] font-mono text-neutral-700 shrink-0 px-1.5 py-0.5 rounded border border-neutral-800">{c.category}</span>
+                <span className="text-[10px] font-mono text-neutral-700 shrink-0 px-1.5 py-0.5 rounded-sm border border-neutral-800">{c.category}</span>
               </div>
             ))}
           </div>
@@ -149,7 +149,7 @@ function ComponentBacklog() {
           </p>
           <div className="flex flex-wrap gap-2">
             {noShowcase.map(c => (
-              <span key={c.slug} className="text-[11px] font-mono px-2 py-1 rounded border border-neutral-800 text-neutral-600 bg-neutral-900">
+              <span key={c.slug} className="text-[11px] font-mono px-2 py-1 rounded-sm border border-neutral-800 text-neutral-600 bg-neutral-900">
                 {c.slug}
               </span>
             ))}

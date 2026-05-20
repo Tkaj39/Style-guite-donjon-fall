@@ -143,7 +143,7 @@ function Button({
         'cursor-pointer select-none',
         'transition-[filter] duration-150',
         'hover:brightness-110 active:brightness-90',
-        'focus:outline-none focus-visible:brightness-110',
+        'focus:outline-hidden focus-visible:brightness-110',
         'disabled:opacity-40 disabled:pointer-events-none',
         className,
       ].filter(Boolean).join(' ')}

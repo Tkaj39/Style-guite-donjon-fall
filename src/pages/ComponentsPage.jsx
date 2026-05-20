@@ -98,7 +98,7 @@ const STATUS_LABEL = {
 
 function StatusBadge({ status }) {
   return (
-    <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono font-medium ${STATUS_STYLES[status] ?? STATUS_STYLES.generated}`}>
+    <span className={`inline-flex items-center px-1.5 py-0.5 rounded-sm text-[10px] font-mono font-medium ${STATUS_STYLES[status] ?? STATUS_STYLES.generated}`}>
       {STATUS_LABEL[status] ?? status}
     </span>
   )
@@ -163,7 +163,7 @@ function ComponentCard({ comp }) {
         </div>
         <div className="flex items-center gap-2">
           {!hasShowcase && (
-            <span className="text-[10px] font-mono text-neutral-800 px-1.5 py-0.5 rounded border border-neutral-800/60" title="Chybí showcase stránka">
+            <span className="text-[10px] font-mono text-neutral-800 px-1.5 py-0.5 rounded-sm border border-neutral-800/60" title="Chybí showcase stránka">
               no showcase
             </span>
           )}
@@ -213,7 +213,7 @@ function CategoryHeader({ category, counts }) {
 function StatCard({ value, label, accent }) {
   return (
     <div className="flex flex-col gap-1 px-4 py-3 rounded-lg bg-neutral-900 border border-neutral-800">
-      <span className={`text-2xl font-bold tabular-nums ${accent ? 'text-[#6576ff]' : 'text-white'}`}>{value}</span>
+      <span className={`text-2xl font-bold tabular-nums ${accent ? 'text-brand-500' : 'text-white'}`}>{value}</span>
       <span className="text-xs text-neutral-500">{label}</span>
     </div>
   )
@@ -280,7 +280,7 @@ function LibTabs({ active, onChange }) {
             onClick={() => onChange(tab.id)}
             className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-150 ${
               active === tab.id
-                ? 'bg-neutral-700 text-neutral-100 shadow-sm'
+                ? 'bg-neutral-700 text-neutral-100 shadow-xs'
                 : 'text-neutral-500 hover:text-neutral-300 hover:bg-neutral-800'
             }`}
           >

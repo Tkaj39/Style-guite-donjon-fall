@@ -109,7 +109,7 @@ function TkajuiFocusContent() {
 }
 
 /* Tailwind ekvivalent */
-className="focus-visible:outline-2 focus-visible:outline-[#6576ff] focus-visible:outline-offset-2"
+className="focus-visible:outline-2 focus-visible:outline-brand-500 focus-visible:outline-offset-2"
 
 /* NIKDY nepoužívej :focus bez :focus-visible — spouští se i při kliknutí myší */`} />
       </Section>
@@ -224,9 +224,9 @@ useFocusTrap(modalRef, isOpen)`} />
   href="#main-content"
   className={[
     'sr-only focus-visible:not-sr-only',
-    'fixed top-2 left-2 z-[9999]',
-    'px-4 py-2 bg-[#6576ff] text-white',
-    'font-semibold text-sm rounded',
+    'fixed top-2 left-2 z-9999',
+    'px-4 py-2 bg-brand-500 text-white',
+    'font-semibold text-sm rounded-sm',
     'focus-visible:outline-2 focus-visible:outline-white',
   ].join(' ')}
 >
@@ -433,9 +433,9 @@ useFocusTrap(modalRef, isOpen)`} />
   href="#main-content"
   className={[
     'sr-only focus-visible:not-sr-only',
-    'fixed top-2 left-2 z-[9999]',
+    'fixed top-2 left-2 z-9999',
     'px-4 py-2 bg-[#B8956A] text-[#12102A]',
-    'font-bold text-sm rounded',
+    'font-bold text-sm rounded-sm',
     'focus-visible:outline-2 focus-visible:outline-white',
   ].join(' ')}
 >

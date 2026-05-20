@@ -222,35 +222,35 @@ export default function OrnamentsPage() {
                 <div className="flex gap-6 items-center flex-wrap">
                   {/* TL */}
                   <div className="flex flex-col items-center gap-1.5">
-                    <div className="p-2.5 bg-neutral-950 border border-neutral-800 rounded relative" style={{ width: 52, height: 52 }}>
+                    <div className="p-2.5 bg-neutral-950 border border-neutral-800 rounded-sm relative" style={{ width: 52, height: 52 }}>
                       <CornerOrnament cornerType={ct} size={20} style={{ position: 'absolute', top: 6, left: 6 }} />
                     </div>
                     <span className="text-[9px] text-neutral-700 font-mono">TL</span>
                   </div>
                   {/* TR */}
                   <div className="flex flex-col items-center gap-1.5">
-                    <div className="p-2.5 bg-neutral-950 border border-neutral-800 rounded relative" style={{ width: 52, height: 52 }}>
+                    <div className="p-2.5 bg-neutral-950 border border-neutral-800 rounded-sm relative" style={{ width: 52, height: 52 }}>
                       <CornerOrnament cornerType={ct} size={20} style={{ position: 'absolute', top: 6, right: 6, transform: 'scaleX(-1)' }} />
                     </div>
                     <span className="text-[9px] text-neutral-700 font-mono">TR</span>
                   </div>
                   {/* BL */}
                   <div className="flex flex-col items-center gap-1.5">
-                    <div className="p-2.5 bg-neutral-950 border border-neutral-800 rounded relative" style={{ width: 52, height: 52 }}>
+                    <div className="p-2.5 bg-neutral-950 border border-neutral-800 rounded-sm relative" style={{ width: 52, height: 52 }}>
                       <CornerOrnament cornerType={ct} size={20} style={{ position: 'absolute', bottom: 6, left: 6, transform: 'scaleY(-1)' }} />
                     </div>
                     <span className="text-[9px] text-neutral-700 font-mono">BL</span>
                   </div>
                   {/* BR */}
                   <div className="flex flex-col items-center gap-1.5">
-                    <div className="p-2.5 bg-neutral-950 border border-neutral-800 rounded relative" style={{ width: 52, height: 52 }}>
+                    <div className="p-2.5 bg-neutral-950 border border-neutral-800 rounded-sm relative" style={{ width: 52, height: 52 }}>
                       <CornerOrnament cornerType={ct} size={20} style={{ position: 'absolute', bottom: 6, right: 6, transform: 'scale(-1)' }} />
                     </div>
                     <span className="text-[9px] text-neutral-700 font-mono">BR</span>
                   </div>
                   {/* All 4 on one card */}
                   <div className="flex flex-col items-center gap-1.5">
-                    <div className="bg-neutral-950 border border-neutral-800 rounded relative" style={{ width: 80, height: 52 }}>
+                    <div className="bg-neutral-950 border border-neutral-800 rounded-sm relative" style={{ width: 80, height: 52 }}>
                       <CornerOrnament cornerType={ct} size={16} style={{ position: 'absolute', top: 4, left: 4 }} />
                       <CornerOrnament cornerType={ct} size={16} style={{ position: 'absolute', top: 4, right: 4, transform: 'scaleX(-1)' }} />
                       <CornerOrnament cornerType={ct} size={16} style={{ position: 'absolute', bottom: 4, left: 4, transform: 'scaleY(-1)' }} />

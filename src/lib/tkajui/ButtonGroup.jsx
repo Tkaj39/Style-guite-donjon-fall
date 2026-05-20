@@ -75,7 +75,7 @@ export default function ButtonGroup({
                 cursor: 'pointer',
                 transition: 'filter 150ms, background 150ms',
               }}
-              className="hover:brightness-110 active:brightness-90 focus:outline-none focus-visible:brightness-110"
+              className="hover:brightness-110 active:brightness-90 focus:outline-hidden focus-visible:brightness-110"
             >
               {item.icon && (
                 <span style={{

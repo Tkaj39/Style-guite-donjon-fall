@@ -50,7 +50,7 @@ const STATUS_LABEL = {
 
 function StatusBadge({ status }) {
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono font-medium ${STATUS_STYLES[status] ?? STATUS_STYLES.generated}`}>
+    <span className={`inline-flex items-center px-2 py-0.5 rounded-sm text-[11px] font-mono font-medium ${STATUS_STYLES[status] ?? STATUS_STYLES.generated}`}>
       {STATUS_LABEL[status] ?? status}
     </span>
   )
@@ -108,7 +108,7 @@ function PropsTable({ props }) {
                 <code className="font-mono text-brand-300 text-[11px]">{prop.name}</code>
               </td>
               <td className="px-3 py-2.5 max-w-[180px]">
-                <code className="font-mono text-neutral-400 text-[10px] break-words">{prop.type}</code>
+                <code className="font-mono text-neutral-400 text-[10px] wrap-break-word">{prop.type}</code>
               </td>
               <td className="px-3 py-2.5 hidden sm:table-cell">
                 {prop.default != null
