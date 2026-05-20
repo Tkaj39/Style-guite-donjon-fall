@@ -66,81 +66,45 @@ export default function DonjonModal({
   closeOnEscape = true,
   showCloseButton = true,
 }) {
-  const uid = useId().replace(/:/g, '')
-  const titleId = `modal-title-${uid}`
-  const v = VARIANTS[variant] ?? VARIANTS.default
-  const w = SIZES[size] ?? SIZES.md
-  const modalRef = useRef(null)
-  const previousFocusRef = useRef(null)
+  const uid      = useId().replace(/:/g, '')
+  const titleId  = `modal-title-${uid}`
+  const v        = VARIANTS[variant] ?? VARIANTS.default
+  const w        = SIZES[size] ?? SIZES.md
+  const dialogRef = useRef(null)
 
-  /* Escape key + focus management */
+  /* ── Otevření / zavření přes native <dialog> API ── */
   useEffect(() => {
-    if (!isOpen) return
-
-    previousFocusRef.current = document.activeElement
-
-    const handle = (e) => {
-      if (closeOnEscape && e.key === 'Escape') onClose?.()
-    }
-    document.addEventListener('keydown', handle)
-
-    /* Focus první focusovatelný element */
-    const frame = requestAnimationFrame(() => {
-      const focusable = modalRef.current?.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      )
-      focusable?.[0]?.focus()
-    })
-
-    return () => {
-      document.removeEventListener('keydown', handle)
-      cancelAnimationFrame(frame)
-      previousFocusRef.current?.focus()
-    }
-  }, [isOpen, closeOnEscape, onClose])
-
-  /* Zamknutí scrollu */
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => { document.body.style.overflow = '' }
+    const el = dialogRef.current
+    if (!el) return
+    if (isOpen) el.showModal()
+    else if (el.open) el.close()
   }, [isOpen])
 
-  if (!isOpen) return null
+  /* ESC klávesa */
+  function handleCancel(e) {
+    e.preventDefault()
+    if (closeOnEscape) onClose?.()
+  }
+
+  /* Klik na backdrop */
+  function handleBackdropClick(e) {
+    if (closeOnBackdrop && e.target === e.currentTarget) onClose?.()
+  }
 
   return (
-    /* Backdrop */
-    <div
-      onClick={closeOnBackdrop ? onClose : undefined}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 1000,
-        background: 'rgba(10, 8, 20, 0.80)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '24px 16px',
-        backdropFilter: 'blur(2px)',
-        animation: 'modalBackdropIn 0.15s ease',
-      }}
+    <dialog
+      ref={dialogRef}
+      onCancel={handleCancel}
+      onClick={handleBackdropClick}
+      aria-labelledby={title ? titleId : undefined}
+      aria-label={!title ? ariaLabel : undefined}
+      className="modal-dialog modal-dialog-donjon"
     >
-      {/* Modal panel */}
+      {/* Panel */}
       <div
-        ref={modalRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={title ? titleId : undefined}
-        aria-label={!title ? ariaLabel : undefined}
+        className="modal-panel"
         onClick={(e) => e.stopPropagation()}
-        style={{
-          width: '100%',
-          maxWidth: w,
-          animation: 'modalPanelIn 0.18s ease',
-        }}
+        style={{ width: '100%', maxWidth: w }}
       >
         {/* Outer border shell */}
         <div style={{ clipPath: octagon(cx), background: v.border, padding: 1 }}>
@@ -188,7 +152,6 @@ export default function DonjonModal({
                   </p>
                 )}
 
-                {/* Close button */}
                 {showCloseButton && (
                   <button
                     onClick={onClose}
@@ -265,18 +228,6 @@ export default function DonjonModal({
           </div>
         </div>
       </div>
-
-      {/* Animace */}
-      <style>{`
-        @keyframes modalBackdropIn {
-          from { opacity: 0 }
-          to   { opacity: 1 }
-        }
-        @keyframes modalPanelIn {
-          from { opacity: 0; transform: translateY(-12px) scale(0.97) }
-          to   { opacity: 1; transform: translateY(0)     scale(1) }
-        }
-      `}</style>
-    </div>
+    </dialog>
   )
 }

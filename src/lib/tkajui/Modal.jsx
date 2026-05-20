@@ -3,7 +3,6 @@ import { octagon } from '../../utils/octagon'
 import {
   surface2, surface3,
   borderDefault, borderMid,
-  accent,
   textHigh, textMid,
   successColor, successBg, successBorder, successText,
   dangerColor, dangerBg, dangerBorder, dangerText,
@@ -79,75 +78,44 @@ export default function Modal({
   closeOnEscape = true,
   showCloseButton = true,
 }) {
-  const uid = useId().replace(/:/g, '')
-  const titleId = `modal-title-${uid}`
-  const v = VARIANTS[variant] ?? VARIANTS.default
-  const w = SIZES[size] ?? SIZES.md
-  const modalRef = useRef(null)
-  const previousFocusRef = useRef(null)
+  const uid      = useId().replace(/:/g, '')
+  const titleId  = `modal-title-${uid}`
+  const v        = VARIANTS[variant] ?? VARIANTS.default
+  const w        = SIZES[size] ?? SIZES.md
+  const dialogRef = useRef(null)
 
+  /* ── Otevření / zavření přes native <dialog> API ── */
   useEffect(() => {
-    if (!isOpen) return
-
-    previousFocusRef.current = document.activeElement
-
-    const handle = (e) => {
-      if (closeOnEscape && e.key === 'Escape') onClose?.()
-    }
-    document.addEventListener('keydown', handle)
-
-    const frame = requestAnimationFrame(() => {
-      const focusable = modalRef.current?.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      )
-      focusable?.[0]?.focus()
-    })
-
-    return () => {
-      document.removeEventListener('keydown', handle)
-      cancelAnimationFrame(frame)
-      previousFocusRef.current?.focus()
-    }
-  }, [isOpen, closeOnEscape, onClose])
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => { document.body.style.overflow = '' }
+    const el = dialogRef.current
+    if (!el) return
+    if (isOpen) el.showModal()
+    else if (el.open) el.close()
   }, [isOpen])
 
-  if (!isOpen) return null
+  /* ESC klávesa — cancel event předchází close, lze preventovat */
+  function handleCancel(e) {
+    e.preventDefault()               // vždy prevnout nativní zavření
+    if (closeOnEscape) onClose?.()   // předat rozhodnutí rodiči
+  }
+
+  /* Klik na backdrop — dialog element mimo panel obsah */
+  function handleBackdropClick(e) {
+    if (closeOnBackdrop && e.target === e.currentTarget) onClose?.()
+  }
 
   return (
-    <div
-      onClick={closeOnBackdrop ? onClose : undefined}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 1000,
-        background: 'rgba(6, 6, 12, 0.80)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '24px 16px',
-        backdropFilter: 'blur(2px)',
-        animation: 'modalBackdropIn 0.15s ease',
-      }}
+    <dialog
+      ref={dialogRef}
+      onCancel={handleCancel}
+      onClick={handleBackdropClick}
+      aria-labelledby={title ? titleId : undefined}
+      className="modal-dialog"
     >
+      {/* Panel — direct child, cílený @starting-style animací */}
       <div
-        ref={modalRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={title ? titleId : undefined}
+        className="modal-panel"
         onClick={(e) => e.stopPropagation()}
-        style={{
-          width: '100%',
-          maxWidth: w,
-          animation: 'modalPanelIn 0.18s ease',
-        }}
+        style={{ width: '100%', maxWidth: w }}
       >
         {/* Outer border shell */}
         <div style={{ clipPath: octagon(cx), background: v.border, padding: 1 }}>
@@ -184,7 +152,6 @@ export default function Modal({
                     {description}
                   </p>
                 )}
-
                 {showCloseButton && (
                   <button
                     onClick={onClose}
@@ -260,17 +227,6 @@ export default function Modal({
           </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes modalBackdropIn {
-          from { opacity: 0 }
-          to   { opacity: 1 }
-        }
-        @keyframes modalPanelIn {
-          from { opacity: 0; transform: translateY(-12px) scale(0.97) }
-          to   { opacity: 1; transform: translateY(0)     scale(1) }
-        }
-      `}</style>
-    </div>
+    </dialog>
   )
 }

@@ -4,33 +4,32 @@ import Tooltip from '../Tooltip'
 import { ToastProvider, useToast } from '../Toast'
 import Select from '../Select'
 
-// ─── Modal — scroll lock ────────────────────────────────────────────────────
+// ─── Modal — native <dialog> lifecycle ─────────────────────────────────────
+// Scroll lock je nyní záležitost prohlížeče (top layer), ne našeho kódu.
+// Testujeme volání showModal() / close() přes mock z setup.js.
 
 describe('Modal lifecycle', () => {
-  afterEach(() => {
-    // Cleanup body overflow po každém testu
-    document.body.style.overflow = ''
+  beforeEach(() => {
+    HTMLDialogElement.prototype.showModal.mockClear()
+    HTMLDialogElement.prototype.close.mockClear()
   })
 
-  it('isOpen=true → document.body.style.overflow = "hidden"', () => {
+  it('isOpen=true → showModal() zavolán', () => {
     render(<Modal isOpen title="T" onClose={() => {}} />)
-    expect(document.body.style.overflow).toBe('hidden')
+    expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalledTimes(1)
   })
 
-  it('Modal unmount → document.body.style.overflow vráceno', () => {
-    const { unmount } = render(<Modal isOpen title="T" onClose={() => {}} />)
-    expect(document.body.style.overflow).toBe('hidden')
-    unmount()
-    expect(document.body.style.overflow).toBe('')
-  })
-
-  it('isOpen false→true→false → overflow se správně vrátí', () => {
+  it('isOpen false→true → showModal() zavolán po změně', () => {
     const { rerender } = render(<Modal isOpen={false} title="T" onClose={() => {}} />)
-    expect(document.body.style.overflow).toBe('')
+    expect(HTMLDialogElement.prototype.showModal).not.toHaveBeenCalled()
     rerender(<Modal isOpen title="T" onClose={() => {}} />)
-    expect(document.body.style.overflow).toBe('hidden')
+    expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalledTimes(1)
+  })
+
+  it('isOpen true→false → close() zavolán', () => {
+    const { rerender } = render(<Modal isOpen title="T" onClose={() => {}} />)
     rerender(<Modal isOpen={false} title="T" onClose={() => {}} />)
-    expect(document.body.style.overflow).toBe('')
+    expect(HTMLDialogElement.prototype.close).toHaveBeenCalledTimes(1)
   })
 })
 

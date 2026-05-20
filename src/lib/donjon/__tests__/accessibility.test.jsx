@@ -158,38 +158,38 @@ describe('donjon — ARIA atributy', () => {
     expect(screen.getByRole('button')).toBeDisabled()
   })
 
-  it('DonjonModal má role="dialog" s aria-modal="true"', () => {
-    const { container } = render(
+  it('DonjonModal má role="dialog" a je dostupný přes getByRole', () => {
+    render(
       <DonjonModal isOpen title="Test" onClose={() => {}}>
         <p>Obsah</p>
       </DonjonModal>
     )
-    const dialog = container.querySelector('[role="dialog"]')
+    // Native <dialog> má implicitní role=dialog; aria-modal je implicit. u showModal()
+    const dialog = screen.getByRole('dialog')
     expect(dialog).toBeInTheDocument()
-    expect(dialog).toHaveAttribute('aria-modal', 'true')
   })
 
   it('DonjonModal s title má aria-labelledby odkazující na h2', () => {
-    const { container } = render(
+    render(
       <DonjonModal isOpen title="Název modalu" onClose={() => {}}>
         <p>Obsah</p>
       </DonjonModal>
     )
-    const dialog = container.querySelector('[role="dialog"]')
+    const dialog = screen.getByRole('dialog')
     const labelledById = dialog.getAttribute('aria-labelledby')
     expect(labelledById).toBeTruthy()
-    const heading = container.querySelector(`#${labelledById}`)
+    const heading = document.getElementById(labelledById)
     expect(heading).toBeInTheDocument()
     expect(heading.tagName).toBe('H2')
   })
 
   it('DonjonModal bez title nemá aria-labelledby, ale má aria-label', () => {
-    const { container } = render(
+    render(
       <DonjonModal isOpen aria-label="Herní nabídka" onClose={() => {}}>
         <p>Obsah</p>
       </DonjonModal>
     )
-    const dialog = container.querySelector('[role="dialog"]')
+    const dialog = screen.getByRole('dialog')
     expect(dialog).not.toHaveAttribute('aria-labelledby')
     expect(dialog).toHaveAttribute('aria-label', 'Herní nabídka')
   })

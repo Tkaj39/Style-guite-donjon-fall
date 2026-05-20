@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe, toHaveNoViolations } from 'jest-axe'
 
 import Toggle from '../Toggle'
@@ -136,10 +136,10 @@ describe('ARIA attribute checks', () => {
     })
   })
 
-  it('Modal má role="dialog" s aria-modal=true a aria-labelledby', () => {
-    const { container } = render(<Modal isOpen title="Test" onClose={() => {}} />)
-    const dialog = container.querySelector('[role="dialog"]')
-    expect(dialog).toHaveAttribute('aria-modal', 'true')
+  it('Modal má role="dialog" s aria-labelledby', () => {
+    render(<Modal isOpen title="Test" onClose={() => {}} />)
+    const dialog = screen.getByRole('dialog')
+    // aria-modal je implicitní u native showModal() — netestujeme explicitní atribut
     expect(dialog).toHaveAttribute('aria-labelledby')
   })
 

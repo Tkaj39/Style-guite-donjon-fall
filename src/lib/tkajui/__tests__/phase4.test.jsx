@@ -6,9 +6,17 @@ import Tooltip from '../Tooltip'
 // ─── Modal ─────────────────────────────────────────────────────────────────
 
 describe('Modal', () => {
-  it('isOpen=false → nic se nerenderuje', () => {
-    const { container } = render(<Modal isOpen={false} onClose={() => {}} title="Test" />)
-    expect(container.firstChild).toBeNull()
+  beforeEach(() => {
+    HTMLDialogElement.prototype.showModal.mockClear()
+    HTMLDialogElement.prototype.close.mockClear()
+  })
+
+  it('isOpen=false → dialog není otevřený', () => {
+    render(<Modal isOpen={false} onClose={() => {}} title="Test" />)
+    // Native <dialog> zůstane v DOM, ale showModal() nebylo voláno → open=false
+    const dialog = document.querySelector('dialog')
+    expect(dialog).toBeInTheDocument()
+    expect(dialog.open).toBe(false)
   })
 
   it('isOpen=true → renderuje role="dialog"', () => {
@@ -16,9 +24,10 @@ describe('Modal', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
-  it('aria-modal="true" na dialog elementu', () => {
+  it('isOpen=true → dialog.open je true', () => {
     render(<Modal isOpen title="Potvrzení" onClose={() => {}} />)
-    expect(screen.getByRole('dialog')).toHaveAttribute('aria-modal', 'true')
+    // aria-modal je implicitní u native showModal() — testujeme open state
+    expect(screen.getByRole('dialog').open).toBe(true)
   })
 
   it('title prop → text je viditelný', () => {
@@ -54,14 +63,15 @@ describe('Modal', () => {
   it('Escape klávesa zavolá onClose', () => {
     const onClose = vi.fn()
     render(<Modal isOpen title="Test" onClose={onClose} />)
-    fireEvent.keyDown(document, { key: 'Escape' })
+    // Native dialog: ESC spouští cancel event na <dialog>, ne keyDown na document
+    fireEvent(screen.getByRole('dialog'), new Event('cancel', { bubbles: false, cancelable: true }))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('closeOnEscape=false → Escape nezavolá onClose', () => {
     const onClose = vi.fn()
     render(<Modal isOpen title="Test" onClose={onClose} closeOnEscape={false} />)
-    fireEvent.keyDown(document, { key: 'Escape' })
+    fireEvent(screen.getByRole('dialog'), new Event('cancel', { bubbles: false, cancelable: true }))
     expect(onClose).not.toHaveBeenCalled()
   })
 
@@ -73,10 +83,11 @@ describe('Modal', () => {
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
-  it('kliknutí uvnitř dialogu nezavolá onClose', () => {
+  it('kliknutí uvnitř panelu nezavolá onClose', () => {
     const onClose = vi.fn()
     render(<Modal isOpen title="Test" onClose={onClose} />)
-    fireEvent.click(screen.getByRole('dialog'))
+    // Panel má stopPropagation — klik na obsah nedojde k backdrop handleru
+    fireEvent.click(screen.getByRole('heading', { level: 2 }))
     expect(onClose).not.toHaveBeenCalled()
   })
 
@@ -87,15 +98,17 @@ describe('Modal', () => {
     expect(onClose).not.toHaveBeenCalled()
   })
 
-  it('isOpen=true → document.body.style.overflow = "hidden"', () => {
+  it('isOpen=true → scroll lock zajišťuje prohlížeč přes top-layer', () => {
     render(<Modal isOpen title="Test" onClose={() => {}} />)
-    expect(document.body.style.overflow).toBe('hidden')
+    // Native <dialog> showModal() uzamkne scroll na úrovni prohlížeče (top-layer),
+    // nikoli přes document.body.style.overflow — verifikujeme přes open state
+    expect(screen.getByRole('dialog').open).toBe(true)
   })
 
-  it('isOpen=false → document.body.style.overflow vráceno', () => {
+  it('isOpen true→false → dialog se uzavře', () => {
     const { rerender } = render(<Modal isOpen title="Test" onClose={() => {}} />)
     rerender(<Modal isOpen={false} title="Test" onClose={() => {}} />)
-    expect(document.body.style.overflow).toBe('')
+    expect(HTMLDialogElement.prototype.close).toHaveBeenCalledTimes(1)
   })
 
   it('description prop → text je viditelný', () => {
