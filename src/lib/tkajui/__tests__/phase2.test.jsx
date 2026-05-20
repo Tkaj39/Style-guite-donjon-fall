@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import Pictogram, { SIZES } from '../Pictogram'
 import ProgressBar from '../ProgressBar'
 import ScoopClip from '../ScoopClip'
-import CornerOrnament from '../CornerOrnament'
+import CornerOrnament from '../../donjon/CornerOrnament'
 
 // ─── helpers ───────────────────────────────────────────────────────────────
 

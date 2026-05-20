@@ -1,4 +1,4 @@
-import { forwardRef, Children, isValidElement } from 'react'
+import { Children, isValidElement } from 'react'
 import { octagonWithNotch } from '../../utils/octagon'
 
 // ─── Slot ──────────────────────────────────────────────────────────────────
@@ -51,10 +51,7 @@ function slotPos(side) {
  *     </NotchedBox.Slot>
  *   </NotchedBox>
  */
-const NotchedBox = forwardRef(function NotchedBox(
-  { cx = 15, nw = 28, nh = 12, side = 'bottom', children, style, className, ...props },
-  ref
-) {
+function NotchedBox({ ref, cx = 15, nw = 28, nh = 12, side = 'bottom', children, style, className, ...props }) {
   const slots = []
   const content = []
 
@@ -92,7 +89,7 @@ const NotchedBox = forwardRef(function NotchedBox(
       ))}
     </div>
   )
-})
+}
 
 NotchedBox.Slot = Slot
 

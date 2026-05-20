@@ -1,4 +1,4 @@
-import { forwardRef, useId } from 'react'
+import { useId } from 'react'
 import { octagon } from '../../utils/octagon'
 import { buttonSizes as sizes } from '../../utils/sizes'
 import { SideOrnament, HexOrnament } from './Ornaments'
@@ -37,22 +37,20 @@ const variants = {
 
 const iconSize = { xs: 14, sm: 16, md: 20, lg: 24 }
 
-const DonjonButton = forwardRef(function DonjonButton(
-  {
-    children,
-    size = 'md',
-    variant = 'default',
-    leadingIcon,
-    trailingIcon,
-    iconOnly = false,
-    fullWidth = false,
-    loading = false,
-    disabled,
-    className = '',
-    ...props
-  },
+function DonjonButton({
   ref,
-) {
+  children,
+  size = 'md',
+  variant = 'default',
+  leadingIcon,
+  trailingIcon,
+  iconOnly = false,
+  fullWidth = false,
+  loading = false,
+  disabled,
+  className = '',
+  ...props
+}) {
   const rawId = useId()
   const uid   = rawId.replace(/:/g, '')
   const s     = sizes[size] ?? sizes.md
@@ -166,6 +164,6 @@ const DonjonButton = forwardRef(function DonjonButton(
       )}
     </button>
   )
-})
+}
 
 export default DonjonButton

@@ -1,4 +1,3 @@
-import { forwardRef } from 'react'
 import { octagon } from '../../utils/octagon'
 import { buttonSizes as sizes } from '../../utils/sizes'
 import {
@@ -75,22 +74,20 @@ const iconSize = { xs: 14, sm: 16, md: 20, lg: 24 }
  * Oktagonální tvar, čistá UI paleta (bez herních gradientů).
  * Varianty: default | primary | danger | success | warning | link
  */
-const Button = forwardRef(function Button(
-  {
-    children,
-    size = 'md',
-    variant = 'default',
-    leadingIcon,
-    trailingIcon,
-    iconOnly = false,
-    fullWidth = false,
-    loading = false,
-    disabled,
-    className = '',
-    ...props
-  },
+function Button({
+  children,
   ref,
-) {
+  size = 'md',
+  variant = 'default',
+  leadingIcon,
+  trailingIcon,
+  iconOnly = false,
+  fullWidth = false,
+  loading = false,
+  disabled,
+  className = '',
+  ...props
+}) {
   const s     = sizes[size] ?? sizes.md
   const v     = variants[variant] ?? variants.default
   const iSize = iconSize[size] ?? iconSize.md
@@ -199,6 +196,6 @@ const Button = forwardRef(function Button(
       )}
     </button>
   )
-})
+}
 
 export default Button

@@ -10,7 +10,7 @@ import Modal from '../Modal'
 import { ToastProvider, useToast } from '../Toast'
 import Tooltip from '../Tooltip'
 import ScoopClip from '../ScoopClip'
-import CornerOrnament from '../CornerOrnament'
+import CornerOrnament from '../../donjon/CornerOrnament'
 
 const MockIcon = ({ width, height }) => <svg data-testid="mock-icon" width={width} height={height} />
 
