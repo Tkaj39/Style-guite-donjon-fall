@@ -1,3 +1,4 @@
+import { useState, useOptimistic, useTransition } from 'react'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
@@ -48,6 +49,99 @@ function VPBar({ vp, color }) {
 }
 
 const sorted = [...players].sort((a, b) => b.vp - a.vp)
+
+/* ── useOptimistic demo ─────────────────────────────────────────────────
+   Simuluje přidání VP: klik → okamžitá optimistická aktualizace →
+   "server" potvrdí po 1,2 s. Pending stav je vizuálně odlišen.
+   ─────────────────────────────────────────────────────────────────────── */
+const DEMO_PLAYERS = basePlayers.slice(0, 2).map((p, i) => ({
+  ...p,
+  vp: i === 0 ? 3 : 1,
+}))
+
+function OptimisticVPDemo() {
+  const [scores, setScores] = useState(
+    () => Object.fromEntries(DEMO_PLAYERS.map(p => [p.id, p.vp]))
+  )
+  const [isPending, startTransition] = useTransition()
+
+  const [optimisticScores, addOptimisticVP] = useOptimistic(
+    scores,
+    (current, { id }) => ({ ...current, [id]: (current[id] ?? 0) + 1 }),
+  )
+
+  const handleAddVP = (playerId) => {
+    addOptimisticVP({ id: playerId })
+    startTransition(async () => {
+      // simulace latence serveru
+      await new Promise(r => setTimeout(r, 1200))
+      setScores(prev => ({ ...prev, [playerId]: (prev[playerId] ?? 0) + 1 }))
+    })
+  }
+
+  return (
+    <DonjonCard title="Přidání VP — optimistická aktualizace" description="Klikni na +1 VP → skóre se změní okamžitě, server potvrdí po 1,2 s">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {DEMO_PLAYERS.map(player => {
+          const displayed = optimisticScores[player.id] ?? 0
+          const confirmed = scores[player.id] ?? 0
+          const isOptimistic = displayed !== confirmed
+          return (
+            <div key={player.id} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              {/* Color chip */}
+              <div style={{
+                width: 10, height: 10, borderRadius: 2,
+                background: player.color, flexShrink: 0,
+                boxShadow: `0 0 4px ${player.color}66`,
+              }} />
+              {/* Name */}
+              <span style={{ fontSize: '0.75rem', color: '#8F7458', width: 64, flexShrink: 0 }}>
+                {player.label}
+              </span>
+              {/* Score */}
+              <span style={{
+                fontSize: '0.875rem', fontWeight: 700,
+                color: isOptimistic ? player.color : '#F0E6D3',
+                width: 48, flexShrink: 0,
+                transition: 'color 0.3s',
+                opacity: isOptimistic ? 0.8 : 1,
+              }}>
+                {displayed} VP
+                {isOptimistic && (
+                  <span style={{ fontSize: '0.625rem', marginLeft: 4, color: player.color, opacity: 0.7 }}>
+                    ●
+                  </span>
+                )}
+              </span>
+              {/* Button */}
+              <button
+                onClick={() => handleAddVP(player.id)}
+                disabled={isPending && displayed !== confirmed}
+                style={{
+                  padding: '4px 12px',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  background: `${player.color}18`,
+                  border: `1px solid ${player.color}44`,
+                  borderRadius: 4,
+                  color: player.color,
+                  cursor: 'pointer',
+                  transition: 'opacity 0.2s',
+                  opacity: (isPending && displayed !== confirmed) ? 0.5 : 1,
+                }}
+              >
+                +1 VP
+              </button>
+            </div>
+          )
+        })}
+        <p style={{ margin: '4px 0 0', fontSize: '0.6875rem', color: '#4A4560' }}>
+          ● = optimistická hodnota (čeká na potvrzení serveru)
+        </p>
+      </div>
+    </DonjonCard>
+  )
+}
 
 export default function VictoryPointsPage() {
   return (
@@ -195,6 +289,34 @@ export default function VictoryPointsPage() {
             Hra skončí okamžitě, jakmile hráč dosáhne cílového počtu VP.
           </p>
         </Preview>
+      </Section>
+
+      {/* useOptimistic demo — React 19 */}
+      <Section
+        id="optimistic"
+        title="useOptimistic — okamžitá odezva"
+        description="React 19: useOptimistic + useTransition. Skóre se aktualizuje okamžitě před potvrzením serveru."
+      >
+        <Preview>
+          <OptimisticVPDemo />
+        </Preview>
+        <CodeBlock code={`import { useState, useOptimistic, useTransition } from 'react'
+
+const [scores, setScores] = useState({ player1: 3, player2: 1 })
+const [isPending, startTransition] = useTransition()
+
+const [optimisticScores, addOptimisticVP] = useOptimistic(
+  scores,
+  (current, { id }) => ({ ...current, [id]: current[id] + 1 }),
+)
+
+const handleAddVP = (id) => {
+  addOptimisticVP({ id })          // okamžitá optimistická aktualizace
+  startTransition(async () => {
+    await serverAddVP(id)           // čeká na server
+    setScores(prev => ({ ...prev, [id]: prev[id] + 1 }))
+  })
+}`} />
       </Section>
 
       {/* Default map note */}

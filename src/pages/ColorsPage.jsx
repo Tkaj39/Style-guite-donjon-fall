@@ -122,11 +122,11 @@ function TkajuiVsDonjon() {
     <div className="rounded-xl border border-neutral-800 overflow-hidden">
       <div className="grid grid-cols-2 border-b border-neutral-800 bg-neutral-950">
         <div className="p-3 flex items-center gap-2 border-r border-neutral-800">
-          <div className="w-2 h-2 rounded-full bg-brand-500 shrink-0" />
+          <div className="size-2 rounded-full bg-brand-500 shrink-0" />
           <span className="text-xs font-semibold text-neutral-300">TkajUI</span>
         </div>
         <div className="p-3 flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[#FFC183] shrink-0" />
+          <div className="size-2 rounded-full bg-[#FFC183] shrink-0" />
           <span className="text-xs font-semibold text-neutral-300">donjon-fall-ui</span>
         </div>
       </div>
@@ -139,7 +139,7 @@ function TkajuiVsDonjon() {
       ].map((row, i, arr) => (
         <div key={row.label} className={`grid grid-cols-2 ${i < arr.length - 1 ? 'border-b border-neutral-800' : ''}`}>
           <div className="p-3 flex items-center gap-3 border-r border-neutral-800">
-            <div className="w-8 h-8 rounded-sm shrink-0 border border-white/10" style={{ background: row.tkajui }} />
+            <div className="size-8 rounded-sm shrink-0 border border-white/10" style={{ background: row.tkajui }} />
             <div>
               <p className="text-xs font-medium text-neutral-300">{row.label}</p>
               <p className="text-[10px] text-neutral-500">{row.tkNote}</p>
@@ -147,7 +147,7 @@ function TkajuiVsDonjon() {
             </div>
           </div>
           <div className="p-3 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-sm shrink-0 border border-white/10" style={{ background: row.donjon }} />
+            <div className="size-8 rounded-sm shrink-0 border border-white/10" style={{ background: row.donjon }} />
             <div>
               <p className="text-xs font-medium text-neutral-300">{row.label}</p>
               <p className="text-[10px] text-neutral-500">{row.dnNote}</p>
@@ -226,7 +226,7 @@ function DonjonHraci() {
             </div>
             {[p.primary, p.light, p.dark].map((hex) => (
               <div key={hex} className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-sm shrink-0 border border-white/10" style={{ background: hex }} />
+                <div className="size-7 rounded-sm shrink-0 border border-white/10" style={{ background: hex }} />
                 <p className="text-xs font-mono text-neutral-500 hidden sm:block">{hex}</p>
               </div>
             ))}

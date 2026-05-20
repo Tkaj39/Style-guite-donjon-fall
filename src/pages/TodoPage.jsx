@@ -110,7 +110,7 @@ function ComponentBacklog() {
   if (needsDocs.length === 0 && draft.length === 0 && noShowcase.length === 0) {
     return (
       <p className="text-sm text-emerald-500 flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-emerald-500" />
+        <span className="size-2 rounded-full bg-emerald-500" />
         Všechny public komponenty jsou zdokumentované a mají showcase. 🎉
       </p>
     )

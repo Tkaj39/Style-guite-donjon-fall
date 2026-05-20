@@ -140,6 +140,7 @@ export default function Modal({
               }}>
                 <h2
                   id={titleId}
+                  className="text-balance"
                   style={{
                     margin: 0,
                     fontSize: '0.875rem',

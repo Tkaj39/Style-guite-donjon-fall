@@ -132,6 +132,7 @@ export default function DonjonModal({
 
                 <h2
                   id={titleId}
+                  className="text-balance"
                   style={{
                     margin: 0,
                     fontSize: '0.8125rem',

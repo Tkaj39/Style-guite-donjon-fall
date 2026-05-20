@@ -4,7 +4,7 @@ import Sidebar from './Sidebar'
 
 function HamburgerIcon() {
   return (
-    <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+    <svg className="size-5" viewBox="0 0 20 20" fill="currentColor">
       <rect y="3" width="20" height="2" rx="1" />
       <rect y="9" width="20" height="2" rx="1" />
       <rect y="15" width="20" height="2" rx="1" />

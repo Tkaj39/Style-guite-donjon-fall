@@ -136,7 +136,7 @@ export function ShowcasePage({ title, description, children, componentSlug, comp
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-3 flex-wrap">
-                <h2 className="text-2xl lg:text-3xl font-bold text-white">{title}</h2>
+                <h2 className="text-2xl lg:text-3xl font-bold text-white text-balance">{title}</h2>
                 {/* Variantní přepínač — nahrazuje statický LibraryBadge */}
                 {variants
                   ? <VariantSwitcher variants={variants} active={activeVariant} onChange={setActiveVariant} />
@@ -164,7 +164,7 @@ export function Section({ id, title, description, children }) {
   return (
     <section id={id} className="flex flex-col gap-3 lg:gap-4">
       <div>
-        <h3 className="text-base lg:text-lg font-semibold text-white">{title}</h3>
+        <h3 className="text-base lg:text-lg font-semibold text-white text-balance">{title}</h3>
         {description && (
           <p className="text-xs lg:text-sm text-neutral-500 mt-0.5">{description}</p>
         )}
