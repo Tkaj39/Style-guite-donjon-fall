@@ -104,6 +104,19 @@ dialog.modal-dialog > .modal-panel {
   }
 }
 
+/* ── prefers-reduced-motion — accessibility ────────────────────────────
+   Uživatelé se systémovým nastavením "redukovat pohyb" dostanou UI bez
+   animací. !important přebíjí inline duration hodnoty i Tailwind třídy.
+   scroll-behavior: auto zastaví smooth scroll (pokud by byl přidán).    */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ── UI component animations ── */
 
 @keyframes spin {

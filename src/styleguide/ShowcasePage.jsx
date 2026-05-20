@@ -131,6 +131,8 @@ export function ShowcasePage({ title, description, children, componentSlug, comp
 
   return (
     <LibVariantContext.Provider value={activeVariant}>
+      {/* React 19 — document metadata hoistovaná do <head> bez knihoven */}
+      <title>{title} · Donjon Fall Style Guide</title>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
         <header className="mb-8 lg:mb-10 border-b border-neutral-800 pb-6 lg:pb-8">
           <div className="flex items-start justify-between gap-4 flex-wrap">
