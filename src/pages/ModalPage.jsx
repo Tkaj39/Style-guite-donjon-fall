@@ -223,6 +223,33 @@ function ModalContent() {
 <${cmp} showCloseButton={false} …>…</${cmp}>`} />
       </Section>
 
+      {/* inert — React 19 */}
+      <Section
+        id="inert"
+        title="Atribut inert (React 19)"
+        description="Kdy je modál otevřený, obsah za ním by měl dostat atribut inert — prohlížeč pak automaticky zabrání focusu, klikům i čtení čtečkou. React 19 podporuje inert jako JSX prop přímo."
+      >
+        <Preview>
+          <InertDemo Btn={Btn} ModalCmp={ModalCmp} />
+        </Preview>
+        <CodeBlock code={`function Page() {
+  const [open, setOpen] = useState(false)
+  return (
+    <>
+      {/* React 19: inert jako JSX prop — žádné setAttribute */}
+      <main inert={open}>
+        <button>Nedosažitelné tlačítko</button>
+        <input placeholder="Nedosažitelné pole" />
+      </main>
+
+      <${cmp} isOpen={open} onClose={() => setOpen(false)} title="Dialog">
+        Obsah modálu — pozadí je inert.
+      </${cmp}>
+    </>
+  )
+}`} />
+      </Section>
+
       {/* Pravidla */}
       <Section id="pravidla" title="Pravidla použití">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">
@@ -236,6 +263,62 @@ function ModalContent() {
         </div>
       </Section>
     </>
+  )
+}
+
+/* ── InertDemo — ukázka React 19 inert JSX prop ── */
+function InertDemo({ Btn, ModalCmp }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', maxWidth: 420 }}>
+      {/* Obsah "na pozadí" který dostane inert při otevřeném modálu */}
+      <div
+        inert={open}
+        style={{
+          padding: '14px 18px',
+          border: `1px solid ${open ? '#2a2a40' : '#4C4C6A'}`,
+          borderRadius: 6,
+          background: 'rgba(20,20,32,0.8)',
+          opacity: open ? 0.4 : 1,
+          transition: 'opacity 0.2s, border-color 0.2s',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 10,
+        }}
+      >
+        <p style={{ margin: 0, fontSize: '0.75rem', color: '#6868a0', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+          Obsah na pozadí — inert=&#123;open&#125;
+        </p>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+          <Btn size="sm">Tlačítko</Btn>
+          <input
+            placeholder="Textové pole"
+            style={{
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid #4C4C6A',
+              borderRadius: 4,
+              padding: '5px 10px',
+              color: '#eeeef8',
+              fontSize: '0.8125rem',
+              outline: 'none',
+              width: 120,
+            }}
+          />
+        </div>
+        <p style={{ margin: 0, fontSize: '0.75rem', color: '#6868a0' }}>
+          Když je modál otevřený, tento blok nelze focusnout ani kliknout.
+        </p>
+      </div>
+      <Btn size="sm" onClick={() => setOpen(true)}>Otevřít modál (inert demo)</Btn>
+      <ModalCmp isOpen={open} onClose={() => setOpen(false)} title="inert na pozadí">
+        <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+          Obsah za tímto modálem má atribut <code style={{ color: '#FFC183', fontFamily: 'monospace' }}>inert</code> —
+          prohlížeč automaticky zabrání focusu, klikům i přečtení čtečkou obrazovky.
+          React 19 podporuje <code style={{ color: '#FFC183', fontFamily: 'monospace' }}>inert</code> jako
+          JSX prop přímo, bez <code style={{ color: '#FFC183', fontFamily: 'monospace' }}>setAttribute</code>.
+        </p>
+      </ModalCmp>
+    </div>
   )
 }
 

@@ -32,14 +32,17 @@ function LoadingContent({ titleSize = '1.5rem', subtitleSize = '0.5rem', statusS
     }}>
       {/* Logo */}
       <div style={{ textAlign: 'center' }}>
-        <p style={{
-          margin: '0 0 5px',
-          fontSize: titleSize, fontWeight: 900,
-          letterSpacing: '0.25em', textTransform: 'uppercase',
-          background: 'linear-gradient(180deg, #FFC183 0%, #8F7458 100%)',
-          WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-          lineHeight: 1.1,
-        }}>
+        <p
+          className="text-shadow-golden"
+          style={{
+            margin: '0 0 5px',
+            fontSize: titleSize, fontWeight: 900,
+            letterSpacing: '0.25em', textTransform: 'uppercase',
+            background: 'linear-gradient(180deg, #FFC183 0%, #8F7458 100%)',
+            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
+            lineHeight: 1.1,
+          }}
+        >
           Donjon Fall
         </p>
         <p style={{

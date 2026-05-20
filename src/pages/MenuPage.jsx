@@ -84,14 +84,17 @@ function MenuDesktopLayout() {
       }}>
         {/* Logo */}
         <div style={{ marginBottom: 16, textAlign: 'center' }}>
-          <p style={{
-            margin: '0 0 5px',
-            fontSize: '1.125rem', fontWeight: 900,
-            letterSpacing: '0.22em', textTransform: 'uppercase',
-            background: 'linear-gradient(180deg, #FFC183 0%, #8F7458 100%)',
-            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-            lineHeight: 1.1,
-          }}>
+          <p
+            className="text-shadow-golden"
+            style={{
+              margin: '0 0 5px',
+              fontSize: '1.125rem', fontWeight: 900,
+              letterSpacing: '0.22em', textTransform: 'uppercase',
+              background: 'linear-gradient(180deg, #FFC183 0%, #8F7458 100%)',
+              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
+              lineHeight: 1.1,
+            }}
+          >
             Donjon<br />Fall
           </p>
           <p style={{

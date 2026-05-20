@@ -16,6 +16,13 @@
   --color-brand-950: #151a4d;
 
   --font-sans: Inter, system-ui, sans-serif;
+
+  /* ── Tailwind v4: vlastní text-shadow tokeny ── */
+  /* Použití: className="text-shadow-golden" na herním titulu */
+  --text-shadow-golden:
+    0 0 12px #FFC18377, 0 0 32px #FFC18333, 0 0 64px #8F745822;
+  --text-shadow-gold-soft:
+    0 0 6px #FFC18355, 0 0 16px #FFC18322;
 }
 
 /*
