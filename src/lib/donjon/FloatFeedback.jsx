@@ -14,11 +14,13 @@
  *   style    — volitelný override pozicování (default: centred above)
  */
 
+import { gold, goldDim, dangerColor, gainColor } from './tokens'
+
 const variantStyle = {
-  gain:    { color: '#50B86C', textShadow: '0 0 8px #50B86C88' },
-  loss:    { color: '#E05C5C', textShadow: '0 0 8px #E05C5C88' },
-  vp:      { color: '#FFC183', textShadow: '0 0 10px #FFC18399' },
-  neutral: { color: '#8F7458', textShadow: 'none' },
+  gain:    { color: gainColor,    textShadow: `0 0 8px ${gainColor}88`    },
+  loss:    { color: dangerColor,  textShadow: `0 0 8px ${dangerColor}88`  },
+  vp:      { color: gold,         textShadow: `0 0 10px ${gold}99`        },
+  neutral: { color: goldDim,      textShadow: 'none'                      },
 }
 
 export default function FloatFeedback({

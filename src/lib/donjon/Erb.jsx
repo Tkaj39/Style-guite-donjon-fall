@@ -2,6 +2,7 @@
    Shield:              hexagonální štít s barvou a symbolem hráče
    PlayerIdentityBadge: kompaktní badge pro scoreboard / HUD
    ─────────────────────────────────────────────────────────────────────── */
+import { bg2 } from './tokens'
 
 const SHIELD_CLIP = 'polygon(50% 0%, 100% 20%, 100% 60%, 50% 100%, 0% 60%, 0% 20%)'
 
@@ -72,7 +73,7 @@ export function PlayerIdentityBadge({ player }) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 10,
-      background: '#1B1A30', borderRadius: 4,
+      background: bg2, borderRadius: 4,
       border: `1px solid ${player.color}44`,
       padding: '6px 12px',
     }}>

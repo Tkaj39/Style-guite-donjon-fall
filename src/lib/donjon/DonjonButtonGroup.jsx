@@ -1,7 +1,7 @@
 import { useId } from 'react'
 import { octagon, clipLeft, clipRight } from '../../utils/octagon'
 import { SideOrnament, HexOrnament } from './Ornaments'
-import { gold, goldDim, bgInactive, VARIANT_BG, VARIANT_TITLE_GRAD } from './tokens'
+import { gold, goldDim, bg2, bgInactive, VARIANT_BG, VARIANT_TITLE_GRAD } from './tokens'
 
 const sizeMap = {
   xs: { h: 32, cx: 9.61,  px: 10, fontSize: '0.6875rem' },
@@ -71,7 +71,7 @@ export default function DonjonButtonGroup({
                 clipPath,
                 background: isActive
                   ? VARIANT_BG.default
-                  : `linear-gradient(150deg,${bgInactive} 0%,#1B1A30 70%)`,
+                  : `linear-gradient(150deg,${bgInactive} 0%,${bg2} 70%)`,
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',

@@ -33,6 +33,11 @@ export const dangerColor  = '#E05C5C'
 export const successColor = '#40A055'
 export const warningColor = '#C08040'
 
+// ── Herní feedback ────────────────────────────────────────────────────────
+// gainColor: světlejší zelená pro pozitivní herní feedback (FloatFeedback gain,
+//            HexTile move stav) — záměrně jiný odstín než successColor (UI semantic)
+export const gainColor = '#50B86C'
+
 // ── Pomocné lookup tabulky ────────────────────────────────────────────────
 
 /** Varianty pro Button, Card, Modal */
