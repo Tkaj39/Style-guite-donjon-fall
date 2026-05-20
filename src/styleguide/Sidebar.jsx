@@ -33,6 +33,7 @@ const sections = [
       {
         to: '/components', label: 'Components',
         children: [
+          { to: '/components#tech-stack',      label: 'Tech stack' },
           { to: '/components#tkajui',         label: 'TkajUI' },
           { to: '/components#donjon-fall-ui', label: 'donjon-fall-ui' },
           { to: '/components#layout',         label: 'Layout' },

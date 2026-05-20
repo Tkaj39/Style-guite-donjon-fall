@@ -3,6 +3,67 @@ import { Link, useNavigate } from 'react-router-dom'
 import { registry, CATEGORIES, getCategoryCounts } from '../data/componentRegistry'
 import { ShowcasePage, Section } from '../styleguide/ShowcasePage'
 
+/* ── Tech stack data ── */
+const TECH_STACK = [
+  {
+    group: 'Runtime',
+    items: [
+      { name: 'React',        version: '19.2.6',  role: 'UI framework',                 url: 'https://react.dev',               accent: '#61dafb' },
+      { name: 'React DOM',    version: '19.2.6',  role: 'DOM renderer',                 url: 'https://react.dev',               accent: '#61dafb' },
+    ],
+  },
+  {
+    group: 'Routing',
+    items: [
+      { name: 'React Router', version: '6.30.3',  role: 'SPA routing',                  url: 'https://reactrouter.com',         accent: '#ca4246' },
+    ],
+  },
+  {
+    group: 'Styling',
+    items: [
+      { name: 'Tailwind CSS',       version: '4.3.0',  role: 'Utility-first CSS framework',  url: 'https://tailwindcss.com',         accent: '#38bdf8' },
+      { name: '@tailwindcss/vite',  version: '4.3.0',  role: 'Vite plugin pro Tailwind v4',  url: 'https://tailwindcss.com/docs/installation/using-vite', accent: '#38bdf8' },
+    ],
+  },
+  {
+    group: 'Build',
+    items: [
+      { name: 'Vite',               version: '5.4.21', role: 'Dev server + bundler',          url: 'https://vitejs.dev',              accent: '#a78bfa' },
+      { name: '@vitejs/plugin-react', version: '4.3.1', role: 'React + Babel transform',      url: 'https://github.com/vitejs/vite-plugin-react', accent: '#a78bfa' },
+    ],
+  },
+  {
+    group: 'Testing',
+    items: [
+      { name: 'Vitest',                   version: '4.1.6',  role: 'Test runner (Vite-native)',     url: 'https://vitest.dev',              accent: '#6da13f' },
+      { name: '@testing-library/react',   version: '16.3.2', role: 'DOM testing utilities',         url: 'https://testing-library.com',     accent: '#e33d4c' },
+      { name: 'jest-axe',                 version: '10.0.0', role: 'Accessibility assertions',      url: 'https://github.com/nickcolley/jest-axe', accent: '#e33d4c' },
+    ],
+  },
+]
+
+/* ── TechRow ── */
+function TechRow({ name, version, role, url, accent }) {
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-800/60 transition-colors -mx-3"
+    >
+      <span
+        className="shrink-0 w-1.5 h-1.5 rounded-full"
+        style={{ background: accent }}
+      />
+      <span className="text-sm text-neutral-200 font-medium w-52 shrink-0 truncate group-hover:text-white transition-colors">
+        {name}
+      </span>
+      <code className="text-xs font-mono text-neutral-500 w-16 shrink-0">{version}</code>
+      <span className="text-xs text-neutral-600 min-w-0 truncate">{role}</span>
+    </a>
+  )
+}
+
 /* ── Stránky style guidu bez odpovídající komponenty ── */
 const NON_COMPONENT_PAGES = [
   {
@@ -322,6 +383,22 @@ export default function ComponentsPage() {
       title="Components"
       description="Přehled všech komponent Donjon Fall design systému, rozdělených do dvou knihoven: TkajUI (generické UI) a donjon-fall-ui (herní komponenty). Automaticky generováno z filesystému, doplněno ručními metadaty."
     >
+      {/* ── Tech stack ── */}
+      <Section id="tech-stack" description="Závislosti projektu — verze ke dni poslední aktualizace dokumentace.">
+        <div className="flex flex-col gap-6">
+          {TECH_STACK.map(group => (
+            <div key={group.group}>
+              <p className="text-[11px] font-semibold uppercase tracking-widest text-neutral-600 mb-1">{group.group}</p>
+              <div className="flex flex-col">
+                {group.items.map(item => (
+                  <TechRow key={item.name} {...item} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
       {/* ── Přepínač knihoven ── */}
       <Section id="knihovny">
         <LibTabs active={activeLib} onChange={setActiveLib} />
