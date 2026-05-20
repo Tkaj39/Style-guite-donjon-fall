@@ -13,6 +13,7 @@ import {
   successColor, successBg, successBorder,
   dangerColor, dangerBg, dangerBorder,
   warningColor, warningBg, warningBorder,
+  zDropdown,
 } from './tokens'
 
 const VARIANTS = {
@@ -189,7 +190,7 @@ export default function Select({
             top: 'calc(100% + 4px)',
             left: 0,
             right: 0,
-            zIndex: 900,
+            zIndex: zDropdown,
             background: surface2,
             border: `1px solid ${borderMid}`,
             borderRadius: 4,

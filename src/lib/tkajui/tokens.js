@@ -51,12 +51,14 @@ export const dangerDescColor = '#c07070'  // card description color
 export const dangerDim       = '#cc2222'  // gradient end (ProgressBar, Slider)
 
 // ── Semantic — Warning ─────────────────────────────────────────────────────
-export const warningColor    = '#f0a030'
-export const warningBg       = '#1e1003'
-export const warningBgHover  = '#2a1604'  // button hover bg
-export const warningBorder   = '#f0a03044'
-export const warningText     = '#fcd34d'
-export const warningDim      = '#cc7010'  // gradient end (ProgressBar, Slider)
+export const warningColor     = '#f0a030'
+export const warningBg        = '#1e1003'
+export const warningBgHover   = '#2a1604'  // button hover bg
+export const warningHeaderBg  = '#271402'  // modal / card headerBg
+export const warningBorder    = '#f0a03044'
+export const warningText      = '#fcd34d'
+export const warningDescColor = '#906040'  // card / modal description color
+export const warningDim       = '#cc7010'  // gradient end (ProgressBar, Slider)
 
 // ── Semantic — Info ────────────────────────────────────────────────────────
 export const infoColor  = '#4fa3f5'
@@ -64,6 +66,16 @@ export const infoBg     = '#071424'
 export const infoBorder = '#4fa3f544'
 export const infoText   = '#93c5fd'
 export const infoDim    = '#2070d0'  // gradient end (ProgressBar, Slider)
+
+// ── Primary (white-on-accent) ──────────────────────────────────────────────
+export const primaryText = '#ffffff'
+export const primaryIcon = '#ffffffcc'
+
+// ── Z-index škála ─────────────────────────────────────────────────────────
+// Modály nepoužívají z-index — jsou v native <dialog> top-layer.
+export const zDropdown = 900   // Select dropdown, Combobox
+export const zToast    = 2000  // Toast notification stack
+export const zTooltip  = 2100  // Tooltip (nad toasty)
 
 // ── Helpers: variant lookup tables ────────────────────────────────────────
 export const VARIANT_COLORS = {

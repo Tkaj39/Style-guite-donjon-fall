@@ -10,6 +10,7 @@ import {
   dangerColor, dangerBg, dangerBorder, dangerText,
   warningColor, warningBg, warningBorder, warningText,
   infoColor, infoBg, infoBorder, infoText,
+  zToast,
 } from './tokens'
 
 /* ── Varianty ── */
@@ -228,7 +229,7 @@ export function ToastProvider({ children, position = 'bottom-right' }) {
           `}</style>
           <div style={{
             position: 'fixed',
-            zIndex: 2000,
+            zIndex: zToast,
             display: 'flex',
             flexDirection: 'column',
             gap: 8,

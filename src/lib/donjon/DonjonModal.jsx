@@ -200,7 +200,7 @@ export default function DonjonModal({
                     background: 'transparent',
                     border: `1px solid ${v.border}44`,
                     borderRadius: 3,
-                    color: '#8F7458',
+                    color: goldDim,
                     cursor: 'pointer',
                   }}
                   onMouseEnter={e => { e.currentTarget.style.background = `${v.border}22` }}

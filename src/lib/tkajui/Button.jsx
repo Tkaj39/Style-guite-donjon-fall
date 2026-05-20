@@ -4,6 +4,7 @@ import {
   accent, accentLight, surface2, surface3, surface4,
   borderDefault, borderMid,
   textHigh, textMid,
+  primaryText, primaryIcon,
   dangerColor, dangerBg, dangerBgHover, dangerBorder, dangerText,
   successColor, successBg, successBgHover, successBorder, successText,
   warningColor, warningBg, warningBgHover, warningBorder, warningText,
@@ -38,8 +39,8 @@ const variants = {
     bgHover:     accentLight,
     border:      accent,
     borderHover: accentLight,
-    text:        '#ffffff',
-    icon:        '#ffffffcc',
+    text:        primaryText,
+    icon:        primaryIcon,
   },
   danger: {
     bg:          dangerBg,

@@ -8,6 +8,7 @@ import {
   dangerColor, dangerBg, dangerBorder, dangerText,
   warningColor, warningBg, warningBorder, warningText,
   infoColor, infoBg, infoBorder, infoText,
+  zTooltip,
 } from './tokens'
 
 /* ── Varianty ── */
@@ -93,7 +94,7 @@ export default function Tooltip({
             top: pos.top,
             left: pos.left,
             transform: `translate(${pos.tx}, ${pos.ty})`,
-            zIndex: 9999,
+            zIndex: zTooltip,
             pointerEvents: 'none',
             maxWidth: 240,
             minWidth: 80,
