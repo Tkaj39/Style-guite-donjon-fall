@@ -7,7 +7,7 @@ function BpBar({ label, min, max, color, desc, items }) {
     <div style={{ display: 'flex', gap: 14, padding: '12px 14px', background: '#12102A', border: `1px solid ${color}33`, borderRadius: 4, borderLeft: `3px solid ${color}` }}>
       <div style={{ flexShrink: 0, width: 80 }}>
         <code style={{ fontSize: '0.8125rem', fontWeight: 700, color }}>{label}</code>
-        <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: '#4A4870' }}>{min}{max ? `–${max}` : '+'} px</p>
+        <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: 'textDeep' }}>{min}{max ? `–${max}` : '+'} px</p>
       </div>
       <div style={{ flex: 1 }}>
         <p style={{ margin: '0 0 4px', fontSize: '0.8125rem', color: '#F0E6D3' }}>{desc}</p>
@@ -25,7 +25,7 @@ function BpBar({ label, min, max, color, desc, items }) {
 function LayoutDiagram({ cols, sidebar, label }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'center' }}>
-      <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4870', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</p>
+      <p style={{ margin: 0, fontSize: '0.625rem', color: 'textDeep', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</p>
       <div style={{ display: 'flex', gap: 3, height: 60, width: 140 }}>
         {sidebar && (
           <div style={{ width: 22, background: '#2A2948', border: '1px solid #8F745430', borderRadius: 2, flexShrink: 0 }} />
@@ -143,9 +143,9 @@ export default function ResponsivePage() {
             ].map(({ bp, behavior, z, close }) => (
               <div key={bp} style={{ display: 'grid', gridTemplateColumns: '70px 1fr 60px 1fr', gap: 10, padding: '9px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3, alignItems: 'start' }}>
                 <code style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#B8956A' }}>{bp}</code>
-                <span style={{ fontSize: '0.75rem', color: '#8F9CB3', lineHeight: 1.4 }}>{behavior}</span>
-                <code style={{ fontSize: '0.75rem', color: '#4A4870' }}>{z}</code>
-                <span style={{ fontSize: '0.75rem', color: '#4A4870', lineHeight: 1.4 }}>{close}</span>
+                <span style={{ fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>{behavior}</span>
+                <code style={{ fontSize: '0.75rem', color: 'textDeep' }}>{z}</code>
+                <span style={{ fontSize: '0.75rem', color: 'textDeep', lineHeight: 1.4 }}>{close}</span>
               </div>
             ))}
           </div>
@@ -189,7 +189,7 @@ export default function ResponsivePage() {
               { element: 'Micro / label',     desktop: '0.625rem / 10px', mobile: '0.625rem / 10px' },
             ].map(({ element, desktop, mobile }) => (
               <div key={element} style={{ display: 'grid', gridTemplateColumns: '180px 1fr 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3 }}>
-                <span style={{ fontSize: '0.8125rem', color: '#8F9CB3' }}>{element}</span>
+                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{element}</span>
                 <code style={{ fontSize: '0.75rem', color: '#B8956A' }}>{desktop}</code>
                 <code style={{ fontSize: '0.75rem', color: '#4080C0' }}>{mobile}</code>
               </div>
@@ -224,10 +224,10 @@ export default function ResponsivePage() {
               { element: 'Icon button',     min: '24 × 24px', recommended: '44 × 44px', note: 'Vždy přidej padding k ikoně' },
             ].map(({ element, min, recommended, note }) => (
               <div key={element} style={{ display: 'grid', gridTemplateColumns: '170px 80px 90px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3, alignItems: 'start' }}>
-                <span style={{ fontSize: '0.8125rem', color: '#8F9CB3' }}>{element}</span>
+                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{element}</span>
                 <code style={{ fontSize: '0.75rem', color: '#C04040' }}>{min}</code>
                 <code style={{ fontSize: '0.75rem', color: '#40A055' }}>{recommended}</code>
-                <span style={{ fontSize: '0.6875rem', color: '#4A4870', lineHeight: 1.4 }}>{note}</span>
+                <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
           </div>

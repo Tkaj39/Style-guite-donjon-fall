@@ -27,6 +27,10 @@ export const textMid      = '#C8BFAF'  // labels, popis
 export const textActive   = '#F0E6D3'  // aktivní tab, highlighted text
 export const textLow      = '#9A9080'  // muted / hints
 export const textDisabled = '#6B6A82'  // disabled / inactive tabs
+export const textFaint    = '#4A4560'  // ultra-tmavý muted text, dekorativní obsah
+export const textDeep     = '#4A4870'  // ultra-tmavý blue-purple muted variant
+export const textCool     = '#8F9CB3'  // studená modro-šedá, sekundární/kódový text
+export const textParchment = '#D4C5A9' // teplá krémová, střední warm text
 
 // ── Semantic ──────────────────────────────────────────────────────────────
 export const dangerColor  = '#E05C5C'

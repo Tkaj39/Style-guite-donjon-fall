@@ -1,4 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { textDeep, textCool } from '../lib/donjon/tokens'
 
 /* ── Texture preview box ── */
 function TextureBox({ label, style, desc, code }) {
@@ -12,8 +13,8 @@ function TextureBox({ label, style, desc, code }) {
       }} />
       <div>
         <p style={{ margin: 0, fontSize: '0.8125rem', fontWeight: 700, color: '#B8956A' }}>{label}</p>
-        <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: '#4A4870', lineHeight: 1.3 }}>{desc}</p>
-        {code && <code style={{ display: 'block', marginTop: 4, fontSize: '0.5625rem', color: '#4A4870', wordBreak: 'break-all' }}>{code}</code>}
+        <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: 'textDeep', lineHeight: 1.3 }}>{desc}</p>
+        {code && <code style={{ display: 'block', marginTop: 4, fontSize: '0.5625rem', color: 'textDeep', wordBreak: 'break-all' }}>{code}</code>}
       </div>
     </div>
   )
@@ -23,7 +24,7 @@ function TextureBox({ label, style, desc, code }) {
 function TextureLayer({ label, layers, content }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3' }}>{label}</p>
+      <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool' }}>{label}</p>
       <div style={{
         width: 200, height: 120,
         borderRadius: 4,
@@ -146,17 +147,17 @@ export default function TexturePage() {
           <TextureLayer
             label="Jen bg"
             layers={{ background: '#12102A' }}
-            content={<span style={{ fontSize: '0.75rem', color: '#4A4870' }}>čisté</span>}
+            content={<span style={{ fontSize: '0.75rem', color: 'textDeep' }}>čisté</span>}
           />
           <TextureLayer
             label="Bg + noise"
             layers={{ background: `${SVG_NOISE}, #12102A` }}
-            content={<span style={{ fontSize: '0.75rem', color: '#4A4870' }}>+ šum</span>}
+            content={<span style={{ fontSize: '0.75rem', color: 'textDeep' }}>+ šum</span>}
           />
           <TextureLayer
             label="+ vignette"
             layers={{ background: `${GRADIENTS.vignette}, ${SVG_NOISE}, #12102A` }}
-            content={<span style={{ fontSize: '0.75rem', color: '#4A4870' }}>+ vignette</span>}
+            content={<span style={{ fontSize: '0.75rem', color: 'textDeep' }}>+ vignette</span>}
           />
           <TextureLayer
             label="+ corner"
@@ -198,10 +199,10 @@ export default function TexturePage() {
               { place: 'Error / critical overlay', texture: 'žádná',                  intensity: 'none', note: 'Chyba potřebuje jasnost, ne atmosféru' },
             ].map(({ place, texture, intensity, note }) => (
               <div key={place} style={{ display: 'grid', gridTemplateColumns: '180px 160px 90px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3 }}>
-                <span style={{ fontSize: '0.8125rem', color: '#8F9CB3' }}>{place}</span>
+                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{place}</span>
                 <code style={{ fontSize: '0.6875rem', color: '#B8956A', lineHeight: 1.4 }}>{texture}</code>
-                <span style={{ fontSize: '0.75rem', color: intensity === 'none' ? '#4A4870' : '#40A055' }}>{intensity}</span>
-                <span style={{ fontSize: '0.6875rem', color: '#4A4870', lineHeight: 1.4 }}>{note}</span>
+                <span style={{ fontSize: '0.75rem', color: intensity === 'none' ? 'textDeep' : '#40A055' }}>{intensity}</span>
+                <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
           </div>

@@ -1,4 +1,5 @@
 import { useLibVariant, ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { textDeep, textCool } from '../lib/donjon/tokens'
 
 /* ══════════════════════════════════════════════════════════════════════════
    Sdílené primitiva
@@ -10,7 +11,7 @@ function ShadowBox({ label, shadow, desc, bg = '#1E1C3A', border = '#8F745430' }
       <div style={{ width: 80, height: 50, background: bg, border: `1px solid ${border}`, borderRadius: 4, boxShadow: shadow }} />
       <div style={{ textAlign: 'center' }}>
         <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 700, color: '#B8956A' }}>{label}</p>
-        <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: '#4A4870', lineHeight: 1.4 }}>{desc}</p>
+        <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: 'textDeep', lineHeight: 1.4 }}>{desc}</p>
       </div>
     </div>
   )
@@ -34,7 +35,7 @@ function GlowBox({ label, color, glow, desc }) {
       <div style={{ width: 80, height: 50, background: color + '22', border: `1px solid ${color}66`, borderRadius: 4, boxShadow: glow }} />
       <div style={{ textAlign: 'center' }}>
         <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 700, color }}>{label}</p>
-        <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: '#4A4870', lineHeight: 1.4, maxWidth: 120 }}>{desc}</p>
+        <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: 'textDeep', lineHeight: 1.4, maxWidth: 120 }}>{desc}</p>
       </div>
     </div>
   )
@@ -308,10 +309,10 @@ function DonjonGlowContent() {
               { component: 'VP získáno',        shadow: 'none',         glow: '--glow-strong',    note: 'Herní akcent — silná pulzující záře' },
             ].map(({ component, shadow, glow, note }) => (
               <div key={component} style={{ display: 'grid', gridTemplateColumns: '180px 100px 120px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3 }}>
-                <span style={{ fontSize: '0.8125rem', color: '#8F9CB3' }}>{component}</span>
+                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{component}</span>
                 <code style={{ fontSize: '0.6875rem', color: '#4080C0', lineHeight: 1.4 }}>{shadow}</code>
                 <code style={{ fontSize: '0.6875rem', color: '#B8956A', lineHeight: 1.4 }}>{glow}</code>
-                <span style={{ fontSize: '0.6875rem', color: '#4A4870', lineHeight: 1.4 }}>{note}</span>
+                <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
           </div>

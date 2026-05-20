@@ -1,4 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { textFaint } from '../lib/donjon/tokens'
 import { players } from '../data/gameUiMockData'
 import { Shield, PlayerIdentityBadge } from '../lib/donjon/Erb'
 
@@ -19,7 +20,7 @@ export default function ErbPage() {
             {players.map(p => (
               <div key={p.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
                 <Shield player={p} size="md" showSymbol={false} />
-                <span style={{ fontSize: '0.5625rem', color: '#4A4560', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{p.label}</span>
+                <span style={{ fontSize: '0.5625rem', color: 'textFaint', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{p.label}</span>
               </div>
             ))}
           </div>
@@ -30,7 +31,7 @@ export default function ErbPage() {
             {(['xs', 'sm', 'md', 'lg']).map(sz => (
               <div key={sz} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
                 <Shield player={players[0]} size={sz} showSymbol={false} />
-                <span style={{ fontSize: '0.5625rem', color: '#4A4560', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{sz}</span>
+                <span style={{ fontSize: '0.5625rem', color: 'textFaint', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{sz}</span>
               </div>
             ))}
           </div>
@@ -49,7 +50,7 @@ export default function ErbPage() {
             {players.map(p => (
               <div key={p.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
                 <Shield player={p} size="md" showSymbol />
-                <span style={{ fontSize: '0.5625rem', color: '#4A4560', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{p.label}</span>
+                <span style={{ fontSize: '0.5625rem', color: 'textFaint', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{p.label}</span>
               </div>
             ))}
           </div>

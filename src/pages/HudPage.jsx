@@ -1,4 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { textFaint, textDeep, textCool } from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { Shield, PlayerIdentityBadge } from '../lib/donjon/Erb'
 import { players } from '../data/gameUiMockData'
@@ -40,8 +41,8 @@ function TurnTracker({ current, total, phase }) {
       minWidth: 180,
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-        <span style={{ fontSize: '0.625rem', color: '#4A4870', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Kolo</span>
-        <span style={{ fontSize: '1.125rem', fontWeight: 700, color: '#F0E6D3' }}>{current} <span style={{ fontSize: '0.75rem', color: '#4A4870' }}>/ {total}</span></span>
+        <span style={{ fontSize: '0.625rem', color: 'textDeep', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Kolo</span>
+        <span style={{ fontSize: '1.125rem', fontWeight: 700, color: '#F0E6D3' }}>{current} <span style={{ fontSize: '0.75rem', color: 'textDeep' }}>/ {total}</span></span>
       </div>
       <div style={{ display: 'flex', gap: 2 }}>
         {Array.from({ length: total }).map((_, i) => (
@@ -58,7 +59,7 @@ function TurnTracker({ current, total, phase }) {
             fontSize: '0.625rem', fontWeight: i === phase ? 700 : 400,
             background: i === phase ? '#B8956A20' : 'transparent',
             border: `1px solid ${i === phase ? '#B8956A50' : 'transparent'}`,
-            color: i === phase ? '#B8956A' : '#4A4870',
+            color: i === phase ? '#B8956A' : 'textDeep',
           }}>{p}</div>
         ))}
       </div>
@@ -71,11 +72,11 @@ function VPCounter({ players }) {
   const max = 5
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: '10px 14px', background: '#12102A', border: '1px solid #8F745430', borderRadius: 4, minWidth: 200 }}>
-      <span style={{ fontSize: '0.625rem', color: '#4A4870', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Vítězné body</span>
+      <span style={{ fontSize: '0.625rem', color: 'textDeep', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Vítězné body</span>
       {players.map(({ name, color, vp }) => (
         <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div style={{ width: 8, height: 8, borderRadius: '50%', background: color, flexShrink: 0 }} />
-          <span style={{ fontSize: '0.75rem', color: '#8F9CB3', width: 60 }}>{name}</span>
+          <span style={{ fontSize: '0.75rem', color: 'textCool', width: 60 }}>{name}</span>
           <div style={{ flex: 1, display: 'flex', gap: 3 }}>
             {Array.from({ length: max }).map((_, i) => (
               <div key={i} style={{
@@ -111,8 +112,8 @@ function ActionBar({ actions, activePlayer }) {
           cursor: available ? 'pointer' : 'not-allowed',
           minWidth: 60,
         }}>
-          <span style={{ fontSize: '0.8125rem', color: available ? '#F0E6D3' : '#4A4870' }}>{label}</span>
-          <code style={{ fontSize: '0.5625rem', color: '#4A4870', background: '#0E0C22', padding: '1px 4px', borderRadius: 2 }}>{key}</code>
+          <span style={{ fontSize: '0.8125rem', color: available ? '#F0E6D3' : 'textDeep' }}>{label}</span>
+          <code style={{ fontSize: '0.5625rem', color: 'textDeep', background: '#0E0C22', padding: '1px 4px', borderRadius: 2 }}>{key}</code>
         </div>
       ))}
     </div>
@@ -326,20 +327,20 @@ function FloatFeedback({ text, color, x, y, onDone }) {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             <div>
-              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 Velikosti — size prop
               </p>
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: 24 }}>
                 {['xs', 'sm', 'md', 'lg'].map(size => (
                   <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
                     <Shield player={players[0]} size={size} />
-                    <span style={{ fontSize: '0.5rem', color: '#4A4560', fontFamily: 'monospace' }}>{size}</span>
+                    <span style={{ fontSize: '0.5rem', color: 'textFaint', fontFamily: 'monospace' }}>{size}</span>
                   </div>
                 ))}
               </div>
             </div>
             <div>
-              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 Barvy hráčů — 6 hráčů, size sm
               </p>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
@@ -349,7 +350,7 @@ function FloatFeedback({ text, color, x, y, onDone }) {
               </div>
             </div>
             <div>
-              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 showSymbol=false — barevný štít bez symbolu (kompaktní HUD)
               </p>
               <div style={{ display: 'flex', gap: 8 }}>
@@ -378,7 +379,7 @@ function FloatFeedback({ text, color, x, y, onDone }) {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             <div>
-              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 Všichni hráči
               </p>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -388,7 +389,7 @@ function FloatFeedback({ text, color, x, y, onDone }) {
               </div>
             </div>
             <div>
-              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 V HUD kontextu — hráč 1 vs hráč 2 (2-hráčová partie)
               </p>
               <div style={{
@@ -426,7 +427,7 @@ function FloatFeedback({ text, color, x, y, onDone }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {/* Blokováno */}
             <div>
-              <p style={{ margin: '0 0 8px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              <p style={{ margin: '0 0 8px', fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 Blokovaná akce
               </p>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -456,7 +457,7 @@ function FloatFeedback({ text, color, x, y, onDone }) {
             </div>
             {/* Danger — kritický VP */}
             <div>
-              <p style={{ margin: '0 0 8px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              <p style={{ margin: '0 0 8px', fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 Danger — soupeř na dosah vítězství (4 z 5 VP)
               </p>
               <div style={{
@@ -473,7 +474,7 @@ function FloatFeedback({ text, color, x, y, onDone }) {
             </div>
             {/* Neaktivní hráč */}
             <div>
-              <p style={{ margin: '0 0 8px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              <p style={{ margin: '0 0 8px', fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 Aktivní vs neaktivní hráč
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>

@@ -1,4 +1,5 @@
 import HexTile from '../lib/donjon/HexTile'
+import { textFaint, textParchment } from '../lib/donjon/tokens'
 import DieFace from '../lib/donjon/DieFace'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
@@ -92,11 +93,11 @@ function MiniHUD({ size = 'md' }) {
       gap: 7, padding: `0 ${c.px}px`, flexShrink: 0,
     }}>
       <div style={{ width: c.dot, height: c.dot, borderRadius: '50%', background: p1.color, flexShrink: 0 }} />
-      <span style={{ fontSize: c.fs, color: '#D4C5A9', fontWeight: 700, letterSpacing: '0.06em' }}>
+      <span style={{ fontSize: c.fs, color: 'textParchment', fontWeight: 700, letterSpacing: '0.06em' }}>
         HRÁČ 1
       </span>
       {size !== 'xs' && (
-        <span style={{ fontSize: c.fsSmall, color: '#4A4560', letterSpacing: '0.05em' }}>
+        <span style={{ fontSize: c.fsSmall, color: 'textFaint', letterSpacing: '0.05em' }}>
           TAH {DEMO_TURN}
         </span>
       )}
@@ -122,7 +123,7 @@ function MiniActionBtn({ label, active = false, danger = false, small = false })
       borderRadius: 3,
       padding: small ? '3px 7px' : '5px 10px',
       fontSize: small ? '0.4375rem' : '0.5rem',
-      color: danger ? '#803030' : active ? '#D4C5A9' : '#4A4560',
+      color: danger ? '#803030' : active ? 'textParchment' : 'textFaint',
       fontWeight: 600, letterSpacing: '0.05em',
       whiteSpace: 'nowrap', flexShrink: 0,
     }}>
@@ -171,7 +172,7 @@ function PCLayout() {
           background: '#14132A', padding: '10px',
           display: 'flex', flexDirection: 'column', gap: 5, flexShrink: 0,
         }}>
-          <p style={{ margin: '0 0 3px', fontSize: '0.4375rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          <p style={{ margin: '0 0 3px', fontSize: '0.4375rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
             Akce
           </p>
           <MiniActionBtn label="Pohyb kostky" active />
@@ -180,7 +181,7 @@ function PCLayout() {
           <MiniActionBtn label="Přehazování" />
 
           <div style={{ marginTop: 'auto', borderTop: '1px solid #2A2948', paddingTop: 8 }}>
-            <p style={{ margin: '0 0 6px', fontSize: '0.4375rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            <p style={{ margin: '0 0 6px', fontSize: '0.4375rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
               Ohnisko
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -212,21 +213,21 @@ function PCLayout() {
           display: 'flex', flexDirection: 'column', gap: 10, flexShrink: 0,
         }}>
           <div>
-            <p style={{ margin: '0 0 6px', fontSize: '0.4375rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            <p style={{ margin: '0 0 6px', fontSize: '0.4375rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
               Skóre
             </p>
             <MiniScore direction="column" />
           </div>
 
           <div style={{ borderTop: '1px solid #2A2948', paddingTop: 8 }}>
-            <p style={{ margin: '0 0 4px', fontSize: '0.4375rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            <p style={{ margin: '0 0 4px', fontSize: '0.4375rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
               Cíl hry
             </p>
-            <span style={{ fontSize: '0.5625rem', color: '#D4C5A9', fontWeight: 700 }}>5 VP</span>
+            <span style={{ fontSize: '0.5625rem', color: 'textParchment', fontWeight: 700 }}>5 VP</span>
           </div>
 
           <div style={{ borderTop: '1px solid #2A2948', paddingTop: 8, marginTop: 'auto' }}>
-            <p style={{ margin: '0 0 4px', fontSize: '0.4375rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            <p style={{ margin: '0 0 4px', fontSize: '0.4375rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
               Číslo tahu
             </p>
             <span style={{ fontSize: '0.5rem', color: '#8F7458' }}>{DEMO_TURN}</span>
@@ -329,7 +330,7 @@ function MobileLayout() {
             borderRadius: 4, padding: '5px 4px', minHeight: 34,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: '0.375rem',
-            color: a.danger ? '#803030' : a.active ? '#D4C5A9' : '#4A4560',
+            color: a.danger ? '#803030' : a.active ? 'textParchment' : 'textFaint',
             fontWeight: 600, letterSpacing: '0.03em',
             textAlign: 'center', lineHeight: 1.3, whiteSpace: 'pre-line',
           }}>

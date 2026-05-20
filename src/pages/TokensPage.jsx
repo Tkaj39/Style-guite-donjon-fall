@@ -1,4 +1,5 @@
 import { useLibVariant, ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { textDeep, textCool } from '../lib/donjon/tokens'
 import * as T from '../lib/tkajui/tokens'
 import * as D from '../lib/donjon/tokens'
 
@@ -350,12 +351,12 @@ function DonjonTokenRow({ name, value, computed, usage, category }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '220px 160px 100px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3, alignItems: 'center' }}>
       <code style={{ fontSize: '0.75rem', color: catColors[category] ?? '#B8956A' }}>{name}</code>
-      <code style={{ fontSize: '0.75rem', color: '#8F9CB3', wordBreak: 'break-all' }}>{value}</code>
+      <code style={{ fontSize: '0.75rem', color: 'textCool', wordBreak: 'break-all' }}>{value}</code>
       {computed
         ? <div style={{ width: computed.w ?? 24, height: computed.h ?? 24, background: computed.bg, borderRadius: computed.r ?? 0, boxShadow: computed.shadow }} />
-        : <span style={{ fontSize: '0.75rem', color: '#4A4870' }}>—</span>
+        : <span style={{ fontSize: '0.75rem', color: 'textDeep' }}>—</span>
       }
-      <span style={{ fontSize: '0.6875rem', color: '#4A4870', lineHeight: 1.4 }}>{usage}</span>
+      <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{usage}</span>
     </div>
   )
 }
@@ -373,7 +374,7 @@ function DonjonTokensContent() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, maxWidth: 520 }}>
             <div style={{ padding: '14px', border: '1px solid #C0404040', borderRadius: 4, background: '#3D181818' }}>
               <p style={{ margin: '0 0 8px', fontSize: '0.5625rem', fontWeight: 700, color: '#C04040', textTransform: 'uppercase', letterSpacing: '0.08em' }}>✗ Bez tokenů</p>
-              <code style={{ fontSize: '0.75rem', color: '#8F9CB3', display: 'block', lineHeight: 1.8 }}>
+              <code style={{ fontSize: '0.75rem', color: 'textCool', display: 'block', lineHeight: 1.8 }}>
                 {'color: #B8956A'}<br />
                 {'border: 1px solid #B8956A'}<br />
                 {'box-shadow: 0 0 12px #B8956A40'}<br />
@@ -382,7 +383,7 @@ function DonjonTokensContent() {
             </div>
             <div style={{ padding: '14px', border: '1px solid #40A05540', borderRadius: 4, background: '#183D2018' }}>
               <p style={{ margin: '0 0 8px', fontSize: '0.5625rem', fontWeight: 700, color: '#40A055', textTransform: 'uppercase', letterSpacing: '0.08em' }}>✓ S tokeny</p>
-              <code style={{ fontSize: '0.75rem', color: '#8F9CB3', display: 'block', lineHeight: 1.8 }}>
+              <code style={{ fontSize: '0.75rem', color: 'textCool', display: 'block', lineHeight: 1.8 }}>
                 {'color: var(--color-gold)'}<br />
                 {'border: 1px solid var(--color-gold)'}<br />
                 {'box-shadow: var(--glow-gold)'}<br />
@@ -409,8 +410,8 @@ function DonjonTokensContent() {
               { name: '--color-gold-dark',   value: '#8F7458', computed: { bg: '#8F7458', w: 24, h: 24, r: 2 }, usage: 'Border, dekorativní, sekundární', category: 'color' },
               { name: '--color-gold-light',  value: '#FFC183', computed: { bg: '#FFC183', w: 24, h: 24, r: 2 }, usage: 'Gradient start, highlight', category: 'color' },
               { name: '--color-text',        value: '#F0E6D3', computed: { bg: '#F0E6D3', w: 24, h: 24, r: 2 }, usage: 'Hlavní text', category: 'color' },
-              { name: '--color-text-muted',  value: '#8F9CB3', computed: { bg: '#8F9CB3', w: 24, h: 24, r: 2 }, usage: 'Sekundární text, popis', category: 'color' },
-              { name: '--color-text-faint',  value: '#4A4870', computed: { bg: '#4A4870', w: 24, h: 24, r: 2 }, usage: 'Placeholder, micro text', category: 'color' },
+              { name: '--color-text-muted',  value: 'textCool', computed: { bg: 'textCool', w: 24, h: 24, r: 2 }, usage: 'Sekundární text, popis', category: 'color' },
+              { name: '--color-text-faint',  value: 'textDeep', computed: { bg: 'textDeep', w: 24, h: 24, r: 2 }, usage: 'Placeholder, micro text', category: 'color' },
               { name: '--color-success',     value: '#40A055', computed: { bg: '#40A055', w: 24, h: 24, r: 2 }, usage: 'Úspěch, VP, ok stav', category: 'color' },
               { name: '--color-danger',      value: '#C04040', computed: { bg: '#C04040', w: 24, h: 24, r: 2 }, usage: 'Chyba, destruktivní akce', category: 'color' },
               { name: '--color-warning',     value: '#C08040', computed: { bg: '#C08040', w: 24, h: 24, r: 2 }, usage: 'Varování, upozornění', category: 'color' },
@@ -429,8 +430,8 @@ function DonjonTokensContent() {
   --color-gold-light: #FFC183;
 
   --color-text:       #F0E6D3;
-  --color-text-muted: #8F9CB3;
-  --color-text-faint: #4A4870;
+  --color-text-muted: textCool;
+  --color-text-faint: textDeep;
 
   --color-success:    #40A055;
   --color-danger:     #C04040;
@@ -458,7 +459,7 @@ function DonjonTokensContent() {
               { name: '--space-10', value: '40px', usage: 'Page padding, hero spacing' },
             ].map(({ name, value, usage }) => (
               <SpacingRow key={name} name={name} value={value} usage={usage}
-                nameColor="#4080C0" valuColor="#B8956A" rowBg="#12102A" rowBorder="#8F745418" textColor="#4A4870" />
+                nameColor="#4080C0" valuColor="#B8956A" rowBg="#12102A" rowBorder="#8F745418" textColor="textDeep" />
             ))}
           </div>
         </Preview>
@@ -514,7 +515,7 @@ function DonjonTokensContent() {
                 }}>{step}</div>
                 <div>
                   <p style={{ margin: '0 0 2px', fontSize: '0.8125rem', fontWeight: 700, color: '#F0E6D3' }}>{title}</p>
-                  <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3', lineHeight: 1.4 }}>{desc}</p>
+                  <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>{desc}</p>
                 </div>
               </div>
             ))}

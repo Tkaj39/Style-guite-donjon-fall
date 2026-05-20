@@ -1,4 +1,5 @@
 import DonjonCard from '../lib/donjon/DonjonCard'
+import { textFaint, textParchment } from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 
@@ -22,16 +23,16 @@ function SoundSpec({ label, trigger, variant = 'default', loop = false, descript
         width: 32, height: 32, borderRadius: 3, flexShrink: 0,
         background: '#232238', border: '1px solid #3A3858',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        color: '#4A4560', fontSize: '1rem',
+        color: 'textFaint', fontSize: '1rem',
       }}>
         {loop ? '⟳' : '▶'}
       </div>
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 5 }}>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
-          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#D4C5A9', letterSpacing: '0.04em' }}>{label}</span>
+          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'textParchment', letterSpacing: '0.04em' }}>{label}</span>
           {loop && <DonjonBadge size="sm" variant="default">loop</DonjonBadge>}
           {ms && (
-            <span style={{ fontSize: '0.625rem', color: '#4A4560', fontVariantNumeric: 'tabular-nums' }}>{ms} ms</span>
+            <span style={{ fontSize: '0.625rem', color: 'textFaint', fontVariantNumeric: 'tabular-nums' }}>{ms} ms</span>
           )}
           <DonjonBadge size="sm" variant={variant}>{trigger}</DonjonBadge>
         </div>
@@ -54,7 +55,7 @@ function SoundGroup({ title, children }) {
 }
 
 /* ── Sekvenční chain s šipkami ── */
-function ChainStep({ label, ms, color = '#4A4560', note }) {
+function ChainStep({ label, ms, color = 'textFaint', note }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
       <div style={{
@@ -63,11 +64,11 @@ function ChainStep({ label, ms, color = '#4A4560', note }) {
         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
         minWidth: 88,
       }}>
-        <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: '#D4C5A9', textAlign: 'center' }}>{label}</span>
-        {ms && <span style={{ fontSize: '0.5625rem', color: '#4A4560', fontVariantNumeric: 'tabular-nums' }}>{ms} ms</span>}
+        <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'textParchment', textAlign: 'center' }}>{label}</span>
+        {ms && <span style={{ fontSize: '0.5625rem', color: 'textFaint', fontVariantNumeric: 'tabular-nums' }}>{ms} ms</span>}
       </div>
       {note && (
-        <span style={{ fontSize: '0.5625rem', color: '#4A4560', textAlign: 'center', maxWidth: 88, lineHeight: 1.3 }}>{note}</span>
+        <span style={{ fontSize: '0.5625rem', color: 'textFaint', textAlign: 'center', maxWidth: 88, lineHeight: 1.3 }}>{note}</span>
       )}
     </div>
   )
@@ -89,7 +90,7 @@ function SoundChain({ steps, label, description }) {
       display: 'flex', flexDirection: 'column', gap: 8,
     }}>
       {label && (
-        <span style={{ fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{label}</span>
+        <span style={{ fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{label}</span>
       )}
       <div style={{ display: 'flex', alignItems: 'flex-start', flexWrap: 'wrap', gap: 4 }}>
         {steps.map((step, i) => (
@@ -119,10 +120,10 @@ function SharedBase({ label, ms, description }) {
           width: 28, height: 28, borderRadius: 3, flexShrink: 0,
           background: '#232238', border: '1px solid #3A3858',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: '#4A4560', fontSize: '0.875rem',
+          color: 'textFaint', fontSize: '0.875rem',
         }}>▶</div>
-        <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#D4C5A9' }}>{label}</span>
-        {ms && <span style={{ fontSize: '0.5625rem', color: '#4A4560' }}>{ms} ms</span>}
+        <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'textParchment' }}>{label}</span>
+        {ms && <span style={{ fontSize: '0.5625rem', color: 'textFaint' }}>{ms} ms</span>}
         <DonjonBadge size="sm" variant="default">sdílená základna</DonjonBadge>
       </div>
       {description && <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F7458', lineHeight: 1.5 }}>{description}</p>}
@@ -147,8 +148,8 @@ function VariantTail({ label, ms, variant = 'default', description }) {
       }}>↳</div>
       <div style={{ flex: 1 }}>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', marginBottom: 3 }}>
-          <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: '#D4C5A9' }}>{label}</span>
-          {ms && <span style={{ fontSize: '0.5625rem', color: '#4A4560' }}>{ms} ms</span>}
+          <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'textParchment' }}>{label}</span>
+          {ms && <span style={{ fontSize: '0.5625rem', color: 'textFaint' }}>{ms} ms</span>}
           <DonjonBadge size="sm" variant={variant}>tail</DonjonBadge>
         </div>
         {description && <p style={{ margin: 0, fontSize: '0.6875rem', color: '#8F7458', lineHeight: 1.4 }}>{description}</p>}

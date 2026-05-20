@@ -1,4 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { textDeep, textCool } from '../lib/donjon/tokens'
 
 /* ── Priority stack diagram ── */
 const LEVELS = [
@@ -26,10 +27,10 @@ function LevelCard({ label, z, color, bg, desc, examples, rank }) {
       <div style={{ flex: 1 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 4 }}>
           <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#F0E6D3' }}>{label}</span>
-          <code style={{ fontSize: '0.6875rem', color: '#4A4870' }}>z:{z}</code>
+          <code style={{ fontSize: '0.6875rem', color: 'textDeep' }}>z:{z}</code>
         </div>
-        <p style={{ margin: '0 0 4px', fontSize: '0.75rem', color: '#8F9CB3', lineHeight: 1.4 }}>{desc}</p>
-        <p style={{ margin: 0, fontSize: '0.6875rem', color: '#4A4870' }}><em>Příklady: {examples}</em></p>
+        <p style={{ margin: '0 0 4px', fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>{desc}</p>
+        <p style={{ margin: 0, fontSize: '0.6875rem', color: 'textDeep' }}><em>Příklady: {examples}</em></p>
       </div>
     </div>
   )
@@ -39,10 +40,10 @@ function LevelCard({ label, z, color, bg, desc, examples, rank }) {
 function ConflictRow({ situation, winner, loser, rule }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 120px 120px 1fr', gap: 10, padding: '9px 14px', borderBottom: '1px solid #8F745418', alignItems: 'center' }}>
-      <span style={{ fontSize: '0.75rem', color: '#8F9CB3', lineHeight: 1.4 }}>{situation}</span>
+      <span style={{ fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>{situation}</span>
       <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#40A055' }}>{winner} ✓</span>
-      <span style={{ fontSize: '0.75rem', color: '#4A4870' }}>{loser} pause</span>
-      <span style={{ fontSize: '0.6875rem', color: '#4A4870', lineHeight: 1.4 }}>{rule}</span>
+      <span style={{ fontSize: '0.75rem', color: 'textDeep' }}>{loser} pause</span>
+      <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{rule}</span>
     </div>
   )
 }
@@ -87,7 +88,7 @@ export default function FeedbackHierarchyPage() {
               { q: 'Herní event (VP, pohyb, souboj)?',              a: '→ FloatFeedback',   color: '#B8956A' },
             ].map(({ q, a, color }) => (
               <div key={q} style={{ display: 'flex', alignItems: 'baseline', gap: 12, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3 }}>
-                <span style={{ fontSize: '0.8125rem', color: '#8F9CB3', flex: 1 }}>{q}</span>
+                <span style={{ fontSize: '0.8125rem', color: 'textCool', flex: 1 }}>{q}</span>
                 <span style={{ fontSize: '0.8125rem', fontWeight: 700, color, whiteSpace: 'nowrap' }}>{a}</span>
               </div>
             ))}
@@ -105,7 +106,7 @@ export default function FeedbackHierarchyPage() {
           <div style={{ width: '100%', border: '1px solid #8F745430', borderRadius: 4, overflow: 'hidden' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 120px 120px 1fr', gap: 10, padding: '8px 14px', background: '#12102A', borderBottom: '1px solid #8F745430' }}>
               {['Situace', 'Vítěz', 'Pauzuje', 'Pravidlo'].map(h => (
-                <span key={h} style={{ fontSize: '0.625rem', color: '#4A4870', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{h}</span>
+                <span key={h} style={{ fontSize: '0.625rem', color: 'textDeep', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{h}</span>
               ))}
             </div>
             <ConflictRow
@@ -156,7 +157,7 @@ export default function FeedbackHierarchyPage() {
               <div key={severity} style={{ display: 'grid', gridTemplateColumns: '100px 180px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3, alignItems: 'center' }}>
                 <span style={{ fontSize: '0.75rem', fontWeight: 700, color: variant }}>{severity}</span>
                 <code style={{ fontSize: '0.75rem', color: '#B8956A' }}>{channel}</code>
-                <span style={{ fontSize: '0.6875rem', color: '#4A4870' }}>{example}</span>
+                <span style={{ fontSize: '0.6875rem', color: 'textDeep' }}>{example}</span>
               </div>
             ))}
           </div>

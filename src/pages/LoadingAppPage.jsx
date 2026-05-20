@@ -46,7 +46,7 @@ function LoadingContent({ titleSize = '1.5rem', subtitleSize = '0.5rem', statusS
           Donjon Fall
         </p>
         <p style={{
-          margin: 0, fontSize: subtitleSize, color: '#4A4560',
+          margin: 0, fontSize: subtitleSize, color: 'textFaint',
           letterSpacing: '0.18em', textTransform: 'uppercase',
         }}>
           Tahová strategická hra

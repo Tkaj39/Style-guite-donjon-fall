@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { textFaint, textParchment } from '../lib/donjon/tokens'
 import { useBreakpoint } from '../hooks/useBreakpoint'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
@@ -110,14 +111,14 @@ export default function AkcePage() {
                 background: '#1B1A30', border: '1px solid #2A2948',
                 borderRadius: 6, padding: '10px 14px',
               }}>
-                <span style={{ color: '#4A4560', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+                <span style={{ color: 'textFaint', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
                   {a.icon}
                 </span>
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#D4C5A9', width: 130, flexShrink: 0 }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'textParchment', width: 130, flexShrink: 0 }}>
                   {a.label}
                 </span>
                 <DonjonBadge variant={a.conditionVariant}>{a.condition}</DonjonBadge>
-                <span style={{ fontSize: '0.6875rem', color: '#4A4560', flex: 1 }}>
+                <span style={{ fontSize: '0.6875rem', color: 'textFaint', flex: 1 }}>
                   {a.note}
                 </span>
               </div>
@@ -149,10 +150,10 @@ export default function AkcePage() {
                 Pohyb na nepřátelské pole spustí souboj — je legální jen pokud vaše síla převyšuje nepřátelskou.
               </p>
               <div style={{ borderTop: '1px solid #2A2948', paddingTop: 10 }}>
-                <p style={{ margin: '0 0 6px', fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                <p style={{ margin: '0 0 6px', fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                   Speciální případ — seskočení z věže
                 </p>
-                <p style={{ margin: 0, fontSize: '0.75rem', color: '#4A4560', lineHeight: 1.5 }}>
+                <p style={{ margin: 0, fontSize: '0.75rem', color: 'textFaint', lineHeight: 1.5 }}>
                   Vrchní kostka věže může odskočit a pohybovat se samostatně. Dosah = face value vrcholu.
                   Uvnitř dosahu věže si nese bojovou sílu celé věže; za tímto dosahem jde o solo kostku.
                 </p>
@@ -257,7 +258,7 @@ export default function AkcePage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {actions.map(a => (
               <div key={a.value} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                   Vybrán: {a.label}
                 </p>
                 <DonjonButtonGroup variant="tabs" items={actionItems} value={a.value} onChange={() => {}} />

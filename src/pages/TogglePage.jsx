@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { textCool } from '../lib/donjon/tokens'
 import Toggle from '../lib/tkajui/Toggle'
 import DonjonToggle from '../lib/donjon/DonjonToggle'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
@@ -42,7 +43,7 @@ function ToggleContent() {
             <div>
               <p style={{ margin: 0, fontSize: '0.8125rem', color: '#F0E6D3' }}>{item.label}</p>
               {item.hint && (
-                <p style={{ margin: '2px 0 0', fontSize: '0.6875rem', color: '#8F9CB3' }}>{item.hint}</p>
+                <p style={{ margin: '2px 0 0', fontSize: '0.6875rem', color: 'textCool' }}>{item.hint}</p>
               )}
             </div>
             <To
@@ -153,7 +154,7 @@ function ToggleContent() {
     <div key={key} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 16px' }}>
       <div>
         <p>{label}</p>
-        {hint && <p style={{ fontSize: '0.69rem', color: '#8F9CB3' }}>{hint}</p>}
+        {hint && <p style={{ fontSize: '0.69rem', color: 'textCool' }}>{hint}</p>}
       </div>
       <${cmp} checked={values[key]} onChange={val => set(key, val)} />
     </div>

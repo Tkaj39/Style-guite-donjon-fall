@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { textFaint } from '../lib/donjon/tokens'
 import HexTile from '../lib/donjon/HexTile'
 import DieFace from '../lib/donjon/DieFace'
 import DonjonCard from '../lib/donjon/DonjonCard'
@@ -234,7 +235,7 @@ export default function MapPage() {
       >
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', maxWidth: 600 }}>
-            <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
               Fáze: {turnPhases[hudPhase].label}
             </p>
             <TurnHUD player={players[0]} turn={3} phase={turnPhases[hudPhase].label} />
@@ -255,7 +256,7 @@ export default function MapPage() {
 
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%', maxWidth: 600 }}>
-            <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Náhlá smrt — warning stav</p>
+            <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Náhlá smrt — warning stav</p>
             <TurnHUD player={players[1]} turn={5} phase="Akce" warning />
           </div>
         </Preview>
@@ -278,11 +279,11 @@ export default function MapPage() {
         <Preview>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'flex-start' }}>
             <div style={{ display: 'flex', flex: 1, flexDirection: 'column', gap: 8, minWidth: 200 }}>
-              <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Event feed</p>
+              <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Event feed</p>
               <EventFeed events={sampleEvents} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>VP badge varianty</p>
+              <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>VP badge varianty</p>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                 <DonjonBadge variant="danger">+1 VP — zničení</DonjonBadge>
                 <DonjonBadge variant="warning">+1 VP — ohnisko</DonjonBadge>

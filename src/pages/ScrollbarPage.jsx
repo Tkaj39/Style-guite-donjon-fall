@@ -1,10 +1,11 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { textDeep, textCool } from '../lib/donjon/tokens'
 
 /* ── Live scrollbar demo ── */
 function ScrollDemo({ label, className, style = {} }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3' }}>{label}</p>
+      <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool' }}>{label}</p>
       <div
         className={className}
         style={{
@@ -18,7 +19,7 @@ function ScrollDemo({ label, className, style = {} }) {
         }}
       >
         {Array.from({ length: 16 }).map((_, i) => (
-          <p key={i} style={{ margin: '0 0 6px', fontSize: '0.8125rem', color: '#8F9CB3' }}>
+          <p key={i} style={{ margin: '0 0 6px', fontSize: '0.8125rem', color: 'textCool' }}>
             Řádek {i + 1} — obsah seznamu
           </p>
         ))}
@@ -147,9 +148,9 @@ export default function ScrollbarPage() {
               { place: 'Toast kontejner',         variant: 'scroll-hidden',         note: 'Toasty nepoužívají scroll — limituj počet' },
             ].map(({ place, variant, note }) => (
               <div key={place} style={{ display: 'grid', gridTemplateColumns: '200px 160px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3 }}>
-                <span style={{ fontSize: '0.8125rem', color: '#8F9CB3' }}>{place}</span>
+                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{place}</span>
                 <code style={{ fontSize: '0.75rem', color: '#B8956A' }}>{variant}</code>
-                <span style={{ fontSize: '0.6875rem', color: '#4A4870', lineHeight: 1.4 }}>{note}</span>
+                <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
           </div>

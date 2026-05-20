@@ -1,4 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { textDeep, textCool } from '../lib/donjon/tokens'
 
 /* ── Skeleton primitives ── */
 const shimmer = {
@@ -170,23 +171,23 @@ export default function LoadingSkeletonPage() {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', maxWidth: 360 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <span style={{ fontSize: '0.625rem', color: '#4A4870' }}>Řádek textu</span>
+              <span style={{ fontSize: '0.625rem', color: 'textDeep' }}>Řádek textu</span>
               <SkeletonBox h={10} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <span style={{ fontSize: '0.625rem', color: '#4A4870' }}>Nadpis</span>
+              <span style={{ fontSize: '0.625rem', color: 'textDeep' }}>Nadpis</span>
               <SkeletonBox h={18} w="55%" />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <span style={{ fontSize: '0.625rem', color: '#4A4870' }}>Obrázek / thumbnail</span>
+              <span style={{ fontSize: '0.625rem', color: 'textDeep' }}>Obrázek / thumbnail</span>
               <SkeletonBox h={80} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <span style={{ fontSize: '0.625rem', color: '#4A4870' }}>Avatar (kruh)</span>
+              <span style={{ fontSize: '0.625rem', color: 'textDeep' }}>Avatar (kruh)</span>
               <SkeletonBox w={48} h={48} radius={24} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <span style={{ fontSize: '0.625rem', color: '#4A4870' }}>Badge / chip</span>
+              <span style={{ fontSize: '0.625rem', color: 'textDeep' }}>Badge / chip</span>
               <SkeletonBox w={64} h={20} radius={10} />
             </div>
           </div>
@@ -263,11 +264,11 @@ function SkeletonBox({ w = '100%', h = 16, radius = 3 }) {
                 <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#B8956A' }}>{pattern}</span>
                 <div>
                   <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#40A055', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Použij kdy</p>
-                  <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3', lineHeight: 1.4 }}>{when}</p>
+                  <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>{when}</p>
                 </div>
                 <div>
                   <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#C04040', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Vyhni se</p>
-                  <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3', lineHeight: 1.4 }}>{avoid}</p>
+                  <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>{avoid}</p>
                 </div>
               </div>
             ))}
@@ -292,7 +293,7 @@ function SkeletonBox({ w = '100%', h = 16, radius = 3 }) {
               <div key={time} style={{ display: 'grid', gridTemplateColumns: '90px 160px 1fr', gap: 10, padding: '9px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3, alignItems: 'start' }}>
                 <code style={{ fontSize: '0.75rem', color, fontWeight: 700 }}>{time}</code>
                 <span style={{ fontSize: '0.8125rem', color: '#F0E6D3' }}>{state}</span>
-                <span style={{ fontSize: '0.75rem', color: '#8F9CB3', lineHeight: 1.4 }}>{note}</span>
+                <span style={{ fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
           </div>

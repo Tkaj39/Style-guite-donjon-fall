@@ -1,4 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { textDeep, textCool } from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 
 /* ── Field with state ── */
@@ -24,7 +25,7 @@ function ValidatedField({ label, value, state = 'default', hint, error, success 
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 5, minWidth: 220, maxWidth: 280 }}>
-      <label style={{ fontSize: '0.75rem', color: '#8F9CB3', display: 'flex', gap: 6, alignItems: 'center' }}>
+      <label style={{ fontSize: '0.75rem', color: 'textCool', display: 'flex', gap: 6, alignItems: 'center' }}>
         {label}
         {state === 'error'   && <DonjonBadge variant="danger"  size="sm">chyba</DonjonBadge>}
         {state === 'success' && <DonjonBadge variant="success" size="sm">ok</DonjonBadge>}
@@ -35,10 +36,10 @@ function ValidatedField({ label, value, state = 'default', hint, error, success 
         border: `1.5px solid ${border}`,
         borderRadius: 3,
         fontSize: '0.8125rem',
-        color: state === 'disabled' ? '#4A4870' : '#F0E6D3',
+        color: state === 'disabled' ? 'textDeep' : '#F0E6D3',
         cursor: state === 'disabled' ? 'not-allowed' : 'text',
       }}>
-        {value || <span style={{ color: '#4A4870' }}>Placeholder</span>}
+        {value || <span style={{ color: 'textDeep' }}>Placeholder</span>}
       </div>
       {error   && <p style={{ margin: 0, fontSize: '0.75rem', color: '#C04040', display: 'flex', gap: 5, alignItems: 'center', lineHeight: 1.3 }}>
         <svg viewBox="0 0 16 16" fill="currentColor" width="11" height="11" style={{ flexShrink: 0 }}>
@@ -53,7 +54,7 @@ function ValidatedField({ label, value, state = 'default', hint, error, success 
         {success}
       </p>}
       {hint && !error && !success && (
-        <p style={{ margin: 0, fontSize: '0.75rem', color: '#4A4870', lineHeight: 1.3 }}>{hint}</p>
+        <p style={{ margin: 0, fontSize: '0.75rem', color: 'textDeep', lineHeight: 1.3 }}>{hint}</p>
       )}
     </div>
   )
@@ -71,7 +72,7 @@ function PasswordStrength({ strength = 0 }) {
   const current = levels[Math.min(strength, levels.length - 1)]
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 5, minWidth: 220 }}>
-      <label style={{ fontSize: '0.75rem', color: '#8F9CB3' }}>Heslo</label>
+      <label style={{ fontSize: '0.75rem', color: 'textCool' }}>Heslo</label>
       <div style={{ padding: '7px 10px', background: '#12102A', border: '1.5px solid #B8956A', borderRadius: 3, fontSize: '0.8125rem', color: '#F0E6D3' }}>
         ••••••••••
       </div>
@@ -137,12 +138,12 @@ export default function ValidationPage() {
               <div key={strategy} style={{ padding: '10px 14px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3 }}>
                 <div style={{ display: 'flex', gap: 10, alignItems: 'baseline', marginBottom: 4 }}>
                   <code style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#B8956A' }}>{strategy}</code>
-                  <span style={{ fontSize: '0.75rem', color: '#4A4870' }}>{when}</span>
+                  <span style={{ fontSize: '0.75rem', color: 'textDeep' }}>{when}</span>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
                   <p style={{ margin: 0, fontSize: '0.75rem', color: '#40A055', lineHeight: 1.4 }}>✓ {pros}</p>
                   <p style={{ margin: 0, fontSize: '0.75rem', color: '#C04040', lineHeight: 1.4 }}>✗ {cons}</p>
-                  <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3', lineHeight: 1.4 }}>Použij: {use}</p>
+                  <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>Použij: {use}</p>
                 </div>
               </div>
             ))}
@@ -259,7 +260,7 @@ const LEVELS = [
               </p>
               <ul style={{ margin: 0, padding: '0 0 0 16px', display: 'flex', flexDirection: 'column', gap: 3 }}>
                 {['Jméno hráče je povinné.', 'E-mail má neplatný formát.', 'Heslo musí mít min. 8 znaků.'].map(e => (
-                  <li key={e} style={{ fontSize: '0.75rem', color: '#8F9CB3' }}>{e}</li>
+                  <li key={e} style={{ fontSize: '0.75rem', color: 'textCool' }}>{e}</li>
                 ))}
               </ul>
             </div>
@@ -311,7 +312,7 @@ function handleSubmit(e) {
               <div key={bad} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, borderRadius: 3, overflow: 'hidden' }}>
                 <div style={{ padding: '8px 12px', background: '#3D181820', border: '1px solid #C0404030' }}>
                   <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#C04040', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✗ Špatně</p>
-                  <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F9CB3' }}>{bad}</p>
+                  <p style={{ margin: 0, fontSize: '0.8125rem', color: 'textCool' }}>{bad}</p>
                 </div>
                 <div style={{ padding: '8px 12px', background: '#183D2020', border: '1px solid #40A05530' }}>
                   <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#40A055', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✓ Dobře</p>

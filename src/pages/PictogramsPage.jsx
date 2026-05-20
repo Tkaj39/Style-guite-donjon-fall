@@ -1,4 +1,5 @@
 import { ShowcasePage, Section, Preview, useLibVariant } from '../styleguide/ShowcasePage'
+import { textFaint, textParchment } from '../lib/donjon/tokens'
 import Pictogram from '../lib/tkajui/Pictogram'
 import DonjonPictogram from '../lib/donjon/DonjonPictogram'
 import { SwordIcon, ShieldIcon, TowerIcon } from '../lib/donjon/icons'
@@ -12,10 +13,10 @@ const SIZES    = ['sm', 'md', 'lg', 'xl']
 const VARIANTS = ['active', 'passive', 'disabled', 'danger', 'success']
 
 const subLabel = {
-  fontSize: '0.625rem', color: '#4A4560', fontWeight: 600,
+  fontSize: '0.625rem', color: 'textFaint', fontWeight: 600,
   letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 12px',
 }
-const nano = { fontSize: '0.5rem', color: '#4A4560', fontFamily: 'monospace' }
+const nano = { fontSize: '0.5rem', color: 'textFaint', fontFamily: 'monospace' }
 
 /* ── TkajUI obsah ── */
 function TkajuiContent() {
@@ -46,8 +47,8 @@ function TkajuiContent() {
                 {[
                   { color: '#FFC183', label: '#FFC183' },
                   { color: '#8F7458', label: '#8F7458' },
-                  { color: '#D4C5A9', label: '#D4C5A9' },
-                  { color: '#4A4560', label: '#4A4560' },
+                  { color: 'textParchment', label: 'textParchment' },
+                  { color: 'textFaint', label: 'textFaint' },
                   { color: '#C04040', label: 'danger'  },
                   { color: '#40A055', label: 'success' },
                 ].map(c => (
@@ -65,8 +66,8 @@ function TkajuiContent() {
                 {ICONS.map(({ icon, label, note }) => (
                   <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
                     <Pictogram icon={icon} size="lg" color="#8F7458" />
-                    <span style={{ ...nano, color: '#D4C5A9' }}>{label}</span>
-                    <span style={{ fontSize: '0.4375rem', color: '#4A4560' }}>{note}</span>
+                    <span style={{ ...nano, color: 'textParchment' }}>{label}</span>
+                    <span style={{ fontSize: '0.4375rem', color: 'textFaint' }}>{note}</span>
                   </div>
                 ))}
               </div>
@@ -139,8 +140,8 @@ function DonjonContent() {
                 {ICONS.map(({ icon, label, note }) => (
                   <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
                     <DonjonPictogram icon={icon} size="xl" variant="active" />
-                    <span style={{ ...nano, color: '#D4C5A9' }}>{label}</span>
-                    <span style={{ fontSize: '0.4375rem', color: '#4A4560' }}>{note}</span>
+                    <span style={{ ...nano, color: 'textParchment' }}>{label}</span>
+                    <span style={{ fontSize: '0.4375rem', color: 'textFaint' }}>{note}</span>
                   </div>
                 ))}
               </div>

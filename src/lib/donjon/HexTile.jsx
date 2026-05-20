@@ -67,7 +67,7 @@ export default function HexTile({ state = 'empty', owner = null, size = 'md', la
       {showLabel && (
         <p style={{
           margin: 0, fontSize: '0.5rem', letterSpacing: '0.08em',
-          textTransform: 'uppercase', color: '#4A4560', textAlign: 'center',
+          textTransform: 'uppercase', color: 'textFaint', textAlign: 'center',
           maxWidth: s.w + 8,
         }}>
           {label ?? state}

@@ -1,4 +1,5 @@
 import { useState, Fragment } from 'react'
+import { textFaint } from '../lib/donjon/tokens'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
@@ -29,7 +30,7 @@ function TurnPhaseTimeline({ activeStep = 0 }) {
                 <p style={{
                   margin: 0, fontSize: '0.6875rem', fontWeight: 700,
                   letterSpacing: '0.1em', textTransform: 'uppercase', lineHeight: 1.2,
-                  color: active ? '#F0E6D3' : past ? '#8F7458' : '#4A4560',
+                  color: active ? '#F0E6D3' : past ? '#8F7458' : 'textFaint',
                 }}>{step.label}</p>
                 <p style={{
                   margin: '4px 0 0', fontSize: '0.5625rem', lineHeight: 1.4,
@@ -112,7 +113,7 @@ export default function TahPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {turnPhases.map((_, i) => (
               <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                   Aktivní: {turnPhases[i].label}
                 </p>
                 <TurnPhaseTimeline activeStep={i} />
@@ -186,7 +187,7 @@ export default function TahPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {/* Scénář A */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 Scénář A — tah bez ohniska
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
@@ -196,7 +197,7 @@ export default function TahPage() {
                 <span style={{ color: '#2A2948', fontSize: '1rem' }}>→</span>
                 <DonjonBadge variant="default">Konec tahu</DonjonBadge>
               </div>
-              <p style={{ margin: 0, fontSize: '0.75rem', color: '#4A4560', lineHeight: 1.5 }}>
+              <p style={{ margin: 0, fontSize: '0.75rem', color: 'textFaint', lineHeight: 1.5 }}>
                 Hráč nemá kostku na aktivním ohnisku. Fáze ohniska se přeskočí, tah přechází přímo na výběr akce.
               </p>
             </div>
@@ -218,7 +219,7 @@ export default function TahPage() {
                 <span style={{ color: '#2A2948', fontSize: '1rem' }}>→</span>
                 <DonjonBadge variant="default">Konec tahu</DonjonBadge>
               </div>
-              <p style={{ margin: 0, fontSize: '0.75rem', color: '#4A4560', lineHeight: 1.5 }}>
+              <p style={{ margin: 0, fontSize: '0.75rem', color: 'textFaint', lineHeight: 1.5 }}>
                 Hráč drží kostku/věž na aktivním ohnisku. Na začátku tahu získá 1 VP, kostka se přehodí (nová hodnota ≤ původní − 1) a ohnisko se přepne.
               </p>
             </div>
@@ -235,7 +236,7 @@ export default function TahPage() {
                 <span style={{ color: '#2A2948', fontSize: '1rem' }}>→</span>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-start' }}>
                   <DonjonBadge variant="info">Akce: Pohyb</DonjonBadge>
-                  <span style={{ fontSize: '0.5625rem', color: '#4A4560' }}>vstup na nepřátelské pole</span>
+                  <span style={{ fontSize: '0.5625rem', color: 'textFaint' }}>vstup na nepřátelské pole</span>
                 </div>
                 <span style={{ color: '#2A2948', fontSize: '1rem' }}>→</span>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-start' }}>
@@ -243,7 +244,7 @@ export default function TahPage() {
                   <span style={{ fontSize: '0.5625rem', color: '#803030' }}>Push nebo Occupy</span>
                 </div>
               </div>
-              <p style={{ margin: 0, fontSize: '0.75rem', color: '#4A4560', lineHeight: 1.5 }}>
+              <p style={{ margin: 0, fontSize: '0.75rem', color: 'textFaint', lineHeight: 1.5 }}>
                 Pohyb kostky nebo věže na nepřátelské pole spustí souboj automaticky. Hráč souboj nevolí — je důsledkem pohybu.
               </p>
             </div>

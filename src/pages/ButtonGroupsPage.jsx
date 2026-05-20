@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { textFaint } from '../lib/donjon/tokens'
 import ButtonGroup from '../lib/tkajui/ButtonGroup'
 import DonjonButtonGroup from '../lib/donjon/DonjonButtonGroup'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
@@ -178,7 +179,7 @@ function ButtonGroupContent() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'flex-start' }}>
             {['xs', 'sm', 'md', 'lg'].map(sz => (
               <div key={sz} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span style={{ fontSize: '0.65rem', color: '#4A4560', letterSpacing: '0.08em', textTransform: 'uppercase', width: 24 }}>{sz}</span>
+                <span style={{ fontSize: '0.65rem', color: 'textFaint', letterSpacing: '0.08em', textTransform: 'uppercase', width: 24 }}>{sz}</span>
                 <BG variant="tabs" size={sz} items={viewItems} value={sizeActive} onChange={setSizeActive} />
               </div>
             ))}

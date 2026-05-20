@@ -274,21 +274,21 @@ function DonjonFocusContent() {
               <div style={{ padding: '8px 16px', background: '#1E1C3A', border: `1px solid ${D.goldDim}40`, borderRadius: 3, fontSize: '0.875rem', color: D.textActive, outline: 'none' }}>
                 Tlačítko
               </div>
-              <p style={{ margin: 0, fontSize: '0.6875rem', color: '#8F9CB3', textAlign: 'center', lineHeight: 1.3 }}>Keyboard uživatel neví kde je</p>
+              <p style={{ margin: 0, fontSize: '0.6875rem', color: 'textCool', textAlign: 'center', lineHeight: 1.3 }}>Keyboard uživatel neví kde je</p>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
               <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: D.warningColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>⚠ Browser default</p>
               <div style={{ padding: '8px 16px', background: '#1E1C3A', border: `1px solid ${D.goldDim}40`, borderRadius: 3, fontSize: '0.875rem', color: D.textActive, outline: '2px solid #0055FF' }}>
                 Tlačítko
               </div>
-              <p style={{ margin: 0, fontSize: '0.6875rem', color: '#8F9CB3', textAlign: 'center', lineHeight: 1.3 }}>Modrý — nesedí do Donjon palety</p>
+              <p style={{ margin: 0, fontSize: '0.6875rem', color: 'textCool', textAlign: 'center', lineHeight: 1.3 }}>Modrý — nesedí do Donjon palety</p>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
               <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: D.successColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>✓ Donjon ring</p>
               <div style={{ padding: '8px 16px', background: '#1E1C3A', border: `1px solid ${D.goldDim}40`, borderRadius: 3, fontSize: '0.875rem', color: D.textActive, outline: `2px solid ${D.goldMid}`, outlineOffset: 2 }}>
                 Tlačítko
               </div>
-              <p style={{ margin: 0, fontSize: '0.6875rem', color: '#8F9CB3', textAlign: 'center', lineHeight: 1.3 }}>Zlatý — zapadá do design systému</p>
+              <p style={{ margin: 0, fontSize: '0.6875rem', color: 'textCool', textAlign: 'center', lineHeight: 1.3 }}>Zlatý — zapadá do design systému</p>
             </div>
           </div>
         </Preview>
@@ -350,10 +350,10 @@ className="focus-visible:outline-2 focus-visible:outline-[#B8956A] focus-visible
               { ctx: 'Modal / overlay',          ring: `2px solid ${D.goldMid}`,       offset: '3px',  note: 'Větší offset pro viditelnost nad bg' },
             ].map(({ ctx, ring, offset, note }) => (
               <div key={ctx} style={{ display: 'grid', gridTemplateColumns: '200px 160px 60px 1fr', gap: 10, padding: '8px 12px', background: D.bg0, border: `1px solid ${D.goldDim}18`, borderRadius: 3, alignItems: 'center' }}>
-                <span style={{ fontSize: '0.8125rem', color: '#8F9CB3' }}>{ctx}</span>
+                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{ctx}</span>
                 <code style={{ fontSize: '0.6875rem', color: D.goldMid, lineHeight: 1.4 }}>{ring}</code>
-                <code style={{ fontSize: '0.6875rem', color: '#4A4870' }}>{offset}</code>
-                <span style={{ fontSize: '0.6875rem', color: '#4A4870', lineHeight: 1.4 }}>{note}</span>
+                <code style={{ fontSize: '0.6875rem', color: 'textDeep' }}>{offset}</code>
+                <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
           </div>
@@ -426,7 +426,7 @@ useFocusTrap(modalRef, isOpen)`} />
             >
               Přeskočit na obsah
             </a>
-            <p style={{ margin: '20px auto', textAlign: 'center', fontSize: '0.75rem', color: '#4A4870' }}>Zmáčkni Tab pro zobrazení skip linku</p>
+            <p style={{ margin: '20px auto', textAlign: 'center', fontSize: '0.75rem', color: 'textDeep' }}>Zmáčkni Tab pro zobrazení skip linku</p>
           </div>
         </Preview>
         <CodeBlock code={`<a

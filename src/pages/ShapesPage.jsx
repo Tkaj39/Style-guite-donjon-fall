@@ -20,7 +20,7 @@ const chip = (clip, h, w, bg = 'linear-gradient(150deg,#353751 0%,#2A2948 70%)')
 
 const lbl = {
   fontSize: '0.625rem',
-  color: '#4A4560',
+  color: 'textFaint',
   fontWeight: 600,
   letterSpacing: '0.1em',
   textTransform: 'uppercase',
@@ -113,7 +113,7 @@ function NotchDemo({ cx = 15, nw = 28, nh = 12, side = 'bottom', label, color = 
         width: 160, height: 80,
         border: `1px solid ${color}33`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: '0.625rem', color: '#8F9CB3', fontFamily: inter,
+        fontSize: '0.625rem', color: 'textCool', fontFamily: inter,
         letterSpacing: '0.08em', textTransform: 'uppercase',
       }}>
         {side}
@@ -196,7 +196,7 @@ export default function ShapesPage() {
             <thead>
               <tr style={{ borderBottom: '1px solid #8F745430' }}>
                 {['Velikost', 'Výška (h)', 'Zkosení (cx)', 'Poměr cx/h'].map(h => (
-                  <th key={h} style={{ textAlign: 'left', padding: '6px 14px 6px 0', color: '#4A4870', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.625rem' }}>{h}</th>
+                  <th key={h} style={{ textAlign: 'left', padding: '6px 14px 6px 0', color: 'textDeep', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.625rem' }}>{h}</th>
                 ))}
               </tr>
             </thead>
@@ -204,16 +204,16 @@ export default function ShapesPage() {
               {SIZES.map(({ label, h, cx }) => (
                 <tr key={label} style={{ borderBottom: '1px solid #8F745418' }}>
                   <td style={{ padding: '6px 14px 6px 0', color: '#B8956A', fontFamily: 'monospace' }}>{label}</td>
-                  <td style={{ padding: '6px 14px 6px 0', color: '#8F9CB3', fontFamily: 'monospace' }}>{h}px</td>
-                  <td style={{ padding: '6px 14px 6px 0', color: '#8F9CB3', fontFamily: 'monospace' }}>{cx}px</td>
-                  <td style={{ padding: '6px 0', color: '#4A4870', fontFamily: 'monospace' }}>{(cx / h).toFixed(4)}</td>
+                  <td style={{ padding: '6px 14px 6px 0', color: 'textCool', fontFamily: 'monospace' }}>{h}px</td>
+                  <td style={{ padding: '6px 14px 6px 0', color: 'textCool', fontFamily: 'monospace' }}>{cx}px</td>
+                  <td style={{ padding: '6px 0', color: 'textDeep', fontFamily: 'monospace' }}>{(cx / h).toFixed(4)}</td>
                 </tr>
               ))}
               <tr>
-                <td style={{ padding: '6px 14px 6px 0', color: '#4A4870', fontFamily: 'monospace' }}>card</td>
-                <td style={{ padding: '6px 14px 6px 0', color: '#8F9CB3', fontFamily: 'monospace' }}>auto</td>
-                <td style={{ padding: '6px 14px 6px 0', color: '#8F9CB3', fontFamily: 'monospace' }}>16 / 15px</td>
-                <td style={{ padding: '6px 0', color: '#4A4870', fontFamily: 'monospace', fontSize: '0.6875rem' }}>outer shell + inner fill</td>
+                <td style={{ padding: '6px 14px 6px 0', color: 'textDeep', fontFamily: 'monospace' }}>card</td>
+                <td style={{ padding: '6px 14px 6px 0', color: 'textCool', fontFamily: 'monospace' }}>auto</td>
+                <td style={{ padding: '6px 14px 6px 0', color: 'textCool', fontFamily: 'monospace' }}>16 / 15px</td>
+                <td style={{ padding: '6px 0', color: 'textDeep', fontFamily: 'monospace', fontSize: '0.6875rem' }}>outer shell + inner fill</td>
               </tr>
             </tbody>
           </table>
@@ -317,7 +317,7 @@ const clipPath = clipFn?.(cx)`} />
                 width: 110, height: 64,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
-                <span style={{ fontSize: '0.5625rem', color: '#8F9CB3', fontFamily: inter, letterSpacing: '0.06em' }}>nw={nw} nh={nh}</span>
+                <span style={{ fontSize: '0.5625rem', color: 'textCool', fontFamily: inter, letterSpacing: '0.06em' }}>nw={nw} nh={nh}</span>
               </div>
               <p style={lbl}>{label}</p>
             </div>
@@ -334,7 +334,7 @@ const clipPath = clipFn?.(cx)`} />
                   width: 140, height: 72,
                   background: 'linear-gradient(150deg,#2A2948 0%,#1B1A30 100%)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '0.75rem', color: '#8F9CB3', fontFamily: inter,
+                  fontSize: '0.75rem', color: 'textCool', fontFamily: inter,
                 }}
               >
                 Obsah panelu
@@ -356,7 +356,7 @@ const clipPath = clipFn?.(cx)`} />
                   width: 140, height: 72,
                   background: 'linear-gradient(150deg,#2A2948 0%,#1B1A30 100%)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '0.75rem', color: '#8F9CB3', fontFamily: inter,
+                  fontSize: '0.75rem', color: 'textCool', fontFamily: inter,
                 }}
               >
                 Obsah panelu
@@ -378,7 +378,7 @@ const clipPath = clipFn?.(cx)`} />
                   width: 140, height: 72,
                   background: 'linear-gradient(150deg,#2A2948 0%,#1B1A30 100%)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '0.75rem', color: '#8F9CB3', fontFamily: inter,
+                  fontSize: '0.75rem', color: 'textCool', fontFamily: inter,
                 }}
               >
                 side="right"
@@ -462,7 +462,7 @@ octagonWithNotch(
               </div>
               <div style={{ textAlign: 'center' }}>
                 <code style={{ fontSize: '0.75rem', color: '#B8956A', display: 'block' }}>{label}</code>
-                <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: '#4A4870' }}>{desc}</p>
+                <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: 'textDeep' }}>{desc}</p>
               </div>
             </div>
           ))}
@@ -471,13 +471,13 @@ octagonWithNotch(
         {/* Ornament na kartě — všechny čtyři rohy */}
         <Preview>
           <OrnamentedCard variant="bracket" size={16} color="#8F7458" title="Bracket corners">
-            <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3', textAlign: 'center', fontFamily: inter }}>výchozí ornament</p>
+            <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool', textAlign: 'center', fontFamily: inter }}>výchozí ornament</p>
           </OrnamentedCard>
           <OrnamentedCard variant="dot" size={18} color="#B8956A" title="Dot corners">
-            <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3', textAlign: 'center', fontFamily: inter }}>zlatý akcent</p>
+            <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool', textAlign: 'center', fontFamily: inter }}>zlatý akcent</p>
           </OrnamentedCard>
           <OrnamentedCard variant="diamond" size={14} color="#4080C0" title="Diamond corners">
-            <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3', textAlign: 'center', fontFamily: inter }}>hráčská barva</p>
+            <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool', textAlign: 'center', fontFamily: inter }}>hráčská barva</p>
           </OrnamentedCard>
         </Preview>
 
@@ -582,7 +582,7 @@ octagonWithNotch(
                         {Object.entries(SHAPE_SIZES).map(([sKey, s]) => (
                           <div key={sKey} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
                             <ShapeDemo variant={key} s={s} color={color} />
-                            <span style={{ ...lbl, color: '#4A4870' }}>{sKey}</span>
+                            <span style={{ ...lbl, color: 'textDeep' }}>{sKey}</span>
                           </div>
                         ))}
                       </div>
@@ -755,11 +755,11 @@ import ScoopClip from '../lib/tkajui/ScoopClip'
                 <code style={{ fontSize: '0.8125rem', fontWeight: 700, color }}>{variant}</code>
                 <div>
                   <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#40A055', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Použij</p>
-                  <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3', lineHeight: 1.4 }}>{use}</p>
+                  <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>{use}</p>
                 </div>
                 <div>
                   <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#C04040', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Vyhni se</p>
-                  <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3', lineHeight: 1.4 }}>{avoid}</p>
+                  <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>{avoid}</p>
                 </div>
               </div>
             ))}

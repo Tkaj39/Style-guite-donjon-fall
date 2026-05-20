@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { textDeep, textCool } from '../lib/donjon/tokens'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import DonjonButton from '../lib/donjon/DonjonButton'
 
@@ -7,7 +8,7 @@ function TimingDemo({ duration, label, easing = 'ease' }) {
   const [active, setActive] = useState(false)
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-      <div style={{ width: 80, fontSize: '0.6875rem', color: '#8F9CB3', textAlign: 'right', flexShrink: 0 }}>
+      <div style={{ width: 80, fontSize: '0.6875rem', color: 'textCool', textAlign: 'right', flexShrink: 0 }}>
         <span style={{ color: '#B8956A', fontWeight: 700 }}>{duration}ms</span>
         <br />{label}
       </div>
@@ -32,7 +33,7 @@ function TimingDemo({ duration, label, easing = 'ease' }) {
           transition: active ? `transform ${duration}ms ${easing}` : 'none',
         }} />
       </div>
-      <span style={{ fontSize: '0.625rem', color: '#4A4870', width: 36, flexShrink: 0 }}>{easing}</span>
+      <span style={{ fontSize: '0.625rem', color: 'textDeep', width: 36, flexShrink: 0 }}>{easing}</span>
     </div>
   )
 }
@@ -49,7 +50,7 @@ function EasingCurve({ d, label, css, color = '#B8956A' }) {
         <circle cx="60" cy="0"  r="2.5" fill={color} />
       </svg>
       <p style={{ margin: 0, fontSize: '0.75rem', color: '#F0E6D3', fontWeight: 600, textAlign: 'center' }}>{label}</p>
-      <code style={{ fontSize: '0.625rem', color: '#8F9CB3', textAlign: 'center' }}>{css}</code>
+      <code style={{ fontSize: '0.625rem', color: 'textCool', textAlign: 'center' }}>{css}</code>
     </div>
   )
 }
@@ -63,7 +64,7 @@ function StateBox({ label, style: extraStyle }) {
       border: '1px solid #8F745430',
       borderRadius: 4,
       fontSize: '0.8125rem',
-      color: '#8F9CB3',
+      color: 'textCool',
       ...extraStyle,
     }}>
       {label}
@@ -99,7 +100,7 @@ export default function MotionPage() {
           </p>
           <p>
             <span style={{ color: '#B8956A', fontWeight: 600 }}>Reduced motion</span> — vždy respektuj
-            <code style={{ color: '#8F9CB3', margin: '0 4px' }}>prefers-reduced-motion: reduce</code>.
+            <code style={{ color: 'textCool', margin: '0 4px' }}>prefers-reduced-motion: reduce</code>.
             Herní animace (souboj, pohyb kostky) mají fallback na okamžitý přechod.
           </p>
         </div>
@@ -191,7 +192,7 @@ export default function MotionPage() {
               'Turn transitions a highlight aktivního hráče',
               'Progress bar fill při načítání',
             ].map(t => (
-              <p key={t} style={{ margin: 0, fontSize: '0.8125rem', color: '#8F9CB3', lineHeight: 1.5, paddingLeft: 12, borderLeft: '2px solid #40A05544' }}>{t}</p>
+              <p key={t} style={{ margin: 0, fontSize: '0.8125rem', color: 'textCool', lineHeight: 1.5, paddingLeft: 12, borderLeft: '2px solid #40A05544' }}>{t}</p>
             ))}
           </div>
           {/* ✗ sloupec */}
@@ -205,7 +206,7 @@ export default function MotionPage() {
               'Z-index přechody — ztratí se v renderovacím pořadí',
               'Cokoli co interferuje s čitelností map y nebo herního plánu',
             ].map(t => (
-              <p key={t} style={{ margin: 0, fontSize: '0.8125rem', color: '#8F9CB3', lineHeight: 1.5, paddingLeft: 12, borderLeft: '2px solid #C0404044' }}>{t}</p>
+              <p key={t} style={{ margin: 0, fontSize: '0.8125rem', color: 'textCool', lineHeight: 1.5, paddingLeft: 12, borderLeft: '2px solid #C0404044' }}>{t}</p>
             ))}
           </div>
         </div>
@@ -228,8 +229,8 @@ export default function MotionPage() {
             ].map(({ label, enter, dur }) => (
               <div key={label} style={{ display: 'flex', alignItems: 'baseline', gap: 12, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745422', borderRadius: 3 }}>
                 <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B8956A', width: 72, flexShrink: 0 }}>{label}</span>
-                <span style={{ fontSize: '0.75rem', color: '#8F9CB3', flex: 1 }}>{enter}</span>
-                <span style={{ fontSize: '0.6875rem', color: '#4A4870', flexShrink: 0 }}>{dur}</span>
+                <span style={{ fontSize: '0.75rem', color: 'textCool', flex: 1 }}>{enter}</span>
+                <span style={{ fontSize: '0.6875rem', color: 'textDeep', flexShrink: 0 }}>{dur}</span>
               </div>
             ))}
           </div>

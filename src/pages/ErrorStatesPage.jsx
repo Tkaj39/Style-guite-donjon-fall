@@ -1,4 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { textDeep, textCool } from '../lib/donjon/tokens'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 
@@ -25,7 +26,7 @@ function ErrorCard({ icon, title, desc, actions, severity = 'danger' }) {
           <DonjonBadge variant={c.badge} size="sm" style={{ marginTop: 4 }}>{severity === 'danger' ? 'Chyba' : 'Upozornění'}</DonjonBadge>
         </div>
       </div>
-      <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F9CB3', lineHeight: 1.5 }}>{desc}</p>
+      <p style={{ margin: 0, fontSize: '0.8125rem', color: 'textCool', lineHeight: 1.5 }}>{desc}</p>
       {actions && (
         <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
           {actions}
@@ -39,7 +40,7 @@ function ErrorCard({ icon, title, desc, actions, severity = 'danger' }) {
 function InlineError({ label, value, error }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 280 }}>
-      <label style={{ fontSize: '0.75rem', color: '#8F9CB3' }}>{label}</label>
+      <label style={{ fontSize: '0.75rem', color: 'textCool' }}>{label}</label>
       <div style={{
         padding: '7px 10px',
         background: '#C0404018',
@@ -84,8 +85,8 @@ export default function ErrorStatesPage() {
               <div key={cat} style={{ display: 'grid', gridTemplateColumns: '90px 80px 160px 1fr', gap: 10, padding: '9px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3, alignItems: 'start' }}>
                 <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#B8956A' }}>{cat}</span>
                 <DonjonBadge variant={severity === 'Kritická' ? 'danger' : severity === 'Vysoká' ? 'danger' : severity === 'Střední' ? 'warning' : 'default'} size="sm">{severity}</DonjonBadge>
-                <code style={{ fontSize: '0.75rem', color: '#8F9CB3' }}>{channel}</code>
-                <span style={{ fontSize: '0.6875rem', color: '#4A4870', lineHeight: 1.4 }}>{recovery} — <em>{example}</em></span>
+                <code style={{ fontSize: '0.75rem', color: 'textCool' }}>{channel}</code>
+                <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{recovery} — <em>{example}</em></span>
               </div>
             ))}
           </div>
@@ -229,7 +230,7 @@ addToast({
               <div key={bad} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, borderRadius: 3, overflow: 'hidden' }}>
                 <div style={{ padding: '8px 12px', background: '#3D181820', border: '1px solid #C0404030' }}>
                   <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#C04040', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✗ Špatně</p>
-                  <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F9CB3', fontFamily: 'monospace' }}>{bad}</p>
+                  <p style={{ margin: 0, fontSize: '0.8125rem', color: 'textCool', fontFamily: 'monospace' }}>{bad}</p>
                 </div>
                 <div style={{ padding: '8px 12px', background: '#183D2020', border: '1px solid #40A05530' }}>
                   <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#40A055', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✓ Dobře</p>

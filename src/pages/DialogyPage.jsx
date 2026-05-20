@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { textFaint } from '../lib/donjon/tokens'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
@@ -100,17 +101,17 @@ export default function DialogyPage() {
             {/* Dostupnost na první pohled */}
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                <span style={{ fontSize: '0.5625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Push</span>
+                <span style={{ fontSize: '0.5625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Push</span>
                 <DonjonBadge variant="success">Vždy dostupné</DonjonBadge>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                <span style={{ fontSize: '0.5625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Occupy</span>
+                <span style={{ fontSize: '0.5625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Occupy</span>
                 <DonjonBadge variant="warning">Pouze solo kostka jako útočník</DonjonBadge>
               </div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4560', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 Fáze 2 — výběr
               </p>
               <DonjonButtonGroup items={combatItems} value={combatChoice} onChange={setCombatChoice} />
@@ -123,7 +124,7 @@ export default function DialogyPage() {
                     První kostka/vrchol věže nepřátelské formace se přehodí — nová hodnota = min(hod, původní).
                     Celá formace se posune o jeden hex ve směru útoku.
                   </p>
-                  <p style={{ margin: 0, fontSize: '0.75rem', color: '#4A4560', fontStyle: 'italic' }}>
+                  <p style={{ margin: 0, fontSize: '0.75rem', color: 'textFaint', fontStyle: 'italic' }}>
                     Výsledek závisí na tom, co je za formací:
                   </p>
                 </DonjonCard>

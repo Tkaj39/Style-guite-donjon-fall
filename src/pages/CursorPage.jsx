@@ -1,4 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { textDeep, textCool } from '../lib/donjon/tokens'
 
 /* ── Cursor demo ── */
 function CursorDemo({ cursor, label, desc, children }) {
@@ -22,7 +23,7 @@ function CursorDemo({ cursor, label, desc, children }) {
       </div>
       <div style={{ textAlign: 'center' }}>
         <code style={{ fontSize: '0.75rem', color: '#B8956A', display: 'block' }}>{cursor}</code>
-        <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: '#4A4870', lineHeight: 1.3 }}>{desc}</p>
+        <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: 'textDeep', lineHeight: 1.3 }}>{desc}</p>
       </div>
     </div>
   )
@@ -85,9 +86,9 @@ export default function CursorPage() {
               { component: 'Loading overlay',         cursor: 'wait',        note: 'Celá stránka čeká' },
             ].map(({ component, cursor, note }) => (
               <div key={component} style={{ display: 'grid', gridTemplateColumns: '220px 120px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3 }}>
-                <span style={{ fontSize: '0.8125rem', color: '#8F9CB3' }}>{component}</span>
+                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{component}</span>
                 <code style={{ fontSize: '0.8125rem', color: '#B8956A' }}>{cursor}</code>
-                <span style={{ fontSize: '0.75rem', color: '#4A4870', lineHeight: 1.4 }}>{note}</span>
+                <span style={{ fontSize: '0.75rem', color: 'textDeep', lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
           </div>
@@ -122,12 +123,12 @@ export default function CursorPage() {
             <div style={{ padding: '14px', border: '1px solid #C0404040', borderRadius: 4, background: '#3D181818' }}>
               <p style={{ margin: '0 0 8px', fontSize: '0.5625rem', fontWeight: 700, color: '#C04040', textTransform: 'uppercase', letterSpacing: '0.08em' }}>✗ pointer-events: none na disabled</p>
               <p style={{ margin: '0 0 4px', fontSize: '0.8125rem', color: '#F0E6D3' }}>Tooltip se nezobrazí</p>
-              <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3' }}>Uživatel nevidí cursor not-allowed — neví proč je disabled.</p>
+              <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool' }}>Uživatel nevidí cursor not-allowed — neví proč je disabled.</p>
             </div>
             <div style={{ padding: '14px', border: '1px solid #40A05540', borderRadius: 4, background: '#183D2018' }}>
               <p style={{ margin: '0 0 8px', fontSize: '0.5625rem', fontWeight: 700, color: '#40A055', textTransform: 'uppercase', letterSpacing: '0.08em' }}>✓ cursor: not-allowed + disabled attr</p>
               <p style={{ margin: '0 0 4px', fontSize: '0.8125rem', color: '#F0E6D3' }}>Tooltip lze přidat na wrapper</p>
-              <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3' }}>Uživatel vidí not-allowed, tooltip vysvětlí proč.</p>
+              <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool' }}>Uživatel vidí not-allowed, tooltip vysvětlí proč.</p>
             </div>
           </div>
         </Preview>

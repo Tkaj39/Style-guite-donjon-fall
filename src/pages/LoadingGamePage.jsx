@@ -1,4 +1,5 @@
 import HexTile from '../lib/donjon/HexTile'
+import { textFaint, textParchment } from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
@@ -65,7 +66,7 @@ function PlayerPill({ player, label }) {
       borderRadius: 3, padding: '3px 8px',
     }}>
       <div style={{ width: 6, height: 6, borderRadius: '50%', background: player.color, flexShrink: 0 }} />
-      <span style={{ fontSize: '0.4375rem', color: '#D4C5A9', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+      <span style={{ fontSize: '0.4375rem', color: 'textParchment', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
         {label}
       </span>
     </div>
@@ -106,12 +107,12 @@ function LoadingGameContent({ size = 'desktop' }) {
       <div style={{ textAlign: 'center' }}>
         <p style={{
           margin: '0 0 3px', fontSize: titleFs,
-          fontWeight: 700, color: '#D4C5A9',
+          fontWeight: 700, color: 'textParchment',
           letterSpacing: '0.1em', textTransform: 'uppercase',
         }}>
           Default mapa
         </p>
-        <p style={{ margin: 0, fontSize: metaFs, color: '#4A4560' }}>
+        <p style={{ margin: 0, fontSize: metaFs, color: 'textFaint' }}>
           61 hexů · 2 hráči · 5 VP
         </p>
       </div>

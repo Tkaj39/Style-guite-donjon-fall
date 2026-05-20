@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { textFaint, textParchment } from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
@@ -27,7 +28,7 @@ function MiniSlider({ label, pct, labelW = 64, fs = '0.4375rem' }) {
         }} />
       </div>
       <span style={{
-        fontSize: fs, color: '#4A4560',
+        fontSize: fs, color: 'textFaint',
         fontVariantNumeric: 'tabular-nums', width: 24, textAlign: 'right',
       }}>{pct}%</span>
     </div>
@@ -49,10 +50,10 @@ function MiniToggle({ on, label, fs = '0.4375rem', labelW = 80 }) {
           position: 'absolute', top: 2,
           left: on ? 14 : 2,
           width: 7, height: 7, borderRadius: '50%',
-          background: on ? '#FFC183' : '#4A4560',
+          background: on ? '#FFC183' : 'textFaint',
         }} />
       </div>
-      <span style={{ fontSize: fs, color: on ? '#FFC183' : '#4A4560' }}>
+      <span style={{ fontSize: fs, color: on ? '#FFC183' : 'textFaint' }}>
         {on ? 'Zapnuto' : 'Vypnuto'}
       </span>
     </div>
@@ -70,7 +71,7 @@ function TabBtn({ label, active, fs = '0.4375rem', px = 8, py = 4 }) {
     <div style={{
       padding: `${py}px ${px}px`,
       fontSize: fs, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
-      color: active ? '#FFC183' : '#4A4560',
+      color: active ? '#FFC183' : 'textFaint',
       borderBottom: `2px solid ${active ? '#FFC183' : 'transparent'}`,
       cursor: 'default', flexShrink: 0,
     }}>
@@ -111,7 +112,7 @@ function TabJazyk({ fs = '0.4375rem' }) {
             width: 5, height: 5, borderRadius: '50%', flexShrink: 0,
             background: l.active ? '#FFC183' : '#2A2948',
           }} />
-          <span style={{ fontSize: fs, color: l.active ? '#D4C5A9' : '#4A4560', fontWeight: l.active ? 700 : 400 }}>
+          <span style={{ fontSize: fs, color: l.active ? 'textParchment' : 'textFaint', fontWeight: l.active ? 700 : 400 }}>
             {l.label}
           </span>
           <span style={{ fontSize: '0.375rem', color: '#3A3858', marginLeft: 'auto' }}>{l.code}</span>
@@ -142,7 +143,7 @@ function TabOvladani({ fs = '0.375rem' }) {
           <div style={{
             background: '#1B1A30', border: '1px solid #3A3858',
             borderRadius: 2, padding: '1px 5px',
-            fontSize: fs, color: '#D4C5A9', fontWeight: 700, letterSpacing: '0.06em',
+            fontSize: fs, color: 'textParchment', fontWeight: 700, letterSpacing: '0.06em',
           }}>
             {b.key}
           </div>
@@ -168,7 +169,7 @@ function TabGrafika({ fs = '0.4375rem', labelW = 64 }) {
               padding: '2px 6px', borderRadius: 2, fontSize: '0.375rem',
               background: i === 2 ? '#252342' : '#1B1A30',
               border: `1px solid ${i === 2 ? '#5A5878' : '#2A2948'}`,
-              color: i === 2 ? '#D4C5A9' : '#4A4560',
+              color: i === 2 ? 'textParchment' : 'textFaint',
               fontWeight: i === 2 ? 700 : 400,
             }}>{q}</div>
           ))}
@@ -225,9 +226,9 @@ function SettingsModal({ activeTab = 'zvuk', size = 'desktop' }) {
       }}>
         <span style={{
           fontSize: headerFs, fontWeight: 700,
-          color: '#D4C5A9', letterSpacing: '0.12em', textTransform: 'uppercase',
+          color: 'textParchment', letterSpacing: '0.12em', textTransform: 'uppercase',
         }}>Nastavení</span>
-        <span style={{ fontSize: headerFs, color: '#4A4560', cursor: 'default' }}>✕</span>
+        <span style={{ fontSize: headerFs, color: 'textFaint', cursor: 'default' }}>✕</span>
       </div>
 
       {/* Taby */}
@@ -285,7 +286,7 @@ function BackdropHUD({ hudH = 34 }) {
       padding: '0 12px', flexShrink: 0,
     }}>
       <div style={{ width: 7, height: 7, borderRadius: '50%', background: p1.color }} />
-      <span style={{ fontSize: '0.4375rem', color: '#D4C5A9', fontWeight: 700, letterSpacing: '0.06em' }}>HRÁČ 1</span>
+      <span style={{ fontSize: '0.4375rem', color: 'textParchment', fontWeight: 700, letterSpacing: '0.06em' }}>HRÁČ 1</span>
       <div style={{
         marginLeft: 'auto',
         background: '#252342', borderRadius: 2,

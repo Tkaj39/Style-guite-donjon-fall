@@ -9,7 +9,7 @@ import ProgressBar from '../lib/tkajui/ProgressBar'
    Sdílená stavová matice (stejná pro obě knihovny)
    ══════════════════════════════════════════════════════════════════════════ */
 
-function StateRow({ state, required, description, components, accentColor = '#B8956A', textColor = '#8F9CB3', bg = '#12102A', border = '#8F745418', faintColor = '#4A4870' }) {
+function StateRow({ state, required, description, components, accentColor = '#B8956A', textColor = 'textCool', bg = '#12102A', border = '#8F745418', faintColor = 'textDeep' }) {
   const reqColor = required ? '#40A055' : textColor
   return (
     <div style={{
@@ -325,7 +325,7 @@ function HoverDemo() {
 function FocusDemo() {
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-      <p style={{ width: '100%', margin: '0 0 8px', fontSize: '0.75rem', color: '#4A4870' }}>
+      <p style={{ width: '100%', margin: '0 0 8px', fontSize: '0.75rem', color: 'textDeep' }}>
         Stiskni Tab pro procházení focusem →
       </p>
       <DonjonButton size="sm">Button 1</DonjonButton>
@@ -384,7 +384,7 @@ function SelectedDemo() {
             fontSize: '0.8125rem',
             border: `1px solid ${sel === value ? '#B8956A' : '#8F745440'}`,
             background: sel === value ? '#2A2948' : 'transparent',
-            color: sel === value ? '#F0E6D3' : '#8F9CB3',
+            color: sel === value ? '#F0E6D3' : 'textCool',
             borderRadius: 3,
             cursor: 'pointer',
             boxShadow: sel === value ? '0 0 0 1px #B8956A44' : 'none',
@@ -424,7 +424,7 @@ function BlockedDemo() {
       }}>
         Hex obsazený
       </div>
-      <p style={{ margin: 0, fontSize: '0.75rem', color: '#4A4870', width: '100%' }}>
+      <p style={{ margin: 0, fontSize: '0.75rem', color: 'textDeep', width: '100%' }}>
         Blocked ≠ disabled — prvek existuje, ale akce není povolena pravidly hry.
       </p>
     </div>
@@ -444,7 +444,7 @@ function DonjonStatesContent() {
           <div style={{ width: '100%', border: '1px solid #8F745430', borderRadius: 4, overflow: 'hidden' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '120px 60px 1fr 1fr', gap: 12, padding: '8px 14px', background: '#12102A', borderBottom: '1px solid #8F745430' }}>
               {['Stav', 'Priorita', 'Popis', 'Komponenty'].map(h => (
-                <span key={h} style={{ fontSize: '0.625rem', color: '#4A4870', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{h}</span>
+                <span key={h} style={{ fontSize: '0.625rem', color: 'textDeep', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{h}</span>
               ))}
             </div>
             <StateRow state="hover"    required description="Vizuální odezva na pohyb myši nad prvkem." components="Button, Badge, Toggle, Select, Tabs, Card, hex tile…" />

@@ -1,10 +1,11 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { textDeep, textCool } from '../lib/donjon/tokens'
 
 /* ── Selection demo ── */
 function SelectionDemo({ label, bg, color, children, note }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 200 }}>
-      <p style={{ margin: 0, fontSize: '0.75rem', color: '#8F9CB3' }}>{label}</p>
+      <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool' }}>{label}</p>
       <p
         style={{ margin: 0, fontSize: '0.875rem', color: '#F0E6D3', lineHeight: 1.6, userSelect: 'text', cursor: 'text' }}
         onMouseDown={e => {
@@ -15,7 +16,7 @@ function SelectionDemo({ label, bg, color, children, note }) {
       >
         {children}
       </p>
-      {note && <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4870', lineHeight: 1.3 }}>{note}</p>}
+      {note && <p style={{ margin: 0, fontSize: '0.625rem', color: 'textDeep', lineHeight: 1.3 }}>{note}</p>}
       <style>{`
         ::selection {
           background: #B8956A55;
@@ -79,9 +80,9 @@ export default function TextSelectionPage() {
               { ctx: 'no-select (UI prvky)',  bg: 'n/a',                   color: 'n/a',        note: 'user-select: none — tlačítka, labely, badge' },
             ].map(({ ctx, bg, color, note }) => (
               <div key={ctx} style={{ display: 'grid', gridTemplateColumns: '180px 200px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3 }}>
-                <span style={{ fontSize: '0.8125rem', color: '#8F9CB3' }}>{ctx}</span>
+                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{ctx}</span>
                 <code style={{ fontSize: '0.6875rem', color: '#B8956A', lineHeight: 1.5 }}>{bg}</code>
-                <span style={{ fontSize: '0.6875rem', color: '#4A4870', lineHeight: 1.4 }}>{note}</span>
+                <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
           </div>
@@ -107,9 +108,9 @@ export default function TextSelectionPage() {
               { element: 'Chybová zpráva',              select: 'text', reason: 'Pro kopírování do bug reportu' },
             ].map(({ element, select, reason }) => (
               <div key={element} style={{ display: 'grid', gridTemplateColumns: '220px 60px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3 }}>
-                <span style={{ fontSize: '0.8125rem', color: '#8F9CB3' }}>{element}</span>
+                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{element}</span>
                 <code style={{ fontSize: '0.8125rem', fontWeight: 700, color: select === 'none' ? '#C04040' : '#40A055' }}>{select}</code>
-                <span style={{ fontSize: '0.6875rem', color: '#4A4870', lineHeight: 1.4 }}>{reason}</span>
+                <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{reason}</span>
               </div>
             ))}
           </div>
@@ -151,7 +152,7 @@ className="select-all"    /* kliknutí = vybere vše (pro kód) */`} />
             padding: '12px 14px',
             maxWidth: 380, width: '100%',
           }}>
-            <code style={{ fontSize: '0.8125rem', color: '#8F9CB3', fontFamily: 'monospace', lineHeight: 1.6, display: 'block' }}>
+            <code style={{ fontSize: '0.8125rem', color: 'textCool', fontFamily: 'monospace', lineHeight: 1.6, display: 'block' }}>
               {`addToast({ title: 'Nelegální tah',\n  variant: 'danger' })`}
             </code>
             <button
@@ -162,7 +163,7 @@ className="select-all"    /* kliknutí = vybere vše (pro kód) */`} />
                 border: '1px solid #8F745430',
                 borderRadius: 2,
                 fontSize: '0.625rem',
-                color: '#8F9CB3',
+                color: 'textCool',
                 cursor: 'pointer',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',

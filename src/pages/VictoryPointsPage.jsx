@@ -135,7 +135,7 @@ function OptimisticVPDemo() {
             </div>
           )
         })}
-        <p style={{ margin: '4px 0 0', fontSize: '0.6875rem', color: '#4A4560' }}>
+        <p style={{ margin: '4px 0 0', fontSize: '0.6875rem', color: 'textFaint' }}>
           ● = optimistická hodnota (čeká na potvrzení serveru)
         </p>
       </div>
@@ -167,7 +167,7 @@ export default function VictoryPointsPage() {
                   <span style={{
                     width: 16,
                     fontSize: '0.625rem',
-                    color: i === 0 ? '#FFC183' : '#4A4560',
+                    color: i === 0 ? '#FFC183' : 'textFaint',
                     fontWeight: 700,
                     textAlign: 'right',
                     flexShrink: 0,
@@ -254,7 +254,7 @@ export default function VictoryPointsPage() {
                     Za každé aktivní ohnisko, na kterém drží kostka/věž hráče na začátku jeho tahu.
                   </p>
                 </div>
-                <p style={{ margin: 0, fontSize: '0.75rem', color: '#4A4560', lineHeight: 1.5 }}>
+                <p style={{ margin: 0, fontSize: '0.75rem', color: 'textFaint', lineHeight: 1.5 }}>
                   Po vyhodnocení se kostka na ohnisku přehodí: nová hodnota = min(hod, původní − 1).
                   Ohnisko se přepne na jiné ze skupiny.
                 </p>
@@ -284,7 +284,7 @@ export default function VictoryPointsPage() {
             <DonjonBadge variant="danger">Nelze ztratit VP</DonjonBadge>
             <DonjonBadge variant="default">Vítěz = první na cílovém počtu</DonjonBadge>
           </div>
-          <p style={{ margin: '8px 0 0', fontSize: '0.8125rem', color: '#4A4560', lineHeight: 1.6 }}>
+          <p style={{ margin: '8px 0 0', fontSize: '0.8125rem', color: 'textFaint', lineHeight: 1.6 }}>
             Jakmile jsou body připsány, zůstávají. Neexistuje mechanismus odebrání VP — ani porážka na bojišti neubírá body.
             Hra skončí okamžitě, jakmile hráč dosáhne cílového počtu VP.
           </p>
@@ -333,7 +333,7 @@ const handleAddVP = (id) => {
                   Cílový počet vítězných bodů pro výchozí mapu je {DEFAULT_MAP_VP}.
                 </p>
               </div>
-              <p style={{ margin: 0, fontSize: '0.75rem', color: '#4A4560', lineHeight: 1.5 }}>
+              <p style={{ margin: 0, fontSize: '0.75rem', color: 'textFaint', lineHeight: 1.5 }}>
                 3 ohniska v jedné skupině — střední je aktivní, levé a pravé jsou pasivní.
                 Ohniska jsou ve středové řadě hexů.
               </p>

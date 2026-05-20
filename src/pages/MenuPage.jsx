@@ -98,7 +98,7 @@ function MenuDesktopLayout() {
             Donjon<br />Fall
           </p>
           <p style={{
-            margin: 0, fontSize: '0.4375rem', color: '#4A4560',
+            margin: 0, fontSize: '0.4375rem', color: 'textFaint',
             letterSpacing: '0.18em', textTransform: 'uppercase',
           }}>
             Tahová strategická hra
@@ -134,7 +134,7 @@ function MenuTabletLayout() {
         }}>
           Donjon Fall
         </p>
-        <p style={{ margin: 0, fontSize: '0.5rem', color: '#4A4560', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+        <p style={{ margin: 0, fontSize: '0.5rem', color: 'textFaint', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
           Tahová strategická hra
         </p>
       </div>
@@ -168,7 +168,7 @@ function MenuMobileLayout() {
         }}>
           Donjon Fall
         </p>
-        <p style={{ margin: 0, fontSize: '0.375rem', color: '#4A4560', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+        <p style={{ margin: 0, fontSize: '0.375rem', color: 'textFaint', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
           Tahová strategie
         </p>
       </div>

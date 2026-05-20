@@ -1,4 +1,5 @@
 import { ToastProvider, useToast } from '../lib/tkajui/Toast'
+import { textCool } from '../lib/donjon/tokens'
 import { ToastProvider as DonjonToastProvider, useToast as useDonjonToast } from '../lib/donjon/DonjonToast'
 import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
@@ -165,7 +166,7 @@ addToast({ title: 'Výsledek',      message: '+1 VP.',             variant: 'suc
         description="ToastProvider přijímá prop position — čtyři rohy obrazovky. Demo výše používá bottom-right (výchozí)."
       >
         <Preview>
-          <div style={{ color: '#8F9CB3', fontSize: '0.875rem', lineHeight: 1.6 }}>
+          <div style={{ color: 'textCool', fontSize: '0.875rem', lineHeight: 1.6 }}>
             <p style={{ margin: '0 0 8px' }}>Dostupné hodnoty:</p>
             <ul style={{ margin: 0, padding: '0 0 0 18px', display: 'flex', flexDirection: 'column', gap: 4 }}>
               <li><code style={{ color: '#B8956A' }}>"bottom-right"</code> — výchozí, pravý dolní roh</li>

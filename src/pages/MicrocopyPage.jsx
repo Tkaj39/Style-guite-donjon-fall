@@ -1,16 +1,17 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { textDeep, textCool } from '../lib/donjon/tokens'
 
 /* ── Comparison row ── */
 function CompRow({ bad, good, context }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 2, borderRadius: 3, overflow: 'hidden' }}>
       {context && (
-        <p style={{ margin: 0, fontSize: '0.625rem', color: '#4A4870', letterSpacing: '0.06em', textTransform: 'uppercase', paddingLeft: 2 }}>{context}</p>
+        <p style={{ margin: 0, fontSize: '0.625rem', color: 'textDeep', letterSpacing: '0.06em', textTransform: 'uppercase', paddingLeft: 2 }}>{context}</p>
       )}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1 }}>
         <div style={{ padding: '8px 12px', background: '#3D181820', border: '1px solid #C0404030' }}>
           <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#C04040', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✗ Špatně</p>
-          <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F9CB3' }}>{bad}</p>
+          <p style={{ margin: 0, fontSize: '0.8125rem', color: 'textCool' }}>{bad}</p>
         </div>
         <div style={{ padding: '8px 12px', background: '#183D2020', border: '1px solid #40A05530' }}>
           <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#40A055', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✓ Dobře</p>
@@ -119,7 +120,7 @@ export default function MicrocopyPage() {
             {/* Správný dialog */}
             <div style={{ padding: '20px', background: '#1E1C3A', border: '1px solid #C0404040', borderRadius: 4 }}>
               <p style={{ margin: '0 0 4px', fontSize: '0.9375rem', fontWeight: 700, color: '#F0E6D3' }}>Smazat rozehranou hru?</p>
-              <p style={{ margin: '0 0 16px', fontSize: '0.8125rem', color: '#8F9CB3', lineHeight: 1.5 }}>
+              <p style={{ margin: '0 0 16px', fontSize: '0.8125rem', color: 'textCool', lineHeight: 1.5 }}>
                 Hra <strong style={{ color: '#F0E6D3' }}>Bitva u severní pevnosti</strong> bude trvale smazána.
                 Postup v kole 3 bude ztracen a nelze ho obnovit.
               </p>
@@ -175,9 +176,9 @@ export default function MicrocopyPage() {
               { type: 'Procenta',      format: '67 %', note: 'Mezera před % (česká typografie)' },
             ].map(({ type, format, note }) => (
               <div key={type} style={{ display: 'grid', gridTemplateColumns: '130px 90px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3, alignItems: 'center' }}>
-                <span style={{ fontSize: '0.8125rem', color: '#8F9CB3' }}>{type}</span>
+                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{type}</span>
                 <code style={{ fontSize: '0.875rem', fontWeight: 700, color: '#B8956A' }}>{format}</code>
-                <span style={{ fontSize: '0.75rem', color: '#4A4870', lineHeight: 1.4 }}>{note}</span>
+                <span style={{ fontSize: '0.75rem', color: 'textDeep', lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
           </div>

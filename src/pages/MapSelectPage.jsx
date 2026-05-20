@@ -1,4 +1,5 @@
 import DonjonBadge from '../lib/donjon/DonjonBadge'
+import { textFaint, textParchment } from '../lib/donjon/tokens'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
@@ -66,7 +67,7 @@ function MapCard({ map, cardW = 100, compact = false }) {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 }}>
           <p style={{
             margin: 0, fontSize: fs, fontWeight: 700,
-            color: selected ? '#FFC183' : '#D4C5A9',
+            color: selected ? '#FFC183' : 'textParchment',
           }}>
             {name}
           </p>
@@ -77,7 +78,7 @@ function MapCard({ map, cardW = 100, compact = false }) {
             }} />
           )}
         </div>
-        <p style={{ margin: 0, fontSize: metaFs, color: '#4A4560', lineHeight: 1.4 }}>
+        <p style={{ margin: 0, fontSize: metaFs, color: 'textFaint', lineHeight: 1.4 }}>
           {hexes} h · {players} hráči · {vp} VP
         </p>
       </div>
@@ -117,10 +118,10 @@ function MapSelectDesktopLayout() {
         display: 'flex', alignItems: 'center',
         padding: '0 20px', gap: 12, flexShrink: 0,
       }}>
-        <span style={{ fontSize: '0.4375rem', color: '#4A4560', letterSpacing: '0.06em' }}>← Zpět</span>
+        <span style={{ fontSize: '0.4375rem', color: 'textFaint', letterSpacing: '0.06em' }}>← Zpět</span>
         <span style={{
           fontSize: '0.5rem', fontWeight: 700,
-          color: '#D4C5A9', letterSpacing: '0.12em', textTransform: 'uppercase',
+          color: 'textParchment', letterSpacing: '0.12em', textTransform: 'uppercase',
         }}>Výběr mapy</span>
       </div>
 
@@ -159,10 +160,10 @@ function MapSelectTabletLayout() {
         display: 'flex', alignItems: 'center',
         padding: '0 16px', gap: 10, flexShrink: 0,
       }}>
-        <span style={{ fontSize: '0.375rem', color: '#4A4560' }}>← Zpět</span>
+        <span style={{ fontSize: '0.375rem', color: 'textFaint' }}>← Zpět</span>
         <span style={{
           fontSize: '0.4375rem', fontWeight: 700,
-          color: '#D4C5A9', letterSpacing: '0.1em', textTransform: 'uppercase',
+          color: 'textParchment', letterSpacing: '0.1em', textTransform: 'uppercase',
         }}>Výběr mapy</span>
       </div>
 
@@ -204,10 +205,10 @@ function MapSelectMobileLayout() {
         display: 'flex', alignItems: 'center',
         padding: '0 12px', gap: 8, flexShrink: 0,
       }}>
-        <span style={{ fontSize: '0.3125rem', color: '#4A4560' }}>←</span>
+        <span style={{ fontSize: '0.3125rem', color: 'textFaint' }}>←</span>
         <span style={{
           fontSize: '0.375rem', fontWeight: 700,
-          color: '#D4C5A9', letterSpacing: '0.1em', textTransform: 'uppercase',
+          color: 'textParchment', letterSpacing: '0.1em', textTransform: 'uppercase',
         }}>Výběr mapy</span>
       </div>
 
