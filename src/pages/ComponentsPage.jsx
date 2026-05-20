@@ -383,22 +383,6 @@ export default function ComponentsPage() {
       title="Components"
       description="Přehled všech komponent Donjon Fall design systému, rozdělených do dvou knihoven: TkajUI (generické UI) a donjon-fall-ui (herní komponenty). Automaticky generováno z filesystému, doplněno ručními metadaty."
     >
-      {/* ── Tech stack ── */}
-      <Section id="tech-stack" description="Závislosti projektu — verze ke dni poslední aktualizace dokumentace.">
-        <div className="flex flex-col gap-6">
-          {TECH_STACK.map(group => (
-            <div key={group.group}>
-              <p className="text-[11px] font-semibold uppercase tracking-widest text-neutral-600 mb-1">{group.group}</p>
-              <div className="flex flex-col">
-                {group.items.map(item => (
-                  <TechRow key={item.name} {...item} />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </Section>
-
       {/* ── Přepínač knihoven ── */}
       <Section id="knihovny">
         <LibTabs active={activeLib} onChange={setActiveLib} />
@@ -606,6 +590,22 @@ export default function ComponentsPage() {
             <span className="w-1.5 h-1.5 rounded-full bg-neutral-700" />
             jen dokumentace
           </span>
+        </div>
+      </Section>
+
+      {/* ── Tech stack ── */}
+      <Section id="tech-stack" description="Závislosti projektu — verze ke dni poslední aktualizace dokumentace.">
+        <div className="flex flex-col gap-6">
+          {TECH_STACK.map(group => (
+            <div key={group.group}>
+              <p className="text-[11px] font-semibold uppercase tracking-widest text-neutral-600 mb-1">{group.group}</p>
+              <div className="flex flex-col">
+                {group.items.map(item => (
+                  <TechRow key={item.name} {...item} />
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </Section>
 
