@@ -1,21 +1,21 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textDeep, textCool } from '../lib/donjon/tokens'
+import { textDeep, textCool, goldMid, bg0, successColor, textActive, borderSubtle, failColor, goldDim } from '../lib/donjon/tokens'
 
 /* ── Comparison row ── */
 function CompRow({ bad, good, context }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 2, borderRadius: 3, overflow: 'hidden' }}>
       {context && (
-        <p style={{ margin: 0, fontSize: '0.625rem', color: 'textDeep', letterSpacing: '0.06em', textTransform: 'uppercase', paddingLeft: 2 }}>{context}</p>
+        <p style={{ margin: 0, fontSize: '0.625rem', color: textDeep, letterSpacing: '0.06em', textTransform: 'uppercase', paddingLeft: 2 }}>{context}</p>
       )}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1 }}>
         <div style={{ padding: '8px 12px', background: '#3D181820', border: '1px solid #C0404030' }}>
-          <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#C04040', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✗ Špatně</p>
-          <p style={{ margin: 0, fontSize: '0.8125rem', color: 'textCool' }}>{bad}</p>
+          <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: failColor, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✗ Špatně</p>
+          <p style={{ margin: 0, fontSize: '0.8125rem', color: textCool }}>{bad}</p>
         </div>
         <div style={{ padding: '8px 12px', background: '#183D2020', border: '1px solid #40A05530' }}>
-          <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#40A055', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✓ Dobře</p>
-          <p style={{ margin: 0, fontSize: '0.8125rem', color: '#F0E6D3' }}>{good}</p>
+          <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: successColor, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✓ Dobře</p>
+          <p style={{ margin: 0, fontSize: '0.8125rem', color: textActive }}>{good}</p>
         </div>
       </div>
     </div>
@@ -27,7 +27,7 @@ function ToneChip({ label, example, color, bg }) {
   return (
     <div style={{ padding: '12px 14px', background: bg, border: `1px solid ${color}44`, borderRadius: 4, flex: 1, minWidth: 140 }}>
       <p style={{ margin: '0 0 4px', fontSize: '0.625rem', fontWeight: 700, color, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{label}</p>
-      <p style={{ margin: 0, fontSize: '0.8125rem', color: '#F0E6D3', lineHeight: 1.4 }}>"{example}"</p>
+      <p style={{ margin: 0, fontSize: '0.8125rem', color: textActive, lineHeight: 1.4 }}>"{example}"</p>
     </div>
   )
 }
@@ -48,10 +48,10 @@ export default function MicrocopyPage() {
       >
         <Preview>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, width: '100%' }}>
-            <ToneChip label="Herní"     example="Zahaj bitvu — výber protivníka."    color="#B8956A" bg="#2E2B50" />
+            <ToneChip label="Herní"     example="Zahaj bitvu — výber protivníka."    color="goldMid" bg="#2E2B50" />
             <ToneChip label="Neutrální" example="Hra se ukládá automaticky."         color="#4080C0" bg="#182A3D" />
-            <ToneChip label="Úspěch"    example="Hra uložena. Můžeš pokračovat."    color="#40A055" bg="#183D20" />
-            <ToneChip label="Chyba"     example="Tah se nepodařilo dokončit. Zkus to znovu." color="#C04040" bg="#3D1818" />
+            <ToneChip label="Úspěch"    example="Hra uložena. Můžeš pokračovat."    color="successColor" bg="#183D20" />
+            <ToneChip label="Chyba"     example="Tah se nepodařilo dokončit. Zkus to znovu." color="failColor" bg="#3D1818" />
           </div>
         </Preview>
         <div className="flex flex-col gap-2 text-sm text-neutral-400 mt-2">
@@ -119,16 +119,16 @@ export default function MicrocopyPage() {
           <div style={{ maxWidth: 360, width: '100%' }}>
             {/* Správný dialog */}
             <div style={{ padding: '20px', background: '#1E1C3A', border: '1px solid #C0404040', borderRadius: 4 }}>
-              <p style={{ margin: '0 0 4px', fontSize: '0.9375rem', fontWeight: 700, color: '#F0E6D3' }}>Smazat rozehranou hru?</p>
-              <p style={{ margin: '0 0 16px', fontSize: '0.8125rem', color: 'textCool', lineHeight: 1.5 }}>
-                Hra <strong style={{ color: '#F0E6D3' }}>Bitva u severní pevnosti</strong> bude trvale smazána.
+              <p style={{ margin: '0 0 4px', fontSize: '0.9375rem', fontWeight: 700, color: textActive }}>Smazat rozehranou hru?</p>
+              <p style={{ margin: '0 0 16px', fontSize: '0.8125rem', color: textCool, lineHeight: 1.5 }}>
+                Hra <strong style={{ color: textActive }}>Bitva u severní pevnosti</strong> bude trvale smazána.
                 Postup v kole 3 bude ztracen a nelze ho obnovit.
               </p>
               <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-                <div style={{ padding: '6px 14px', background: '#1A1830', border: '1px solid #8F745440', borderRadius: 2, fontSize: '0.8125rem', color: '#B8956A', cursor: 'pointer' }}>
+                <div style={{ padding: '6px 14px', background: borderSubtle, border: `1px solid ${goldDim}40`, borderRadius: 2, fontSize: '0.8125rem', color: goldMid, cursor: 'pointer' }}>
                   Ponechat hru
                 </div>
-                <div style={{ padding: '6px 14px', background: '#C0404020', border: '1px solid #C04040', borderRadius: 2, fontSize: '0.8125rem', color: '#C04040', cursor: 'pointer', fontWeight: 700 }}>
+                <div style={{ padding: '6px 14px', background: '#C0404020', border: `1px solid ${failColor}`, borderRadius: 2, fontSize: '0.8125rem', color: failColor, cursor: 'pointer', fontWeight: 700 }}>
                   Smazat hru
                 </div>
               </div>
@@ -175,10 +175,10 @@ export default function MicrocopyPage() {
               { type: 'Čas (odpočet)', format: '1:42', note: 'MM:SS — bez nul před minutami pod 10' },
               { type: 'Procenta',      format: '67 %', note: 'Mezera před % (česká typografie)' },
             ].map(({ type, format, note }) => (
-              <div key={type} style={{ display: 'grid', gridTemplateColumns: '130px 90px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3, alignItems: 'center' }}>
-                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{type}</span>
-                <code style={{ fontSize: '0.875rem', fontWeight: 700, color: '#B8956A' }}>{format}</code>
-                <span style={{ fontSize: '0.75rem', color: 'textDeep', lineHeight: 1.4 }}>{note}</span>
+              <div key={type} style={{ display: 'grid', gridTemplateColumns: '130px 90px 1fr', gap: 10, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3, alignItems: 'center' }}>
+                <span style={{ fontSize: '0.8125rem', color: textCool }}>{type}</span>
+                <code style={{ fontSize: '0.875rem', fontWeight: 700, color: goldMid }}>{format}</code>
+                <span style={{ fontSize: '0.75rem', color: textDeep, lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
           </div>
@@ -202,10 +202,10 @@ export default function MicrocopyPage() {
               { term: 'VP / Vítězné body', use: 'Herní skóre',        avoid: 'Body, score, pts' },
               { term: 'Ohnisko',     use: 'Zvláštní hex na mapě',      avoid: 'Focus point, cíl, bod' },
             ].map(({ term, use, avoid }) => (
-              <div key={term} style={{ display: 'grid', gridTemplateColumns: '130px 1fr 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3, alignItems: 'start' }}>
-                <code style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#B8956A' }}>{term}</code>
-                <span style={{ fontSize: '0.75rem', color: '#40A055', lineHeight: 1.4 }}>✓ {use}</span>
-                <span style={{ fontSize: '0.75rem', color: '#C04040', lineHeight: 1.4 }}>✗ {avoid}</span>
+              <div key={term} style={{ display: 'grid', gridTemplateColumns: '130px 1fr 1fr', gap: 10, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3, alignItems: 'start' }}>
+                <code style={{ fontSize: '0.8125rem', fontWeight: 700, color: goldMid }}>{term}</code>
+                <span style={{ fontSize: '0.75rem', color: successColor, lineHeight: 1.4 }}>✓ {use}</span>
+                <span style={{ fontSize: '0.75rem', color: failColor, lineHeight: 1.4 }}>✗ {avoid}</span>
               </div>
             ))}
           </div>

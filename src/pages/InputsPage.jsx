@@ -245,7 +245,7 @@ function InputContent() {
               <div style={{
                 padding: '8px 12px', borderRadius: 4,
                 background: '#183D2020', border: '1px solid #40A05550',
-                fontSize: '0.8125rem', color: '#40A055',
+                fontSize: '0.8125rem', color: successColor,
               }}>
                 ✓ Přihlášení úspěšné! (demo)
               </div>
@@ -304,7 +304,7 @@ function handleSubmit() {
               <div style={{
                 padding: '8px 12px', borderRadius: 4,
                 background: '#183D2020', border: '1px solid #40A05550',
-                fontSize: '0.8125rem', color: '#40A055',
+                fontSize: '0.8125rem', color: successColor,
               }}>
                 ✓ Nastavení uloženo! (demo)
               </div>

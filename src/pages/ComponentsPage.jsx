@@ -417,7 +417,7 @@ export default function ComponentsPage() {
             {/* Per-knihovna breakdown */}
             <div className="flex flex-wrap gap-4">
               <LibStatBlock libId="TkajUI"         libLabel="TkajUI"         accent="#6576ff" reg={registry} />
-              <LibStatBlock libId="donjon-fall-ui"  libLabel="donjon-fall-ui" accent="#B8956A" reg={registry} />
+              <LibStatBlock libId="donjon-fall-ui"  libLabel="donjon-fall-ui" accent="goldMid" reg={registry} />
               <LibStatBlock libId="Layout"          libLabel="Layout (internal)" accent="#484860" reg={registry} />
             </div>
           </div>

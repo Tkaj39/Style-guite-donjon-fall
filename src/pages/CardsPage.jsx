@@ -1,4 +1,5 @@
 import Card from '../lib/tkajui/Card'
+import { goldMid, goldDim, bg4, textActive } from '../lib/donjon/tokens'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
@@ -29,10 +30,10 @@ const ArrowRightIcon = () => (
 
 const statStyle = {
   display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-  padding: '6px 0', borderBottom: '1px solid #2A2948', fontSize: '0.8125rem',
+  padding: '6px 0', borderBottom: `1px solid ${bg4}`, fontSize: '0.8125rem',
 }
-const labelStyle = { color: '#8F7458' }
-const valueStyle = { color: '#F0E6D3', fontWeight: 600 }
+const labelStyle = { color: goldDim }
+const valueStyle = { color: textActive, fontWeight: 600 }
 
 /* ── Obsah stránky — čte aktivní variantu přes hook ── */
 function CardContent() {
@@ -53,7 +54,7 @@ function CardContent() {
       >
         <Preview>
           <C title="The Sunken Vault" description="Ancient treasure chamber, level 7.">
-            <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ color: goldMid, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Legends speak of a vault buried beneath the Ashwood forest, sealed by a dragon's binding
               curse. Only those bearing the Sigil of Embers may pass the threshold.
             </p>
@@ -243,7 +244,7 @@ function CardContent() {
       >
         <Preview>
           <C>
-            <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ color: goldMid, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Karta bez hlavičky — vhodná pro obalení libovolné UI sekce ve stylu Donjon Fall
               bez vnucení titulkové hierarchie.
             </p>

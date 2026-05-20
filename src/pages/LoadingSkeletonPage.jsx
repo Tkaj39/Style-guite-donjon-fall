@@ -1,9 +1,9 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textDeep, textCool } from '../lib/donjon/tokens'
+import { textDeep, textCool, goldMid, bg0, successColor, textActive, borderSubtle, failColor, goldDim } from '../lib/donjon/tokens'
 
 /* ── Skeleton primitives ── */
 const shimmer = {
-  background: 'linear-gradient(90deg, #1A1830 25%, #22203E 50%, #1A1830 75%)',
+  background: 'linear-gradient(90deg, borderSubtle 25%, #22203E 50%, borderSubtle 75%)',
   backgroundSize: '200% 100%',
   animation: 'skeletonShimmer 1.4s ease-in-out infinite',
 }
@@ -31,7 +31,7 @@ function SkeletonText({ lines = 1, lastWidth = '60%' }) {
 function SkeletonCard() {
   return (
     <div style={{
-      padding: '16px', border: '1px solid #8F745418', borderRadius: 4,
+      padding: '16px', border: `1px solid ${goldDim}18`, borderRadius: 4,
       display: 'flex', flexDirection: 'column', gap: 12, width: 220,
     }}>
       <SkeletonBox h={100} radius={3} />
@@ -49,7 +49,7 @@ function SkeletonListItem({ wide = false }) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 12,
-      padding: '10px 14px', borderBottom: '1px solid #8F745418',
+      padding: '10px 14px', borderBottom: `1px solid ${goldDim}18`,
     }}>
       <SkeletonBox w={36} h={36} radius={3} style={{ flexShrink: 0 }} />
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 5 }}>
@@ -64,7 +64,7 @@ function SkeletonListItem({ wide = false }) {
 function SkeletonPlayerCard() {
   return (
     <div style={{
-      padding: '14px 16px', border: '1px solid #8F745430', borderRadius: 4,
+      padding: '14px 16px', border: `1px solid ${goldDim}30`, borderRadius: 4,
       display: 'flex', gap: 12, alignItems: 'center', width: 280,
     }}>
       <SkeletonBox w={48} h={48} radius={24} style={{ flexShrink: 0 }} />
@@ -84,12 +84,12 @@ function SkeletonPlayerCard() {
 
 function SkeletonTable({ rows = 4 }) {
   return (
-    <div style={{ width: '100%', maxWidth: 480, border: '1px solid #8F745430', borderRadius: 4, overflow: 'hidden' }}>
+    <div style={{ width: '100%', maxWidth: 480, border: `1px solid ${goldDim}30`, borderRadius: 4, overflow: 'hidden' }}>
       {/* Header */}
       <div style={{
         display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr',
-        gap: 12, padding: '10px 14px', background: '#12102A',
-        borderBottom: '1px solid #8F745430',
+        gap: 12, padding: '10px 14px', background: bg0,
+        borderBottom: `1px solid ${goldDim}30`,
       }}>
         {[60, 40, 40, 40].map((w, i) => (
           <SkeletonBox key={i} h={8} w={`${w}%`} />
@@ -99,7 +99,7 @@ function SkeletonTable({ rows = 4 }) {
         <div key={i} style={{
           display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr',
           gap: 12, padding: '10px 14px',
-          borderBottom: i < rows - 1 ? '1px solid #8F745418' : 'none',
+          borderBottom: i < rows - 1 ? `1px solid ${goldDim}18` : 'none',
         }}>
           {[70, 50, 35, 45].map((w, j) => (
             <SkeletonBox key={j} h={8} w={`${w}%`} />
@@ -137,18 +137,18 @@ export default function LoadingSkeletonPage() {
         <Preview dark={false}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, maxWidth: 540 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: '#40A055', letterSpacing: '0.08em', textTransform: 'uppercase' }}>✓ Skeleton</p>
+              <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: successColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>✓ Skeleton</p>
               <SkeletonPlayerCard />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: '#C04040', letterSpacing: '0.08em', textTransform: 'uppercase' }}>✗ Spinner only</p>
+              <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: failColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>✗ Spinner only</p>
               <div style={{
-                width: 280, height: 76, border: '1px solid #8F745430', borderRadius: 4,
+                width: 280, height: 76, border: `1px solid ${goldDim}30`, borderRadius: 4,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
                 <div style={{
                   width: 24, height: 24, borderRadius: '50%',
-                  border: '2px solid #8F745430', borderTopColor: '#B8956A',
+                  border: `2px solid ${goldDim}30`, borderTopColor: goldMid,
                   animation: 'spin 0.8s linear infinite',
                 }} />
                 <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
@@ -171,30 +171,30 @@ export default function LoadingSkeletonPage() {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', maxWidth: 360 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <span style={{ fontSize: '0.625rem', color: 'textDeep' }}>Řádek textu</span>
+              <span style={{ fontSize: '0.625rem', color: textDeep }}>Řádek textu</span>
               <SkeletonBox h={10} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <span style={{ fontSize: '0.625rem', color: 'textDeep' }}>Nadpis</span>
+              <span style={{ fontSize: '0.625rem', color: textDeep }}>Nadpis</span>
               <SkeletonBox h={18} w="55%" />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <span style={{ fontSize: '0.625rem', color: 'textDeep' }}>Obrázek / thumbnail</span>
+              <span style={{ fontSize: '0.625rem', color: textDeep }}>Obrázek / thumbnail</span>
               <SkeletonBox h={80} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <span style={{ fontSize: '0.625rem', color: 'textDeep' }}>Avatar (kruh)</span>
+              <span style={{ fontSize: '0.625rem', color: textDeep }}>Avatar (kruh)</span>
               <SkeletonBox w={48} h={48} radius={24} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <span style={{ fontSize: '0.625rem', color: 'textDeep' }}>Badge / chip</span>
+              <span style={{ fontSize: '0.625rem', color: textDeep }}>Badge / chip</span>
               <SkeletonBox w={64} h={20} radius={10} />
             </div>
           </div>
         </Preview>
         <CodeBlock code={`/* SkeletonBox — základní primitivum */
 const shimmer = {
-  background: 'linear-gradient(90deg, #1A1830 25%, #22203E 50%, #1A1830 75%)',
+  background: 'linear-gradient(90deg, borderSubtle 25%, #22203E 50%, borderSubtle 75%)',
   backgroundSize: '200% 100%',
   animation: 'skeletonShimmer 1.4s ease-in-out infinite',
 }
@@ -220,7 +220,7 @@ function SkeletonBox({ w = '100%', h = 16, radius = 3 }) {
           <SkeletonPlayerCard />
         </Preview>
         <Preview>
-          <div style={{ width: '100%', maxWidth: 480, border: '1px solid #8F745430', borderRadius: 4, overflow: 'hidden' }}>
+          <div style={{ width: '100%', maxWidth: 480, border: `1px solid ${goldDim}30`, borderRadius: 4, overflow: 'hidden' }}>
             <SkeletonListItem />
             <SkeletonListItem wide />
             <SkeletonListItem />
@@ -260,15 +260,15 @@ function SkeletonBox({ w = '100%', h = 16, radius = 3 }) {
               { pattern: 'Progress bar',         when: 'Operace s měřitelným postupem (upload, build)', avoid: 'Operace bez known progress (API fetch)' },
               { pattern: 'Progress indeterminate', when: 'Operace kde neznáme % — ale víme že běží',   avoid: 'Operace > 10s — raději ukaž odhad' },
             ].map(({ pattern, when, avoid }) => (
-              <div key={pattern} style={{ display: 'grid', gridTemplateColumns: '160px 1fr 1fr', gap: 10, padding: '9px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3, alignItems: 'start' }}>
-                <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#B8956A' }}>{pattern}</span>
+              <div key={pattern} style={{ display: 'grid', gridTemplateColumns: '160px 1fr 1fr', gap: 10, padding: '9px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3, alignItems: 'start' }}>
+                <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: goldMid }}>{pattern}</span>
                 <div>
-                  <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#40A055', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Použij kdy</p>
-                  <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>{when}</p>
+                  <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: successColor, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Použij kdy</p>
+                  <p style={{ margin: 0, fontSize: '0.75rem', color: textCool, lineHeight: 1.4 }}>{when}</p>
                 </div>
                 <div>
-                  <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#C04040', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Vyhni se</p>
-                  <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>{avoid}</p>
+                  <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: failColor, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Vyhni se</p>
+                  <p style={{ margin: 0, fontSize: '0.75rem', color: textCool, lineHeight: 1.4 }}>{avoid}</p>
                 </div>
               </div>
             ))}
@@ -285,15 +285,15 @@ function SkeletonBox({ w = '100%', h = 16, radius = 3 }) {
         <Preview dark={false}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 560 }}>
             {[
-              { time: '0–200ms',   state: 'Žádný indikátor',     color: '#40A055', note: 'Optimistické UI — zobraz výsledek okamžitě (pro rychlé lokální operace).' },
+              { time: '0–200ms',   state: 'Žádný indikátor',     color: successColor, note: 'Optimistické UI — zobraz výsledek okamžitě (pro rychlé lokální operace).' },
               { time: '200–500ms', state: 'Skeleton nebo spinner', color: '#4080C0', note: 'Začni zobrazovat skeleton — uživatel začíná čekat.' },
               { time: '500ms+',    state: 'Skeleton pokračuje',   color: '#C08040', note: 'Skeleton je aktivní — struktura je viditelná.' },
-              { time: '8–12s',     state: 'Timeout → Error',      color: '#C04040', note: 'Přejdi na error stav s Retry. Skeleton nesmí trvat věčně.' },
+              { time: '8–12s',     state: 'Timeout → Error',      color: failColor, note: 'Přejdi na error stav s Retry. Skeleton nesmí trvat věčně.' },
             ].map(({ time, state, color, note }) => (
-              <div key={time} style={{ display: 'grid', gridTemplateColumns: '90px 160px 1fr', gap: 10, padding: '9px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3, alignItems: 'start' }}>
+              <div key={time} style={{ display: 'grid', gridTemplateColumns: '90px 160px 1fr', gap: 10, padding: '9px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3, alignItems: 'start' }}>
                 <code style={{ fontSize: '0.75rem', color, fontWeight: 700 }}>{time}</code>
-                <span style={{ fontSize: '0.8125rem', color: '#F0E6D3' }}>{state}</span>
-                <span style={{ fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>{note}</span>
+                <span style={{ fontSize: '0.8125rem', color: textActive }}>{state}</span>
+                <span style={{ fontSize: '0.75rem', color: textCool, lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
           </div>

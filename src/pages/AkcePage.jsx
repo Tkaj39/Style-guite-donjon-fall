@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { textFaint, textParchment } from '../lib/donjon/tokens'
+import { textFaint, textParchment, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
 import { useBreakpoint } from '../hooks/useBreakpoint'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
@@ -108,17 +108,17 @@ export default function AkcePage() {
             {availability.map(a => (
               <div key={a.value} style={{
                 display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
-                background: '#1B1A30', border: '1px solid #2A2948',
+                background: bgDeep, border: `1px solid ${bg4}`,
                 borderRadius: 6, padding: '10px 14px',
               }}>
-                <span style={{ color: 'textFaint', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+                <span style={{ color: textFaint, display: 'flex', alignItems: 'center', flexShrink: 0 }}>
                   {a.icon}
                 </span>
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'textParchment', width: 130, flexShrink: 0 }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: textParchment, width: 130, flexShrink: 0 }}>
                   {a.label}
                 </span>
                 <DonjonBadge variant={a.conditionVariant}>{a.condition}</DonjonBadge>
-                <span style={{ fontSize: '0.6875rem', color: 'textFaint', flex: 1 }}>
+                <span style={{ fontSize: '0.6875rem', color: textFaint, flex: 1 }}>
                   {a.note}
                 </span>
               </div>
@@ -144,16 +144,16 @@ export default function AkcePage() {
                 <DonjonBadge variant="success">Vždy dostupné</DonjonBadge>
                 <DonjonBadge variant="default">Dosah = face value kostky</DonjonBadge>
               </div>
-              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
+              <p style={{ margin: 0, fontSize: '0.8125rem', color: goldDim, lineHeight: 1.6 }}>
                 Pohni jednou svou kostkou až na vzdálenost její bojové síly. Pohyb může měnit směr.
                 Přátelskými kostkami/věžemi lze procházet, nepřátelskými nelze.
                 Pohyb na nepřátelské pole spustí souboj — je legální jen pokud vaše síla převyšuje nepřátelskou.
               </p>
-              <div style={{ borderTop: '1px solid #2A2948', paddingTop: 10 }}>
-                <p style={{ margin: '0 0 6px', fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              <div style={{ borderTop: `1px solid ${bg4}`, paddingTop: 10 }}>
+                <p style={{ margin: '0 0 6px', fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                   Speciální případ — seskočení z věže
                 </p>
-                <p style={{ margin: 0, fontSize: '0.75rem', color: 'textFaint', lineHeight: 1.5 }}>
+                <p style={{ margin: 0, fontSize: '0.75rem', color: textFaint, lineHeight: 1.5 }}>
                   Vrchní kostka věže může odskočit a pohybovat se samostatně. Dosah = face value vrcholu.
                   Uvnitř dosahu věže si nese bojovou sílu celé věže; za tímto dosahem jde o solo kostku.
                 </p>
@@ -179,7 +179,7 @@ export default function AkcePage() {
                 <DonjonBadge variant="success">Vždy dostupné</DonjonBadge>
                 <DonjonBadge variant="danger">Occupy nedostupné</DonjonBadge>
               </div>
-              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
+              <p style={{ margin: 0, fontSize: '0.8125rem', color: goldDim, lineHeight: 1.6 }}>
                 Pohni celou věží jako celkem. Věž nemůže procházet jinými kostkami ani věžemi.
                 Pohyb na nepřátelské pole spustí výhradně Push — Occupy pro věž neexistuje.
               </p>
@@ -216,7 +216,7 @@ export default function AkcePage() {
             >
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <DonjonBadge variant="danger">Nedostupné</DonjonBadge>
-                <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
+                <p style={{ margin: 0, fontSize: '0.8125rem', color: goldDim, lineHeight: 1.6 }}>
                   Solo kostka ani věž ze dvou kostek tuto akci neumožňují.
                 </p>
                 <DonjonButton size="sm" variant="danger" disabled>Vybrat věž</DonjonButton>
@@ -258,7 +258,7 @@ export default function AkcePage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {actions.map(a => (
               <div key={a.value} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                <p style={{ margin: 0, fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                   Vybrán: {a.label}
                 </p>
                 <DonjonButtonGroup variant="tabs" items={actionItems} value={a.value} onChange={() => {}} />
@@ -302,7 +302,7 @@ export default function AkcePage() {
                 </div>
               }
             >
-              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
+              <p style={{ margin: 0, fontSize: '0.8125rem', color: goldDim, lineHeight: 1.6 }}>
                 {action.summary}
               </p>
             </DonjonCard>

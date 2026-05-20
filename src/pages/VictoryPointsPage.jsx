@@ -31,7 +31,7 @@ function VPBar({ vp, color }) {
   return (
     <div style={{
       height: 4,
-      background: '#1B1A30',
+      background: bgDeep,
       borderRadius: 2,
       overflow: 'hidden',
       flex: 1,
@@ -95,13 +95,13 @@ function OptimisticVPDemo() {
                 boxShadow: `0 0 4px ${player.color}66`,
               }} />
               {/* Name */}
-              <span style={{ fontSize: '0.75rem', color: '#8F7458', width: 64, flexShrink: 0 }}>
+              <span style={{ fontSize: '0.75rem', color: goldDim, width: 64, flexShrink: 0 }}>
                 {player.label}
               </span>
               {/* Score */}
               <span style={{
                 fontSize: '0.875rem', fontWeight: 700,
-                color: isOptimistic ? player.color : '#F0E6D3',
+                color: isOptimistic ? player.color : 'textActive',
                 width: 48, flexShrink: 0,
                 transition: 'color 0.3s',
                 opacity: isOptimistic ? 0.8 : 1,
@@ -135,7 +135,7 @@ function OptimisticVPDemo() {
             </div>
           )
         })}
-        <p style={{ margin: '4px 0 0', fontSize: '0.6875rem', color: 'textFaint' }}>
+        <p style={{ margin: '4px 0 0', fontSize: '0.6875rem', color: textFaint }}>
           ● = optimistická hodnota (čeká na potvrzení serveru)
         </p>
       </div>
@@ -167,7 +167,7 @@ export default function VictoryPointsPage() {
                   <span style={{
                     width: 16,
                     fontSize: '0.625rem',
-                    color: i === 0 ? '#FFC183' : 'textFaint',
+                    color: i === 0 ? 'gold' : 'textFaint',
                     fontWeight: 700,
                     textAlign: 'right',
                     flexShrink: 0,
@@ -186,7 +186,7 @@ export default function VictoryPointsPage() {
                   {/* Name */}
                   <span style={{
                     fontSize: '0.75rem',
-                    color: '#8F7458',
+                    color: goldDim,
                     width: 60,
                     flexShrink: 0,
                   }}>
@@ -198,7 +198,7 @@ export default function VictoryPointsPage() {
                   <span style={{
                     fontSize: '0.75rem',
                     fontWeight: 700,
-                    color: '#F0E6D3',
+                    color: textActive,
                     width: 40,
                     textAlign: 'right',
                     flexShrink: 0,
@@ -250,11 +250,11 @@ export default function VictoryPointsPage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                   <DonjonBadge variant="warning" icon={<FireIcon />}>+1 VP</DonjonBadge>
-                  <p style={{ margin: 0, fontSize: '0.8125rem', color: '#B8956A', lineHeight: 1.5 }}>
+                  <p style={{ margin: 0, fontSize: '0.8125rem', color: goldMid, lineHeight: 1.5 }}>
                     Za každé aktivní ohnisko, na kterém drží kostka/věž hráče na začátku jeho tahu.
                   </p>
                 </div>
-                <p style={{ margin: 0, fontSize: '0.75rem', color: 'textFaint', lineHeight: 1.5 }}>
+                <p style={{ margin: 0, fontSize: '0.75rem', color: textFaint, lineHeight: 1.5 }}>
                   Po vyhodnocení se kostka na ohnisku přehodí: nová hodnota = min(hod, původní − 1).
                   Ohnisko se přepne na jiné ze skupiny.
                 </p>
@@ -284,7 +284,7 @@ export default function VictoryPointsPage() {
             <DonjonBadge variant="danger">Nelze ztratit VP</DonjonBadge>
             <DonjonBadge variant="default">Vítěz = první na cílovém počtu</DonjonBadge>
           </div>
-          <p style={{ margin: '8px 0 0', fontSize: '0.8125rem', color: 'textFaint', lineHeight: 1.6 }}>
+          <p style={{ margin: '8px 0 0', fontSize: '0.8125rem', color: textFaint, lineHeight: 1.6 }}>
             Jakmile jsou body připsány, zůstávají. Neexistuje mechanismus odebrání VP — ani porážka na bojišti neubírá body.
             Hra skončí okamžitě, jakmile hráč dosáhne cílového počtu VP.
           </p>
@@ -329,11 +329,11 @@ const handleAddVP = (id) => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <DonjonBadge variant="warning">{DEFAULT_MAP_VP} VP</DonjonBadge>
-                <p style={{ margin: 0, fontSize: '0.8125rem', color: '#B8956A', lineHeight: 1.5 }}>
+                <p style={{ margin: 0, fontSize: '0.8125rem', color: goldMid, lineHeight: 1.5 }}>
                   Cílový počet vítězných bodů pro výchozí mapu je {DEFAULT_MAP_VP}.
                 </p>
               </div>
-              <p style={{ margin: 0, fontSize: '0.75rem', color: 'textFaint', lineHeight: 1.5 }}>
+              <p style={{ margin: 0, fontSize: '0.75rem', color: textFaint, lineHeight: 1.5 }}>
                 3 ohniska v jedné skupině — střední je aktivní, levé a pravé jsou pasivní.
                 Ohniska jsou ve středové řadě hexů.
               </p>

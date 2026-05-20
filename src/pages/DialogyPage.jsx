@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { textFaint } from '../lib/donjon/tokens'
+import { textFaint, goldMid, goldDim, successColor } from '../lib/donjon/tokens'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
@@ -90,7 +90,7 @@ export default function DialogyPage() {
       >
         <Preview>
           <DonjonCard title="Fáze 1 — automaticky" description="Bez volby hráče">
-            <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
+            <p style={{ margin: 0, fontSize: '0.8125rem', color: goldDim, lineHeight: 1.6 }}>
               Hodnota útočné kostky (nebo vrcholu věže) se sníží o 1, minimálně na 1. Tato fáze proběhne vždy před výběrem Fáze 2.
             </p>
           </DonjonCard>
@@ -101,17 +101,17 @@ export default function DialogyPage() {
             {/* Dostupnost na první pohled */}
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                <span style={{ fontSize: '0.5625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Push</span>
+                <span style={{ fontSize: '0.5625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Push</span>
                 <DonjonBadge variant="success">Vždy dostupné</DonjonBadge>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                <span style={{ fontSize: '0.5625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Occupy</span>
+                <span style={{ fontSize: '0.5625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Occupy</span>
                 <DonjonBadge variant="warning">Pouze solo kostka jako útočník</DonjonBadge>
               </div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              <p style={{ margin: 0, fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 Fáze 2 — výběr
               </p>
               <DonjonButtonGroup items={combatItems} value={combatChoice} onChange={setCombatChoice} />
@@ -120,18 +120,18 @@ export default function DialogyPage() {
             {combatChoice === 'push' && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <DonjonCard title="Push — vytlačení" description="Dostupné vždy">
-                  <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6, marginBottom: 12 }}>
+                  <p style={{ margin: 0, fontSize: '0.8125rem', color: goldDim, lineHeight: 1.6, marginBottom: 12 }}>
                     První kostka/vrchol věže nepřátelské formace se přehodí — nová hodnota = min(hod, původní).
                     Celá formace se posune o jeden hex ve směru útoku.
                   </p>
-                  <p style={{ margin: 0, fontSize: '0.75rem', color: 'textFaint', fontStyle: 'italic' }}>
+                  <p style={{ margin: 0, fontSize: '0.75rem', color: textFaint, fontStyle: 'italic' }}>
                     Výsledek závisí na tom, co je za formací:
                   </p>
                 </DonjonCard>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
                   {pushOutcomes.map(o => (
                     <DonjonCard key={o.title} title={o.title} description={o.description} variant={o.variant}>
-                      <p style={{ margin: 0, fontSize: '0.8125rem', color: o.variant === 'danger' ? '#F9C0C0' : '#8F7458', lineHeight: 1.6 }}>
+                      <p style={{ margin: 0, fontSize: '0.8125rem', color: o.variant === 'danger' ? '#F9C0C0' : 'goldDim', lineHeight: 1.6 }}>
                         {o.body}
                       </p>
                     </DonjonCard>
@@ -148,7 +148,7 @@ export default function DialogyPage() {
                       <DonjonBadge variant="warning">Solo kostka only</DonjonBadge>
                       <DonjonBadge variant="default">Obránce se nepřehazuje</DonjonBadge>
                     </div>
-                    <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
+                    <p style={{ margin: 0, fontSize: '0.8125rem', color: goldDim, lineHeight: 1.6 }}>
                       Útočná kostka naskočí na vrchol nepřátelské kostky/věže a vytvoří smíšenou věž.
                     </p>
                   </div>
@@ -157,7 +157,7 @@ export default function DialogyPage() {
                 <DonjonCard title="Occupy při útoku věží" description="Nedostupné — věž musí vždy Push" variant="danger">
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     <DonjonBadge variant="danger">Nedostupné pro věž</DonjonBadge>
-                    <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
+                    <p style={{ margin: 0, fontSize: '0.8125rem', color: goldDim, lineHeight: 1.6 }}>
                       Věž nemůže použít Occupy — při útoku věží je dostupné výhradně Push.
                     </p>
                   </div>
@@ -206,7 +206,7 @@ export default function DialogyPage() {
             <DonjonCard title="+1 vítězný bod" description="Za aktivní ohnisko na začátku tahu">
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <DonjonBadge variant="warning" icon={<FireIcon />}>+1 VP</DonjonBadge>
-                <p style={{ margin: 0, fontSize: '0.8125rem', color: '#B8956A', lineHeight: 1.5 }}>
+                <p style={{ margin: 0, fontSize: '0.8125rem', color: goldMid, lineHeight: 1.5 }}>
                   Hráč drží kostku/věž na aktivním ohnisku na začátku svého tahu.
                 </p>
               </div>
@@ -234,11 +234,11 @@ export default function DialogyPage() {
                     <p style={{
                       margin: 0, fontSize: '0.8125rem', fontWeight: 700,
                       letterSpacing: '0.14em', textTransform: 'uppercase',
-                      background: 'linear-gradient(180deg,#F9F9F9 0%,#B8956A 100%)',
+                      background: 'linear-gradient(180deg,#F9F9F9 0%,goldMid 100%)',
                       WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
                       lineHeight: 1.2,
                     }}>{player.label}</p>
-                    <p style={{ margin: '4px 0 0', fontSize: '0.6875rem', color: '#8F7458', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                    <p style={{ margin: '4px 0 0', fontSize: '0.6875rem', color: goldDim, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                       Na tahu
                     </p>
                   </div>
@@ -271,7 +271,7 @@ export default function DialogyPage() {
                 }} />
                 <p style={{
                   margin: 0, fontSize: '1rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
-                  background: 'linear-gradient(180deg,#C0F0C8 0%,#40A055 100%)',
+                  background: 'linear-gradient(180deg,#C0F0C8 0%,successColor 100%)',
                   WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
                 }}>{players[0].label}</p>
                 <DonjonBadge variant="success" icon={<TrophyIcon />}>5 VP</DonjonBadge>

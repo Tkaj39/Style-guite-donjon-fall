@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { textDeep, textCool } from '../lib/donjon/tokens'
+import { textDeep, textCool, gold, goldMid, goldDim, bg0, successColor, textActive, borderSubtle, failColor } from '../lib/donjon/tokens'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import DonjonButton from '../lib/donjon/DonjonButton'
 
@@ -8,16 +8,16 @@ function TimingDemo({ duration, label, easing = 'ease' }) {
   const [active, setActive] = useState(false)
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-      <div style={{ width: 80, fontSize: '0.6875rem', color: 'textCool', textAlign: 'right', flexShrink: 0 }}>
-        <span style={{ color: '#B8956A', fontWeight: 700 }}>{duration}ms</span>
+      <div style={{ width: 80, fontSize: '0.6875rem', color: textCool, textAlign: 'right', flexShrink: 0 }}>
+        <span style={{ color: goldMid, fontWeight: 700 }}>{duration}ms</span>
         <br />{label}
       </div>
       <div
         style={{
           flex: 1,
           height: 8,
-          background: '#12102A',
-          border: '1px solid #8F745430',
+          background: bg0,
+          border: `1px solid ${goldDim}30`,
           borderRadius: 4,
           overflow: 'hidden',
           cursor: 'pointer',
@@ -26,31 +26,31 @@ function TimingDemo({ duration, label, easing = 'ease' }) {
       >
         <div style={{
           height: '100%',
-          background: 'linear-gradient(90deg,#FFC183,#8F7458)',
+          background: 'linear-gradient(90deg,gold,goldDim)',
           borderRadius: 4,
           transform: active ? 'scaleX(1)' : 'scaleX(0)',
           transformOrigin: 'left',
           transition: active ? `transform ${duration}ms ${easing}` : 'none',
         }} />
       </div>
-      <span style={{ fontSize: '0.625rem', color: 'textDeep', width: 36, flexShrink: 0 }}>{easing}</span>
+      <span style={{ fontSize: '0.625rem', color: textDeep, width: 36, flexShrink: 0 }}>{easing}</span>
     </div>
   )
 }
 
 /* ── Easing curve SVG ── */
-function EasingCurve({ d, label, css, color = '#B8956A' }) {
+function EasingCurve({ d, label, css, color = 'goldMid' }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
       <svg viewBox="0 0 60 60" width="60" height="60" style={{ overflow: 'visible' }}>
-        <rect x="0" y="0" width="60" height="60" rx="3" fill="#12102A" stroke="#8F745430" strokeWidth="1" />
-        <line x1="0" y1="60" x2="60" y2="0" stroke="#8F745420" strokeWidth="1" strokeDasharray="3,3" />
+        <rect x="0" y="0" width="60" height="60" rx="3" fill={bg0} stroke={`${goldDim}30`} strokeWidth="1" />
+        <line x1="0" y1="60" x2="60" y2="0" stroke={`${goldDim}20`} strokeWidth="1" strokeDasharray="3,3" />
         <path d={d} fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" />
         <circle cx="0"  cy="60" r="2.5" fill={color} />
         <circle cx="60" cy="0"  r="2.5" fill={color} />
       </svg>
-      <p style={{ margin: 0, fontSize: '0.75rem', color: '#F0E6D3', fontWeight: 600, textAlign: 'center' }}>{label}</p>
-      <code style={{ fontSize: '0.625rem', color: 'textCool', textAlign: 'center' }}>{css}</code>
+      <p style={{ margin: 0, fontSize: '0.75rem', color: textActive, fontWeight: 600, textAlign: 'center' }}>{label}</p>
+      <code style={{ fontSize: '0.625rem', color: textCool, textAlign: 'center' }}>{css}</code>
     </div>
   )
 }
@@ -60,11 +60,11 @@ function StateBox({ label, style: extraStyle }) {
   return (
     <div style={{
       padding: '10px 14px',
-      background: '#1A1830',
-      border: '1px solid #8F745430',
+      background: borderSubtle,
+      border: `1px solid ${goldDim}30`,
       borderRadius: 4,
       fontSize: '0.8125rem',
-      color: 'textCool',
+      color: textCool,
       ...extraStyle,
     }}>
       {label}
@@ -87,20 +87,20 @@ export default function MotionPage() {
       >
         <div className="flex flex-col gap-3 text-sm text-neutral-400 max-w-2xl">
           <p>
-            <span style={{ color: '#B8956A', fontWeight: 600 }}>Váha a záměr</span> — každá animace má
+            <span style={{ color: goldMid, fontWeight: 600 }}>Váha a záměr</span> — každá animace má
             říkat „tato akce něco znamená". Herní pohyby jsou pomalejší než webové mikro-interakce.
           </p>
           <p>
-            <span style={{ color: '#B8956A', fontWeight: 600 }}>Easing přes lineární</span> — lineární
+            <span style={{ color: goldMid, fontWeight: 600 }}>Easing přes lineární</span> — lineární
             přechod vypadá mechanicky. Herní prvky zrychlují nebo zpomalují, ne jezdí konstantní rychlostí.
           </p>
           <p>
-            <span style={{ color: '#B8956A', fontWeight: 600 }}>Úspora pozornosti</span> — animuj jen
+            <span style={{ color: goldMid, fontWeight: 600 }}>Úspora pozornosti</span> — animuj jen
             to co nese informaci. Dekorativní shimmer a parallax efekty odvedou pozornost od gameplay.
           </p>
           <p>
-            <span style={{ color: '#B8956A', fontWeight: 600 }}>Reduced motion</span> — vždy respektuj
-            <code style={{ color: 'textCool', margin: '0 4px' }}>prefers-reduced-motion: reduce</code>.
+            <span style={{ color: goldMid, fontWeight: 600 }}>Reduced motion</span> — vždy respektuj
+            <code style={{ color: textCool, margin: '0 4px' }}>prefers-reduced-motion: reduce</code>.
             Herní animace (souboj, pohyb kostky) mají fallback na okamžitý přechod.
           </p>
         </div>
@@ -145,19 +145,19 @@ export default function MotionPage() {
               label="Ease out"
               css="cubic-bezier(0,0,0.2,1)"
               d="M 0 60 C 0 60 10 2 60 0"
-              color="#40A055"
+              color="successColor"
             />
             <EasingCurve
               label="Ease in"
               css="cubic-bezier(0.4,0,1,1)"
               d="M 0 60 C 50 58 60 10 60 0"
-              color="#C04040"
+              color="failColor"
             />
             <EasingCurve
               label="Ease in-out"
               css="cubic-bezier(0.4,0,0.2,1)"
               d="M 0 60 C 24 60 36 0 60 0"
-              color="#B8956A"
+              color="goldMid"
             />
             <EasingCurve
               label="Dramatic"
@@ -183,7 +183,7 @@ export default function MotionPage() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, maxWidth: 640 }}>
           {/* ✓ sloupec */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <p style={{ margin: '0 0 4px', fontSize: '0.75rem', color: '#40A055', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>✓ Animuj</p>
+            <p style={{ margin: '0 0 4px', fontSize: '0.75rem', color: successColor, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>✓ Animuj</p>
             {[
               'Vstupy a výstupy překryvných vrstev (modal, toast, tooltip)',
               'Přechody stavů UI (disabled → enabled, loading → done)',
@@ -192,12 +192,12 @@ export default function MotionPage() {
               'Turn transitions a highlight aktivního hráče',
               'Progress bar fill při načítání',
             ].map(t => (
-              <p key={t} style={{ margin: 0, fontSize: '0.8125rem', color: 'textCool', lineHeight: 1.5, paddingLeft: 12, borderLeft: '2px solid #40A05544' }}>{t}</p>
+              <p key={t} style={{ margin: 0, fontSize: '0.8125rem', color: textCool, lineHeight: 1.5, paddingLeft: 12, borderLeft: '2px solid #40A05544' }}>{t}</p>
             ))}
           </div>
           {/* ✗ sloupec */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <p style={{ margin: '0 0 4px', fontSize: '0.75rem', color: '#C04040', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>✗ Neanimuj</p>
+            <p style={{ margin: '0 0 4px', fontSize: '0.75rem', color: failColor, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>✗ Neanimuj</p>
             {[
               'Pozadí a dekorativní elementy bez informační hodnoty',
               'Text (lineHeight, fontSize, letterSpacing) — způsobuje layout shift',
@@ -206,7 +206,7 @@ export default function MotionPage() {
               'Z-index přechody — ztratí se v renderovacím pořadí',
               'Cokoli co interferuje s čitelností map y nebo herního plánu',
             ].map(t => (
-              <p key={t} style={{ margin: 0, fontSize: '0.8125rem', color: 'textCool', lineHeight: 1.5, paddingLeft: 12, borderLeft: '2px solid #C0404044' }}>{t}</p>
+              <p key={t} style={{ margin: 0, fontSize: '0.8125rem', color: textCool, lineHeight: 1.5, paddingLeft: 12, borderLeft: '2px solid #C0404044' }}>{t}</p>
             ))}
           </div>
         </div>
@@ -227,10 +227,10 @@ export default function MotionPage() {
               { label: 'Dropdown', enter: 'opacity 0→1 + translateY(-4px)→0',                  dur: '120ms ease-out' },
               { label: 'Backdrop', enter: 'opacity 0→1',                                        dur: '150ms ease' },
             ].map(({ label, enter, dur }) => (
-              <div key={label} style={{ display: 'flex', alignItems: 'baseline', gap: 12, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745422', borderRadius: 3 }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B8956A', width: 72, flexShrink: 0 }}>{label}</span>
-                <span style={{ fontSize: '0.75rem', color: 'textCool', flex: 1 }}>{enter}</span>
-                <span style={{ fontSize: '0.6875rem', color: 'textDeep', flexShrink: 0 }}>{dur}</span>
+              <div key={label} style={{ display: 'flex', alignItems: 'baseline', gap: 12, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}22`, borderRadius: 3 }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: goldMid, width: 72, flexShrink: 0 }}>{label}</span>
+                <span style={{ fontSize: '0.75rem', color: textCool, flex: 1 }}>{enter}</span>
+                <span style={{ fontSize: '0.6875rem', color: textDeep, flexShrink: 0 }}>{dur}</span>
               </div>
             ))}
           </div>

@@ -9,8 +9,8 @@ import ProgressBar from '../lib/tkajui/ProgressBar'
    Sdílená stavová matice (stejná pro obě knihovny)
    ══════════════════════════════════════════════════════════════════════════ */
 
-function StateRow({ state, required, description, components, accentColor = '#B8956A', textColor = 'textCool', bg = '#12102A', border = '#8F745418', faintColor = 'textDeep' }) {
-  const reqColor = required ? '#40A055' : textColor
+function StateRow({ state, required, description, components, accentColor = 'goldMid', textColor = 'textCool', bg = 'bg0', border = `${goldDim}18`, faintColor = 'textDeep' }) {
+  const reqColor = required ? 'successColor' : textColor
   return (
     <div style={{
       display: 'grid',
@@ -325,7 +325,7 @@ function HoverDemo() {
 function FocusDemo() {
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-      <p style={{ width: '100%', margin: '0 0 8px', fontSize: '0.75rem', color: 'textDeep' }}>
+      <p style={{ width: '100%', margin: '0 0 8px', fontSize: '0.75rem', color: textDeep }}>
         Stiskni Tab pro procházení focusem →
       </p>
       <DonjonButton size="sm">Button 1</DonjonButton>
@@ -382,9 +382,9 @@ function SelectedDemo() {
           style={{
             padding: '6px 14px',
             fontSize: '0.8125rem',
-            border: `1px solid ${sel === value ? '#B8956A' : '#8F745440'}`,
-            background: sel === value ? '#2A2948' : 'transparent',
-            color: sel === value ? '#F0E6D3' : 'textCool',
+            border: `1px solid ${sel === value ? 'goldMid' : `${goldDim}40`}`,
+            background: sel === value ? 'bg4' : 'transparent',
+            color: sel === value ? 'textActive' : 'textCool',
             borderRadius: 3,
             cursor: 'pointer',
             boxShadow: sel === value ? '0 0 0 1px #B8956A44' : 'none',
@@ -419,12 +419,12 @@ function BlockedDemo() {
         background: '#C0404012',
         borderRadius: 3,
         fontSize: '0.75rem',
-        color: '#C04040',
+        color: failColor,
         cursor: 'not-allowed',
       }}>
         Hex obsazený
       </div>
-      <p style={{ margin: 0, fontSize: '0.75rem', color: 'textDeep', width: '100%' }}>
+      <p style={{ margin: 0, fontSize: '0.75rem', color: textDeep, width: '100%' }}>
         Blocked ≠ disabled — prvek existuje, ale akce není povolena pravidly hry.
       </p>
     </div>
@@ -441,10 +441,10 @@ function DonjonStatesContent() {
         description="Přehled stavů, jejich povinnosti a typické komponenty."
       >
         <Preview dark={false}>
-          <div style={{ width: '100%', border: '1px solid #8F745430', borderRadius: 4, overflow: 'hidden' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '120px 60px 1fr 1fr', gap: 12, padding: '8px 14px', background: '#12102A', borderBottom: '1px solid #8F745430' }}>
+          <div style={{ width: '100%', border: `1px solid ${goldDim}30`, borderRadius: 4, overflow: 'hidden' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '120px 60px 1fr 1fr', gap: 12, padding: '8px 14px', background: bg0, borderBottom: `1px solid ${goldDim}30` }}>
               {['Stav', 'Priorita', 'Popis', 'Komponenty'].map(h => (
-                <span key={h} style={{ fontSize: '0.625rem', color: 'textDeep', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{h}</span>
+                <span key={h} style={{ fontSize: '0.625rem', color: textDeep, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{h}</span>
               ))}
             </div>
             <StateRow state="hover"    required description="Vizuální odezva na pohyb myši nad prvkem." components="Button, Badge, Toggle, Select, Tabs, Card, hex tile…" />
@@ -508,10 +508,10 @@ pointer-events: \${disabled ? "none" : "auto"};
       <Section id="selected" title="Selected" description="Vybraný prvek v sadě — border, mírně světlejší pozadí, případně glow. Vizuálně odlišný od hover i active.">
         <Preview><SelectedDemo /></Preview>
         <CodeBlock code={`/* Selected stav */
-border-color: #B8956A;
-background: #2A2948;
+border-color: goldMid;
+background: bg4;
 box-shadow: 0 0 0 1px #B8956A44;
-color: #F0E6D3;`} />
+color: textActive;`} />
       </Section>
 
       {/* Blocked */}
@@ -520,7 +520,7 @@ color: #F0E6D3;`} />
         <CodeBlock code={`/* Blocked styl — odlišný od disabled */
 border-color: #C0404055;
 background: #C0404012;
-color: #C04040;
+color: failColor;
 cursor: not-allowed;
 
 <Tooltip content="Hex je obsazený" variant="danger">

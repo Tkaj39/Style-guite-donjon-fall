@@ -1,5 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textDeep, textCool } from '../lib/donjon/tokens'
+import { textDeep, textCool, goldMid, bg0, successColor, borderSubtle, goldDim } from '../lib/donjon/tokens'
 
 /* ── Texture preview box ── */
 function TextureBox({ label, style, desc, code }) {
@@ -8,13 +8,13 @@ function TextureBox({ label, style, desc, code }) {
       <div style={{
         width: 160, height: 100,
         borderRadius: 4,
-        border: '1px solid #8F745430',
+        border: `1px solid ${goldDim}30`,
         ...style,
       }} />
       <div>
-        <p style={{ margin: 0, fontSize: '0.8125rem', fontWeight: 700, color: '#B8956A' }}>{label}</p>
-        <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: 'textDeep', lineHeight: 1.3 }}>{desc}</p>
-        {code && <code style={{ display: 'block', marginTop: 4, fontSize: '0.5625rem', color: 'textDeep', wordBreak: 'break-all' }}>{code}</code>}
+        <p style={{ margin: 0, fontSize: '0.8125rem', fontWeight: 700, color: goldMid }}>{label}</p>
+        <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: textDeep, lineHeight: 1.3 }}>{desc}</p>
+        {code && <code style={{ display: 'block', marginTop: 4, fontSize: '0.5625rem', color: textDeep, wordBreak: 'break-all' }}>{code}</code>}
       </div>
     </div>
   )
@@ -24,11 +24,11 @@ function TextureBox({ label, style, desc, code }) {
 function TextureLayer({ label, layers, content }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool' }}>{label}</p>
+      <p style={{ margin: 0, fontSize: '0.75rem', color: textCool }}>{label}</p>
       <div style={{
         width: 200, height: 120,
         borderRadius: 4,
-        border: '1px solid #8F745430',
+        border: `1px solid ${goldDim}30`,
         position: 'relative',
         overflow: 'hidden',
         ...layers,
@@ -71,23 +71,23 @@ export default function TexturePage() {
           <TextureBox
             label="Noise overlay"
             desc="Šum — organičnost tmavých ploch"
-            style={{ background: `${SVG_NOISE}, #12102A` }}
+            style={{ background: `${SVG_NOISE}, bg0` }}
             code="SVG feTurbulence @ 4% opacity"
           />
           <TextureBox
             label="Vignette"
             desc="Temná periferie — focus na střed"
-            style={{ background: `${GRADIENTS.vignette}, #1A1830` }}
+            style={{ background: `${GRADIENTS.vignette}, borderSubtle` }}
           />
           <TextureBox
             label="Scanlines"
             desc="CRT efekt — retro herní dojem"
-            style={{ background: `${GRADIENTS.scanline}, #12102A` }}
+            style={{ background: `${GRADIENTS.scanline}, bg0` }}
           />
           <TextureBox
             label="Corner accent"
             desc="Zlatý roh — luxus, herní prvek"
-            style={{ background: `${GRADIENTS.corner}, #12102A` }}
+            style={{ background: `${GRADIENTS.corner}, bg0` }}
           />
           <TextureBox
             label="Diagonal shimmer"
@@ -107,17 +107,17 @@ export default function TexturePage() {
           <TextureBox
             label="Top fade"
             desc="Horní hrana scrollovatelného panelu"
-            style={{ background: `${GRADIENTS.topFade}, #1A1830` }}
+            style={{ background: `${GRADIENTS.topFade}, borderSubtle` }}
           />
           <TextureBox
             label="Bottom fade"
             desc="Dolní hrana — obsah pokračuje dolů"
-            style={{ background: `${GRADIENTS.botFade}, #1A1830` }}
+            style={{ background: `${GRADIENTS.botFade}, borderSubtle` }}
           />
           <TextureBox
             label="Left fade"
             desc="Boční fade pro horizontální scroll"
-            style={{ background: `linear-gradient(to right, rgba(18,16,42,0.9) 0%, transparent 60%), #1A1830` }}
+            style={{ background: `linear-gradient(to right, rgba(18,16,42,0.9) 0%, transparent 60%), borderSubtle` }}
           />
         </Preview>
         <CodeBlock code={`/* Edge fade — pseudo-element přes scrollovatelný obsah */
@@ -146,23 +146,23 @@ export default function TexturePage() {
         <Preview>
           <TextureLayer
             label="Jen bg"
-            layers={{ background: '#12102A' }}
-            content={<span style={{ fontSize: '0.75rem', color: 'textDeep' }}>čisté</span>}
+            layers={{ background: bg0 }}
+            content={<span style={{ fontSize: '0.75rem', color: textDeep }}>čisté</span>}
           />
           <TextureLayer
             label="Bg + noise"
-            layers={{ background: `${SVG_NOISE}, #12102A` }}
-            content={<span style={{ fontSize: '0.75rem', color: 'textDeep' }}>+ šum</span>}
+            layers={{ background: `${SVG_NOISE}, bg0` }}
+            content={<span style={{ fontSize: '0.75rem', color: textDeep }}>+ šum</span>}
           />
           <TextureLayer
             label="+ vignette"
-            layers={{ background: `${GRADIENTS.vignette}, ${SVG_NOISE}, #12102A` }}
-            content={<span style={{ fontSize: '0.75rem', color: 'textDeep' }}>+ vignette</span>}
+            layers={{ background: `${GRADIENTS.vignette}, ${SVG_NOISE}, bg0` }}
+            content={<span style={{ fontSize: '0.75rem', color: textDeep }}>+ vignette</span>}
           />
           <TextureLayer
             label="+ corner"
-            layers={{ background: `${GRADIENTS.corner}, ${GRADIENTS.vignette}, ${SVG_NOISE}, #12102A` }}
-            content={<span style={{ fontSize: '0.75rem', color: '#B8956A', fontWeight: 700 }}>plný stack</span>}
+            layers={{ background: `${GRADIENTS.corner}, ${GRADIENTS.vignette}, ${SVG_NOISE}, bg0` }}
+            content={<span style={{ fontSize: '0.75rem', color: goldMid, fontWeight: 700 }}>plný stack</span>}
           />
         </Preview>
         <CodeBlock code={`/* Vrstvení CSS backgrounds — zprava = nejníže */
@@ -175,7 +175,7 @@ export default function TexturePage() {
     /* 3. noise — organický šum */
     url("data:image/svg+xml,..."),
     /* 4. spodní — solid color */
-    #12102A;
+    bg0;
 }
 
 /* Tip: noise SVG je data URI — žádný HTTP request */`} />
@@ -198,11 +198,11 @@ export default function TexturePage() {
               { place: 'Formuláře / settings',    texture: 'žádná',                  intensity: 'none', note: 'Srozumitelnost nad estetikou' },
               { place: 'Error / critical overlay', texture: 'žádná',                  intensity: 'none', note: 'Chyba potřebuje jasnost, ne atmosféru' },
             ].map(({ place, texture, intensity, note }) => (
-              <div key={place} style={{ display: 'grid', gridTemplateColumns: '180px 160px 90px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3 }}>
-                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{place}</span>
-                <code style={{ fontSize: '0.6875rem', color: '#B8956A', lineHeight: 1.4 }}>{texture}</code>
-                <span style={{ fontSize: '0.75rem', color: intensity === 'none' ? 'textDeep' : '#40A055' }}>{intensity}</span>
-                <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{note}</span>
+              <div key={place} style={{ display: 'grid', gridTemplateColumns: '180px 160px 90px 1fr', gap: 10, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3 }}>
+                <span style={{ fontSize: '0.8125rem', color: textCool }}>{place}</span>
+                <code style={{ fontSize: '0.6875rem', color: goldMid, lineHeight: 1.4 }}>{texture}</code>
+                <span style={{ fontSize: '0.75rem', color: intensity === 'none' ? 'textDeep' : 'successColor' }}>{intensity}</span>
+                <span style={{ fontSize: '0.6875rem', color: textDeep, lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
           </div>

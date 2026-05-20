@@ -1,14 +1,14 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textCool } from '../lib/donjon/tokens'
+import { textCool, goldMid, goldDim, bg0, successColor, textActive, borderSubtle, failColor } from '../lib/donjon/tokens'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 
 /* ── Prázdný stav template ── */
 function EmptyState({ icon, title, description, cta, ctaLabel = 'Začít', variant = 'default' }) {
   const colors = {
-    default: { border: '#8F745430', icon: '#8F7458' },
+    default: { border: `${goldDim}30`, icon: 'goldDim' },
     info:    { border: '#4080C040', icon: '#4080C0' },
-    game:    { border: '#8F745440', icon: '#B8956A' },
+    game:    { border: `${goldDim}40`, icon: 'goldMid' },
   }
   const c = colors[variant] ?? colors.default
 
@@ -20,8 +20,8 @@ function EmptyState({ icon, title, description, cta, ctaLabel = 'Začít', varia
       borderRadius: 6, maxWidth: 340,
     }}>
       <div style={{ fontSize: 40, lineHeight: 1, color: c.icon, opacity: 0.8 }}>{icon}</div>
-      <p style={{ margin: 0, fontSize: '0.9375rem', fontWeight: 700, color: '#F0E6D3' }}>{title}</p>
-      <p style={{ margin: 0, fontSize: '0.8125rem', color: 'textCool', lineHeight: 1.5, maxWidth: 260 }}>{description}</p>
+      <p style={{ margin: 0, fontSize: '0.9375rem', fontWeight: 700, color: textActive }}>{title}</p>
+      <p style={{ margin: 0, fontSize: '0.8125rem', color: textCool, lineHeight: 1.5, maxWidth: 260 }}>{description}</p>
       {cta && (
         <DonjonButton size="sm" style={{ marginTop: 4 }}>{ctaLabel}</DonjonButton>
       )}
@@ -32,16 +32,16 @@ function EmptyState({ icon, title, description, cta, ctaLabel = 'Začít', varia
 /* ── Prázdný seznam ── */
 function EmptyList({ rows = 3 }) {
   return (
-    <div style={{ width: '100%', maxWidth: 320, border: '1px solid #8F745430', borderRadius: 4, overflow: 'hidden' }}>
+    <div style={{ width: '100%', maxWidth: 320, border: `1px solid ${goldDim}30`, borderRadius: 4, overflow: 'hidden' }}>
       {Array.from({ length: rows }).map((_, i) => (
         <div key={i} style={{
           display: 'flex', alignItems: 'center', gap: 10,
-          padding: '10px 14px', borderBottom: i < rows - 1 ? '1px solid #8F745418' : 'none',
+          padding: '10px 14px', borderBottom: i < rows - 1 ? `1px solid ${goldDim}18` : 'none',
         }}>
-          <div style={{ width: 28, height: 28, borderRadius: 3, background: '#1A1830', flexShrink: 0 }} />
+          <div style={{ width: 28, height: 28, borderRadius: 3, background: borderSubtle, flexShrink: 0 }} />
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 5 }}>
-            <div style={{ height: 8, borderRadius: 2, background: '#1A1830', width: `${60 + i * 15}%` }} />
-            <div style={{ height: 6, borderRadius: 2, background: '#12102A', width: `${40 + i * 10}%` }} />
+            <div style={{ height: 8, borderRadius: 2, background: borderSubtle, width: `${60 + i * 15}%` }} />
+            <div style={{ height: 6, borderRadius: 2, background: bg0, width: `${40 + i * 10}%` }} />
           </div>
         </div>
       ))}
@@ -93,11 +93,11 @@ export default function EmptyStatesPage() {
       >
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }}>
-            <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool' }}>Skeleton — data se načítají:</p>
+            <p style={{ margin: 0, fontSize: '0.75rem', color: textCool }}>Skeleton — data se načítají:</p>
             <EmptyList rows={3} />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }}>
-            <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool' }}>Prázdný stav — data přišla, žádné záznamy:</p>
+            <p style={{ margin: 0, fontSize: '0.75rem', color: textCool }}>Prázdný stav — data přišla, žádné záznamy:</p>
             <EmptyState
               icon="📂"
               title="Prázdná složka"
@@ -136,10 +136,10 @@ export default function EmptyStatesPage() {
               { part: 'Description',       required: true,  note: 'Proč + co dělat dál. Max 2 věty, konkrétní a akční.' },
               { part: 'CTA tlačítko',      required: false, note: 'Jen pokud existuje jasná primární akce. Nemít raději než mít bezvýznamné.' },
             ].map(({ part, required, note }) => (
-              <div key={part} style={{ display: 'grid', gridTemplateColumns: '160px 70px 1fr', gap: 10, padding: '9px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3, alignItems: 'start' }}>
-                <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#B8956A' }}>{part}</span>
+              <div key={part} style={{ display: 'grid', gridTemplateColumns: '160px 70px 1fr', gap: 10, padding: '9px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3, alignItems: 'start' }}>
+                <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: goldMid }}>{part}</span>
                 <DonjonBadge variant={required ? 'warning' : 'default'} size="sm">{required ? 'povinné' : 'volitelné'}</DonjonBadge>
-                <span style={{ fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>{note}</span>
+                <span style={{ fontSize: '0.75rem', color: textCool, lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
           </div>
@@ -181,14 +181,14 @@ export default function EmptyStatesPage() {
         <Preview dark={false}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, maxWidth: 560 }}>
             <div style={{ padding: '14px', border: '1px solid #40A05540', borderRadius: 4, background: '#183D2018' }}>
-              <p style={{ margin: '0 0 8px', fontSize: '0.625rem', fontWeight: 700, color: '#40A055', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Prázdný stav</p>
-              <p style={{ margin: '0 0 4px', fontSize: '0.8125rem', color: '#F0E6D3', fontWeight: 600 }}>Data přišla, seznam je prázdný</p>
-              <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool' }}>HTTP 200, pole data: [] — normální stav, navodni uživatele.</p>
+              <p style={{ margin: '0 0 8px', fontSize: '0.625rem', fontWeight: 700, color: successColor, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Prázdný stav</p>
+              <p style={{ margin: '0 0 4px', fontSize: '0.8125rem', color: textActive, fontWeight: 600 }}>Data přišla, seznam je prázdný</p>
+              <p style={{ margin: 0, fontSize: '0.75rem', color: textCool }}>HTTP 200, pole data: [] — normální stav, navodni uživatele.</p>
             </div>
             <div style={{ padding: '14px', border: '1px solid #C0404040', borderRadius: 4, background: '#3D181818' }}>
-              <p style={{ margin: '0 0 8px', fontSize: '0.625rem', fontWeight: 700, color: '#C04040', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Error stav</p>
-              <p style={{ margin: '0 0 4px', fontSize: '0.8125rem', color: '#F0E6D3', fontWeight: 600 }}>Data nepřišla, nastala chyba</p>
-              <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool' }}>HTTP 5xx, síťová chyba — zobraz chybový stav s Retry.</p>
+              <p style={{ margin: '0 0 8px', fontSize: '0.625rem', fontWeight: 700, color: failColor, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Error stav</p>
+              <p style={{ margin: '0 0 4px', fontSize: '0.8125rem', color: textActive, fontWeight: 600 }}>Data nepřišla, nastala chyba</p>
+              <p style={{ margin: 0, fontSize: '0.75rem', color: textCool }}>HTTP 5xx, síťová chyba — zobraz chybový stav s Retry.</p>
             </div>
           </div>
         </Preview>

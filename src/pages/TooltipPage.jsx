@@ -1,4 +1,5 @@
 import Tooltip from '../lib/tkajui/Tooltip'
+import { goldDim, bg4 } from '../lib/donjon/tokens'
 import DonjonTooltip from '../lib/donjon/DonjonTooltip'
 import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
@@ -127,7 +128,7 @@ function TooltipContent() {
             <Bdg dot variant="success">Aktivní</Bdg>
           </Tip>
           <Tip content="Ikonový trigger bez textu" placement="right">
-            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 32, height: 32, borderRadius: 4, background: '#2A2948', border: '1px solid #8F7458', cursor: 'help', color: '#8F7458' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 32, height: 32, borderRadius: 4, background: bg4, border: `1px solid ${goldDim}`, cursor: 'help', color: goldDim }}>
               <InfoIcon />
             </span>
           </Tip>

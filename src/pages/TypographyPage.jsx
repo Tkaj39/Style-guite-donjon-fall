@@ -1,4 +1,5 @@
 import { useLibVariant, ShowcasePage, Section, CodeBlock } from '../styleguide/ShowcasePage'
+import { gold, goldMid, goldDim, bg4, textActive, borderSubtle } from '../lib/donjon/tokens'
 
 const inter     = '"Inter", sans-serif'
 const cormorant = '"Cormorant Garamond", serif'
@@ -202,7 +203,7 @@ function TkajuiContent() {
 /* ── donjon typografie ─────────────────────────────────────────────────── */
 
 const goldGrad = {
-  background: 'linear-gradient(180deg,#FFC183 0%,#8F7458 100%)',
+  background: 'linear-gradient(180deg,gold 0%,goldDim 100%)',
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
   backgroundClip: 'text',
@@ -213,7 +214,7 @@ function DonjonRodiny() {
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
       <div style={{ background: 'linear-gradient(150deg,#1E1C30 0%,#141324 100%)', border: '1px solid #353751', borderRadius: 4, padding: '24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
         <div>
-          <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#FFC183' }}>Display</p>
+          <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: gold }}>Display</p>
           <p style={{ margin: 0, fontFamily: cormorant, fontSize: '1.5rem', fontWeight: 700, color: '#E8DDD0', letterSpacing: '0.04em' }}>Cormorant Garamond</p>
         </div>
         <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: '#6B6A82', lineHeight: 1.6 }}>
@@ -241,7 +242,7 @@ function DonjonRodiny() {
           {[400, 500, 600, 700].map(w => (
             <div key={w}>
               <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.5625rem', color: '#3A3A52' }}>{w}</p>
-              <p style={{ margin: 0, fontFamily: inter, fontWeight: w, fontSize: '1rem', color: '#B8956A' }}>Aa</p>
+              <p style={{ margin: 0, fontFamily: inter, fontWeight: w, fontSize: '1rem', color: goldMid }}>Aa</p>
             </div>
           ))}
         </div>
@@ -303,31 +304,31 @@ function DonjonKontext() {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 12 }}>
 
-      <div style={{ background: 'linear-gradient(150deg,#252340 0%,#1A1830 100%)', border: '1px solid #FFC18344', borderRadius: 4, padding: '28px 24px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
+      <div style={{ background: 'linear-gradient(150deg,#252340 0%,borderSubtle 100%)', border: '1px solid #FFC18344', borderRadius: 4, padding: '28px 24px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
         <p style={{ margin: 0, fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#3A3A52' }}>Výsledková obrazovka</p>
         <p style={{ margin: '8px 0 0', fontFamily: cormorant, fontSize: '2.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', lineHeight: 1.1, ...goldGrad }}>Červený vítězí</p>
         <p style={{ margin: 0, fontFamily: inter, fontSize: '0.8125rem', color: '#6B6A82' }}>5 vítězných bodů · 8 min 34 s</p>
       </div>
 
-      <div style={{ background: 'linear-gradient(150deg,#353751 0%,#2A2948 70%)', border: '1px solid #8F7458', borderRadius: 4, overflow: 'hidden' }}>
+      <div style={{ background: 'linear-gradient(150deg,#353751 0%,bg4 70%)', border: `1px solid ${goldDim}`, borderRadius: 4, overflow: 'hidden' }}>
         <div style={{ background: 'linear-gradient(150deg,#3D3A5C 0%,#2E2B50 70%)', borderBottom: '1px solid #8F745844', padding: '12px 20px' }}>
           <p style={{ margin: 0, fontFamily: cormorant, fontSize: '0.9375rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', ...goldGrad }}>Souboj na poli D4</p>
-          <p style={{ margin: '4px 0 0', fontFamily: inter, fontSize: '0.6875rem', color: '#8F7458' }}>Červený útočí · Modrý brání</p>
+          <p style={{ margin: '4px 0 0', fontFamily: inter, fontSize: '0.6875rem', color: goldDim }}>Červený útočí · Modrý brání</p>
         </div>
         <div style={{ padding: '14px 20px', display: 'flex', flexDirection: 'column', gap: 8 }}>
           {[['Útočník', 'Síla 3'], ['Obránce', 'Síla 2']].map(([k, v]) => (
             <div key={k} style={{ display: 'flex', justifyContent: 'space-between' }}>
               <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: '#6B6A82' }}>{k}</p>
-              <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', fontWeight: 600, color: '#F0E6D3' }}>{v}</p>
+              <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', fontWeight: 600, color: textActive }}>{v}</p>
             </div>
           ))}
         </div>
       </div>
 
-      <div style={{ background: '#1A1928', border: '1px solid #8F7458', borderRadius: 4, padding: '24px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ background: '#1A1928', border: `1px solid ${goldDim}`, borderRadius: 4, padding: '24px', display: 'flex', flexDirection: 'column', gap: 12 }}>
         <p style={{ margin: 0, fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#3A3A52' }}>Herní dialog</p>
         <p style={{ margin: 0, fontFamily: cormorant, fontSize: '1.5rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', lineHeight: 1.2, ...goldGrad }}>Přehodit kostku?</p>
-        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.5 }}>
+        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.8125rem', color: goldDim, lineHeight: 1.5 }}>
           Vzdáš se aktuální pozice a přehodíš kostku.
         </p>
       </div>

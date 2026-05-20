@@ -1,4 +1,5 @@
 import { ShowcasePage, Section } from '../styleguide/ShowcasePage'
+import { gold, goldDim, borderSubtle } from '../lib/donjon/tokens'
 
 const inter = '"Inter", sans-serif'
 
@@ -57,11 +58,11 @@ export default function SpacingPage() {
                 gridTemplateColumns: '48px 56px 1fr 2fr',
                 gap: 0,
                 padding: '10px 20px',
-                borderBottom: i < scale.length - 1 ? '1px solid #1A1830' : 'none',
+                borderBottom: i < scale.length - 1 ? '1px solid borderSubtle' : 'none',
                 alignItems: 'center',
               }}
             >
-              <p style={{ margin: 0, fontFamily: inter, fontSize: '0.8125rem', fontWeight: 600, color: '#FFC183', fontMono: true }}>
+              <p style={{ margin: 0, fontFamily: inter, fontSize: '0.8125rem', fontWeight: 600, color: gold, fontMono: true }}>
                 {s.token}
               </p>
               <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: '#6B6A82', fontStyle: 'italic' }}>
@@ -72,7 +73,7 @@ export default function SpacingPage() {
                   height: 8,
                   width: s.px,
                   maxWidth: '100%',
-                  background: 'linear-gradient(90deg, #FFC183, #8F7458)',
+                  background: 'linear-gradient(90deg, gold, goldDim)',
                   borderRadius: 1,
                 }} />
               </div>
@@ -109,7 +110,7 @@ export default function SpacingPage() {
               gap: 10,
             }}>
               <div>
-                <p style={{ margin: 0, fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#FFC183' }}>
+                <p style={{ margin: 0, fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: gold }}>
                   {group.label}
                 </p>
                 <p style={{ margin: '3px 0 0', fontFamily: inter, fontSize: '0.6875rem', color: '#3A3A52' }}>
@@ -124,7 +125,7 @@ export default function SpacingPage() {
                       <div style={{
                         width: 8,
                         height: Math.min(px, 48),
-                        background: 'linear-gradient(180deg, #FFC183, #8F7458)',
+                        background: 'linear-gradient(180deg, gold, goldDim)',
                         borderRadius: 1,
                       }} />
                       <p style={{ margin: 0, fontFamily: inter, fontSize: '0.5625rem', color: '#6B6A82' }}>{t}</p>

@@ -1,5 +1,5 @@
 import HexTile from '../lib/donjon/HexTile'
-import { textFaint, textParchment } from '../lib/donjon/tokens'
+import { textFaint, textParchment, gold, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
@@ -12,12 +12,12 @@ const p2 = players[1]
 function ProgressBar({ pct }) {
   return (
     <div style={{
-      width: '100%', height: 3, background: '#1B1A30',
-      borderRadius: 2, overflow: 'hidden', border: '1px solid #2A2948',
+      width: '100%', height: 3, background: bgDeep,
+      borderRadius: 2, overflow: 'hidden', border: `1px solid ${bg4}`,
     }}>
       <div style={{
         height: '100%', width: `${pct}%`,
-        background: 'linear-gradient(90deg, #FFC183 0%, #8F7458 100%)',
+        background: 'linear-gradient(90deg, gold 0%, goldDim 100%)',
         borderRadius: 2, boxShadow: '0 0 5px #FFC18344',
       }} />
     </div>
@@ -62,11 +62,11 @@ function PlayerPill({ player, label }) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 5,
-      background: '#1B1A30', border: '1px solid #2A2948',
+      background: bgDeep, border: `1px solid ${bg4}`,
       borderRadius: 3, padding: '3px 8px',
     }}>
       <div style={{ width: 6, height: 6, borderRadius: '50%', background: player.color, flexShrink: 0 }} />
-      <span style={{ fontSize: '0.4375rem', color: 'textParchment', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+      <span style={{ fontSize: '0.4375rem', color: textParchment, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
         {label}
       </span>
     </div>
@@ -107,12 +107,12 @@ function LoadingGameContent({ size = 'desktop' }) {
       <div style={{ textAlign: 'center' }}>
         <p style={{
           margin: '0 0 3px', fontSize: titleFs,
-          fontWeight: 700, color: 'textParchment',
+          fontWeight: 700, color: textParchment,
           letterSpacing: '0.1em', textTransform: 'uppercase',
         }}>
           Default mapa
         </p>
-        <p style={{ margin: 0, fontSize: metaFs, color: 'textFaint' }}>
+        <p style={{ margin: 0, fontSize: metaFs, color: textFaint }}>
           61 hexů · 2 hráči · 5 VP
         </p>
       </div>
@@ -137,9 +137,9 @@ function LoadingGameContent({ size = 'desktop' }) {
       {/* Progress sekce */}
       <div style={{ width: '100%', maxWidth: isDesktop ? 280 : 220, display: 'flex', flexDirection: 'column', gap: 6 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span style={{ fontSize: statusFs, color: '#8F7458' }}>Připravuje se bitevní pole…</span>
+          <span style={{ fontSize: statusFs, color: goldDim }}>Připravuje se bitevní pole…</span>
           <span style={{
-            fontSize: statusFs, color: '#FFC183', fontWeight: 700,
+            fontSize: statusFs, color: gold, fontWeight: 700,
             fontVariantNumeric: 'tabular-nums',
           }}>{pct}%</span>
         </div>

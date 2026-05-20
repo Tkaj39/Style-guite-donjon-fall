@@ -42,7 +42,7 @@ function Divider() {
 }
 
 const players = [
-  { label: 'Hráč 1', name: 'Červená',   primary: '#C04040', light: '#F9C0C0', dark: '#3D1818' },
+  { label: 'Hráč 1', name: 'Červená',   primary: 'failColor', light: '#F9C0C0', dark: '#3D1818' },
   { label: 'Hráč 2', name: 'Modrá',     primary: '#4070C8', light: '#C0D0F9', dark: '#182040' },
   { label: 'Hráč 3', name: 'Zelená',    primary: '#2A8040', light: '#B0F0C8', dark: '#0F2818' },
   { label: 'Hráč 4', name: 'Fialová',   primary: '#7040C0', light: '#D0B0F9', dark: '#281040' },
@@ -126,7 +126,7 @@ function TkajuiVsDonjon() {
           <span className="text-xs font-semibold text-neutral-300">TkajUI</span>
         </div>
         <div className="p-3 flex items-center gap-2">
-          <div className="size-2 rounded-full bg-[#FFC183] shrink-0" />
+          <div className="size-2 rounded-full bg-[gold] shrink-0" />
           <span className="text-xs font-semibold text-neutral-300">donjon-fall-ui</span>
         </div>
       </div>
@@ -291,7 +291,7 @@ function DonjonPlanovani() {
       {[
         { name: 'Vybraný hex',   note: 'UI gold při 31% opacity',              hex: D.gold,          alpha: 0.31, fixed: true  },
         { name: 'Mimo dosah',    note: 'Černá při 55% opacity',                hex: '#000000',       alpha: 0.55, fixed: true  },
-        { name: 'Souboj možný',  note: 'Primární barva hráče při 31%',         hex: '#C04040',       alpha: 0.31, fixed: false },
+        { name: 'Souboj možný',  note: 'Primární barva hráče při 31%',         hex: 'failColor',       alpha: 0.31, fixed: false },
         { name: 'Posílení',      note: 'Zelená při 31% opacity',               hex: D.successColor,  alpha: 0.31, fixed: true  },
         { name: 'Hover',         note: 'Bílá při 8% opacity',                  hex: '#FFFFFF',       alpha: 0.08, fixed: true  },
       ].map((row, i, arr) => (

@@ -18,11 +18,11 @@ function AnimSpec({ duration, easing, trigger, description, children }) {
           <DonjonBadge variant="default">{easing}</DonjonBadge>
           <DonjonBadge variant="info">{trigger}</DonjonBadge>
         </div>
-        <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
+        <p style={{ margin: 0, fontSize: '0.8125rem', color: goldDim, lineHeight: 1.6 }}>
           {description}
         </p>
         {children && (
-          <div style={{ borderTop: '1px solid #2A2948', paddingTop: 12 }}>
+          <div style={{ borderTop: `1px solid ${bg4}`, paddingTop: 12 }}>
             {children}
           </div>
         )}
@@ -32,7 +32,7 @@ function AnimSpec({ duration, easing, trigger, description, children }) {
 }
 
 function Arrow() {
-  return <span style={{ color: 'textFaint', fontSize: '1.1rem', lineHeight: 1, flexShrink: 0 }}>→</span>
+  return <span style={{ color: textFaint, fontSize: '1.1rem', lineHeight: 1, flexShrink: 0 }}>→</span>
 }
 
 function FrameRow({ children }) {
@@ -87,7 +87,7 @@ function PlayButton({ onClick, playing }) {
       disabled={playing}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 6,
-        background: playing ? '#1B1A30' : '#2A2948',
+        background: playing ? 'bgDeep' : 'bg4',
         border: `1px solid ${playing ? '#3A3858' : '#5A5878'}`,
         borderRadius: 4, padding: '5px 14px',
         fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em',
@@ -104,7 +104,7 @@ function PlayButton({ onClick, playing }) {
 function DemoShell({ label, children }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'flex-start', width: '100%' }}>
-      <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+      <p style={{ margin: 0, fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
         {label ?? 'Live demo'}
       </p>
       {children}
@@ -1417,7 +1417,7 @@ function SuddenDeathDemo() {
         onClick={() => setActive(a => !a)}
         style={{
           display: 'inline-flex', alignItems: 'center', gap: 6,
-          background: active ? '#2A1A1A' : '#2A2948',
+          background: active ? '#2A1A1A' : 'bg4',
           border: `1px solid ${active ? '#E05C5C66' : '#5A5878'}`,
           borderRadius: 4, padding: '5px 14px',
           fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em',
@@ -1736,7 +1736,7 @@ export default function AnimacePage() {
                   { value: 4, color: p1.color },
                   { value: 2, color: p1.color },
                 ]} />
-                <span style={{ fontSize: '0.75rem', color: '#FFC183', fontWeight: 700 }}>dočasná věž</span>
+                <span style={{ fontSize: '0.75rem', color: gold, fontWeight: 700 }}>dočasná věž</span>
                 <Arrow />
                 <HexWithDie hexState="move" dieValue={4} dieColor={p1.color} />
               </FrameRow>
@@ -2047,7 +2047,7 @@ export default function AnimacePage() {
                 <HexWithDie hexState="selected" dieValue={3} dieColor={p1.color} dieState="rerolled" />
                 <Arrow />
                 <HexWithDie hexState="selected" dieValue={3} dieColor={p1.color} />
-                <span style={{ fontSize: '0.75rem', color: '#8F7458', fontWeight: 700 }}>= zachováno</span>
+                <span style={{ fontSize: '0.75rem', color: goldDim, fontWeight: 700 }}>= zachováno</span>
               </FrameRow>
             </AnimSpec>
           </div>
@@ -2136,7 +2136,7 @@ export default function AnimacePage() {
                 <DonjonBadge variant="default">min(hod, 3)</DonjonBadge>
                 <Arrow />
                 <HexTile state="focal-passive" size="md" />
-                <span style={{ color: 'textFaint', fontSize: '0.75rem' }}>+</span>
+                <span style={{ color: textFaint, fontSize: '0.75rem' }}>+</span>
                 <HexTile state="focal-active" size="md" />
               </FrameRow>
             </AnimSpec>
@@ -2198,7 +2198,7 @@ export default function AnimacePage() {
               <Arrow />
               <HexTile state="blocked" size="md" />
               <HexWithDie hexState="selected" dieValue={4} dieColor={p1.color} />
-              <span style={{ fontSize: '0.75rem', color: 'textFaint' }}>— zůstane</span>
+              <span style={{ fontSize: '0.75rem', color: textFaint }}>— zůstane</span>
             </FrameRow>
           </AnimSpec>
         </Preview>

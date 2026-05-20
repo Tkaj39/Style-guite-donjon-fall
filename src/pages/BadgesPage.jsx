@@ -1,4 +1,5 @@
 import Badge from '../lib/tkajui/Badge'
+import { goldDim, bg4, textActive } from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
@@ -60,11 +61,11 @@ function BadgeContent() {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
-              <span style={{ fontSize: '0.7rem', color: '#8F7458', width: 28 }}>md</span>
+              <span style={{ fontSize: '0.7rem', color: goldDim, width: 28 }}>md</span>
               {['default','success','danger','warning','info'].map(v => <B key={v} size="md" variant={v}>{v.charAt(0).toUpperCase()+v.slice(1)}</B>)}
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
-              <span style={{ fontSize: '0.7rem', color: '#8F7458', width: 28 }}>sm</span>
+              <span style={{ fontSize: '0.7rem', color: goldDim, width: 28 }}>sm</span>
               {['default','success','danger','warning','info'].map(v => <B key={v} size="sm" variant={v}>{v.charAt(0).toUpperCase()+v.slice(1)}</B>)}
             </div>
           </div>
@@ -129,10 +130,10 @@ function BadgeContent() {
               { name: 'Dusk Blackmantle',role: 'Rogue',   status: 'Poisoned', statusVariant: 'danger'  },
               { name: 'Miravel',         role: 'Cleric',  status: 'Scouting', statusVariant: 'info'    },
             ].map(member => (
-              <div key={member.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #2A2948' }}>
+              <div key={member.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', borderBottom: `1px solid ${bg4}` }}>
                 <div>
-                  <div style={{ color: '#F0E6D3', fontSize: '0.875rem', fontWeight: 600 }}>{member.name}</div>
-                  <div style={{ color: '#8F7458', fontSize: '0.75rem', marginTop: 2 }}>{member.role}</div>
+                  <div style={{ color: textActive, fontSize: '0.875rem', fontWeight: 600 }}>{member.name}</div>
+                  <div style={{ color: goldDim, fontSize: '0.75rem', marginTop: 2 }}>{member.role}</div>
                 </div>
                 <B size="sm" variant={member.statusVariant} dot>{member.status}</B>
               </div>

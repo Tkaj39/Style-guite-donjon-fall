@@ -36,19 +36,19 @@ function ModalContent() {
       >
         <Preview>
           <ModalDemo label="Small"  size="sm" title="Malý modál"   description="Maximální šířka 360 px.">
-            <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ color: goldMid, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Vhodný pro rychlá potvrzení nebo krátké zprávy, kde nepotřebuješ mnoho obsahu.
             </p>
           </ModalDemo>
 
           <ModalDemo label="Medium (výchozí)" size="md" title="Středný modál" description="Maximální šířka 480 px — výchozí velikost.">
-            <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ color: goldMid, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Standardní volba pro většinu dialogů — dostatečný prostor pro formulář nebo popis akce.
             </p>
           </ModalDemo>
 
           <ModalDemo label="Large" size="lg" title="Velký modál" description="Maximální šířka 640 px.">
-            <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ color: goldMid, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Pro složitější obsah — tabulky, delší formuláře, nastavení s více poli.
             </p>
           </ModalDemo>
@@ -88,8 +88,8 @@ function ModalContent() {
               title={title}
               description={desc}
             >
-              <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
-                Varianta <strong style={{ color: '#F0E6D3' }}>{variant}</strong> ovlivní barvu borderu,
+              <p style={{ color: goldMid, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+                Varianta <strong style={{ color: textActive }}>{variant}</strong> ovlivní barvu borderu,
                 pozadí hlavičky a gradient titulku.
               </p>
             </ModalDemo>
@@ -125,7 +125,7 @@ function ModalContent() {
               </>
             }
           >
-            <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ color: goldMid, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Aktuální hra bude ukončena. Souboj nebude rozhodnut a žádný hráč nezíská VP za toto kolo.
             </p>
           </ModalDemo>
@@ -141,7 +141,7 @@ function ModalContent() {
               </>
             }
           >
-            <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ color: goldMid, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Všichni hráči jsou připraveni. Začíná hráč s nejvyšší hodnotou věže.
             </p>
           </ModalDemo>
@@ -170,7 +170,7 @@ function ModalContent() {
       >
         <Preview>
           <ModalDemo label="Bez hlavičky">
-            <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ color: goldMid, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Modál bez title nezobrazí hlavičku. Close tlačítko se přesune do pravého horního rohu těla.
               Vhodné pro obrazové dialogy nebo vlastní layout bez standardní struktury.
             </p>
@@ -189,13 +189,13 @@ function ModalContent() {
       >
         <Preview>
           <ModalDemo label="Bez Escape" title="Escape nefunguje" description="closeOnEscape={false}" closeOnEscape={false}>
-            <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ color: goldMid, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Modál nelze zavřít klávesou Escape — použij close tlačítko nebo backdrop.
             </p>
           </ModalDemo>
 
           <ModalDemo label="Bez backdrops" title="Backdrop nefunguje" description="closeOnBackdrop={false}" closeOnBackdrop={false}>
-            <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ color: goldMid, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Klik mimo modál ho nezavře — uživatel musí použít close tlačítko nebo Escape.
             </p>
           </ModalDemo>
@@ -208,7 +208,7 @@ function ModalContent() {
             showCloseButton={false}
             footer={<Btn size="sm" onClick={undefined}>Zavřít</Btn>}
           >
-            <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ color: goldMid, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
               Tlačítko × je skryto — zavření zajistí vlastní UI v patičce.
             </p>
           </ModalDemo>
@@ -311,11 +311,11 @@ function InertDemo({ Btn, ModalCmp }) {
       </div>
       <Btn size="sm" onClick={() => setOpen(true)}>Otevřít modál (inert demo)</Btn>
       <ModalCmp isOpen={open} onClose={() => setOpen(false)} title="inert na pozadí">
-        <p style={{ color: '#B8956A', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
-          Obsah za tímto modálem má atribut <code style={{ color: '#FFC183', fontFamily: 'monospace' }}>inert</code> —
+        <p style={{ color: goldMid, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+          Obsah za tímto modálem má atribut <code style={{ color: gold, fontFamily: 'monospace' }}>inert</code> —
           prohlížeč automaticky zabrání focusu, klikům i přečtení čtečkou obrazovky.
-          React 19 podporuje <code style={{ color: '#FFC183', fontFamily: 'monospace' }}>inert</code> jako
-          JSX prop přímo, bez <code style={{ color: '#FFC183', fontFamily: 'monospace' }}>setAttribute</code>.
+          React 19 podporuje <code style={{ color: gold, fontFamily: 'monospace' }}>inert</code> jako
+          JSX prop přímo, bez <code style={{ color: gold, fontFamily: 'monospace' }}>setAttribute</code>.
         </p>
       </ModalCmp>
     </div>

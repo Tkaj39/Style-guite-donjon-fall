@@ -1,5 +1,5 @@
 import DonjonBadge from '../lib/donjon/DonjonBadge'
-import { textFaint, textParchment } from '../lib/donjon/tokens'
+import { textFaint, textParchment, gold, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
@@ -12,7 +12,7 @@ const MAPS = [
 ]
 
 /* ── Abstraktní hex miniaturní mapa (tečky v hex mřížce) ── */
-function HexDots({ count = 9, dotSize = 6, gap = 3, color = '#2A2948' }) {
+function HexDots({ count = 9, dotSize = 6, gap = 3, color = 'bg4' }) {
   const cols = 3
   const rows = Math.ceil(count / cols)
   return (
@@ -39,14 +39,14 @@ function MapCard({ map, cardW = 100, compact = false }) {
   const metaFs   = compact ? '0.375rem'  : '0.4375rem'
   const thumbH   = compact ? 36 : 44
   const dotSize  = compact ? 4  : 5
-  const dotColor = selected ? '#FFC18366' : '#2A2948'
+  const dotColor = selected ? '#FFC18366' : 'bg4'
 
   return (
     <div style={{
       width: cardW,
-      border: `1px solid ${selected ? '#FFC18388' : '#2A2948'}`,
+      border: `1px solid ${selected ? '#FFC18388' : 'bg4'}`,
       borderRadius: 4,
-      background: selected ? '#1C1A2E' : '#1B1A30',
+      background: selected ? '#1C1A2E' : 'bgDeep',
       boxShadow: selected ? '0 0 14px #FFC18322' : 'none',
       padding: compact ? '6px' : '8px',
       display: 'flex', flexDirection: 'column', gap: compact ? 4 : 6,
@@ -67,18 +67,18 @@ function MapCard({ map, cardW = 100, compact = false }) {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 }}>
           <p style={{
             margin: 0, fontSize: fs, fontWeight: 700,
-            color: selected ? '#FFC183' : 'textParchment',
+            color: selected ? 'gold' : 'textParchment',
           }}>
             {name}
           </p>
           {selected && (
             <div style={{
               width: 6, height: 6, borderRadius: '50%',
-              background: '#FFC183', boxShadow: '0 0 4px #FFC183',
+              background: gold, boxShadow: `0 0 4px ${gold}`,
             }} />
           )}
         </div>
-        <p style={{ margin: 0, fontSize: metaFs, color: 'textFaint', lineHeight: 1.4 }}>
+        <p style={{ margin: 0, fontSize: metaFs, color: textFaint, lineHeight: 1.4 }}>
           {hexes} h · {players} hráči · {vp} VP
         </p>
       </div>
@@ -93,8 +93,8 @@ function NavBtn({ label, primary = false, fs = '0.4375rem', py = 5, px = 10 }) {
       padding: `${py}px ${px}px`,
       border: `1px solid ${primary ? '#FFC18388' : '#3A3858'}`,
       borderRadius: 4,
-      background: primary ? '#2A2020' : '#1B1A30',
-      color: primary ? '#FFC183' : '#8F7458',
+      background: primary ? '#2A2020' : 'bgDeep',
+      color: primary ? 'gold' : 'goldDim',
       fontSize: fs, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
       boxShadow: primary ? '0 0 8px #FFC18322' : 'none',
       whiteSpace: 'nowrap',
@@ -114,14 +114,14 @@ function MapSelectDesktopLayout() {
       {/* Header */}
       <div style={{
         height: 38, background: '#14132A',
-        borderBottom: '1px solid #2A2948',
+        borderBottom: `1px solid ${bg4}`,
         display: 'flex', alignItems: 'center',
         padding: '0 20px', gap: 12, flexShrink: 0,
       }}>
-        <span style={{ fontSize: '0.4375rem', color: 'textFaint', letterSpacing: '0.06em' }}>← Zpět</span>
+        <span style={{ fontSize: '0.4375rem', color: textFaint, letterSpacing: '0.06em' }}>← Zpět</span>
         <span style={{
           fontSize: '0.5rem', fontWeight: 700,
-          color: 'textParchment', letterSpacing: '0.12em', textTransform: 'uppercase',
+          color: textParchment, letterSpacing: '0.12em', textTransform: 'uppercase',
         }}>Výběr mapy</span>
       </div>
 
@@ -137,7 +137,7 @@ function MapSelectDesktopLayout() {
       {/* Footer */}
       <div style={{
         height: 42, background: '#14132A',
-        borderTop: '1px solid #2A2948',
+        borderTop: `1px solid ${bg4}`,
         display: 'flex', alignItems: 'center',
         justifyContent: 'flex-end', padding: '0 20px', flexShrink: 0,
       }}>
@@ -156,14 +156,14 @@ function MapSelectTabletLayout() {
       {/* Header */}
       <div style={{
         height: 36, background: '#14132A',
-        borderBottom: '1px solid #2A2948',
+        borderBottom: `1px solid ${bg4}`,
         display: 'flex', alignItems: 'center',
         padding: '0 16px', gap: 10, flexShrink: 0,
       }}>
-        <span style={{ fontSize: '0.375rem', color: 'textFaint' }}>← Zpět</span>
+        <span style={{ fontSize: '0.375rem', color: textFaint }}>← Zpět</span>
         <span style={{
           fontSize: '0.4375rem', fontWeight: 700,
-          color: 'textParchment', letterSpacing: '0.1em', textTransform: 'uppercase',
+          color: textParchment, letterSpacing: '0.1em', textTransform: 'uppercase',
         }}>Výběr mapy</span>
       </div>
 
@@ -180,7 +180,7 @@ function MapSelectTabletLayout() {
 
       {/* Footer */}
       <div style={{
-        height: 36, background: '#14132A', borderTop: '1px solid #2A2948',
+        height: 36, background: '#14132A', borderTop: `1px solid ${bg4}`,
         display: 'flex', alignItems: 'center',
         justifyContent: 'flex-end', padding: '0 16px', flexShrink: 0,
       }}>
@@ -201,14 +201,14 @@ function MapSelectMobileLayout() {
       {/* Header */}
       <div style={{
         height: 30, background: '#14132A',
-        borderBottom: '1px solid #2A2948',
+        borderBottom: `1px solid ${bg4}`,
         display: 'flex', alignItems: 'center',
         padding: '0 12px', gap: 8, flexShrink: 0,
       }}>
-        <span style={{ fontSize: '0.3125rem', color: 'textFaint' }}>←</span>
+        <span style={{ fontSize: '0.3125rem', color: textFaint }}>←</span>
         <span style={{
           fontSize: '0.375rem', fontWeight: 700,
-          color: 'textParchment', letterSpacing: '0.1em', textTransform: 'uppercase',
+          color: textParchment, letterSpacing: '0.1em', textTransform: 'uppercase',
         }}>Výběr mapy</span>
       </div>
 
@@ -224,7 +224,7 @@ function MapSelectMobileLayout() {
           {MAPS.map((m, i) => (
             <div key={i} style={{
               width: m.selected ? 12 : 5, height: 3, borderRadius: 2,
-              background: m.selected ? '#FFC183' : '#2A2948',
+              background: m.selected ? 'gold' : 'bg4',
               transition: 'width 0.2s',
             }} />
           ))}
@@ -233,7 +233,7 @@ function MapSelectMobileLayout() {
 
       {/* Footer */}
       <div style={{
-        height: 32, background: '#14132A', borderTop: '1px solid #2A2948',
+        height: 32, background: '#14132A', borderTop: `1px solid ${bg4}`,
         display: 'flex', alignItems: 'center',
         justifyContent: 'flex-end', padding: '0 12px', flexShrink: 0,
       }}>

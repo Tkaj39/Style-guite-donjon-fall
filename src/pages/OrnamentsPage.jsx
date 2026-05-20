@@ -179,7 +179,7 @@ export default function OrnamentsPage() {
             <tbody className="divide-y divide-neutral-800/60">
               {[
                 ['size',       '16',       'Rozměr ornamenty v px.'],
-                ['color',      '#8F7458',  'CSS barva výplně.'],
+                ['color',      'goldDim',  'CSS barva výplně.'],
                 ['variant',    'bracket',  "Tvar: 'bracket' | 'dot' | 'diamond' | 'cross'"],
                 ['cornerType', 'cut',      "Geometrie rohu: 'cut' (ostrý L) | 'round' (konvexní oblouk) | 'scoop' (konkávní oblouk)"],
                 ['style',      '{}',       'Inline styly pro pozicování (position, top, left…)'],
@@ -195,7 +195,7 @@ export default function OrnamentsPage() {
         </div>
 
         <pre className="mt-4 p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-[11px] font-mono text-brand-400 overflow-x-auto leading-relaxed">{`<CornerOrnament variant="bracket" size={16} />
-<CornerOrnament variant="dot"     size={24} color="#FFC183" />
+<CornerOrnament variant="dot"     size={24} color="gold" />
 
 {/* Rohy pomocí transform */}
 <CornerOrnament style={{ position: 'absolute', top: 0, left: 0 }} />

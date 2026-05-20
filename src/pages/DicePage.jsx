@@ -1,5 +1,5 @@
 import DieFace from '../lib/donjon/DieFace'
-import { textFaint } from '../lib/donjon/tokens'
+import { textFaint, gold, goldDim, textActive, bgDeep } from '../lib/donjon/tokens'
 import HexTile from '../lib/donjon/HexTile'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
@@ -32,7 +32,7 @@ function TowerStack({ dice, size = 'md' }) {
             zIndex: dice.length - i,
             marginTop: i === 0 ? 0 : -(cfg.box - cfg.peek),
           }}>
-            <DieFace value={die.value} playerColor={p?.color ?? '#8F7458'} size={size} />
+            <DieFace value={die.value} playerColor={p?.color ?? 'goldDim'} size={size} />
           </div>
         )
       })}
@@ -44,11 +44,11 @@ function StatPill({ label, value, color }) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 6,
-      background: '#1B1A30', borderRadius: 4, padding: '4px 10px',
+      background: bgDeep, borderRadius: 4, padding: '4px 10px',
       border: `1px solid ${color ?? '#3A3858'}33`,
     }}>
-      <span style={{ fontSize: '0.5625rem', color: 'textFaint', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{label}</span>
-      <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: color ?? '#F0E6D3' }}>{value}</span>
+      <span style={{ fontSize: '0.5625rem', color: textFaint, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{label}</span>
+      <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: color ?? 'textActive' }}>{value}</span>
     </div>
   )
 }
@@ -57,7 +57,7 @@ const hexDims = { sm: { w: 42, h: 48 }, md: { w: 62, h: 72 }, lg: { w: 83, h: 96
 
 function DieOnHex({ dieValue = 4, dieSize = 'xs', playerColor, hexState = 'empty', hexSize = 'sm', owner }) {
   const p = owner != null ? players.find(p => p.id === owner) : players[0]
-  const color = playerColor ?? p?.color ?? '#8F7458'
+  const color = playerColor ?? p?.color ?? 'goldDim'
   const { w, h } = hexDims[hexSize] ?? hexDims.sm
   return (
     <div style={{ position: 'relative', width: w, height: h, flexShrink: 0 }}>
@@ -128,7 +128,7 @@ function PushChainDemo({ variant }) {
       label: 'Volný hex za formací',
       result: <DieFace value={2} playerColor={p2.color} size="md" />,
       resultLabel: 'Přesunuto',
-      resultColor: '#8F7458',
+      resultColor: 'goldDim',
     },
     border: {
       label: 'Okraj mapy za formací',
@@ -156,12 +156,12 @@ function PushChainDemo({ variant }) {
         </div>
       ),
       resultLabel: '+1 VP',
-      resultColor: '#FFC183',
+      resultColor: 'gold',
     },
   }
 
   const cfg = configs[variant]
-  const arrow = <span style={{ color: 'textFaint', fontSize: '1.2rem', lineHeight: 1 }}>→</span>
+  const arrow = <span style={{ color: textFaint, fontSize: '1.2rem', lineHeight: 1 }}>→</span>
 
   return (
     <DonjonCard title={cfg.label} description="Push — Fáze 2">
@@ -169,18 +169,18 @@ function PushChainDemo({ variant }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
             <DieFace value={5} playerColor={p1.color} size="md" />
-            <span style={{ fontSize: '0.5625rem', color: 'textFaint', textTransform: 'uppercase' }}>Útočník</span>
+            <span style={{ fontSize: '0.5625rem', color: textFaint, textTransform: 'uppercase' }}>Útočník</span>
           </div>
           {arrow}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
             <DieFace value={2} playerColor={p2.color} size="md" />
-            <span style={{ fontSize: '0.5625rem', color: 'textFaint', textTransform: 'uppercase' }}>Obránce</span>
+            <span style={{ fontSize: '0.5625rem', color: textFaint, textTransform: 'uppercase' }}>Obránce</span>
           </div>
           {arrow}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
             <DieFace value={2} playerColor={p2.color} size="md" state="rerolled" />
             <DonjonBadge size="sm" variant="default">min(hod, původní)</DonjonBadge>
-            <span style={{ fontSize: '0.5625rem', color: '#8F7458', textTransform: 'uppercase' }}>Reroll</span>
+            <span style={{ fontSize: '0.5625rem', color: goldDim, textTransform: 'uppercase' }}>Reroll</span>
           </div>
           {arrow}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
@@ -192,7 +192,7 @@ function PushChainDemo({ variant }) {
               {arrow}
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
                 <DieFace value={3} playerColor={p1.color} size="md" />
-                <span style={{ fontSize: '0.5625rem', color: 'textFaint', textTransform: 'uppercase' }}>Obklíčení</span>
+                <span style={{ fontSize: '0.5625rem', color: textFaint, textTransform: 'uppercase' }}>Obklíčení</span>
               </div>
             </>
           )}
@@ -224,7 +224,7 @@ export default function DicePage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {players.map(player => (
               <div key={player.id} style={{ display: 'flex', alignItems: 'center', gap: 12, overflowX: 'auto' }}>
-                <span style={{ fontSize: '0.625rem', color: 'textFaint', width: 50, textAlign: 'right', flexShrink: 0, letterSpacing: '0.08em' }}>
+                <span style={{ fontSize: '0.625rem', color: textFaint, width: 50, textAlign: 'right', flexShrink: 0, letterSpacing: '0.08em' }}>
                   {player.label}
                 </span>
                 <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
@@ -242,7 +242,7 @@ export default function DicePage() {
             {[1, 2, 3, 4, 5, 6].map(v => (
               <div key={v} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
                 <DieFace value={v} playerColor={players[0].color} size="lg" />
-                <span style={{ fontSize: '0.5625rem', color: 'textFaint', letterSpacing: '0.1em' }}>{v}</span>
+                <span style={{ fontSize: '0.5625rem', color: textFaint, letterSpacing: '0.1em' }}>{v}</span>
               </div>
             ))}
           </div>
@@ -253,14 +253,14 @@ export default function DicePage() {
             {(['sm', 'md', 'lg']).map(sz => (
               <div key={sz} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
                 <DieFace value={6} playerColor={players[0].color} size={sz} />
-                <span style={{ fontSize: '0.5625rem', color: 'textFaint', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{sz}</span>
+                <span style={{ fontSize: '0.5625rem', color: textFaint, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{sz}</span>
               </div>
             ))}
             <div style={{ display: 'flex', gap: 8 }}>
               {(['default', 'selected', 'rerolled', 'damaged']).map(st => (
                 <div key={st} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
                   <DieFace value={4} playerColor={players[0].color} size="md" state={st} />
-                  <span style={{ fontSize: '0.5625rem', color: 'textFaint', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{statLabel(st)}</span>
+                  <span style={{ fontSize: '0.5625rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{statLabel(st)}</span>
                 </div>
               ))}
             </div>
@@ -283,7 +283,7 @@ export default function DicePage() {
               <TowerStack dice={cleanTower} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <StatPill label="Combat Power" value={`${calcCombatPower(cleanTower)} (${cleanTower[cleanTower.length-1].value}+${cleanTower.slice(0,-1).filter(d=>d.owner===cleanTower[cleanTower.length-1].owner).length}−0)`} color={players[0].color} />
-                <StatPill label="Pohyb věže" value={calcMovementRange(cleanTower)} color="#8F7458" />
+                <StatPill label="Pohyb věže" value={calcMovementRange(cleanTower)} color="goldDim" />
                 <StatPill label="Pohyb vrcholu (skok)" value={cleanTower[cleanTower.length-1].value} color="#4D8FE0" />
                 <StatPill label="Kontroler" value={players[0].label} color={players[0].color} />
               </div>
@@ -293,9 +293,9 @@ export default function DicePage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
                   <DonjonBadge variant="default">Combat Power</DonjonBadge>
-                  <span style={{ fontSize: '0.8125rem', color: '#8F7458' }}>= F + S − E</span>
+                  <span style={{ fontSize: '0.8125rem', color: goldDim }}>= F + S − E</span>
                 </div>
-                <p style={{ margin: 0, fontSize: '0.75rem', color: 'textFaint', lineHeight: 1.6 }}>
+                <p style={{ margin: 0, fontSize: '0.75rem', color: textFaint, lineHeight: 1.6 }}>
                   F = face value vrchní kostky<br />
                   S = podpůrné kostky (stejný vlastník jako vrchní)<br />
                   E = nepřátelské kostky (jiný vlastník)<br />
@@ -303,9 +303,9 @@ export default function DicePage() {
                 </p>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
                   <DonjonBadge variant="default">Movement Range</DonjonBadge>
-                  <span style={{ fontSize: '0.8125rem', color: '#8F7458' }}>= max(O − E, 1)</span>
+                  <span style={{ fontSize: '0.8125rem', color: goldDim }}>= max(O − E, 1)</span>
                 </div>
-                <p style={{ margin: 0, fontSize: '0.75rem', color: 'textFaint', lineHeight: 1.6 }}>
+                <p style={{ margin: 0, fontSize: '0.75rem', color: textFaint, lineHeight: 1.6 }}>
                   O = vlastní kostky (včetně vrchní)<br />
                   E = nepřátelské kostky<br />
                   Minimum je vždy 1.
@@ -325,14 +325,14 @@ export default function DicePage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
                     <DieFace value={5} playerColor={players[0].color} size="md" />
-                    <span style={{ fontSize: '0.5625rem', color: 'textFaint', textTransform: 'uppercase' }}>Před</span>
+                    <span style={{ fontSize: '0.5625rem', color: textFaint, textTransform: 'uppercase' }}>Před</span>
                   </div>
                   <span style={{ color: '#E05C5C', fontWeight: 700, fontSize: '1rem' }}>−1</span>
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
                     <DieFace value={4} playerColor={players[0].color} size="md" />
-                    <span style={{ fontSize: '0.5625rem', color: 'textFaint', textTransform: 'uppercase' }}>Po</span>
+                    <span style={{ fontSize: '0.5625rem', color: textFaint, textTransform: 'uppercase' }}>Po</span>
                   </div>
-                  <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.5, maxWidth: 260 }}>
+                  <p style={{ margin: 0, fontSize: '0.8125rem', color: goldDim, lineHeight: 1.5, maxWidth: 260 }}>
                     Vrchní kostka útočníka sníží hodnotu o 1 (minimum 1). Proběhne vždy před výběrem Push/Occupy.
                   </p>
                 </div>
@@ -360,7 +360,7 @@ export default function DicePage() {
               <TowerStack dice={mixedTower} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <StatPill label="Combat Power" value={`${calcCombatPower(mixedTower)} (${mixedTower[mixedTower.length-1].value}+${mixedTower.slice(0,-1).filter(d=>d.owner===mixedTower[mixedTower.length-1].owner).length}−${mixedTower.slice(0,-1).filter(d=>d.owner!==mixedTower[mixedTower.length-1].owner).length})`} color={players[0].color} />
-                <StatPill label="Pohyb věže" value={calcMovementRange(mixedTower)} color="#8F7458" />
+                <StatPill label="Pohyb věže" value={calcMovementRange(mixedTower)} color="goldDim" />
                 <StatPill label="Pohyb vrcholu (skok)" value={mixedTower[mixedTower.length-1].value} color="#4D8FE0" />
                 <StatPill label="Kontroler" value={players[0].label} color={players[0].color} />
               </div>
@@ -368,15 +368,15 @@ export default function DicePage() {
 
             <DonjonCard title="Smíšená věž — pravidla" description="Mixed tower">
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
-                  Kontroler věže je vždy vlastník <strong style={{ color: '#F0E6D3' }}>vrchní kostky</strong>.
+                <p style={{ margin: 0, fontSize: '0.8125rem', color: goldDim, lineHeight: 1.6 }}>
+                  Kontroler věže je vždy vlastník <strong style={{ color: textActive }}>vrchní kostky</strong>.
                   Nepřátelské kostky uvnitř věže snižují combat power (−1 za každou) a movement range.
                 </p>
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                   <DonjonBadge variant="warning">E kostky snižují CP</DonjonBadge>
                   <DonjonBadge variant="danger">Kolaps věže ji zničí</DonjonBadge>
                 </div>
-                <p style={{ margin: 0, fontSize: '0.75rem', color: 'textFaint', lineHeight: 1.5 }}>
+                <p style={{ margin: 0, fontSize: '0.75rem', color: textFaint, lineHeight: 1.5 }}>
                   Vlastnictví kostek se nemění — kostka vždy patří svému původnímu hráči.
                   Occupy není dostupné při útoku věží.
                 </p>
@@ -405,46 +405,46 @@ const mixedTower = [{ owner:2, value:3 }, { owner:1, value:1 }, { owner:1, value
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             {/* Single die on hex */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Kostka na hexu</p>
+              <p style={{ margin: 0, fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Kostka na hexu</p>
               <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-end' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
                   <DieOnHex dieValue={5} dieSize="xs" hexSize="sm" owner={1} />
-                  <span style={{ fontSize: '0.5rem', color: 'textFaint', letterSpacing: '0.08em', textTransform: 'uppercase' }}>xs / sm hex</span>
+                  <span style={{ fontSize: '0.5rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>xs / sm hex</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
                   <DieOnHex dieValue={3} dieSize="xs" hexSize="sm" owner={2} />
-                  <span style={{ fontSize: '0.5rem', color: 'textFaint', letterSpacing: '0.08em', textTransform: 'uppercase' }}>xs / sm hex</span>
+                  <span style={{ fontSize: '0.5rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>xs / sm hex</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
                   <DieOnHex dieValue={4} dieSize="sm" hexSize="md" owner={1} />
-                  <span style={{ fontSize: '0.5rem', color: 'textFaint', letterSpacing: '0.08em', textTransform: 'uppercase' }}>sm / md hex</span>
+                  <span style={{ fontSize: '0.5rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>sm / md hex</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
                   <DieOnHex dieValue={6} dieSize="md" hexSize="lg" owner={1} />
-                  <span style={{ fontSize: '0.5rem', color: 'textFaint', letterSpacing: '0.08em', textTransform: 'uppercase' }}>md / lg hex</span>
+                  <span style={{ fontSize: '0.5rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>md / lg hex</span>
                 </div>
               </div>
             </div>
 
             {/* Tower on hex */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Věž na hexu — 3 kostky</p>
+              <p style={{ margin: 0, fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Věž na hexu — 3 kostky</p>
               <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-end' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
                   <TowerOnHex tower={[{ owner:1,value:2 },{ owner:1,value:4 },{ owner:1,value:5 }]} dieSize="xs" hexSize="sm" />
-                  <span style={{ fontSize: '0.5rem', color: 'textFaint', letterSpacing: '0.08em', textTransform: 'uppercase' }}>xs / sm hex</span>
+                  <span style={{ fontSize: '0.5rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>xs / sm hex</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
                   <TowerOnHex tower={[{ owner:2,value:3 },{ owner:1,value:1 },{ owner:1,value:6 }]} dieSize="xs" hexSize="sm" />
-                  <span style={{ fontSize: '0.5rem', color: 'textFaint', letterSpacing: '0.08em', textTransform: 'uppercase' }}>smíšená / sm hex</span>
+                  <span style={{ fontSize: '0.5rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>smíšená / sm hex</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
                   <TowerOnHex tower={[{ owner:1,value:2 },{ owner:1,value:4 },{ owner:1,value:5 }]} dieSize="sm" hexSize="md" />
-                  <span style={{ fontSize: '0.5rem', color: 'textFaint', letterSpacing: '0.08em', textTransform: 'uppercase' }}>sm / md hex</span>
+                  <span style={{ fontSize: '0.5rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>sm / md hex</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
                   <TowerOnHex tower={[{ owner:1,value:2 },{ owner:1,value:4 },{ owner:1,value:5 }]} dieSize="md" hexSize="lg" />
-                  <span style={{ fontSize: '0.5rem', color: 'textFaint', letterSpacing: '0.08em', textTransform: 'uppercase' }}>md / lg hex</span>
+                  <span style={{ fontSize: '0.5rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>md / lg hex</span>
                 </div>
               </div>
             </div>

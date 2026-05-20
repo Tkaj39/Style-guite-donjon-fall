@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { textFaint } from '../lib/donjon/tokens'
+import { textFaint, goldMid, goldDim, bg4, failColor, bgDeep } from '../lib/donjon/tokens'
 import HexTile from '../lib/donjon/HexTile'
 import DieFace from '../lib/donjon/DieFace'
 import DonjonCard from '../lib/donjon/DonjonCard'
@@ -58,8 +58,8 @@ function TurnHUD({ player, turn, phase, warning = false }) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
-      background: 'linear-gradient(150deg,#232238 0%,#1B1A30 70%)',
-      border: `1px solid ${warning ? '#C04040' : '#3A3858'}`,
+      background: 'linear-gradient(150deg,#232238 0%,bgDeep 70%)',
+      border: `1px solid ${warning ? 'failColor' : '#3A3858'}`,
       borderRadius: 4, padding: '10px 16px',
       boxShadow: warning ? '0 0 12px #C0404033' : 'none',
     }}>
@@ -72,7 +72,7 @@ function TurnHUD({ player, turn, phase, warning = false }) {
       {/* Player name */}
       <span style={{
         fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
-        background: 'linear-gradient(180deg,#F9F9F9 0%,#B8956A 100%)',
+        background: 'linear-gradient(180deg,#F9F9F9 0%,goldMid 100%)',
         WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
       }}>{player.label}</span>
       {/* Divider */}
@@ -154,11 +154,11 @@ function EventFeed({ events }) {
         return (
           <div key={i} style={{
             display: 'flex', alignItems: 'center', gap: 8,
-            background: '#1B1A30', borderRadius: 3, padding: '5px 10px',
-            border: '1px solid #2A2948',
+            background: bgDeep, borderRadius: 3, padding: '5px 10px',
+            border: `1px solid ${bg4}`,
           }}>
-            <div style={{ width: 8, height: 8, borderRadius: '50%', background: p?.color ?? '#8F7458', flexShrink: 0 }} />
-            <span style={{ fontSize: '0.6875rem', color: '#8F7458', flex: 1 }}>{p?.label} — {ev.label}</span>
+            <div style={{ width: 8, height: 8, borderRadius: '50%', background: p?.color ?? 'goldDim', flexShrink: 0 }} />
+            <span style={{ fontSize: '0.6875rem', color: goldDim, flex: 1 }}>{p?.label} — {ev.label}</span>
             <DonjonBadge size="sm" variant={ev.variant ?? 'warning'}>+1 VP</DonjonBadge>
           </div>
         )
@@ -219,7 +219,7 @@ export default function MapPage() {
             </DonjonCard>
             <DonjonCard title="Variabilní parametry" description="Nastavení závisí na mapě">
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <p style={{ margin: 0, fontSize: '0.8125rem', color: '#8F7458', lineHeight: 1.6 }}>
+                <p style={{ margin: 0, fontSize: '0.8125rem', color: goldDim, lineHeight: 1.6 }}>
                   Počet hráčů (2–6), počet kostek per hráč, počet a uspořádání ohnisek, cílový počet VP — vše definuje tvůrce mapy.
                 </p>
               </div>
@@ -235,16 +235,16 @@ export default function MapPage() {
       >
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', maxWidth: 600 }}>
-            <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            <p style={{ margin: 0, fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
               Fáze: {turnPhases[hudPhase].label}
             </p>
             <TurnHUD player={players[0]} turn={3} phase={turnPhases[hudPhase].label} />
             <div style={{ display: 'flex', gap: 8 }}>
               {turnPhases.map((ph, i) => (
                 <button key={i} onClick={() => setHudPhase(i)} style={{
-                  background: hudPhase === i ? '#353751' : '#1B1A30',
+                  background: hudPhase === i ? '#353751' : 'bgDeep',
                   border: '1px solid #3A3858', borderRadius: 3,
-                  color: '#8F7458', fontSize: '0.625rem', padding: '4px 10px',
+                  color: goldDim, fontSize: '0.625rem', padding: '4px 10px',
                   cursor: 'pointer', letterSpacing: '0.08em', textTransform: 'uppercase',
                 }}>
                   {ph.label}
@@ -256,7 +256,7 @@ export default function MapPage() {
 
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%', maxWidth: 600 }}>
-            <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Náhlá smrt — warning stav</p>
+            <p style={{ margin: 0, fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Náhlá smrt — warning stav</p>
             <TurnHUD player={players[1]} turn={5} phase="Akce" warning />
           </div>
         </Preview>
@@ -279,11 +279,11 @@ export default function MapPage() {
         <Preview>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'flex-start' }}>
             <div style={{ display: 'flex', flex: 1, flexDirection: 'column', gap: 8, minWidth: 200 }}>
-              <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Event feed</p>
+              <p style={{ margin: 0, fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Event feed</p>
               <EventFeed events={sampleEvents} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <p style={{ margin: 0, fontSize: '0.625rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>VP badge varianty</p>
+              <p style={{ margin: 0, fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>VP badge varianty</p>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                 <DonjonBadge variant="danger">+1 VP — zničení</DonjonBadge>
                 <DonjonBadge variant="warning">+1 VP — ohnisko</DonjonBadge>

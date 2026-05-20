@@ -36,8 +36,8 @@ function MiniMenuBtn({ label, primary = false, disabled = false, fs = '0.5rem', 
       padding: `${py}px ${px}px`,
       border: `1px solid ${primary ? '#FFC18388' : disabled ? '#1E1D30' : '#3A3858'}`,
       borderRadius: 4,
-      background: primary ? '#2A2020' : disabled ? '#12111F' : '#1B1A30',
-      color: primary ? '#FFC183' : disabled ? '#2A2948' : '#8F7458',
+      background: primary ? '#2A2020' : disabled ? '#12111F' : 'bgDeep',
+      color: primary ? 'gold' : disabled ? 'bg4' : 'goldDim',
       fontSize: fs,
       fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
       textAlign: 'center',
@@ -56,8 +56,8 @@ function MenuDesktopLayout() {
       {/* Levý dekorativní panel */}
       <div style={{
         flex: 1,
-        background: 'radial-gradient(ellipse at 60% 50%, #1A1830 0%, #0A0917 100%)',
-        borderRight: '1px solid #2A2948',
+        background: 'radial-gradient(ellipse at 60% 50%, borderSubtle 0%, #0A0917 100%)',
+        borderRight: `1px solid ${bg4}`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         position: 'relative', overflow: 'hidden',
       }}>
@@ -67,7 +67,7 @@ function MenuDesktopLayout() {
         {/* Jméno hry drobně v rohu */}
         <span style={{
           position: 'absolute', bottom: 10, right: 14,
-          fontSize: '0.375rem', color: '#2A2948',
+          fontSize: '0.375rem', color: bg4,
           fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase',
         }}>
           DONJON FALL
@@ -90,7 +90,7 @@ function MenuDesktopLayout() {
               margin: '0 0 5px',
               fontSize: '1.125rem', fontWeight: 900,
               letterSpacing: '0.22em', textTransform: 'uppercase',
-              background: 'linear-gradient(180deg, #FFC183 0%, #8F7458 100%)',
+              background: 'linear-gradient(180deg, gold 0%, goldDim 100%)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
               lineHeight: 1.1,
             }}
@@ -98,7 +98,7 @@ function MenuDesktopLayout() {
             Donjon<br />Fall
           </p>
           <p style={{
-            margin: 0, fontSize: '0.4375rem', color: 'textFaint',
+            margin: 0, fontSize: '0.4375rem', color: textFaint,
             letterSpacing: '0.18em', textTransform: 'uppercase',
           }}>
             Tahová strategická hra
@@ -120,7 +120,7 @@ function MenuTabletLayout() {
     <div style={{
       flex: 1, display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
-      background: 'radial-gradient(ellipse at 50% 40%, #1A1830 0%, #0A0917 100%)',
+      background: 'radial-gradient(ellipse at 50% 40%, borderSubtle 0%, #0A0917 100%)',
       padding: '0 48px', gap: 8,
     }}>
       <div style={{ marginBottom: 24, textAlign: 'center' }}>
@@ -128,13 +128,13 @@ function MenuTabletLayout() {
           margin: '0 0 6px',
           fontSize: '1.5rem', fontWeight: 900,
           letterSpacing: '0.2em', textTransform: 'uppercase',
-          background: 'linear-gradient(180deg, #FFC183 0%, #8F7458 100%)',
+          background: 'linear-gradient(180deg, gold 0%, goldDim 100%)',
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
           lineHeight: 1.1,
         }}>
           Donjon Fall
         </p>
-        <p style={{ margin: 0, fontSize: '0.5rem', color: 'textFaint', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+        <p style={{ margin: 0, fontSize: '0.5rem', color: textFaint, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
           Tahová strategická hra
         </p>
       </div>
@@ -154,7 +154,7 @@ function MenuMobileLayout() {
     <div style={{
       flex: 1, display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
-      background: 'radial-gradient(ellipse at 50% 40%, #1A1830 0%, #0A0917 100%)',
+      background: 'radial-gradient(ellipse at 50% 40%, borderSubtle 0%, #0A0917 100%)',
       padding: '0 20px', gap: 6,
     }}>
       <div style={{ marginBottom: 16, textAlign: 'center' }}>
@@ -162,13 +162,13 @@ function MenuMobileLayout() {
           margin: '0 0 4px',
           fontSize: '1rem', fontWeight: 900,
           letterSpacing: '0.18em', textTransform: 'uppercase',
-          background: 'linear-gradient(180deg, #FFC183 0%, #8F7458 100%)',
+          background: 'linear-gradient(180deg, gold 0%, goldDim 100%)',
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
           lineHeight: 1.1,
         }}>
           Donjon Fall
         </p>
-        <p style={{ margin: 0, fontSize: '0.375rem', color: 'textFaint', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+        <p style={{ margin: 0, fontSize: '0.375rem', color: textFaint, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
           Tahová strategie
         </p>
       </div>

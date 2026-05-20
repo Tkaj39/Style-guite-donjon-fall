@@ -1,8 +1,8 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textDeep, textCool } from '../lib/donjon/tokens'
+import { textDeep, textCool, goldMid, goldDim, bg0, bg4, successColor, textActive, borderSubtle } from '../lib/donjon/tokens'
 
 const LAYERS = [
-  { name: 'base',         z: 0,    color: '#2A2948', label: 'Základní obsah', desc: 'Herní plán, text, statické elementy stránky.' },
+  { name: 'base',         z: 0,    color: bg4, label: 'Základní obsah', desc: 'Herní plán, text, statické elementy stránky.' },
   { name: 'raised',       z: 10,   color: '#2E2B50', label: 'Vyvýšené karty', desc: 'Hover karta, aktivní hex tile, přepnutý panel.' },
   { name: 'sticky',       z: 100,  color: '#353358', label: 'Sticky prvky', desc: 'Sticky header, fixní HUD, turn indicator.' },
   { name: 'dropdown',     z: 200,  color: '#3A3860', label: 'Dropdown / Select', desc: 'Otevřený Select, kontextové menu, auto-complete.' },
@@ -11,7 +11,7 @@ const LAYERS = [
   { name: 'modal',        z: 1000, color: '#4A4878', label: 'Modal / Dialog', desc: 'Modální dialog, potvrzovací overlay.' },
   { name: 'toast',        z: 2000, color: '#504E80', label: 'Toast / Notifikace', desc: 'Plovoucí notifikace — vždy nad vším ostatním kromě tooltipu.' },
   { name: 'tooltip',      z: 3000, color: '#585688', label: 'Tooltip', desc: 'Kontextová nápověda — nejvyšší z UI vrstev.' },
-  { name: 'devtools',     z: 9999, color: '#1A1830', label: 'Dev / Debug', desc: 'Debug overlay, vývojářské panely.' },
+  { name: 'devtools',     z: 9999, color: borderSubtle, label: 'Dev / Debug', desc: 'Debug overlay, vývojářské panely.' },
 ]
 
 function LayerBar({ name, z, color, label, desc, highlight }) {
@@ -21,19 +21,19 @@ function LayerBar({ name, z, color, label, desc, highlight }) {
       gridTemplateColumns: '90px 60px 1fr',
       gap: 12,
       padding: '10px 14px',
-      background: highlight ? '#2A2948' : 'transparent',
-      borderBottom: '1px solid #8F745418',
+      background: highlight ? 'bg4' : 'transparent',
+      borderBottom: `1px solid ${goldDim}18`,
       alignItems: 'center',
-      borderLeft: highlight ? '3px solid #B8956A' : '3px solid transparent',
+      borderLeft: highlight ? '3px solid goldMid' : '3px solid transparent',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <div style={{ width: 12, height: 12, borderRadius: 2, background: color, border: '1px solid #8F745440', flexShrink: 0 }} />
-        <code style={{ fontSize: '0.6875rem', color: 'textCool' }}>{name}</code>
+        <div style={{ width: 12, height: 12, borderRadius: 2, background: color, border: `1px solid ${goldDim}40`, flexShrink: 0 }} />
+        <code style={{ fontSize: '0.6875rem', color: textCool }}>{name}</code>
       </div>
-      <span style={{ fontSize: '0.875rem', fontWeight: 700, color: '#B8956A', fontFamily: 'monospace' }}>{z}</span>
+      <span style={{ fontSize: '0.875rem', fontWeight: 700, color: goldMid, fontFamily: 'monospace' }}>{z}</span>
       <div>
-        <p style={{ margin: 0, fontSize: '0.8125rem', color: '#F0E6D3', fontWeight: 500 }}>{label}</p>
-        <p style={{ margin: '2px 0 0', fontSize: '0.75rem', color: 'textCool' }}>{desc}</p>
+        <p style={{ margin: 0, fontSize: '0.8125rem', color: textActive, fontWeight: 500 }}>{label}</p>
+        <p style={{ margin: '2px 0 0', fontSize: '0.75rem', color: textCool }}>{desc}</p>
       </div>
     </div>
   )
@@ -43,11 +43,11 @@ function LayerBar({ name, z, color, label, desc, highlight }) {
 function StackDiagram() {
   const visible = [
     { z: 3000, label: 'Tooltip', bg: '#2A3D5A', border: '#4080C0' },
-    { z: 2000, label: 'Toast',   bg: '#2A3520', border: '#40A055' },
-    { z: 1000, label: 'Modal',   bg: '#353751', border: '#8F7458' },
-    { z: 900,  label: 'Backdrop',bg: '#0A0820', border: '#8F745430', opacity: 0.8 },
-    { z: 200,  label: 'Select',  bg: '#252340', border: '#8F745455' },
-    { z: 0,    label: 'Obsah',   bg: '#12102A', border: '#8F745430' },
+    { z: 2000, label: 'Toast',   bg: '#2A3520', border: `${successColor}` },
+    { z: 1000, label: 'Modal',   bg: '#353751', border: `${goldDim}` },
+    { z: 900,  label: 'Backdrop',bg: '#0A0820', border: `${goldDim}30`, opacity: 0.8 },
+    { z: 200,  label: 'Select',  bg: '#252340', border: `${goldDim}55` },
+    { z: 0,    label: 'Obsah',   bg: 'bg0', border: `${goldDim}30` },
   ]
   return (
     <div style={{ position: 'relative', width: 300, height: 260 }}>
@@ -71,8 +71,8 @@ function StackDiagram() {
             boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
           }}
         >
-          <span style={{ fontSize: '0.75rem', color: '#F0E6D3' }}>{layer.label}</span>
-          <code style={{ fontSize: '0.625rem', color: 'textDeep' }}>z:{layer.z}</code>
+          <span style={{ fontSize: '0.75rem', color: textActive }}>{layer.label}</span>
+          <code style={{ fontSize: '0.625rem', color: textDeep }}>z:{layer.z}</code>
         </div>
       ))}
     </div>
@@ -95,17 +95,17 @@ export default function ZIndexPage() {
         description="Zvýrazněné vrstvy jsou aktuálně použité v komponentách style guidu."
       >
         <Preview dark={false}>
-          <div style={{ width: '100%', border: '1px solid #8F745430', borderRadius: 4, overflow: 'hidden' }}>
+          <div style={{ width: '100%', border: `1px solid ${goldDim}30`, borderRadius: 4, overflow: 'hidden' }}>
             <div style={{
               display: 'grid',
               gridTemplateColumns: '90px 60px 1fr',
               gap: 12,
               padding: '8px 14px',
-              background: '#12102A',
-              borderBottom: '1px solid #8F745430',
+              background: bg0,
+              borderBottom: `1px solid ${goldDim}30`,
             }}>
               {['Vrstva', 'z-index', 'Použití'].map(h => (
-                <span key={h} style={{ fontSize: '0.625rem', color: 'textDeep', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{h}</span>
+                <span key={h} style={{ fontSize: '0.625rem', color: textDeep, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{h}</span>
               ))}
             </div>
             {LAYERS.map(layer => (
@@ -153,11 +153,11 @@ export default function ZIndexPage() {
               { component: 'Tooltip (bubble)',    z: 3000, file: 'Tooltip.jsx' },
               { component: 'Sidebar (mobile)',    z: 50,   file: 'Sidebar.jsx' },
             ].map(({ component, z, file }) => (
-              <div key={component} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 12px', background: '#12102A', border: '1px solid #8F745420', borderRadius: 3 }}>
-                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{component}</span>
+              <div key={component} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 12px', background: bg0, border: `1px solid ${goldDim}20`, borderRadius: 3 }}>
+                <span style={{ fontSize: '0.8125rem', color: textCool }}>{component}</span>
                 <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-                  <code style={{ fontSize: '0.6875rem', color: 'textDeep' }}>{file}</code>
-                  <code style={{ fontSize: '0.875rem', fontWeight: 700, color: '#B8956A', minWidth: 40, textAlign: 'right' }}>z:{z}</code>
+                  <code style={{ fontSize: '0.6875rem', color: textDeep }}>{file}</code>
+                  <code style={{ fontSize: '0.875rem', fontWeight: 700, color: goldMid, minWidth: 40, textAlign: 'right' }}>z:{z}</code>
                 </div>
               </div>
             ))}
@@ -175,9 +175,9 @@ export default function ZIndexPage() {
           <p>✓ Tooltip musí být vždy nejvyšší z UI vrstev (z: 3000) — nikdy ho nesniž kvůli jinému prvku.</p>
           <p>✓ Toast je nad modalem (2000 {'>'} 1000) — notifikace musí být čitelné i při otevřeném dialogu.</p>
           <p>✓ Backdrop modalu (z: 900) musí být pod panelem modalu (z: 1000) ve stejném stacking contextu.</p>
-          <p>✗ Nepoužívaj <code style={{ color: 'textCool' }}>z-index: 9999</code> pro produkční UI — je to záchranná brána jen pro dev overlay.</p>
-          <p>✗ Pozor na <code style={{ color: 'textCool' }}>position: relative/absolute</code> — vytváří nový stacking context a může překrývat logiku z-indexů.</p>
-          <p>✗ <code style={{ color: 'textCool' }}>transform</code>, <code style={{ color: 'textCool' }}>filter</code> a <code style={{ color: 'textCool' }}>opacity {'<'} 1</code> na rodičovském elementu také vytváří nový stacking context — nikdy neobaluj modal nebo tooltip prvkem s transformem.</p>
+          <p>✗ Nepoužívaj <code style={{ color: textCool }}>z-index: 9999</code> pro produkční UI — je to záchranná brána jen pro dev overlay.</p>
+          <p>✗ Pozor na <code style={{ color: textCool }}>position: relative/absolute</code> — vytváří nový stacking context a může překrývat logiku z-indexů.</p>
+          <p>✗ <code style={{ color: textCool }}>transform</code>, <code style={{ color: textCool }}>filter</code> a <code style={{ color: textCool }}>opacity {'<'} 1</code> na rodičovském elementu také vytváří nový stacking context — nikdy neobaluj modal nebo tooltip prvkem s transformem.</p>
         </div>
       </Section>
 

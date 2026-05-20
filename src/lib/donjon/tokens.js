@@ -36,6 +36,10 @@ export const textParchment = '#D4C5A9' // teplá krémová, střední warm text
 export const dangerColor  = '#E05C5C'
 export const successColor = '#40A055'
 export const warningColor = '#C08040'
+export const failColor    = '#C04040'  // fail / error state (darker than dangerColor)
+
+// ── Surfaces (extra) ──────────────────────────────────────────────────────
+export const bgDeep = '#1B1A30'  // deep background variant
 
 // ── Herní feedback ────────────────────────────────────────────────────────
 // gainColor: světlejší zelená pro pozitivní herní feedback (FloatFeedback gain,

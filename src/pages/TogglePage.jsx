@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { textCool } from '../lib/donjon/tokens'
+import { textCool, textActive, goldDim } from '../lib/donjon/tokens'
 import Toggle from '../lib/tkajui/Toggle'
 import DonjonToggle from '../lib/donjon/DonjonToggle'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
@@ -23,7 +23,7 @@ function ToggleContent() {
         display: 'flex',
         flexDirection: 'column',
         gap: 0,
-        border: '1px solid #8F745430',
+        border: `1px solid ${goldDim}30`,
         borderRadius: 6,
         overflow: 'hidden',
         minWidth: 280,
@@ -37,13 +37,13 @@ function ToggleContent() {
               justifyContent: 'space-between',
               padding: '10px 16px',
               background: i % 2 === 0 ? '#1A183020' : 'transparent',
-              borderBottom: i < items.length - 1 ? '1px solid #8F745420' : 'none',
+              borderBottom: i < items.length - 1 ? `1px solid ${goldDim}20` : 'none',
             }}
           >
             <div>
-              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#F0E6D3' }}>{item.label}</p>
+              <p style={{ margin: 0, fontSize: '0.8125rem', color: textActive }}>{item.label}</p>
               {item.hint && (
-                <p style={{ margin: '2px 0 0', fontSize: '0.6875rem', color: 'textCool' }}>{item.hint}</p>
+                <p style={{ margin: '2px 0 0', fontSize: '0.6875rem', color: textCool }}>{item.hint}</p>
               )}
             </div>
             <To
@@ -154,7 +154,7 @@ function ToggleContent() {
     <div key={key} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 16px' }}>
       <div>
         <p>{label}</p>
-        {hint && <p style={{ fontSize: '0.69rem', color: 'textCool' }}>{hint}</p>}
+        {hint && <p style={{ fontSize: '0.69rem', color: textCool }}>{hint}</p>}
       </div>
       <${cmp} checked={values[key]} onChange={val => set(key, val)} />
     </div>

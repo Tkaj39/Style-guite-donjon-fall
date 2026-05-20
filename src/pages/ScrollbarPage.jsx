@@ -1,25 +1,25 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textDeep, textCool } from '../lib/donjon/tokens'
+import { textDeep, textCool, goldMid, goldDim, bg0 } from '../lib/donjon/tokens'
 
 /* ── Live scrollbar demo ── */
 function ScrollDemo({ label, className, style = {} }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool' }}>{label}</p>
+      <p style={{ margin: 0, fontSize: '0.75rem', color: textCool }}>{label}</p>
       <div
         className={className}
         style={{
           height: 160, width: 220,
           overflowY: 'scroll',
-          background: '#12102A',
-          border: '1px solid #8F745430',
+          background: bg0,
+          border: `1px solid ${goldDim}30`,
           borderRadius: 4,
           padding: '8px 12px',
           ...style,
         }}
       >
         {Array.from({ length: 16 }).map((_, i) => (
-          <p key={i} style={{ margin: '0 0 6px', fontSize: '0.8125rem', color: 'textCool' }}>
+          <p key={i} style={{ margin: '0 0 6px', fontSize: '0.8125rem', color: textCool }}>
             Řádek {i + 1} — obsah seznamu
           </p>
         ))}
@@ -60,16 +60,16 @@ export default function ScrollbarPage() {
           /* Donjon scrollbar — výchozí */
           .donjon-scrollbar::-webkit-scrollbar        { width: 6px; }
           .donjon-scrollbar::-webkit-scrollbar-track  { background: #0E0C22; border-radius: 3px; }
-          .donjon-scrollbar::-webkit-scrollbar-thumb  { background: #8F745460; border-radius: 3px; }
-          .donjon-scrollbar::-webkit-scrollbar-thumb:hover { background: #B8956A; }
-          .donjon-scrollbar { scrollbar-width: thin; scrollbar-color: #8F745460 #0E0C22; }
+          .donjon-scrollbar::-webkit-scrollbar-thumb  { background: ${goldDim}60; border-radius: 3px; }
+          .donjon-scrollbar::-webkit-scrollbar-thumb:hover { background: goldMid; }
+          .donjon-scrollbar { scrollbar-width: thin; scrollbar-color: ${goldDim}60 #0E0C22; }
 
           /* Tenký (sidebar) */
           .donjon-scrollbar-thin::-webkit-scrollbar        { width: 4px; }
           .donjon-scrollbar-thin::-webkit-scrollbar-track  { background: transparent; }
-          .donjon-scrollbar-thin::-webkit-scrollbar-thumb  { background: #8F745440; border-radius: 2px; }
-          .donjon-scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #8F7458; }
-          .donjon-scrollbar-thin { scrollbar-width: thin; scrollbar-color: #8F745440 transparent; }
+          .donjon-scrollbar-thin::-webkit-scrollbar-thumb  { background: ${goldDim}40; border-radius: 2px; }
+          .donjon-scrollbar-thin::-webkit-scrollbar-thumb:hover { background: goldDim; }
+          .donjon-scrollbar-thin { scrollbar-width: thin; scrollbar-color: ${goldDim}40 transparent; }
         `}</style>
       </Section>
 
@@ -88,18 +88,18 @@ export default function ScrollbarPage() {
   border-radius: 3px;
 }
 .donjon-scrollbar::-webkit-scrollbar-thumb {
-  background: #8F745460;
+  background: ${goldDim}60;
   border-radius: 3px;
 }
 .donjon-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #B8956A;
+  background: goldMid;
   transition: background 0.15s;
 }
 
 /* Firefox */
 .donjon-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #8F745460 #0E0C22;
+  scrollbar-color: ${goldDim}60 #0E0C22;
 }
 
 /* ── Tenký scrollbar — sidebar, panel (4px) ── */
@@ -110,15 +110,15 @@ export default function ScrollbarPage() {
   background: transparent;
 }
 .donjon-scrollbar-thin::-webkit-scrollbar-thumb {
-  background: #8F745440;
+  background: ${goldDim}40;
   border-radius: 2px;
 }
 .donjon-scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: #8F7458;
+  background: goldDim;
 }
 .donjon-scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: #8F745440 transparent;
+  scrollbar-color: ${goldDim}40 transparent;
 }
 
 /* ── Skrytý scrollbar (funkční scroll bez visuals) ── */
@@ -147,10 +147,10 @@ export default function ScrollbarPage() {
               { place: 'Herní log / history',     variant: 'donjon-scrollbar-thin', note: 'Tenký — log je doplňkový, ne primární' },
               { place: 'Toast kontejner',         variant: 'scroll-hidden',         note: 'Toasty nepoužívají scroll — limituj počet' },
             ].map(({ place, variant, note }) => (
-              <div key={place} style={{ display: 'grid', gridTemplateColumns: '200px 160px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3 }}>
-                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{place}</span>
-                <code style={{ fontSize: '0.75rem', color: '#B8956A' }}>{variant}</code>
-                <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{note}</span>
+              <div key={place} style={{ display: 'grid', gridTemplateColumns: '200px 160px 1fr', gap: 10, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3 }}>
+                <span style={{ fontSize: '0.8125rem', color: textCool }}>{place}</span>
+                <code style={{ fontSize: '0.75rem', color: goldMid }}>{variant}</code>
+                <span style={{ fontSize: '0.6875rem', color: textDeep, lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
           </div>

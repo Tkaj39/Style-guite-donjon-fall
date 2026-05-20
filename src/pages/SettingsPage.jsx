@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { textFaint, textParchment } from '../lib/donjon/tokens'
+import { textFaint, textParchment, gold, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
@@ -13,22 +13,22 @@ const p2 = players[1]
 function MiniSlider({ label, pct, labelW = 64, fs = '0.4375rem' }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-      <span style={{ fontSize: fs, color: '#8F7458', width: labelW, flexShrink: 0 }}>{label}</span>
+      <span style={{ fontSize: fs, color: goldDim, width: labelW, flexShrink: 0 }}>{label}</span>
       <div style={{
-        flex: 1, height: 3, background: '#1B1A30',
+        flex: 1, height: 3, background: bgDeep,
         borderRadius: 2, position: 'relative', overflow: 'visible',
       }}>
-        <div style={{ width: `${pct}%`, height: '100%', background: '#FFC183', borderRadius: 2 }} />
+        <div style={{ width: `${pct}%`, height: '100%', background: gold, borderRadius: 2 }} />
         <div style={{
           position: 'absolute', top: -4,
           left: `${pct}%`, transform: 'translateX(-50%)',
           width: 8, height: 8, borderRadius: '50%',
-          background: '#FFC183', border: '1px solid #12111F',
+          background: gold, border: '1px solid #12111F',
           flexShrink: 0,
         }} />
       </div>
       <span style={{
-        fontSize: fs, color: 'textFaint',
+        fontSize: fs, color: textFaint,
         fontVariantNumeric: 'tabular-nums', width: 24, textAlign: 'right',
       }}>{pct}%</span>
     </div>
@@ -39,10 +39,10 @@ function MiniSlider({ label, pct, labelW = 64, fs = '0.4375rem' }) {
 function MiniToggle({ on, label, fs = '0.4375rem', labelW = 80 }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-      <span style={{ fontSize: fs, color: '#8F7458', width: labelW, flexShrink: 0 }}>{label}</span>
+      <span style={{ fontSize: fs, color: goldDim, width: labelW, flexShrink: 0 }}>{label}</span>
       <div style={{
         width: 26, height: 13, borderRadius: 7, flexShrink: 0,
-        background: on ? '#FFC18330' : '#1B1A30',
+        background: on ? '#FFC18330' : 'bgDeep',
         border: `1px solid ${on ? '#FFC18366' : '#3A3858'}`,
         position: 'relative',
       }}>
@@ -50,10 +50,10 @@ function MiniToggle({ on, label, fs = '0.4375rem', labelW = 80 }) {
           position: 'absolute', top: 2,
           left: on ? 14 : 2,
           width: 7, height: 7, borderRadius: '50%',
-          background: on ? '#FFC183' : 'textFaint',
+          background: on ? 'gold' : 'textFaint',
         }} />
       </div>
-      <span style={{ fontSize: fs, color: on ? '#FFC183' : 'textFaint' }}>
+      <span style={{ fontSize: fs, color: on ? 'gold' : 'textFaint' }}>
         {on ? 'Zapnuto' : 'Vypnuto'}
       </span>
     </div>
@@ -62,7 +62,7 @@ function MiniToggle({ on, label, fs = '0.4375rem', labelW = 80 }) {
 
 /* ── Mini divider ── */
 function Divider() {
-  return <div style={{ height: 1, background: '#2A2948', margin: '2px 0' }} />
+  return <div style={{ height: 1, background: bg4, margin: '2px 0' }} />
 }
 
 /* ── Tab tlačítko ── */
@@ -71,8 +71,8 @@ function TabBtn({ label, active, fs = '0.4375rem', px = 8, py = 4 }) {
     <div style={{
       padding: `${py}px ${px}px`,
       fontSize: fs, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
-      color: active ? '#FFC183' : 'textFaint',
-      borderBottom: `2px solid ${active ? '#FFC183' : 'transparent'}`,
+      color: active ? 'gold' : 'textFaint',
+      borderBottom: `2px solid ${active ? 'gold' : 'transparent'}`,
       cursor: 'default', flexShrink: 0,
     }}>
       {label}
@@ -110,7 +110,7 @@ function TabJazyk({ fs = '0.4375rem' }) {
         }}>
           <div style={{
             width: 5, height: 5, borderRadius: '50%', flexShrink: 0,
-            background: l.active ? '#FFC183' : '#2A2948',
+            background: l.active ? 'gold' : 'bg4',
           }} />
           <span style={{ fontSize: fs, color: l.active ? 'textParchment' : 'textFaint', fontWeight: l.active ? 700 : 400 }}>
             {l.label}
@@ -139,11 +139,11 @@ function TabOvladani({ fs = '0.375rem' }) {
           justifyContent: 'space-between',
           padding: '2px 0', borderBottom: '1px solid #1E1D30',
         }}>
-          <span style={{ fontSize: fs, color: '#8F7458' }}>{b.action}</span>
+          <span style={{ fontSize: fs, color: goldDim }}>{b.action}</span>
           <div style={{
-            background: '#1B1A30', border: '1px solid #3A3858',
+            background: bgDeep, border: '1px solid #3A3858',
             borderRadius: 2, padding: '1px 5px',
-            fontSize: fs, color: 'textParchment', fontWeight: 700, letterSpacing: '0.06em',
+            fontSize: fs, color: textParchment, fontWeight: 700, letterSpacing: '0.06em',
           }}>
             {b.key}
           </div>
@@ -160,15 +160,15 @@ function TabGrafika({ fs = '0.4375rem', labelW = 64 }) {
       <MiniToggle label="Fullscreen" on={false} fs={fs} labelW={labelW} />
       <Divider />
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <span style={{ fontSize: fs, color: '#8F7458', width: labelW }}>Kvalita</span>
+        <span style={{ fontSize: fs, color: goldDim, width: labelW }}>Kvalita</span>
         <div style={{
           display: 'flex', gap: 4,
         }}>
           {['Nízká', 'Střední', 'Vysoká'].map((q, i) => (
             <div key={q} style={{
               padding: '2px 6px', borderRadius: 2, fontSize: '0.375rem',
-              background: i === 2 ? '#252342' : '#1B1A30',
-              border: `1px solid ${i === 2 ? '#5A5878' : '#2A2948'}`,
+              background: i === 2 ? '#252342' : 'bgDeep',
+              border: `1px solid ${i === 2 ? '#5A5878' : 'bg4'}`,
               color: i === 2 ? 'textParchment' : 'textFaint',
               fontWeight: i === 2 ? 700 : 400,
             }}>{q}</div>
@@ -222,19 +222,19 @@ function SettingsModal({ activeTab = 'zvuk', size = 'desktop' }) {
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: isDesktop ? '10px 16px' : '7px 12px',
-        borderBottom: '1px solid #2A2948', background: '#14132A',
+        borderBottom: `1px solid ${bg4}`, background: '#14132A',
       }}>
         <span style={{
           fontSize: headerFs, fontWeight: 700,
-          color: 'textParchment', letterSpacing: '0.12em', textTransform: 'uppercase',
+          color: textParchment, letterSpacing: '0.12em', textTransform: 'uppercase',
         }}>Nastavení</span>
-        <span style={{ fontSize: headerFs, color: 'textFaint', cursor: 'default' }}>✕</span>
+        <span style={{ fontSize: headerFs, color: textFaint, cursor: 'default' }}>✕</span>
       </div>
 
       {/* Taby */}
       <div style={{
         display: 'flex',
-        borderBottom: '1px solid #2A2948',
+        borderBottom: `1px solid ${bg4}`,
         padding: '0 12px', gap: 2, background: '#14132A',
       }}>
         {tabs.map(t => (
@@ -255,18 +255,18 @@ function SettingsModal({ activeTab = 'zvuk', size = 'desktop' }) {
       <div style={{
         display: 'flex', justifyContent: 'flex-end', gap: 8,
         padding: isDesktop ? '10px 16px' : '7px 12px',
-        borderTop: '1px solid #2A2948', background: '#14132A',
+        borderTop: `1px solid ${bg4}`, background: '#14132A',
       }}>
         <div style={{
           padding: isDesktop ? '4px 12px' : '3px 8px',
-          fontSize: tabFs, color: '#8F7458', fontWeight: 700,
+          fontSize: tabFs, color: goldDim, fontWeight: 700,
           letterSpacing: '0.08em', textTransform: 'uppercase',
           border: '1px solid #3A3858', borderRadius: 3,
-          background: '#1B1A30',
+          background: bgDeep,
         }}>Zrušit</div>
         <div style={{
           padding: isDesktop ? '4px 12px' : '3px 8px',
-          fontSize: tabFs, color: '#FFC183', fontWeight: 700,
+          fontSize: tabFs, color: gold, fontWeight: 700,
           letterSpacing: '0.08em', textTransform: 'uppercase',
           border: '1px solid #FFC18355', borderRadius: 3,
           background: '#2A2020', boxShadow: '0 0 6px #FFC18322',
@@ -280,18 +280,18 @@ function SettingsModal({ activeTab = 'zvuk', size = 'desktop' }) {
 function BackdropHUD({ hudH = 34 }) {
   return (
     <div style={{
-      height: hudH, background: '#1B1A30',
-      borderBottom: '1px solid #2A2948',
+      height: hudH, background: bgDeep,
+      borderBottom: `1px solid ${bg4}`,
       display: 'flex', alignItems: 'center', gap: 7,
       padding: '0 12px', flexShrink: 0,
     }}>
       <div style={{ width: 7, height: 7, borderRadius: '50%', background: p1.color }} />
-      <span style={{ fontSize: '0.4375rem', color: 'textParchment', fontWeight: 700, letterSpacing: '0.06em' }}>HRÁČ 1</span>
+      <span style={{ fontSize: '0.4375rem', color: textParchment, fontWeight: 700, letterSpacing: '0.06em' }}>HRÁČ 1</span>
       <div style={{
         marginLeft: 'auto',
         background: '#252342', borderRadius: 2,
         padding: '1px 6px', fontSize: '0.375rem',
-        color: '#FFC183', fontWeight: 700,
+        color: gold, fontWeight: 700,
       }}>AKCE</div>
     </div>
   )

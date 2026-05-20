@@ -270,25 +270,25 @@ function DonjonFocusContent() {
         <Preview dark={false}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, maxWidth: 540 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
-              <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: '#C04040', letterSpacing: '0.08em', textTransform: 'uppercase' }}>✗ Žádný ring</p>
+              <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: failColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>✗ Žádný ring</p>
               <div style={{ padding: '8px 16px', background: '#1E1C3A', border: `1px solid ${D.goldDim}40`, borderRadius: 3, fontSize: '0.875rem', color: D.textActive, outline: 'none' }}>
                 Tlačítko
               </div>
-              <p style={{ margin: 0, fontSize: '0.6875rem', color: 'textCool', textAlign: 'center', lineHeight: 1.3 }}>Keyboard uživatel neví kde je</p>
+              <p style={{ margin: 0, fontSize: '0.6875rem', color: textCool, textAlign: 'center', lineHeight: 1.3 }}>Keyboard uživatel neví kde je</p>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
               <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: D.warningColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>⚠ Browser default</p>
               <div style={{ padding: '8px 16px', background: '#1E1C3A', border: `1px solid ${D.goldDim}40`, borderRadius: 3, fontSize: '0.875rem', color: D.textActive, outline: '2px solid #0055FF' }}>
                 Tlačítko
               </div>
-              <p style={{ margin: 0, fontSize: '0.6875rem', color: 'textCool', textAlign: 'center', lineHeight: 1.3 }}>Modrý — nesedí do Donjon palety</p>
+              <p style={{ margin: 0, fontSize: '0.6875rem', color: textCool, textAlign: 'center', lineHeight: 1.3 }}>Modrý — nesedí do Donjon palety</p>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
               <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: D.successColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>✓ Donjon ring</p>
               <div style={{ padding: '8px 16px', background: '#1E1C3A', border: `1px solid ${D.goldDim}40`, borderRadius: 3, fontSize: '0.875rem', color: D.textActive, outline: `2px solid ${D.goldMid}`, outlineOffset: 2 }}>
                 Tlačítko
               </div>
-              <p style={{ margin: 0, fontSize: '0.6875rem', color: 'textCool', textAlign: 'center', lineHeight: 1.3 }}>Zlatý — zapadá do design systému</p>
+              <p style={{ margin: 0, fontSize: '0.6875rem', color: textCool, textAlign: 'center', lineHeight: 1.3 }}>Zlatý — zapadá do design systému</p>
             </div>
           </div>
         </Preview>
@@ -313,12 +313,12 @@ function DonjonFocusContent() {
 }
 
 :focus-visible {
-  outline: 2px solid #B8956A;
+  outline: 2px solid goldMid;
   outline-offset: 2px;
 }
 
 /* Tailwind ekvivalent */
-className="focus-visible:outline-2 focus-visible:outline-[#B8956A] focus-visible:outline-offset-2"
+className="focus-visible:outline-2 focus-visible:outline-[goldMid] focus-visible:outline-offset-2"
 
 /* NIKDY nepoužívej :focus bez :focus-visible — :focus se spouští i při kliknutí myší */`} />
       </Section>
@@ -332,7 +332,7 @@ className="focus-visible:outline-2 focus-visible:outline-[#B8956A] focus-visible
         <Preview>
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-start' }}>
             <RingAnatomy label="Default"  offset={2}  width={2} color={D.goldMid}      />
-            <RingAnatomy label="Danger"   offset={2}  width={2} color="#C04040"         />
+            <RingAnatomy label="Danger"   offset={2}  width={2} color="failColor"         />
             <RingAnatomy label="Success"  offset={2}  width={2} color={D.successColor}  />
             <RingAnatomy label="Info"     offset={2}  width={2} color="#4080C0"          />
             <RingAnatomy label="Inset"    offset={-2} width={2} color={D.goldMid}
@@ -344,16 +344,16 @@ className="focus-visible:outline-2 focus-visible:outline-[#B8956A] focus-visible
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 560 }}>
             {[
               { ctx: 'Výchozí tlačítko / input', ring: `2px solid ${D.goldMid}`,      offset: '2px',  note: 'Standardní zlatý ring' },
-              { ctx: 'Danger tlačítko',          ring: '2px solid #C04040',            offset: '2px',  note: 'Ring odpovídá variantě tlačítka' },
+              { ctx: 'Danger tlačítko',          ring: '2px solid failColor',            offset: '2px',  note: 'Ring odpovídá variantě tlačítka' },
               { ctx: 'Success tlačítko',         ring: `2px solid ${D.successColor}`,  offset: '2px',  note: 'Ring odpovídá variantě' },
               { ctx: 'Inset (tmavé pozadí)',     ring: `2px solid ${D.goldMid}`,       offset: '-2px', note: 'Záporný offset — ring dovnitř prvku' },
               { ctx: 'Modal / overlay',          ring: `2px solid ${D.goldMid}`,       offset: '3px',  note: 'Větší offset pro viditelnost nad bg' },
             ].map(({ ctx, ring, offset, note }) => (
               <div key={ctx} style={{ display: 'grid', gridTemplateColumns: '200px 160px 60px 1fr', gap: 10, padding: '8px 12px', background: D.bg0, border: `1px solid ${D.goldDim}18`, borderRadius: 3, alignItems: 'center' }}>
-                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{ctx}</span>
+                <span style={{ fontSize: '0.8125rem', color: textCool }}>{ctx}</span>
                 <code style={{ fontSize: '0.6875rem', color: D.goldMid, lineHeight: 1.4 }}>{ring}</code>
-                <code style={{ fontSize: '0.6875rem', color: 'textDeep' }}>{offset}</code>
-                <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{note}</span>
+                <code style={{ fontSize: '0.6875rem', color: textDeep }}>{offset}</code>
+                <span style={{ fontSize: '0.6875rem', color: textDeep, lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
           </div>
@@ -426,7 +426,7 @@ useFocusTrap(modalRef, isOpen)`} />
             >
               Přeskočit na obsah
             </a>
-            <p style={{ margin: '20px auto', textAlign: 'center', fontSize: '0.75rem', color: 'textDeep' }}>Zmáčkni Tab pro zobrazení skip linku</p>
+            <p style={{ margin: '20px auto', textAlign: 'center', fontSize: '0.75rem', color: textDeep }}>Zmáčkni Tab pro zobrazení skip linku</p>
           </div>
         </Preview>
         <CodeBlock code={`<a
@@ -434,7 +434,7 @@ useFocusTrap(modalRef, isOpen)`} />
   className={[
     'sr-only focus-visible:not-sr-only',
     'fixed top-2 left-2 z-9999',
-    'px-4 py-2 bg-[#B8956A] text-[#12102A]',
+    'px-4 py-2 bg-[goldMid] text-[bg0]',
     'font-bold text-sm rounded-sm',
     'focus-visible:outline-2 focus-visible:outline-white',
   ].join(' ')}
@@ -451,7 +451,7 @@ useFocusTrap(modalRef, isOpen)`} />
       <Section id="pravidla" title="Pravidla">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">
           <p>✓ Vždy používej <code className="text-neutral-300">:focus-visible</code> — nikdy ne <code className="text-neutral-300">:focus</code> samotný.</p>
-          <p>✓ Výchozí ring: 2px solid #B8956A, offset 2px. Danger varianta: #C04040, Success: #40A055.</p>
+          <p>✓ Výchozí ring: 2px solid goldMid, offset 2px. Danger varianta: failColor, Success: successColor.</p>
           <p>✓ Overlay (modal, dropdown): focus trap — Tab nesmí uniknout ven.</p>
           <p>✓ Při zavření overlaye vrať focus na spouštěcí prvek (button, link).</p>
           <p>✓ Skip link jako první element stránky pro keyboard uživatele.</p>

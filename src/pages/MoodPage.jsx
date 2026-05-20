@@ -111,8 +111,8 @@ function TkajuiContent() {
 
 function DonjonPillar({ title, children }) {
   return (
-    <div style={{ borderLeft: '2px solid #8F7458', paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 6 }}>
-      <p style={{ margin: 0, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#FFC183' }}>
+    <div style={{ borderLeft: `2px solid ${goldDim}`, paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <p style={{ margin: 0, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: gold }}>
         {title}
       </p>
       <p style={{ margin: 0, fontSize: '0.9375rem', color: '#C8BFAF', lineHeight: 1.65 }}>
@@ -127,8 +127,8 @@ function MaterialBlock({ label, description, swatch }) {
     <div style={{ display: 'flex', gap: 20, alignItems: 'flex-start', padding: '20px 24px', background: 'linear-gradient(150deg,#1E1C30 0%,#171626 100%)', border: '1px solid #353751', borderRadius: 2 }}>
       <div style={{ width: 52, height: 52, flexShrink: 0, background: swatch, borderRadius: 2, border: '1px solid #8F745840' }} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-        <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#B8956A' }}>{label}</p>
-        <p style={{ margin: 0, fontSize: '0.875rem', color: '#8F7458', lineHeight: 1.6 }}>{description}</p>
+        <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: goldMid }}>{label}</p>
+        <p style={{ margin: 0, fontSize: '0.875rem', color: goldDim, lineHeight: 1.6 }}>{description}</p>
       </div>
     </div>
   )
@@ -138,7 +138,7 @@ function DonjonContent() {
   return (
     <>
       <Section id="manifesto-donjon">
-        <blockquote style={{ margin: 0, padding: '24px 32px', background: 'linear-gradient(150deg,#252340 0%,#1A1830 100%)', borderLeft: '3px solid #FFC183', borderRadius: 2 }}>
+        <blockquote style={{ margin: 0, padding: '24px 32px', background: 'linear-gradient(150deg,#252340 0%,borderSubtle 100%)', borderLeft: `3px solid ${gold}`, borderRadius: 2 }}>
           <p style={{ margin: 0, fontSize: '1.125rem', fontStyle: 'italic', color: '#E8DDD0', lineHeight: 1.7 }}>
             Donjon Fall není šachy. Je to bitva s osudem.
           </p>
@@ -201,7 +201,7 @@ function DonjonContent() {
             { label: 'Středověká bitevní mapa',  note: 'Kreslená při loučích — organická, ne sterilní' },
           ].map(ref => (
             <div key={ref.label} style={{ padding: '14px 16px', background: '#161524', border: '1px solid #2A2848', borderRadius: 2, display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <p style={{ margin: 0, fontSize: '0.8125rem', fontWeight: 600, color: '#B8956A' }}>{ref.label}</p>
+              <p style={{ margin: 0, fontSize: '0.8125rem', fontWeight: 600, color: goldMid }}>{ref.label}</p>
               <p style={{ margin: 0, fontSize: '0.75rem', color: '#6B6A82', lineHeight: 1.5 }}>{ref.note}</p>
             </div>
           ))}

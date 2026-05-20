@@ -1,4 +1,5 @@
 import { octagon } from '../../utils/octagon'
+import { goldDim } from './tokens'
 
 const sizeMap = {
   xs: { box: 24, dot: 3, cx: 3.5, fontSize: '0.5rem'    }, // fits sm hex (42×48), tower of 3 ≤ 44px
@@ -24,7 +25,7 @@ const stateConfig = {
   damaged:  { bgMod: '11', borderMod: '88', opacity: 0.6  },
 }
 
-export default function DieFace({ value = 1, playerColor = '#8F7458', size = 'md', state = 'default' }) {
+export default function DieFace({ value = 1, playerColor = 'goldDim', size = 'md', state = 'default' }) {
   const s = sizeMap[size] ?? sizeMap.md
   const cfg = stateConfig[state] ?? stateConfig.default
   const dots = dotPositions[value] ?? dotPositions[1]

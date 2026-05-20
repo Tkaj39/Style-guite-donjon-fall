@@ -1,5 +1,5 @@
 import { useLibVariant, ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textDeep, textCool } from '../lib/donjon/tokens'
+import { textDeep, textCool, gold, goldMid, goldDim, bg0, successColor, textActive, borderSubtle, failColor } from '../lib/donjon/tokens'
 import * as T from '../lib/tkajui/tokens'
 import * as D from '../lib/donjon/tokens'
 
@@ -341,22 +341,22 @@ style={{ color: accent }}         // import z tokens.js`} />
 
 function DonjonTokenRow({ name, value, computed, usage, category }) {
   const catColors = {
-    color:   '#B8956A',
+    color:   goldMid,
     spacing: '#4080C0',
-    radius:  '#40A055',
-    shadow:  '#8F7458',
+    radius:  'successColor',
+    shadow:  'goldDim',
     z:       '#C08040',
-    duration:'#C04040',
+    duration:'failColor',
   }
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '220px 160px 100px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3, alignItems: 'center' }}>
-      <code style={{ fontSize: '0.75rem', color: catColors[category] ?? '#B8956A' }}>{name}</code>
-      <code style={{ fontSize: '0.75rem', color: 'textCool', wordBreak: 'break-all' }}>{value}</code>
+    <div style={{ display: 'grid', gridTemplateColumns: '220px 160px 100px 1fr', gap: 10, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3, alignItems: 'center' }}>
+      <code style={{ fontSize: '0.75rem', color: catColors[category] ?? 'goldMid' }}>{name}</code>
+      <code style={{ fontSize: '0.75rem', color: textCool, wordBreak: 'break-all' }}>{value}</code>
       {computed
         ? <div style={{ width: computed.w ?? 24, height: computed.h ?? 24, background: computed.bg, borderRadius: computed.r ?? 0, boxShadow: computed.shadow }} />
-        : <span style={{ fontSize: '0.75rem', color: 'textDeep' }}>—</span>
+        : <span style={{ fontSize: '0.75rem', color: textDeep }}>—</span>
       }
-      <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{usage}</span>
+      <span style={{ fontSize: '0.6875rem', color: textDeep, lineHeight: 1.4 }}>{usage}</span>
     </div>
   )
 }
@@ -373,17 +373,17 @@ function DonjonTokensContent() {
         <Preview dark={false}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, maxWidth: 520 }}>
             <div style={{ padding: '14px', border: '1px solid #C0404040', borderRadius: 4, background: '#3D181818' }}>
-              <p style={{ margin: '0 0 8px', fontSize: '0.5625rem', fontWeight: 700, color: '#C04040', textTransform: 'uppercase', letterSpacing: '0.08em' }}>✗ Bez tokenů</p>
-              <code style={{ fontSize: '0.75rem', color: 'textCool', display: 'block', lineHeight: 1.8 }}>
-                {'color: #B8956A'}<br />
-                {'border: 1px solid #B8956A'}<br />
+              <p style={{ margin: '0 0 8px', fontSize: '0.5625rem', fontWeight: 700, color: failColor, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✗ Bez tokenů</p>
+              <code style={{ fontSize: '0.75rem', color: textCool, display: 'block', lineHeight: 1.8 }}>
+                {'color: goldMid'}<br />
+                {'border: 1px solid goldMid'}<br />
                 {'box-shadow: 0 0 12px #B8956A40'}<br />
                 {'/* 47× v kódu — oprav všechny */'}<br />
               </code>
             </div>
             <div style={{ padding: '14px', border: '1px solid #40A05540', borderRadius: 4, background: '#183D2018' }}>
-              <p style={{ margin: '0 0 8px', fontSize: '0.5625rem', fontWeight: 700, color: '#40A055', textTransform: 'uppercase', letterSpacing: '0.08em' }}>✓ S tokeny</p>
-              <code style={{ fontSize: '0.75rem', color: 'textCool', display: 'block', lineHeight: 1.8 }}>
+              <p style={{ margin: '0 0 8px', fontSize: '0.5625rem', fontWeight: 700, color: successColor, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✓ S tokeny</p>
+              <code style={{ fontSize: '0.75rem', color: textCool, display: 'block', lineHeight: 1.8 }}>
                 {'color: var(--color-gold)'}<br />
                 {'border: 1px solid var(--color-gold)'}<br />
                 {'box-shadow: var(--glow-gold)'}<br />
@@ -403,17 +403,17 @@ function DonjonTokensContent() {
         <Preview dark={false}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, width: '100%', maxWidth: 620 }}>
             {[
-              { name: '--color-bg',          value: '#12102A', computed: { bg: '#12102A', w: 24, h: 24, r: 2 }, usage: 'Hlavní pozadí aplikace', category: 'color' },
-              { name: '--color-bg-raised',   value: '#1A1830', computed: { bg: '#1A1830', w: 24, h: 24, r: 2 }, usage: 'Karta, skeleton, raised surface', category: 'color' },
+              { name: '--color-bg',          value: 'bg0', computed: { bg: 'bg0', w: 24, h: 24, r: 2 }, usage: 'Hlavní pozadí aplikace', category: 'color' },
+              { name: '--color-bg-raised',   value: 'borderSubtle', computed: { bg: 'borderSubtle', w: 24, h: 24, r: 2 }, usage: 'Karta, skeleton, raised surface', category: 'color' },
               { name: '--color-bg-panel',    value: '#1E1C3A', computed: { bg: '#1E1C3A', w: 24, h: 24, r: 2 }, usage: 'Panel, modal, overlay', category: 'color' },
-              { name: '--color-gold',        value: '#B8956A', computed: { bg: '#B8956A', w: 24, h: 24, r: 2 }, usage: 'Primární akcent, zlato', category: 'color' },
-              { name: '--color-gold-dark',   value: '#8F7458', computed: { bg: '#8F7458', w: 24, h: 24, r: 2 }, usage: 'Border, dekorativní, sekundární', category: 'color' },
-              { name: '--color-gold-light',  value: '#FFC183', computed: { bg: '#FFC183', w: 24, h: 24, r: 2 }, usage: 'Gradient start, highlight', category: 'color' },
-              { name: '--color-text',        value: '#F0E6D3', computed: { bg: '#F0E6D3', w: 24, h: 24, r: 2 }, usage: 'Hlavní text', category: 'color' },
+              { name: '--color-gold',        value: 'goldMid', computed: { bg: 'goldMid', w: 24, h: 24, r: 2 }, usage: 'Primární akcent, zlato', category: 'color' },
+              { name: '--color-gold-dark',   value: 'goldDim', computed: { bg: 'goldDim', w: 24, h: 24, r: 2 }, usage: 'Border, dekorativní, sekundární', category: 'color' },
+              { name: '--color-gold-light',  value: 'gold', computed: { bg: 'gold', w: 24, h: 24, r: 2 }, usage: 'Gradient start, highlight', category: 'color' },
+              { name: '--color-text',        value: 'textActive', computed: { bg: 'textActive', w: 24, h: 24, r: 2 }, usage: 'Hlavní text', category: 'color' },
               { name: '--color-text-muted',  value: 'textCool', computed: { bg: 'textCool', w: 24, h: 24, r: 2 }, usage: 'Sekundární text, popis', category: 'color' },
               { name: '--color-text-faint',  value: 'textDeep', computed: { bg: 'textDeep', w: 24, h: 24, r: 2 }, usage: 'Placeholder, micro text', category: 'color' },
-              { name: '--color-success',     value: '#40A055', computed: { bg: '#40A055', w: 24, h: 24, r: 2 }, usage: 'Úspěch, VP, ok stav', category: 'color' },
-              { name: '--color-danger',      value: '#C04040', computed: { bg: '#C04040', w: 24, h: 24, r: 2 }, usage: 'Chyba, destruktivní akce', category: 'color' },
+              { name: '--color-success',     value: 'successColor', computed: { bg: 'successColor', w: 24, h: 24, r: 2 }, usage: 'Úspěch, VP, ok stav', category: 'color' },
+              { name: '--color-danger',      value: 'failColor', computed: { bg: 'failColor', w: 24, h: 24, r: 2 }, usage: 'Chyba, destruktivní akce', category: 'color' },
               { name: '--color-warning',     value: '#C08040', computed: { bg: '#C08040', w: 24, h: 24, r: 2 }, usage: 'Varování, upozornění', category: 'color' },
               { name: '--color-info',        value: '#4080C0', computed: { bg: '#4080C0', w: 24, h: 24, r: 2 }, usage: 'Informace, nápověda', category: 'color' },
             ].map(t => <DonjonTokenRow key={t.name} {...t} />)}
@@ -421,20 +421,20 @@ function DonjonTokensContent() {
         </Preview>
         <CodeBlock code={`/* src/index.css — kořenové tokeny */
 :root {
-  --color-bg:         #12102A;
-  --color-bg-raised:  #1A1830;
+  --color-bg:         bg0;
+  --color-bg-raised:  borderSubtle;
   --color-bg-panel:   #1E1C3A;
 
-  --color-gold:       #B8956A;
-  --color-gold-dark:  #8F7458;
-  --color-gold-light: #FFC183;
+  --color-gold:       goldMid;
+  --color-gold-dark:  goldDim;
+  --color-gold-light: gold;
 
-  --color-text:       #F0E6D3;
+  --color-text:       textActive;
   --color-text-muted: textCool;
   --color-text-faint: textDeep;
 
-  --color-success:    #40A055;
-  --color-danger:     #C04040;
+  --color-success:    successColor;
+  --color-danger:     failColor;
   --color-warning:    #C08040;
   --color-info:       #4080C0;
 }`} />
@@ -459,7 +459,7 @@ function DonjonTokensContent() {
               { name: '--space-10', value: '40px', usage: 'Page padding, hero spacing' },
             ].map(({ name, value, usage }) => (
               <SpacingRow key={name} name={name} value={value} usage={usage}
-                nameColor="#4080C0" valuColor="#B8956A" rowBg="#12102A" rowBorder="#8F745418" textColor="textDeep" />
+                nameColor="#4080C0" valuColor={goldMid} rowBg={bg0} rowBorder={`${goldDim}18`} textColor={textDeep} />
             ))}
           </div>
         </Preview>
@@ -483,8 +483,8 @@ function DonjonTokensContent() {
               { name: '--radius-full', value: '9999px', r: 9999 },
             ].map(({ name, value, r }) => (
               <div key={name} style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'center' }}>
-                <div style={{ width: 48, height: 36, background: '#1E1C3A', border: '1px solid #8F745440', borderRadius: r }} />
-                <code style={{ fontSize: '0.5625rem', color: '#B8956A', textAlign: 'center' }}>{value}</code>
+                <div style={{ width: 48, height: 36, background: '#1E1C3A', border: `1px solid ${goldDim}40`, borderRadius: r }} />
+                <code style={{ fontSize: '0.5625rem', color: goldMid, textAlign: 'center' }}>{value}</code>
               </div>
             ))}
           </div>
@@ -506,16 +506,16 @@ function DonjonTokensContent() {
               { step: '4', title: 'Zdokumentuj na stránce /tokens', desc: 'Přidej řádek do TokenRow tabulky — usage, kde se používá.' },
               { step: '5', title: 'Odstraň magic numbers z komponent', desc: 'Nahraď všechna použití existujících hodnot novým tokenem.' },
             ].map(({ step, title, desc }) => (
-              <div key={step} style={{ display: 'flex', gap: 12, padding: '10px 14px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3 }}>
+              <div key={step} style={{ display: 'flex', gap: 12, padding: '10px 14px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3 }}>
                 <div style={{
                   flexShrink: 0, width: 24, height: 24, borderRadius: '50%',
-                  background: '#8F745420', border: '1px solid #8F7458',
+                  background: `${goldDim}20`, border: `1px solid ${goldDim}`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '0.75rem', fontWeight: 700, color: '#B8956A',
+                  fontSize: '0.75rem', fontWeight: 700, color: goldMid,
                 }}>{step}</div>
                 <div>
-                  <p style={{ margin: '0 0 2px', fontSize: '0.8125rem', fontWeight: 700, color: '#F0E6D3' }}>{title}</p>
-                  <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>{desc}</p>
+                  <p style={{ margin: '0 0 2px', fontSize: '0.8125rem', fontWeight: 700, color: textActive }}>{title}</p>
+                  <p style={{ margin: 0, fontSize: '0.75rem', color: textCool, lineHeight: 1.4 }}>{desc}</p>
                 </div>
               </div>
             ))}
@@ -535,13 +535,13 @@ export default {
     extend: {
       colors: {
         brand: {
-          300: '#FFC183',  // --color-gold-light
-          400: '#B8956A',  // --color-gold
-          500: '#8F7458',  // --color-gold-dark
+          300: 'gold',  // --color-gold-light
+          400: 'goldMid',  // --color-gold
+          500: 'goldDim',  // --color-gold-dark
         },
         neutral: {
-          950: '#12102A',
-          900: '#1A1830',
+          950: 'bg0',
+          900: 'borderSubtle',
           800: '#1E1C3A',
         },
       },

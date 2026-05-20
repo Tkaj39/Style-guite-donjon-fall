@@ -1,10 +1,10 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textDeep, textCool } from '../lib/donjon/tokens'
+import { textDeep, textCool, goldMid, goldDim, bg0, successColor, textActive, failColor } from '../lib/donjon/tokens'
 
 /* ── Priority stack diagram ── */
 const LEVELS = [
-  { label: 'Modal / Dialog',  z: 1000, color: '#8F7458', bg: '#2E2B50', desc: 'Blokuje veškerou interakci. Vyžaduje přímou odpověď uživatele.', examples: 'Potvrzení smazání, výhra hry, kritická chyba' },
-  { label: 'Toast / Notifikace', z: 2000, color: '#40A055', bg: '#183D20', desc: 'Nezablokuje UI. Automaticky zmizí nebo vyžaduje × kliknutí.', examples: 'Uložení proběhlo, chyba sítě, výsledek akce' },
+  { label: 'Modal / Dialog',  z: 1000, color: goldDim, bg: '#2E2B50', desc: 'Blokuje veškerou interakci. Vyžaduje přímou odpověď uživatele.', examples: 'Potvrzení smazání, výhra hry, kritická chyba' },
+  { label: 'Toast / Notifikace', z: 2000, color: successColor, bg: '#183D20', desc: 'Nezablokuje UI. Automaticky zmizí nebo vyžaduje × kliknutí.', examples: 'Uložení proběhlo, chyba sítě, výsledek akce' },
   { label: 'Inline feedback', z: 0,    color: '#4080C0', bg: '#182A3D', desc: 'Přímo u prvku — error u inputu, helper text, stavový badge.', examples: 'Validační chyba formuláře, disabled hint, stav hexu' },
   { label: 'Tooltip',         z: 3000, color: '#C08040', bg: '#3D2E10', desc: 'Kontextová nápověda na hover/focus. Nepřerušuje flow.', examples: 'Vysvětlení ikony, herní termín, pravidlo akce' },
 ]
@@ -26,11 +26,11 @@ function LevelCard({ label, z, color, bg, desc, examples, rank }) {
       </div>
       <div style={{ flex: 1 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 4 }}>
-          <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#F0E6D3' }}>{label}</span>
-          <code style={{ fontSize: '0.6875rem', color: 'textDeep' }}>z:{z}</code>
+          <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: textActive }}>{label}</span>
+          <code style={{ fontSize: '0.6875rem', color: textDeep }}>z:{z}</code>
         </div>
-        <p style={{ margin: '0 0 4px', fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>{desc}</p>
-        <p style={{ margin: 0, fontSize: '0.6875rem', color: 'textDeep' }}><em>Příklady: {examples}</em></p>
+        <p style={{ margin: '0 0 4px', fontSize: '0.75rem', color: textCool, lineHeight: 1.4 }}>{desc}</p>
+        <p style={{ margin: 0, fontSize: '0.6875rem', color: textDeep }}><em>Příklady: {examples}</em></p>
       </div>
     </div>
   )
@@ -39,11 +39,11 @@ function LevelCard({ label, z, color, bg, desc, examples, rank }) {
 /* ── Conflict matrix ── */
 function ConflictRow({ situation, winner, loser, rule }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 120px 120px 1fr', gap: 10, padding: '9px 14px', borderBottom: '1px solid #8F745418', alignItems: 'center' }}>
-      <span style={{ fontSize: '0.75rem', color: 'textCool', lineHeight: 1.4 }}>{situation}</span>
-      <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#40A055' }}>{winner} ✓</span>
-      <span style={{ fontSize: '0.75rem', color: 'textDeep' }}>{loser} pause</span>
-      <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{rule}</span>
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 120px 120px 1fr', gap: 10, padding: '9px 14px', borderBottom: `1px solid ${goldDim}18`, alignItems: 'center' }}>
+      <span style={{ fontSize: '0.75rem', color: textCool, lineHeight: 1.4 }}>{situation}</span>
+      <span style={{ fontSize: '0.75rem', fontWeight: 700, color: successColor }}>{winner} ✓</span>
+      <span style={{ fontSize: '0.75rem', color: textDeep }}>{loser} pause</span>
+      <span style={{ fontSize: '0.6875rem', color: textDeep, lineHeight: 1.4 }}>{rule}</span>
     </div>
   )
 }
@@ -79,16 +79,16 @@ export default function FeedbackHierarchyPage() {
         <Preview dark={false}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%', maxWidth: 560 }}>
             {[
-              { q: 'Vyžaduje akce přímou odpověď (ano/ne)?',       a: '→ Modal',           color: '#8F7458' },
-              { q: 'Je akce nevratná (smazat, opustit hru)?',       a: '→ Modal danger',    color: '#C04040' },
-              { q: 'Výsledek akce se má potvrdit bez přerušení?',   a: '→ Toast success',   color: '#40A055' },
-              { q: 'Chyba sítě nebo systémová chyba?',              a: '→ Toast danger (duration=0)', color: '#C04040' },
+              { q: 'Vyžaduje akce přímou odpověď (ano/ne)?',       a: '→ Modal',           color: goldDim },
+              { q: 'Je akce nevratná (smazat, opustit hru)?',       a: '→ Modal danger',    color: failColor },
+              { q: 'Výsledek akce se má potvrdit bez přerušení?',   a: '→ Toast success',   color: successColor },
+              { q: 'Chyba sítě nebo systémová chyba?',              a: '→ Toast danger (duration=0)', color: failColor },
               { q: 'Neplatná hodnota ve formuláři?',                 a: '→ Inline error',    color: '#4080C0' },
               { q: 'Ikona nebo zkratka potřebuje vysvětlení?',      a: '→ Tooltip',         color: '#C08040' },
-              { q: 'Herní event (VP, pohyb, souboj)?',              a: '→ FloatFeedback',   color: '#B8956A' },
+              { q: 'Herní event (VP, pohyb, souboj)?',              a: '→ FloatFeedback',   color: goldMid },
             ].map(({ q, a, color }) => (
-              <div key={q} style={{ display: 'flex', alignItems: 'baseline', gap: 12, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3 }}>
-                <span style={{ fontSize: '0.8125rem', color: 'textCool', flex: 1 }}>{q}</span>
+              <div key={q} style={{ display: 'flex', alignItems: 'baseline', gap: 12, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3 }}>
+                <span style={{ fontSize: '0.8125rem', color: textCool, flex: 1 }}>{q}</span>
                 <span style={{ fontSize: '0.8125rem', fontWeight: 700, color, whiteSpace: 'nowrap' }}>{a}</span>
               </div>
             ))}
@@ -103,10 +103,10 @@ export default function FeedbackHierarchyPage() {
         description="Co se stane když se dva kanály překryjí."
       >
         <Preview dark={false}>
-          <div style={{ width: '100%', border: '1px solid #8F745430', borderRadius: 4, overflow: 'hidden' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 120px 120px 1fr', gap: 10, padding: '8px 14px', background: '#12102A', borderBottom: '1px solid #8F745430' }}>
+          <div style={{ width: '100%', border: `1px solid ${goldDim}30`, borderRadius: 4, overflow: 'hidden' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 120px 120px 1fr', gap: 10, padding: '8px 14px', background: bg0, borderBottom: `1px solid ${goldDim}30` }}>
               {['Situace', 'Vítěz', 'Pauzuje', 'Pravidlo'].map(h => (
-                <span key={h} style={{ fontSize: '0.625rem', color: 'textDeep', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{h}</span>
+                <span key={h} style={{ fontSize: '0.625rem', color: textDeep, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{h}</span>
               ))}
             </div>
             <ConflictRow
@@ -147,17 +147,17 @@ export default function FeedbackHierarchyPage() {
         <Preview dark={false}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 560 }}>
             {[
-              { severity: 'Kritická',    channel: 'Modal danger',           variant: '#C04040', example: 'Ztráta dat, neplatná hra, systémová chyba' },
-              { severity: 'Vysoká',      channel: 'Toast danger (trvalý)',   variant: '#C04040', example: 'Chyba sítě, uložení selhalo' },
+              { severity: 'Kritická',    channel: 'Modal danger',           variant: 'failColor', example: 'Ztráta dat, neplatná hra, systémová chyba' },
+              { severity: 'Vysoká',      channel: 'Toast danger (trvalý)',   variant: 'failColor', example: 'Chyba sítě, uložení selhalo' },
               { severity: 'Střední',     channel: 'Toast warning / danger',  variant: '#C08040', example: 'Akce se nepodařila, limit dosažen' },
-              { severity: 'Nízká',       channel: 'Toast default / success', variant: '#8F7458', example: 'Uloženo, tah dokončen, připojení OK' },
+              { severity: 'Nízká',       channel: 'Toast default / success', variant: 'goldDim', example: 'Uloženo, tah dokončen, připojení OK' },
               { severity: 'Informační',  channel: 'Toast info / inline',     variant: '#4080C0', example: 'Tip, nápověda, stav bez akce' },
               { severity: 'Kontextová',  channel: 'Tooltip',                 variant: '#C08040', example: 'Vysvětlení ikony, herní termín' },
             ].map(({ severity, channel, variant, example }) => (
-              <div key={severity} style={{ display: 'grid', gridTemplateColumns: '100px 180px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3, alignItems: 'center' }}>
+              <div key={severity} style={{ display: 'grid', gridTemplateColumns: '100px 180px 1fr', gap: 10, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3, alignItems: 'center' }}>
                 <span style={{ fontSize: '0.75rem', fontWeight: 700, color: variant }}>{severity}</span>
-                <code style={{ fontSize: '0.75rem', color: '#B8956A' }}>{channel}</code>
-                <span style={{ fontSize: '0.6875rem', color: 'textDeep' }}>{example}</span>
+                <code style={{ fontSize: '0.75rem', color: goldMid }}>{channel}</code>
+                <span style={{ fontSize: '0.6875rem', color: textDeep }}>{example}</span>
               </div>
             ))}
           </div>

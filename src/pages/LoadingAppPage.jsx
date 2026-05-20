@@ -6,14 +6,14 @@ import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
 function ProgressBar({ pct, width = '100%' }) {
   return (
     <div style={{
-      width, height: 4, background: '#1B1A30',
+      width, height: 4, background: bgDeep,
       borderRadius: 2, overflow: 'hidden',
-      border: '1px solid #2A2948',
+      border: `1px solid ${bg4}`,
     }}>
       <div style={{
         height: '100%',
         width: `${pct}%`,
-        background: 'linear-gradient(90deg, #FFC183 0%, #8F7458 100%)',
+        background: 'linear-gradient(90deg, gold 0%, goldDim 100%)',
         borderRadius: 2,
         boxShadow: '0 0 6px #FFC18355',
       }} />
@@ -38,7 +38,7 @@ function LoadingContent({ titleSize = '1.5rem', subtitleSize = '0.5rem', statusS
             margin: '0 0 5px',
             fontSize: titleSize, fontWeight: 900,
             letterSpacing: '0.25em', textTransform: 'uppercase',
-            background: 'linear-gradient(180deg, #FFC183 0%, #8F7458 100%)',
+            background: 'linear-gradient(180deg, gold 0%, goldDim 100%)',
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
             lineHeight: 1.1,
           }}
@@ -46,7 +46,7 @@ function LoadingContent({ titleSize = '1.5rem', subtitleSize = '0.5rem', statusS
           Donjon Fall
         </p>
         <p style={{
-          margin: 0, fontSize: subtitleSize, color: 'textFaint',
+          margin: 0, fontSize: subtitleSize, color: textFaint,
           letterSpacing: '0.18em', textTransform: 'uppercase',
         }}>
           Tahová strategická hra
@@ -57,9 +57,9 @@ function LoadingContent({ titleSize = '1.5rem', subtitleSize = '0.5rem', statusS
       <div style={{ width: '100%', maxWidth: 280, display: 'flex', flexDirection: 'column', gap: 8 }}>
         <ProgressBar pct={pct} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontSize: statusSize, color: '#8F7458' }}>Načítání herních dat…</span>
+          <span style={{ fontSize: statusSize, color: goldDim }}>Načítání herních dat…</span>
           <span style={{
-            fontSize: statusSize, color: '#FFC183', fontWeight: 700,
+            fontSize: statusSize, color: gold, fontWeight: 700,
             fontVariantNumeric: 'tabular-nums',
           }}>
             {pct}%
@@ -70,7 +70,7 @@ function LoadingContent({ titleSize = '1.5rem', subtitleSize = '0.5rem', statusS
       {/* Verze — dole vpravo */}
       <span style={{
         position: 'absolute', bottom: 10, right: 14,
-        fontSize: '0.375rem', color: '#2A2948',
+        fontSize: '0.375rem', color: bg4,
         fontWeight: 600, letterSpacing: '0.1em',
       }}>
         v1.0.0
@@ -150,7 +150,7 @@ export default function LoadingAppPage() {
         <Preview>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <DonjonBadge variant="default">Centrovaný layout — stejný na všech zařízeních</DonjonBadge>
-            <DonjonBadge variant="warning">Progress bar — zlatý gradient #FFC183 → #8F7458</DonjonBadge>
+            <DonjonBadge variant="warning">Progress bar — zlatý gradient gold → goldDim</DonjonBadge>
             <DonjonBadge variant="default">Verze — pravý dolní roh, minimální</DonjonBadge>
           </div>
         </Preview>

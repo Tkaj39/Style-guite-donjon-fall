@@ -1,5 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textDeep, textCool } from '../lib/donjon/tokens'
+import { textDeep, textCool, goldMid, goldDim, bg0, bg4, successColor, textActive, failColor } from '../lib/donjon/tokens'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 
@@ -16,7 +16,7 @@ function ContrastChip({ fg, bg, label, ratio, pass }) {
       <span style={{ fontSize: '0.625rem', color: fg, opacity: 0.7 }}>{ratio} : 1</span>
       <span style={{
         fontSize: '0.5625rem', fontWeight: 700, letterSpacing: '0.08em',
-        color: pass ? '#40A055' : '#C04040',
+        color: pass ? 'successColor' : 'failColor',
         background: pass ? '#40A05522' : '#C0404022',
         border: `1px solid ${pass ? '#40A05544' : '#C0404044'}`,
         padding: '1px 6px', borderRadius: 8,
@@ -30,11 +30,11 @@ function ContrastChip({ fg, bg, label, ratio, pass }) {
 /* ── Aria demo ── */
 function AriaRow({ element, role, attrs, note }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '100px 110px 1fr 1fr', gap: 10, padding: '9px 14px', borderBottom: '1px solid #8F745418', alignItems: 'start' }}>
-      <code style={{ fontSize: '0.75rem', color: '#B8956A' }}>{element}</code>
+    <div style={{ display: 'grid', gridTemplateColumns: '100px 110px 1fr 1fr', gap: 10, padding: '9px 14px', borderBottom: `1px solid ${goldDim}18`, alignItems: 'start' }}>
+      <code style={{ fontSize: '0.75rem', color: goldMid }}>{element}</code>
       <code style={{ fontSize: '0.75rem', color: '#4080C0' }}>{role}</code>
-      <code style={{ fontSize: '0.6875rem', color: 'textCool', lineHeight: 1.5 }}>{attrs}</code>
-      <span style={{ fontSize: '0.75rem', color: 'textDeep', lineHeight: 1.4 }}>{note}</span>
+      <code style={{ fontSize: '0.6875rem', color: textCool, lineHeight: 1.5 }}>{attrs}</code>
+      <span style={{ fontSize: '0.75rem', color: textDeep, lineHeight: 1.4 }}>{note}</span>
     </div>
   )
 }
@@ -54,16 +54,16 @@ export default function AccessibilityPage() {
       >
         <Preview>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-            <ContrastChip fg="#F0E6D3" bg="#12102A" label="Hlavní text"      ratio="12.4" pass />
-            <ContrastChip fg="#B8956A" bg="#12102A" label="Zlatý akcent"     ratio="5.8"  pass />
-            <ContrastChip fg="textCool" bg="#12102A" label="Sekundární text"  ratio="4.6"  pass />
-            <ContrastChip fg="textDeep" bg="#12102A" label="Placeholder"      ratio="2.1"  pass={false} />
-            <ContrastChip fg="#F0E6D3" bg="#2A2948" label="Text na kartě"    ratio="9.3"  pass />
-            <ContrastChip fg="#8F7458" bg="#2A2948" label="Border text"      ratio="3.4"  pass={false} />
+            <ContrastChip fg="textActive" bg="bg0" label="Hlavní text"      ratio="12.4" pass />
+            <ContrastChip fg="goldMid" bg="bg0" label="Zlatý akcent"     ratio="5.8"  pass />
+            <ContrastChip fg="textCool" bg="bg0" label="Sekundární text"  ratio="4.6"  pass />
+            <ContrastChip fg="textDeep" bg="bg0" label="Placeholder"      ratio="2.1"  pass={false} />
+            <ContrastChip fg="textActive" bg="bg4" label="Text na kartě"    ratio="9.3"  pass />
+            <ContrastChip fg="goldDim" bg="bg4" label="Border text"      ratio="3.4"  pass={false} />
           </div>
         </Preview>
         <div className="flex flex-col gap-2 text-sm text-neutral-400 mt-4">
-          <p>⚠ <span style={{ color: '#C08040' }}>Placeholder (textDeep)</span> a border text (#8F7458) nesplňují AA — nepoužívej je pro kritické informace. Jsou přijatelné pro dekorativní nebo kontextový obsah, kde je primární informace dostupná jinak.</p>
+          <p>⚠ <span style={{ color: '#C08040' }}>Placeholder (textDeep)</span> a border text (goldDim) nesplňují AA — nepoužívej je pro kritické informace. Jsou přijatelné pro dekorativní nebo kontextový obsah, kde je primární informace dostupná jinak.</p>
         </div>
       </Section>
 
@@ -90,8 +90,8 @@ export default function AccessibilityPage() {
             { key: 'Home / End',      action: 'První / poslední položka v seznamu' },
           ].map(({ key, action }) => (
             <div key={key} style={{ display: 'flex', gap: 10, alignItems: 'baseline' }}>
-              <code style={{ fontSize: '0.75rem', color: '#B8956A', whiteSpace: 'nowrap', flexShrink: 0 }}>{key}</code>
-              <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{action}</span>
+              <code style={{ fontSize: '0.75rem', color: goldMid, whiteSpace: 'nowrap', flexShrink: 0 }}>{key}</code>
+              <span style={{ fontSize: '0.8125rem', color: textCool }}>{action}</span>
             </div>
           ))}
         </div>
@@ -112,10 +112,10 @@ tabIndex={-1}  // programmaticky focusovatelný, ale mimo Tab pořadí
         description="Přehled ARIA atributů použitých v komponentách style guidu."
       >
         <Preview dark={false}>
-          <div style={{ width: '100%', border: '1px solid #8F745430', borderRadius: 4, overflow: 'hidden' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '100px 110px 1fr 1fr', gap: 10, padding: '8px 14px', background: '#12102A', borderBottom: '1px solid #8F745430' }}>
+          <div style={{ width: '100%', border: `1px solid ${goldDim}30`, borderRadius: 4, overflow: 'hidden' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '100px 110px 1fr 1fr', gap: 10, padding: '8px 14px', background: bg0, borderBottom: `1px solid ${goldDim}30` }}>
               {['Element', 'role', 'ARIA atributy', 'Poznámka'].map(h => (
-                <span key={h} style={{ fontSize: '0.625rem', color: 'textDeep', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{h}</span>
+                <span key={h} style={{ fontSize: '0.625rem', color: textDeep, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{h}</span>
               ))}
             </div>
             <AriaRow element="Modal"    role="dialog"      attrs='aria-modal="true" aria-labelledby="{titleId}"' note="Trap focus uvnitř při otevření" />
@@ -196,16 +196,16 @@ const handleKeyDown = (e) => {
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
             {/* Špatně */}
             <div>
-              <p style={{ margin: '0 0 6px', fontSize: '0.625rem', color: '#C04040', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>✗ Jen barva</p>
+              <p style={{ margin: '0 0 6px', fontSize: '0.625rem', color: failColor, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>✗ Jen barva</p>
               <div style={{ display: 'flex', gap: 6 }}>
-                <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#40A055' }} />
-                <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#C04040' }} />
+                <div style={{ width: 12, height: 12, borderRadius: '50%', background: successColor }} />
+                <div style={{ width: 12, height: 12, borderRadius: '50%', background: failColor }} />
                 <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#C08040' }} />
               </div>
             </div>
             {/* Správně */}
             <div>
-              <p style={{ margin: '0 0 6px', fontSize: '0.625rem', color: '#40A055', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>✓ Barva + label</p>
+              <p style={{ margin: '0 0 6px', fontSize: '0.625rem', color: successColor, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>✓ Barva + label</p>
               <div style={{ display: 'flex', gap: 6 }}>
                 <DonjonBadge variant="success" dot>Online</DonjonBadge>
                 <DonjonBadge variant="danger" dot>Offline</DonjonBadge>
@@ -223,14 +223,14 @@ const handleKeyDown = (e) => {
       {/* Checklist */}
       <Section id="checklist" title="Checklist pro nové komponenty">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">
-          <p>☐ Každý interaktivní prvek má viditelný focus ring (<code style={{ color: 'textCool' }}>:focus-visible</code>).</p>
-          <p>☐ Icon-only tlačítka mají <code style={{ color: 'textCool' }}>aria-label</code>.</p>
-          <p>☐ Formulářová pole mají <code style={{ color: 'textCool' }}>label</code> nebo <code style={{ color: 'textCool' }}>aria-label</code>.</p>
+          <p>☐ Každý interaktivní prvek má viditelný focus ring (<code style={{ color: textCool }}>:focus-visible</code>).</p>
+          <p>☐ Icon-only tlačítka mají <code style={{ color: textCool }}>aria-label</code>.</p>
+          <p>☐ Formulářová pole mají <code style={{ color: textCool }}>label</code> nebo <code style={{ color: textCool }}>aria-label</code>.</p>
           <p>☐ Overlaye (modal, dropdown) implementují focus trap a vracejí focus po zavření.</p>
-          <p>☐ Dynamický obsah (toast, error) má <code style={{ color: 'textCool' }}>role="status"</code> nebo <code style={{ color: 'textCool' }}>aria-live</code>.</p>
+          <p>☐ Dynamický obsah (toast, error) má <code style={{ color: textCool }}>role="status"</code> nebo <code style={{ color: textCool }}>aria-live</code>.</p>
           <p>☐ Barva není jediný nosič kritické informace.</p>
-          <p>☐ Disabled prvky mají <code style={{ color: 'textCool' }}>aria-disabled="true"</code> nebo HTML <code style={{ color: 'textCool' }}>disabled</code>.</p>
-          <p>☐ Animace respektují <code style={{ color: 'textCool' }}>prefers-reduced-motion</code>.</p>
+          <p>☐ Disabled prvky mají <code style={{ color: textCool }}>aria-disabled="true"</code> nebo HTML <code style={{ color: textCool }}>disabled</code>.</p>
+          <p>☐ Animace respektují <code style={{ color: textCool }}>prefers-reduced-motion</code>.</p>
           <p>☐ Celý flow funguje jen s klávesnicí (Tab, šipky, Escape, Enter).</p>
         </div>
       </Section>

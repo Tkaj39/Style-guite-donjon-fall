@@ -1,5 +1,5 @@
 import HexTile from '../lib/donjon/HexTile'
-import { textFaint, textParchment } from '../lib/donjon/tokens'
+import { textFaint, textParchment, gold, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
 import DieFace from '../lib/donjon/DieFace'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
@@ -87,17 +87,17 @@ function MiniHUD({ size = 'md' }) {
 
   return (
     <div style={{
-      height: c.h, background: '#1B1A30',
-      borderBottom: '1px solid #2A2948',
+      height: c.h, background: bgDeep,
+      borderBottom: `1px solid ${bg4}`,
       display: 'flex', alignItems: 'center',
       gap: 7, padding: `0 ${c.px}px`, flexShrink: 0,
     }}>
       <div style={{ width: c.dot, height: c.dot, borderRadius: '50%', background: p1.color, flexShrink: 0 }} />
-      <span style={{ fontSize: c.fs, color: 'textParchment', fontWeight: 700, letterSpacing: '0.06em' }}>
+      <span style={{ fontSize: c.fs, color: textParchment, fontWeight: 700, letterSpacing: '0.06em' }}>
         HRÁČ 1
       </span>
       {size !== 'xs' && (
-        <span style={{ fontSize: c.fsSmall, color: 'textFaint', letterSpacing: '0.05em' }}>
+        <span style={{ fontSize: c.fsSmall, color: textFaint, letterSpacing: '0.05em' }}>
           TAH {DEMO_TURN}
         </span>
       )}
@@ -106,7 +106,7 @@ function MiniHUD({ size = 'md' }) {
           fontSize: c.fsSmall,
           background: '#252342', borderRadius: 2,
           padding: size === 'xs' ? '1px 4px' : '2px 6px',
-          color: '#FFC183', fontWeight: 700, letterSpacing: '0.05em',
+          color: gold, fontWeight: 700, letterSpacing: '0.05em',
         }}>
           {DEMO_PHASE.toUpperCase()}
         </span>
@@ -118,7 +118,7 @@ function MiniHUD({ size = 'md' }) {
 function MiniActionBtn({ label, active = false, danger = false, small = false }) {
   return (
     <div style={{
-      background: active ? '#2A2948' : '#1B1A30',
+      background: active ? 'bg4' : 'bgDeep',
       border: `1px solid ${danger ? '#5A2020' : active ? '#5A5878' : '#252342'}`,
       borderRadius: 3,
       padding: small ? '3px 7px' : '5px 10px',
@@ -140,8 +140,8 @@ function MiniScore({ direction = 'row', size = 'md' }) {
   const row = (color, label, vp) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: 5, minWidth: 80 }}>
       <div style={{ width: dot, height: dot, borderRadius: '50%', background: color, flexShrink: 0 }} />
-      <span style={{ fontSize: fs, color: '#8F7458', fontWeight: 600 }}>{label}</span>
-      <span style={{ marginLeft: 'auto', fontSize: fvp, color: '#FFC183', fontWeight: 700 }}>
+      <span style={{ fontSize: fs, color: goldDim, fontWeight: 600 }}>{label}</span>
+      <span style={{ marginLeft: 'auto', fontSize: fvp, color: gold, fontWeight: 700 }}>
         {vp} VP
       </span>
     </div>
@@ -168,11 +168,11 @@ function PCLayout() {
       <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
         {/* Levý sidebar — akce */}
         <div style={{
-          width: 155, borderRight: '1px solid #2A2948',
+          width: 155, borderRight: `1px solid ${bg4}`,
           background: '#14132A', padding: '10px',
           display: 'flex', flexDirection: 'column', gap: 5, flexShrink: 0,
         }}>
-          <p style={{ margin: '0 0 3px', fontSize: '0.4375rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          <p style={{ margin: '0 0 3px', fontSize: '0.4375rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
             Akce
           </p>
           <MiniActionBtn label="Pohyb kostky" active />
@@ -180,14 +180,14 @@ function PCLayout() {
           <MiniActionBtn label="Kolaps věže" danger />
           <MiniActionBtn label="Přehazování" />
 
-          <div style={{ marginTop: 'auto', borderTop: '1px solid #2A2948', paddingTop: 8 }}>
-            <p style={{ margin: '0 0 6px', fontSize: '0.4375rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          <div style={{ marginTop: 'auto', borderTop: `1px solid ${bg4}`, paddingTop: 8 }}>
+            <p style={{ margin: '0 0 6px', fontSize: '0.4375rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
               Ohnisko
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <HexTile state="focal-active" size="sm" />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <span style={{ fontSize: '0.4375rem', color: '#FFC183', fontWeight: 700 }}>Aktivní</span>
+                <span style={{ fontSize: '0.4375rem', color: gold, fontWeight: 700 }}>Aktivní</span>
                 <span style={{ fontSize: '0.375rem', color: '#6A6040' }}>+1 VP / tah</span>
               </div>
             </div>
@@ -200,7 +200,7 @@ function PCLayout() {
           alignItems: 'center', justifyContent: 'center',
           background: '#0F0E1E', gap: 10,
         }}>
-          <p style={{ margin: 0, fontSize: '0.4375rem', color: '#2A2948', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+          <p style={{ margin: 0, fontSize: '0.4375rem', color: bg4, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
             Herní mapa
           </p>
           <HexGrid />
@@ -208,29 +208,29 @@ function PCLayout() {
 
         {/* Pravý panel — skóre */}
         <div style={{
-          width: 130, borderLeft: '1px solid #2A2948',
+          width: 130, borderLeft: `1px solid ${bg4}`,
           background: '#14132A', padding: '10px',
           display: 'flex', flexDirection: 'column', gap: 10, flexShrink: 0,
         }}>
           <div>
-            <p style={{ margin: '0 0 6px', fontSize: '0.4375rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            <p style={{ margin: '0 0 6px', fontSize: '0.4375rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
               Skóre
             </p>
             <MiniScore direction="column" />
           </div>
 
-          <div style={{ borderTop: '1px solid #2A2948', paddingTop: 8 }}>
-            <p style={{ margin: '0 0 4px', fontSize: '0.4375rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          <div style={{ borderTop: `1px solid ${bg4}`, paddingTop: 8 }}>
+            <p style={{ margin: '0 0 4px', fontSize: '0.4375rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
               Cíl hry
             </p>
-            <span style={{ fontSize: '0.5625rem', color: 'textParchment', fontWeight: 700 }}>5 VP</span>
+            <span style={{ fontSize: '0.5625rem', color: textParchment, fontWeight: 700 }}>5 VP</span>
           </div>
 
-          <div style={{ borderTop: '1px solid #2A2948', paddingTop: 8, marginTop: 'auto' }}>
-            <p style={{ margin: '0 0 4px', fontSize: '0.4375rem', color: 'textFaint', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          <div style={{ borderTop: `1px solid ${bg4}`, paddingTop: 8, marginTop: 'auto' }}>
+            <p style={{ margin: '0 0 4px', fontSize: '0.4375rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
               Číslo tahu
             </p>
-            <span style={{ fontSize: '0.5rem', color: '#8F7458' }}>{DEMO_TURN}</span>
+            <span style={{ fontSize: '0.5rem', color: goldDim }}>{DEMO_TURN}</span>
           </div>
         </div>
       </div>
@@ -254,7 +254,7 @@ function TabletLayout() {
 
       {/* Skóre */}
       <div style={{
-        borderTop: '1px solid #2A2948', background: '#14132A',
+        borderTop: `1px solid ${bg4}`, background: '#14132A',
         padding: '7px 16px',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         flexShrink: 0,
@@ -264,7 +264,7 @@ function TabletLayout() {
 
       {/* Akce — plná řada tlačítek */}
       <div style={{
-        borderTop: '1px solid #2A2948', background: '#161525',
+        borderTop: `1px solid ${bg4}`, background: '#161525',
         padding: '8px 12px',
         display: 'flex', gap: 6, flexShrink: 0,
         justifyContent: 'center', flexWrap: 'wrap',
@@ -303,29 +303,29 @@ function MobileLayout() {
 
       {/* Skóre kompaktní */}
       <div style={{
-        borderTop: '1px solid #2A2948', background: '#14132A',
+        borderTop: `1px solid ${bg4}`, background: '#14132A',
         padding: '4px 10px', flexShrink: 0,
         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12,
       }}>
         {[0, 1].map(i => (
           <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             <div style={{ width: 5, height: 5, borderRadius: '50%', background: players[i].color }} />
-            <span style={{ fontSize: '0.375rem', color: '#8F7458', fontWeight: 600 }}>H{i+1}</span>
-            <span style={{ fontSize: '0.4375rem', color: '#FFC183', fontWeight: 700 }}>{DEMO_VP[i]} VP</span>
+            <span style={{ fontSize: '0.375rem', color: goldDim, fontWeight: 600 }}>H{i+1}</span>
+            <span style={{ fontSize: '0.4375rem', color: gold, fontWeight: 700 }}>{DEMO_VP[i]} VP</span>
           </div>
         ))}
       </div>
 
       {/* 4 akční čtverce */}
       <div style={{
-        borderTop: '1px solid #2A2948', background: '#161525',
+        borderTop: `1px solid ${bg4}`, background: '#161525',
         padding: '6px 8px',
         display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
         gap: 5, flexShrink: 0,
       }}>
         {MOBILE_ACTIONS.map((a, i) => (
           <div key={i} style={{
-            background: a.active ? '#2A2948' : '#1B1A30',
+            background: a.active ? 'bg4' : 'bgDeep',
             border: `1px solid ${a.danger ? '#5A2020' : a.active ? '#5A5878' : '#252342'}`,
             borderRadius: 4, padding: '5px 4px', minHeight: 34,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -358,7 +358,7 @@ function ComparisonRow() {
         return (
           <div key={type} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <p style={{
-              margin: 0, fontSize: '0.5625rem', color: '#8F7458',
+              margin: 0, fontSize: '0.5625rem', color: goldDim,
               fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase',
             }}>
               {names[type]}

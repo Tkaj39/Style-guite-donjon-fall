@@ -1,5 +1,5 @@
 import HexTile from '../lib/donjon/HexTile'
-import { textFaint } from '../lib/donjon/tokens'
+import { textFaint, textActive } from '../lib/donjon/tokens'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { players } from '../data/gameUiMockData'
 
@@ -85,8 +85,8 @@ export default function HexagonPage() {
           {/* Active focal point */}
           <div id="ohnisko-aktivni" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <div>
-              <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 600, color: '#F0E6D3' }}>Aktivní ohnisko</p>
-              <p style={{ margin: '2px 0 0', fontSize: '0.75rem', color: 'textFaint' }}>
+              <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 600, color: textActive }}>Aktivní ohnisko</p>
+              <p style={{ margin: '2px 0 0', fontSize: '0.75rem', color: textFaint }}>
                 Hráč na tahu získá +1 VP pokud kontroluje kostku/věž na tomto hexu. Kostka se přehodí: nová hodnota = min(hod, původní − 1).
               </p>
             </div>
@@ -103,8 +103,8 @@ export default function HexagonPage() {
           {/* Passive focal point */}
           <div id="ohnisko-pasivni" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <div>
-              <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 600, color: '#F0E6D3' }}>Pasivní ohnisko</p>
-              <p style={{ margin: '2px 0 0', fontSize: '0.75rem', color: 'textFaint' }}>
+              <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 600, color: textActive }}>Pasivní ohnisko</p>
+              <p style={{ margin: '2px 0 0', fontSize: '0.75rem', color: textFaint }}>
                 Funguje jako normální hex. Čeká na aktivaci — stane se aktivním poté, co jiné ohnisko ve skupině přinese VP.
               </p>
             </div>
@@ -130,29 +130,29 @@ export default function HexagonPage() {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
               <HexTile state="selected" size="md" />
               <div style={{ textAlign: 'center' }}>
-                <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 600, color: '#F0E6D3', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Vybraný</p>
-                <p style={{ margin: '2px 0 0', fontSize: '0.5625rem', color: 'textFaint', maxWidth: 90 }}>Zvolená kostka nebo věž</p>
+                <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 600, color: textActive, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Vybraný</p>
+                <p style={{ margin: '2px 0 0', fontSize: '0.5625rem', color: textFaint, maxWidth: 90 }}>Zvolená kostka nebo věž</p>
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
               <HexTile state="move" size="md" />
               <div style={{ textAlign: 'center' }}>
                 <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 600, color: '#50B86C', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Pohyb</p>
-                <p style={{ margin: '2px 0 0', fontSize: '0.5625rem', color: 'textFaint', maxWidth: 90 }}>Dostupný cíl pohybu</p>
+                <p style={{ margin: '2px 0 0', fontSize: '0.5625rem', color: textFaint, maxWidth: 90 }}>Dostupný cíl pohybu</p>
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
               <HexTile state="attack" size="md" />
               <div style={{ textAlign: 'center' }}>
                 <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 600, color: '#E05C5C', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Útok</p>
-                <p style={{ margin: '2px 0 0', fontSize: '0.5625rem', color: 'textFaint', maxWidth: 90 }}>Nepřátelský cíl útoku</p>
+                <p style={{ margin: '2px 0 0', fontSize: '0.5625rem', color: textFaint, maxWidth: 90 }}>Nepřátelský cíl útoku</p>
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
               <HexTile state="blocked" size="md" />
               <div style={{ textAlign: 'center' }}>
-                <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 600, color: 'textFaint', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Blokovaný</p>
-                <p style={{ margin: '2px 0 0', fontSize: '0.5625rem', color: 'textFaint', maxWidth: 90 }}>Pole nedosažitelné pro pohyb</p>
+                <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 600, color: textFaint, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Blokovaný</p>
+                <p style={{ margin: '2px 0 0', fontSize: '0.5625rem', color: textFaint, maxWidth: 90 }}>Pole nedosažitelné pro pohyb</p>
               </div>
             </div>
           </div>
@@ -177,7 +177,7 @@ export default function HexagonPage() {
                   <HexTile state="base"          size={sz} owner={players[0].color} />
                   <HexTile state="focal-active"  size={sz} />
                 </div>
-                <p style={{ margin: 0, fontSize: '0.5625rem', color: 'textFaint', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{sz}</p>
+                <p style={{ margin: 0, fontSize: '0.5625rem', color: textFaint, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{sz}</p>
               </div>
             ))}
           </div>

@@ -57,11 +57,11 @@ function ProgressBarContent() {
   function HpBar({ label, value, max, variant }) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <span style={{ fontSize: '0.75rem', color: 'textCool', width: 64, flexShrink: 0 }}>{label}</span>
+        <span style={{ fontSize: '0.75rem', color: textCool, width: 64, flexShrink: 0 }}>{label}</span>
         <div style={{ flex: 1 }}>
           <PB value={value} max={max} size="sm" variant={variant} />
         </div>
-        <span style={{ fontSize: '0.6875rem', color: 'textCool', width: 42, textAlign: 'right', flexShrink: 0 }}>
+        <span style={{ fontSize: '0.6875rem', color: textCool, width: 42, textAlign: 'right', flexShrink: 0 }}>
           {value} / {max}
         </span>
       </div>

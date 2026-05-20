@@ -1,5 +1,5 @@
 import { ShowcasePage, Section, Preview, useLibVariant } from '../styleguide/ShowcasePage'
-import { textFaint, textParchment } from '../lib/donjon/tokens'
+import { textFaint, textParchment, gold, goldDim, successColor, failColor } from '../lib/donjon/tokens'
 import Pictogram from '../lib/tkajui/Pictogram'
 import DonjonPictogram from '../lib/donjon/DonjonPictogram'
 import { SwordIcon, ShieldIcon, TowerIcon } from '../lib/donjon/icons'
@@ -13,10 +13,10 @@ const SIZES    = ['sm', 'md', 'lg', 'xl']
 const VARIANTS = ['active', 'passive', 'disabled', 'danger', 'success']
 
 const subLabel = {
-  fontSize: '0.625rem', color: 'textFaint', fontWeight: 600,
+  fontSize: '0.625rem', color: textFaint, fontWeight: 600,
   letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 12px',
 }
-const nano = { fontSize: '0.5rem', color: 'textFaint', fontFamily: 'monospace' }
+const nano = { fontSize: '0.5rem', color: textFaint, fontFamily: 'monospace' }
 
 /* ── TkajUI obsah ── */
 function TkajuiContent() {
@@ -34,7 +34,7 @@ function TkajuiContent() {
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: 24 }}>
                 {SIZES.map(s => (
                   <div key={s} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-                    <Pictogram icon={SwordIcon} size={s} color="#8F7458" />
+                    <Pictogram icon={SwordIcon} size={s} color="goldDim" />
                     <span style={nano}>{s}</span>
                   </div>
                 ))}
@@ -45,12 +45,12 @@ function TkajuiContent() {
               <p style={subLabel}>Barva — color prop (nebo CSS currentColor)</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                 {[
-                  { color: '#FFC183', label: '#FFC183' },
-                  { color: '#8F7458', label: '#8F7458' },
-                  { color: 'textParchment', label: 'textParchment' },
-                  { color: 'textFaint', label: 'textFaint' },
-                  { color: '#C04040', label: 'danger'  },
-                  { color: '#40A055', label: 'success' },
+                  { color: gold, label: 'gold' },
+                  { color: goldDim, label: 'goldDim' },
+                  { color: textParchment, label: 'textParchment' },
+                  { color: textFaint, label: 'textFaint' },
+                  { color: failColor, label: 'danger'  },
+                  { color: successColor, label: 'success' },
                 ].map(c => (
                   <div key={c.color} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
                     <Pictogram icon={ShieldIcon} size="md" color={c.color} />
@@ -65,9 +65,9 @@ function TkajuiContent() {
               <div style={{ display: 'flex', gap: 20 }}>
                 {ICONS.map(({ icon, label, note }) => (
                   <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                    <Pictogram icon={icon} size="lg" color="#8F7458" />
-                    <span style={{ ...nano, color: 'textParchment' }}>{label}</span>
-                    <span style={{ fontSize: '0.4375rem', color: 'textFaint' }}>{note}</span>
+                    <Pictogram icon={icon} size="lg" color="goldDim" />
+                    <span style={{ ...nano, color: textParchment }}>{label}</span>
+                    <span style={{ fontSize: '0.4375rem', color: textFaint }}>{note}</span>
                   </div>
                 ))}
               </div>
@@ -75,11 +75,11 @@ function TkajuiContent() {
           </div>
         </Preview>
         <Preview label="Použití">
-          <pre style={{ margin: 0, fontFamily: 'monospace', fontSize: '0.75rem', color: '#8F7458', lineHeight: 1.7, background: '#0F0E1A', padding: '16px 20px', borderRadius: 4 }}>
+          <pre style={{ margin: 0, fontFamily: 'monospace', fontSize: '0.75rem', color: goldDim, lineHeight: 1.7, background: '#0F0E1A', padding: '16px 20px', borderRadius: 4 }}>
 {`import Pictogram from 'src/lib/tkajui/Pictogram'
 import { SwordIcon } from 'src/lib/donjon/icons'
 
-<Pictogram icon={SwordIcon} size="lg" color="#FFC183" />`}
+<Pictogram icon={SwordIcon} size="lg" color="gold" />`}
           </pre>
         </Preview>
       </Section>
@@ -140,8 +140,8 @@ function DonjonContent() {
                 {ICONS.map(({ icon, label, note }) => (
                   <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
                     <DonjonPictogram icon={icon} size="xl" variant="active" />
-                    <span style={{ ...nano, color: 'textParchment' }}>{label}</span>
-                    <span style={{ fontSize: '0.4375rem', color: 'textFaint' }}>{note}</span>
+                    <span style={{ ...nano, color: textParchment }}>{label}</span>
+                    <span style={{ fontSize: '0.4375rem', color: textFaint }}>{note}</span>
                   </div>
                 ))}
               </div>
@@ -149,7 +149,7 @@ function DonjonContent() {
           </div>
         </Preview>
         <Preview label="Použití">
-          <pre style={{ margin: 0, fontFamily: 'monospace', fontSize: '0.75rem', color: '#8F7458', lineHeight: 1.7, background: '#0F0E1A', padding: '16px 20px', borderRadius: 4 }}>
+          <pre style={{ margin: 0, fontFamily: 'monospace', fontSize: '0.75rem', color: goldDim, lineHeight: 1.7, background: '#0F0E1A', padding: '16px 20px', borderRadius: 4 }}>
 {`import DonjonPictogram from 'src/lib/donjon/DonjonPictogram'
 import { SwordIcon } from 'src/lib/donjon/icons'
 

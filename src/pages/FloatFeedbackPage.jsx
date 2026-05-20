@@ -36,8 +36,8 @@ function HexContainer({ children, label }) {
           position: 'relative',
           width: 64,
           height: 64,
-          background: 'linear-gradient(135deg, #2A2948 0%, #1B1A30 100%)',
-          border: '1.5px solid #8F745444',
+          background: 'linear-gradient(135deg, bg4 0%, bgDeep 100%)',
+          border: `1.5px solid ${goldDim}44`,
           borderRadius: 4,
           display: 'flex',
           alignItems: 'center',
@@ -46,7 +46,7 @@ function HexContainer({ children, label }) {
       >
         {/* Simulace hex ikony */}
         <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
-          <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" stroke="#8F7458" strokeWidth="1.5" fill="#8F745418" />
+          <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" stroke={goldDim} strokeWidth="1.5" fill={`${goldDim}18`} />
         </svg>
         {children}
       </div>
@@ -59,8 +59,8 @@ function HexContainer({ children, label }) {
 const VARIANTS = [
   { variant: 'gain',    label: 'gain',    text: '+1',     color: '#50B86C', desc: 'Zisk jednotky nebo akce' },
   { variant: 'loss',    label: 'loss',    text: '−1',     color: '#E05C5C', desc: 'Ztráta jednotky nebo HP' },
-  { variant: 'vp',      label: 'vp',      text: '+1 VP',  color: '#FFC183', desc: 'Získání vítězných bodů' },
-  { variant: 'neutral', label: 'neutral', text: 'skip',   color: '#8F7458', desc: 'Neutrální herní event' },
+  { variant: 'vp',      label: 'vp',      text: '+1 VP',  color: gold, desc: 'Získání vítězných bodů' },
+  { variant: 'neutral', label: 'neutral', text: 'skip',   color: goldDim, desc: 'Neutrální herní event' },
 ]
 
 function VariantDemo({ variant, text, color, desc }) {
@@ -110,8 +110,8 @@ function MultiDemo() {
           width: '100%',
           maxWidth: 320,
           height: 120,
-          background: 'linear-gradient(135deg, #2A2948 0%, #1B1A30 100%)',
-          border: '1.5px solid #8F745444',
+          background: 'linear-gradient(135deg, bg4 0%, bgDeep 100%)',
+          border: `1.5px solid ${goldDim}44`,
           borderRadius: 8,
           display: 'flex',
           alignItems: 'center',
@@ -124,7 +124,7 @@ function MultiDemo() {
         {[0, 1, 2].map(col => (
           <div key={col} style={{ position: 'relative', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <svg viewBox="0 0 32 32" width="32" height="32" fill="none">
-              <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" stroke="#8F7458" strokeWidth="1.5" fill="#8F745418" />
+              <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" stroke={goldDim} strokeWidth="1.5" fill={`${goldDim}18`} />
             </svg>
             {events.filter(e => e.col === col).map(e => (
               <FloatFeedback key={e.id} text={e.text} variant={e.variant} visible animKey={e.id} />
@@ -178,7 +178,7 @@ function AnimTimeline() {
                 marginBottom: `${(Math.abs(y) / 28) * 80}px`,
                 opacity,
                 transform: `scale(${scale})`,
-                color: '#FFC183',
+                color: gold,
                 fontWeight: 700,
                 fontSize: '0.6875rem',
                 textShadow: '0 0 8px #FFC18399',

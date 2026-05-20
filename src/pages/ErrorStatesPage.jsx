@@ -1,19 +1,19 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textDeep, textCool } from '../lib/donjon/tokens'
+import { textDeep, textCool, goldMid, bg0, successColor, textActive, failColor, goldDim } from '../lib/donjon/tokens'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 
 /* ── Error card ── */
 function ErrorCard({ icon, title, desc, actions, severity = 'danger' }) {
   const colors = {
-    danger:  { border: '#C04040', bg: '#3D1818', badge: 'danger'  },
+    danger:  { border: `${failColor}`, bg: '#3D1818', badge: 'danger'  },
     warning: { border: '#C08040', bg: '#3D2E10', badge: 'warning' },
   }
   const c = colors[severity] ?? colors.danger
   return (
     <div style={{
       padding: '20px 20px 16px',
-      background: `linear-gradient(150deg,${c.bg} 0%,#12102A 100%)`,
+      background: `linear-gradient(150deg,${c.bg} 0%,bg0 100%)`,
       border: `1px solid ${c.border}44`,
       borderRadius: 4,
       display: 'flex', flexDirection: 'column', gap: 10,
@@ -22,11 +22,11 @@ function ErrorCard({ icon, title, desc, actions, severity = 'danger' }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <span style={{ fontSize: 24 }}>{icon}</span>
         <div>
-          <p style={{ margin: 0, fontSize: '0.875rem', fontWeight: 700, color: '#F0E6D3' }}>{title}</p>
+          <p style={{ margin: 0, fontSize: '0.875rem', fontWeight: 700, color: textActive }}>{title}</p>
           <DonjonBadge variant={c.badge} size="sm" style={{ marginTop: 4 }}>{severity === 'danger' ? 'Chyba' : 'Upozornění'}</DonjonBadge>
         </div>
       </div>
-      <p style={{ margin: 0, fontSize: '0.8125rem', color: 'textCool', lineHeight: 1.5 }}>{desc}</p>
+      <p style={{ margin: 0, fontSize: '0.8125rem', color: textCool, lineHeight: 1.5 }}>{desc}</p>
       {actions && (
         <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
           {actions}
@@ -40,18 +40,18 @@ function ErrorCard({ icon, title, desc, actions, severity = 'danger' }) {
 function InlineError({ label, value, error }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 280 }}>
-      <label style={{ fontSize: '0.75rem', color: 'textCool' }}>{label}</label>
+      <label style={{ fontSize: '0.75rem', color: textCool }}>{label}</label>
       <div style={{
         padding: '7px 10px',
         background: '#C0404018',
-        border: '1.5px solid #C04040',
+        border: `1.5px solid ${failColor}`,
         borderRadius: 3,
         fontSize: '0.8125rem',
-        color: '#F0E6D3',
+        color: textActive,
       }}>
         {value}
       </div>
-      <p style={{ margin: 0, fontSize: '0.75rem', color: '#C04040', display: 'flex', alignItems: 'center', gap: 5 }}>
+      <p style={{ margin: 0, fontSize: '0.75rem', color: failColor, display: 'flex', alignItems: 'center', gap: 5 }}>
         <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12">
           <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1ZM7.25 4.75a.75.75 0 0 1 1.5 0v3.5a.75.75 0 0 1-1.5 0v-3.5Zm.75 7a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
         </svg>
@@ -82,11 +82,11 @@ export default function ErrorStatesPage() {
               { cat: 'Síť',         severity: 'Vysoká',   channel: 'Toast danger (trvalý)', recovery: 'Retry tlačítko, offline režim',    example: 'Chyba připojení, timeout serveru' },
               { cat: 'Systémová',   severity: 'Kritická', channel: 'Modal danger',          recovery: 'Reload nebo kontaktuj podporu',    example: 'Ztráta dat, render fail, crash stavu hry' },
             ].map(({ cat, severity, channel, recovery, example }) => (
-              <div key={cat} style={{ display: 'grid', gridTemplateColumns: '90px 80px 160px 1fr', gap: 10, padding: '9px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3, alignItems: 'start' }}>
-                <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#B8956A' }}>{cat}</span>
+              <div key={cat} style={{ display: 'grid', gridTemplateColumns: '90px 80px 160px 1fr', gap: 10, padding: '9px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3, alignItems: 'start' }}>
+                <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: goldMid }}>{cat}</span>
                 <DonjonBadge variant={severity === 'Kritická' ? 'danger' : severity === 'Vysoká' ? 'danger' : severity === 'Střední' ? 'warning' : 'default'} size="sm">{severity}</DonjonBadge>
-                <code style={{ fontSize: '0.75rem', color: 'textCool' }}>{channel}</code>
-                <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{recovery} — <em>{example}</em></span>
+                <code style={{ fontSize: '0.75rem', color: textCool }}>{channel}</code>
+                <span style={{ fontSize: '0.6875rem', color: textDeep, lineHeight: 1.4 }}>{recovery} — <em>{example}</em></span>
               </div>
             ))}
           </div>
@@ -114,9 +114,9 @@ export default function ErrorStatesPage() {
 
 {/* Vlastní inline error pattern */}
 <div>
-  <input style={{ border: error ? '1.5px solid #C04040' : '…' }} />
+  <input style={{ border: error ? '1.5px solid failColor' : '…' }} />
   {error && (
-    <p style={{ color: '#C04040', fontSize: '0.75rem' }}>
+    <p style={{ color: failColor, fontSize: '0.75rem' }}>
       <ErrorIcon /> {error}
     </p>
   )}
@@ -229,12 +229,12 @@ addToast({
             ].map(({ bad, good }) => (
               <div key={bad} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, borderRadius: 3, overflow: 'hidden' }}>
                 <div style={{ padding: '8px 12px', background: '#3D181820', border: '1px solid #C0404030' }}>
-                  <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#C04040', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✗ Špatně</p>
-                  <p style={{ margin: 0, fontSize: '0.8125rem', color: 'textCool', fontFamily: 'monospace' }}>{bad}</p>
+                  <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: failColor, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✗ Špatně</p>
+                  <p style={{ margin: 0, fontSize: '0.8125rem', color: textCool, fontFamily: 'monospace' }}>{bad}</p>
                 </div>
                 <div style={{ padding: '8px 12px', background: '#183D2020', border: '1px solid #40A05530' }}>
-                  <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: '#40A055', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✓ Dobře</p>
-                  <p style={{ margin: 0, fontSize: '0.8125rem', color: '#F0E6D3' }}>{good}</p>
+                  <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: successColor, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✓ Dobře</p>
+                  <p style={{ margin: 0, fontSize: '0.8125rem', color: textActive }}>{good}</p>
                 </div>
               </div>
             ))}

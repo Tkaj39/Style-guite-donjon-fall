@@ -1,13 +1,13 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textDeep, textCool } from '../lib/donjon/tokens'
+import { textDeep, textCool, goldMid, bg0, successColor, textActive, borderSubtle, failColor, goldDim } from '../lib/donjon/tokens'
 
 /* ── Selection demo ── */
 function SelectionDemo({ label, bg, color, children, note }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 200 }}>
-      <p style={{ margin: 0, fontSize: '0.75rem', color: 'textCool' }}>{label}</p>
+      <p style={{ margin: 0, fontSize: '0.75rem', color: textCool }}>{label}</p>
       <p
-        style={{ margin: 0, fontSize: '0.875rem', color: '#F0E6D3', lineHeight: 1.6, userSelect: 'text', cursor: 'text' }}
+        style={{ margin: 0, fontSize: '0.875rem', color: textActive, lineHeight: 1.6, userSelect: 'text', cursor: 'text' }}
         onMouseDown={e => {
           const el = e.currentTarget
           el.style.setProperty('--sel-bg',    bg)
@@ -16,11 +16,11 @@ function SelectionDemo({ label, bg, color, children, note }) {
       >
         {children}
       </p>
-      {note && <p style={{ margin: 0, fontSize: '0.625rem', color: 'textDeep', lineHeight: 1.3 }}>{note}</p>}
+      {note && <p style={{ margin: 0, fontSize: '0.625rem', color: textDeep, lineHeight: 1.3 }}>{note}</p>}
       <style>{`
         ::selection {
           background: #B8956A55;
-          color: #F0E6D3;
+          color: textActive;
         }
       `}</style>
     </div>
@@ -45,7 +45,7 @@ export default function TextSelectionPage() {
             <SelectionDemo
               label="Výchozí Donjon selection"
               bg="#B8956A55"
-              color="#F0E6D3"
+              color="textActive"
               note="Označ tento text pro zobrazení výběru →"
             >
               Zahaj strategický souboj věží v Donjon Fall. Každý tah rozhoduje o osudu pevnosti — pohybuj kostkami, obsazuj ohniska a dosáhni vítězných bodů dřív než soupeř.
@@ -54,14 +54,14 @@ export default function TextSelectionPage() {
         </Preview>
         <CodeBlock code={`/* Globální selection styling — index.css nebo App.css */
 ::selection {
-  background: rgba(184, 149, 106, 0.33); /* #B8956A @ 33% */
-  color: #F0E6D3;
+  background: rgba(184, 149, 106, 0.33); /* goldMid @ 33% */
+  color: textActive;
 }
 
 /* Firefox */
 ::-moz-selection {
   background: rgba(184, 149, 106, 0.33);
-  color: #F0E6D3;
+  color: textActive;
 }`} />
       </Section>
 
@@ -74,15 +74,15 @@ export default function TextSelectionPage() {
         <Preview dark={false}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 560 }}>
             {[
-              { ctx: 'Výchozí text',          bg: 'rgba(184,149,106,0.33)', color: '#F0E6D3',   note: 'Zlatý poloprůhledný — základní kontexty' },
-              { ctx: 'Code blok (CodeBlock)',  bg: 'rgba(64,128,192,0.40)', color: '#F0E6D3',   note: 'Modrý — kód má vlastní kontext' },
-              { ctx: 'Chybový text',          bg: 'rgba(192,64,64,0.35)',  color: '#F0E6D3',   note: 'Červený — v error stavu (vzácné)' },
+              { ctx: 'Výchozí text',          bg: 'rgba(184,149,106,0.33)', color: textActive,   note: 'Zlatý poloprůhledný — základní kontexty' },
+              { ctx: 'Code blok (CodeBlock)',  bg: 'rgba(64,128,192,0.40)', color: textActive,   note: 'Modrý — kód má vlastní kontext' },
+              { ctx: 'Chybový text',          bg: 'rgba(192,64,64,0.35)',  color: textActive,   note: 'Červený — v error stavu (vzácné)' },
               { ctx: 'no-select (UI prvky)',  bg: 'n/a',                   color: 'n/a',        note: 'user-select: none — tlačítka, labely, badge' },
             ].map(({ ctx, bg, color, note }) => (
-              <div key={ctx} style={{ display: 'grid', gridTemplateColumns: '180px 200px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3 }}>
-                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{ctx}</span>
-                <code style={{ fontSize: '0.6875rem', color: '#B8956A', lineHeight: 1.5 }}>{bg}</code>
-                <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{note}</span>
+              <div key={ctx} style={{ display: 'grid', gridTemplateColumns: '180px 200px 1fr', gap: 10, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3 }}>
+                <span style={{ fontSize: '0.8125rem', color: textCool }}>{ctx}</span>
+                <code style={{ fontSize: '0.6875rem', color: goldMid, lineHeight: 1.5 }}>{bg}</code>
+                <span style={{ fontSize: '0.6875rem', color: textDeep, lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
           </div>
@@ -107,10 +107,10 @@ export default function TextSelectionPage() {
               { element: 'Tělo textu, popis, CodeBlock', select: 'text', reason: 'Uživatel může chtít zkopírovat' },
               { element: 'Chybová zpráva',              select: 'text', reason: 'Pro kopírování do bug reportu' },
             ].map(({ element, select, reason }) => (
-              <div key={element} style={{ display: 'grid', gridTemplateColumns: '220px 60px 1fr', gap: 10, padding: '8px 12px', background: '#12102A', border: '1px solid #8F745418', borderRadius: 3 }}>
-                <span style={{ fontSize: '0.8125rem', color: 'textCool' }}>{element}</span>
-                <code style={{ fontSize: '0.8125rem', fontWeight: 700, color: select === 'none' ? '#C04040' : '#40A055' }}>{select}</code>
-                <span style={{ fontSize: '0.6875rem', color: 'textDeep', lineHeight: 1.4 }}>{reason}</span>
+              <div key={element} style={{ display: 'grid', gridTemplateColumns: '220px 60px 1fr', gap: 10, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3 }}>
+                <span style={{ fontSize: '0.8125rem', color: textCool }}>{element}</span>
+                <code style={{ fontSize: '0.8125rem', fontWeight: 700, color: select === 'none' ? 'failColor' : 'successColor' }}>{select}</code>
+                <span style={{ fontSize: '0.6875rem', color: textDeep, lineHeight: 1.4 }}>{reason}</span>
               </div>
             ))}
           </div>
@@ -147,23 +147,23 @@ className="select-all"    /* kliknutí = vybere vše (pro kód) */`} />
           <div style={{
             position: 'relative',
             background: '#0E0C22',
-            border: '1px solid #8F745430',
+            border: `1px solid ${goldDim}30`,
             borderRadius: 4,
             padding: '12px 14px',
             maxWidth: 380, width: '100%',
           }}>
-            <code style={{ fontSize: '0.8125rem', color: 'textCool', fontFamily: 'monospace', lineHeight: 1.6, display: 'block' }}>
+            <code style={{ fontSize: '0.8125rem', color: textCool, fontFamily: 'monospace', lineHeight: 1.6, display: 'block' }}>
               {`addToast({ title: 'Nelegální tah',\n  variant: 'danger' })`}
             </code>
             <button
               style={{
                 position: 'absolute', top: 8, right: 8,
                 padding: '4px 8px',
-                background: '#1A1830',
-                border: '1px solid #8F745430',
+                background: borderSubtle,
+                border: `1px solid ${goldDim}30`,
                 borderRadius: 2,
                 fontSize: '0.625rem',
-                color: 'textCool',
+                color: textCool,
                 cursor: 'pointer',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
@@ -201,7 +201,7 @@ className="select-all"    /* kliknutí = vybere vše (pro kód) */`} />
       {/* Pravidla */}
       <Section id="pravidla" title="Pravidla">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">
-          <p>✓ Globální <code className="text-neutral-300">::selection</code>: zlatý poloprůhledný (#B8956A @ 33%), světlý text.</p>
+          <p>✓ Globální <code className="text-neutral-300">::selection</code>: zlatý poloprůhledný (goldMid @ 33%), světlý text.</p>
           <p>✓ <code className="text-neutral-300">user-select: none</code> na všech UI prvcích — tlačítka, badge, nav, herní elementy.</p>
           <p>✓ <code className="text-neutral-300">user-select: text</code> explicitně na textu, chybách, code blocích, toast obsahu.</p>
           <p>✓ Code block: přidej copy tlačítko — je rychlejší než ruční označení.</p>
