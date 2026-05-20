@@ -24,6 +24,17 @@ const MANUAL_TASKS = [
     ],
   },
   {
+    group: 'donjon-fall-ui — grafické zpracování',
+    items: [
+      { status: 'todo', text: 'DonjonSelect — vlastní herní vizuál (teď re-export TkajUI)' },
+      { status: 'todo', text: 'DonjonSlider — vlastní herní vizuál (teď re-export TkajUI)' },
+      { status: 'todo', text: 'DonjonToggle — vlastní herní vizuál (teď re-export TkajUI)' },
+      { status: 'todo', text: 'DonjonProgressBar — vlastní herní vizuál (teď re-export TkajUI)' },
+      { status: 'todo', text: 'DonjonTooltip — vlastní herní vizuál (teď re-export TkajUI)' },
+      { status: 'todo', text: 'DonjonToast — vlastní herní vizuál (teď re-export TkajUI)' },
+    ],
+  },
+  {
     group: 'Herní assets',
     items: [
       { status: 'done',        text: 'HexTile — /hexagon showcase' },
