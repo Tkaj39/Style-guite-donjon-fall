@@ -136,8 +136,8 @@ function TkajuiVsDonjon() {
         { label: 'Border',    tkajui: T.borderDefault, tkNote: 'Neutrální šedá',   donjon: D.goldDim,   dnNote: 'Bronze / gold' },
         { label: 'Text mid',  tkajui: T.textMid,       tkNote: 'Cool grey',        donjon: D.goldMid,   dnNote: 'Muted gold'    },
         { label: 'Text caret',tkajui: T.accent,        tkNote: 'Accent blue',      donjon: D.gold,      dnNote: 'Gold 300'      },
-      ].map((row, i, arr) => (
-        <div key={row.label} className={`grid grid-cols-2 ${i < arr.length - 1 ? 'border-b border-neutral-800' : ''}`}>
+      ].map((row) => (
+        <div key={row.label} className="grid grid-cols-2 not-last:border-b not-last:border-neutral-800">
           <div className="p-3 flex items-center gap-3 border-r border-neutral-800">
             <div className="size-8 rounded-sm shrink-0 border border-white/10" style={{ background: row.tkajui }} />
             <div>

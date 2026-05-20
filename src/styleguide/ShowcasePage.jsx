@@ -144,7 +144,7 @@ export function ShowcasePage({ title, description, children, componentSlug, comp
                 }
               </div>
               {description && (
-                <p className="text-neutral-400 text-sm lg:text-base">{description}</p>
+                <p className="text-neutral-400 text-sm lg:text-base text-pretty">{description}</p>
               )}
             </div>
             {slugs.length > 0 && (
@@ -154,7 +154,8 @@ export function ShowcasePage({ title, description, children, componentSlug, comp
             )}
           </div>
         </header>
-        <div className="flex flex-col gap-10 lg:gap-12">{children}</div>
+        {/* *:scroll-mt-8 — kotvové odkazy ze sidebaru nezakrývá hlavička */}
+        <div className="flex flex-col gap-10 lg:gap-12 *:scroll-mt-8">{children}</div>
       </div>
     </LibVariantContext.Provider>
   )
@@ -166,7 +167,7 @@ export function Section({ id, title, description, children }) {
       <div>
         <h3 className="text-base lg:text-lg font-semibold text-white text-balance">{title}</h3>
         {description && (
-          <p className="text-xs lg:text-sm text-neutral-500 mt-0.5">{description}</p>
+          <p className="text-xs lg:text-sm text-neutral-500 mt-0.5 text-pretty">{description}</p>
         )}
       </div>
       {children}
@@ -180,8 +181,9 @@ export function Preview({ children, dark = true, label }) {
       {label && (
         <p className="text-xs text-neutral-600 font-mono">{label}</p>
       )}
+      {/* has-[:focus-visible]: — jemný signál když je focusovaný child uvnitř preview */}
       <div
-        className={`rounded-xl border border-neutral-800 p-4 sm:p-6 lg:p-8 flex flex-wrap items-start gap-3 lg:gap-4 overflow-x-auto ${
+        className={`rounded-xl border border-neutral-800 p-4 sm:p-6 lg:p-8 flex flex-wrap items-start gap-3 lg:gap-4 overflow-x-auto transition-colors has-[:focus-visible]:border-neutral-700 ${
           dark ? 'bg-neutral-900' : 'bg-neutral-100'
         }`}
       >

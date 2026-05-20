@@ -93,6 +93,7 @@ export default function DonjonCard({
           )}
           {description && (
             <p
+              className="text-pretty"
               style={{
                 margin: '4px 0 0',
                 fontSize: '0.75rem',
