@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useActionState } from 'react'
 import Input from '../lib/tkajui/Input'
 import DonjonInput from '../lib/donjon/DonjonInput'
 import Select from '../lib/tkajui/Select'
 import DonjonSelect from '../lib/donjon/DonjonSelect'
 import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
+import SubmitButton from '../lib/tkajui/SubmitButton'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 const SearchIcon = () => (
@@ -34,6 +35,37 @@ const DIFFICULTY_OPTIONS = [
   { value: 'hard',     label: 'Těžká — zkušení hráči' },
   { value: 'hardcore', label: 'Hardcore — žádné chyby' },
 ]
+
+/* ── SubmitButtonDemo — ukázka useFormStatus + useActionState ── */
+async function saveProfileAction(prevState, formData) {
+  await new Promise(r => setTimeout(r, 1500))
+  const name = formData.get('playerName')?.trim()
+  if (!name) return { error: 'Zadej jméno hráče.', ok: false, name: null }
+  return { error: null, ok: true, name }
+}
+
+function SubmitButtonDemo() {
+  const [state, formAction] = useActionState(saveProfileAction, { error: null, ok: false, name: null })
+  return (
+    <form action={formAction} style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 300 }}>
+      <Input
+        name="playerName"
+        label="Jméno hráče"
+        placeholder="Zadej jméno…"
+        error={state.error ?? undefined}
+      />
+      {/* pending stav přijde automaticky — žádný useState pro loading */}
+      <SubmitButton variant="primary" loadingLabel="Ukládám…">
+        Uložit profil
+      </SubmitButton>
+      {state.ok && (
+        <p style={{ margin: 0, fontSize: '0.8125rem', color: '#5ab87a' }}>
+          ✓ Uloženo: <strong>{state.name}</strong>
+        </p>
+      )}
+    </form>
+  )
+}
 
 function InputContent() {
   const lib = useLibVariant()
@@ -290,6 +322,42 @@ function handleSave() {
   onChange={setDifficulty}
 />
 <${bCmp} onClick={handleSave}>Uložit nastavení</${bCmp}>`} />
+      </Section>
+
+      {/* SubmitButton + useActionState — React 19 */}
+      <Section
+        id="submit-button"
+        title="SubmitButton + useFormStatus (React 19)"
+        description="SubmitButton automaticky čte stav odesílání z nadřazeného formuláře přes useFormStatus hook — žádný ruční useState pro loading."
+      >
+        <Preview>
+          <SubmitButtonDemo />
+        </Preview>
+        <CodeBlock code={`import { useActionState } from 'react'
+import SubmitButton from '@/lib/tkajui/SubmitButton'
+
+// Async server action (nebo API call)
+async function saveAction(prevState, formData) {
+  await new Promise(r => setTimeout(r, 1500)) // simulace síťového volání
+  const name = formData.get('playerName')
+  if (!name?.trim()) return { error: 'Zadej jméno hráče.', ok: false }
+  return { error: null, ok: true, name }
+}
+
+function MyForm() {
+  const [state, formAction] = useActionState(saveAction, { error: null, ok: false })
+  return (
+    <form action={formAction}>
+      <Input name="playerName" label="Jméno hráče" />
+      {/* pending stav přijde automaticky z useFormStatus — žádný useState */}
+      <SubmitButton variant="primary" loadingLabel="Ukládám…">
+        Uložit profil
+      </SubmitButton>
+      {state.ok && <p>Uloženo: {state.name}</p>}
+      {state.error && <p style={{ color: 'red' }}>{state.error}</p>}
+    </form>
+  )
+}`} />
       </Section>
 
       {/* Pravidla */}
