@@ -28,6 +28,10 @@ export default function Input({
   error,
   disabled,
   hint,
+  /** multiline=true → <textarea> s field-sizing:content (Tailwind v4 / CSS 2024) */
+  multiline = false,
+  /** rows — minimální počet řádků u multiline (výchozí 3) */
+  rows = 3,
   ...props
 }) {
   const [isFocused, setIsFocused] = useState(false)
@@ -64,7 +68,7 @@ export default function Input({
       <div
         style={{
           position: 'relative',
-          height: s.h,
+          height:   multiline ? undefined : s.h,
           clipPath: octagon(s.cx),
           background: borderColor,
           transition: 'background 150ms ease, filter 150ms ease',
@@ -75,17 +79,19 @@ export default function Input({
       >
         <div
           style={{
-            position: 'absolute',
-            inset: 1,
+            position: multiline ? 'relative' : 'absolute',
+            inset:    multiline ? undefined  : 1,
+            margin:   multiline ? 1          : undefined,
             clipPath: octagon(Math.max(s.cx - 1, 0)),
             background: surface2,
             display: 'flex',
-            alignItems: 'center',
+            alignItems: multiline ? 'flex-start' : 'center',
           }}
         >
           {leadingIcon && (
             <span style={{
               position: 'absolute', left: s.px,
+              top: multiline ? s.px / 2 : undefined,
               display: 'flex', alignItems: 'center',
               width: 16, height: 16,
               color: isFocused ? accent : textMid,
@@ -95,6 +101,38 @@ export default function Input({
               {leadingIcon}
             </span>
           )}
+          {multiline ? (
+            /* field-sizing: content — textarea roste s obsahem automaticky (CSS 2024 / Tailwind v4) */
+            <textarea
+              id={id}
+              value={value}
+              onChange={onChange}
+              placeholder={placeholder}
+              disabled={disabled}
+              rows={rows}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              className="field-sizing-content"
+              style={{
+                flex: 1,
+                width: '100%',
+                resize: 'none',
+                background: 'transparent',
+                border: 'none',
+                outline: 'none',
+                paddingTop:    s.px / 2,
+                paddingBottom: s.px / 2,
+                paddingLeft:  leadingIcon  ? s.px + 24 : s.px,
+                paddingRight: trailingIcon ? s.px + 24 : s.px,
+                fontSize: s.fontSize,
+                color: textHigh,
+                caretColor: accent,
+                lineHeight: 1.5,
+                fontFamily: 'inherit',
+              }}
+              {...props}
+            />
+          ) : (
           <input
             id={id}
             value={value}
@@ -117,6 +155,7 @@ export default function Input({
             }}
             {...props}
           />
+          )}
           {trailingIcon && (
             <span style={{
               position: 'absolute', right: s.px,
@@ -138,7 +177,9 @@ export default function Input({
         </p>
       )}
 
-      <style>{`input::placeholder { color: ${textLow}; }`}</style>
+      <style>{`
+        input::placeholder, textarea::placeholder { color: ${textLow}; }
+      `}</style>
     </div>
   )
 }

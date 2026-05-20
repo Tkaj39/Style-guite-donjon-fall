@@ -104,7 +104,17 @@ function ToastItem({ id, title, message, variant = 'default', duration = 4000, o
   const v = VARIANTS[variant] ?? VARIANTS.default
 
   return (
-    <div style={{ width: 320, animation: 'toastSlideIn 0.2s ease' }}>
+    <div
+      className="tkajui-toast-item"
+      style={{
+        width: 320,
+        /* @starting-style (Chrome 117+, Firefox 129+, Safari 17.5+) —
+         * transition z opacity:0 / translateX(20px) při vložení do DOM. */
+        opacity: 1,
+        transform: 'translateX(0)',
+        transition: 'opacity 0.2s ease, transform 0.2s ease',
+      }}
+    >
       <div style={{ clipPath: octagon(cx), background: v.border, padding: 1 }}>
         <div style={{ clipPath: octagon(cx - 1), background: v.bg, display: 'flex', flexDirection: 'column' }}>
 
@@ -203,9 +213,13 @@ export function ToastProvider({ children, position = 'bottom-right' }) {
       {createPortal(
         <>
           <style>{`
-            @keyframes toastSlideIn {
-              from { opacity: 0; transform: translateX(20px) }
-              to   { opacity: 1; transform: translateX(0) }
+            /* Progressive enhancement — @starting-style (Chrome 117+, Firefox 129+, Safari 17.5+).
+               Na starých prohlížečích toast prostě přeskočí entry animaci — UI zůstane funkční. */
+            @starting-style {
+              .tkajui-toast-item {
+                opacity: 0;
+                transform: translateX(20px);
+              }
             }
             @keyframes toastProgress {
               from { transform: scaleX(1) }

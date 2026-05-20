@@ -123,20 +123,38 @@ function Button({
     )
   }
 
+  /* ── CSS custom property architektura (Tailwind v4 design) ────────────────
+   * Všechny tokeny jsou vystaveny jako --btn-* vlastnosti na elementu.
+   * Výhody: DevTools vidí hodnoty, CSS animace mohou tokeny animovat,
+   *         nadřazený element může přebít variantu: --btn-bg: red.
+   * ──────────────────────────────────────────────────────────────────────── */
+  const octCx  = `polygon(var(--btn-cx) 0px,calc(100% - var(--btn-cx)) 0px,100% var(--btn-cx),100% calc(100% - var(--btn-cx)),calc(100% - var(--btn-cx)) 100%,var(--btn-cx) 100%,0px calc(100% - var(--btn-cx)),0px var(--btn-cx))`
+  const octIn  = `polygon(calc(var(--btn-cx) - 1px) 0px,calc(100% - var(--btn-cx) + 1px) 0px,100% calc(var(--btn-cx) - 1px),100% calc(100% - var(--btn-cx) + 1px),calc(100% - var(--btn-cx) + 1px) 100%,calc(var(--btn-cx) - 1px) 100%,0px calc(100% - var(--btn-cx) + 1px),0px calc(var(--btn-cx) - 1px))`
+
   return (
     <button
       ref={ref}
       disabled={disabled || loading}
       style={{
-        position: 'relative',
-        height: s.h,
-        width: iconOnly ? s.h : (fullWidth ? '100%' : undefined),
-        padding: iconOnly ? 0 : `0 ${s.px}px`,
-        clipPath: octagon(s.cx),
-        background: v.border,    // outer 1px "border" via clip inset
-        display: 'inline-flex',
-        alignSelf: fullWidth ? undefined : 'flex-start',
-        alignItems: 'center',
+        /* Tokeny — dostupné v DevTools a CSS */
+        '--btn-h':      `${s.h}px`,
+        '--btn-cx':     `${s.cx}px`,
+        '--btn-px':     `${s.px}px`,
+        '--btn-fs':     s.fontSize,
+        '--btn-bg':     v.bg,
+        '--btn-border': v.border,
+        '--btn-text':   v.text,
+        '--btn-icon':   v.icon,
+        /* Layoutové vlastnosti přes var() */
+        position:    'relative',
+        height:      'var(--btn-h)',
+        width:       iconOnly ? 'var(--btn-h)' : (fullWidth ? '100%' : undefined),
+        padding:     iconOnly ? 0 : '0 var(--btn-px)',
+        clipPath:    octCx,
+        background:  'var(--btn-border)',   // outer 1px "border" via clip inset
+        display:     'inline-flex',
+        alignSelf:   fullWidth ? undefined : 'flex-start',
+        alignItems:  'center',
         justifyContent: 'center',
       }}
       className={[
@@ -153,10 +171,10 @@ function Button({
       <span
         aria-hidden="true"
         style={{
-          position: 'absolute',
-          inset: 1,
-          clipPath: octagon(Math.max(s.cx - 1, 0)),
-          background: v.bg,
+          position:   'absolute',
+          inset:      1,
+          clipPath:   octIn,
+          background: 'var(--btn-bg)',
           transition: 'background 120ms',
         }}
       />
@@ -165,7 +183,7 @@ function Button({
         <>
           <Spinner size={iSize} />
           {!iconOnly && (
-            <span style={{ position: 'relative', fontSize: s.fontSize, fontWeight: 500, letterSpacing: '0.04em', color: v.text }}>
+            <span style={{ position: 'relative', fontSize: 'var(--btn-fs)', fontWeight: 500, letterSpacing: '0.04em', color: 'var(--btn-text)' }}>
               {children}
             </span>
           )}
@@ -173,22 +191,22 @@ function Button({
       ) : (
         <>
           {leadingIcon && (
-            <span style={{ position: 'relative', width: iSize, height: iSize, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: v.icon }}>
+            <span style={{ position: 'relative', width: iSize, height: iSize, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: 'var(--btn-icon)' }}>
               {leadingIcon}
             </span>
           )}
           {!iconOnly && (
-            <span style={{ position: 'relative', fontSize: s.fontSize, fontWeight: 500, letterSpacing: '0.04em', color: v.text, lineHeight: 1 }}>
+            <span style={{ position: 'relative', fontSize: 'var(--btn-fs)', fontWeight: 500, letterSpacing: '0.04em', color: 'var(--btn-text)', lineHeight: 1 }}>
               {children}
             </span>
           )}
           {trailingIcon && (
-            <span style={{ position: 'relative', width: iSize, height: iSize, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: v.icon }}>
+            <span style={{ position: 'relative', width: iSize, height: iSize, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: 'var(--btn-icon)' }}>
               {trailingIcon}
             </span>
           )}
           {iconOnly && (
-            <span style={{ position: 'relative', width: iSize, height: iSize, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: v.icon }}>
+            <span style={{ position: 'relative', width: iSize, height: iSize, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: 'var(--btn-icon)' }}>
               {children}
             </span>
           )}

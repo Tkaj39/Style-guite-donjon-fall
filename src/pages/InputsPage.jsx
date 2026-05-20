@@ -36,6 +36,27 @@ const DIFFICULTY_OPTIONS = [
   { value: 'hardcore', label: 'Hardcore — žádné chyby' },
 ]
 
+/* ── MultilineDemo — ukázka field-sizing-content ── */
+function MultilineDemo({ I, cmp }) {
+  const [val, setVal] = useState('')
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', maxWidth: 360 }}>
+      <I
+        label="Popis strategie"
+        placeholder="Popiš svou taktiku pro toto kolo…"
+        multiline
+        rows={3}
+        value={val}
+        onChange={e => setVal(e.target.value)}
+        hint="Textarea roste s obsahem (field-sizing:content) — žádný JS resize handler."
+      />
+      <p style={{ margin: 0, fontSize: '0.75rem', color: '#6868a0' }}>
+        Délka: {val.length} znaků · {val.split('\n').length} řádků
+      </p>
+    </div>
+  )
+}
+
 /* ── SubmitButtonDemo — ukázka useFormStatus + useActionState ── */
 async function saveProfileAction(prevState, formData) {
   await new Promise(r => setTimeout(r, 1500))
@@ -189,6 +210,26 @@ function InputContent() {
   hint="Must be 3–24 characters, letters only."
   value={val}
   onChange={e => setVal(e.target.value)}
+/>`} />
+      </Section>
+
+      {/* Multiline — field-sizing-content (Tailwind v4 / CSS 2024) */}
+      <Section
+        id="multiline"
+        title="Multiline — field-sizing-content (Tailwind v4)"
+        description="Prop multiline=true přepne na <textarea> s CSS field-sizing:content — pole roste s obsahem automaticky, bez JavaScriptu. Tailwind v4 utilita: field-sizing-content."
+      >
+        <Preview>
+          <MultilineDemo I={I} cmp={cmp} />
+        </Preview>
+        <CodeBlock code={`{/* field-sizing:content → textarea roste s textem, min-height z rows */}
+<${cmp}
+  label="Popis strategie"
+  placeholder="Popiš svou taktiku…"
+  multiline
+  rows={3}
+  value={value}
+  onChange={e => setValue(e.target.value)}
 />`} />
       </Section>
 

@@ -195,10 +195,22 @@ export default function Select({
             borderRadius: 4,
             overflow: 'hidden',
             boxShadow: `0 8px 24px rgba(0,0,0,0.5), 0 0 0 1px ${accent}22`,
-            animation: 'selectOpen 0.12s ease',
+            /* @starting-style (Chrome 117+, Firefox 129+, Safari 17.5+) nahrazuje
+             * @keyframes selectOpen — progressivní enhancement přes transition. */
+            opacity: 1,
+            transform: 'translateY(0)',
+            transition: 'opacity 0.12s ease, transform 0.12s ease',
           }}
+          className="tkajui-select-dropdown"
         >
-          <style>{`@keyframes selectOpen { from { opacity:0; transform:translateY(-4px) } to { opacity:1; transform:translateY(0) } }`}</style>
+          <style>{`
+            @starting-style {
+              .tkajui-select-dropdown {
+                opacity: 0;
+                transform: translateY(-4px);
+              }
+            }
+          `}</style>
           {safeOptions.map((opt, i) => {
             const isHighlighted = i === highlighted && !opt.disabled
             const isSelected = opt.value === value
