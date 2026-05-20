@@ -9,6 +9,7 @@ export { default as Input }          from './Input'
 // Složené komponenty
 export { default as ButtonGroup }    from './ButtonGroup'
 export { default as Modal }          from './Modal'
+export { default as SubmitButton }   from './SubmitButton'
 export { ToastProvider, useToast }   from './Toast'
 export { default as Tooltip }        from './Tooltip'
 
