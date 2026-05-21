@@ -131,7 +131,7 @@ export default function DialogyPage() {
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
                   {pushOutcomes.map(o => (
                     <DonjonCard key={o.title} title={o.title} description={o.description} variant={o.variant}>
-                      <p style={{ margin: 0, fontSize: '0.8125rem', color: o.variant === 'danger' ? '#F9C0C0' : 'goldDim', lineHeight: 1.6 }}>
+                      <p style={{ margin: 0, fontSize: '0.8125rem', color: o.variant === 'danger' ? '#F9C0C0' : goldDim, lineHeight: 1.6 }}>
                         {o.body}
                       </p>
                     </DonjonCard>
@@ -234,7 +234,7 @@ export default function DialogyPage() {
                     <p style={{
                       margin: 0, fontSize: '0.8125rem', fontWeight: 700,
                       letterSpacing: '0.14em', textTransform: 'uppercase',
-                      background: 'linear-gradient(180deg,#F9F9F9 0%,goldMid 100%)',
+                      background: `linear-gradient(180deg,#F9F9F9 0%,${goldMid} 100%)`,
                       WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
                       lineHeight: 1.2,
                     }}>{player.label}</p>
@@ -271,7 +271,7 @@ export default function DialogyPage() {
                 }} />
                 <p style={{
                   margin: 0, fontSize: '1rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
-                  background: 'linear-gradient(180deg,#C0F0C8 0%,successColor 100%)',
+                  background: `linear-gradient(180deg,#C0F0C8 0%,${successColor} 100%)`,
                   WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
                 }}>{players[0].label}</p>
                 <DonjonBadge variant="success" icon={<TrophyIcon />}>5 VP</DonjonBadge>

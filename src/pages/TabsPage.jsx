@@ -56,7 +56,7 @@ function TabsContent() {
           border: '1px solid #8F745430',
           borderRadius: 4,
           fontSize: '0.8125rem',
-          color: 'textCool',
+          color: textCool,
           lineHeight: 1.5,
         }}>
           Obsah záložky: <span style={{ color: '#B8956A', fontWeight: 600 }}>
@@ -178,7 +178,7 @@ function TabsContent() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
             {(['sm', 'md', 'lg']).map(size => (
               <div key={size}>
-                <p style={{ margin: '0 0 8px', fontSize: '0.75rem', color: 'textDeep', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{size}</p>
+                <p style={{ margin: '0 0 8px', fontSize: '0.75rem', color: textDeep, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{size}</p>
                 <Demo
                   items={[
                     { value: 'a', label: 'Přehled' },

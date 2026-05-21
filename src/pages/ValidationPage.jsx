@@ -6,15 +6,15 @@ import DonjonBadge from '../lib/donjon/DonjonBadge'
 function ValidatedField({ label, value, state = 'default', hint, error, success }) {
   const borders = {
     default:  `${goldDim}40`,
-    focus:    'goldMid',
-    error:    'failColor',
-    success:  'successColor',
+    focus: goldMid,
+    error: failColor,
+    success: successColor,
     warning:  '#C08040',
     disabled: `${goldDim}20`,
   }
   const bgs = {
-    default:  'bg0',
-    focus:    'bg0',
+    default: bg0,
+    focus: bg0,
     error:    '#C0404010',
     success:  '#40A05510',
     warning:  '#C0804010',
@@ -36,7 +36,7 @@ function ValidatedField({ label, value, state = 'default', hint, error, success 
         border: `1.5px solid ${border}`,
         borderRadius: 3,
         fontSize: '0.8125rem',
-        color: state === 'disabled' ? 'textDeep' : 'textActive',
+        color: state === 'disabled' ? textDeep : textActive,
         cursor: state === 'disabled' ? 'not-allowed' : 'text',
       }}>
         {value || <span style={{ color: textDeep }}>Placeholder</span>}
@@ -80,7 +80,7 @@ function PasswordStrength({ strength = 0 }) {
         {levels.map((l, i) => (
           <div key={i} style={{
             flex: 1, height: 3, borderRadius: 2,
-            background: i <= strength ? l.color : 'borderSubtle',
+            background: i <= strength ? l.color : borderSubtle,
             transition: 'background 0.2s',
           }} />
         ))}

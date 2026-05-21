@@ -5,7 +5,7 @@ import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 
 /* ── Badge variant → accent color ── */
 const variantColor = {
-  default: 'goldDim',
+  default: goldDim,
   success: '#6EAB78',
   danger:  '#E05C5C',
   warning: '#C89A3C',
@@ -55,7 +55,7 @@ function SoundGroup({ title, children }) {
 }
 
 /* ── Sekvenční chain s šipkami ── */
-function ChainStep({ label, ms, color = 'textFaint', note }) {
+function ChainStep({ label, ms, color = textFaint, note }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
       <div style={{
@@ -132,7 +132,7 @@ function SharedBase({ label, ms, description }) {
 }
 
 function VariantTail({ label, ms, variant = 'default', description }) {
-  const color = variantColor[variant] ?? 'goldDim'
+  const color = variantColor[variant] ?? goldDim
   return (
     <div style={{
       display: 'flex', gap: 10, alignItems: 'flex-start',

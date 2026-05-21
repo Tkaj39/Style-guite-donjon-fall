@@ -21,7 +21,7 @@ function LayerBar({ name, z, color, label, desc, highlight }) {
       gridTemplateColumns: '90px 60px 1fr',
       gap: 12,
       padding: '10px 14px',
-      background: highlight ? 'bg4' : 'transparent',
+      background: highlight ? bg4 : 'transparent',
       borderBottom: `1px solid ${goldDim}18`,
       alignItems: 'center',
       borderLeft: highlight ? '3px solid goldMid' : '3px solid transparent',
@@ -47,7 +47,7 @@ function StackDiagram() {
     { z: 1000, label: 'Modal',   bg: '#353751', border: `${goldDim}` },
     { z: 900,  label: 'Backdrop',bg: '#0A0820', border: `${goldDim}30`, opacity: 0.8 },
     { z: 200,  label: 'Select',  bg: '#252340', border: `${goldDim}55` },
-    { z: 0,    label: 'Obsah',   bg: 'bg0', border: `${goldDim}30` },
+    { z: 0,    label: 'Obsah',   bg: bg0, border: `${goldDim}30` },
   ]
   return (
     <div style={{ position: 'relative', width: 300, height: 260 }}>

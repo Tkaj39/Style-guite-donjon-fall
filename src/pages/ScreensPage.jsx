@@ -118,12 +118,12 @@ function MiniHUD({ size = 'md' }) {
 function MiniActionBtn({ label, active = false, danger = false, small = false }) {
   return (
     <div style={{
-      background: active ? 'bg4' : 'bgDeep',
+      background: active ? bg4 : bgDeep,
       border: `1px solid ${danger ? '#5A2020' : active ? '#5A5878' : '#252342'}`,
       borderRadius: 3,
       padding: small ? '3px 7px' : '5px 10px',
       fontSize: small ? '0.4375rem' : '0.5rem',
-      color: danger ? '#803030' : active ? 'textParchment' : 'textFaint',
+      color: danger ? '#803030' : active ? textParchment : textFaint,
       fontWeight: 600, letterSpacing: '0.05em',
       whiteSpace: 'nowrap', flexShrink: 0,
     }}>
@@ -325,12 +325,12 @@ function MobileLayout() {
       }}>
         {MOBILE_ACTIONS.map((a, i) => (
           <div key={i} style={{
-            background: a.active ? 'bg4' : 'bgDeep',
+            background: a.active ? bg4 : bgDeep,
             border: `1px solid ${a.danger ? '#5A2020' : a.active ? '#5A5878' : '#252342'}`,
             borderRadius: 4, padding: '5px 4px', minHeight: 34,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: '0.375rem',
-            color: a.danger ? '#803030' : a.active ? 'textParchment' : 'textFaint',
+            color: a.danger ? '#803030' : a.active ? textParchment : textFaint,
             fontWeight: 600, letterSpacing: '0.03em',
             textAlign: 'center', lineHeight: 1.3, whiteSpace: 'pre-line',
           }}>

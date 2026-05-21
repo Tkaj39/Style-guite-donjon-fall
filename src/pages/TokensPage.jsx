@@ -82,9 +82,9 @@ function TkajuiTokensContent() {
               { name: 'surface2',      value: T.surface2,      swatch: T.surface2,      usage: 'Karta, panel, raised surface',                nameColor: T.accent },
               { name: 'surface3',      value: T.surface3,      swatch: T.surface3,      usage: 'Aktivní prvek, hover bg',                     nameColor: T.accent },
               { name: 'surface4',      value: T.surface4,      swatch: T.surface4,      usage: 'Elevated panel, tooltip bg',                  nameColor: T.accent },
-              { name: 'borderSubtle',  value: T.borderSubtle,  swatch: T.borderSubtle,  usage: 'Jemná separace — neviditelná, struktura',     nameColor: T.textMid },
-              { name: 'borderDefault', value: T.borderDefault, swatch: T.borderDefault, usage: 'Standardní border komponent',                 nameColor: T.textMid },
-              { name: 'borderMid',     value: T.borderMid,     swatch: T.borderMid,     usage: 'Silnější border, focus-related kontext',      nameColor: T.textMid },
+              { name: borderSubtle,  value: T.borderSubtle,  swatch: T.borderSubtle,  usage: 'Jemná separace — neviditelná, struktura',     nameColor: T.textMid },
+              { name: borderDefault, value: T.borderDefault, swatch: T.borderDefault, usage: 'Standardní border komponent',                 nameColor: T.textMid },
+              { name: borderMid,     value: T.borderMid,     swatch: T.borderMid,     usage: 'Silnější border, focus-related kontext',      nameColor: T.textMid },
               { name: 'borderStrong',  value: T.borderStrong,  swatch: T.borderStrong,  usage: 'Výrazný border, outline, decorative',         nameColor: T.textMid },
             ].map(t => <TkajTokenRow key={t.name} {...t} />)}
           </div>
@@ -135,10 +135,10 @@ export const accentBorder = '#6576ff55'`} />
         <Preview dark={false}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, width: '100%', maxWidth: 640 }}>
             {[
-              { name: 'textHigh',     value: T.textHigh,     swatch: T.textHigh,     usage: 'Primární text, nadpisy, aktivní labels' },
-              { name: 'textMid',      value: T.textMid,      swatch: T.textMid,      usage: 'Sekundární text, labely, ikony' },
-              { name: 'textLow',      value: T.textLow,      swatch: T.textLow,      usage: 'Pomocný text, placeholder, captions' },
-              { name: 'textDisabled', value: T.textDisabled, swatch: T.textDisabled, usage: 'Disabled stav — nepřístupná hodnota' },
+              { name: textHigh,     value: T.textHigh,     swatch: T.textHigh,     usage: 'Primární text, nadpisy, aktivní labels' },
+              { name: textMid,      value: T.textMid,      swatch: T.textMid,      usage: 'Sekundární text, labely, ikony' },
+              { name: textLow,      value: T.textLow,      swatch: T.textLow,      usage: 'Pomocný text, placeholder, captions' },
+              { name: textDisabled, value: T.textDisabled, swatch: T.textDisabled, usage: 'Disabled stav — nepřístupná hodnota' },
             ].map(t => <TkajTokenRow key={t.name} nameColor={T.textHigh} {...t} />)}
           </div>
         </Preview>
@@ -168,9 +168,9 @@ export const accentBorder = '#6576ff55'`} />
         <Preview dark={false}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, width: '100%', maxWidth: 640 }}>
             {[
-              { name: 'successColor', value: T.successColor, swatch: T.successColor, usage: 'Úspěch, validní, ok stav' },
-              { name: 'dangerColor',  value: T.dangerColor,  swatch: T.dangerColor,  usage: 'Chyba, destruktivní akce' },
-              { name: 'warningColor', value: T.warningColor, swatch: T.warningColor, usage: 'Varování, upozornění' },
+              { name: successColor, value: T.successColor, swatch: T.successColor, usage: 'Úspěch, validní, ok stav' },
+              { name: dangerColor,  value: T.dangerColor,  swatch: T.dangerColor,  usage: 'Chyba, destruktivní akce' },
+              { name: warningColor, value: T.warningColor, swatch: T.warningColor, usage: 'Varování, upozornění' },
               { name: 'infoColor',    value: T.infoColor,    swatch: T.infoColor,    usage: 'Informace, nápověda' },
             ].map(t => <TkajTokenRow key={t.name} nameColor={T.textMid} {...t} />)}
           </div>
@@ -343,14 +343,14 @@ function DonjonTokenRow({ name, value, computed, usage, category }) {
   const catColors = {
     color:   goldMid,
     spacing: '#4080C0',
-    radius:  'successColor',
-    shadow:  'goldDim',
+    radius: successColor,
+    shadow: goldDim,
     z:       '#C08040',
     duration:'failColor',
   }
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '220px 160px 100px 1fr', gap: 10, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3, alignItems: 'center' }}>
-      <code style={{ fontSize: '0.75rem', color: catColors[category] ?? 'goldMid' }}>{name}</code>
+      <code style={{ fontSize: '0.75rem', color: catColors[category] ?? goldMid }}>{name}</code>
       <code style={{ fontSize: '0.75rem', color: textCool, wordBreak: 'break-all' }}>{value}</code>
       {computed
         ? <div style={{ width: computed.w ?? 24, height: computed.h ?? 24, background: computed.bg, borderRadius: computed.r ?? 0, boxShadow: computed.shadow }} />
@@ -403,17 +403,17 @@ function DonjonTokensContent() {
         <Preview dark={false}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, width: '100%', maxWidth: 620 }}>
             {[
-              { name: '--color-bg',          value: 'bg0', computed: { bg: 'bg0', w: 24, h: 24, r: 2 }, usage: 'Hlavní pozadí aplikace', category: 'color' },
-              { name: '--color-bg-raised',   value: 'borderSubtle', computed: { bg: 'borderSubtle', w: 24, h: 24, r: 2 }, usage: 'Karta, skeleton, raised surface', category: 'color' },
+              { name: '--color-bg',          value: bg0, computed: { bg: bg0, w: 24, h: 24, r: 2 }, usage: 'Hlavní pozadí aplikace', category: 'color' },
+              { name: '--color-bg-raised',   value: borderSubtle, computed: { bg: borderSubtle, w: 24, h: 24, r: 2 }, usage: 'Karta, skeleton, raised surface', category: 'color' },
               { name: '--color-bg-panel',    value: '#1E1C3A', computed: { bg: '#1E1C3A', w: 24, h: 24, r: 2 }, usage: 'Panel, modal, overlay', category: 'color' },
-              { name: '--color-gold',        value: 'goldMid', computed: { bg: 'goldMid', w: 24, h: 24, r: 2 }, usage: 'Primární akcent, zlato', category: 'color' },
-              { name: '--color-gold-dark',   value: 'goldDim', computed: { bg: 'goldDim', w: 24, h: 24, r: 2 }, usage: 'Border, dekorativní, sekundární', category: 'color' },
-              { name: '--color-gold-light',  value: 'gold', computed: { bg: 'gold', w: 24, h: 24, r: 2 }, usage: 'Gradient start, highlight', category: 'color' },
-              { name: '--color-text',        value: 'textActive', computed: { bg: 'textActive', w: 24, h: 24, r: 2 }, usage: 'Hlavní text', category: 'color' },
-              { name: '--color-text-muted',  value: 'textCool', computed: { bg: 'textCool', w: 24, h: 24, r: 2 }, usage: 'Sekundární text, popis', category: 'color' },
-              { name: '--color-text-faint',  value: 'textDeep', computed: { bg: 'textDeep', w: 24, h: 24, r: 2 }, usage: 'Placeholder, micro text', category: 'color' },
-              { name: '--color-success',     value: 'successColor', computed: { bg: 'successColor', w: 24, h: 24, r: 2 }, usage: 'Úspěch, VP, ok stav', category: 'color' },
-              { name: '--color-danger',      value: 'failColor', computed: { bg: 'failColor', w: 24, h: 24, r: 2 }, usage: 'Chyba, destruktivní akce', category: 'color' },
+              { name: '--color-gold',        value: goldMid, computed: { bg: goldMid, w: 24, h: 24, r: 2 }, usage: 'Primární akcent, zlato', category: 'color' },
+              { name: '--color-gold-dark',   value: goldDim, computed: { bg: goldDim, w: 24, h: 24, r: 2 }, usage: 'Border, dekorativní, sekundární', category: 'color' },
+              { name: '--color-gold-light',  value: gold, computed: { bg: gold, w: 24, h: 24, r: 2 }, usage: 'Gradient start, highlight', category: 'color' },
+              { name: '--color-text',        value: textActive, computed: { bg: textActive, w: 24, h: 24, r: 2 }, usage: 'Hlavní text', category: 'color' },
+              { name: '--color-text-muted',  value: textCool, computed: { bg: textCool, w: 24, h: 24, r: 2 }, usage: 'Sekundární text, popis', category: 'color' },
+              { name: '--color-text-faint',  value: textDeep, computed: { bg: textDeep, w: 24, h: 24, r: 2 }, usage: 'Placeholder, micro text', category: 'color' },
+              { name: '--color-success',     value: successColor, computed: { bg: successColor, w: 24, h: 24, r: 2 }, usage: 'Úspěch, VP, ok stav', category: 'color' },
+              { name: '--color-danger',      value: failColor, computed: { bg: failColor, w: 24, h: 24, r: 2 }, usage: 'Chyba, destruktivní akce', category: 'color' },
               { name: '--color-warning',     value: '#C08040', computed: { bg: '#C08040', w: 24, h: 24, r: 2 }, usage: 'Varování, upozornění', category: 'color' },
               { name: '--color-info',        value: '#4080C0', computed: { bg: '#4080C0', w: 24, h: 24, r: 2 }, usage: 'Informace, nápověda', category: 'color' },
             ].map(t => <DonjonTokenRow key={t.name} {...t} />)}

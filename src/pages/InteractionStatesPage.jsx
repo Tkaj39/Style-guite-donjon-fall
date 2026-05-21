@@ -9,8 +9,8 @@ import ProgressBar from '../lib/tkajui/ProgressBar'
    Sdílená stavová matice (stejná pro obě knihovny)
    ══════════════════════════════════════════════════════════════════════════ */
 
-function StateRow({ state, required, description, components, accentColor = 'goldMid', textColor = 'textCool', bg = 'bg0', border = `${goldDim}18`, faintColor = 'textDeep' }) {
-  const reqColor = required ? 'successColor' : textColor
+function StateRow({ state, required, description, components, accentColor = goldMid, textColor = textCool, bg = bg0, border = `${goldDim}18`, faintColor = textDeep }) {
+  const reqColor = required ? successColor : textColor
   return (
     <div style={{
       display: 'grid',
@@ -382,9 +382,9 @@ function SelectedDemo() {
           style={{
             padding: '6px 14px',
             fontSize: '0.8125rem',
-            border: `1px solid ${sel === value ? 'goldMid' : `${goldDim}40`}`,
-            background: sel === value ? 'bg4' : 'transparent',
-            color: sel === value ? 'textActive' : 'textCool',
+            border: `1px solid ${sel === value ? goldMid : `${goldDim}40`}`,
+            background: sel === value ? bg4 : 'transparent',
+            color: sel === value ? textActive : textCool,
             borderRadius: 3,
             cursor: 'pointer',
             boxShadow: sel === value ? '0 0 0 1px #B8956A44' : 'none',

@@ -45,10 +45,10 @@ function TkajuiContent() {
               <p style={subLabel}>Barva — color prop (nebo CSS currentColor)</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                 {[
-                  { color: gold, label: 'gold' },
-                  { color: goldDim, label: 'goldDim' },
-                  { color: textParchment, label: 'textParchment' },
-                  { color: textFaint, label: 'textFaint' },
+                  { color: gold, label: gold },
+                  { color: goldDim, label: goldDim },
+                  { color: textParchment, label: textParchment },
+                  { color: textFaint, label: textFaint },
                   { color: failColor, label: 'danger'  },
                   { color: successColor, label: 'success' },
                 ].map(c => (

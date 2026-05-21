@@ -26,7 +26,7 @@ function TimingDemo({ duration, label, easing = 'ease' }) {
       >
         <div style={{
           height: '100%',
-          background: 'linear-gradient(90deg,gold,goldDim)',
+          background: `linear-gradient(90deg,${gold},${goldDim})`,
           borderRadius: 4,
           transform: active ? 'scaleX(1)' : 'scaleX(0)',
           transformOrigin: 'left',
@@ -39,7 +39,7 @@ function TimingDemo({ duration, label, easing = 'ease' }) {
 }
 
 /* ── Easing curve SVG ── */
-function EasingCurve({ d, label, css, color = 'goldMid' }) {
+function EasingCurve({ d, label, css, color = goldMid }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
       <svg viewBox="0 0 60 60" width="60" height="60" style={{ overflow: 'visible' }}>

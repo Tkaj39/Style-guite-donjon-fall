@@ -147,10 +147,10 @@ export default function FeedbackHierarchyPage() {
         <Preview dark={false}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 560 }}>
             {[
-              { severity: 'Kritická',    channel: 'Modal danger',           variant: 'failColor', example: 'Ztráta dat, neplatná hra, systémová chyba' },
-              { severity: 'Vysoká',      channel: 'Toast danger (trvalý)',   variant: 'failColor', example: 'Chyba sítě, uložení selhalo' },
+              { severity: 'Kritická',    channel: 'Modal danger',           variant: failColor, example: 'Ztráta dat, neplatná hra, systémová chyba' },
+              { severity: 'Vysoká',      channel: 'Toast danger (trvalý)',   variant: failColor, example: 'Chyba sítě, uložení selhalo' },
               { severity: 'Střední',     channel: 'Toast warning / danger',  variant: '#C08040', example: 'Akce se nepodařila, limit dosažen' },
-              { severity: 'Nízká',       channel: 'Toast default / success', variant: 'goldDim', example: 'Uloženo, tah dokončen, připojení OK' },
+              { severity: 'Nízká',       channel: 'Toast default / success', variant: goldDim, example: 'Uloženo, tah dokončen, připojení OK' },
               { severity: 'Informační',  channel: 'Toast info / inline',     variant: '#4080C0', example: 'Tip, nápověda, stav bez akce' },
               { severity: 'Kontextová',  channel: 'Tooltip',                 variant: '#C08040', example: 'Vysvětlení ikony, herní termín' },
             ].map(({ severity, channel, variant, example }) => (

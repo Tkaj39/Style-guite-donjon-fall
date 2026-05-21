@@ -17,7 +17,7 @@ function ProgressBar({ pct }) {
     }}>
       <div style={{
         height: '100%', width: `${pct}%`,
-        background: 'linear-gradient(90deg, gold 0%, goldDim 100%)',
+        background: `linear-gradient(90deg, ${gold} 0%, ${goldDim} 100%)`,
         borderRadius: 2, boxShadow: '0 0 5px #FFC18344',
       }} />
     </div>

@@ -2,6 +2,7 @@ import HexTile from '../lib/donjon/HexTile'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
+import { gold, goldDim, bg4, bgDeep, borderSubtle, textFaint } from '../lib/donjon/tokens'
 
 /* ── Dekorativní prázdná hex mřížka ── */
 function EmptyHexGrid({ cols = 5, rows = 4 }) {
@@ -36,8 +37,8 @@ function MiniMenuBtn({ label, primary = false, disabled = false, fs = '0.5rem', 
       padding: `${py}px ${px}px`,
       border: `1px solid ${primary ? '#FFC18388' : disabled ? '#1E1D30' : '#3A3858'}`,
       borderRadius: 4,
-      background: primary ? '#2A2020' : disabled ? '#12111F' : 'bgDeep',
-      color: primary ? 'gold' : disabled ? 'bg4' : 'goldDim',
+      background: primary ? '#2A2020' : disabled ? '#12111F' : bgDeep,
+      color: primary ? gold : disabled ? bg4 : goldDim,
       fontSize: fs,
       fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
       textAlign: 'center',
@@ -56,7 +57,7 @@ function MenuDesktopLayout() {
       {/* Levý dekorativní panel */}
       <div style={{
         flex: 1,
-        background: 'radial-gradient(ellipse at 60% 50%, borderSubtle 0%, #0A0917 100%)',
+        background: `radial-gradient(ellipse at 60% 50%, ${borderSubtle} 0%, #0A0917 100%)`,
         borderRight: `1px solid ${bg4}`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         position: 'relative', overflow: 'hidden',
@@ -90,7 +91,7 @@ function MenuDesktopLayout() {
               margin: '0 0 5px',
               fontSize: '1.125rem', fontWeight: 900,
               letterSpacing: '0.22em', textTransform: 'uppercase',
-              background: 'linear-gradient(180deg, gold 0%, goldDim 100%)',
+              background: `linear-gradient(180deg, ${gold} 0%, ${goldDim} 100%)`,
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
               lineHeight: 1.1,
             }}
@@ -120,7 +121,7 @@ function MenuTabletLayout() {
     <div style={{
       flex: 1, display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
-      background: 'radial-gradient(ellipse at 50% 40%, borderSubtle 0%, #0A0917 100%)',
+      background: `radial-gradient(ellipse at 50% 40%, ${borderSubtle} 0%, #0A0917 100%)`,
       padding: '0 48px', gap: 8,
     }}>
       <div style={{ marginBottom: 24, textAlign: 'center' }}>
@@ -128,7 +129,7 @@ function MenuTabletLayout() {
           margin: '0 0 6px',
           fontSize: '1.5rem', fontWeight: 900,
           letterSpacing: '0.2em', textTransform: 'uppercase',
-          background: 'linear-gradient(180deg, gold 0%, goldDim 100%)',
+          background: `linear-gradient(180deg, ${gold} 0%, ${goldDim} 100%)`,
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
           lineHeight: 1.1,
         }}>
@@ -154,7 +155,7 @@ function MenuMobileLayout() {
     <div style={{
       flex: 1, display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
-      background: 'radial-gradient(ellipse at 50% 40%, borderSubtle 0%, #0A0917 100%)',
+      background: `radial-gradient(ellipse at 50% 40%, ${borderSubtle} 0%, #0A0917 100%)`,
       padding: '0 20px', gap: 6,
     }}>
       <div style={{ marginBottom: 16, textAlign: 'center' }}>
@@ -162,7 +163,7 @@ function MenuMobileLayout() {
           margin: '0 0 4px',
           fontSize: '1rem', fontWeight: 900,
           letterSpacing: '0.18em', textTransform: 'uppercase',
-          background: 'linear-gradient(180deg, gold 0%, goldDim 100%)',
+          background: `linear-gradient(180deg, ${gold} 0%, ${goldDim} 100%)`,
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
           lineHeight: 1.1,
         }}>

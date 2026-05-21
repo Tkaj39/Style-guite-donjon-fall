@@ -6,9 +6,9 @@ import DonjonBadge from '../lib/donjon/DonjonBadge'
 /* ── Prázdný stav template ── */
 function EmptyState({ icon, title, description, cta, ctaLabel = 'Začít', variant = 'default' }) {
   const colors = {
-    default: { border: `${goldDim}30`, icon: 'goldDim' },
+    default: { border: `${goldDim}30`, icon: goldDim },
     info:    { border: '#4080C040', icon: '#4080C0' },
-    game:    { border: `${goldDim}40`, icon: 'goldMid' },
+    game:    { border: `${goldDim}40`, icon: goldMid },
   }
   const c = colors[variant] ?? colors.default
 

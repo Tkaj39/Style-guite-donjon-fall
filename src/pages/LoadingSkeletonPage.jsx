@@ -3,7 +3,7 @@ import { textDeep, textCool, goldMid, bg0, successColor, textActive, borderSubtl
 
 /* ── Skeleton primitives ── */
 const shimmer = {
-  background: 'linear-gradient(90deg, borderSubtle 25%, #22203E 50%, borderSubtle 75%)',
+  background: `linear-gradient(90deg, ${borderSubtle} 25%, #22203E 50%, ${borderSubtle} 75%)`,
   backgroundSize: '200% 100%',
   animation: 'skeletonShimmer 1.4s ease-in-out infinite',
 }
@@ -194,7 +194,7 @@ export default function LoadingSkeletonPage() {
         </Preview>
         <CodeBlock code={`/* SkeletonBox — základní primitivum */
 const shimmer = {
-  background: 'linear-gradient(90deg, borderSubtle 25%, #22203E 50%, borderSubtle 75%)',
+  background: \`linear-gradient(90deg, \${borderSubtle} 25%, #22203E 50%, \${borderSubtle} 75%)\`,
   backgroundSize: '200% 100%',
   animation: 'skeletonShimmer 1.4s ease-in-out infinite',
 }

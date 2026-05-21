@@ -203,7 +203,7 @@ function TkajuiContent() {
 /* ── donjon typografie ─────────────────────────────────────────────────── */
 
 const goldGrad = {
-  background: 'linear-gradient(180deg,gold 0%,goldDim 100%)',
+  background: `linear-gradient(180deg,${gold} 0%,${goldDim} 100%)`,
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
   backgroundClip: 'text',
@@ -304,13 +304,13 @@ function DonjonKontext() {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 12 }}>
 
-      <div style={{ background: 'linear-gradient(150deg,#252340 0%,borderSubtle 100%)', border: '1px solid #FFC18344', borderRadius: 4, padding: '28px 24px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
+      <div style={{ background: `linear-gradient(150deg,#252340 0%,${borderSubtle} 100%)`, border: '1px solid #FFC18344', borderRadius: 4, padding: '28px 24px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
         <p style={{ margin: 0, fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#3A3A52' }}>Výsledková obrazovka</p>
         <p style={{ margin: '8px 0 0', fontFamily: cormorant, fontSize: '2.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', lineHeight: 1.1, ...goldGrad }}>Červený vítězí</p>
         <p style={{ margin: 0, fontFamily: inter, fontSize: '0.8125rem', color: '#6B6A82' }}>5 vítězných bodů · 8 min 34 s</p>
       </div>
 
-      <div style={{ background: 'linear-gradient(150deg,#353751 0%,bg4 70%)', border: `1px solid ${goldDim}`, borderRadius: 4, overflow: 'hidden' }}>
+      <div style={{ background: `linear-gradient(150deg,#353751 0%,${bg4} 70%)`, border: `1px solid ${goldDim}`, borderRadius: 4, overflow: 'hidden' }}>
         <div style={{ background: 'linear-gradient(150deg,#3D3A5C 0%,#2E2B50 70%)', borderBottom: '1px solid #8F745844', padding: '12px 20px' }}>
           <p style={{ margin: 0, fontFamily: cormorant, fontSize: '0.9375rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', ...goldGrad }}>Souboj na poli D4</p>
           <p style={{ margin: '4px 0 0', fontFamily: inter, fontSize: '0.6875rem', color: goldDim }}>Červený útočí · Modrý brání</p>

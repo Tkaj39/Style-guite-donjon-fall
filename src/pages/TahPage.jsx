@@ -17,11 +17,11 @@ function TurnPhaseTimeline({ activeStep = 0 }) {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, flex: 1, minWidth: 0 }}>
               <div style={{
                 width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
-                background: active ? 'linear-gradient(150deg,#3D3A5C 0%,#2E2B50 70%)' : 'bgDeep',
-                border: `2px solid ${active ? 'gold' : past ? '#8F745866' : '#3A3858'}`,
+                background: active ? 'linear-gradient(150deg,#3D3A5C 0%,#2E2B50 70%)' : bgDeep,
+                border: `2px solid ${active ? gold : past ? '#8F745866' : '#3A3858'}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: '0.75rem', fontWeight: 700,
-                color: active ? 'gold' : past ? 'goldDim' : '#3A3858',
+                color: active ? gold : past ? goldDim : '#3A3858',
                 boxShadow: active ? '0 0 12px #FFC18330' : 'none',
               }}>
                 {i + 1}
@@ -30,11 +30,11 @@ function TurnPhaseTimeline({ activeStep = 0 }) {
                 <p style={{
                   margin: 0, fontSize: '0.6875rem', fontWeight: 700,
                   letterSpacing: '0.1em', textTransform: 'uppercase', lineHeight: 1.2,
-                  color: active ? 'textActive' : past ? 'goldDim' : 'textFaint',
+                  color: active ? textActive : past ? goldDim : textFaint,
                 }}>{step.label}</p>
                 <p style={{
                   margin: '4px 0 0', fontSize: '0.5625rem', lineHeight: 1.4,
-                  color: active ? 'goldDim' : '#3A3858',
+                  color: active ? goldDim : '#3A3858',
                 }}>{step.sub}</p>
                 {step.optional && (
                   <span style={{
@@ -49,7 +49,7 @@ function TurnPhaseTimeline({ activeStep = 0 }) {
             {i < turnPhases.length - 1 && (
               <div style={{
                 marginTop: 16, height: 2, width: 20, flexShrink: 0,
-                background: past ? '#8F745866' : 'bg4',
+                background: past ? '#8F745866' : bg4,
               }} />
             )}
           </Fragment>
@@ -80,7 +80,7 @@ function TurnCard({ player, turn }) {
           <p style={{
             margin: 0, fontSize: '0.8125rem', fontWeight: 700,
             letterSpacing: '0.14em', textTransform: 'uppercase',
-            background: 'linear-gradient(180deg,#F9F9F9 0%,goldMid 100%)',
+            background: `linear-gradient(180deg,#F9F9F9 0%,${goldMid} 100%)`,
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
             lineHeight: 1.2,
           }}>{player.label}</p>

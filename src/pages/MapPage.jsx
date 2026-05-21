@@ -58,8 +58,8 @@ function TurnHUD({ player, turn, phase, warning = false }) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
-      background: 'linear-gradient(150deg,#232238 0%,bgDeep 70%)',
-      border: `1px solid ${warning ? 'failColor' : '#3A3858'}`,
+      background: `linear-gradient(150deg,#232238 0%,${bgDeep} 70%)`,
+      border: `1px solid ${warning ? failColor : '#3A3858'}`,
       borderRadius: 4, padding: '10px 16px',
       boxShadow: warning ? '0 0 12px #C0404033' : 'none',
     }}>
@@ -72,7 +72,7 @@ function TurnHUD({ player, turn, phase, warning = false }) {
       {/* Player name */}
       <span style={{
         fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
-        background: 'linear-gradient(180deg,#F9F9F9 0%,goldMid 100%)',
+        background: `linear-gradient(180deg,#F9F9F9 0%,${goldMid} 100%)`,
         WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
       }}>{player.label}</span>
       {/* Divider */}
@@ -157,7 +157,7 @@ function EventFeed({ events }) {
             background: bgDeep, borderRadius: 3, padding: '5px 10px',
             border: `1px solid ${bg4}`,
           }}>
-            <div style={{ width: 8, height: 8, borderRadius: '50%', background: p?.color ?? 'goldDim', flexShrink: 0 }} />
+            <div style={{ width: 8, height: 8, borderRadius: '50%', background: p?.color ?? goldDim, flexShrink: 0 }} />
             <span style={{ fontSize: '0.6875rem', color: goldDim, flex: 1 }}>{p?.label} — {ev.label}</span>
             <DonjonBadge size="sm" variant={ev.variant ?? 'warning'}>+1 VP</DonjonBadge>
           </div>
@@ -242,7 +242,7 @@ export default function MapPage() {
             <div style={{ display: 'flex', gap: 8 }}>
               {turnPhases.map((ph, i) => (
                 <button key={i} onClick={() => setHudPhase(i)} style={{
-                  background: hudPhase === i ? '#353751' : 'bgDeep',
+                  background: hudPhase === i ? '#353751' : bgDeep,
                   border: '1px solid #3A3858', borderRadius: 3,
                   color: goldDim, fontSize: '0.625rem', padding: '4px 10px',
                   cursor: 'pointer', letterSpacing: '0.08em', textTransform: 'uppercase',

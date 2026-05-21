@@ -179,7 +179,7 @@ function ButtonGroupContent() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'flex-start' }}>
             {['xs', 'sm', 'md', 'lg'].map(sz => (
               <div key={sz} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span style={{ fontSize: '0.65rem', color: 'textFaint', letterSpacing: '0.08em', textTransform: 'uppercase', width: 24 }}>{sz}</span>
+                <span style={{ fontSize: '0.65rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase', width: 24 }}>{sz}</span>
                 <BG variant="tabs" size={sz} items={viewItems} value={sizeActive} onChange={setSizeActive} />
               </div>
             ))}

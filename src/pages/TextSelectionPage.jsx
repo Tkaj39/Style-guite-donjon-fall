@@ -109,7 +109,7 @@ export default function TextSelectionPage() {
             ].map(({ element, select, reason }) => (
               <div key={element} style={{ display: 'grid', gridTemplateColumns: '220px 60px 1fr', gap: 10, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3 }}>
                 <span style={{ fontSize: '0.8125rem', color: textCool }}>{element}</span>
-                <code style={{ fontSize: '0.8125rem', fontWeight: 700, color: select === 'none' ? 'failColor' : 'successColor' }}>{select}</code>
+                <code style={{ fontSize: '0.8125rem', fontWeight: 700, color: select === 'none' ? failColor : successColor }}>{select}</code>
                 <span style={{ fontSize: '0.6875rem', color: textDeep, lineHeight: 1.4 }}>{reason}</span>
               </div>
             ))}

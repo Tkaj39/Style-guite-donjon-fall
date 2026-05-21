@@ -1,6 +1,7 @@
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
+import { gold, goldDim, bg4, bgDeep, textFaint } from '../lib/donjon/tokens'
 
 /* ── Progress bar ── */
 function ProgressBar({ pct, width = '100%' }) {
@@ -13,7 +14,7 @@ function ProgressBar({ pct, width = '100%' }) {
       <div style={{
         height: '100%',
         width: `${pct}%`,
-        background: 'linear-gradient(90deg, gold 0%, goldDim 100%)',
+        background: `linear-gradient(90deg, ${gold} 0%, ${goldDim} 100%)`,
         borderRadius: 2,
         boxShadow: '0 0 6px #FFC18355',
       }} />
@@ -38,7 +39,7 @@ function LoadingContent({ titleSize = '1.5rem', subtitleSize = '0.5rem', statusS
             margin: '0 0 5px',
             fontSize: titleSize, fontWeight: 900,
             letterSpacing: '0.25em', textTransform: 'uppercase',
-            background: 'linear-gradient(180deg, gold 0%, goldDim 100%)',
+            background: `linear-gradient(180deg, ${gold} 0%, ${goldDim} 100%)`,
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
             lineHeight: 1.1,
           }}

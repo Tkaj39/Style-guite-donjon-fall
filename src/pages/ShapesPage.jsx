@@ -3,11 +3,12 @@ import { octagon, clipLeft, clipRight, octagonWithNotch, roundRect, pill, scoopP
 import { buttonSizes } from '../utils/sizes'
 import ScoopClip from '../lib/tkajui/ScoopClip'
 import NotchedBox from '../lib/tkajui/NotchedBox'
+import { gold, goldMid, goldDim, bg0, bg4, bgDeep, textFaint, textDeep, textCool, textActive, borderSubtle, failColor, successColor } from '../lib/donjon/tokens'
 
 /* ── sdílené styly ── */
 const inter = '"Inter", sans-serif'
 
-const chip = (clip, h, w, bg = 'linear-gradient(150deg,#353751 0%,bg4 70%)') => ({
+const chip = (clip, h, w, bg = `linear-gradient(150deg,#353751 0%,${bg4} 70%)`) => ({
   clipPath: clip,
   background: bg,
   height: h,
@@ -34,7 +35,7 @@ const SIZES = Object.entries(buttonSizes).map(([label, s], i) => ({
 }))
 
 /* ── Corner ornament SVG ── */
-function CornerOrnament({ size = 20, color = 'goldDim', variant = 'bracket', style = {} }) {
+function CornerOrnament({ size = 20, color = goldDim, variant = 'bracket', style = {} }) {
   const s = size
 
   if (variant === 'bracket') {
@@ -104,12 +105,12 @@ function CornerOrnament({ size = 20, color = 'goldDim', variant = 'bracket', sty
 }
 
 /* ── NotchDemo — lokální demo pro shape ilustraci ── */
-function NotchDemo({ cx = 15, nw = 28, nh = 12, side = 'bottom', label, color = 'goldDim' }) {
+function NotchDemo({ cx = 15, nw = 28, nh = 12, side = 'bottom', label, color = goldDim }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
       <div style={{
         clipPath: octagonWithNotch(cx, nw, nh, side),
-        background: 'linear-gradient(150deg,bg4 0%,bgDeep 100%)',
+        background: `linear-gradient(150deg,${bg4} 0%,${bgDeep} 100%)`,
         width: 160, height: 80,
         border: `1px solid ${color}33`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -124,7 +125,7 @@ function NotchDemo({ cx = 15, nw = 28, nh = 12, side = 'bottom', label, color = 
 }
 
 /* ── OrnamentedCard — karta s rohovými ozdobami ── */
-function OrnamentedCard({ variant = 'bracket', size = 16, color = 'goldDim', title, children }) {
+function OrnamentedCard({ variant = 'bracket', size = 16, color = goldDim, title, children }) {
   const pos = {
     position: 'absolute',
   }
@@ -132,7 +133,7 @@ function OrnamentedCard({ variant = 'bracket', size = 16, color = 'goldDim', tit
     <div style={{
       position: 'relative',
       clipPath: octagon(15),
-      background: 'linear-gradient(150deg,#353751 0%,bg4 70%)',
+      background: `linear-gradient(150deg,#353751 0%,${bg4} 70%)`,
       width: 220, minHeight: 100,
       padding: '16px 20px',
       display: 'flex', flexDirection: 'column', gap: 6,
@@ -240,12 +241,12 @@ style={{ clipPath: octagon(15.62) }}`} />
       >
         <Preview>
           <div style={{ clipPath: octagon(16), background: goldDim, padding: 1, display: 'inline-block' }}>
-            <div style={{ clipPath: octagon(15), background: 'linear-gradient(150deg,#353751 0%,bg4 70%)', width: 260, height: 110, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ clipPath: octagon(15), background: `linear-gradient(150deg,#353751 0%,${bg4} 70%)`, width: 260, height: 110, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span style={{ fontSize: '0.6875rem', color: goldDim, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, fontFamily: inter }}>outer cx=16 / inner cx=15</span>
             </div>
           </div>
           <div style={{ clipPath: octagon(16), background: '#4080C0', padding: 1, display: 'inline-block' }}>
-            <div style={{ clipPath: octagon(15), background: 'linear-gradient(150deg,#182A3D 0%,bg0 100%)', width: 260, height: 110, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ clipPath: octagon(15), background: `linear-gradient(150deg,#182A3D 0%,${bg0} 100%)`, width: 260, height: 110, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span style={{ fontSize: '0.6875rem', color: '#4080C0', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, fontFamily: inter }}>player color border</span>
             </div>
           </div>
@@ -313,7 +314,7 @@ const clipPath = clipFn?.(cx)`} />
             <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
               <div style={{
                 clipPath: octagonWithNotch(10, nw, nh, 'bottom'),
-                background: 'linear-gradient(150deg,bg4 0%,bgDeep 100%)',
+                background: `linear-gradient(150deg,${bg4} 0%,${bgDeep} 100%)`,
                 width: 110, height: 64,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
@@ -332,7 +333,7 @@ const clipPath = clipFn?.(cx)`} />
               <NotchedBox cx={12} nw={32} nh={14} side="bottom"
                 style={{
                   width: 140, height: 72,
-                  background: 'linear-gradient(150deg,bg4 0%,bgDeep 100%)',
+                  background: `linear-gradient(150deg,${bg4} 0%,${bgDeep} 100%)`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '0.75rem', color: textCool, fontFamily: inter,
                 }}
@@ -354,7 +355,7 @@ const clipPath = clipFn?.(cx)`} />
               <NotchedBox cx={12} nw={32} nh={14} side="top"
                 style={{
                   width: 140, height: 72,
-                  background: 'linear-gradient(150deg,bg4 0%,bgDeep 100%)',
+                  background: `linear-gradient(150deg,${bg4} 0%,${bgDeep} 100%)`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '0.75rem', color: textCool, fontFamily: inter,
                 }}
@@ -376,7 +377,7 @@ const clipPath = clipFn?.(cx)`} />
               <NotchedBox cx={12} nw={32} nh={14} side="right"
                 style={{
                   width: 140, height: 72,
-                  background: 'linear-gradient(150deg,bg4 0%,bgDeep 100%)',
+                  background: `linear-gradient(150deg,${bg4} 0%,${bgDeep} 100%)`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '0.75rem', color: textCool, fontFamily: inter,
                 }}
@@ -706,7 +707,7 @@ import ScoopClip from '../lib/tkajui/ScoopClip'
                 r={0.25}
                 style={{
                   width: w, height: 48,
-                  background: 'linear-gradient(150deg, #40A05518 0%, bg0 100%)',
+                  background: `linear-gradient(150deg, #40A05518 0%, ${bg0} 100%)`,
                   border: '1px solid #40A05540',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}

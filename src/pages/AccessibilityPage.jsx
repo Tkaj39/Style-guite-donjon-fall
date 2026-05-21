@@ -16,7 +16,7 @@ function ContrastChip({ fg, bg, label, ratio, pass }) {
       <span style={{ fontSize: '0.625rem', color: fg, opacity: 0.7 }}>{ratio} : 1</span>
       <span style={{
         fontSize: '0.5625rem', fontWeight: 700, letterSpacing: '0.08em',
-        color: pass ? 'successColor' : 'failColor',
+        color: pass ? successColor : failColor,
         background: pass ? '#40A05522' : '#C0404022',
         border: `1px solid ${pass ? '#40A05544' : '#C0404044'}`,
         padding: '1px 6px', borderRadius: 8,

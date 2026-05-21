@@ -32,7 +32,7 @@ function TowerStack({ dice, size = 'md' }) {
             zIndex: dice.length - i,
             marginTop: i === 0 ? 0 : -(cfg.box - cfg.peek),
           }}>
-            <DieFace value={die.value} playerColor={p?.color ?? 'goldDim'} size={size} />
+            <DieFace value={die.value} playerColor={p?.color ?? goldDim} size={size} />
           </div>
         )
       })}
@@ -48,7 +48,7 @@ function StatPill({ label, value, color }) {
       border: `1px solid ${color ?? '#3A3858'}33`,
     }}>
       <span style={{ fontSize: '0.5625rem', color: textFaint, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{label}</span>
-      <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: color ?? 'textActive' }}>{value}</span>
+      <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: color ?? textActive }}>{value}</span>
     </div>
   )
 }
@@ -57,7 +57,7 @@ const hexDims = { sm: { w: 42, h: 48 }, md: { w: 62, h: 72 }, lg: { w: 83, h: 96
 
 function DieOnHex({ dieValue = 4, dieSize = 'xs', playerColor, hexState = 'empty', hexSize = 'sm', owner }) {
   const p = owner != null ? players.find(p => p.id === owner) : players[0]
-  const color = playerColor ?? p?.color ?? 'goldDim'
+  const color = playerColor ?? p?.color ?? goldDim
   const { w, h } = hexDims[hexSize] ?? hexDims.sm
   return (
     <div style={{ position: 'relative', width: w, height: h, flexShrink: 0 }}>
@@ -128,7 +128,7 @@ function PushChainDemo({ variant }) {
       label: 'Volný hex za formací',
       result: <DieFace value={2} playerColor={p2.color} size="md" />,
       resultLabel: 'Přesunuto',
-      resultColor: 'goldDim',
+      resultColor: goldDim,
     },
     border: {
       label: 'Okraj mapy za formací',
@@ -156,7 +156,7 @@ function PushChainDemo({ variant }) {
         </div>
       ),
       resultLabel: '+1 VP',
-      resultColor: 'gold',
+      resultColor: gold,
     },
   }
 

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import FloatFeedback from '../lib/donjon/FloatFeedback'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
+import { gold, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
 
 /* ── Trigger tlačítko ── */
 function TriggerButton({ label, color, onClick }) {
@@ -36,7 +37,7 @@ function HexContainer({ children, label }) {
           position: 'relative',
           width: 64,
           height: 64,
-          background: 'linear-gradient(135deg, bg4 0%, bgDeep 100%)',
+          background: `linear-gradient(135deg, ${bg4} 0%, ${bgDeep} 100%)`,
           border: `1.5px solid ${goldDim}44`,
           borderRadius: 4,
           display: 'flex',
@@ -110,7 +111,7 @@ function MultiDemo() {
           width: '100%',
           maxWidth: 320,
           height: 120,
-          background: 'linear-gradient(135deg, bg4 0%, bgDeep 100%)',
+          background: `linear-gradient(135deg, ${bg4} 0%, ${bgDeep} 100%)`,
           border: `1.5px solid ${goldDim}44`,
           borderRadius: 8,
           display: 'flex',

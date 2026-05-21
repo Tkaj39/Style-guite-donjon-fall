@@ -87,11 +87,11 @@ function PlayButton({ onClick, playing }) {
       disabled={playing}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 6,
-        background: playing ? 'bgDeep' : 'bg4',
+        background: playing ? bgDeep : bg4,
         border: `1px solid ${playing ? '#3A3858' : '#5A5878'}`,
         borderRadius: 4, padding: '5px 14px',
         fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em',
-        color: playing ? 'textFaint' : 'textParchment',
+        color: playing ? textFaint : textParchment,
         cursor: playing ? 'default' : 'pointer',
         transition: 'background 150ms, color 150ms',
       }}
@@ -1417,11 +1417,11 @@ function SuddenDeathDemo() {
         onClick={() => setActive(a => !a)}
         style={{
           display: 'inline-flex', alignItems: 'center', gap: 6,
-          background: active ? '#2A1A1A' : 'bg4',
+          background: active ? '#2A1A1A' : bg4,
           border: `1px solid ${active ? '#E05C5C66' : '#5A5878'}`,
           borderRadius: 4, padding: '5px 14px',
           fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em',
-          color: active ? '#E05C5C' : 'textParchment',
+          color: active ? '#E05C5C' : textParchment,
           cursor: 'pointer', transition: 'background 150ms, color 150ms',
         }}
       >

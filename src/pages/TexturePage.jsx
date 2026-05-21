@@ -201,7 +201,7 @@ export default function TexturePage() {
               <div key={place} style={{ display: 'grid', gridTemplateColumns: '180px 160px 90px 1fr', gap: 10, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3 }}>
                 <span style={{ fontSize: '0.8125rem', color: textCool }}>{place}</span>
                 <code style={{ fontSize: '0.6875rem', color: goldMid, lineHeight: 1.4 }}>{texture}</code>
-                <span style={{ fontSize: '0.75rem', color: intensity === 'none' ? 'textDeep' : 'successColor' }}>{intensity}</span>
+                <span style={{ fontSize: '0.75rem', color: intensity === 'none' ? textDeep : successColor }}>{intensity}</span>
                 <span style={{ fontSize: '0.6875rem', color: textDeep, lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}

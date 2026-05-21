@@ -101,7 +101,7 @@ function OptimisticVPDemo() {
               {/* Score */}
               <span style={{
                 fontSize: '0.875rem', fontWeight: 700,
-                color: isOptimistic ? player.color : 'textActive',
+                color: isOptimistic ? player.color : textActive,
                 width: 48, flexShrink: 0,
                 transition: 'color 0.3s',
                 opacity: isOptimistic ? 0.8 : 1,
@@ -167,7 +167,7 @@ export default function VictoryPointsPage() {
                   <span style={{
                     width: 16,
                     fontSize: '0.625rem',
-                    color: i === 0 ? 'gold' : 'textFaint',
+                    color: i === 0 ? gold : textFaint,
                     fontWeight: 700,
                     textAlign: 'right',
                     flexShrink: 0,

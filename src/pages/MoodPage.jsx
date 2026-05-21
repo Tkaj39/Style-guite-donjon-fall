@@ -138,7 +138,7 @@ function DonjonContent() {
   return (
     <>
       <Section id="manifesto-donjon">
-        <blockquote style={{ margin: 0, padding: '24px 32px', background: 'linear-gradient(150deg,#252340 0%,borderSubtle 100%)', borderLeft: `3px solid ${gold}`, borderRadius: 2 }}>
+        <blockquote style={{ margin: 0, padding: '24px 32px', background: `linear-gradient(150deg,#252340 0%,${borderSubtle} 100%)`, borderLeft: `3px solid ${gold}`, borderRadius: 2 }}>
           <p style={{ margin: 0, fontSize: '1.125rem', fontStyle: 'italic', color: '#E8DDD0', lineHeight: 1.7 }}>
             Donjon Fall není šachy. Je to bitva s osudem.
           </p>

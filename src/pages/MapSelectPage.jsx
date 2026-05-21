@@ -12,7 +12,7 @@ const MAPS = [
 ]
 
 /* ── Abstraktní hex miniaturní mapa (tečky v hex mřížce) ── */
-function HexDots({ count = 9, dotSize = 6, gap = 3, color = 'bg4' }) {
+function HexDots({ count = 9, dotSize = 6, gap = 3, color = bg4 }) {
   const cols = 3
   const rows = Math.ceil(count / cols)
   return (
@@ -44,9 +44,9 @@ function MapCard({ map, cardW = 100, compact = false }) {
   return (
     <div style={{
       width: cardW,
-      border: `1px solid ${selected ? '#FFC18388' : 'bg4'}`,
+      border: `1px solid ${selected ? '#FFC18388' : bg4}`,
       borderRadius: 4,
-      background: selected ? '#1C1A2E' : 'bgDeep',
+      background: selected ? '#1C1A2E' : bgDeep,
       boxShadow: selected ? '0 0 14px #FFC18322' : 'none',
       padding: compact ? '6px' : '8px',
       display: 'flex', flexDirection: 'column', gap: compact ? 4 : 6,
@@ -67,7 +67,7 @@ function MapCard({ map, cardW = 100, compact = false }) {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 }}>
           <p style={{
             margin: 0, fontSize: fs, fontWeight: 700,
-            color: selected ? 'gold' : 'textParchment',
+            color: selected ? gold : textParchment,
           }}>
             {name}
           </p>
@@ -93,8 +93,8 @@ function NavBtn({ label, primary = false, fs = '0.4375rem', py = 5, px = 10 }) {
       padding: `${py}px ${px}px`,
       border: `1px solid ${primary ? '#FFC18388' : '#3A3858'}`,
       borderRadius: 4,
-      background: primary ? '#2A2020' : 'bgDeep',
-      color: primary ? 'gold' : 'goldDim',
+      background: primary ? '#2A2020' : bgDeep,
+      color: primary ? gold : goldDim,
       fontSize: fs, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
       boxShadow: primary ? '0 0 8px #FFC18322' : 'none',
       whiteSpace: 'nowrap',
@@ -224,7 +224,7 @@ function MapSelectMobileLayout() {
           {MAPS.map((m, i) => (
             <div key={i} style={{
               width: m.selected ? 12 : 5, height: 3, borderRadius: 2,
-              background: m.selected ? 'gold' : 'bg4',
+              background: m.selected ? gold : bg4,
               transition: 'width 0.2s',
             }} />
           ))}

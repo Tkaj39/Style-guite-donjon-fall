@@ -42,7 +42,7 @@ function MiniToggle({ on, label, fs = '0.4375rem', labelW = 80 }) {
       <span style={{ fontSize: fs, color: goldDim, width: labelW, flexShrink: 0 }}>{label}</span>
       <div style={{
         width: 26, height: 13, borderRadius: 7, flexShrink: 0,
-        background: on ? '#FFC18330' : 'bgDeep',
+        background: on ? '#FFC18330' : bgDeep,
         border: `1px solid ${on ? '#FFC18366' : '#3A3858'}`,
         position: 'relative',
       }}>
@@ -50,10 +50,10 @@ function MiniToggle({ on, label, fs = '0.4375rem', labelW = 80 }) {
           position: 'absolute', top: 2,
           left: on ? 14 : 2,
           width: 7, height: 7, borderRadius: '50%',
-          background: on ? 'gold' : 'textFaint',
+          background: on ? gold : textFaint,
         }} />
       </div>
-      <span style={{ fontSize: fs, color: on ? 'gold' : 'textFaint' }}>
+      <span style={{ fontSize: fs, color: on ? gold : textFaint }}>
         {on ? 'Zapnuto' : 'Vypnuto'}
       </span>
     </div>
@@ -71,8 +71,8 @@ function TabBtn({ label, active, fs = '0.4375rem', px = 8, py = 4 }) {
     <div style={{
       padding: `${py}px ${px}px`,
       fontSize: fs, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
-      color: active ? 'gold' : 'textFaint',
-      borderBottom: `2px solid ${active ? 'gold' : 'transparent'}`,
+      color: active ? gold : textFaint,
+      borderBottom: `2px solid ${active ? gold : 'transparent'}`,
       cursor: 'default', flexShrink: 0,
     }}>
       {label}
@@ -110,9 +110,9 @@ function TabJazyk({ fs = '0.4375rem' }) {
         }}>
           <div style={{
             width: 5, height: 5, borderRadius: '50%', flexShrink: 0,
-            background: l.active ? 'gold' : 'bg4',
+            background: l.active ? gold : bg4,
           }} />
-          <span style={{ fontSize: fs, color: l.active ? 'textParchment' : 'textFaint', fontWeight: l.active ? 700 : 400 }}>
+          <span style={{ fontSize: fs, color: l.active ? textParchment : textFaint, fontWeight: l.active ? 700 : 400 }}>
             {l.label}
           </span>
           <span style={{ fontSize: '0.375rem', color: '#3A3858', marginLeft: 'auto' }}>{l.code}</span>
@@ -167,9 +167,9 @@ function TabGrafika({ fs = '0.4375rem', labelW = 64 }) {
           {['Nízká', 'Střední', 'Vysoká'].map((q, i) => (
             <div key={q} style={{
               padding: '2px 6px', borderRadius: 2, fontSize: '0.375rem',
-              background: i === 2 ? '#252342' : 'bgDeep',
-              border: `1px solid ${i === 2 ? '#5A5878' : 'bg4'}`,
-              color: i === 2 ? 'textParchment' : 'textFaint',
+              background: i === 2 ? '#252342' : bgDeep,
+              border: `1px solid ${i === 2 ? '#5A5878' : bg4}`,
+              color: i === 2 ? textParchment : textFaint,
               fontWeight: i === 2 ? 700 : 400,
             }}>{q}</div>
           ))}

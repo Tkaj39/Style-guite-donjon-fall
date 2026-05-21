@@ -73,7 +73,7 @@ export default function SpacingPage() {
                   height: 8,
                   width: s.px,
                   maxWidth: '100%',
-                  background: 'linear-gradient(90deg, gold, goldDim)',
+                  background: `linear-gradient(90deg, ${gold}, ${goldDim})`,
                   borderRadius: 1,
                 }} />
               </div>
@@ -125,7 +125,7 @@ export default function SpacingPage() {
                       <div style={{
                         width: 8,
                         height: Math.min(px, 48),
-                        background: 'linear-gradient(180deg, gold, goldDim)',
+                        background: `linear-gradient(180deg, ${gold}, ${goldDim})`,
                         borderRadius: 1,
                       }} />
                       <p style={{ margin: 0, fontFamily: inter, fontSize: '0.5625rem', color: '#6B6A82' }}>{t}</p>
