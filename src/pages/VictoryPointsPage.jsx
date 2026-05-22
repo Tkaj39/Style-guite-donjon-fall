@@ -3,6 +3,7 @@ import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { players as basePlayers } from '../data/gameUiMockData'
+import { bgDeep, goldDim, goldMid, gold, textActive, textFaint } from '../lib/donjon/tokens'
 
 const DEFAULT_MAP_VP = 5
 const TARGET_VP = DEFAULT_MAP_VP

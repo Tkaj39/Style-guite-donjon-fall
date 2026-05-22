@@ -82,9 +82,9 @@ function TkajuiTokensContent() {
               { name: 'surface2',      value: T.surface2,      swatch: T.surface2,      usage: 'Karta, panel, raised surface',                nameColor: T.accent },
               { name: 'surface3',      value: T.surface3,      swatch: T.surface3,      usage: 'Aktivní prvek, hover bg',                     nameColor: T.accent },
               { name: 'surface4',      value: T.surface4,      swatch: T.surface4,      usage: 'Elevated panel, tooltip bg',                  nameColor: T.accent },
-              { name: borderSubtle,  value: T.borderSubtle,  swatch: T.borderSubtle,  usage: 'Jemná separace — neviditelná, struktura',     nameColor: T.textMid },
-              { name: borderDefault, value: T.borderDefault, swatch: T.borderDefault, usage: 'Standardní border komponent',                 nameColor: T.textMid },
-              { name: borderMid,     value: T.borderMid,     swatch: T.borderMid,     usage: 'Silnější border, focus-related kontext',      nameColor: T.textMid },
+              { name: 'borderSubtle',  value: T.borderSubtle,  swatch: T.borderSubtle,  usage: 'Jemná separace — neviditelná, struktura',     nameColor: T.textMid },
+              { name: 'borderDefault', value: T.borderDefault, swatch: T.borderDefault, usage: 'Standardní border komponent',                 nameColor: T.textMid },
+              { name: 'borderMid',     value: T.borderMid,     swatch: T.borderMid,     usage: 'Silnější border, focus-related kontext',      nameColor: T.textMid },
               { name: 'borderStrong',  value: T.borderStrong,  swatch: T.borderStrong,  usage: 'Výrazný border, outline, decorative',         nameColor: T.textMid },
             ].map(t => <TkajTokenRow key={t.name} {...t} />)}
           </div>
@@ -135,10 +135,10 @@ export const accentBorder = '#6576ff55'`} />
         <Preview dark={false}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, width: '100%', maxWidth: 640 }}>
             {[
-              { name: textHigh,     value: T.textHigh,     swatch: T.textHigh,     usage: 'Primární text, nadpisy, aktivní labels' },
-              { name: textMid,      value: T.textMid,      swatch: T.textMid,      usage: 'Sekundární text, labely, ikony' },
-              { name: textLow,      value: T.textLow,      swatch: T.textLow,      usage: 'Pomocný text, placeholder, captions' },
-              { name: textDisabled, value: T.textDisabled, swatch: T.textDisabled, usage: 'Disabled stav — nepřístupná hodnota' },
+              { name: 'textHigh',     value: T.textHigh,     swatch: T.textHigh,     usage: 'Primární text, nadpisy, aktivní labels' },
+              { name: 'textMid',      value: T.textMid,      swatch: T.textMid,      usage: 'Sekundární text, labely, ikony' },
+              { name: 'textLow',      value: T.textLow,      swatch: T.textLow,      usage: 'Pomocný text, placeholder, captions' },
+              { name: 'textDisabled', value: T.textDisabled, swatch: T.textDisabled, usage: 'Disabled stav — nepřístupná hodnota' },
             ].map(t => <TkajTokenRow key={t.name} nameColor={T.textHigh} {...t} />)}
           </div>
         </Preview>
@@ -168,9 +168,9 @@ export const accentBorder = '#6576ff55'`} />
         <Preview dark={false}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, width: '100%', maxWidth: 640 }}>
             {[
-              { name: successColor, value: T.successColor, swatch: T.successColor, usage: 'Úspěch, validní, ok stav' },
-              { name: dangerColor,  value: T.dangerColor,  swatch: T.dangerColor,  usage: 'Chyba, destruktivní akce' },
-              { name: warningColor, value: T.warningColor, swatch: T.warningColor, usage: 'Varování, upozornění' },
+              { name: 'successColor', value: T.successColor, swatch: T.successColor, usage: 'Úspěch, validní, ok stav' },
+              { name: 'dangerColor',  value: T.dangerColor,  swatch: T.dangerColor,  usage: 'Chyba, destruktivní akce' },
+              { name: 'warningColor', value: T.warningColor, swatch: T.warningColor, usage: 'Varování, upozornění' },
               { name: 'infoColor',    value: T.infoColor,    swatch: T.infoColor,    usage: 'Informace, nápověda' },
             ].map(t => <TkajTokenRow key={t.name} nameColor={T.textMid} {...t} />)}
           </div>

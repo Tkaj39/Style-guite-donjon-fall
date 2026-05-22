@@ -6,6 +6,7 @@ import FloatFeedback from '../lib/donjon/FloatFeedback'
 import HexTile from '../lib/donjon/HexTile'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import { players } from '../data/gameUiMockData'
+import { gold, goldDim, bg4, bgDeep, textFaint, textParchment } from '../lib/donjon/tokens'
 
 /* ── Static spec helpers ── */
 
