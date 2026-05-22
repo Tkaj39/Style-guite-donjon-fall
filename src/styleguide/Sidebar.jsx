@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { LIBRARY_CFG } from './ShowcasePage'
 
 /* ── Library icons (miniaturní verze) ── */
@@ -24,6 +24,8 @@ function LibIcon({ library }) {
   )
   return null
 }
+
+// ── Navigační data ────────────────────────────────────────────────────────────
 
 const sections = [
   {
@@ -61,7 +63,7 @@ const sections = [
       {
         to: '/colors', label: 'Colors',
         children: [
-          { to: '/colors?lib=tkajui#tkajui-paleta',   label: 'TkajUI paleta' },
+          { to: '/colors?lib=tkajui#tkajui-paleta',    label: 'TkajUI paleta' },
           { to: '/colors?lib=tkajui#tkajui-vs-donjon', label: 'TkajUI vs donjon' },
           { to: '/colors?lib=donjon#barvy-hry',        label: 'donjon paleta' },
           { to: '/colors?lib=donjon#barvy-hracu',      label: 'Barvy hráčů' },
@@ -72,37 +74,47 @@ const sections = [
       {
         to: '/typography', label: 'Typography',
         children: [
-          { to: '/typography?lib=tkajui#tkajui-skala',    label: 'TkajUI — škála' },
-          { to: '/typography?lib=tkajui#tkajui-vahy',     label: 'TkajUI — váhy' },
-          { to: '/typography?lib=donjon#donjon-display',   label: 'donjon — display' },
-          { to: '/typography?lib=donjon#donjon-ui',        label: 'donjon — UI škála' },
+          { to: '/typography?lib=tkajui#tkajui-skala',  label: 'TkajUI — škála' },
+          { to: '/typography?lib=tkajui#tkajui-vahy',   label: 'TkajUI — váhy' },
+          { to: '/typography?lib=donjon#donjon-display', label: 'donjon — display' },
+          { to: '/typography?lib=donjon#donjon-ui',      label: 'donjon — UI škála' },
         ],
       },
-      { to: '/spacing',     label: 'Spacing',    library: 'donjon' },
-      { to: '/pictograms',  label: 'Pictograms' },
+      { to: '/spacing',    label: 'Spacing',    library: 'donjon' },
+      { to: '/pictograms', label: 'Pictograms' },
       {
         to: '/ornaments', label: 'Ornaments',
         children: [
-          { to: '/ornaments#side-ornament',              label: 'SideOrnament' },
-          { to: '/ornaments#hex-ornament',               label: 'HexOrnament' },
-          { to: '/ornaments#corner-ornament',            label: 'CornerOrnament' },
+          { to: '/ornaments#side-ornament',               label: 'SideOrnament' },
+          { to: '/ornaments#hex-ornament',                label: 'HexOrnament' },
+          { to: '/ornaments#corner-ornament',             label: 'CornerOrnament' },
           { to: '/ornaments#corner-ornament-corner-type', label: '↳ cornerType' },
-          { to: '/ornaments#pravidla',                   label: 'Pravidla' },
+          { to: '/ornaments#pravidla',                    label: 'Pravidla' },
+          { to: '/corner-ornament', label: '— detail stránka',
+            children: [
+              { to: '/corner-ornament#varianty',    label: 'Varianty' },
+              { to: '/corner-ornament#corner-type', label: 'cornerType' },
+              { to: '/corner-ornament#barvy',       label: 'Barvy' },
+              { to: '/corner-ornament#panel-vzor',  label: 'Panel vzor' },
+              { to: '/corner-ornament#velikosti',   label: 'Velikosti' },
+              { to: '/corner-ornament#props',       label: 'Props' },
+              { to: '/corner-ornament#pouziti',     label: 'Použití' },
+            ],
+          },
         ],
       },
+      { to: '/shapes',  label: 'Shapes' },
+      { to: '/texture', label: 'Texture systém' },
       {
-        to: '/corner-ornament', label: 'CornerOrnament', library: 'donjon',
+        to: '/glow-shadow', label: 'Glow & Shadow',
         children: [
-          { to: '/corner-ornament#varianty',    label: 'Varianty' },
-          { to: '/corner-ornament#corner-type', label: 'cornerType' },
-          { to: '/corner-ornament#barvy',       label: 'Barvy' },
-          { to: '/corner-ornament#panel-vzor',  label: 'Panel vzor' },
-          { to: '/corner-ornament#velikosti',   label: 'Velikosti' },
-          { to: '/corner-ornament#props',       label: 'Props' },
-          { to: '/corner-ornament#pouziti',     label: 'Použití' },
+          { to: '/glow-shadow?lib=tkajui#stiny',          label: 'Stíny' },
+          { to: '/glow-shadow?lib=tkajui#glow',           label: 'TkajUI — glow' },
+          { to: '/glow-shadow?lib=donjon#glow',           label: 'donjon — glow' },
+          { to: '/glow-shadow?lib=donjon#animovana-glow', label: 'Animovaná záře' },
+          { to: '/glow-shadow#pouziti',                   label: 'Příklady' },
         ],
       },
-      { to: '/shapes',      label: 'Shapes' },
     ],
   },
   {
@@ -129,14 +141,6 @@ const sections = [
           { to: '/interaction-states?lib=donjon#blocked', label: 'donjon — Blocked' },
         ],
       },
-      { to: '/z-index',            label: 'Z-index škála',       library: 'donjon' },
-      { to: '/accessibility',      label: 'Accessibility',       library: 'donjon' },
-      { to: '/feedback-hierarchy', label: 'Feedback Hierarchy',  library: 'donjon' },
-      { to: '/error-states',       label: 'Error States',        library: 'donjon' },
-      { to: '/empty-states',       label: 'Empty States',        library: 'donjon' },
-      { to: '/loading-skeleton',   label: 'Loading & Skeleton',  library: 'donjon' },
-      { to: '/validation',         label: 'Validation',          library: 'donjon' },
-      { to: '/microcopy',          label: 'Content & Microcopy', library: 'donjon' },
       {
         to: '/responsive', label: 'Responsive Design', library: 'donjon',
         children: [
@@ -159,19 +163,13 @@ const sections = [
           { to: '/focus-ring#skip-link',           label: 'Skip link' },
         ],
       },
-      {
-        to: '/glow-shadow', label: 'Glow & Shadow',
-        children: [
-          { to: '/glow-shadow?lib=tkajui#stiny',          label: 'Stíny' },
-          { to: '/glow-shadow?lib=tkajui#glow',           label: 'TkajUI — glow' },
-          { to: '/glow-shadow?lib=donjon#glow',           label: 'donjon — glow' },
-          { to: '/glow-shadow?lib=donjon#animovana-glow', label: 'Animovaná záře' },
-          { to: '/glow-shadow#pouziti',                   label: 'Příklady' },
-        ],
-      },
-      { to: '/cursor',             label: 'Cursor States',       library: 'donjon' },
-      { to: '/scrollbar',          label: 'Scrollbar' },
-      { to: '/text-selection',     label: 'Text Selection',      library: 'donjon' },
+      { to: '/accessibility',      label: 'Accessibility',       library: 'donjon' },
+      { to: '/feedback-hierarchy', label: 'Feedback Hierarchy',  library: 'donjon' },
+      { to: '/error-states',       label: 'Error States',        library: 'donjon' },
+      { to: '/empty-states',       label: 'Empty States',        library: 'donjon' },
+      { to: '/loading-skeleton',   label: 'Loading & Skeleton',  library: 'donjon' },
+      { to: '/validation',         label: 'Validation',          library: 'donjon' },
+      { to: '/microcopy',          label: 'Content & Microcopy', library: 'donjon' },
       {
         to: '/tokens', label: 'Design Tokens',
         children: [
@@ -183,20 +181,23 @@ const sections = [
           { to: '/tokens?lib=donjon#pravidla', label: 'Pravidla' },
         ],
       },
-      { to: '/texture',            label: 'Texture systém' },
+      { to: '/z-index',        label: 'Z-index škála',   library: 'donjon' },
+      { to: '/cursor',         label: 'Cursor States',   library: 'donjon' },
+      { to: '/scrollbar',      label: 'Scrollbar' },
+      { to: '/text-selection', label: 'Text Selection',  library: 'donjon' },
     ],
   },
   {
-    label: 'Components',
+    label: 'Komponenty',
     items: [
-      { to: '/tooltip',      label: 'Tooltip',       library: 'tkajui' },
-      { to: '/modal',        label: 'Modal',         library: 'tkajui' },
-      { to: '/toast',        label: 'Toast',         library: 'tkajui' },
-      { to: '/toggle',       label: 'Toggle',        library: 'tkajui' },
-      { to: '/progress-bar', label: 'Progress Bar',  library: 'tkajui' },
-      { to: '/select',       label: 'Select',        library: 'tkajui' },
-      { to: '/slider',       label: 'Slider',        library: 'tkajui' },
-      { to: '/tabs',         label: 'Tabs',          library: 'tkajui' },
+      { to: '/tooltip',      label: 'Tooltip',      library: 'tkajui' },
+      { to: '/modal',        label: 'Modal',        library: 'tkajui' },
+      { to: '/toast',        label: 'Toast',        library: 'tkajui' },
+      { to: '/toggle',       label: 'Toggle',       library: 'tkajui' },
+      { to: '/progress-bar', label: 'Progress Bar', library: 'tkajui' },
+      { to: '/select',       label: 'Select',       library: 'tkajui' },
+      { to: '/slider',       label: 'Slider',       library: 'tkajui' },
+      { to: '/tabs',         label: 'Tabs',         library: 'tkajui' },
       { to: '/buttons',       label: 'Buttons' },
       { to: '/button-groups', label: 'Button Groups' },
       {
@@ -206,14 +207,15 @@ const sections = [
           { to: '/inputs#form-nastaveni',  label: 'Form — Nastavení' },
         ],
       },
-      { to: '/badges',       label: 'Badges',        library: 'donjon' },
-      { to: '/cards',        label: 'Cards',         library: 'donjon' },
+      { to: '/badges', label: 'Badges', library: 'donjon' },
+      { to: '/cards',  label: 'Cards',  library: 'donjon' },
     ],
   },
   {
-    label: 'Game UI',
+    label: 'Herní UI',
     library: 'donjon',
     items: [
+      // ── Herní logika ──
       {
         to: '/turn', label: 'Tah',
         children: [
@@ -237,20 +239,6 @@ const sections = [
       },
       { to: '/victory-points', label: 'Vítězné body' },
       {
-        to: '/hud', label: 'HUD Elementy',
-        children: [
-          { to: '/hud#player-indicators',    label: 'Indikátory hráčů' },
-          { to: '/hud#turn-tracker',         label: 'Turn Tracker' },
-          { to: '/hud#vp-counter',           label: 'VP Counter' },
-          { to: '/hud#action-bar',           label: 'Action Bar' },
-          { to: '/hud#shield',               label: 'Shield' },
-          { to: '/hud#player-identity-badge', label: 'PlayerIdentityBadge' },
-          { to: '/hud#herni-status',         label: 'Herní status' },
-          { to: '/hud#float-feedback',       label: 'FloatFeedback' },
-          { to: '/hud#pravidla-hud',         label: 'Pravidla' },
-        ],
-      },
-      {
         to: '/dialogs', label: 'Dialogy',
         children: [
           { to: '/dialogs#rozhodnuti-souboje', label: 'Rozhodnutí souboje' },
@@ -260,31 +248,91 @@ const sections = [
           { to: '/dialogs#nahla-smrt',         label: 'Náhlá smrt' },
         ],
       },
-    ],
-  },
-  {
-    label: 'Game Assets',
-    library: 'donjon',
-    items: [
+      {
+        to: '/hud', label: 'HUD Elementy',
+        children: [
+          { to: '/hud#player-indicators',     label: 'Indikátory hráčů' },
+          { to: '/hud#turn-tracker',          label: 'Turn Tracker' },
+          { to: '/hud#vp-counter',            label: 'VP Counter' },
+          { to: '/hud#action-bar',            label: 'Action Bar' },
+          { to: '/hud#shield',                label: 'Shield' },
+          { to: '/hud#player-identity-badge', label: 'PlayerIdentityBadge' },
+          { to: '/hud#herni-status',          label: 'Herní status' },
+          { to: '/hud#float-feedback',        label: 'FloatFeedback' },
+          { to: '/hud#pravidla-hud',          label: 'Pravidla' },
+        ],
+      },
+      // ── Herní primitiva ──
+      {
+        to: '/resource-bar', label: 'ResourceBar',
+        children: [
+          { to: '/resource-bar#demo',     label: 'Demo' },
+          { to: '/resource-bar#zony',     label: 'Vizuální zóny' },
+          { to: '/resource-bar#varianty', label: 'Varianty' },
+          { to: '/resource-bar#flash',    label: 'Damage flash' },
+          { to: '/resource-bar#props',    label: 'Props' },
+        ],
+      },
+      {
+        to: '/numeric-display', label: 'NumericDisplay',
+        children: [
+          { to: '/numeric-display#demo',          label: 'Demo' },
+          { to: '/numeric-display#varianty',      label: 'Varianty' },
+          { to: '/numeric-display#label-position', label: 'Pozice labelu' },
+          { to: '/numeric-display#hud',           label: 'HUD příklad' },
+        ],
+      },
+      {
+        to: '/player-panel', label: 'PlayerPanel',
+        children: [
+          { to: '/player-panel#demo',      label: 'Demo' },
+          { to: '/player-panel#stavy',     label: 'Stavy' },
+          { to: '/player-panel#simple',    label: 'Bez resource barů' },
+          { to: '/player-panel#velikosti', label: 'Velikosti' },
+        ],
+      },
+      {
+        to: '/action-tile', label: 'ActionTile',
+        children: [
+          { to: '/action-tile#demo',      label: 'Demo' },
+          { to: '/action-tile#varianty',  label: 'Varianty' },
+          { to: '/action-tile#stavy',     label: 'Stavy' },
+          { to: '/action-tile#velikosti', label: 'Velikosti' },
+          { to: '/action-tile#pouziti',   label: 'Použití' },
+        ],
+      },
+      {
+        to: '/event-log', label: 'EventLog',
+        children: [
+          { to: '/event-log#demo',    label: 'Demo' },
+          { to: '/event-log#typy',    label: 'Typy záznamů' },
+          { to: '/event-log#variace', label: 'Variace' },
+        ],
+      },
+      {
+        to: '/phase-indicator', label: 'PhaseIndicator',
+        children: [
+          { to: '/phase-indicator#demo',      label: 'Demo' },
+          { to: '/phase-indicator#orientace', label: 'Orientace' },
+          { to: '/phase-indicator#faze-hry',  label: 'Fáze hry' },
+          { to: '/phase-indicator#ikony',     label: 'S ikonami' },
+          { to: '/phase-indicator#velikosti', label: 'Velikosti' },
+        ],
+      },
+      // ── Assety ──
       {
         to: '/hexagon', label: 'Hexagon',
         children: [
           { to: '/hexagon#prazdny',  label: 'Prázdný' },
           { to: '/hexagon#zakladna', label: 'Základna' },
-          {
-            to: '/hexagon#ohniska', label: 'Ohniska',
-            children: [
-              { to: '/hexagon#ohnisko-aktivni', label: 'Aktivní' },
-              { to: '/hexagon#ohnisko-pasivni', label: 'Pasivní' },
-            ],
-          },
+          { to: '/hexagon#ohniska',  label: 'Ohniska' },
         ],
       },
       {
         to: '/dice', label: 'Kostky',
         children: [
-          { to: '/dice#hodnoty',    label: 'Hodnoty' },
-          { to: '/dice#vez-cista',  label: 'Věž čistá' },
+          { to: '/dice#hodnoty',     label: 'Hodnoty' },
+          { to: '/dice#vez-cista',   label: 'Věž čistá' },
           { to: '/dice#vez-smisena', label: 'Věž smíšená' },
         ],
       },
@@ -305,10 +353,10 @@ const sections = [
       {
         to: '/float-feedback', label: 'FloatFeedback',
         children: [
-          { to: '/float-feedback#varianty',  label: 'Varianty' },
-          { to: '/float-feedback#animace',   label: 'Animační průběh' },
-          { to: '/float-feedback#props',     label: 'Props' },
-          { to: '/float-feedback#pouziti',   label: 'Použití' },
+          { to: '/float-feedback#varianty', label: 'Varianty' },
+          { to: '/float-feedback#animace',  label: 'Animační průběh' },
+          { to: '/float-feedback#props',    label: 'Props' },
+          { to: '/float-feedback#pouziti',  label: 'Použití' },
         ],
       },
       {
@@ -327,15 +375,6 @@ const sections = [
         ],
       },
       {
-        to: '/screens', label: 'Obrazovky',
-        children: [
-          { to: '/screens#desktop',  label: 'PC — 1280px+' },
-          { to: '/screens#tablet',   label: 'Tablet — 768px' },
-          { to: '/screens#mobile',   label: 'Mobil — 375px' },
-          { to: '/screens#srovnani', label: 'Srovnání' },
-        ],
-      },
-      {
         to: '/sounds', label: 'Zvuky',
         children: [
           { to: '/sounds#hudba',       label: 'Hudba' },
@@ -343,66 +382,13 @@ const sections = [
           { to: '/sounds#herni-zvuky', label: 'Herní zvuky' },
         ],
       },
-    ],
-  },
-  {
-    label: 'Herní primitiva',
-    library: 'donjon',
-    items: [
       {
-        to: '/resource-bar', label: 'ResourceBar', library: 'donjon',
+        to: '/screens', label: 'Obrazovky (herní)',
         children: [
-          { to: '/resource-bar#demo',     label: 'Demo' },
-          { to: '/resource-bar#zony',     label: 'Vizuální zóny' },
-          { to: '/resource-bar#varianty', label: 'Varianty' },
-          { to: '/resource-bar#flash',    label: 'Damage flash' },
-          { to: '/resource-bar#props',    label: 'Props' },
-        ],
-      },
-      {
-        to: '/numeric-display', label: 'NumericDisplay', library: 'donjon',
-        children: [
-          { to: '/numeric-display#demo',           label: 'Demo' },
-          { to: '/numeric-display#varianty',        label: 'Varianty' },
-          { to: '/numeric-display#label-position',  label: 'Pozice labelu' },
-          { to: '/numeric-display#hud',             label: 'HUD příklad' },
-        ],
-      },
-      {
-        to: '/player-panel', label: 'PlayerPanel', library: 'donjon',
-        children: [
-          { to: '/player-panel#demo',      label: 'Demo' },
-          { to: '/player-panel#stavy',     label: 'Stavy' },
-          { to: '/player-panel#simple',    label: 'Bez resource barů' },
-          { to: '/player-panel#velikosti', label: 'Velikosti' },
-        ],
-      },
-      {
-        to: '/action-tile', label: 'ActionTile', library: 'donjon',
-        children: [
-          { to: '/action-tile#demo',      label: 'Demo' },
-          { to: '/action-tile#varianty',  label: 'Varianty' },
-          { to: '/action-tile#stavy',     label: 'Stavy' },
-          { to: '/action-tile#velikosti', label: 'Velikosti' },
-          { to: '/action-tile#pouziti',   label: 'Použití' },
-        ],
-      },
-      {
-        to: '/event-log', label: 'EventLog', library: 'donjon',
-        children: [
-          { to: '/event-log#demo',    label: 'Demo' },
-          { to: '/event-log#typy',    label: 'Typy záznamů' },
-          { to: '/event-log#variace', label: 'Variace' },
-        ],
-      },
-      {
-        to: '/phase-indicator', label: 'PhaseIndicator', library: 'donjon',
-        children: [
-          { to: '/phase-indicator#demo',       label: 'Demo' },
-          { to: '/phase-indicator#orientace',  label: 'Orientace' },
-          { to: '/phase-indicator#faze-hry',   label: 'Fáze hry' },
-          { to: '/phase-indicator#ikony',      label: 'S ikonami' },
-          { to: '/phase-indicator#velikosti',  label: 'Velikosti' },
+          { to: '/screens#desktop',  label: 'PC — 1280px+' },
+          { to: '/screens#tablet',   label: 'Tablet — 768px' },
+          { to: '/screens#mobile',   label: 'Mobil — 375px' },
+          { to: '/screens#srovnani', label: 'Srovnání' },
         ],
       },
     ],
@@ -465,6 +451,8 @@ const sections = [
   },
 ]
 
+// ── Komponenty ────────────────────────────────────────────────────────────────
+
 function CloseIcon() {
   return (
     <svg className="size-5" viewBox="0 0 20 20" fill="currentColor">
@@ -474,8 +462,11 @@ function CloseIcon() {
 }
 
 function SubItem({ item, onClose, depth = 1 }) {
+  const { pathname } = useLocation()
+  const isRouteActive = pathname === item.to || pathname.startsWith(item.to + '/')
   const py = depth === 1 ? 'py-1.5' : 'py-1'
   const textColor = depth === 1 ? 'text-neutral-500' : 'text-neutral-600'
+
   return (
     <li>
       <NavLink
@@ -491,7 +482,7 @@ function SubItem({ item, onClose, depth = 1 }) {
       >
         {item.label}
       </NavLink>
-      {item.children && (
+      {item.children && isRouteActive && (
         <ul className="flex flex-col gap-0.5 mt-0.5 ml-3 pl-3 border-l border-neutral-800">
           {item.children.map((child) => (
             <SubItem key={child.to} item={child} onClose={onClose} depth={depth + 1} />
@@ -503,6 +494,10 @@ function SubItem({ item, onClose, depth = 1 }) {
 }
 
 function NavItem({ item, onClose }) {
+  const { pathname } = useLocation()
+  // Sub-linky jsou viditelné jen na aktivní route (accordion efekt)
+  const isRouteActive = pathname === item.to || pathname.startsWith(item.to + '/')
+
   return (
     <li>
       <NavLink
@@ -519,7 +514,7 @@ function NavItem({ item, onClose }) {
         {item.library && <LibIcon library={item.library} />}
         {item.label}
       </NavLink>
-      {item.children && (
+      {item.children && isRouteActive && (
         <ul className="flex flex-col gap-0.5 mt-0.5 ml-3 pl-3 border-l border-neutral-800">
           {item.children.map((child) => (
             <SubItem key={child.to} item={child} onClose={onClose} depth={1} />
