@@ -1,5 +1,5 @@
 import { useRef, useCallback } from 'react'
-import { animNormal, animSlow, animDramatic, easingBounce, easingEnter, easingSharp } from './tokens'
+import { animNormal, animSlow, animDramatic, easingBounce, easingEnter, easingSharp, gainColor } from './tokens'
 
 /**
  * Hook pro herní Web Animations API animace.
@@ -91,7 +91,7 @@ export default function useGameAnimation() {
    * @param {string} [color='#50B86C'] - Hex barva flash glow
    * @param {number} [duration] - Délka v ms
    */
-  const flash = useCallback((color = '#50B86C', duration = animNormal * 3) => {
+  const flash = useCallback((color = gainColor, duration = animNormal * 3) => {
     const el = ref.current
     if (!el) return
     el.animate([

@@ -1,0 +1,93 @@
+import js from '@eslint/js'
+import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import noHardcodedHex from './scripts/eslint-rules/no-hardcoded-hex.js'
+import noComponentInRender from './scripts/eslint-rules/no-component-in-render.js'
+
+/** Lokální plugin — donjon pravidla */
+const donjonPlugin = {
+  rules: {
+    'no-hardcoded-hex':      noHardcodedHex,
+    'no-component-in-render': noComponentInRender,
+  },
+}
+
+export default [
+  // ── Ignorované cesty ──────────────────────────────────────────────────────
+  {
+    ignores: ['dist/**', 'node_modules/**'],
+  },
+
+  // ── Testovací soubory — Vitest globály ────────────────────────────────────
+  {
+    files: ['src/**/*.test.{js,jsx}', 'src/**/__tests__/**/*.{js,jsx}', 'src/test/**/*.{js,jsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        // Vitest test globals
+        describe: 'readonly',
+        it:       'readonly',
+        test:     'readonly',
+        expect:   'readonly',
+        beforeEach: 'readonly',
+        afterEach:  'readonly',
+        beforeAll:  'readonly',
+        afterAll:   'readonly',
+        vi:         'readonly',
+      },
+    },
+  },
+
+  // ── Základní JS pravidla pro celý projekt ─────────────────────────────────
+  {
+    files: ['src/**/*.{js,jsx}'],
+    languageOptions: {
+      ecmaVersion: 2024,
+      sourceType:  'module',
+      globals: {
+        ...globals.browser,
+        ...globals.es2022,
+      },
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+      },
+    },
+    plugins: {
+      'react-hooks': reactHooks,
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      // React hooks pravidla — zachytí nesprávné deps pole a podmíněné hooky
+      'react-hooks/rules-of-hooks':  'error',
+      'react-hooks/exhaustive-deps': 'warn',
+      // Nehlásit unused vars se _prefix (helper/ignored params)
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      'no-console': 'off',
+    },
+  },
+
+  // ── DONJON pravidlo 1: žádné hardcoded hex v lib/ ─────────────────────────
+  // Výjimka: tokens.js samotný (tam hex být musí)
+  {
+    files: ['src/lib/**/*.jsx', 'src/lib/**/*.js'],
+    ignores: [
+      'src/lib/donjon/tokens.js',
+      'src/lib/tkajui/tokens.js',
+      'src/lib/**/__tests__/**',
+      'src/lib/**/*.test.{js,jsx}',
+    ],
+    plugins: { donjon: donjonPlugin },
+    rules: {
+      'donjon/no-hardcoded-hex': 'error',
+    },
+  },
+
+  // ── DONJON pravidlo 2: žádné komponenty s hooky uvnitř render funkce ──────
+  {
+    files: ['src/pages/**/*.jsx', 'src/lib/**/*.jsx'],
+    plugins: { donjon: donjonPlugin },
+    rules: {
+      'donjon/no-component-in-render': 'error',
+    },
+  },
+]

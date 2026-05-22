@@ -114,7 +114,7 @@ export default function Slider({
           height: s.thumbD,
           borderRadius: '50%',
           background: v.thumb,
-          border: `2px solid #ffffff22`,
+          border: `2px solid #ffffff22`, // eslint-disable-line donjon/no-hardcoded-hex -- semi-transparent white thumb border, bez ekvivalentu v tkajui tokens
           boxShadow: `0 0 6px ${v.glow}55, 0 2px 4px rgba(0,0,0,0.4)`,
           pointerEvents: 'none',
           transition: 'left 0.05s',

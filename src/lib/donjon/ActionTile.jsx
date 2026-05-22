@@ -7,7 +7,7 @@ import {
   bg2, bg3, bg4,
   borderDefault, borderMid,
   textHigh, textMid, textLow, textFaint,
-  dangerColor, warningColor, gainColor, magicColor,
+  dangerColor, warningColor, gainColor, magicColor, magicDark,
 } from './tokens'
 
 const SIZES = {
@@ -20,15 +20,15 @@ const VARIANTS = {
   default: { border: borderDefault, activeBorder: goldDim,      selBg: `${gold}0E`,    selBorder: goldDim     },
   attack:  { border: borderDefault, activeBorder: dangerColor,  selBg: `${dangerColor}12`, selBorder: dangerColor  },
   move:    { border: borderDefault, activeBorder: gainColor,    selBg: `${gainColor}10`, selBorder: gainColor   },
-  special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}18`, selBorder: '#7A48A8'  },
+  special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}18`, selBorder: magicDark  },
 }
 
 /* ── Lock ikona ── */
 function LockIcon() {
   return (
     <svg viewBox="0 0 16 16" fill="none" width="14" height="14">
-      <rect x="4" y="7" width="8" height="7" rx="1.5" stroke="#9A9080" strokeWidth="1.3" />
-      <path d="M5.5 7V5.5a2.5 2.5 0 0 1 5 0V7" stroke="#9A9080" strokeWidth="1.3" strokeLinecap="round" />
+      <rect x="4" y="7" width="8" height="7" rx="1.5" stroke={textLow} strokeWidth="1.3" />
+      <path d="M5.5 7V5.5a2.5 2.5 0 0 1 5 0V7" stroke={textLow} strokeWidth="1.3" strokeLinecap="round" />
     </svg>
   )
 }

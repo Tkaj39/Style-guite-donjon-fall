@@ -1,5 +1,5 @@
 import { octagon } from '../../utils/octagon'
-import { goldDim } from './tokens'
+import { goldDim, textHigh } from './tokens'
 
 const sizeMap = {
   xs: { box: 24, dot: 3, cx: 3.5, fontSize: '0.5rem'    }, // fits sm hex (42×48), tower of 3 ≤ 44px
@@ -31,8 +31,9 @@ export default function DieFace({ value = 1, playerColor = goldDim, size = 'md',
   const dots = dotPositions[value] ?? dotPositions[1]
 
   const borderGrad  = `linear-gradient(145deg, ${playerColor} 0%, ${playerColor}99 100%)`
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- #0D0C1A: unikátní tmavý gradient die face (hlubší než bg0)
   const bgGrad      = `linear-gradient(145deg, ${playerColor}${cfg.bgMod} 0%, #0D0C1A 100%)`
-  const dotColor    = '#E8D8C0'
+  const dotColor    = textHigh  // teplá near-white pro puntíky kostky
 
   const innerPad = Math.round(s.box * 0.12)
   const gridSize = s.box - innerPad * 2 - 4 // area for dots

@@ -26,7 +26,9 @@ const VARIANTS = {
   active:   { color: gold,            bg: bg2,    border: `${gold}33`,                    glow: `0 0 10px ${gold}33` },
   passive:  { color: goldDim,         bg: bg1,    border: `${goldDim}33`,                 glow: 'none' },
   disabled: { color: borderDefault,   bg: bg0,    border: borderMid,                      glow: 'none' },
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- unikátní tmavá plocha pro danger/success pictogram varianty (fialová/zelená tónovaná)
   danger:   { color: VARIANT_BORDER.danger,  bg: '#1C1020', border: `${VARIANT_BORDER.danger}33`,  glow: `0 0 8px ${VARIANT_BORDER.danger}22` },
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- unikátní tmavá plocha pro danger/success pictogram varianty (fialová/zelená tónovaná)
   success:  { color: VARIANT_BORDER.success, bg: '#101C14', border: `${VARIANT_BORDER.success}33`, glow: `0 0 8px ${VARIANT_BORDER.success}22` },
 }
 

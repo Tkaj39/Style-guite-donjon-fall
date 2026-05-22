@@ -9,7 +9,7 @@ import {
   gold, goldDim,
   bg2, bg3, bg4,
   borderDefault,
-  textHigh, textMid, textLow, dangerColor,
+  textHigh, textMid, textLow, dangerColor, infoColor,
 } from './tokens'
 
 const SIZES = {
@@ -27,7 +27,7 @@ const SIZES = {
 
 export default function PlayerPanel({
   name,
-  color          = '#4A90E2',
+  color          = infoColor,
   symbol         = 'sword',   // 'sword' | 'shield' | 'tower'
   vp             = 0,
   hp,

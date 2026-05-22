@@ -2,7 +2,7 @@
    Shield:              hexagonální štít s barvou a symbolem hráče
    PlayerIdentityBadge: kompaktní badge pro scoreboard / HUD
    ─────────────────────────────────────────────────────────────────────── */
-import { bg2 } from './tokens'
+import { bg2, neutralColor, textHighest } from './tokens'
 
 const SHIELD_CLIP = 'polygon(50% 0%, 100% 20%, 100% 60%, 50% 100%, 0% 60%, 0% 20%)'
 
@@ -35,7 +35,7 @@ const symbols = ['I', 'II', 'III', 'IV', 'V', 'VI']
  */
 export function Shield({ player, playerColor, size = 'md', showSymbol = true }) {
   // Barva: flat prop má přednost před player objektem
-  const color = playerColor ?? player?.color ?? '#808080'
+  const color = playerColor ?? player?.color ?? neutralColor
 
   // Size: buď string klíč (xs/sm/md/lg) nebo pixel číslo
   const s = typeof size === 'number'
@@ -97,7 +97,7 @@ export function Shield({ player, playerColor, size = 'md', showSymbol = true }) 
  * @param {string} [color] - Barva hráče (flat API)
  */
 export function PlayerIdentityBadge({ player, name, color: colorProp }) {
-  const color = colorProp ?? player?.color ?? '#808080'
+  const color = colorProp ?? player?.color ?? neutralColor
   const label = name ?? player?.label ?? ''
 
   return (
@@ -110,7 +110,7 @@ export function PlayerIdentityBadge({ player, name, color: colorProp }) {
       <Shield playerColor={color} size="xs" showSymbol={false} />
       <span style={{
         fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
-        background: `linear-gradient(180deg,#F9F9F9 0%,${color} 100%)`,
+        background: `linear-gradient(180deg,${textHighest} 0%,${color} 100%)`,
         WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
       }}>{label}</span>
     </div>

@@ -7,7 +7,7 @@
 import {
   bg2, borderDefault,
   textMid, textFaint,
-  gainColor, dangerColor, warningColor, infoColor, magicColor,
+  gainColor, dangerColor, warningColor, infoColor, magicColor, shieldColor,
 } from './tokens'
 
 const VARIANT_FILL = {
@@ -15,7 +15,7 @@ const VARIANT_FILL = {
   mana:    infoColor,
   stamina: warningColor,
   xp:      magicColor,
-  shield:  '#7AB5E0',     // světle modrá — záměrně bez tokenu (specifická pro štít)
+  shield:  shieldColor,
   default: null,
 }
 
