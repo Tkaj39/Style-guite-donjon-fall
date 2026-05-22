@@ -1,6 +1,7 @@
 import { useLibVariant, ShowcasePage, Section } from '../styleguide/ShowcasePage'
 import * as T from '../lib/tkajui/tokens'
 import * as D from '../lib/donjon/tokens'
+import { failColor } from '../lib/donjon/tokens'
 
 /* ── Swatch ── */
 function Swatch({ name, hex, note, large = false, textPreview }) {
@@ -84,10 +85,10 @@ function TkajuiPaleta() {
         description="Hierarchie přes odstíny — žádné teplé tóny."
         cols="grid-cols-2 sm:grid-cols-4"
         swatches={[
-          { name: textHigh,     hex: T.textHigh,     note: 'Nadpisy, obsah',    textPreview: 'Aa' },
-          { name: textMid,      hex: T.textMid,      note: 'Labely, hints',     textPreview: 'Aa' },
-          { name: textLow,      hex: T.textLow,      note: 'Placeholder',       textPreview: 'Aa' },
-          { name: textDisabled, hex: T.textDisabled, note: 'Neaktivní',         textPreview: 'Aa' },
+          { name: 'textHigh',     hex: T.textHigh,     note: 'Nadpisy, obsah',    textPreview: 'Aa' },
+          { name: 'textMid',      hex: T.textMid,      note: 'Labely, hints',     textPreview: 'Aa' },
+          { name: 'textLow',      hex: T.textLow,      note: 'Placeholder',       textPreview: 'Aa' },
+          { name: 'textDisabled', hex: T.textDisabled, note: 'Neaktivní',         textPreview: 'Aa' },
         ]}
       />
       <Divider />

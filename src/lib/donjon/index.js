@@ -260,6 +260,47 @@ export { default as EventLog } from './EventLog'
  */
 export { default as PhaseIndicator } from './PhaseIndicator'
 
+// ── Animace & responzivita ────────────────────────────────────────────────
+
+/**
+ * Hook pro Web Animations API herní animace.
+ * Připoj `ref` na element, pak volej funkce: shake, knockback, pop, pulse, flash, tilt, fadeIn, fadeOut, victory.
+ * @returns {{ ref, shake, knockback, pop, pulse, flash, tilt, fadeIn, fadeOut, victory }}
+ * @example
+ * const { ref, shake, pop } = useGameAnimation()
+ * <div ref={ref}>...</div>
+ * // Při neúspěchu:
+ * onClick={() => shake()}
+ * // Při spawnu:
+ * useEffect(() => pop(), [])
+ */
+export { default as useGameAnimation } from './useGameAnimation'
+
+/**
+ * Hook pro responzivní breakpointy — vrací aktuální šířku a příznaky isMobile/isTablet/isDesktop.
+ * @returns {{ width, isMobile, isTablet, isDesktop, isWide, isTouch }}
+ * @example
+ * const { isMobile, isTouch } = useBreakpoint()
+ * <div style={{ flexDirection: isMobile ? 'column' : 'row' }}>
+ *   <ActionTile size={isTouch ? 'lg' : 'md'} />
+ * </div>
+ */
+export { default as useBreakpoint } from './useBreakpoint'
+
+/**
+ * Wrapper pro enter/exit animace — montuje/demontuje children s animací.
+ * Presety: 'fadeScale' | 'slideUp' | 'slideDown' | 'pop' | 'fade' | 'slideLeft'
+ * @prop {boolean} show - Viditelný stav
+ * @prop {'fadeScale'|'slideUp'|'slideDown'|'pop'|'fade'|'slideLeft'} preset - Animace
+ * @prop {number} [duration=300] - Délka v ms
+ * @prop {() => void} [onExited] - Callback po odstranění z DOM
+ * @example
+ * <GameTransition show={isOpen} preset="slideUp">
+ *   <PlayerPanel name="Hráč 1" />
+ * </GameTransition>
+ */
+export { default as GameTransition, gameTransitionPresets } from './GameTransition'
+
 // ── Herní assety ──────────────────────────────────────────────────────────
 
 /**

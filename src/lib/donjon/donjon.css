@@ -64,4 +64,21 @@
   --donjon-z-toast:   2000;
   --donjon-z-tooltip: 2100;
   --donjon-z-modal:   2200;
+
+  /* ── Animační timing ──────────────────────────────────────────────────── */
+  --donjon-anim-fast:     80ms;
+  --donjon-anim-normal:   160ms;
+  --donjon-anim-slow:     300ms;
+  --donjon-anim-dramatic: 600ms;
+
+  --donjon-ease-sharp:  cubic-bezier(0.4, 0, 0.6, 1);
+  --donjon-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --donjon-ease-enter:  cubic-bezier(0, 0, 0.2, 1);
+  --donjon-ease-exit:   cubic-bezier(0.4, 0, 1, 1);
+
+  /* ── Breakpointy ──────────────────────────────────────────────────────── */
+  --donjon-bp-mobile:  480px;
+  --donjon-bp-tablet:  768px;
+  --donjon-bp-desktop: 1024px;
+  --donjon-bp-wide:    1280px;
 }

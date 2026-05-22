@@ -76,3 +76,40 @@ export const VARIANT_TITLE_GRAD = {
   success: 'linear-gradient(180deg,#C0F0C8 0%,#40A055 100%)',
   warning: 'linear-gradient(180deg,#FFD580 0%,#C08040 100%)',
 }
+
+// ── Animační timing ────────────────────────────────────────────────────────
+/** Rychlé UI reakce: tooltip appear, damage flash (80 ms) */
+export const animFast     = 80
+/** Standardní přechody: hover, focus, stav (160 ms) */
+export const animNormal   = 160
+/** Otevření panelů, expand, slide (300 ms) */
+export const animSlow     = 300
+/** Dramatické herní události: výsledek souboje, výhry (600 ms) */
+export const animDramatic = 600
+
+/** Čisté in-out pro panely a rozvíjení */
+export const easingSharp  = 'cubic-bezier(0.4, 0, 0.6, 1)'
+/** Overshoot pro pop, bounce, spawn */
+export const easingBounce = 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+/** Ease-out pro příchozí elementy */
+export const easingEnter  = 'cubic-bezier(0, 0, 0.2, 1)'
+/** Ease-in pro odcházející elementy */
+export const easingExit   = 'cubic-bezier(0.4, 0, 1, 1)'
+
+// ── Breakpointy ────────────────────────────────────────────────────────────
+/** Mobilní zařízení — portrait (< 480 px) */
+export const bpMobile  = 480
+/** Tablet / landscape mobil (≥ 480 px) */
+export const bpTablet  = 768
+/** Desktop (≥ 768 px) */
+export const bpDesktop = 1024
+/** Wide desktop (≥ 1024 px) */
+export const bpWide    = 1280
+
+/** Breakpoint objekt pro useBreakpoint hook a podmíněné styly */
+export const BREAKPOINTS = {
+  mobile:  bpMobile,
+  tablet:  bpTablet,
+  desktop: bpDesktop,
+  wide:    bpWide,
+}

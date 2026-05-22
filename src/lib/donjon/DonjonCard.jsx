@@ -44,7 +44,7 @@ export default function DonjonCard({
 
   return (
     /* Outer border shell */
-    <div style={{ clipPath: octagon(cx), background: v.border, padding: 1, display: 'inline-block', minWidth: 240 }}>
+    <div style={{ clipPath: octagon(cx), background: v.border, padding: 1 }}>
     {/* Inner fill */}
     <div
       style={{

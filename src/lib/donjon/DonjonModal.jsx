@@ -104,7 +104,7 @@ export default function DonjonModal({
       <div
         className="modal-panel"
         onClick={(e) => e.stopPropagation()}
-        style={{ width: '100%', maxWidth: w }}
+        style={{ width: '100%', maxWidth: `min(${w}px, calc(100vw - 32px))` }}
       >
         {/* Outer border shell */}
         <div style={{ clipPath: octagon(cx), background: v.border, padding: 1 }}>

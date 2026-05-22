@@ -108,7 +108,17 @@ const sections = [
   {
     label: 'Principy',
     items: [
-      { to: '/motion',             label: 'Motion',              library: 'donjon' },
+      {
+        to: '/motion', label: 'Motion', library: 'donjon',
+        children: [
+          { to: '/motion#timing',     label: 'Timing tokeny' },
+          { to: '/motion#easing',     label: 'Easing křivky' },
+          { to: '/motion#hook',       label: 'useGameAnimation' },
+          { to: '/motion#transition', label: 'GameTransition' },
+          { to: '/motion#keyframes',  label: 'CSS keyframes' },
+          { to: '/motion#kombinace',  label: 'Herní kombinace' },
+        ],
+      },
       {
         to: '/interaction-states', label: 'Interaction States',
         children: [
@@ -127,7 +137,18 @@ const sections = [
       { to: '/loading-skeleton',   label: 'Loading & Skeleton',  library: 'donjon' },
       { to: '/validation',         label: 'Validation',          library: 'donjon' },
       { to: '/microcopy',          label: 'Content & Microcopy', library: 'donjon' },
-      { to: '/responsive',         label: 'Responsive Design',   library: 'donjon' },
+      {
+        to: '/responsive', label: 'Responsive Design', library: 'donjon',
+        children: [
+          { to: '/responsive#breakpoints', label: 'Breakpointy — live' },
+          { to: '/responsive#tokeny',      label: 'BP tokeny' },
+          { to: '/responsive#hook',        label: 'useBreakpoint' },
+          { to: '/responsive#action-tile', label: 'Adaptive ActionTile' },
+          { to: '/responsive#modal',       label: 'Responzivní Modal' },
+          { to: '/responsive#card',        label: 'Fluid Card' },
+          { to: '/responsive#patterns',    label: 'Vzory' },
+        ],
+      },
       {
         to: '/focus-ring', label: 'Focus Ring',
         children: [

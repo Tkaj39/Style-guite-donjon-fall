@@ -1,265 +1,345 @@
-import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import DonjonBadge from '../lib/donjon/DonjonBadge'
+import { useState } from 'react'
+import useBreakpoint from '../lib/donjon/useBreakpoint'
+import ActionTile from '../lib/donjon/ActionTile'
+import PlayerPanel from '../lib/donjon/PlayerPanel'
+import DonjonCard from '../lib/donjon/DonjonCard'
+import DonjonButton from '../lib/donjon/DonjonButton'
+import DonjonModal from '../lib/donjon/DonjonModal'
+import { SwordIcon, ShieldIcon, TowerIcon } from '../lib/donjon/icons'
+import {
+  gold, bg2, bg3, bgDeep, borderDefault,
+  textMid, textFaint, textParchment, textHigh,
+  gainColor, dangerColor, warningColor,
+  bpMobile, bpTablet, bpDesktop, bpWide, BREAKPOINTS,
+} from '../lib/donjon/tokens'
 
-/* ── Breakpoint vizuál ── */
-function BpBar({ label, min, max, color, desc, items }) {
+const PAGE    = { padding: '40px 32px', maxWidth: 900, margin: '0 auto' }
+const H1      = { fontSize: '1.5rem', fontWeight: 700, color: gold, letterSpacing: '0.04em', marginBottom: 4 }
+const H2      = { fontSize: '0.875rem', fontWeight: 700, color: gold, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }
+const DIVIDER = { height: 1, background: borderDefault, margin: '40px 0', opacity: 0.4 }
+
+function Section({ id, title, desc, children }) {
   return (
-    <div style={{ display: 'flex', gap: 14, padding: '12px 14px', background: bg0, border: `1px solid ${color}33`, borderRadius: 4, borderLeft: `3px solid ${color}` }}>
-      <div style={{ flexShrink: 0, width: 80 }}>
-        <code style={{ fontSize: '0.8125rem', fontWeight: 700, color }}>{label}</code>
-        <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: textDeep }}>{min}{max ? `–${max}` : '+'} px</p>
+    <section id={id} style={{ marginBottom: 40 }}>
+      <h2 style={H2}>{title}</h2>
+      {desc && <p style={{ fontSize: '0.8125rem', color: textMid, marginBottom: 16, marginTop: 2 }}>{desc}</p>}
+      {children}
+    </section>
+  )
+}
+
+function Demo({ children, style }) {
+  return (
+    <div style={{ background: bg2, border: `1px solid ${borderDefault}`, borderRadius: 4, padding: 24, ...style }}>
+      {children}
+    </div>
+  )
+}
+
+function Code({ children }) {
+  return (
+    <pre style={{
+      background: bgDeep, border: `1px solid ${borderDefault}`, borderRadius: 4,
+      padding: '12px 16px', fontSize: '0.75rem', color: textParchment,
+      overflowX: 'auto', margin: '8px 0 0', lineHeight: 1.6,
+      fontFamily: "'JetBrains Mono', Consolas, monospace",
+    }}>
+      <code>{children.trim()}</code>
+    </pre>
+  )
+}
+
+/* ── Live breakpoint indicator ── */
+function BreakpointIndicator() {
+  const { width, isMobile, isTablet, isDesktop, isWide, isTouch } = useBreakpoint()
+
+  const active = isWide ? 'wide' : isDesktop ? 'desktop' : isTablet ? 'tablet' : 'mobile'
+
+  const TIERS = [
+    { id: 'mobile',  label: 'Mobile',  px: `< ${bpTablet}px`,   color: dangerColor,  active: isMobile  },
+    { id: 'tablet',  label: 'Tablet',  px: `${bpTablet}–${bpDesktop-1}px`, color: '#C08040', active: isTablet  },
+    { id: 'desktop', label: 'Desktop', px: `${bpDesktop}–${bpWide-1}px`,   color: gainColor,  active: isDesktop && !isWide },
+    { id: 'wide',    label: 'Wide',    px: `≥ ${bpWide}px`,     color: gold,         active: isWide    },
+  ]
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        {TIERS.map(t => (
+          <div key={t.id} style={{
+            padding: '6px 14px', borderRadius: 4,
+            border: `1px solid ${t.active ? t.color : borderDefault}`,
+            background: t.active ? `${t.color}18` : 'transparent',
+            display: 'flex', flexDirection: 'column', gap: 2, minWidth: 110,
+          }}>
+            <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: t.active ? t.color : textFaint }}>{t.label}</span>
+            <span style={{ fontSize: '0.7rem', color: t.active ? textMid : textFaint }}>{t.px}</span>
+          </div>
+        ))}
       </div>
-      <div style={{ flex: 1 }}>
-        <p style={{ margin: '0 0 4px', fontSize: '0.8125rem', color: textActive }}>{desc}</p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-          {items.map(i => (
-            <DonjonBadge key={i} size="sm" variant="default">{i}</DonjonBadge>
-          ))}
-        </div>
+      <div style={{ fontSize: '0.75rem', color: textFaint }}>
+        Aktuální šířka: <span style={{ color: gold, fontWeight: 600 }}>{width} px</span>
+        {' · '}isTouch: <span style={{ color: isTouch ? warningColor : textFaint }}>{String(isTouch)}</span>
+        {' · '}isWide: <span style={{ color: isWide ? gainColor : textFaint }}>{String(isWide)}</span>
       </div>
     </div>
   )
 }
 
-/* ── Layout diagram ── */
-function LayoutDiagram({ cols, sidebar, label }) {
+/* ── Adaptive layout demo ── */
+function AdaptiveDemo() {
+  const { isMobile, isTouch } = useBreakpoint()
+  const actions = [
+    { id: 'move',   icon: <ShieldIcon />, title: 'Pohyb',  cost: 1, variant: 'move'   },
+    { id: 'attack', icon: <SwordIcon />,  title: 'Útok',   cost: 2, variant: 'attack' },
+    { id: 'tower',  icon: <TowerIcon />,  title: 'Věž',    cost: 3, variant: 'default'},
+  ]
+  const [sel, setSel] = useState('move')
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'center' }}>
-      <p style={{ margin: 0, fontSize: '0.625rem', color: textDeep, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</p>
-      <div style={{ display: 'flex', gap: 3, height: 60, width: 140 }}>
-        {sidebar && (
-          <div style={{ width: 22, background: bg4, border: `1px solid ${goldDim}30`, borderRadius: 2, flexShrink: 0 }} />
-        )}
-        <div style={{ flex: 1, display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 3 }}>
-          {Array.from({ length: cols }).map((_, i) => (
-            <div key={i} style={{ background: borderSubtle, border: `1px solid ${goldDim}30`, borderRadius: 2 }} />
-          ))}
-        </div>
+    <div>
+      <p style={{ fontSize: '0.75rem', color: textFaint, margin: '0 0 12px' }}>
+        ActionTile velikost se přizpůsobuje dotykovému zařízení. Zmenši okno pro efekt.
+      </p>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        {actions.map(a => (
+          <ActionTile
+            key={a.id}
+            icon={a.icon}
+            title={a.title}
+            cost={a.cost}
+            variant={a.variant}
+            size={isTouch ? 'lg' : 'md'}
+            selected={sel === a.id}
+            onClick={() => setSel(a.id)}
+          />
+        ))}
       </div>
+      <p style={{ fontSize: '0.75rem', color: textFaint, margin: '10px 0 0' }}>
+        isTouch: <span style={{ color: isTouch ? gold : textFaint }}>{String(isTouch)}</span>
+        {' · '}size: <span style={{ color: gold }}>{isTouch ? 'lg' : 'md'}</span>
+      </p>
     </div>
   )
 }
 
 export default function ResponsivePage() {
+  const [modalOpen, setModalOpen] = useState(false)
+  const { width, isMobile } = useBreakpoint()
+
   return (
-    <ShowcasePage
-      title="Responsive Design"
-      description="Pravidla pro adaptaci Donjon Fall UI na různé velikosti obrazovek — breakpointy, grid, sidebar chování, typografie a dotyková přístupnost."
-    >
+    <div style={PAGE}>
+      <h1 style={H1}>Responzivita</h1>
+      <p style={{ fontSize: '0.875rem', color: textMid, marginBottom: 32 }}>
+        Breakpoint tokeny, useBreakpoint hook a responzivní chování komponent.
+        Herní UI potřebuje fungovat od mobilu (375 px) po wide desktop (1440+).
+        Resize okno pro live ukázku.
+      </p>
 
-      {/* Breakpointy */}
-      <Section
-        id="breakpointy"
-        title="Breakpointy"
-        description="Čtyři breakpointy odpovídající Tailwind CSS výchozím hodnotám. Design začíná mobile-first."
-      >
-        <Preview>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: '100%', maxWidth: 600 }}>
-            <BpBar
-              label="xs" min={0} max={639}
-              color="#4080C0"
-              desc="Mobil — jednosloupcový layout, sidebar skrytý"
-              items={['1 sloupec', 'sidebar: drawer', 'font: -1 stupeň', 'touch targets: 44px+']}
-            />
-            <BpBar
-              label="sm" min={640} max={767}
-              color="successColor"
-              desc="Velký mobil / malý tablet — 1–2 sloupce"
-              items={['1–2 sloupce', 'sidebar: drawer', 'card grid: 2 col']}
-            />
-            <BpBar
-              label="md" min={768} max={1023}
-              color="#C08040"
-              desc="Tablet — 2–3 sloupce, sidebar overlay"
-              items={['2–3 sloupce', 'sidebar: overlay', 'panel: 50 % šířky']}
-            />
-            <BpBar
-              label="lg" min={1024} max={1279}
-              color="goldDim"
-              desc="Desktop — plný layout, sticky sidebar"
-              items={['3–4 sloupce', 'sidebar: sticky', 'plný grid']}
-            />
-            <BpBar
-              label="xl" min={1280}
-              color="goldMid"
-              desc="Velký desktop — rozšířené obsahové oblasti"
-              items={['max-width: 1440px', 'větší gutter', 'více karet vedle sebe']}
-            />
-          </div>
-        </Preview>
-        <CodeBlock code={`/* Tailwind breakpointy — mobile-first */
-// xs: 0px     (žádný prefix — výchozí)
-// sm: 640px   sm:
-// md: 768px   md:
-// lg: 1024px  lg:
-// xl: 1280px  xl:
+      {/* ── Live breakpoint ── */}
+      <Section id="breakpoints" title="Breakpointy — live" desc="Resize okno prohlížeče pro live přepínání.">
+        <Demo>
+          <BreakpointIndicator />
+        </Demo>
+        <Code>{`import useBreakpoint from 'donjon-fall-ui/useBreakpoint'
+import { bpMobile, bpTablet, bpDesktop, bpWide, BREAKPOINTS } from 'donjon-fall-ui/tokens'
 
-/* CSS equivalenty */
-@media (min-width: 640px)  { /* sm */ }
-@media (min-width: 768px)  { /* md */ }
-@media (min-width: 1024px) { /* lg */ }
-@media (min-width: 1280px) { /* xl */ }`} />
+// Hodnoty:  mobile < 768 | tablet 768–1023 | desktop 1024–1279 | wide ≥ 1280
+
+const { width, isMobile, isTablet, isDesktop, isWide, isTouch } = useBreakpoint()
+//  isMobile  = width < bpTablet  (768)
+//  isTablet  = width 768–1023
+//  isDesktop = width ≥ bpDesktop (1024)
+//  isWide    = width ≥ bpWide    (1280)
+//  isTouch   = width < bpDesktop  (mobil + tablet)`}</Code>
       </Section>
 
-      {/* Grid layout na breakpointech */}
-      <Section
-        id="grid"
-        title="Grid na breakpointech"
-        description="Jak se mění počet sloupců a přítomnost sidebaru v závislosti na velikosti."
-      >
-        <Preview>
-          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'flex-start' }}>
-            <LayoutDiagram label="xs — 375px"  cols={1} sidebar={false} />
-            <LayoutDiagram label="sm — 640px"  cols={2} sidebar={false} />
-            <LayoutDiagram label="md — 768px"  cols={2} sidebar={true}  />
-            <LayoutDiagram label="lg — 1024px" cols={3} sidebar={true}  />
-            <LayoutDiagram label="xl — 1280px" cols={4} sidebar={true}  />
+      <div style={DIVIDER} />
+
+      {/* ── Tokens tabulka ── */}
+      <Section id="tokeny" title="Breakpoint tokeny" desc="Pojmenované konstanty — konzistentní přes celou library.">
+        <Demo>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {[
+              { name: 'bpMobile',  val: bpMobile,  label: 'Mobil portrait — nejmenší viewport pro hru' },
+              { name: 'bpTablet',  val: bpTablet,  label: 'Tablet / landscape mobil — 2 sloupce' },
+              { name: 'bpDesktop', val: bpDesktop, label: 'Desktop — plný layout, hover interactions' },
+              { name: 'bpWide',    val: bpWide,    label: 'Wide desktop — extra prostor pro game UI' },
+            ].map(b => (
+              <div key={b.name} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <code style={{ width: 110, fontSize: '0.75rem', color: gold, flexShrink: 0 }}>{b.name}</code>
+                <span style={{ width: 52, fontSize: '0.75rem', color: textHigh, flexShrink: 0 }}>{b.val} px</span>
+                <span style={{ fontSize: '0.75rem', color: textFaint }}>{b.label}</span>
+              </div>
+            ))}
           </div>
-        </Preview>
-        <CodeBlock code={`{/* Responsivní grid — Tailwind */}
-<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-  {items.map(item => <Card key={item.id} {...item} />)}
+        </Demo>
+        <Code>{`import { bpMobile, bpTablet, bpDesktop, bpWide, BREAKPOINTS } from 'donjon-fall-ui/tokens'
+
+// Podmíněné styly bez hooku (server-side nebo jednoduchý případ):
+const isCompact = windowWidth < bpTablet
+
+// Nebo media queries v CSS (donjon.css exportuje jako custom properties):
+// @media (max-width: var(--donjon-bp-tablet)) { ... }
+
+// BREAKPOINTS object pro iteraci:
+// { mobile: 480, tablet: 768, desktop: 1024, wide: 1280 }`}</Code>
+      </Section>
+
+      <div style={DIVIDER} />
+
+      {/* ── useBreakpoint hook ── */}
+      <Section id="hook" title="useBreakpoint hook" desc="React hook — automaticky reaguje na resize.">
+        <Code>{`import useBreakpoint from 'donjon-fall-ui/useBreakpoint'
+
+function GameHUD({ players }) {
+  const { isMobile, isTouch, isDesktop } = useBreakpoint()
+
+  return (
+    <div style={{
+      display: 'flex',
+      flexDirection: isMobile ? 'column' : 'row',
+      gap: isMobile ? 8 : 16,
+    }}>
+      {players.map(p => (
+        <PlayerPanel
+          key={p.id}
+          name={p.name}
+          size={isMobile ? 'sm' : 'md'}
+          {...p}
+        />
+      ))}
+
+      <ActionGrid size={isTouch ? 'lg' : 'md'} />
+    </div>
+  )
+}`}</Code>
+      </Section>
+
+      <div style={DIVIDER} />
+
+      {/* ── Adaptive ActionTile ── */}
+      <Section id="action-tile" title="Adaptivní ActionTile" desc="Touch zařízení = větší dlaždice (lg), desktop = standardní (md).">
+        <Demo>
+          <AdaptiveDemo />
+        </Demo>
+        <Code>{`const { isTouch } = useBreakpoint()
+
+<ActionTile
+  icon={<SwordIcon />}
+  title="Útok"
+  cost={2}
+  size={isTouch ? 'lg' : 'md'}  // lg = vetší hit target pro dotyk
+  variant="attack"
+/>`}</Code>
+      </Section>
+
+      <div style={DIVIDER} />
+
+      {/* ── Responzivní Modal ── */}
+      <Section id="modal" title="Responzivní Modal" desc="DonjonModal nyní používá min(w px, calc(100vw - 32px)) — nikdy se nepřekryje s okrajem.">
+        <Demo>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>
+            <DonjonButton size="sm" onClick={() => setModalOpen(true)}>Otevřít modal</DonjonButton>
+          </div>
+          <p style={{ fontSize: '0.75rem', color: textFaint, margin: 0 }}>
+            Zmenš okno na {'<'} 480 px — modal se automaticky zúží na 100vw − 32 px.
+          </p>
+        </Demo>
+        <Code>{`// DonjonModal používá:
+// maxWidth: \`min(\${w}px, calc(100vw - 32px))\`
+// → nikdy nepřesahuje viewport, vždy 16px margin na každé straně
+
+<DonjonModal
+  isOpen={isOpen}
+  onClose={() => setOpen(false)}
+  title="Výsledek kola"
+  size="md"   // md = max 480px, ale < 480px viewportu = 100% - 32px
+>
+  obsah
+</DonjonModal>`}</Code>
+
+        <DonjonModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          title="Responzivní modal"
+          description="Zmenši okno pro ukázku responzivního chování"
+          footer={<DonjonButton size="sm" onClick={() => setModalOpen(false)}>Zavřít</DonjonButton>}
+        >
+          <p style={{ fontSize: '0.875rem', color: textMid, margin: 0 }}>
+            Aktuální šířka viewportu: <span style={{ color: gold }}>{width} px</span>
+            <br />
+            maxWidth modálu: <span style={{ color: gold }}>min(480px, calc(100vw - 32px))</span>
+          </p>
+        </DonjonModal>
+      </Section>
+
+      <div style={DIVIDER} />
+
+      {/* ── DonjonCard fluid ── */}
+      <Section id="card" title="Fluid DonjonCard" desc="DonjonCard nyní nemá pevný minWidth — přizpůsobí se kontejneru.">
+        <Demo>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 12 }}>
+            <DonjonCard title="Karta 1">
+              <p style={{ fontSize: '0.8125rem', color: textMid, margin: 0 }}>Fluid karta</p>
+            </DonjonCard>
+            <DonjonCard title="Karta 2" variant="danger">
+              <p style={{ fontSize: '0.8125rem', color: textMid, margin: 0 }}>Přizpůsobí se</p>
+            </DonjonCard>
+            <DonjonCard title="Karta 3" variant="success">
+              <p style={{ fontSize: '0.8125rem', color: textMid, margin: 0 }}>Grid layout</p>
+            </DonjonCard>
+          </div>
+          <p style={{ fontSize: '0.75rem', color: textFaint, margin: '12px 0 0' }}>
+            Grid s auto-fill + minmax(180px, 1fr). Karty se roztáhnou nebo zalamují.
+          </p>
+        </Demo>
+        <Code>{`// DonjonCard dříve: display: 'inline-block', minWidth: 240  ← fixní
+// DonjonCard nyní:  žádný inline-block, bez minWidth         ← fluid
+
+// Responzivní grid karet:
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 12 }}>
+  <DonjonCard title="Karta 1">obsah</DonjonCard>
+  <DonjonCard title="Karta 2">obsah</DonjonCard>
+  <DonjonCard title="Karta 3">obsah</DonjonCard>
 </div>
 
-{/* Responsivní layout s postranním panelem */}
-<div className="flex flex-col lg:flex-row gap-6">
-  <aside className="w-full lg:w-64 shrink-0">{/* sidebar */}</aside>
-  <main className="flex-1 min-w-0">{/* obsah */}</main>
-</div>`} />
+// Nebo flex:
+<div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+  <div style={{ flex: '1 1 240px' }}><DonjonCard title="A">obsah</DonjonCard></div>
+  <div style={{ flex: '1 1 240px' }}><DonjonCard title="B">obsah</DonjonCard></div>
+</div>`}</Code>
       </Section>
 
-      {/* Sidebar chování */}
-      <Section
-        id="sidebar"
-        title="Sidebar chování"
-        description="Na mobilu a tabletu sidebar nemá místo — skryj ho za hamburger menu. Na desktopu je sticky."
-      >
-        <Preview dark={false}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 560 }}>
-            {[
-              { bp: 'xs / sm', behavior: 'Skrytý — hamburger v topbaru otevře drawer overlay (translateX)', z: 'z-300', close: 'Klik mimo, Escape, × tlačítko' },
-              { bp: 'md',      behavior: 'Skrytý — identické chování jako xs/sm', z: 'z-300', close: 'Klik mimo, Escape, × tlačítko' },
-              { bp: 'lg+',     behavior: 'Sticky left — vždy viditelný, top-0, height: 100vh, overflow-y: auto', z: 'n/a (in-flow)', close: 'n/a' },
-            ].map(({ bp, behavior, z, close }) => (
-              <div key={bp} style={{ display: 'grid', gridTemplateColumns: '70px 1fr 60px 1fr', gap: 10, padding: '9px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3, alignItems: 'start' }}>
-                <code style={{ fontSize: '0.8125rem', fontWeight: 700, color: goldMid }}>{bp}</code>
-                <span style={{ fontSize: '0.75rem', color: textCool, lineHeight: 1.4 }}>{behavior}</span>
-                <code style={{ fontSize: '0.75rem', color: textDeep }}>{z}</code>
-                <span style={{ fontSize: '0.75rem', color: textDeep, lineHeight: 1.4 }}>{close}</span>
-              </div>
-            ))}
-          </div>
-        </Preview>
-        <CodeBlock code={`{/* Sidebar — responsivní přepínání */}
-<aside
-  className={[
-    'fixed lg:sticky top-0 h-screen z-300',
-    'w-64 shrink-0',
-    'transition-transform duration-300 ease-in-out',
-    'lg:translate-x-0',          // desktop: vždy viditelný
-    isOpen ? 'translate-x-0' : '-translate-x-full', // mobil: drawer
-  ].join(' ')}
->
-  {/* ...obsah sidebaru... */}
-</aside>
+      <div style={DIVIDER} />
 
-{/* Overlay pozadí (mobil) */}
-{isOpen && (
-  <div
-    className="fixed inset-0 bg-black/60 z-299 lg:hidden"
-    onClick={closeSidebar}
-  />
-)}`} />
+      {/* ── Responsive patterns ── */}
+      <Section id="patterns" title="Responzivní vzory" desc="Kopírovatelné recepty pro herní layouts.">
+        <Code>{`// 1. Herní HUD — PlayerPanely vedle sebe nebo pod sebou:
+const { isMobile } = useBreakpoint()
+<div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 8 }}>
+  <PlayerPanel name="Hráč 1" ... />
+  <PlayerPanel name="Hráč 2" ... />
+</div>
+
+// 2. Akční grid — 4 dlaždice → 2+2 na mobilu:
+<div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, auto)', gap: 8 }}>
+  {actions.map(a => <ActionTile key={a.id} size={isTouch ? 'lg' : 'md'} {...a} />)}
+</div>
+
+// 3. EventLog šířka — full na mobilu, fixní na desktopu:
+<EventLog events={log} style={{ width: isMobile ? '100%' : 280 }} />
+
+// 4. Modal velikost podle obsahu a viewportu — automaticky:
+<DonjonModal size={isMobile ? 'sm' : 'md'} ... />
+
+// 5. PhaseIndicator orientace:
+<PhaseIndicator
+  phases={FAZE}
+  currentPhase={phase}
+  orientation={isMobile ? 'vertical' : 'horizontal'}
+/>`}</Code>
       </Section>
-
-      {/* Typografie */}
-      <Section
-        id="typografie"
-        title="Typografická škála na breakpointech"
-        description="Nadpisy a UI text se zmenšují na mobilních zařízeních — ale ne lineárně."
-      >
-        <Preview dark={false}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 560 }}>
-            {[
-              { element: 'Page title (h1)',  desktop: '1.75rem / 28px', mobile: '1.375rem / 22px' },
-              { element: 'Section title (h2)', desktop: '1.25rem / 20px', mobile: '1.0625rem / 17px' },
-              { element: 'Card title',        desktop: '0.9375rem / 15px', mobile: '0.875rem / 14px' },
-              { element: 'Body / default',    desktop: '0.875rem / 14px', mobile: '0.875rem / 14px' },
-              { element: 'Small / caption',   desktop: '0.75rem / 12px', mobile: '0.75rem / 12px' },
-              { element: 'Micro / label',     desktop: '0.625rem / 10px', mobile: '0.625rem / 10px' },
-            ].map(({ element, desktop, mobile }) => (
-              <div key={element} style={{ display: 'grid', gridTemplateColumns: '180px 1fr 1fr', gap: 10, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3 }}>
-                <span style={{ fontSize: '0.8125rem', color: textCool }}>{element}</span>
-                <code style={{ fontSize: '0.75rem', color: goldMid }}>{desktop}</code>
-                <code style={{ fontSize: '0.75rem', color: '#4080C0' }}>{mobile}</code>
-              </div>
-            ))}
-          </div>
-        </Preview>
-        <CodeBlock code={`/* Responsivní nadpis — Tailwind */
-<h1 className="text-[1.375rem] lg:text-[1.75rem] font-bold">
-  Donjon Fall
-</h1>
-
-/* CSS alternativa */
-.page-title {
-  font-size: clamp(1.375rem, 3vw, 1.75rem);
-}`} />
-      </Section>
-
-      {/* Touch targets */}
-      <Section
-        id="touch"
-        title="Dotykové cíle"
-        description="Na dotykových zařízeních musí být interaktivní prvky dostatečně velké pro prst."
-      >
-        <Preview dark={false}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 560 }}>
-            {[
-              { element: 'Tlačítko (sm)',   min: '32 × 32px', recommended: '44 × 44px', note: 'Přidej padding nebo min-height' },
-              { element: 'Tlačítko (md)',   min: '36 × 36px', recommended: '44 × 44px', note: 'Výchozí md velikost již splňuje' },
-              { element: 'Toggle',          min: '44 × 28px', recommended: '44 × 44px', note: 'Přidej wrapper s paddingem' },
-              { element: 'Checkbox',        min: '24 × 24px', recommended: '44 × 44px', note: 'Klikaný label rozšíří plochu' },
-              { element: 'Nav link (mobil)', min: '44px výška', recommended: '48px výška', note: 'Sidebar položka musí mít min-height' },
-              { element: 'Icon button',     min: '24 × 24px', recommended: '44 × 44px', note: 'Vždy přidej padding k ikoně' },
-            ].map(({ element, min, recommended, note }) => (
-              <div key={element} style={{ display: 'grid', gridTemplateColumns: '170px 80px 90px 1fr', gap: 10, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3, alignItems: 'start' }}>
-                <span style={{ fontSize: '0.8125rem', color: textCool }}>{element}</span>
-                <code style={{ fontSize: '0.75rem', color: failColor }}>{min}</code>
-                <code style={{ fontSize: '0.75rem', color: successColor }}>{recommended}</code>
-                <span style={{ fontSize: '0.6875rem', color: textDeep, lineHeight: 1.4 }}>{note}</span>
-              </div>
-            ))}
-          </div>
-        </Preview>
-        <CodeBlock code={`/* Touch target helper — rozšíř klikatelnou plochu bez změny vizuálu */
-.touch-target {
-  position: relative;
-}
-.touch-target::after {
-  content: '';
-  position: absolute;
-  inset: -8px; /* přidá 8px padding kolem */
-}
-
-/* Tailwind — min-height pro nav linky */
-<NavLink className="flex items-center min-h-[44px] px-3">
-  {label}
-</NavLink>`} />
-      </Section>
-
-      {/* Pravidla */}
-      <Section id="pravidla" title="Pravidla">
-        <div className="flex flex-col gap-2 text-sm text-neutral-400">
-          <p>✓ Mobile-first: piš výchozí styly pro mobil, přepisuj je směrem nahoru (lg:, xl:).</p>
-          <p>✓ Sidebar je drawer na &lt;lg, sticky na lg+. Overlay pozadí musí mít Escape a klik-mimo zavření.</p>
-          <p>✓ Touch targets: min 44×44px pro všechny interaktivní prvky na mobilním layoutu.</p>
-          <p>✓ Grid: začni od 1 sloupce, rozšiřuj — nikdy nezačínaj od 4 sloupců a nezmenšuj.</p>
-          <p>✗ Nepřizpůsobuj breakpointy designu — přizpůsobuj design breakpointům.</p>
-          <p>✗ Nepoužívej pevné šířky v px pro obsahové bloky — používej max-width + šířku v %.</p>
-        </div>
-      </Section>
-
-    </ShowcasePage>
+    </div>
   )
 }

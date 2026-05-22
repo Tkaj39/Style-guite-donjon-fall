@@ -1,280 +1,298 @@
-import { useState } from 'react'
-import { textDeep, textCool, gold, goldMid, goldDim, bg0, successColor, textActive, borderSubtle, failColor } from '../lib/donjon/tokens'
-import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { useState, useEffect } from 'react'
+import useGameAnimation from '../lib/donjon/useGameAnimation'
+import GameTransition, { gameTransitionPresets } from '../lib/donjon/GameTransition'
 import DonjonButton from '../lib/donjon/DonjonButton'
+import PlayerPanel from '../lib/donjon/PlayerPanel'
+import {
+  gold, bg2, bg3, bgDeep, borderDefault,
+  textMid, textFaint, textParchment,
+  gainColor, dangerColor, warningColor,
+  animFast, animNormal, animSlow, animDramatic,
+  easingSharp, easingBounce, easingEnter, easingExit,
+} from '../lib/donjon/tokens'
 
-/* ── Timing demo box ── */
-function TimingDemo({ duration, label, easing = 'ease' }) {
-  const [active, setActive] = useState(false)
+const PAGE    = { padding: '40px 32px', maxWidth: 900, margin: '0 auto' }
+const H1      = { fontSize: '1.5rem', fontWeight: 700, color: gold, letterSpacing: '0.04em', marginBottom: 4 }
+const H2      = { fontSize: '0.875rem', fontWeight: 700, color: gold, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }
+const DIVIDER = { height: 1, background: borderDefault, margin: '40px 0', opacity: 0.4 }
+
+function Section({ id, title, desc, children }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-      <div style={{ width: 80, fontSize: '0.6875rem', color: textCool, textAlign: 'right', flexShrink: 0 }}>
-        <span style={{ color: goldMid, fontWeight: 700 }}>{duration}ms</span>
-        <br />{label}
-      </div>
-      <div
-        style={{
-          flex: 1,
-          height: 8,
-          background: bg0,
-          border: `1px solid ${goldDim}30`,
-          borderRadius: 4,
-          overflow: 'hidden',
-          cursor: 'pointer',
-        }}
-        onClick={() => { setActive(false); setTimeout(() => setActive(true), 10) }}
-      >
-        <div style={{
-          height: '100%',
-          background: `linear-gradient(90deg,${gold},${goldDim})`,
-          borderRadius: 4,
-          transform: active ? 'scaleX(1)' : 'scaleX(0)',
-          transformOrigin: 'left',
-          transition: active ? `transform ${duration}ms ${easing}` : 'none',
-        }} />
-      </div>
-      <span style={{ fontSize: '0.625rem', color: textDeep, width: 36, flexShrink: 0 }}>{easing}</span>
+    <section id={id} style={{ marginBottom: 40 }}>
+      <h2 style={H2}>{title}</h2>
+      {desc && <p style={{ fontSize: '0.8125rem', color: textMid, marginBottom: 16, marginTop: 2 }}>{desc}</p>}
+      {children}
+    </section>
+  )
+}
+
+function Demo({ children, style }) {
+  return (
+    <div style={{ background: bg2, border: `1px solid ${borderDefault}`, borderRadius: 4, padding: 24, ...style }}>
+      {children}
     </div>
   )
 }
 
-/* ── Easing curve SVG ── */
-function EasingCurve({ d, label, css, color = goldMid }) {
+function Code({ children }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-      <svg viewBox="0 0 60 60" width="60" height="60" style={{ overflow: 'visible' }}>
-        <rect x="0" y="0" width="60" height="60" rx="3" fill={bg0} stroke={`${goldDim}30`} strokeWidth="1" />
-        <line x1="0" y1="60" x2="60" y2="0" stroke={`${goldDim}20`} strokeWidth="1" strokeDasharray="3,3" />
-        <path d={d} fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" />
-        <circle cx="0"  cy="60" r="2.5" fill={color} />
-        <circle cx="60" cy="0"  r="2.5" fill={color} />
-      </svg>
-      <p style={{ margin: 0, fontSize: '0.75rem', color: textActive, fontWeight: 600, textAlign: 'center' }}>{label}</p>
-      <code style={{ fontSize: '0.625rem', color: textCool, textAlign: 'center' }}>{css}</code>
-    </div>
+    <pre style={{
+      background: bgDeep, border: `1px solid ${borderDefault}`, borderRadius: 4,
+      padding: '12px 16px', fontSize: '0.75rem', color: textParchment,
+      overflowX: 'auto', margin: '8px 0 0', lineHeight: 1.6,
+      fontFamily: "'JetBrains Mono', Consolas, monospace",
+    }}>
+      <code>{children.trim()}</code>
+    </pre>
   )
 }
 
-/* ── State demo box ── */
-function StateBox({ label, style: extraStyle }) {
+function AnimBox({ label, color = borderDefault }) {
   return (
     <div style={{
-      padding: '10px 14px',
-      background: borderSubtle,
-      border: `1px solid ${goldDim}30`,
-      borderRadius: 4,
-      fontSize: '0.8125rem',
-      color: textCool,
-      ...extraStyle,
+      width: 76, height: 76,
+      background: `${color}1A`,
+      border: `2px solid ${color}55`,
+      borderRadius: 6,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontSize: '0.6rem', color: textFaint, textAlign: 'center',
+      letterSpacing: '0.06em', textTransform: 'uppercase',
+      flexShrink: 0,
     }}>
       {label}
     </div>
   )
 }
 
-export default function MotionPage() {
+function TimingRow({ name, ms, label }) {
+  const pct = Math.min((ms / animDramatic) * 100, 100)
   return (
-    <ShowcasePage
-      title="Motion"
-      description="Principy animací Donjon Fall — trvání, easing křivky a pravidla pro to co animovat a co ne. Cílem je dramatičnost bez chaosu."
-    >
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+      <code style={{ width: 120, fontSize: '0.75rem', color: gold, flexShrink: 0 }}>{name}</code>
+      <div style={{ width: 160, height: 6, background: bgDeep, borderRadius: 3, overflow: 'hidden', flexShrink: 0 }}>
+        <div style={{ width: `${pct}%`, height: '100%', background: `${gold}88`, borderRadius: 3 }} />
+      </div>
+      <span style={{ fontSize: '0.75rem', color: textMid, width: 50, textAlign: 'right', flexShrink: 0 }}>{ms} ms</span>
+      <span style={{ fontSize: '0.75rem', color: textFaint }}>{label}</span>
+    </div>
+  )
+}
 
-      {/* Filozofie */}
-      <Section
-        id="filozofie"
-        title="Filozofie"
-        description="Donjon Fall animace jsou vědomě pomalejší a těžší než typické webové UI — navozují pocit váhy a důsledků herních akcí."
-      >
-        <div className="flex flex-col gap-3 text-sm text-neutral-400 max-w-2xl">
-          <p>
-            <span style={{ color: goldMid, fontWeight: 600 }}>Váha a záměr</span> — každá animace má
-            říkat „tato akce něco znamená". Herní pohyby jsou pomalejší než webové mikro-interakce.
-          </p>
-          <p>
-            <span style={{ color: goldMid, fontWeight: 600 }}>Easing přes lineární</span> — lineární
-            přechod vypadá mechanicky. Herní prvky zrychlují nebo zpomalují, ne jezdí konstantní rychlostí.
-          </p>
-          <p>
-            <span style={{ color: goldMid, fontWeight: 600 }}>Úspora pozornosti</span> — animuj jen
-            to co nese informaci. Dekorativní shimmer a parallax efekty odvedou pozornost od gameplay.
-          </p>
-          <p>
-            <span style={{ color: goldMid, fontWeight: 600 }}>Reduced motion</span> — vždy respektuj
-            <code style={{ color: textCool, margin: '0 4px' }}>prefers-reduced-motion: reduce</code>.
-            Herní animace (souboj, pohyb kostky) mají fallback na okamžitý přechod.
-          </p>
-        </div>
+export default function MotionPage() {
+  const a1 = useGameAnimation()
+  const a2 = useGameAnimation()
+  const a3 = useGameAnimation()
+  const a4 = useGameAnimation()
+  const a5 = useGameAnimation()
+  const a6 = useGameAnimation()
+  const a7 = useGameAnimation()
+  const a8 = useGameAnimation()
+
+  const [tPreset, setTPreset] = useState('fadeScale')
+  const [showT, setShowT] = useState(true)
+
+  function cycleTransition() {
+    setShowT(false)
+    setTimeout(() => setShowT(true), 350)
+  }
+
+  const PRESETS = Object.keys(gameTransitionPresets)
+
+  return (
+    <div style={PAGE}>
+      <h1 style={H1}>Motion & Animace</h1>
+      <p style={{ fontSize: '0.875rem', color: textMid, marginBottom: 32 }}>
+        Animační systém: timing tokeny, Web Animations API hook a GameTransition wrapper.
+        Konzistentní timing, zero-dependency animace, žádné magic numbers napříč library.
+      </p>
+
+      {/* ── Timing tokeny ── */}
+      <Section id="timing" title="Timing tokeny" desc="Čtyři pojmenované rychlosti — konzistentní přechody bez magic čísel.">
+        <Demo>
+          <TimingRow name="animFast"     ms={animFast}     label="Tooltip, damage flash, okamžité UI reakce" />
+          <TimingRow name="animNormal"   ms={animNormal}   label="Hover, focus, přechod stavů komponent" />
+          <TimingRow name="animSlow"     ms={animSlow}     label="Otevření panelů, slide, GameTransition default" />
+          <TimingRow name="animDramatic" ms={animDramatic} label="Výsledek souboje, výhra, dramatický reveal" />
+        </Demo>
+        <Code>{`import { animFast, animNormal, animSlow, animDramatic } from 'donjon-fall-ui/tokens'
+// nebo z CSS: var(--donjon-anim-normal)
+
+const style = {
+  transition: \`background \${animNormal}ms \${easingEnter}, transform \${animSlow}ms \${easingBounce}\`,
+}
+
+// CSS:
+// .my-element { transition: background var(--donjon-anim-normal) var(--donjon-ease-enter); }`}</Code>
       </Section>
 
-      {/* Škála trvání */}
-      <Section
-        id="duration"
-        title="Škála trvání"
-        description="Klikni na lištu pro náhled. Výchozí jsou mid — trvání 200–300 ms."
-      >
-        <Preview>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14, width: '100%', maxWidth: 480 }}>
-            <TimingDemo duration={80}   label="instant" easing="ease-out" />
-            <TimingDemo duration={150}  label="fast"    easing="ease-out" />
-            <TimingDemo duration={200}  label="normal"  easing="ease-in-out" />
-            <TimingDemo duration={300}  label="mid"     easing="ease-in-out" />
-            <TimingDemo duration={500}  label="slow"    easing="cubic-bezier(0.4,0,0.2,1)" />
-            <TimingDemo duration={800}  label="dramatic" easing="cubic-bezier(0.6,0,0.1,1)" />
-            <TimingDemo duration={1400} label="cinematic" easing="cubic-bezier(0.6,0,0.1,1)" />
-          </div>
-        </Preview>
-        <CodeBlock code={`/* Tokeny trvání */
---dur-instant:   80ms;   /* hover fill, color změna */
---dur-fast:     150ms;   /* tooltip, badge */
---dur-normal:   200ms;   /* button press, toggle */
---dur-mid:      300ms;   /* modal open, toast slide */
---dur-slow:     500ms;   /* panel přechod, collapse */
---dur-dramatic: 800ms;   /* výhra, turn start overlay */
---dur-cinematic:1400ms;  /* loading, opening cinematic */`} />
+      <div style={DIVIDER} />
+
+      {/* ── Easing ── */}
+      <Section id="easing" title="Easing křivky" desc="Pojmenované easing funkce — stejný slovník v celé library.">
+        <Demo>
+          {[
+            { name: 'easingSharp',  val: easingSharp,  label: 'In-out pro panely, rozvíjení' },
+            { name: 'easingBounce', val: easingBounce, label: 'Overshoot — pop, spawn, herní feedback' },
+            { name: 'easingEnter',  val: easingEnter,  label: 'Ease-out — příchozí elementy' },
+            { name: 'easingExit',   val: easingExit,   label: 'Ease-in — odcházející elementy' },
+          ].map(e => (
+            <div key={e.name} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+              <code style={{ width: 130, fontSize: '0.75rem', color: gold, flexShrink: 0 }}>{e.name}</code>
+              <code style={{ fontSize: '0.68rem', color: textParchment, flex: 1 }}>{e.val}</code>
+              <span style={{ fontSize: '0.7rem', color: textFaint, minWidth: 200, textAlign: 'right' }}>{e.label}</span>
+            </div>
+          ))}
+        </Demo>
+        <Code>{`// Herní konvence:
+// spawn / pop       → easingBounce   (živý overshoot, fyzický pocit)
+// panel otevření    → easingSharp    (plynulý in-out)
+// příchod elementu  → easingEnter    (zpomalení na konci)
+// zmizení           → easingExit     (rychlý odchod)
+
+import { easingBounce } from 'donjon-fall-ui/tokens'
+el.animate([
+  { transform: 'scale(0.6)', opacity: 0 },
+  { transform: 'scale(1)',   opacity: 1 },
+], { duration: animNormal, easing: easingBounce })`}</Code>
       </Section>
 
-      {/* Easing křivky */}
-      <Section
-        id="easing"
-        title="Easing křivky"
-        description="Čtyři základní křivky. Donjon Fall preferuje ease-out pro vstupy a ease-in pro výstupy."
-      >
-        <Preview>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, justifyContent: 'center' }}>
-            <EasingCurve
-              label="Ease out"
-              css="cubic-bezier(0,0,0.2,1)"
-              d="M 0 60 C 0 60 10 2 60 0"
-              color="successColor"
-            />
-            <EasingCurve
-              label="Ease in"
-              css="cubic-bezier(0.4,0,1,1)"
-              d="M 0 60 C 50 58 60 10 60 0"
-              color="failColor"
-            />
-            <EasingCurve
-              label="Ease in-out"
-              css="cubic-bezier(0.4,0,0.2,1)"
-              d="M 0 60 C 24 60 36 0 60 0"
-              color="goldMid"
-            />
-            <EasingCurve
-              label="Dramatic"
-              css="cubic-bezier(0.6,0,0.1,1)"
-              d="M 0 60 C 36 60 54 0 60 0"
-              color="#C08040"
-            />
-          </div>
-        </Preview>
-        <CodeBlock code={`/* Easing tokeny */
---ease-out:      cubic-bezier(0, 0, 0.2, 1);     /* vstupy — prvek přilétá */
---ease-in:       cubic-bezier(0.4, 0, 1, 1);     /* výstupy — prvek odchází */
---ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);  /* přechody stavu */
---ease-dramatic: cubic-bezier(0.6, 0, 0.1, 1);  /* herní akce, dramatické momenty */`} />
-      </Section>
+      <div style={DIVIDER} />
 
-      {/* Co animovat */}
-      <Section
-        id="what-to-animate"
-        title="Co animovat"
-        description="Animuj jen to co nese informaci nebo zlepšuje orientaci."
-      >
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, maxWidth: 640 }}>
-          {/* ✓ sloupec */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <p style={{ margin: '0 0 4px', fontSize: '0.75rem', color: successColor, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>✓ Animuj</p>
+      {/* ── useGameAnimation ── */}
+      <Section id="hook" title="useGameAnimation hook" desc="Přímé programatické animace přes Web Animations API — žádné CSS třídy.">
+        <Demo>
+          <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+
             {[
-              'Vstupy a výstupy překryvných vrstev (modal, toast, tooltip)',
-              'Přechody stavů UI (disabled → enabled, loading → done)',
-              'Herní akce s fyzickým ekvivalentem (pohyb kostky, kolaps věže)',
-              'Feedback úspěchu nebo chyby (success glow, shake)',
-              'Turn transitions a highlight aktivního hráče',
-              'Progress bar fill při načítání',
-            ].map(t => (
-              <p key={t} style={{ margin: 0, fontSize: '0.8125rem', color: textCool, lineHeight: 1.5, paddingLeft: 12, borderLeft: '2px solid #40A05544' }}>{t}</p>
-            ))}
-          </div>
-          {/* ✗ sloupec */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <p style={{ margin: '0 0 4px', fontSize: '0.75rem', color: failColor, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>✗ Neanimuj</p>
-            {[
-              'Pozadí a dekorativní elementy bez informační hodnoty',
-              'Text (lineHeight, fontSize, letterSpacing) — způsobuje layout shift',
-              'Hover efekty s trváním > 150 ms — zdají se pomalé',
-              'Paralaxní scrolling a ambient pohyb — herní UI je funkční, ne filmový',
-              'Z-index přechody — ztratí se v renderovacím pořadí',
-              'Cokoli co interferuje s čitelností map y nebo herního plánu',
-            ].map(t => (
-              <p key={t} style={{ margin: 0, fontSize: '0.8125rem', color: textCool, lineHeight: 1.5, paddingLeft: 12, borderLeft: '2px solid #C0404044' }}>{t}</p>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* Vstup vs výstup */}
-      <Section
-        id="enter-exit"
-        title="Vstupní a výstupní vzory"
-        description="Standardizované kombinace pro overlaye, panely a notifikace."
-      >
-        <Preview>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%', maxWidth: 480 }}>
-            {[
-              { label: 'Modal',    enter: 'opacity 0→1 + translateY(-12px)→0 + scale(0.97)→1', dur: '180ms ease-out' },
-              { label: 'Toast',    enter: 'opacity 0→1 + translateX(20px)→0',                  dur: '200ms ease-out' },
-              { label: 'Tooltip',  enter: 'opacity 0→1 + scale(0.94)→1',                       dur: '120ms ease-out' },
-              { label: 'Dropdown', enter: 'opacity 0→1 + translateY(-4px)→0',                  dur: '120ms ease-out' },
-              { label: 'Backdrop', enter: 'opacity 0→1',                                        dur: '150ms ease' },
-            ].map(({ label, enter, dur }) => (
-              <div key={label} style={{ display: 'flex', alignItems: 'baseline', gap: 12, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}22`, borderRadius: 3 }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: goldMid, width: 72, flexShrink: 0 }}>{label}</span>
-                <span style={{ fontSize: '0.75rem', color: textCool, flex: 1 }}>{enter}</span>
-                <span style={{ fontSize: '0.6875rem', color: textDeep, flexShrink: 0 }}>{dur}</span>
+              { anim: a1, label: 'Shake', color: dangerColor,  btn: 'Neúspěch', fn: () => a1.shake() },
+              { anim: a2, label: 'Knockback', color: dangerColor, btn: 'Zásah',    fn: () => a2.knockback(0, -12) },
+              { anim: a3, label: 'Pop',    color: gainColor,   btn: 'Spawn',    fn: () => a3.pop() },
+              { anim: a4, label: 'Pulse',  color: gold,        btn: 'Na tahu',  fn: () => a4.pulse() },
+              { anim: a5, label: 'Flash',  color: gainColor,   btn: '+VP',      fn: () => a5.flash(gainColor) },
+              { anim: a6, label: 'Tilt',   color: warningColor,btn: 'Magie',    fn: () => a6.tilt() },
+              { anim: a7, label: 'FadeIn', color: gold,        btn: 'FadeIn',   fn: () => a7.fadeIn() },
+              { anim: a8, label: 'Victory',color: gold,        btn: 'Výhra!',   fn: () => a8.victory() },
+            ].map(({ anim, label, color, btn, fn }) => (
+              <div key={label} style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
+                <div ref={anim.ref}>
+                  <AnimBox label={label} color={color} />
+                </div>
+                <DonjonButton size="sm" variant={color === dangerColor ? 'danger' : 'default'} onClick={fn}>{btn}</DonjonButton>
               </div>
             ))}
+
           </div>
-        </Preview>
-        <CodeBlock code={`/* Modal vstup */
-@keyframes modalPanelIn {
-  from { opacity: 0; transform: translateY(-12px) scale(0.97) }
-  to   { opacity: 1; transform: translateY(0)     scale(1) }
-}
+        </Demo>
+        <Code>{`import useGameAnimation from 'donjon-fall-ui/useGameAnimation'
 
-/* Toast vstup */
-@keyframes toastSlideIn {
-  from { opacity: 0; transform: translateX(20px) }
-  to   { opacity: 1; transform: translateX(0) }
-}
+const { ref, shake, knockback, pop, pulse, flash, tilt, fadeIn, fadeOut, victory } = useGameAnimation()
 
-/* Výstup: obrátit easing na ease-in, zkrátit o ~20 % */`} />
+// Ref připojíš na libovolný DOM element:
+<div ref={ref}><HexTile /></div>
+
+// Animace na události:
+onClick={() => shake()              // neúspěch
+onHit={() => knockback(0, -8)      // fyzický zásah
+onSpawn={() => pop()               // spawn / appear
+onTurn={() => pulse()              // "na tahu"
+onVpGain={() => flash('#50B86C')   // zisk VP / resource
+onGameEnd={() => victory()         // výsledek`}</Code>
       </Section>
 
-      {/* Reduced motion */}
-      <Section
-        id="reduced-motion"
-        title="Reduced motion"
-        description="Vždy respektuj prefers-reduced-motion. Herní animace mají fallback — vypnuté, ne odstraněné."
-      >
-        <CodeBlock code={`/* Globální fallback */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-}
+      <div style={DIVIDER} />
 
-/* Specifické herní animace — zachovaj výsledný stav */
-@media (prefers-reduced-motion: reduce) {
-  .dice-roll { animation: none; /* kostka se přesto zobrazí */ }
-  .tower-collapse { transition: none; opacity: 0; } /* zmizí okamžitě */
-}
+      {/* ── GameTransition ── */}
+      <Section id="transition" title="GameTransition" desc="Enter/exit animace s automatickým mount/unmount. Žádné závislosti.">
+        <Demo>
+          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+            <div>
+              <p style={{ fontSize: '0.6875rem', color: textFaint, margin: '0 0 8px', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Preset</p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 12 }}>
+                {PRESETS.map(p => (
+                  <button
+                    key={p}
+                    onClick={() => setTPreset(p)}
+                    style={{
+                      padding: '4px 9px', fontSize: '0.7rem', borderRadius: 3, cursor: 'pointer',
+                      border: `1px solid ${tPreset === p ? gold : borderDefault}`,
+                      background: tPreset === p ? `${gold}18` : 'transparent',
+                      color: tPreset === p ? gold : textMid,
+                    }}
+                  >
+                    {p}
+                  </button>
+                ))}
+              </div>
+              <DonjonButton size="sm" onClick={cycleTransition}>Spustit animaci</DonjonButton>
+            </div>
 
-/* V Reactu */
-const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-const duration = prefersReduced ? 0 : 300`} />
+            <div style={{ flex: 1, minWidth: 180, minHeight: 80, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <GameTransition show={showT} preset={tPreset}>
+                <div style={{
+                  background: bg3, border: `1px solid ${gold}55`, borderRadius: 6,
+                  padding: '14px 22px', textAlign: 'center',
+                }}>
+                  <div style={{ fontSize: '1.1rem', marginBottom: 3 }}>⚔</div>
+                  <div style={{ fontSize: '0.8rem', color: gold, fontWeight: 600 }}>Herní element</div>
+                  <div style={{ fontSize: '0.7rem', color: textFaint, marginTop: 2 }}>{tPreset}</div>
+                </div>
+              </GameTransition>
+            </div>
+          </div>
+        </Demo>
+        <Code>{`import GameTransition from 'donjon-fall-ui/GameTransition'
+
+// Panel přicházející odspodu:
+<GameTransition show={isPanelOpen} preset="slideUp">
+  <PlayerPanel name="Hráč 1" isActive />
+</GameTransition>
+
+// Výsledkový dialog — pop s bounce:
+<GameTransition show={gameOver} preset="pop" duration={400} onExited={cleanup}>
+  <DonjonCard title="Výsledek">
+    <NumericDisplay value={vp} label="VP" variant="vp" size="lg" />
+  </DonjonCard>
+</GameTransition>
+
+// Presety: fadeScale | slideUp | slideDown | pop | fade | slideLeft
+// Props:   show, preset, duration, onExited, as, style, className`}</Code>
       </Section>
 
-    </ShowcasePage>
+      <div style={DIVIDER} />
+
+      {/* ── Kombinace ── */}
+      <Section id="kombinace" title="Herní kombinace" desc="Všechny animační nástroje dohromady.">
+        <Demo>
+          <PlayerPanel
+            name="Hráč 1"
+            color="#4A90E2"
+            symbol="sword"
+            vp={7}
+            hp={72}
+            maxHp={100}
+            isActive
+          />
+          <p style={{ fontSize: '0.75rem', color: textFaint, margin: '14px 0 0' }}>
+            PlayerPanel s isActive (golden glow). Obal ho do <code style={{ color: gold }}>{'<GameTransition>'}</code> pro slide-in
+            a použij <code style={{ color: gold }}>useGameAnimation</code> pro <code style={{ color: gold }}>knockback()</code> při zásahu.
+          </p>
+        </Demo>
+        <Code>{`function GamePlayerPanel({ player, visible }) {
+  const { ref, pop, knockback, victory } = useGameAnimation()
+
+  useEffect(() => { if (visible) pop() }, [visible])
+  useEffect(() => { if (player.wasHit) knockback(0, -8) }, [player.wasHit])
+  useEffect(() => { if (player.won) victory() }, [player.won])
+
+  return (
+    <GameTransition show={visible} preset="slideLeft">
+      <div ref={ref}>
+        <PlayerPanel {...player} />
+      </div>
+    </GameTransition>
+  )
+}`}</Code>
+      </Section>
+    </div>
   )
 }

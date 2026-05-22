@@ -4,6 +4,12 @@ import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import Toggle from '../lib/tkajui/Toggle'
 import ProgressBar from '../lib/tkajui/ProgressBar'
+import {
+  goldMid, goldDim,
+  bg0, bg4,
+  textCool, textDeep, textActive,
+  successColor, failColor,
+} from '../lib/donjon/tokens'
 
 /* ══════════════════════════════════════════════════════════════════════════
    Sdílená stavová matice (stejná pro obě knihovny)
