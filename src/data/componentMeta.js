@@ -357,6 +357,25 @@ export const componentMeta = {
     relatedSlugs: ['donjon-button', 'donjon-badge'],
   },
 
+  'submit-button': {
+    description: 'Form submit wrapper nad Button komponentou. Automaticky čte pending stav z nadřazeného formuláře přes React 19 useFormStatus a přepíná tlačítko do loading režimu bez ručního state managementu.',
+    status: 'documented',
+    showcaseRoute: '/inputs',
+    props: [
+      { name: 'children',      type: 'ReactNode',                                         required: false, default: "'Odeslat'", description: 'Výchozí obsah tlačítka mimo pending stav.' },
+      { name: 'loadingLabel',  type: 'string',                                            required: false, description: 'Text zobrazený během pending stavu místo children.' },
+      { name: 'variant',       type: "'default'|'danger'|'success'|'warning'|'link'",    required: false, default: "'default'", description: 'Předaný variant do základního Button.' },
+      { name: 'size',          type: "'xs'|'sm'|'md'|'lg'",                              required: false, default: "'md'",      description: 'Velikost tlačítka.' },
+      { name: 'leadingIcon',   type: 'ReactNode',                                         required: false, description: 'Ikona vlevo od textu.' },
+      { name: 'trailingIcon',  type: 'ReactNode',                                         required: false, description: 'Ikona vpravo od textu.' },
+      { name: 'iconOnly',      type: 'boolean',                                           required: false, default: 'false',     description: 'Čtvercový režim pouze s ikonou.' },
+      { name: 'fullWidth',     type: 'boolean',                                           required: false, default: 'false',     description: 'Roztáhne tlačítko na plnou šířku rodiče.' },
+      { name: 'disabled',      type: 'boolean',                                           required: false, default: 'false',     description: 'Zakáže tlačítko i mimo pending stav.' },
+      { name: 'className',     type: 'string',                                            required: false, description: 'Doplňkové CSS třídy předané do Button.' },
+    ],
+    relatedSlugs: ['button', 'input', 'donjon-button'],
+  },
+
   /* ── Game Assets ───────────────────────────────────────────────────── */
 
   'erb': {
@@ -415,6 +434,146 @@ export const componentMeta = {
       { name: 'style',    type: 'CSSProperties',                       required: false, description: 'Přidání inline stylů pro pozicování.' },
     ],
     relatedSlugs: ['hex-tile', 'donjon-badge'],
+  },
+
+  'action-tile': {
+    description: 'Klikatelná akční dlaždice pro herní nabídky a tahové volby. Kombinuje ikonu, název, volitelný popis a cost badge v jednom kompaktním tile prvku.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/action-tile',
+    props: [
+      { name: 'icon',        type: 'ReactNode',                                        required: true,  description: 'Ikona akce v horní části dlaždice.' },
+      { name: 'title',       type: 'string',                                           required: true,  description: 'Název akce použitý i jako aria-label.' },
+      { name: 'description', type: 'string',                                           required: false, description: 'Krátký doplňující text pod názvem.' },
+      { name: 'cost',        type: 'number',                                           required: false, description: 'Cena akce zobrazená v pravém dolním rohu.' },
+      { name: 'selected',    type: 'boolean',                                          required: false, default: 'false',     description: 'Zvýrazní dlaždici jako aktivně vybranou.' },
+      { name: 'disabled',    type: 'boolean',                                          required: false, default: 'false',     description: 'Zakáže kliknutí a zeslabí vizuál.' },
+      { name: 'locked',      type: 'boolean',                                          required: false, default: 'false',     description: 'Zobrazí lock stav a zablokuje interakci bez disabled stylu.' },
+      { name: 'onClick',     type: '() => void',                                       required: false, description: 'Callback při kliknutí na odemčenou dlaždici.' },
+      { name: 'size',        type: "'sm'|'md'|'lg'",                                  required: false, default: "'md'",    description: 'Velikost dlaždice.' },
+      { name: 'variant',     type: "'default'|'attack'|'move'|'special'",             required: false, default: "'default'", description: 'Barevný a významový typ akce.' },
+      { name: 'style',       type: 'CSSProperties',                                    required: false, description: 'Inline styly pro layoutové doladění.' },
+      { name: 'className',   type: 'string',                                           required: false, description: 'Doplňkové CSS třídy.' },
+    ],
+    relatedSlugs: ['player-panel', 'event-log', 'float-feedback'],
+  },
+
+  'event-log': {
+    description: 'Scrollovatelný seznam herních událostí s typovou ikonou, volitelným kolem a automatickým posunem na nejnovější záznam.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/event-log',
+    props: [
+      { name: 'events',       type: 'Array<{ id?, type?, text, detail?, round? }>',    required: false, default: '[]',                 description: 'Seznam logovaných událostí v pořadí od nejstarší po nejnovější.' },
+      { name: 'maxHeight',    type: 'number',                                           required: false, default: '280',                description: 'Maximální výška scroll oblasti v px.' },
+      { name: 'title',        type: 'string',                                           required: false, default: "'Herní log'",      description: 'Titulek hlavičky komponenty.' },
+      { name: 'showTitle',    type: 'boolean',                                          required: false, default: 'true',               description: 'Zobrazí nebo skryje hlavičku s titulkem a počtem záznamů.' },
+      { name: 'showRound',    type: 'boolean',                                          required: false, default: 'true',               description: 'Zobrazí číslo kola u jednotlivých záznamů.' },
+      { name: 'autoScroll',   type: 'boolean',                                          required: false, default: 'true',               description: 'Po změně events automaticky posune výpis na konec.' },
+      { name: 'emptyMessage', type: 'string',                                           required: false, default: "'Zatím žádné události.'", description: 'Text pro prázdný stav bez záznamů.' },
+      { name: 'style',        type: 'CSSProperties',                                    required: false, description: 'Inline styly na obalový kontejner.' },
+      { name: 'className',    type: 'string',                                           required: false, description: 'Doplňkové CSS třídy na obalový kontejner.' },
+    ],
+    relatedSlugs: ['float-feedback', 'action-tile', 'resource-bar'],
+  },
+
+  'numeric-display': {
+    description: 'Číselný herní counter pro VP, HP, manu nebo zdroje. Při změně hodnoty krátce problikne a zobrazí plovoucí delta badge.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/numeric-display',
+    props: [
+      { name: 'value',         type: 'number',                                          required: false, default: '0',                  description: 'Aktuální číselná hodnota.' },
+      { name: 'label',         type: 'string',                                          required: false, description: 'Popisek counteru.' },
+      { name: 'prefix',        type: 'string',                                          required: false, description: 'Text nebo znak před hodnotou.' },
+      { name: 'suffix',        type: 'string',                                          required: false, description: 'Text nebo znak za hodnotou.' },
+      { name: 'size',          type: "'sm'|'md'|'lg'",                                 required: false, default: "'md'",             description: 'Velikost čísla a badge.' },
+      { name: 'variant',       type: "'default'|'vp'|'resource'|'mana'",               required: false, default: "'default'",        description: 'Barevná varianta podle typu zdroje.' },
+      { name: 'labelPosition', type: "'top'|'bottom'|'left'|'right'",                  required: false, default: "'top'",            description: 'Pozice popisku vůči číslu.' },
+      { name: 'style',         type: 'CSSProperties',                                    required: false, description: 'Inline styly pro wrapper.' },
+      { name: 'className',     type: 'string',                                           required: false, description: 'Doplňkové CSS třídy pro wrapper.' },
+    ],
+    relatedSlugs: ['resource-bar', 'player-panel', 'float-feedback'],
+  },
+
+  'game-transition': {
+    description: 'Lehký wrapper pro enter a exit animace s automatickým mount a unmount chováním. Hodí se pro panely, dialogy, HUD bloky i přechody obrazovek bez externí animační knihovny.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/motion',
+    props: [
+      { name: 'show',      type: 'boolean',                                                                 required: true,  description: 'Řídí mount stav a spuštění enter nebo exit animace.' },
+      { name: 'preset',    type: "'fadeScale'|'slideUp'|'slideDown'|'pop'|'fade'|'slideLeft'",            required: false, default: "'fadeScale'", description: 'Předdefinovaný typ přechodu.' },
+      { name: 'duration',  type: 'number',                                                                  required: false, description: 'Vlastní délka animace v ms; výchozí je animSlow token.' },
+      { name: 'children',  type: 'ReactNode',                                                               required: true,  description: 'Obsah obalený přechodem.' },
+      { name: 'style',     type: 'CSSProperties',                                                           required: false, description: 'Dodatečné inline styly přidané k vypočtenému transition stylu.' },
+      { name: 'className', type: 'string',                                                                  required: false, description: 'Doplňkové CSS třídy wrapperu.' },
+      { name: 'as',        type: 'string | React.ElementType',                                              required: false, default: "'div'",       description: 'HTML tag nebo komponenta použitá jako obal.' },
+      { name: 'onExited',  type: '() => void',                                                              required: false, description: 'Callback volaný po dokončení exit animace a odmountování.' },
+    ],
+    relatedSlugs: ['float-feedback', 'player-panel', 'modal'],
+  },
+
+  'phase-indicator': {
+    description: 'Sekvenční ukazatel fází tahu nebo celé hry. Zobrazuje dokončené kroky, aktuální fázi a budoucí kroky v horizontálním i vertikálním rozložení.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/phase-indicator',
+    props: [
+      { name: 'phases',       type: 'Array<{ id: string, label: string, icon?: ReactNode, description?: string }>', required: false, default: '[]',          description: 'Seznam fází v pořadí, v jakém mají probíhat.' },
+      { name: 'currentPhase', type: 'string',                                                                     required: true,  description: 'ID aktuálně aktivní fáze.' },
+      { name: 'orientation',  type: "'horizontal'|'vertical'",                                                  required: false, default: "'horizontal'", description: 'Směr zobrazení indikátoru.' },
+      { name: 'size',         type: "'sm'|'md'",                                                                 required: false, default: "'md'",         description: 'Velikost bodů, linek a textu.' },
+      { name: 'onPhaseClick', type: '(phaseId: string) => void',                                                  required: false, description: 'Volitelný callback pro klik na aktuální nebo již splněné fáze.' },
+      { name: 'style',        type: 'CSSProperties',                                                              required: false, description: 'Inline styly wrapperu.' },
+      { name: 'className',    type: 'string',                                                                     required: false, description: 'Doplňkové CSS třídy wrapperu.' },
+    ],
+    relatedSlugs: ['event-log', 'action-tile', 'player-panel'],
+  },
+
+  'player-panel': {
+    description: 'Kompaktní panel hráče pro HUD a score přehled. Kombinuje erb, jméno, VP badge a volitelné resource bary v jednom herním bloku.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/player-panel',
+    props: [
+      { name: 'name',       type: 'string',                               required: true,  description: 'Jméno nebo label hráče.' },
+      { name: 'color',      type: 'string',                               required: false, default: 'infoColor', description: 'Barva hráče předaná do erbu.' },
+      { name: 'symbol',     type: "'sword'|'shield'|'tower'",            required: false, default: "'sword'",  description: 'Symbol zobrazený v erbu.' },
+      { name: 'vp',         type: 'number',                               required: false, default: '0',          description: 'Počet vítězných bodů v badge.' },
+      { name: 'hp',         type: 'number',                               required: false, description: 'Aktuální HP; pokud je vyplněné, vykreslí HP bar.' },
+      { name: 'maxHp',      type: 'number',                               required: false, default: '100',        description: 'Maximální HP pro výpočet baru.' },
+      { name: 'mana',       type: 'number',                               required: false, description: 'Aktuální mana; pokud je vyplněná, vykreslí mana bar.' },
+      { name: 'maxMana',    type: 'number',                               required: false, default: '100',        description: 'Maximální mana pro výpočet baru.' },
+      { name: 'stamina',    type: 'number',                               required: false, description: 'Aktuální stamina; pokud je vyplněná, vykreslí stamina bar.' },
+      { name: 'maxStamina', type: 'number',                               required: false, default: '100',        description: 'Maximální stamina pro výpočet baru.' },
+      { name: 'isActive',   type: 'boolean',                              required: false, default: 'false',      description: 'Zvýrazní panel jako hráče na tahu.' },
+      { name: 'eliminated', type: 'boolean',                              required: false, default: 'false',      description: 'Oslabí panel a zobrazí stav vyřazení.' },
+      { name: 'size',       type: "'sm'|'md'",                           required: false, default: "'md'",     description: 'Velikost panelu.' },
+      { name: 'style',      type: 'CSSProperties',                        required: false, description: 'Inline styly na obalový panel.' },
+      { name: 'className',  type: 'string',                               required: false, description: 'Doplňkové CSS třídy na obalový panel.' },
+    ],
+    relatedSlugs: ['resource-bar', 'numeric-display', 'erb'],
+  },
+
+  'resource-bar': {
+    description: 'Herní resource bar pro HP, manu, staminu nebo štít. Na rozdíl od generického progress baru umí zobrazit nebezpečné zóny a damage flash overlay.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/resource-bar',
+    props: [
+      { name: 'value',     type: 'number',                                                           required: false, default: '100',       description: 'Aktuální hodnota zdroje.' },
+      { name: 'max',       type: 'number',                                                           required: false, default: '100',       description: 'Maximální hodnota zdroje.' },
+      { name: 'size',      type: "'sm'|'md'|'lg'",                                                  required: false, default: "'md'",    description: 'Výška a typografie baru.' },
+      { name: 'variant',   type: "'hp'|'mana'|'stamina'|'xp'|'shield'|'default'",                  required: false, default: "'hp'",    description: 'Typ resource baru a jeho barevné chování.' },
+      { name: 'label',     type: 'string',                                                           required: false, description: 'Popisek nad barem.' },
+      { name: 'showValue', type: 'boolean',                                                          required: false, default: 'false',     description: 'Zobrazí číselnou hodnotu vpravo v hlavičce.' },
+      { name: 'zones',     type: 'boolean',                                                          required: false, default: 'true',      description: 'Zapne zónové pozadí a hranice prahů.' },
+      { name: 'flashKey',  type: 'string | number',                                                  required: false, description: 'Změna hodnoty restartuje damage flash overlay.' },
+      { name: 'style',     type: 'CSSProperties',                                                    required: false, description: 'Inline styly wrapperu.' },
+      { name: 'className', type: 'string',                                                           required: false, description: 'Doplňkové CSS třídy wrapperu.' },
+    ],
+    relatedSlugs: ['numeric-display', 'player-panel', 'donjon-progress-bar'],
   },
 
   /* ── donjon-fall-ui rozšíření TkajUI (re-exporty) ─────────────────── */
@@ -658,6 +817,15 @@ export const componentMeta = {
       { name: 'mobile',   type: 'ReactNode',                   required: true,  description: '[ComparisonRow] Layout pro mobile frame.' },
     ],
     relatedSlugs: ['showcase-page', 'layout'],
+  },
+
+  'error-boundary': {
+    description: 'Interní ochranný wrapper pro lazy-renderované stránky. Zachytí chybu při renderu, vypíše ji do konzole a místo prázdné obrazovky zobrazí čitelný fallback s možností resetu.',
+    status: 'documented',
+    props: [
+      { name: 'children', type: 'ReactNode', required: true, description: 'Obsah aplikace nebo stránky chráněný error boundary wrapperem.' },
+    ],
+    relatedSlugs: ['layout', 'showcase-page'],
   },
 
   'showcase-page': {
