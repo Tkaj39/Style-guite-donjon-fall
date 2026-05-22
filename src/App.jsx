@@ -64,6 +64,12 @@ const HudPage              = lazy(() => import('./pages/HudPage'))
 const TexturePage          = lazy(() => import('./pages/TexturePage'))
 const CornerOrnamentPage   = lazy(() => import('./pages/CornerOrnamentPage'))
 const SnippetsPage         = lazy(() => import('./pages/SnippetsPage'))
+const ResourceBarPage      = lazy(() => import('./pages/ResourceBarPage'))
+const NumericDisplayPage   = lazy(() => import('./pages/NumericDisplayPage'))
+const PlayerPanelPage      = lazy(() => import('./pages/PlayerPanelPage'))
+const ActionTilePage       = lazy(() => import('./pages/ActionTilePage'))
+const EventLogPage         = lazy(() => import('./pages/EventLogPage'))
+const PhaseIndicatorPage   = lazy(() => import('./pages/PhaseIndicatorPage'))
 
 export default function App() {
   return (
@@ -131,6 +137,12 @@ export default function App() {
         <Route path="texture"            element={<Suspense><TexturePage /></Suspense>} />
         <Route path="corner-ornament"   element={<Suspense><CornerOrnamentPage /></Suspense>} />
         <Route path="snippets"          element={<Suspense><SnippetsPage /></Suspense>} />
+        <Route path="resource-bar"      element={<Suspense><ResourceBarPage /></Suspense>} />
+        <Route path="numeric-display"   element={<Suspense><NumericDisplayPage /></Suspense>} />
+        <Route path="player-panel"      element={<Suspense><PlayerPanelPage /></Suspense>} />
+        <Route path="action-tile"       element={<Suspense><ActionTilePage /></Suspense>} />
+        <Route path="event-log"         element={<Suspense><EventLogPage /></Suspense>} />
+        <Route path="phase-indicator"   element={<Suspense><PhaseIndicatorPage /></Suspense>} />
       </Route>
     </Routes>
   )

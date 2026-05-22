@@ -158,6 +158,108 @@ export { default as DonjonPictogram }   from './DonjonPictogram'
  */
 export { SwordIcon, ShieldIcon, TowerIcon } from './icons'
 
+// ── Herní primitiva ───────────────────────────────────────────────────────
+
+/**
+ * HP/mana/stamina bar s vizuálními zónami v pozadí traku.
+ * Klíčový rozdíl od DonjonProgressBar: hranice danger/warning zón jsou vždy viditelné
+ * — i při plném HP hráč vidí, kam zóny začínají. Hranice na zIndex 2 (viditelné přes fill).
+ * @prop {number} value - Aktuální hodnota (0–max)
+ * @prop {number} max - Maximum (default: 100)
+ * @prop {'hp'|'mana'|'stamina'|'xp'|'shield'|'default'} variant - Typ zdroje
+ * @prop {'sm'|'md'|'lg'} size - Výška baru
+ * @prop {string} label - Popisek
+ * @prop {boolean} showValue - Zobrazí hodnotu/max
+ * @prop {boolean} zones - Zobrazí barevná pásma a hranice (default: true)
+ * @prop {any} flashKey - Změna hodnoty spustí damage flash animaci (key-change pattern)
+ * @example
+ * <ResourceBar value={hp} max={100} variant="hp" label="HP" showValue zones />
+ * // Damage flash:
+ * <ResourceBar value={hp} max={100} flashKey={flashCounter} />
+ */
+export { default as ResourceBar } from './ResourceBar'
+
+/**
+ * Animované číslo pro herní countery — VP, HP, zdroje.
+ * Při změně hodnoty: floating delta badge (+N/−N) + krátký flash pozadí.
+ * @prop {number} value - Zobrazovaná hodnota
+ * @prop {string} label - Popisek
+ * @prop {string} prefix - Text před číslem (např. '⚔')
+ * @prop {string} suffix - Text za číslem (např. ' VP')
+ * @prop {'sm'|'md'|'lg'} size - Velikost
+ * @prop {'default'|'vp'|'resource'|'mana'} variant - Barevná varianta
+ * @prop {'top'|'bottom'|'left'|'right'} labelPosition - Pozice popisku (default: 'top')
+ * @example
+ * <NumericDisplay value={vp} label="VP" variant="vp" size="lg" suffix=" bodů" />
+ */
+export { default as NumericDisplay } from './NumericDisplay'
+
+/**
+ * Mini karta hráče — erb, jméno, VP badge, resource bary (HP/mana/stamina).
+ * Aktivní stav (isActive): zlatý border + glow — signalizuje "na tahu".
+ * @prop {string} name - Jméno hráče
+ * @prop {string} color - Barva hráče (hex)
+ * @prop {'sword'|'shield'|'tower'} symbol - Symbol erbu (default: 'sword')
+ * @prop {number} vp - Vítězné body
+ * @prop {number} hp - Aktuální HP (zobrazí HP bar)
+ * @prop {number} maxHp - Maximum HP (default: 100)
+ * @prop {number} mana - Aktuální mana (zobrazí Mana bar)
+ * @prop {number} stamina - Aktuální stamina (zobrazí Stamina bar)
+ * @prop {boolean} isActive - Je na tahu (zlatý border)
+ * @prop {boolean} eliminated - Hráč vyřazen (opacity 0.45)
+ * @prop {'sm'|'md'} size - Velikost karty
+ * @example
+ * <PlayerPanel name="Hráč 1" color="#4A90E2" vp={7} hp={72} isActive />
+ */
+export { default as PlayerPanel } from './PlayerPanel'
+
+/**
+ * Klikatelná akční dlaždice — ikona, název, popis, cena akce.
+ * Jiná než Button: tile tvar (ne strip), ikona-forward, cost badge v rohu, lock stav.
+ * @prop {React.ReactNode} icon - Ikona (SVG nebo komponenta)
+ * @prop {string} title - Název akce
+ * @prop {string} description - Krátký popis (volitelný)
+ * @prop {string|number} cost - Cena akce v rohu (volitelná)
+ * @prop {boolean} selected - Vybraná dlaždice
+ * @prop {boolean} disabled - Neaktivní (nelze použít)
+ * @prop {boolean} locked - Zamčená (zobrazí lock ikonu)
+ * @prop {'sm'|'md'|'lg'} size - Velikost dlaždice
+ * @prop {'default'|'attack'|'move'|'special'} variant - Barevná varianta
+ * @example
+ * <ActionTile icon={<SwordIcon />} title="Útok" cost="2" selected={sel === 'attack'} onClick={() => setSel('attack')} />
+ */
+export { default as ActionTile } from './ActionTile'
+
+/**
+ * Seznam herních eventů s automatickým scrollem na nejnovější.
+ * Typy: gain(zelená) · loss(červená) · event(zlatá) · warning(jantarová) · system(šedá)
+ * @prop {Array<{id?, type, text, detail?, round?}>} events - Záznamy logu
+ * @prop {number} maxHeight - Max výška scroll kontejneru v px (default: 280)
+ * @prop {string} title - Nadpis logu (default: 'Herní log')
+ * @prop {boolean} showTitle - Zobrazí hlavičku (default: true)
+ * @prop {boolean} showRound - Zobrazí číslo kola (default: true)
+ * @prop {boolean} autoScroll - Auto-scroll na nejnovější (default: true)
+ * @example
+ * <EventLog events={gameLog} maxHeight={320} />
+ * // Záznam: { id: '1', type: 'gain', text: '+5 VP', detail: 'Obsadil základnu', round: 3 }
+ */
+export { default as EventLog } from './EventLog'
+
+/**
+ * Ukazatel fáze hry — kroky tahu nebo globální fáze.
+ * Splněné fáze: checkmark. Aktuální: zlatá + glow. Budoucí: faint.
+ * Spojovací linky vizualizují progress. Lepší než generický Tabs pro herní kontext.
+ * @prop {Array<{id, label, icon?, description?}>} phases - Definice fází
+ * @prop {string|number} currentPhase - ID aktuální fáze
+ * @prop {'horizontal'|'vertical'} orientation - Rozvržení (default: 'horizontal')
+ * @prop {'sm'|'md'} size - Velikost
+ * @prop {(id) => void} onPhaseClick - Callback při kliknutí (jen splněné fáze)
+ * @example
+ * <PhaseIndicator phases={FAZE_TAHU} currentPhase="pohyb" />
+ * // Fáze: { id: 'pohyb', label: 'Pohyb', icon: <SwordIcon /> }
+ */
+export { default as PhaseIndicator } from './PhaseIndicator'
+
 // ── Herní assety ──────────────────────────────────────────────────────────
 
 /**

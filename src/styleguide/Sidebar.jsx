@@ -325,6 +325,68 @@ const sections = [
     ],
   },
   {
+    label: 'Herní primitiva',
+    library: 'donjon',
+    items: [
+      {
+        to: '/resource-bar', label: 'ResourceBar', library: 'donjon',
+        children: [
+          { to: '/resource-bar#demo',     label: 'Demo' },
+          { to: '/resource-bar#zony',     label: 'Vizuální zóny' },
+          { to: '/resource-bar#varianty', label: 'Varianty' },
+          { to: '/resource-bar#flash',    label: 'Damage flash' },
+          { to: '/resource-bar#props',    label: 'Props' },
+        ],
+      },
+      {
+        to: '/numeric-display', label: 'NumericDisplay', library: 'donjon',
+        children: [
+          { to: '/numeric-display#demo',           label: 'Demo' },
+          { to: '/numeric-display#varianty',        label: 'Varianty' },
+          { to: '/numeric-display#label-position',  label: 'Pozice labelu' },
+          { to: '/numeric-display#hud',             label: 'HUD příklad' },
+        ],
+      },
+      {
+        to: '/player-panel', label: 'PlayerPanel', library: 'donjon',
+        children: [
+          { to: '/player-panel#demo',      label: 'Demo' },
+          { to: '/player-panel#stavy',     label: 'Stavy' },
+          { to: '/player-panel#simple',    label: 'Bez resource barů' },
+          { to: '/player-panel#velikosti', label: 'Velikosti' },
+        ],
+      },
+      {
+        to: '/action-tile', label: 'ActionTile', library: 'donjon',
+        children: [
+          { to: '/action-tile#demo',      label: 'Demo' },
+          { to: '/action-tile#varianty',  label: 'Varianty' },
+          { to: '/action-tile#stavy',     label: 'Stavy' },
+          { to: '/action-tile#velikosti', label: 'Velikosti' },
+          { to: '/action-tile#pouziti',   label: 'Použití' },
+        ],
+      },
+      {
+        to: '/event-log', label: 'EventLog', library: 'donjon',
+        children: [
+          { to: '/event-log#demo',    label: 'Demo' },
+          { to: '/event-log#typy',    label: 'Typy záznamů' },
+          { to: '/event-log#variace', label: 'Variace' },
+        ],
+      },
+      {
+        to: '/phase-indicator', label: 'PhaseIndicator', library: 'donjon',
+        children: [
+          { to: '/phase-indicator#demo',       label: 'Demo' },
+          { to: '/phase-indicator#orientace',  label: 'Orientace' },
+          { to: '/phase-indicator#faze-hry',   label: 'Fáze hry' },
+          { to: '/phase-indicator#ikony',      label: 'S ikonami' },
+          { to: '/phase-indicator#velikosti',  label: 'Velikosti' },
+        ],
+      },
+    ],
+  },
+  {
     label: 'Obrazovky aplikace',
     library: 'donjon',
     items: [
