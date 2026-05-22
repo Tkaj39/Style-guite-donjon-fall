@@ -4,58 +4,60 @@ import Toggle from '../lib/tkajui/Toggle'
 import DonjonToggle from '../lib/donjon/DonjonToggle'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
+/* ToggleDemo a SettingsGroup mimo render funkci — ToggleCmp se předává jako prop */
+
+function ToggleDemo({ ToggleCmp, initial = false, ...props }) {
+  const [checked, setChecked] = useState(initial)
+  return <ToggleCmp checked={checked} onChange={setChecked} {...props} />
+}
+
+function SettingsGroup({ ToggleCmp, items }) {
+  const [values, setValues] = useState(() =>
+    Object.fromEntries(items.map(item => [item.key, item.initial ?? false]))
+  )
+  return (
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 0,
+      border: `1px solid ${goldDim}30`,
+      borderRadius: 6,
+      overflow: 'hidden',
+      minWidth: 280,
+    }}>
+      {items.map((item, i) => (
+        <div
+          key={item.key}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '10px 16px',
+            background: i % 2 === 0 ? '#1A183020' : 'transparent',
+            borderBottom: i < items.length - 1 ? `1px solid ${goldDim}20` : 'none',
+          }}
+        >
+          <div>
+            <p style={{ margin: 0, fontSize: '0.8125rem', color: textActive }}>{item.label}</p>
+            {item.hint && (
+              <p style={{ margin: '2px 0 0', fontSize: '0.6875rem', color: textCool }}>{item.hint}</p>
+            )}
+          </div>
+          <ToggleCmp
+            checked={values[item.key]}
+            onChange={val => setValues(prev => ({ ...prev, [item.key]: val }))}
+            variant={item.variant ?? 'default'}
+          />
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function ToggleContent() {
   const lib = useLibVariant()
   const To  = lib === 'tkajui' ? Toggle : DonjonToggle
   const cmp = lib === 'tkajui' ? 'Toggle' : 'DonjonToggle'
-
-  function Demo({ initial = false, ...props }) {
-    const [checked, setChecked] = useState(initial)
-    return <To checked={checked} onChange={setChecked} {...props} />
-  }
-
-  function SettingsGroup({ items }) {
-    const [values, setValues] = useState(() =>
-      Object.fromEntries(items.map(item => [item.key, item.initial ?? false]))
-    )
-    return (
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 0,
-        border: `1px solid ${goldDim}30`,
-        borderRadius: 6,
-        overflow: 'hidden',
-        minWidth: 280,
-      }}>
-        {items.map((item, i) => (
-          <div
-            key={item.key}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '10px 16px',
-              background: i % 2 === 0 ? '#1A183020' : 'transparent',
-              borderBottom: i < items.length - 1 ? `1px solid ${goldDim}20` : 'none',
-            }}
-          >
-            <div>
-              <p style={{ margin: 0, fontSize: '0.8125rem', color: textActive }}>{item.label}</p>
-              {item.hint && (
-                <p style={{ margin: '2px 0 0', fontSize: '0.6875rem', color: textCool }}>{item.hint}</p>
-              )}
-            </div>
-            <To
-              checked={values[item.key]}
-              onChange={val => setValues(prev => ({ ...prev, [item.key]: val }))}
-              variant={item.variant ?? 'default'}
-            />
-          </div>
-        ))}
-      </div>
-    )
-  }
 
   return (
     <>
@@ -66,8 +68,8 @@ function ToggleContent() {
         description="Výchozí (off), zapnutý (on) a deaktivovaný."
       >
         <Preview>
-          <Demo label="Vypnuto" initial={false} />
-          <Demo label="Zapnuto" initial={true} />
+          <ToggleDemo ToggleCmp={To} label="Vypnuto" initial={false} />
+          <ToggleDemo ToggleCmp={To} label="Zapnuto" initial={true} />
           <To checked={false} label="Disabled off" disabled />
           <To checked={true}  label="Disabled on"  disabled />
         </Preview>
@@ -90,7 +92,7 @@ function ToggleContent() {
             { variant: 'danger',  label: 'Danger' },
             { variant: 'warning', label: 'Warning' },
           ].map(({ variant, label }) => (
-            <Demo key={variant} initial={true} label={label} variant={variant} />
+            <ToggleDemo ToggleCmp={To} key={variant} initial={true} label={label} variant={variant} />
           ))}
         </Preview>
         <CodeBlock code={`<${cmp} checked={value} onChange={setValue} variant="success" label="Zvuky" />
@@ -105,8 +107,8 @@ function ToggleContent() {
         description="Dvě velikosti — sm a md (výchozí)."
       >
         <Preview>
-          <Demo initial={true} label="Small (sm)"   size="sm" />
-          <Demo initial={true} label="Medium (md)"  size="md" />
+          <ToggleDemo ToggleCmp={To} initial={true} label="Small (sm)"   size="sm" />
+          <ToggleDemo ToggleCmp={To} initial={true} label="Medium (md)"  size="md" />
         </Preview>
         <CodeBlock code={`<${cmp} size="sm" checked={value} onChange={setValue} label="Malý" />
 <${cmp} size="md" checked={value} onChange={setValue} label="Střední" />`} />
@@ -119,9 +121,9 @@ function ToggleContent() {
         description="Popisek lze umístit vlevo nebo vpravo od přepínače."
       >
         <Preview>
-          <Demo initial={true} label="Vpravo (výchozí)" labelPosition="right" />
-          <Demo initial={true} label="Vlevo"            labelPosition="left" />
-          <Demo initial={false} />
+          <ToggleDemo ToggleCmp={To} initial={true} label="Vpravo (výchozí)" labelPosition="right" />
+          <ToggleDemo ToggleCmp={To} initial={true} label="Vlevo"            labelPosition="left" />
+          <ToggleDemo ToggleCmp={To} initial={false} />
         </Preview>
         <CodeBlock code={`{/* Popisek vpravo — výchozí */}
 <${cmp} label="Zvuky" labelPosition="right" checked={v} onChange={set} />
@@ -140,7 +142,7 @@ function ToggleContent() {
         description="Typický vzor pro nastavení — přepínače v listicovém layoutu."
       >
         <Preview>
-          <SettingsGroup items={[
+          <SettingsGroup ToggleCmp={To} items={[
             { key: 'music',   label: 'Hudba',            hint: 'Pozadí herního soundtracku',     initial: true,  variant: 'default' },
             { key: 'sfx',     label: 'Zvukové efekty',   hint: 'Herní zvuky a UI feedback',      initial: true,  variant: 'default' },
             { key: 'anim',    label: 'Animace',          hint: 'Pohybové přechody a efekty',     initial: true,  variant: 'default' },

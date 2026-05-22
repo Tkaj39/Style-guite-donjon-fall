@@ -6,67 +6,69 @@ import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
+/* AnimatedDemo a HpBar mimo render funkci — PbCmp/BtnCmp se předávají jako props */
+
+function AnimatedDemo({ PbCmp, BtnCmp }) {
+  const [value, setValue] = useState(0)
+  const [running, setRunning] = useState(false)
+  const rafRef = useRef(null)
+  const startRef = useRef(null)
+
+  useEffect(() => {
+    if (!running) { cancelAnimationFrame(rafRef.current); return }
+    const duration = 3500
+    startRef.current = performance.now() - (value / 100) * duration
+
+    const tick = (now) => {
+      const elapsed = now - startRef.current
+      const next = Math.min(100, (elapsed / duration) * 100)
+      setValue(next)
+      if (next < 100) {
+        rafRef.current = requestAnimationFrame(tick)
+      } else {
+        setRunning(false)
+      }
+    }
+    rafRef.current = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafRef.current)
+  }, [running]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const reset = () => { setValue(0); setRunning(false) }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%', maxWidth: 400 }}>
+      <PbCmp value={value} label="Načítání herních dat…" showValue variant="default" size="md" />
+      <div style={{ display: 'flex', gap: 8 }}>
+        <BtnCmp size="sm" onClick={() => setRunning(true)} disabled={running || value === 100}>
+          Spustit
+        </BtnCmp>
+        <BtnCmp size="sm" onClick={reset}>
+          Reset
+        </BtnCmp>
+      </div>
+    </div>
+  )
+}
+
+function HpBar({ PbCmp, label, value, max, variant }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+      <span style={{ fontSize: '0.75rem', color: textCool, width: 64, flexShrink: 0 }}>{label}</span>
+      <div style={{ flex: 1 }}>
+        <PbCmp value={value} max={max} size="sm" variant={variant} />
+      </div>
+      <span style={{ fontSize: '0.6875rem', color: textCool, width: 42, textAlign: 'right', flexShrink: 0 }}>
+        {value} / {max}
+      </span>
+    </div>
+  )
+}
+
 function ProgressBarContent() {
   const lib = useLibVariant()
   const PB  = lib === 'tkajui' ? ProgressBar : DonjonProgressBar
   const Btn = lib === 'tkajui' ? Button : DonjonButton
   const cmp = lib === 'tkajui' ? 'ProgressBar' : 'DonjonProgressBar'
-
-  function AnimatedDemo() {
-    const [value, setValue] = useState(0)
-    const [running, setRunning] = useState(false)
-    const rafRef = useRef(null)
-    const startRef = useRef(null)
-
-    useEffect(() => {
-      if (!running) { cancelAnimationFrame(rafRef.current); return }
-      const duration = 3500
-      startRef.current = performance.now() - (value / 100) * duration
-
-      const tick = (now) => {
-        const elapsed = now - startRef.current
-        const next = Math.min(100, (elapsed / duration) * 100)
-        setValue(next)
-        if (next < 100) {
-          rafRef.current = requestAnimationFrame(tick)
-        } else {
-          setRunning(false)
-        }
-      }
-      rafRef.current = requestAnimationFrame(tick)
-      return () => cancelAnimationFrame(rafRef.current)
-    }, [running]) // eslint-disable-line react-hooks/exhaustive-deps
-
-    const reset = () => { setValue(0); setRunning(false) }
-
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%', maxWidth: 400 }}>
-        <PB value={value} label="Načítání herních dat…" showValue variant="default" size="md" />
-        <div style={{ display: 'flex', gap: 8 }}>
-          <Btn size="sm" onClick={() => setRunning(true)} disabled={running || value === 100}>
-            Spustit
-          </Btn>
-          <Btn size="sm" onClick={reset}>
-            Reset
-          </Btn>
-        </div>
-      </div>
-    )
-  }
-
-  function HpBar({ label, value, max, variant }) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <span style={{ fontSize: '0.75rem', color: textCool, width: 64, flexShrink: 0 }}>{label}</span>
-        <div style={{ flex: 1 }}>
-          <PB value={value} max={max} size="sm" variant={variant} />
-        </div>
-        <span style={{ fontSize: '0.6875rem', color: textCool, width: 42, textAlign: 'right', flexShrink: 0 }}>
-          {value} / {max}
-        </span>
-      </div>
-    )
-  }
 
   return (
     <>
@@ -153,7 +155,7 @@ function ProgressBarContent() {
         description="Přechod šířky je plynulý (transition: width 0.35s ease) — stačí měnit value."
       >
         <Preview>
-          <AnimatedDemo />
+          <AnimatedDemo PbCmp={PB} BtnCmp={Btn} />
         </Preview>
         <CodeBlock code={`const [value, setValue] = useState(0)
 
@@ -169,11 +171,11 @@ function ProgressBarContent() {
       >
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%', maxWidth: 360 }}>
-            <HpBar label="HP"     value={34} max={50} variant="success" />
-            <HpBar label="Štít"   value={12} max={30} variant="info" />
-            <HpBar label="Útok"   value={8}  max={10} variant="warning" />
-            <HpBar label="Životy" value={1}  max={5}  variant="danger" />
-            <HpBar label="VP"     value={3}  max={5}  variant="default" />
+            <HpBar PbCmp={PB} label="HP"     value={34} max={50} variant="success" />
+            <HpBar PbCmp={PB} label="Štít"   value={12} max={30} variant="info" />
+            <HpBar PbCmp={PB} label="Útok"   value={8}  max={10} variant="warning" />
+            <HpBar PbCmp={PB} label="Životy" value={1}  max={5}  variant="danger" />
+            <HpBar PbCmp={PB} label="VP"     value={3}  max={5}  variant="default" />
           </div>
         </Preview>
         <CodeBlock code={`<${cmp} value={34} max={50} size="sm" variant="success" />

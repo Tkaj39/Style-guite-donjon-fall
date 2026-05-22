@@ -40,32 +40,33 @@ const GAME_TABS = [
   { value: 'log',     label: 'Log', disabled: true },
 ]
 
+/* TabsDemo mimo render funkci — TabsCmp se předává jako prop */
+function TabsDemo({ TabsCmp, items, variant, size }) {
+  const [tab, setTab] = useState(items.find(i => !i.disabled)?.value ?? items[0]?.value)
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <TabsCmp items={items} value={tab} onChange={setTab} variant={variant} size={size} />
+      <div style={{
+        padding: '14px 16px',
+        background: '#12102A',
+        border: '1px solid #8F745430',
+        borderRadius: 4,
+        fontSize: '0.8125rem',
+        color: textCool,
+        lineHeight: 1.5,
+      }}>
+        Obsah záložky: <span style={{ color: '#B8956A', fontWeight: 600 }}>
+          {items.find(i => i.value === tab)?.label}
+        </span>
+      </div>
+    </div>
+  )
+}
+
 function TabsContent() {
   const lib = useLibVariant()
   const T   = lib === 'tkajui' ? Tabs : DonjonTabs
   const cmp = lib === 'tkajui' ? 'Tabs' : 'DonjonTabs'
-
-  function Demo({ items, variant, size }) {
-    const [tab, setTab] = useState(items.find(i => !i.disabled)?.value ?? items[0]?.value)
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <T items={items} value={tab} onChange={setTab} variant={variant} size={size} />
-        <div style={{
-          padding: '14px 16px',
-          background: '#12102A',
-          border: '1px solid #8F745430',
-          borderRadius: 4,
-          fontSize: '0.8125rem',
-          color: textCool,
-          lineHeight: 1.5,
-        }}>
-          Obsah záložky: <span style={{ color: '#B8956A', fontWeight: 600 }}>
-            {items.find(i => i.value === tab)?.label}
-          </span>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <>
@@ -77,7 +78,7 @@ function TabsContent() {
       >
         <Preview>
           <div style={{ width: '100%' }}>
-            <Demo
+            <TabsDemo TabsCmp={T}
               items={[
                 { value: 'overview', label: 'Přehled' },
                 { value: 'details',  label: 'Detail' },
@@ -110,7 +111,7 @@ function TabsContent() {
       >
         <Preview>
           <div style={{ width: '100%' }}>
-            <Demo
+            <TabsDemo TabsCmp={T}
               items={[
                 { value: 'overview', label: 'Přehled' },
                 { value: 'details',  label: 'Detail' },
@@ -132,12 +133,12 @@ function TabsContent() {
       >
         <Preview>
           <div style={{ width: '100%' }}>
-            <Demo items={SETTINGS_TABS} variant="underline" />
+            <TabsDemo TabsCmp={T} items={SETTINGS_TABS} variant="underline" />
           </div>
         </Preview>
         <Preview>
           <div style={{ width: '100%' }}>
-            <Demo items={SETTINGS_TABS} variant="pills" />
+            <TabsDemo TabsCmp={T} items={SETTINGS_TABS} variant="pills" />
           </div>
         </Preview>
         <CodeBlock code={`const items = [
@@ -157,7 +158,7 @@ function TabsContent() {
       >
         <Preview>
           <div style={{ width: '100%' }}>
-            <Demo items={GAME_TABS} variant="underline" />
+            <TabsDemo TabsCmp={T} items={GAME_TABS} variant="underline" />
           </div>
         </Preview>
         <CodeBlock code={`const items = [
@@ -179,7 +180,7 @@ function TabsContent() {
             {(['sm', 'md', 'lg']).map(size => (
               <div key={size}>
                 <p style={{ margin: '0 0 8px', fontSize: '0.75rem', color: textDeep, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{size}</p>
-                <Demo
+                <TabsDemo TabsCmp={T}
                   items={[
                     { value: 'a', label: 'Přehled' },
                     { value: 'b', label: 'Detail' },
