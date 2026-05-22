@@ -63,6 +63,7 @@ const TokensPage           = lazy(() => import('./pages/TokensPage'))
 const HudPage              = lazy(() => import('./pages/HudPage'))
 const TexturePage          = lazy(() => import('./pages/TexturePage'))
 const CornerOrnamentPage   = lazy(() => import('./pages/CornerOrnamentPage'))
+const SnippetsPage         = lazy(() => import('./pages/SnippetsPage'))
 
 export default function App() {
   return (
@@ -129,6 +130,7 @@ export default function App() {
         <Route path="hud"                element={<Suspense><HudPage /></Suspense>} />
         <Route path="texture"            element={<Suspense><TexturePage /></Suspense>} />
         <Route path="corner-ornament"   element={<Suspense><CornerOrnamentPage /></Suspense>} />
+        <Route path="snippets"          element={<Suspense><SnippetsPage /></Suspense>} />
       </Route>
     </Routes>
   )

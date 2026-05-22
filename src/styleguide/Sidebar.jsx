@@ -29,6 +29,7 @@ const sections = [
   {
     label: 'System',
     items: [
+      { to: '/snippets', label: '⚡ Snippety', library: 'donjon' },
       { to: '/todo', label: '✦ TODO' },
       {
         to: '/components', label: 'Components',

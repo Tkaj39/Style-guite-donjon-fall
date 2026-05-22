@@ -1,0 +1,67 @@
+/**
+ * donjon-fall-ui — CSS Custom Properties
+ *
+ * Exportuje všechny design tokeny jako CSS proměnné na :root.
+ * Použití: @import './src/lib/donjon/donjon.css';
+ *
+ * Pak v CSS:
+ *   color: var(--donjon-gold);
+ *   background: var(--donjon-bg2);
+ *   border: 1px solid var(--donjon-border-default);
+ */
+
+:root {
+  /* ── Zlato — primární akcent ──────────────────────────────────────────── */
+  --donjon-gold:     #FFC183;   /* hlavní zlatá — text, ikony, aktivní prvky */
+  --donjon-gold-mid: #B8956A;   /* labels, subtitles, gradient konce */
+  --donjon-gold-dim: #8F7458;   /* borders, muted text, dividers */
+
+  /* ── Surfaces ─────────────────────────────────────────────────────────── */
+  --donjon-bg0:      #12102A;   /* nejhlubší pozadí (page bg) */
+  --donjon-bg1:      #171626;   /* base dark */
+  --donjon-bg2:      #1E1C30;   /* card bg */
+  --donjon-bg3:      #252340;   /* elevated panel */
+  --donjon-bg4:      #2A2948;   /* hover / raised */
+  --donjon-bg-deep:  #1B1A30;   /* deep background variant */
+  --donjon-bg-inactive: #232238; /* inactive button v ButtonGroup */
+
+  /* ── Borders ──────────────────────────────────────────────────────────── */
+  --donjon-border-subtle:  #1A1830;
+  --donjon-border-default: #353751;
+  --donjon-border-mid:     #2A2848;
+
+  /* ── Text ─────────────────────────────────────────────────────────────── */
+  --donjon-text-high:      #E8DDD0;   /* near-white, warm tint */
+  --donjon-text-mid:       #C8BFAF;   /* labels, popis */
+  --donjon-text-active:    #F0E6D3;   /* aktivní tab, highlighted */
+  --donjon-text-low:       #9A9080;   /* muted / hints */
+  --donjon-text-disabled:  #6B6A82;   /* disabled / inactive tabs */
+  --donjon-text-faint:     #4A4560;   /* ultra-tmavý muted, dekorativní */
+  --donjon-text-deep:      #4A4870;   /* ultra-tmavý blue-purple muted */
+  --donjon-text-cool:      #8F9CB3;   /* studená modro-šedá, sekundární */
+  --donjon-text-parchment: #D4C5A9;   /* teplá krémová, střední warm text */
+
+  /* ── Semantic ─────────────────────────────────────────────────────────── */
+  --donjon-success: #40A055;
+  --donjon-danger:  #E05C5C;
+  --donjon-warning: #C08040;
+  --donjon-fail:    #C04040;   /* darker than danger, error states */
+  --donjon-gain:    #50B86C;   /* herní gain feedback (jiný než success) */
+
+  /* ── Herní feedback ───────────────────────────────────────────────────── */
+  --donjon-hp-high:   #50B86C;   /* HP > 50% */
+  --donjon-hp-mid:    #C08040;   /* HP 25–50% */
+  --donjon-hp-low:    #E05C5C;   /* HP < 25% */
+  --donjon-hp-flash:  #FF4444;   /* damage flash */
+
+  /* ── Shadows & glow ───────────────────────────────────────────────────── */
+  --donjon-glow-gold:    0 0 12px #FFC18355;
+  --donjon-glow-gold-lg: 0 0 24px #FFC18333;
+  --donjon-shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.6);
+
+  /* ── Z-index ──────────────────────────────────────────────────────────── */
+  --donjon-z-dropdown: 900;
+  --donjon-z-toast:   2000;
+  --donjon-z-tooltip: 2100;
+  --donjon-z-modal:   2200;
+}
