@@ -286,62 +286,64 @@ function StaticErrorPreview() {
   )
 }
 
+/* ── Statické mini-náhledy pro MiniPreview ──────────────────────────────
+   Definováno na úrovni modulu — previews jsou konstantní, nevznikají znovu
+   při každém renderu. noop slouží jako prázdný onChange pro controlled inputs. */
+const _noop = () => {}
+
+const MINI_PREVIEWS = {
+  badge: <Badge variant="info" size="sm">Info</Badge>,
+  button: <Button size="sm">Akce</Button>,
+  'button-group': <ButtonGroup items={[{ value: 'a', label: 'A' }, { value: 'b', label: 'B' }]} value="a" onChange={_noop} size="sm" />,
+  card: <Card title="Card" description="Mini preview" variant="default" />,
+  input: <Input value="Hráč" onChange={_noop} size="sm" label="Jméno" />,
+  modal: <StaticModalPreview />,
+  'submit-button': <form><SubmitButton size="sm" loadingLabel="Ukládám…">Uložit</SubmitButton></form>,
+  tooltip: <StaticTooltipPreview />,
+  'progress-bar': <ProgressBar value={64} size="sm" variant="success" showValue />,
+  select: <Select value="one" onChange={_noop} options={[{ value: 'one', label: 'Volba' }]} size="sm" label="Select" />,
+  slider: <Slider value={42} onChange={_noop} size="sm" label="Síla" showValue />,
+  tabs: <Tabs items={[{ value: 'map', label: 'Mapa' }, { value: 'hud', label: 'HUD' }]} value="map" onChange={_noop} size="sm" />,
+  toggle: <Toggle checked onChange={_noop} size="sm" label="Aktivní" />,
+  toast: <StaticToastPreview />,
+  pictogram: <Pictogram icon={SwordIcon} size="lg" color="#d9b46b" />,
+  'scoop-clip': <ScoopClip r={0.18} style={{ width: 84, height: 38, background: '#191922', border: '1px solid #34343c' }} />,
+  'notched-box': <NotchedBox style={{ width: 92, height: 42, background: '#17171f', border: '1px solid #30303a' }}><NotchedBox.Slot><span className="text-[9px] text-neutral-400">VP</span></NotchedBox.Slot></NotchedBox>,
+  'corner-ornament': <div className="relative h-12 w-16 rounded border border-neutral-700 bg-neutral-900"><div className="absolute left-1 top-1 h-2.5 w-2.5 rounded-sm border border-amber-700/50" /></div>,
+  ornaments: <div className="flex items-center gap-2 text-amber-300"><div className="h-7 w-2 rounded bg-amber-500/60" /><div className="h-7 w-7 rounded-[8px] border border-amber-500/60" /></div>,
+  icons: <StaticIconsPreview />,
+  'donjon-badge': <DonjonBadge size="sm">XP</DonjonBadge>,
+  'donjon-button': <DonjonButton size="sm">Tah</DonjonButton>,
+  'donjon-button-group': <DonjonButtonGroup items={[{ value: 'attack', label: 'Útok' }, { value: 'move', label: 'Pohyb' }]} value="attack" onChange={_noop} size="sm" />,
+  'donjon-card': <DonjonCard title="Loot" description="Pergamenový panel" />,
+  'donjon-input': <DonjonInput value="Arkan" onChange={_noop} size="sm" label="Nick" />,
+  'donjon-modal': <StaticModalPreview />,
+  'donjon-progress-bar': <ProgressBar value={72} size="sm" variant="warning" showValue />,
+  'donjon-pictogram': <DonjonPictogram icon={ShieldIcon} size="lg" />,
+  'donjon-select': <Select value="fire" onChange={_noop} options={[{ value: 'fire', label: 'Oheň' }]} size="sm" label="Škola" />,
+  'donjon-slider': <Slider value={58} onChange={_noop} size="sm" label="Hudba" showValue />,
+  'donjon-tabs': <Tabs items={[{ value: 'p1', label: 'Hráč 1' }, { value: 'p2', label: 'Hráč 2' }]} value="p1" onChange={_noop} size="sm" variant="pills" />,
+  'donjon-toast': <StaticToastPreview />,
+  'donjon-toggle': <Toggle checked onChange={_noop} size="sm" label="SFX" variant="warning" />,
+  'donjon-tooltip': <StaticTooltipPreview />,
+  erb: <div className="flex items-center justify-center"><div className="flex h-12 w-10 items-center justify-center rounded-[12px] border border-amber-700/60 bg-neutral-900 text-[11px] font-bold text-amber-300">II</div></div>,
+  'hex-tile': <HexTile state="selected" size="sm" label="A3" showLabel />,
+  'die-face': <DieFace value={5} playerColor="#d6aa57" size="sm" state="selected" />,
+  'float-feedback': <FloatFeedback text="+2 VP" visible variant="success" animKey="preview" />,
+  'action-tile': <ActionTile icon={<SwordIcon width={18} height={18} />} title="Útok" cost={2} size="sm" selected />,
+  'event-log': <EventLog events={[{ id: 1, type: 'gain', text: '+2 VP', round: 3 }, { id: 2, type: 'warning', text: 'Nebezpečí', detail: 'Hex je oslabený' }]} maxHeight={64} showTitle={false} />,
+  'phase-indicator': <PhaseIndicator phases={[{ id: 'move', label: 'Pohyb' }, { id: 'fight', label: 'Souboj' }, { id: 'end', label: 'Konec' }]} currentPhase="fight" size="sm" />,
+  'resource-bar': <ResourceBar value={68} max={100} variant="hp" size="sm" label="HP" showValue zones />,
+  'numeric-display': <NumericDisplay value={12} label="VP" variant="vp" size="sm" />,
+  'player-panel': <PlayerPanel name="Hráč 1" color="#4A90E2" symbol="shield" vp={7} hp={72} size="sm" isActive />,
+  'game-transition': <GameTransition show preset="slideUp"><div className="rounded border border-amber-700/40 bg-neutral-900 px-3 py-2 text-xs text-neutral-200">Enter / exit</div></GameTransition>,
+  'error-boundary': <StaticErrorPreview />,
+}
+
 function MiniPreview({ comp }) {
-  const previewClass = 'pointer-events-none flex h-full w-full items-center justify-center overflow-hidden rounded-md border border-neutral-800 bg-neutral-950/80 px-3 py-3'
-  const noop = () => {}
-
-  const previews = {
-    badge: <Badge variant="info" size="sm">Info</Badge>,
-    button: <Button size="sm">Akce</Button>,
-    'button-group': <ButtonGroup items={[{ value: 'a', label: 'A' }, { value: 'b', label: 'B' }]} value="a" onChange={noop} size="sm" />,
-    card: <Card title="Card" description="Mini preview" variant="default" />,
-    input: <Input value="Hráč" onChange={noop} size="sm" label="Jméno" />,
-    modal: <StaticModalPreview />,
-    'submit-button': <form><SubmitButton size="sm" loadingLabel="Ukládám…">Uložit</SubmitButton></form>,
-    tooltip: <StaticTooltipPreview />,
-    'progress-bar': <ProgressBar value={64} size="sm" variant="success" showValue />,
-    select: <Select value="one" onChange={noop} options={[{ value: 'one', label: 'Volba' }]} size="sm" label="Select" />,
-    slider: <Slider value={42} onChange={noop} size="sm" label="Síla" showValue />,
-    tabs: <Tabs items={[{ value: 'map', label: 'Mapa' }, { value: 'hud', label: 'HUD' }]} value="map" onChange={noop} size="sm" />,
-    toggle: <Toggle checked onChange={noop} size="sm" label="Aktivní" />,
-    toast: <StaticToastPreview />,
-    pictogram: <Pictogram icon={SwordIcon} size="lg" color="#d9b46b" />,
-    'scoop-clip': <ScoopClip r={0.18} style={{ width: 84, height: 38, background: '#191922', border: '1px solid #34343c' }} />,
-    'notched-box': <NotchedBox style={{ width: 92, height: 42, background: '#17171f', border: '1px solid #30303a' }}><NotchedBox.Slot><span className="text-[9px] text-neutral-400">VP</span></NotchedBox.Slot></NotchedBox>,
-    'corner-ornament': <div className="relative h-12 w-16 rounded border border-neutral-700 bg-neutral-900"><div className="absolute left-1 top-1 h-2.5 w-2.5 rounded-sm border border-amber-700/50" /></div>,
-    ornaments: <div className="flex items-center gap-2 text-amber-300"><div className="h-7 w-2 rounded bg-amber-500/60" /><div className="h-7 w-7 rounded-[8px] border border-amber-500/60" /></div>,
-    icons: <StaticIconsPreview />,
-    'donjon-badge': <DonjonBadge size="sm">XP</DonjonBadge>,
-    'donjon-button': <DonjonButton size="sm">Tah</DonjonButton>,
-    'donjon-button-group': <DonjonButtonGroup items={[{ value: 'attack', label: 'Útok' }, { value: 'move', label: 'Pohyb' }]} value="attack" onChange={noop} size="sm" />,
-    'donjon-card': <DonjonCard title="Loot" description="Pergamenový panel" />,
-    'donjon-input': <DonjonInput value="Arkan" onChange={noop} size="sm" label="Nick" />,
-    'donjon-modal': <StaticModalPreview />,
-    'donjon-progress-bar': <ProgressBar value={72} size="sm" variant="warning" showValue />,
-    'donjon-pictogram': <DonjonPictogram icon={ShieldIcon} size="lg" />,
-    'donjon-select': <Select value="fire" onChange={noop} options={[{ value: 'fire', label: 'Oheň' }]} size="sm" label="Škola" />,
-    'donjon-slider': <Slider value={58} onChange={noop} size="sm" label="Hudba" showValue />,
-    'donjon-tabs': <Tabs items={[{ value: 'p1', label: 'Hráč 1' }, { value: 'p2', label: 'Hráč 2' }]} value="p1" onChange={noop} size="sm" variant="pills" />,
-    'donjon-toast': <StaticToastPreview />,
-    'donjon-toggle': <Toggle checked onChange={noop} size="sm" label="SFX" variant="warning" />,
-    'donjon-tooltip': <StaticTooltipPreview />,
-    erb: <div className="flex items-center justify-center"><div className="flex h-12 w-10 items-center justify-center rounded-[12px] border border-amber-700/60 bg-neutral-900 text-[11px] font-bold text-amber-300">II</div></div>,
-    'hex-tile': <HexTile state="selected" size="sm" label="A3" showLabel />,
-    'die-face': <DieFace value={5} playerColor="#d6aa57" size="sm" state="selected" />,
-    'float-feedback': <FloatFeedback text="+2 VP" visible variant="success" animKey="preview" />,
-    'action-tile': <ActionTile icon={<SwordIcon width={18} height={18} />} title="Útok" cost={2} size="sm" selected />,
-    'event-log': <EventLog events={[{ id: 1, type: 'gain', text: '+2 VP', round: 3 }, { id: 2, type: 'warning', text: 'Nebezpečí', detail: 'Hex je oslabený' }]} maxHeight={64} showTitle={false} />,
-    'phase-indicator': <PhaseIndicator phases={[{ id: 'move', label: 'Pohyb' }, { id: 'fight', label: 'Souboj' }, { id: 'end', label: 'Konec' }]} currentPhase="fight" size="sm" />,
-    'resource-bar': <ResourceBar value={68} max={100} variant="hp" size="sm" label="HP" showValue zones />,
-    'numeric-display': <NumericDisplay value={12} label="VP" variant="vp" size="sm" />,
-    'player-panel': <PlayerPanel name="Hráč 1" color="#4A90E2" symbol="shield" vp={7} hp={72} size="sm" isActive />,
-    'game-transition': <GameTransition show preset="slideUp"><div className="rounded border border-amber-700/40 bg-neutral-900 px-3 py-2 text-xs text-neutral-200">Enter / exit</div></GameTransition>,
-    'error-boundary': <StaticErrorPreview />,
-  }
-
   return (
-    <div className={previewClass} aria-hidden="true">
-      {previews[comp.slug] ?? <PreviewFallback comp={comp} />}
+    <div className="pointer-events-none flex h-full w-full items-center justify-center overflow-hidden rounded-md border border-neutral-800 bg-neutral-950/80 px-3 py-3" aria-hidden="true">
+      {MINI_PREVIEWS[comp.slug] ?? <PreviewFallback comp={comp} />}
     </div>
   )
 }
@@ -351,23 +353,11 @@ function ComponentCard({ comp }) {
   const navigate = useNavigate()
   const propsCount = comp.props?.length ?? 0
   const hasShowcase = !!comp.showcaseRoute
-  // Primární akce: showcase stránka pokud existuje, jinak detail
   const primaryTo = comp.showcaseRoute || `/components/${comp.slug}`
-  const onCardActivate = () => navigate(primaryTo)
-
-  const onCardKeyDown = (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault()
-      onCardActivate()
-    }
-  }
 
   return (
-    <div
-      role="link"
-      tabIndex={0}
-      onClick={onCardActivate}
-      onKeyDown={onCardKeyDown}
+    <Link
+      to={primaryTo}
       className="group flex flex-col gap-3 p-4 rounded-lg bg-neutral-900 border border-neutral-800 hover:border-brand-600/60 hover:bg-neutral-800/80 transition-all duration-150"
     >
       {/* Header */}
@@ -428,7 +418,7 @@ function ComponentCard({ comp }) {
           </span>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 
