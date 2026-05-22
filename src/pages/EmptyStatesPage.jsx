@@ -63,25 +63,28 @@ export default function EmptyStatesPage() {
         description="Každý typ má jiný kontext a jinou primární akci."
       >
         <Preview>
-          <EmptyState
-            icon="🗺"
-            title="Žádné uložené hry"
-            description="Zatím nemáš žádnou rozehranou hru. Začni novou partii a ponoř se do boje."
-            cta ctaLabel="Nová hra"
-            variant="game"
-          />
-          <EmptyState
-            icon="🔍"
-            title="Žádné výsledky"
-            description="Pro hledaný výraz nebyla nalezena žádná mapa. Zkus jiný název nebo filtr."
-            variant="info"
-          />
-          <EmptyState
-            icon="📋"
-            title="Žádný log tahů"
-            description="Historia tahů se zobrazí po zahájení první hry v tomto kole."
-            variant="default"
-          />
+          {/* Grid — 3 karty v řadě, stejná výška buňky bez zalomení */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, width: '100%', alignItems: 'start' }}>
+            <EmptyState
+              icon="🗺"
+              title="Žádné uložené hry"
+              description="Zatím nemáš žádnou rozehranou hru. Začni novou partii a ponoř se do boje."
+              cta ctaLabel="Nová hra"
+              variant="game"
+            />
+            <EmptyState
+              icon="🔍"
+              title="Žádné výsledky"
+              description="Pro hledaný výraz nebyla nalezena žádná mapa. Zkus jiný název nebo filtr."
+              variant="info"
+            />
+            <EmptyState
+              icon="📋"
+              title="Žádný log tahů"
+              description="Historia tahů se zobrazí po zahájení první hry v tomto kole."
+              variant="default"
+            />
+          </div>
         </Preview>
       </Section>
 

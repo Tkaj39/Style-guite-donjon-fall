@@ -48,6 +48,7 @@ function DonjonButton({
   fullWidth = false,
   loading = false,
   disabled,
+  style: propStyle,   // extrahujeme style zvlášť, aby nepřepsal position:relative
   className = '',
   ...props
 }) {
@@ -122,7 +123,8 @@ function DonjonButton({
       ref={ref}
       disabled={disabled || loading}
       style={{
-        position: 'relative',
+        ...propStyle,            // uživatelský style první (marginTop, opacity…)
+        position: 'relative',   // pak fixed layout props — nelze přepsat přes propStyle
         height: s.h,
         width: iconOnly ? s.h : (fullWidth ? '100%' : undefined),
         padding: iconOnly ? 0 : `0 ${s.px + ornW}px`,
