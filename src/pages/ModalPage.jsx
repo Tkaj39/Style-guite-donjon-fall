@@ -4,6 +4,7 @@ import DonjonModal from '../lib/donjon/DonjonModal'
 import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
+import { gold, goldMid, textActive } from '../lib/donjon/tokens'
 
 /* ── Obsah stránky — čte aktivní variantu přes hook ── */
 function ModalContent() {

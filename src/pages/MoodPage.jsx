@@ -1,4 +1,5 @@
 import { useLibVariant, ShowcasePage, Section } from '../styleguide/ShowcasePage'
+import { gold, goldMid, goldDim, borderSubtle } from '../lib/donjon/tokens'
 
 /* ══════════════════════════════════════════════════════════════════════════
    TkajUI — Mood & Vision

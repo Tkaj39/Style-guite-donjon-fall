@@ -7,6 +7,7 @@ import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import SubmitButton from '../lib/tkajui/SubmitButton'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
+import { successColor } from '../lib/donjon/tokens'
 
 const SearchIcon = () => (
   <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">
