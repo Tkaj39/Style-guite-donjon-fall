@@ -2,6 +2,43 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { registry, CATEGORIES, getCategoryCounts } from '../data/componentRegistry'
 import { ShowcasePage, Section } from '../styleguide/ShowcasePage'
+import {
+  Badge,
+  Button,
+  ButtonGroup,
+  Card,
+  Input,
+  NotchedBox,
+  Pictogram,
+  ProgressBar,
+  ScoopClip,
+  Select,
+  Slider,
+  SubmitButton,
+  Tabs,
+  Toggle,
+} from '../lib/tkajui'
+import {
+  ActionTile,
+  DieFace,
+  DonjonBadge,
+  DonjonButton,
+  DonjonButtonGroup,
+  DonjonCard,
+  DonjonInput,
+  DonjonPictogram,
+  EventLog,
+  FloatFeedback,
+  GameTransition,
+  HexTile,
+  NumericDisplay,
+  PhaseIndicator,
+  PlayerPanel,
+  ResourceBar,
+  ShieldIcon,
+  SwordIcon,
+  TowerIcon,
+} from '../lib/donjon'
 
 /* ── Tech stack data ── */
 const TECH_STACK = [
@@ -176,6 +213,139 @@ function VisibilityTag({ visibility }) {
   )
 }
 
+function PreviewFallback({ comp }) {
+  const accent =
+    comp.category === 'TkajUI' ? 'from-indigo-500/25 via-sky-400/10 to-transparent'
+    : comp.category === 'donjon-fall-ui' ? 'from-amber-500/25 via-yellow-400/10 to-transparent'
+    : 'from-neutral-500/20 via-neutral-400/5 to-transparent'
+
+  return (
+    <div className={`relative h-24 rounded-md border border-neutral-800 bg-gradient-to-br ${accent} overflow-hidden`}>
+      <div className="absolute inset-x-3 top-3 h-3 rounded bg-neutral-800/90" />
+      <div className="absolute left-3 top-10 h-8 w-8 rounded-md border border-neutral-700 bg-neutral-900/90" />
+      <div className="absolute right-3 top-10 left-14 h-2.5 rounded bg-neutral-800/80" />
+      <div className="absolute right-8 top-[3.65rem] left-14 h-2 rounded bg-neutral-900/90" />
+      <div className="absolute bottom-3 left-3 inline-flex items-center rounded border border-neutral-700 bg-neutral-950/90 px-1.5 py-0.5 text-[10px] font-mono text-neutral-500">
+        {comp.name}
+      </div>
+    </div>
+  )
+}
+
+function StaticToastPreview() {
+  return (
+    <div className="w-full max-w-[15rem] rounded-md border border-amber-700/40 bg-neutral-950/90 px-3 py-2 text-left shadow-[0_8px_24px_rgba(0,0,0,0.32)]">
+      <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-300">Toast</div>
+      <div className="mt-1 text-xs font-medium text-neutral-100">+2 VP</div>
+      <div className="mt-0.5 text-[11px] text-neutral-400">Obsadil jsi hex.</div>
+    </div>
+  )
+}
+
+function StaticTooltipPreview() {
+  return (
+    <div className="relative flex w-full items-center justify-center py-2">
+      <div className="rounded border border-neutral-700 bg-neutral-900 px-3 py-1 text-[11px] text-neutral-300">Trigger</div>
+      <div className="absolute -top-1 rounded-md border border-neutral-700 bg-neutral-950 px-2 py-1 text-[10px] text-neutral-200 shadow-lg">
+        Tooltip obsah
+      </div>
+    </div>
+  )
+}
+
+function StaticModalPreview() {
+  return (
+    <div className="flex h-full items-center justify-center rounded-md bg-neutral-950/70 p-3">
+      <div className="w-full max-w-[15rem] rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2.5 shadow-[0_12px_30px_rgba(0,0,0,0.35)]">
+        <div className="text-xs font-semibold text-neutral-100">Modal</div>
+        <div className="mt-1 h-2 rounded bg-neutral-800" />
+        <div className="mt-1 h-2 w-4/5 rounded bg-neutral-800/80" />
+      </div>
+    </div>
+  )
+}
+
+function StaticIconsPreview() {
+  return (
+    <div className="flex h-full items-center justify-center gap-3 text-amber-300">
+      <SwordIcon width={18} height={18} />
+      <ShieldIcon width={18} height={18} />
+      <TowerIcon width={18} height={18} />
+    </div>
+  )
+}
+
+function StaticErrorPreview() {
+  return (
+    <div className="flex h-full items-center justify-center rounded-md border border-rose-900/50 bg-rose-950/20 px-3">
+      <div className="flex items-center gap-2 text-xs text-rose-300">
+        <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-rose-700/50">!</span>
+        fallback UI
+      </div>
+    </div>
+  )
+}
+
+function MiniPreview({ comp }) {
+  const previewClass = 'pointer-events-none flex h-full w-full items-center justify-center overflow-hidden rounded-md border border-neutral-800 bg-neutral-950/80 px-3 py-3'
+  const noop = () => {}
+
+  const previews = {
+    badge: <Badge variant="info" size="sm">Info</Badge>,
+    button: <Button size="sm">Akce</Button>,
+    'button-group': <ButtonGroup items={[{ value: 'a', label: 'A' }, { value: 'b', label: 'B' }]} value="a" onChange={noop} size="sm" />,
+    card: <Card title="Card" description="Mini preview" variant="default" />,
+    input: <Input value="Hráč" onChange={noop} size="sm" label="Jméno" />,
+    modal: <StaticModalPreview />,
+    'submit-button': <form><SubmitButton size="sm" loadingLabel="Ukládám…">Uložit</SubmitButton></form>,
+    tooltip: <StaticTooltipPreview />,
+    'progress-bar': <ProgressBar value={64} size="sm" variant="success" showValue />,
+    select: <Select value="one" onChange={noop} options={[{ value: 'one', label: 'Volba' }]} size="sm" label="Select" />,
+    slider: <Slider value={42} onChange={noop} size="sm" label="Síla" showValue />,
+    tabs: <Tabs items={[{ value: 'map', label: 'Mapa' }, { value: 'hud', label: 'HUD' }]} value="map" onChange={noop} size="sm" />,
+    toggle: <Toggle checked onChange={noop} size="sm" label="Aktivní" />,
+    toast: <StaticToastPreview />,
+    pictogram: <Pictogram icon={SwordIcon} size="lg" color="#d9b46b" />,
+    'scoop-clip': <ScoopClip r={0.18} style={{ width: 84, height: 38, background: '#191922', border: '1px solid #34343c' }} />,
+    'notched-box': <NotchedBox style={{ width: 92, height: 42, background: '#17171f', border: '1px solid #30303a' }}><NotchedBox.Slot><span className="text-[9px] text-neutral-400">VP</span></NotchedBox.Slot></NotchedBox>,
+    'corner-ornament': <div className="relative h-12 w-16 rounded border border-neutral-700 bg-neutral-900"><div className="absolute left-1 top-1 h-2.5 w-2.5 rounded-sm border border-amber-700/50" /></div>,
+    ornaments: <div className="flex items-center gap-2 text-amber-300"><div className="h-7 w-2 rounded bg-amber-500/60" /><div className="h-7 w-7 rounded-[8px] border border-amber-500/60" /></div>,
+    icons: <StaticIconsPreview />,
+    'donjon-badge': <DonjonBadge size="sm">XP</DonjonBadge>,
+    'donjon-button': <DonjonButton size="sm">Tah</DonjonButton>,
+    'donjon-button-group': <DonjonButtonGroup items={[{ value: 'attack', label: 'Útok' }, { value: 'move', label: 'Pohyb' }]} value="attack" onChange={noop} size="sm" />,
+    'donjon-card': <DonjonCard title="Loot" description="Pergamenový panel" />,
+    'donjon-input': <DonjonInput value="Arkan" onChange={noop} size="sm" label="Nick" />,
+    'donjon-modal': <StaticModalPreview />,
+    'donjon-progress-bar': <ProgressBar value={72} size="sm" variant="warning" showValue />,
+    'donjon-pictogram': <DonjonPictogram icon={ShieldIcon} size="lg" />,
+    'donjon-select': <Select value="fire" onChange={noop} options={[{ value: 'fire', label: 'Oheň' }]} size="sm" label="Škola" />,
+    'donjon-slider': <Slider value={58} onChange={noop} size="sm" label="Hudba" showValue />,
+    'donjon-tabs': <Tabs items={[{ value: 'p1', label: 'Hráč 1' }, { value: 'p2', label: 'Hráč 2' }]} value="p1" onChange={noop} size="sm" variant="pills" />,
+    'donjon-toast': <StaticToastPreview />,
+    'donjon-toggle': <Toggle checked onChange={noop} size="sm" label="SFX" variant="warning" />,
+    'donjon-tooltip': <StaticTooltipPreview />,
+    erb: <div className="flex items-center justify-center"><div className="flex h-12 w-10 items-center justify-center rounded-[12px] border border-amber-700/60 bg-neutral-900 text-[11px] font-bold text-amber-300">II</div></div>,
+    'hex-tile': <HexTile state="selected" size="sm" label="A3" showLabel />,
+    'die-face': <DieFace value={5} playerColor="#d6aa57" size="sm" state="selected" />,
+    'float-feedback': <FloatFeedback text="+2 VP" visible variant="success" animKey="preview" />,
+    'action-tile': <ActionTile icon={<SwordIcon width={18} height={18} />} title="Útok" cost={2} size="sm" selected />,
+    'event-log': <EventLog events={[{ id: 1, type: 'gain', text: '+2 VP', round: 3 }, { id: 2, type: 'warning', text: 'Nebezpečí', detail: 'Hex je oslabený' }]} maxHeight={64} showTitle={false} />,
+    'phase-indicator': <PhaseIndicator phases={[{ id: 'move', label: 'Pohyb' }, { id: 'fight', label: 'Souboj' }, { id: 'end', label: 'Konec' }]} currentPhase="fight" size="sm" />,
+    'resource-bar': <ResourceBar value={68} max={100} variant="hp" size="sm" label="HP" showValue zones />,
+    'numeric-display': <NumericDisplay value={12} label="VP" variant="vp" size="sm" />,
+    'player-panel': <PlayerPanel name="Hráč 1" color="#4A90E2" symbol="shield" vp={7} hp={72} size="sm" isActive />,
+    'game-transition': <GameTransition show preset="slideUp"><div className="rounded border border-amber-700/40 bg-neutral-900 px-3 py-2 text-xs text-neutral-200">Enter / exit</div></GameTransition>,
+    'error-boundary': <StaticErrorPreview />,
+  }
+
+  return (
+    <div className={previewClass} aria-hidden="true">
+      {previews[comp.slug] ?? <PreviewFallback comp={comp} />}
+    </div>
+  )
+}
+
 /* ── ComponentCard ── */
 function ComponentCard({ comp }) {
   const navigate = useNavigate()
@@ -183,10 +353,21 @@ function ComponentCard({ comp }) {
   const hasShowcase = !!comp.showcaseRoute
   // Primární akce: showcase stránka pokud existuje, jinak detail
   const primaryTo = comp.showcaseRoute || `/components/${comp.slug}`
+  const onCardActivate = () => navigate(primaryTo)
+
+  const onCardKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      onCardActivate()
+    }
+  }
 
   return (
-    <Link
-      to={primaryTo}
+    <div
+      role="link"
+      tabIndex={0}
+      onClick={onCardActivate}
+      onKeyDown={onCardKeyDown}
       className="group flex flex-col gap-3 p-4 rounded-lg bg-neutral-900 border border-neutral-800 hover:border-brand-600/60 hover:bg-neutral-800/80 transition-all duration-150"
     >
       {/* Header */}
@@ -201,6 +382,8 @@ function ComponentCard({ comp }) {
           <StatusBadge status={comp.status} />
         </div>
       </div>
+
+      <MiniPreview comp={comp} />
 
       {/* Description */}
       {comp.description ? (
@@ -245,7 +428,7 @@ function ComponentCard({ comp }) {
           </span>
         </div>
       </div>
-    </Link>
+    </div>
   )
 }
 
