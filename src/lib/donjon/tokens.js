@@ -38,6 +38,14 @@ export const successColor = '#40A055'
 export const warningColor = '#C08040'
 export const failColor    = '#C04040'  // fail / error state (darker than dangerColor)
 
+// ── Herní barvy zdrojů ─────────────────────────────────────────────────────
+// Tyto barvy mají sémantický herní význam (mana, magie, XP) a nepatří do
+// standardní UI palety (danger/success/warning). Pojmenované pro konzistenci
+// napříč DonjonProgressBar, ResourceBar, NumericDisplay, DonjonToast aj.
+export const infoColor  = '#4A80E2'  // mana / info / event modrá
+export const infoLight  = '#7AAEF5'  // světlejší tint pro nadpisy a ikony
+export const magicColor = '#9A60C8'  // magie / XP fialová
+
 // ── Surfaces (extra) ──────────────────────────────────────────────────────
 export const bgDeep = '#1B1A30'  // deep background variant
 

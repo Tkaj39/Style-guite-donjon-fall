@@ -292,6 +292,17 @@ export default function MapPage() {
           </div>
         </Preview>
       </Section>
+
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Mapa je herní deska — vždy zobrazuj všechny hexy i prázdné; prázdné pole je rovněž herní informace.</p>
+          <p>✓ Hex stavy aktualizuj synchronně s herní logikou — nikdy neodkládej vizuální update za animaci.</p>
+          <p>✓ Ohniska zvýrazni prominentně (focal-active/passive) — jsou klíčovým cílem hry.</p>
+          <p>✓ Pro mini-mapu (overview) použij size="sm" bez popisků — přehlednost je důležitější než detaily.</p>
+          <p>✗ Nepoužívej mapu pro výběr polí bez jasného vizuálního feedbacku (hover, selected stav).</p>
+          <p>✗ Neověnčuj mapu zbytečnými UI prvky — herní plocha musí mít vizuální prioritu na obrazovce.</p>
+        </div>
+      </Section>
     </ShowcasePage>
   )
 }

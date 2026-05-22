@@ -67,6 +67,17 @@ export default function ErbPage() {
           </div>
         </Preview>
       </Section>
+
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Barva erbu je jedinečná pro každého hráče — nikdy nepřiděluj dvěma hráčům stejnou barvu.</p>
+          <p>✓ Používej Shield všude kde identifikuješ hráče — HUD, scoreboard, win dialog, event log.</p>
+          <p>✓ Shield vs PlayerBadge: Shield je čistá ikona, PlayerBadge je inline řádkový identifikátor s textem.</p>
+          <p>✓ Velikost erbu přizpůsob kontextu — sm pro inline text, md pro sidepanel, lg pro win screen.</p>
+          <p>✗ Nepoužívej playerColor přímo na text bez dostatečného kontrastu — vždy over-tmavé pozadí.</p>
+          <p>✗ Nenahrazuj erb jménem hráče bez vizuální barvy — jméno samotné nestačí pro rychlou identifikaci.</p>
+        </div>
+      </Section>
     </ShowcasePage>
   )
 }

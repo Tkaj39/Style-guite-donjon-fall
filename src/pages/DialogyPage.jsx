@@ -317,6 +317,17 @@ export default function DialogyPage() {
           </DonjonCard>
         </Preview>
       </Section>
+
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Podmínka výhry má prioritu před normálním ukončením tahu — zkontroluj ji po každé akci.</p>
+          <p>✓ Výhra VP: zobraz win dialog ihned po dosažení cíle, ne až na konci tahu.</p>
+          <p>✓ Výhra eliminací: jasně komunikuj, proč hráč prohrál (žádná legální akce).</p>
+          <p>✓ Win screen zobrazuj vždy celý (včetně výsledkové tabulky) — hráč musí vidět konečný stav.</p>
+          <p>✗ Nepovoluj pokračování hry po splnění podmínky výhry — okamžitě přejdi na win state.</p>
+          <p>✗ Nepoužívej stejný dialog pro výhru i prohru — sémantika a vizuál musí odpovídat výsledku.</p>
+        </div>
+      </Section>
     </ShowcasePage>
   )
 }

@@ -450,6 +450,17 @@ export default function ZvukyPage() {
         </Preview>
       </Section>
 
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Zvukové kategorie: hudba (loop, ambient), SFX (akce, feedback), UI (click, hover) — vždy oddělené ovládání hlasitosti.</p>
+          <p>✓ Zvuky spouštěj ihned při herní akci — zpoždění nad 100 ms narušuje herní pocit.</p>
+          <p>✓ Střídej varianty zvuků pro opakované akce (pohyb, házení) — identický zvuk se stává rušivým.</p>
+          <p>✓ Respektuj systémové ztlumení a prefers-reduced-motion — hráč může chtít hrát v tichu.</p>
+          <p>✗ Nespouštěj více hlasitých SFX najednou — mixuj nebo prioritizuj.</p>
+          <p>✗ Nepoužívej zvuk jako jedinou informaci o herní události — vždy doplň vizuální feedback.</p>
+        </div>
+      </Section>
+
     </ShowcasePage>
   )
 }

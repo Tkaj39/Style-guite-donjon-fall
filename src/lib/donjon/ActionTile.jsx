@@ -7,7 +7,7 @@ import {
   bg2, bg3, bg4,
   borderDefault, borderMid,
   textHigh, textMid, textLow, textFaint,
-  dangerColor, warningColor, gainColor,
+  dangerColor, warningColor, gainColor, magicColor,
 } from './tokens'
 
 const SIZES = {
@@ -20,7 +20,7 @@ const VARIANTS = {
   default: { border: borderDefault, activeBorder: goldDim,      selBg: `${gold}0E`,    selBorder: goldDim     },
   attack:  { border: borderDefault, activeBorder: dangerColor,  selBg: `${dangerColor}12`, selBorder: dangerColor  },
   move:    { border: borderDefault, activeBorder: gainColor,    selBg: `${gainColor}10`, selBorder: gainColor   },
-  special: { border: borderDefault, activeBorder: '#9A60C8',    selBg: '#9A60C818',    selBorder: '#7A48A8'   },
+  special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}18`, selBorder: '#7A48A8'  },
 }
 
 /* ── Lock ikona ── */

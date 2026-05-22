@@ -9,7 +9,7 @@ import {
   gold, goldDim,
   bg2, bg3, bg4,
   borderDefault,
-  textHigh, textMid, textLow,
+  textHigh, textMid, textLow, dangerColor,
 } from './tokens'
 
 const SIZES = {
@@ -90,7 +90,7 @@ export default function PlayerPanel({
           </div>
 
           {eliminated && (
-            <span style={{ fontSize: '0.6875rem', color: '#E05C5C', letterSpacing: '0.08em', fontWeight: 600 }}>
+            <span style={{ fontSize: '0.6875rem', color: dangerColor, letterSpacing: '0.08em', fontWeight: 600 }}>
               VYŘAZEN
             </span>
           )}

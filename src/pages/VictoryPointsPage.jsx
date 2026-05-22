@@ -342,6 +342,17 @@ const handleAddVP = (id) => {
           </DonjonCard>
         </Preview>
       </Section>
+
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Zobrazuj VP score prominentně v HUDu — hráč musí vždy vidět aktuální stav bez scrollování.</p>
+          <p>✓ Animuj přírůstek VP (NumericDisplay s delta badge) — vizuální zpětná vazba potvrzuje herní akci.</p>
+          <p>✓ Cílový počet VP zobrazuj vedle aktuálního skóre — hráč musí vidět, kolik mu zbývá.</p>
+          <p>✓ Při dosažení cíle okamžitě spusť win state — neodkládej výsledek na konec tahu.</p>
+          <p>✗ Nepoužívej VP badge bez kontextu — vždy doplň co VP způsobilo (ohnisko, zničení).</p>
+          <p>✗ Nezobrazuj záporné VP — minimum je 0, ne -N.</p>
+        </div>
+      </Section>
     </ShowcasePage>
   )
 }

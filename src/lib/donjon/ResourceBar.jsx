@@ -7,15 +7,15 @@
 import {
   bg2, borderDefault,
   textMid, textFaint,
-  gainColor, dangerColor, warningColor,
+  gainColor, dangerColor, warningColor, infoColor, magicColor,
 } from './tokens'
 
 const VARIANT_FILL = {
   hp:      null,          // uses threshold logic based on pct
-  mana:    '#4A80E2',
-  stamina: '#C08040',
-  xp:      '#9A60C8',
-  shield:  '#7AB5E0',
+  mana:    infoColor,
+  stamina: warningColor,
+  xp:      magicColor,
+  shield:  '#7AB5E0',     // světle modrá — záměrně bez tokenu (specifická pro štít)
   default: null,
 }
 

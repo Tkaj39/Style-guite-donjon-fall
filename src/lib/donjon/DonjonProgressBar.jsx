@@ -4,7 +4,7 @@
    ─────────────────────────────────────────────────────────────────────── */
 import {
   gold, bg2, bg3,
-  gainColor, dangerColor, warningColor,
+  gainColor, dangerColor, warningColor, infoColor, magicColor,
   textMid, textFaint,
 } from './tokens'
 
@@ -16,9 +16,9 @@ function thresholdColor(pct) {
 
 const VARIANTS = {
   hp:      { fill: null,         label: 'HP'      },
-  mana:    { fill: '#4A80E2',    label: 'Mana'    },
+  mana:    { fill: infoColor,    label: 'Mana'    },
   stamina: { fill: warningColor, label: 'Stamina' },
-  xp:      { fill: '#9A60C8',    label: 'XP'      },
+  xp:      { fill: magicColor,   label: 'XP'      },
   default: { fill: null,         label: ''        },
 }
 
@@ -101,7 +101,7 @@ export default function DonjonProgressBar({
         {flash && (
           <div style={{
             position: 'absolute', inset: 0,
-            background: '#FF444488',
+            background: `${dangerColor}88`,
             borderRadius: s.radius,
             animation: 'donjonDmgFlash 0.4s ease-out forwards',
             pointerEvents: 'none',

@@ -11,7 +11,7 @@ import {
   bg2, bg3,
   borderDefault,
   textHigh, textMid,
-  gainColor, dangerColor, warningColor,
+  gainColor, dangerColor, warningColor, infoColor, infoLight,
 } from './tokens'
 
 const Z_TOAST = 2000
@@ -22,7 +22,7 @@ const VARIANTS = {
   gain:    { bar: gainColor,    title: gainColor,     icon: gainColor    },
   loss:    { bar: dangerColor,  title: dangerColor,   icon: dangerColor  },
   warning: { bar: warningColor, title: warningColor,  icon: warningColor },
-  event:   { bar: '#4A80E2',    title: '#7AAEF5',     icon: '#4A80E2'   },
+  event:   { bar: infoColor,    title: infoLight,     icon: infoColor   },
 }
 
 const POSITIONS = {

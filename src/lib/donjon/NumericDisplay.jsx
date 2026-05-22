@@ -8,14 +8,14 @@ import {
   bg2, bg3, bg4,
   borderDefault,
   textHigh, textMid, textFaint,
-  gainColor, dangerColor,
+  gainColor, dangerColor, infoColor, infoLight,
 } from './tokens'
 
 const VARIANTS = {
   default:  { color: textHigh,  gainFlash: `${gainColor}25`,   lossFlash: `${dangerColor}25`  },
   vp:       { color: gold,      gainFlash: `${gold}30`,        lossFlash: `${dangerColor}25`  },
   resource: { color: goldMid,   gainFlash: `${gainColor}22`,   lossFlash: `${dangerColor}22`  },
-  mana:     { color: '#7AAEF5', gainFlash: `#4A80E222`,        lossFlash: `${dangerColor}22`  },
+  mana:     { color: infoLight,  gainFlash: `${infoColor}22`,   lossFlash: `${dangerColor}22`  },
 }
 
 const SIZES = {

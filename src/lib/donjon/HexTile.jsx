@@ -1,4 +1,4 @@
-import { gold, textActive, textFaint, bgDeep } from './tokens'
+import { gold, textActive, textFaint, bgDeep, gainColor, dangerColor } from './tokens'
 
 const HEX_CLIP = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
 
@@ -14,8 +14,8 @@ const stateMap = {
   'focal-active': { border: gold,      fill: '#201D0E',   glow: '0 0 14px #FFC18366' },
   'focal-passive':{ border: '#6A6040', fill: '#1C1A0E',   glow: null },
   selected:       { border: textActive,fill: '#252342',   glow: '0 0 12px #F0E6D366' },
-  move:           { border: '#50B86C', fill: '#0E231A',   glow: '0 0 10px #50B86C55' },
-  attack:         { border: '#E05C5C', fill: '#230E0E',   glow: '0 0 10px #E05C5C55' },
+  move:           { border: gainColor,   fill: '#0E231A',   glow: `0 0 10px ${gainColor}55`   },
+  attack:         { border: dangerColor, fill: '#230E0E',   glow: `0 0 10px ${dangerColor}55` },
   blocked:        { border: '#2A2840', fill: '#141320',   glow: null, opacity: 0.45 },
 }
 

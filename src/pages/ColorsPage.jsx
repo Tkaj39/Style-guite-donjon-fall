@@ -389,6 +389,16 @@ export default function ColorsPage() {
       ]}
     >
       <ColorsContent />
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Zlato (gold/goldMid/goldDim) je primární akcent — používej ho pro aktivní prvky, ikony, linky.</p>
+          <p>✓ Sémantické barvy (danger/success/warning) mají fixní mapování — nepoužívej je pro dekoraci.</p>
+          <p>✓ Hráčské barvy jsou dynamické — definuj je jako prop, nikdy jako hardcoded hex v komponentě.</p>
+          <p>✓ Kontrast textu na tmavém pozadí: textHigh pro primární, textMid pro sekundární, textLow pro hints.</p>
+          <p>✗ Nevkládej nové hardcoded hex hodnoty do komponent — přidej token do tokens.js a použij ho.</p>
+          <p>✗ Nepoužívej světlé barvy (textActive, gold) na středním pozadí (bg3/bg4) bez ověření kontrastu.</p>
+        </div>
+      </Section>
     </ShowcasePage>
   )
 }

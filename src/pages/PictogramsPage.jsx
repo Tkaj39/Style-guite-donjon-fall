@@ -184,6 +184,16 @@ export default function PictogramsPage() {
       ]}
     >
       <PictogramContent />
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Piktogram vždy doplň textem (label nebo tooltip) — ikonový jazyk sám o sobě nestačí pro nové hráče.</p>
+          <p>✓ Konzistentní mapování: stejná akce vždy stejný piktogram — nikdy neměň ikonu pro stejnou akci.</p>
+          <p>✓ Varianta piktogramu musí odpovídat sémantice akce (danger pro destruktivní, success pro pozitivní).</p>
+          <p>✓ Pro klávesové zkratky a HUD použij size="sm" nebo "xs" — větší ikony v herní ploše jsou rušivé.</p>
+          <p>✗ Nepoužívej piktogram bez aria-label nebo viditelného textu v interaktivních prvcích.</p>
+          <p>✗ Nepřidávej nové piktogramy bez záznamu v systému — nekonzistentní iconografie matou hráče.</p>
+        </div>
+      </Section>
     </ShowcasePage>
   )
 }

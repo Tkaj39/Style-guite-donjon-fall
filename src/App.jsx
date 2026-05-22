@@ -1,6 +1,12 @@
 import { lazy, Suspense } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './styleguide/Layout'
+import ErrorBoundary from './styleguide/ErrorBoundary'
+
+/** Kombinace ErrorBoundary + Suspense — zachytí chyby lazy stránek a zobrazí je čitelně */
+function S({ children }) {
+  return <ErrorBoundary><Suspense>{children}</Suspense></ErrorBoundary>
+}
 
 const ButtonsPage          = lazy(() => import('./pages/ButtonsPage'))
 const ButtonGroupsPage     = lazy(() => import('./pages/ButtonGroupsPage'))
@@ -76,73 +82,73 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Navigate to="/mood" replace />} />
-        <Route path="buttons"      element={<Suspense><ButtonsPage /></Suspense>} />
-        <Route path="button-groups" element={<Suspense><ButtonGroupsPage /></Suspense>} />
-        <Route path="mood"         element={<Suspense><MoodPage /></Suspense>} />
-        <Route path="colors"       element={<Suspense><ColorsPage /></Suspense>} />
-        <Route path="typography"   element={<Suspense><TypographyPage /></Suspense>} />
-        <Route path="spacing"      element={<Suspense><SpacingPage /></Suspense>} />
-        <Route path="pictograms"   element={<Suspense><PictogramsPage /></Suspense>} />
-        <Route path="ornaments"    element={<Suspense><OrnamentsPage /></Suspense>} />
-        <Route path="shapes"       element={<Suspense><ShapesPage /></Suspense>} />
-        <Route path="inputs"       element={<Suspense><InputsPage /></Suspense>} />
-        <Route path="badges"       element={<Suspense><BadgesPage /></Suspense>} />
-        <Route path="cards"        element={<Suspense><CardsPage /></Suspense>} />
-        <Route path="turn"         element={<Suspense><TahPage /></Suspense>} />
-        <Route path="actions"      element={<Suspense><AkcePage /></Suspense>} />
-        <Route path="victory-points" element={<Suspense><VictoryPointsPage /></Suspense>} />
-        <Route path="dialogs"      element={<Suspense><DialogyPage /></Suspense>} />
-        <Route path="hexagon"      element={<Suspense><HexagonPage /></Suspense>} />
-        <Route path="dice"         element={<Suspense><DicePage /></Suspense>} />
-        <Route path="map"          element={<Suspense><MapPage /></Suspense>} />
-        <Route path="erb"          element={<Suspense><ErbPage /></Suspense>} />
-        <Route path="animations"   element={<Suspense><AnimacePage /></Suspense>} />
-        <Route path="float-feedback" element={<Suspense><FloatFeedbackPage /></Suspense>} />
-        <Route path="sounds"       element={<Suspense><ZvukyPage /></Suspense>} />
-        <Route path="screens"      element={<Suspense><ScreensPage /></Suspense>} />
-        <Route path="menu"         element={<Suspense><MenuPage /></Suspense>} />
-        <Route path="map-select"   element={<Suspense><MapSelectPage /></Suspense>} />
-        <Route path="loading-app"  element={<Suspense><LoadingAppPage /></Suspense>} />
-        <Route path="loading-game" element={<Suspense><LoadingGamePage /></Suspense>} />
-        <Route path="settings"     element={<Suspense><SettingsPage /></Suspense>} />
-        <Route path="todo"         element={<Suspense><TodoPage /></Suspense>} />
-        <Route path="components"   element={<Suspense><ComponentsPage /></Suspense>} />
-        <Route path="components/:slug" element={<Suspense><ComponentDetailPage /></Suspense>} />
-        <Route path="tooltip"      element={<Suspense><TooltipPage /></Suspense>} />
-        <Route path="modal"        element={<Suspense><ModalPage /></Suspense>} />
-        <Route path="toast"        element={<Suspense><ToastPage /></Suspense>} />
-        <Route path="toggle"       element={<Suspense><TogglePage /></Suspense>} />
-        <Route path="progress-bar" element={<Suspense><ProgressBarPage /></Suspense>} />
-        <Route path="select"       element={<Suspense><SelectPage /></Suspense>} />
-        <Route path="slider"       element={<Suspense><SliderPage /></Suspense>} />
-        <Route path="tabs"               element={<Suspense><TabsPage /></Suspense>} />
-        <Route path="motion"             element={<Suspense><MotionPage /></Suspense>} />
-        <Route path="interaction-states" element={<Suspense><InteractionStatesPage /></Suspense>} />
-        <Route path="z-index"            element={<Suspense><ZIndexPage /></Suspense>} />
-        <Route path="accessibility"      element={<Suspense><AccessibilityPage /></Suspense>} />
-        <Route path="feedback-hierarchy" element={<Suspense><FeedbackHierarchyPage /></Suspense>} />
-        <Route path="error-states"       element={<Suspense><ErrorStatesPage /></Suspense>} />
-        <Route path="empty-states"       element={<Suspense><EmptyStatesPage /></Suspense>} />
-        <Route path="loading-skeleton"   element={<Suspense><LoadingSkeletonPage /></Suspense>} />
-        <Route path="validation"         element={<Suspense><ValidationPage /></Suspense>} />
-        <Route path="microcopy"          element={<Suspense><MicrocopyPage /></Suspense>} />
-        <Route path="responsive"         element={<Suspense><ResponsivePage /></Suspense>} />
-        <Route path="focus-ring"         element={<Suspense><FocusRingPage /></Suspense>} />
-        <Route path="glow-shadow"        element={<Suspense><GlowShadowPage /></Suspense>} />
-        <Route path="cursor"             element={<Suspense><CursorPage /></Suspense>} />
-        <Route path="scrollbar"          element={<Suspense><ScrollbarPage /></Suspense>} />
-        <Route path="text-selection"     element={<Suspense><TextSelectionPage /></Suspense>} />
-        <Route path="tokens"             element={<Suspense><TokensPage /></Suspense>} />
-        <Route path="hud"                element={<Suspense><HudPage /></Suspense>} />
-        <Route path="texture"            element={<Suspense><TexturePage /></Suspense>} />
-        <Route path="corner-ornament"   element={<Suspense><CornerOrnamentPage /></Suspense>} />
-        <Route path="snippets"          element={<Suspense><SnippetsPage /></Suspense>} />
-        <Route path="resource-bar"      element={<Suspense><ResourceBarPage /></Suspense>} />
-        <Route path="numeric-display"   element={<Suspense><NumericDisplayPage /></Suspense>} />
-        <Route path="player-panel"      element={<Suspense><PlayerPanelPage /></Suspense>} />
-        <Route path="action-tile"       element={<Suspense><ActionTilePage /></Suspense>} />
-        <Route path="event-log"         element={<Suspense><EventLogPage /></Suspense>} />
-        <Route path="phase-indicator"   element={<Suspense><PhaseIndicatorPage /></Suspense>} />
+        <Route path="buttons"      element={<S><ButtonsPage /></S>} />
+        <Route path="button-groups" element={<S><ButtonGroupsPage /></S>} />
+        <Route path="mood"         element={<S><MoodPage /></S>} />
+        <Route path="colors"       element={<S><ColorsPage /></S>} />
+        <Route path="typography"   element={<S><TypographyPage /></S>} />
+        <Route path="spacing"      element={<S><SpacingPage /></S>} />
+        <Route path="pictograms"   element={<S><PictogramsPage /></S>} />
+        <Route path="ornaments"    element={<S><OrnamentsPage /></S>} />
+        <Route path="shapes"       element={<S><ShapesPage /></S>} />
+        <Route path="inputs"       element={<S><InputsPage /></S>} />
+        <Route path="badges"       element={<S><BadgesPage /></S>} />
+        <Route path="cards"        element={<S><CardsPage /></S>} />
+        <Route path="turn"         element={<S><TahPage /></S>} />
+        <Route path="actions"      element={<S><AkcePage /></S>} />
+        <Route path="victory-points" element={<S><VictoryPointsPage /></S>} />
+        <Route path="dialogs"      element={<S><DialogyPage /></S>} />
+        <Route path="hexagon"      element={<S><HexagonPage /></S>} />
+        <Route path="dice"         element={<S><DicePage /></S>} />
+        <Route path="map"          element={<S><MapPage /></S>} />
+        <Route path="erb"          element={<S><ErbPage /></S>} />
+        <Route path="animations"   element={<S><AnimacePage /></S>} />
+        <Route path="float-feedback" element={<S><FloatFeedbackPage /></S>} />
+        <Route path="sounds"       element={<S><ZvukyPage /></S>} />
+        <Route path="screens"      element={<S><ScreensPage /></S>} />
+        <Route path="menu"         element={<S><MenuPage /></S>} />
+        <Route path="map-select"   element={<S><MapSelectPage /></S>} />
+        <Route path="loading-app"  element={<S><LoadingAppPage /></S>} />
+        <Route path="loading-game" element={<S><LoadingGamePage /></S>} />
+        <Route path="settings"     element={<S><SettingsPage /></S>} />
+        <Route path="todo"         element={<S><TodoPage /></S>} />
+        <Route path="components"   element={<S><ComponentsPage /></S>} />
+        <Route path="components/:slug" element={<S><ComponentDetailPage /></S>} />
+        <Route path="tooltip"      element={<S><TooltipPage /></S>} />
+        <Route path="modal"        element={<S><ModalPage /></S>} />
+        <Route path="toast"        element={<S><ToastPage /></S>} />
+        <Route path="toggle"       element={<S><TogglePage /></S>} />
+        <Route path="progress-bar" element={<S><ProgressBarPage /></S>} />
+        <Route path="select"       element={<S><SelectPage /></S>} />
+        <Route path="slider"       element={<S><SliderPage /></S>} />
+        <Route path="tabs"               element={<S><TabsPage /></S>} />
+        <Route path="motion"             element={<S><MotionPage /></S>} />
+        <Route path="interaction-states" element={<S><InteractionStatesPage /></S>} />
+        <Route path="z-index"            element={<S><ZIndexPage /></S>} />
+        <Route path="accessibility"      element={<S><AccessibilityPage /></S>} />
+        <Route path="feedback-hierarchy" element={<S><FeedbackHierarchyPage /></S>} />
+        <Route path="error-states"       element={<S><ErrorStatesPage /></S>} />
+        <Route path="empty-states"       element={<S><EmptyStatesPage /></S>} />
+        <Route path="loading-skeleton"   element={<S><LoadingSkeletonPage /></S>} />
+        <Route path="validation"         element={<S><ValidationPage /></S>} />
+        <Route path="microcopy"          element={<S><MicrocopyPage /></S>} />
+        <Route path="responsive"         element={<S><ResponsivePage /></S>} />
+        <Route path="focus-ring"         element={<S><FocusRingPage /></S>} />
+        <Route path="glow-shadow"        element={<S><GlowShadowPage /></S>} />
+        <Route path="cursor"             element={<S><CursorPage /></S>} />
+        <Route path="scrollbar"          element={<S><ScrollbarPage /></S>} />
+        <Route path="text-selection"     element={<S><TextSelectionPage /></S>} />
+        <Route path="tokens"             element={<S><TokensPage /></S>} />
+        <Route path="hud"                element={<S><HudPage /></S>} />
+        <Route path="texture"            element={<S><TexturePage /></S>} />
+        <Route path="corner-ornament"   element={<S><CornerOrnamentPage /></S>} />
+        <Route path="snippets"          element={<S><SnippetsPage /></S>} />
+        <Route path="resource-bar"      element={<S><ResourceBarPage /></S>} />
+        <Route path="numeric-display"   element={<S><NumericDisplayPage /></S>} />
+        <Route path="player-panel"      element={<S><PlayerPanelPage /></S>} />
+        <Route path="action-tile"       element={<S><ActionTilePage /></S>} />
+        <Route path="event-log"         element={<S><EventLogPage /></S>} />
+        <Route path="phase-indicator"   element={<S><PhaseIndicatorPage /></S>} />
       </Route>
     </Routes>
   )

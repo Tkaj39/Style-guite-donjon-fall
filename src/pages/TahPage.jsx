@@ -311,6 +311,17 @@ export default function TahPage() {
           </div>
         </Preview>
       </Section>
+
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Fáze tahu zobrazuj v pořadí: Pohyb → Akce → Souboj (pokud nastal) — sekvence musí být předvídatelná.</p>
+          <p>✓ Aktivní fázi zvýrazni jasně — hráč musí vědět, kde v průběhu tahu se nachází.</p>
+          <p>✓ Splněné fáze označuj checkmarkem — vizuální zpětná vazba snižuje chyby (opakované klikání).</p>
+          <p>✓ Souboj je podmíněná fáze — zobrazuj ji jen když nastane, jinak ji vůbec neukazuj.</p>
+          <p>✗ Nepovoluj přechod do další fáze dokud není aktuální fáze dokončena.</p>
+          <p>✗ Nepřeskakuj fáze bez explicitní akce hráče — automatické přechody matou méně zkušené hráče.</p>
+        </div>
+      </Section>
     </ShowcasePage>
   )
 }

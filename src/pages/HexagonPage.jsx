@@ -183,6 +183,17 @@ export default function HexagonPage() {
           </div>
         </Preview>
       </Section>
+
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Stav hexu musí vždy odpovídat herní logice — nesynchronizovaný vizuál způsobuje chyby v rozhodování hráče.</p>
+          <p>✓ Barva owner prop je hráčova identitní barva — použij ji konzistentně ve všech prvcích UI pro daného hráče.</p>
+          <p>✓ Focal-active pro ohnisko, které lze obsadit (aktivní tahem) — focal-passive pro ostatní v skupině.</p>
+          <p>✓ Pro mini-mapu (overview) použij size="sm" — zbytečně velké hexy v mini-mapě narušují přehlednost.</p>
+          <p>✗ Nepoužívej state="selected" pro permanentní stav — je to jen vizuální highlight, ne vlastnictví.</p>
+          <p>✗ Nepřidávej interaktivitu přímo do HexTile — ovládání patří do nadřazeného herního gridu.</p>
+        </div>
+      </Section>
     </ShowcasePage>
   )
 }

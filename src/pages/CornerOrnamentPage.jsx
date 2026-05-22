@@ -386,7 +386,7 @@ function Panel({ children }) {
   )
 }`}</pre>
 
-        <div className="flex flex-col gap-2 p-4 rounded-lg bg-neutral-900 border border-neutral-800">
+        <div id="pravidla" className="flex flex-col gap-2 p-4 rounded-lg bg-neutral-900 border border-neutral-800">
           <p className="text-[11px] font-semibold uppercase tracking-widest text-neutral-600 mb-1">Pravidla</p>
           {[
             'Parent musí mít position: relative — CornerOrnament se renderuje jako absolutně pozicovaný SVG.',

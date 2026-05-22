@@ -451,6 +451,17 @@ const mixedTower = [{ owner:2, value:3 }, { owner:1, value:1 }, { owner:1, value
           </div>
         </Preview>
       </Section>
+
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Barva kostky musí vždy odpovídat barvě hráče — hráč identifikuje své kostky primárně barvou.</p>
+          <p>✓ Hodnota kostky (1–6) musí být vždy viditelná — nepoužívej příliš tmavé kombinace playerColor a pozadí.</p>
+          <p>✓ TowerOnHex zobrazuj s hex v odpovídajícím stavu (base s owner barvou).</p>
+          <p>✓ Animaci házení spouštěj pouze na kostky, které jsou aktivně házeny — ne na celou věž.</p>
+          <p>✗ Nekombinuj DieFace a TowerOnHex pro stejnou kostku najednou — jsou alternativní reprezentace.</p>
+          <p>✗ Nepoužívej DieFace samostatně pro permanentní umístěné kostky — TowerOnHex má správný kontext (hex).</p>
+        </div>
+      </Section>
     </ShowcasePage>
   )
 }

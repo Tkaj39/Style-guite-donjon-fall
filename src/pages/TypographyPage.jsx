@@ -394,6 +394,16 @@ export default function TypographyPage() {
       ]}
     >
       <TypographyContent />
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Donjon typografie (serif + zlatá) je herní identita — používej ji pro tituly, nadpisy a herní eventy.</p>
+          <p>✓ Inter (sans-serif) pro UI text — popisky, hodnoty, formuláře; udržuje čitelnost i při malých velikostech.</p>
+          <p>✓ Hierarchii drž maximálně na 3 úrovních na jedné obrazovce — více úrovní způsobuje vizuální chaos.</p>
+          <p>✓ Pro herní čísla (HP, VP, počty) používej tabular-nums — zarovnání se nemění při změně hodnoty.</p>
+          <p>✗ Nepřidávej letterSpacing k běžnému body textu — jen pro allcaps labely a dekorativní nadpisy.</p>
+          <p>✗ Nepoužívej serif pro malé texty (pod 11px) — při malých velikostech ztrácí čitelnost.</p>
+        </div>
+      </Section>
     </ShowcasePage>
   )
 }

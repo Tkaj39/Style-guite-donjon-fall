@@ -309,6 +309,17 @@ export default function AkcePage() {
           </div>
         </Preview>
       </Section>
+
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Každý hráč musí v tahu provést právě jednu akci — akce jsou vzájemně výlučné.</p>
+          <p>✓ Zobrazuj variantu akce (danger/warning) konzistentně — hráč musí okamžitě rozpoznat typ dopadu.</p>
+          <p>✓ Podmínky (badge „Nutné: …") zobrazuj vždy, pokud akce vyžaduje splnění prerekvizit.</p>
+          <p>✓ ButtonGroup pro výběr + Card pro detail — udrž separaci navigace a obsahu.</p>
+          <p>✗ Nepovoluj akci, která nesplňuje podmínku — disabled stav je čitelnější než chybová hláška po kliknutí.</p>
+          <p>✗ Neměň pořadí akcí mezi tahy — konzistentní pořadí snižuje kognitivní zátěž hráče.</p>
+        </div>
+      </Section>
     </ShowcasePage>
   )
 }

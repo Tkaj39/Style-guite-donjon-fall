@@ -138,6 +138,16 @@ export default function SpacingPage() {
         </div>
       </Section>
 
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Používej násobky základní jednotky (4 px) — 4, 8, 12, 16, 24, 32, 48, 64 px.</p>
+          <p>✓ Gap mezi herními prvky (kostky, hexy): 4–8 px. Gap mezi UI bloky: 16–24 px. Gap mezi sekcemi: 32–48 px.</p>
+          <p>✓ Padding tlačítek: 8–12 px vertikálně, 14–20 px horizontálně — smaller pro herní UI, larger pro settings.</p>
+          <p>✓ Herní plocha (mapa) nemá padding — hexy sahají na okraj kontejneru.</p>
+          <p>✗ Nevymýšlej arbitrary hodnoty (17px, 23px) — vždy zaokrouhli na nejbližší 4px násobek.</p>
+          <p>✗ Nepoužívej margin pro layout — preferuj gap v flex/grid kontejnerech.</p>
+        </div>
+      </Section>
     </ShowcasePage>
   )
 }

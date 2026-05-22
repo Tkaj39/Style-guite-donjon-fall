@@ -558,6 +558,17 @@ function FloatFeedback({ text, color, x, y, onDone }) {
         </Preview>
       </Section>
 
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ HUD musí být vždy viditelný bez scrollování — fixní pozice nebo sticky panel na okraji herní plochy.</p>
+          <p>✓ Priorita informací v HUDu: VP score &gt; HP/životy &gt; aktivní hráč &gt; sekundární zdroje.</p>
+          <p>✓ Minimalizuj HUD pro herní plochu — každý pixel odebraný HUDem je herní prostor navíc.</p>
+          <p>✓ Aktualizuj HUD synchronně s herní logikou — zpožděný HUD způsobuje zmatení hráče.</p>
+          <p>✗ Nevkládej do HUDu ovládací prvky — HUD je read-only panel, ne interaktivní UI.</p>
+          <p>✗ Nepoužívej animace v HUDu pro informace, které se mění každý tah — animuj jen VP gain, low HP.</p>
+        </div>
+      </Section>
+
     </ShowcasePage>
   )
 }

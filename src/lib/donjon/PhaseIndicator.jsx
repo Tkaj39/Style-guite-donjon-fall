@@ -5,7 +5,7 @@
    ─────────────────────────────────────────────────────────────────────── */
 import {
   gold, goldDim, goldMid,
-  bg2, bg3,
+  bg0, bg2, bg3,
   borderDefault,
   textHigh, textMid, textLow, textFaint,
   gainColor,
@@ -73,7 +73,7 @@ export default function PhaseIndicator({
         /* Barvy */
         const dotBg      = isDone ? gainColor : isCurrent ? gold : bg2
         const dotBorder  = isDone ? gainColor : isCurrent ? gold : borderDefault
-        const dotColor   = isDone ? '#0d0d1a' : isCurrent ? '#0d0d1a' : textFaint
+        const dotColor   = isDone ? bg0 : isCurrent ? bg0 : textFaint
         const labelColor = isDone ? textLow : isCurrent ? gold : textFaint
         const labelW     = isCurrent ? 600 : 400
 

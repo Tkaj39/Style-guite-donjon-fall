@@ -2239,6 +2239,17 @@ export default function AnimacePage() {
           <SuddenDeathDemo />
         </Preview>
       </Section>
+
+      <Section id="pravidla" title="Pravidla použití">
+        <div className="flex flex-col gap-2 text-sm text-neutral-400">
+          <p>✓ Animuj jen co přináší informaci — pohyb musí mít herní nebo UI důvod (feedback, přechod stavu).</p>
+          <p>✓ Délka: rychlé reakce 80–160 ms, UI přechody 200–300 ms, dramatické herní eventy 400–600 ms.</p>
+          <p>✓ GameTransition pro přechody obrazovek — nikdy neměň stav hry uprostřed přechodu.</p>
+          <p>✓ Respektuj prefers-reduced-motion — dramatické animace zakázat, funkční (loading) ponechat.</p>
+          <p>✗ Nepoužívej animace pro dekoraci bez herního kontextu — herní UI není demo reel.</p>
+          <p>✗ Nespouštěj více dramatických animací najednou — jedna dramatická animace na scénu.</p>
+        </div>
+      </Section>
     </ShowcasePage>
   )
 }
