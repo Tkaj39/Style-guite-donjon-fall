@@ -26,6 +26,13 @@ const QUALITY = [
   { value: 'ultra',  label: 'Ultra — neomezeno' },
 ]
 
+/* Demo mimo render funkci — uvnitř by React remountoval při každém re-renderu
+   rodiče (SelectContent má vlastní state map/lang). */
+function SelectDemo({ SelectCmp, options, placeholder, ...props }) {
+  const [value, setValue] = useState(null)
+  return <SelectCmp value={value} onChange={setValue} options={options} placeholder={placeholder} {...props} />
+}
+
 function SelectContent() {
   const lib = useLibVariant()
   const S   = lib === 'tkajui' ? Select : DonjonSelect
@@ -33,11 +40,6 @@ function SelectContent() {
 
   const [map,  setMap]  = useState('default')
   const [lang, setLang] = useState('cs')
-
-  function Demo({ options, placeholder, ...props }) {
-    const [value, setValue] = useState(null)
-    return <S value={value} onChange={setValue} options={options} placeholder={placeholder} {...props} />
-  }
 
   return (
     <>
@@ -49,7 +51,7 @@ function SelectContent() {
       >
         <Preview>
           <div style={{ width: 240 }}>
-            <Demo options={MAPS} placeholder="Vyber mapu…" />
+            <SelectDemo SelectCmp={S} options={MAPS} placeholder="Vyber mapu…" />
           </div>
         </Preview>
         <CodeBlock code={`const [value, setValue] = useState(null)
@@ -102,7 +104,7 @@ function SelectContent() {
             { variant: 'warning', placeholder: 'Warning…'  },
           ].map(({ variant, placeholder }) => (
             <div key={variant} style={{ width: 180 }}>
-              <Demo options={MAPS} variant={variant} placeholder={placeholder} />
+              <SelectDemo SelectCmp={S} options={MAPS} variant={variant} placeholder={placeholder} />
             </div>
           ))}
         </Preview>
@@ -119,7 +121,7 @@ function SelectContent() {
         <Preview>
           {(['sm', 'md', 'lg']).map(size => (
             <div key={size} style={{ width: 200 }}>
-              <Demo options={MAPS} size={size} placeholder={`${size.toUpperCase()} — vyber…`} />
+              <SelectDemo SelectCmp={S} options={MAPS} size={size} placeholder={`${size.toUpperCase()} — vyber…`} />
             </div>
           ))}
         </Preview>
@@ -170,7 +172,7 @@ function SelectContent() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%', maxWidth: 300 }}>
             <S value={map}  onChange={setMap}  options={MAPS}    label="Mapa" />
             <S value={lang} onChange={setLang} options={LANGS}   label="Jazyk" />
-            <Demo options={QUALITY} label="Kvalita grafiky" placeholder="Vyber kvalitu…" />
+            <SelectDemo SelectCmp={S} options={QUALITY} label="Kvalita grafiky" placeholder="Vyber kvalitu…" />
           </div>
         </Preview>
         <CodeBlock code={`<${cmp} value={map}     onChange={setMap}     options={mapOptions}     label="Mapa" />

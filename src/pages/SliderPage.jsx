@@ -3,6 +3,13 @@ import Slider from '../lib/tkajui/Slider'
 import DonjonSlider from '../lib/donjon/DonjonSlider'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
+/* Demo mimo render funkci — uvnitř by React remountoval při každém re-renderu
+   rodiče (SliderContent má vlastní state vol/sfx/msc). */
+function SliderDemo({ SliderCmp, initial = 50, ...props }) {
+  const [value, setValue] = useState(initial)
+  return <SliderCmp value={value} onChange={setValue} {...props} />
+}
+
 function SliderContent() {
   const lib = useLibVariant()
   const Sl  = lib === 'tkajui' ? Slider : DonjonSlider
@@ -11,11 +18,6 @@ function SliderContent() {
   const [vol, setVol] = useState(70)
   const [sfx, setSfx] = useState(85)
   const [msc, setMsc] = useState(40)
-
-  function Demo({ initial = 50, ...props }) {
-    const [value, setValue] = useState(initial)
-    return <Sl value={value} onChange={setValue} {...props} />
-  }
 
   return (
     <>
@@ -27,7 +29,7 @@ function SliderContent() {
       >
         <Preview>
           <div style={{ width: '100%', maxWidth: 360 }}>
-            <Demo label="Hlasitost" showValue initial={60} />
+            <SliderDemo SliderCmp={Sl} label="Hlasitost" showValue initial={60} />
           </div>
         </Preview>
         <CodeBlock code={`const [value, setValue] = useState(60)
@@ -50,7 +52,7 @@ function SliderContent() {
               { variant: 'warning', label: 'Warning',  initial: 55 },
               { variant: 'info',    label: 'Info',     initial: 65 },
             ].map(({ variant, label, initial }) => (
-              <Demo key={variant} variant={variant} label={label} showValue initial={initial} />
+              <SliderDemo SliderCmp={Sl} key={variant} variant={variant} label={label} showValue initial={initial} />
             ))}
           </div>
         </Preview>
@@ -66,9 +68,9 @@ function SliderContent() {
       >
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%', maxWidth: 360 }}>
-            <Demo size="sm" label="Small"  initial={65} showValue />
-            <Demo size="md" label="Medium" initial={65} showValue />
-            <Demo size="lg" label="Large"  initial={65} showValue />
+            <SliderDemo SliderCmp={Sl} size="sm" label="Small"  initial={65} showValue />
+            <SliderDemo SliderCmp={Sl} size="md" label="Medium" initial={65} showValue />
+            <SliderDemo SliderCmp={Sl} size="lg" label="Large"  initial={65} showValue />
           </div>
         </Preview>
         <CodeBlock code={`<${cmp} size="sm" value={v} onChange={set} />
@@ -84,7 +86,7 @@ function SliderContent() {
       >
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%', maxWidth: 360 }}>
-            <Demo
+            <SliderDemo SliderCmp={Sl}
               label="Počet hráčů"
               min={2} max={6} step={1}
               initial={3}
@@ -92,7 +94,7 @@ function SliderContent() {
               formatValue={v => `${v} hráči`}
               variant="info"
             />
-            <Demo
+            <SliderDemo SliderCmp={Sl}
               label="Rychlost hry"
               min={0.5} max={3} step={0.5}
               initial={1}
@@ -100,7 +102,7 @@ function SliderContent() {
               formatValue={v => `${v}×`}
               variant="warning"
             />
-            <Demo
+            <SliderDemo SliderCmp={Sl}
               label="Cílové VP"
               min={3} max={10} step={1}
               initial={5}
