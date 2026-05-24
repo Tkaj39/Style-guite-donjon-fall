@@ -26,12 +26,12 @@ const MANUAL_TASKS = [
   {
     group: 'donjon-fall-ui — grafické zpracování',
     items: [
-      { status: 'todo', text: 'DonjonSelect — vlastní herní vizuál (teď re-export TkajUI)' },
-      { status: 'todo', text: 'DonjonSlider — vlastní herní vizuál (teď re-export TkajUI)' },
-      { status: 'todo', text: 'DonjonToggle — vlastní herní vizuál (teď re-export TkajUI)' },
-      { status: 'todo', text: 'DonjonProgressBar — vlastní herní vizuál (teď re-export TkajUI)' },
-      { status: 'todo', text: 'DonjonTooltip — vlastní herní vizuál (teď re-export TkajUI)' },
-      { status: 'todo', text: 'DonjonToast — vlastní herní vizuál (teď re-export TkajUI)' },
+      { status: 'done', text: 'DonjonSelect — zlatý border, tmavý dropdown, klávesnicová navigace' },
+      { status: 'done', text: 'DonjonSlider — zlatý diamond thumb, tmavá drážka, glow fill' },
+      { status: 'done', text: 'DonjonToggle — zlatý switch, glow efekt, herní paleta' },
+      { status: 'done', text: 'DonjonProgressBar — barevné prahy (HP/mana/stamina), damage flash, ticky' },
+      { status: 'done', text: 'DonjonTooltip — pergamenový styl, zlatý border, šipka' },
+      { status: 'done', text: 'DonjonToast — 5 herních variant (gain/loss/warning/event/default), barevná lišta' },
     ],
   },
   {
