@@ -68,6 +68,8 @@ const MANUAL_TASKS = [
     items: [
       { status: 'done',        text: 'Testovací suite — 200+ testů pro TkajUI' },
       { status: 'done',        text: 'ComponentsPage — přehled s API chipy' },
+      { status: 'done',        text: 'ComponentsPage — inline mini-náhledy všech komponent' },
+      { status: 'done',        text: 'componentMeta — zdokumentováno 8 zbývajících komponent (ResourceBar, NumericDisplay, PlayerPanel, ActionTile, EventLog, PhaseIndicator, GameTransition, SubmitButton)' },
       { status: 'todo',        text: 'Storybook nebo live sandbox pro izolované demo komponent' },
       { status: 'todo',        text: 'Changelog — sledovat změny API mezi verzemi' },
     ],
