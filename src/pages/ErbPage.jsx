@@ -9,6 +9,7 @@ export default function ErbPage() {
       library="donjon"
       title="Erb"
       description="Vizuální identita hráče — heraldický štít s barvou a symbolem hráče. Používán v HUDu, scoreboardu a dialogu výhry."
+      componentSlug="erb"
     >
       <Section
         id="stit"

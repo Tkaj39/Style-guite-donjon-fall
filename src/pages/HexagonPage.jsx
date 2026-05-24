@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import HexTile from '../lib/donjon/HexTile'
-import { textFaint, textActive } from '../lib/donjon/tokens'
+import { textFaint, textActive, gold, bg2, borderDefault, textMid } from '../lib/donjon/tokens'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { players } from '../data/gameUiMockData'
 
@@ -13,6 +14,118 @@ const allStates = [
   { state: 'attack',         label: 'Útok' },
   { state: 'blocked',        label: 'Blokovaný' },
 ]
+
+/* ── Tlačítko pro výběr volby v interaktivním demu ── */
+function PickerBtn({ active, color, onClick, children }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        padding: '4px 10px',
+        fontSize: '0.6875rem',
+        fontWeight: 600,
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase',
+        border: `1px solid ${active ? (color ?? gold) : borderDefault}`,
+        borderRadius: 3,
+        background: active ? `${color ?? gold}1A` : bg2,
+        color: active ? (color ?? gold) : textMid,
+        cursor: 'pointer',
+        transition: 'border-color 0.12s, background 0.12s, color 0.12s',
+        flexShrink: 0,
+      }}
+    >
+      {children}
+    </button>
+  )
+}
+
+function HexInteractiveDemo() {
+  const [demoState,  setDemoState]  = useState('empty')
+  const [demoPlayer, setDemoPlayer] = useState(players[0])
+  const [demoSize,   setDemoSize]   = useState('md')
+
+  const needsPlayer = demoState === 'base'
+  const owner       = needsPlayer ? demoPlayer.color : null
+
+  const codeStr = demoState === 'base'
+    ? `<HexTile state="base" owner="${demoPlayer.color}" size="${demoSize}" />`
+    : `<HexTile state="${demoState}" size="${demoSize}" />`
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {/* Živý náhled */}
+      <div style={{
+        display: 'flex', justifyContent: 'center', alignItems: 'center',
+        padding: '32px 16px',
+        background: bg2, borderRadius: 6, border: `1px solid ${borderDefault}`,
+        minHeight: 140,
+      }}>
+        <HexTile state={demoState} owner={owner} size={demoSize} showLabel label={demoState} />
+      </div>
+
+      {/* Ovládací panel */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+
+        {/* Stav */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+          <span style={{ fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            Stav
+          </span>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            {allStates.map(({ state, label }) => (
+              <PickerBtn key={state} active={demoState === state} onClick={() => setDemoState(state)}>
+                {label}
+              </PickerBtn>
+            ))}
+          </div>
+        </div>
+
+        {/* Hráč — jen pro base */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 7, opacity: needsPlayer ? 1 : 0.3, pointerEvents: needsPlayer ? 'auto' : 'none', transition: 'opacity 0.2s' }}>
+          <span style={{ fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            Hráč (jen pro stav „Základna")
+          </span>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {players.map(p => (
+              <button
+                key={p.id}
+                onClick={() => setDemoPlayer(p)}
+                title={p.label}
+                style={{
+                  width: 24, height: 24, borderRadius: '50%',
+                  background: p.color,
+                  border: `2px solid ${demoPlayer.id === p.id ? '#fff' : 'transparent'}`,
+                  cursor: 'pointer',
+                  boxShadow: demoPlayer.id === p.id ? `0 0 0 1px ${p.color}` : 'none',
+                  transition: 'border-color 0.12s, box-shadow 0.12s',
+                  flexShrink: 0,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Velikost */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+          <span style={{ fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            Velikost
+          </span>
+          <div style={{ display: 'flex', gap: 6 }}>
+            {['sm', 'md', 'lg'].map(sz => (
+              <PickerBtn key={sz} active={demoSize === sz} onClick={() => setDemoSize(sz)}>
+                {sz}
+              </PickerBtn>
+            ))}
+          </div>
+        </div>
+
+        {/* Kód */}
+        <CodeBlock code={codeStr} />
+      </div>
+    </div>
+  )
+}
 
 export default function HexagonPage() {
   return (
@@ -182,6 +295,15 @@ export default function HexagonPage() {
             ))}
           </div>
         </Preview>
+      </Section>
+
+      {/* Interactive demo */}
+      <Section
+        id="interaktivni"
+        title="Interaktivní demo"
+        description="Vyzkoušej kombinace stavu, hráče a velikosti — hex se aktualizuje živě."
+      >
+        <HexInteractiveDemo />
       </Section>
 
       <Section id="pravidla" title="Pravidla použití">

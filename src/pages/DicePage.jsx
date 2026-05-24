@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import DieFace from '../lib/donjon/DieFace'
-import { textFaint, gold, goldDim, textActive, bgDeep } from '../lib/donjon/tokens'
+import { textFaint, gold, goldDim, textActive, bgDeep, bg2, borderDefault, textMid } from '../lib/donjon/tokens'
 import HexTile from '../lib/donjon/HexTile'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
@@ -202,6 +203,105 @@ function PushChainDemo({ variant }) {
         )}
       </div>
     </DonjonCard>
+  )
+}
+
+/* ── Interaktivní demo přehazování ── */
+function RerollDemo() {
+  const [player,   setPlayer]   = useState(players[0])
+  const [value,    setValue]    = useState(4)
+  const [animKey,  setAnimKey]  = useState(0)
+  const [rolling,  setRolling]  = useState(false)
+
+  const handleReroll = () => {
+    if (rolling) return
+    setRolling(true)
+    const next = Math.ceil(Math.random() * 6)
+    setValue(next)
+    setAnimKey(k => k + 1)
+    setTimeout(() => setRolling(false), 420)
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {/* Živý náhled kostky */}
+      <div style={{
+        display: 'flex', justifyContent: 'center', alignItems: 'center',
+        padding: '40px 16px', gap: 32,
+        background: bg2, borderRadius: 6, border: `1px solid ${borderDefault}`,
+        minHeight: 160,
+      }}>
+        <div
+          key={animKey}
+          style={{ animation: animKey > 0 ? 'die-reroll-spin 420ms ease-out' : undefined, transformStyle: 'preserve-3d' }}
+        >
+          <DieFace value={value} playerColor={player.color} size="lg" />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }}>
+          <span style={{ fontSize: '0.75rem', color: textFaint, letterSpacing: '0.08em' }}>
+            Hodnota: <strong style={{ color: gold }}>{value}</strong>
+          </span>
+          <span style={{ fontSize: '0.75rem', color: textFaint }}>
+            Hráč: <strong style={{ color: player.color }}>{player.label}</strong>
+          </span>
+        </div>
+      </div>
+
+      {/* Ovládání */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        {/* Hráč */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+          <span style={{ fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            Hráč
+          </span>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {players.map(p => (
+              <button
+                key={p.id}
+                onClick={() => setPlayer(p)}
+                title={p.label}
+                style={{
+                  width: 24, height: 24, borderRadius: '50%',
+                  background: p.color,
+                  border: `2px solid ${player.id === p.id ? '#fff' : 'transparent'}`,
+                  cursor: 'pointer',
+                  boxShadow: player.id === p.id ? `0 0 0 1px ${p.color}` : 'none',
+                  transition: 'border-color 0.12s, box-shadow 0.12s',
+                  flexShrink: 0,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Tlačítko přehazování */}
+        <button
+          onClick={handleReroll}
+          disabled={rolling}
+          style={{
+            alignSelf: 'flex-start',
+            padding: '8px 20px',
+            fontSize: '0.75rem',
+            fontWeight: 700,
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            background: rolling ? `${gold}18` : `${gold}22`,
+            border: `1px solid ${rolling ? goldDim : gold}`,
+            borderRadius: 3,
+            color: rolling ? goldDim : gold,
+            cursor: rolling ? 'not-allowed' : 'pointer',
+            transition: 'all 0.15s',
+          }}
+        >
+          {rolling ? '⟳  Háže…' : '⟳  Přehodit'}
+        </button>
+
+        <CodeBlock code={`// Animace přehazování — použij key trick pro restart CSS animace
+<div key={animKey} style={{ animation: 'die-reroll-spin 420ms ease-out' }}>
+  <DieFace value={value} playerColor={player.color} size="lg" />
+</div>`} />
+      </div>
+    </div>
   )
 }
 
@@ -450,6 +550,15 @@ const mixedTower = [{ owner:2, value:3 }, { owner:1, value:1 }, { owner:1, value
             </div>
           </div>
         </Preview>
+      </Section>
+
+      {/* Reroll animace */}
+      <Section
+        id="animace-prehazovani"
+        title="Animace přehazování"
+        description="Klikni na tlačítko pro spuštění die-reroll-spin animace s náhodnou novou hodnotou."
+      >
+        <RerollDemo />
       </Section>
 
       <Section id="pravidla" title="Pravidla použití">

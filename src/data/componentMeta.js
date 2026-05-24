@@ -384,9 +384,10 @@ export const componentMeta = {
     status: 'documented',
     showcaseRoute: '/erb',
     props: [
-      { name: 'player',     type: '{ color: string, label: string, id: number }', required: true,  description: 'Hráčský objekt — barva, popisek, ID (1–6).' },
-      { name: 'size',       type: "'xs'|'sm'|'md'|'lg'",                          required: false, default: "'md'",  description: 'Velikost štítu (24 / 40 / 64 / 96 px šířka).' },
-      { name: 'showSymbol', type: 'boolean',                                       required: false, default: 'true', description: 'Zobrazí římskou číslici uvnitř štítu.' },
+      { name: 'player',      type: '{ color: string, label: string, id?: number }', required: false, description: 'Hráčský objekt — barva, popisek, ID (1–6). Alternativa k playerColor.' },
+      { name: 'playerColor', type: 'string',                                         required: false, description: 'Přímá barva hráče (#hex) — má přednost před player.color.' },
+      { name: 'size',        type: "'xs'|'sm'|'md'|'lg'|number",                    required: false, default: "'md'",  description: 'Pojmenovaná velikost nebo pixel šířka (24–96 px).' },
+      { name: 'showSymbol',  type: 'boolean',                                         required: false, default: 'true', description: 'Zobrazí římskou číslici uvnitř štítu (I–VI dle player.id).' },
     ],
     relatedSlugs: ['hex-tile', 'die-face', 'donjon-badge'],
   },

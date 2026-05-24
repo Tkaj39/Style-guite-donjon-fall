@@ -39,9 +39,9 @@ const MANUAL_TASKS = [
     items: [
       { status: 'done',        text: 'HexTile — /hexagon showcase' },
       { status: 'done',        text: 'DieFace — /dice showcase' },
-      { status: 'todo',        text: 'HexTile — interaktivní demo (výběr stavu + barvy hráče)' },
-      { status: 'todo',        text: 'DieFace — animace přehazování ve showcase' },
-      { status: 'todo',        text: 'Erb / heraldický štít — dokumentace props' },
+      { status: 'done',        text: 'HexTile — interaktivní demo (výběr stavu + barvy hráče)' },
+      { status: 'done',        text: 'DieFace — animace přehazování ve showcase' },
+      { status: 'done',        text: 'Erb — componentSlug, showcaseRoute, playerColor flat API v props' },
     ],
   },
   {
