@@ -2,7 +2,7 @@ import { useId } from 'react'
 import { octagon } from '../../utils/octagon'
 import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament } from './Ornaments'
 import {
-  goldDim,
+  goldDim, goldMid,
   VARIANT_BG, VARIANT_BORDER, VARIANT_HEADER_BG, VARIANT_TITLE_GRAD,
 } from './tokens'
 
@@ -102,7 +102,7 @@ export default function DonjonCard({
               style={{
                 margin: '4px 0 0',
                 fontSize: '0.75rem',
-                color: goldDim,
+                color: goldMid,
                 lineHeight: 1.4,
               }}
             >

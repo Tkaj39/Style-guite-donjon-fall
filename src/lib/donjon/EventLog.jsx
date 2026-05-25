@@ -98,7 +98,7 @@ export default function EventLog({
           padding: '20px 12px',
           textAlign: 'center',
           fontSize: '0.75rem',
-          color: textFaint,
+          color: textLow,
         }}>
           {emptyMessage}
         </div>
@@ -135,7 +135,7 @@ export default function EventLog({
                     <span style={{
                       display: 'block',
                       fontSize: '0.6875rem',
-                      color: textFaint,
+                      color: textLow,
                       marginTop: 1,
                       lineHeight: 1.3,
                     }}>
@@ -147,7 +147,7 @@ export default function EventLog({
                 {showRound && entry.round != null && (
                   <span style={{
                     fontSize: '0.625rem',
-                    color: textFaint,
+                    color: textLow,
                     whiteSpace: 'nowrap',
                     paddingTop: 2,
                     flexShrink: 0,
@@ -192,7 +192,7 @@ export default function EventLog({
               {title}
             </span>
             <span style={{
-              fontSize: '0.625rem', color: textFaint,
+              fontSize: '0.625rem', color: textLow,
               letterSpacing: '0.06em',
             }}>
               {events.length} záznamů
@@ -244,7 +244,7 @@ export default function EventLog({
               {title}
             </span>
             <span style={{
-              fontSize: '0.625rem', color: textFaint,
+              fontSize: '0.625rem', color: textLow,
               letterSpacing: '0.06em',
             }}>
               {events.length} záznamů

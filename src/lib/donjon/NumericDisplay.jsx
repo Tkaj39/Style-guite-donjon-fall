@@ -73,7 +73,7 @@ export default function NumericDisplay({
         transition: 'background 0.15s, border-color 0.15s',
         fontVariantNumeric: 'tabular-nums',
       }}>
-        {prefix && <span style={{ fontSize: '0.7em', color: textFaint, marginRight: 2 }}>{prefix}</span>}
+        {prefix && <span style={{ fontSize: '0.7em', color: textLow, marginRight: 2 }}>{prefix}</span>}
         <span style={{
           fontSize: s.valueFontSize,
           fontWeight: 700,
@@ -83,7 +83,7 @@ export default function NumericDisplay({
         }}>
           {value}
         </span>
-        {suffix && <span style={{ fontSize: '0.7em', color: textFaint, marginLeft: 2 }}>{suffix}</span>}
+        {suffix && <span style={{ fontSize: '0.7em', color: textLow, marginLeft: 2 }}>{suffix}</span>}
       </div>
 
       {/* Delta badge — floatuje nahoru a mizí */}

@@ -5,8 +5,8 @@
 
 // ── Zlato — primární akcent ────────────────────────────────────────────────
 export const gold    = '#FFC183'  // hlavní zlatá — text, ikony, aktivní prvky
-export const goldMid = '#B8956A'  // labels, subtitles, gradient konce
-export const goldDim = '#8F7458'  // borders, muted text, dividers
+export const goldMid = '#B8956A'  // labels, subtitles, muted gold text (5:1+ AA ✅)
+export const goldDim = '#8F7458'  // borders, UI elements, dividers (3:1 non-text ✅) — pro text použij goldMid
 
 // ── Surfaces ──────────────────────────────────────────────────────────────
 export const bg0       = '#12102A'  // nejhlubší pozadí (page bg)
@@ -27,7 +27,7 @@ export const textMid      = '#C8BFAF'  // labels, popis
 export const textActive   = '#F0E6D3'  // aktivní tab, highlighted text
 export const textLow      = '#9A9080'  // muted / hints
 export const textDisabled = '#6B6A82'  // disabled / inactive tabs
-export const textFaint    = '#4A4560'  // ultra-tmavý muted text, dekorativní obsah
+export const textFaint    = '#4A4560'  // pouze dekorativní (2:1 — nesplňuje WCAG) — pro informační text použij textLow
 export const textDeep     = '#4A4870'  // ultra-tmavý blue-purple muted variant
 export const textCool     = '#8F9CB3'  // studená modro-šedá, sekundární/kódový text
 export const textParchment = '#D4C5A9' // teplá krémová, střední warm text
@@ -92,6 +92,8 @@ export const VARIANT_TITLE_GRAD = {
 // ── Focus ring ────────────────────────────────────────────────────────────
 /** Barva focus prstence pro klávesnicovou navigaci — gold@60% */
 export const focusRingColor = `${gold}99`  // '#FFC18399'
+/** Barva aktivního/focus borderu pro UI elementy (inputy, tlačítka) — 4:1+ non-text contrast ✅ */
+export const borderFocus = '#8886C0'
 
 // ── Animační timing ────────────────────────────────────────────────────────
 /** Rychlé UI reakce: tooltip appear, damage flash (80 ms) */

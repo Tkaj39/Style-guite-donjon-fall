@@ -104,10 +104,10 @@ export default function DonjonSlider({
 
       {/* Min/max labels */}
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 5 }}>
-        <span style={{ fontSize: '0.625rem', color: textFaint, letterSpacing: '0.05em' }}>
+        <span style={{ fontSize: '0.625rem', color: textLow, letterSpacing: '0.05em' }}>
           {formatValue ? formatValue(min) : min}
         </span>
-        <span style={{ fontSize: '0.625rem', color: textFaint, letterSpacing: '0.05em' }}>
+        <span style={{ fontSize: '0.625rem', color: textLow, letterSpacing: '0.05em' }}>
           {formatValue ? formatValue(max) : max}
         </span>
       </div>

@@ -4,7 +4,7 @@ import { useModalPageInert } from '../../hooks/useModalPageInert'
 import { octagon } from '../../utils/octagon'
 import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament } from './Ornaments'
 import {
-  goldDim, textActive,
+  goldDim, goldMid, textActive,
   VARIANT_BG, VARIANT_BORDER, VARIANT_HEADER_BG, VARIANT_TITLE_GRAD,
 } from './tokens'
 
@@ -158,7 +158,7 @@ export default function DonjonModal({
                   {title}
                 </h2>
                 {description && (
-                  <p style={{ margin: '4px 0 0', fontSize: '0.75rem', color: goldDim, lineHeight: 1.4 }}>
+                  <p style={{ margin: '4px 0 0', fontSize: '0.75rem', color: goldMid, lineHeight: 1.4 }}>
                     {description}
                   </p>
                 )}

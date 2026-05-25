@@ -82,7 +82,7 @@ export default function ResourceBar({
               fontSize: s.valueSize, fontWeight: 700, color: fillColor,
               letterSpacing: '0.04em', fontVariantNumeric: 'tabular-nums', marginLeft: 'auto',
             }}>
-              {Math.round(value)}<span style={{ color: textFaint, fontWeight: 400 }}>/{max}</span>
+              {Math.round(value)}<span style={{ color: textLow, fontWeight: 400 }}>/{max}</span>
             </span>
           )}
         </div>

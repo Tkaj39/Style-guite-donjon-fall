@@ -71,7 +71,7 @@ export default function DonjonProgressBar({
               fontSize: '0.6875rem', fontWeight: 700, color: fillColor,
               letterSpacing: '0.06em', fontVariantNumeric: 'tabular-nums', marginLeft: 'auto',
             }}>
-              {value}<span style={{ color: textFaint, fontWeight: 400 }}>/{max}</span>
+              {value}<span style={{ color: textLow, fontWeight: 400 }}>/{max}</span>
             </span>
           )}
         </div>

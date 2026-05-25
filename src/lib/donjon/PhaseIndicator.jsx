@@ -131,7 +131,7 @@ export default function PhaseIndicator({
                   {phase.label}
                 </span>
                 {phase.description && isCurrent && (
-                  <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: textFaint, lineHeight: 1.4 }}>
+                  <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: textLow, lineHeight: 1.4 }}>
                     {phase.description}
                   </p>
                 )}
