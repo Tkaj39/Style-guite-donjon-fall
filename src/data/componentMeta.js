@@ -503,7 +503,7 @@ export const componentMeta = {
   },
 
   'game-transition': {
-    description: 'Lehký wrapper pro enter a exit animace s automatickým mount a unmount chováním. Hodí se pro panely, dialogy, HUD bloky i přechody obrazovek bez externí animační knihovny.',
+    description: 'Lehký wrapper pro enter a exit animace s automatickým mount a unmount chováním. V donjon konzistenci slouží jako referenční plain motion wrapper bez ornamentální vrstvy; hodí se pro panely, dialogy, HUD bloky i přechody obrazovek bez externí animační knihovny.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/motion',

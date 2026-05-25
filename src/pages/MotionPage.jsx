@@ -261,6 +261,27 @@ export default function MotionPage() {
         Konzistentní timing, zero-dependency animace, žádné magic numbers napříč library.
       </p>
 
+      <Section
+        id="plain-baseline"
+        title="Plain baseline transition wrapper"
+        desc="GameTransition je záměrně plain infrastrukturní vrstva pro mount a unmount animace. V donjon konzistenci nese timing a pohybový jazyk, ne ornamentální shell nebo dekorativní overlaye."
+      >
+        <Demo style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <p style={{ margin: 0, fontSize: '0.8125rem', color: textMid, lineHeight: 1.6, maxWidth: 640 }}>
+            Používej ho jako neutrální obal kolem panelů, HUD bloků a dialogů. Vizuální identita zůstává na dětech uvnitř; samotný wrapper má držet jen konzistentní enter a exit chování.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
+            <AnimBox label="fadeScale" color={gold} />
+            <AnimBox label="slideUp" color={warningColor} />
+            <AnimBox label="pop" color={gainColor} />
+          </div>
+        </Demo>
+        <Code>{`{/* GameTransition zůstává záměrně plain baseline motion wrapper */}
+<GameTransition show={isOpen} preset="fadeScale">
+  <PlayerPanel name="Hráč 1" vp={7} />
+</GameTransition>`}</Code>
+      </Section>
+
       {/* ── Timing tokeny ── */}
       <Section id="timing" title="Timing tokeny" desc="Čtyři pojmenované rychlosti — konzistentní přechody bez magic čísel.">
         <Demo>
