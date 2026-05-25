@@ -96,7 +96,8 @@ export default function ActionTilePage() {
       <p style={{ fontSize: '0.875rem', color: textMid, marginBottom: 32 }}>
         Klikatelná akční dlaždice — jiná než Button. Tile tvar s ikonou nahoře, názvem
         a cost badgem v rohu. Selekce, disabled stav, lock stav s ikonou. Vhodné pro
-        výběr herní akce, karet nebo schopností.
+        výběr herní akce, karet nebo schopností. V rámci donjon konzistence funguje jako
+        plain baseline tile bez ornamentální vrstvy.
       </p>
 
       {/* ── Interaktivní demo ── */}
@@ -181,6 +182,25 @@ export default function ActionTilePage() {
 <ActionTile icon={<SwordIcon />} title="Vybraná"  cost={2} selected />
 <ActionTile icon={<SwordIcon />} title="Disabled" cost={2} disabled />
 <ActionTile icon={<SwordIcon />} title="Locked"   cost={4} locked />`}</Code>
+      </Section>
+
+      <div style={DIVIDER} />
+
+      <Section
+        id="plain-tile"
+        title="Plain baseline tile"
+        desc="ActionTile je záměrně střídmější než dekorované panely typu DonjonCard nebo DonjonModal. Slouží jako referenční plain tile pro husté akční gridy, kde musí dominovat ikona, stav a cena akce."
+      >
+        <Demo>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <ActionTile icon={<MoveIcon />} title="Pohyb" cost={1} variant="move" />
+            <ActionTile icon={<SwordIcon />} title="Útok" cost={2} variant="attack" selected />
+            <ActionTile icon={<TowerIcon />} title="Věž" cost={2} variant="special" />
+          </div>
+        </Demo>
+        <Code>{`{/* Záměrně plain tile bez ornament API */}
+<ActionTile icon={<MoveIcon />} title="Pohyb" cost={1} variant="move" />
+<ActionTile icon={<SwordIcon />} title="Útok" cost={2} variant="attack" selected />`}</Code>
       </Section>
 
       <div style={DIVIDER} />

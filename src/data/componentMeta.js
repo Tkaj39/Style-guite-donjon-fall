@@ -442,7 +442,7 @@ export const componentMeta = {
   },
 
   'action-tile': {
-    description: 'Klikatelná akční dlaždice pro herní nabídky a tahové volby. Kombinuje ikonu, název, volitelný popis a cost badge v jednom kompaktním tile prvku.',
+    description: 'Klikatelná akční dlaždice pro herní nabídky a tahové volby. Kombinuje ikonu, název, volitelný popis a cost badge v jednom kompaktním tile prvku. V donjon konzistenci slouží jako referenční plain tile bez ornamentální vrstvy.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/action-tile',
