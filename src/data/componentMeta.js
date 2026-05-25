@@ -657,7 +657,7 @@ export const componentMeta = {
   },
 
   'donjon-progress-bar': {
-    description: 'Herní varianta ProgressBar. Vizuálně identická s TkajUI — herní gradients a glow jsou zabudované v základní komponentě. Stejné API jako ProgressBar.',
+     description: 'Herní varianta ProgressBar. V donjon konzistenci slouží jako referenční plain baseline progress komponenta bez ornamentální vrstvy; herní gradients a glow jsou zabudované přímo v základu. Stejné API jako ProgressBar.',
     subcategory: 'extends-tkajui',
     status: 'documented',
     showcaseRoute: '/progress-bar',

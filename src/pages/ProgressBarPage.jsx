@@ -72,6 +72,26 @@ function ProgressBarContent() {
 
   return (
     <>
+      {lib === 'donjon' && (
+        <Section
+          id="plain-baseline"
+          title="Plain baseline progress shell"
+          description="DonjonProgressBar je záměrně plain baseline progress stavebnice. Nese barvu, glow a herní rytmus, ale nepřidává ornamentální shell ani druhý dekorovaný režim."
+        >
+          <Preview>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, width: '100%', maxWidth: 400 }}>
+              <PB value={72} label="HP" showValue variant="success" />
+              <PB value={45} label="Štít" showValue variant="warning" />
+              <PB indeterminate label="Načítání lokace…" variant="info" />
+            </div>
+          </Preview>
+          <CodeBlock code={`{/* DonjonProgressBar zůstává záměrně plain baseline progress komponenta */}
+<DonjonProgressBar value={72} label="HP" showValue variant="success" />
+<DonjonProgressBar value={45} label="Štít" showValue variant="warning" />
+<DonjonProgressBar indeterminate label="Načítání lokace…" variant="info" />`} />
+        </Section>
+      )}
+
       {/* Hodnoty */}
       <Section
         id="values"
