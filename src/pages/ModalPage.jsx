@@ -227,7 +227,7 @@ function ModalContent() {
       <Section
         id="inert"
         title="Atribut inert (React 19)"
-        description="Kdy je modál otevřený, obsah za ním by měl dostat atribut inert — prohlížeč pak automaticky zabrání focusu, klikům i čtení čtečkou. React 19 podporuje inert jako JSX prop přímo."
+        description="Modal a DonjonModal automaticky nastaví inert na #root (portál na body). Pro částečné sekce stránky lze inert předat ručně — React 19 podporuje inert jako JSX prop."
       >
         <Preview>
           <InertDemo Btn={Btn} ModalCmp={ModalCmp} />
@@ -236,10 +236,9 @@ function ModalContent() {
   const [open, setOpen] = useState(false)
   return (
     <>
-      {/* React 19: inert jako JSX prop — žádné setAttribute */}
+      {/* Modal automaticky inertuje #root — ruční inert jen pro dílčí sekce: */}
       <main inert={open}>
         <button>Nedosažitelné tlačítko</button>
-        <input placeholder="Nedosažitelné pole" />
       </main>
 
       <${cmp} isOpen={open} onClose={() => setOpen(false)} title="Dialog">

@@ -290,33 +290,18 @@ export const dangerBorder  = '#f0555540'`} />
       <Section
         id="tailwind"
         title="Integrace s Tailwind"
-        description="Tokeny jsou mapovány do Tailwind konfigurace — preferuj utility třídy tam kde existují."
+        description="Tokeny jsou mapovány do @theme v index.css — preferuj utility třídy tam kde existují."
       >
-        <CodeBlock code={`/* tailwind.config.js */
-export default {
-  theme: {
-    extend: {
-      colors: {
-        accent: {
-          DEFAULT: '#6576ff',
-          light:   '#8591ff',
-          dim:     '#4455ee',
-        },
-        surface: {
-          0: '#0d0d14',
-          1: '#13131c',
-          2: '#1b1b27',
-          3: '#232332',
-          4: '#2c2c3e',
-        },
-      },
-    },
-  },
+        <CodeBlock code={`/* src/index.css — Tailwind v4 @theme */
+@theme {
+  --color-brand-500: #6576ff;
+  --color-brand-600: #4455ee;
+  --font-sans: Inter, system-ui, sans-serif;
 }
 
 /* Použití */
-className="text-accent"           // #6576ff
-className="bg-surface-2"         // #1b1b27
+className="text-brand-600"        // z @theme
+className="bg-neutral-950"        // Tailwind paleta
 style={{ color: accent }}         // import z tokens.js`} />
       </Section>
 
@@ -526,26 +511,13 @@ function DonjonTokensContent() {
       <Section
         id="tailwind"
         title="Integrace s Tailwind"
-        description="CSS tokeny jsou propojeny s Tailwind konfigurací — používej Tailwind utility kde existují, CSS proměnné tam kde ne."
+        description="CSS tokeny jsou propojeny s @theme v index.css — používej Tailwind utility kde existují, CSS proměnné tam kde ne."
       >
-        <CodeBlock code={`/* tailwind.config.js — tokeny v Tailwind */
-export default {
-  theme: {
-    extend: {
-      colors: {
-        brand: {
-          300: '#FFC183',  // --color-gold-light
-          400: '#B8956A',  // --color-gold
-          500: '#8F7458',  // --color-gold-dark
-        },
-        neutral: {
-          950: '#12102A',
-          900: '#1A1830',
-          800: '#1E1C3A',
-        },
-      },
-    },
-  },
+        <CodeBlock code={`/* src/index.css — Tailwind v4 @theme */
+@theme {
+  --color-brand-300: #FFC183;  /* --color-gold-light */
+  --color-brand-400: #B8956A;  /* --color-gold */
+  --color-brand-500: #8F7458;  /* --color-gold-dark */
 }
 
 className="text-brand-400"

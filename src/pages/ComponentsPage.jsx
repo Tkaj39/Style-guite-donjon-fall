@@ -28,8 +28,8 @@ const TECH_STACK = [
   {
     group: 'Build',
     items: [
-      { name: 'Vite',               version: '5.4.21', role: 'Dev server + bundler',          url: 'https://vitejs.dev',              accent: '#a78bfa' },
-      { name: '@vitejs/plugin-react', version: '4.3.1', role: 'React + Babel transform',      url: 'https://github.com/vitejs/vite-plugin-react', accent: '#a78bfa' },
+      { name: 'Vite',               version: '8.0.14', role: 'Dev server + bundler',          url: 'https://vite.dev',                accent: '#a78bfa' },
+      { name: '@vitejs/plugin-react', version: '6.0.2', role: 'React + Oxc transform',        url: 'https://github.com/vitejs/vite-plugin-react', accent: '#a78bfa' },
     ],
   },
   {

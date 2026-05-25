@@ -1,4 +1,6 @@
 import { useEffect, useRef, useId } from 'react'
+import { createPortal } from 'react-dom'
+import { useModalPageInert } from '../../hooks/useModalPageInert'
 import { octagon } from '../../utils/octagon'
 import {
   surface2, surface3,
@@ -87,6 +89,8 @@ export default function Modal({
   const w        = SIZES[size] ?? SIZES.md
   const dialogRef = useRef(null)
 
+  useModalPageInert(isOpen)
+
   /* ── Otevření / zavření přes native <dialog> API ── */
   useEffect(() => {
     const el = dialogRef.current
@@ -106,7 +110,7 @@ export default function Modal({
     if (closeOnBackdrop && e.target === e.currentTarget) onClose?.()
   }
 
-  return (
+  return createPortal(
     <dialog
       ref={dialogRef}
       onCancel={handleCancel}
@@ -231,6 +235,7 @@ export default function Modal({
           </div>
         </div>
       </div>
-    </dialog>
+    </dialog>,
+    document.body,
   )
 }
