@@ -9,10 +9,9 @@ describe('barrel export (index.js)', () => {
     expect(typeof TkajUI.Badge).toBe('function')
   })
 
-  it('Button je exportován jako React komponenta', () => {
+  it('Button je exportován jako funkce', () => {
     expect(TkajUI.Button).toBeDefined()
-    // forwardRef vrací objekt, ne funkci — testujeme jen existenci
-    expect(TkajUI.Button).not.toBeNull()
+    expect(typeof TkajUI.Button).toBe('function')
   })
 
   it('Card je exportován jako funkce', () => {
@@ -91,10 +90,9 @@ describe('barrel export (index.js)', () => {
     expect(typeof TkajUI.CornerOrnament).toBe('function')
   })
 
-  it('NotchedBox je exportován jako React komponenta', () => {
+  it('NotchedBox je exportován jako funkce', () => {
     expect(TkajUI.NotchedBox).toBeDefined()
-    // forwardRef vrací objekt, ne funkci — testujeme jen existenci
-    expect(TkajUI.NotchedBox).not.toBeNull()
+    expect(typeof TkajUI.NotchedBox).toBe('function')
   })
 
   it('SideOrnament je exportován jako funkce', () => {

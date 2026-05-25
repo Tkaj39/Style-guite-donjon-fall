@@ -77,9 +77,8 @@ describe('Modal', () => {
 
   it('kliknutí na backdrop zavolá onClose', () => {
     const onClose = vi.fn()
-    const { container } = render(<Modal isOpen title="Test" onClose={onClose} />)
-    // backdrop je první div (outside dialog)
-    fireEvent.click(container.firstChild)
+    render(<Modal isOpen title="Test" onClose={onClose} />)
+    fireEvent.click(screen.getByRole('dialog'))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
@@ -93,8 +92,8 @@ describe('Modal', () => {
 
   it('closeOnBackdrop=false → kliknutí na backdrop nezavolá onClose', () => {
     const onClose = vi.fn()
-    const { container } = render(<Modal isOpen title="Test" onClose={onClose} closeOnBackdrop={false} />)
-    fireEvent.click(container.firstChild)
+    render(<Modal isOpen title="Test" onClose={onClose} closeOnBackdrop={false} />)
+    fireEvent.click(screen.getByRole('dialog'))
     expect(onClose).not.toHaveBeenCalled()
   })
 

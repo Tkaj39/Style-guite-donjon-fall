@@ -5,10 +5,9 @@ import * as Donjon from '../index'
 describe('donjon barrel export (index.js)', () => {
 
   // ── Self-contained komponenty (mají vlastní implementaci s ornamenty)
-  it('DonjonButton je exportován jako React komponenta', () => {
+  it('DonjonButton je exportován jako funkce', () => {
     expect(Donjon.DonjonButton).toBeDefined()
-    // forwardRef vrací objekt, ne funkci — testujeme jen existenci
-    expect(Donjon.DonjonButton).not.toBeNull()
+    expect(typeof Donjon.DonjonButton).toBe('function')
   })
 
   it('DonjonCard je exportován jako funkce', () => {
