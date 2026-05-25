@@ -1,6 +1,6 @@
 import { useId } from 'react'
 import { octagon, clipLeft, clipRight } from '../../utils/octagon'
-import { SideOrnament, HexOrnament } from './Ornaments'
+import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament } from './Ornaments'
 import { gold, goldDim, bg2, bgInactive, VARIANT_BG, VARIANT_BORDER, VARIANT_TITLE_GRAD } from './tokens'
 
 const sizeMap = {
@@ -20,7 +20,11 @@ export default function DonjonButtonGroup({
   onChange,
 }) {
   const s = sizeMap[size] ?? sizeMap.md
-  const ornW = Math.round(24 * (s.h / 66) * 10) / 10
+  const ORN_BASES = { decorated: 24, zkosen: 22, roh: 25 }
+  const ornW = Math.round((ORN_BASES[ornament] ?? 24) * (s.h / 66) * 10) / 10
+  const SideOrn = ornament === 'zkosen' ? ZkosenOrnament
+                : ornament === 'roh'    ? RohOrnament
+                : SideOrnament
   const iconSize = { xs: 12, sm: 14, md: 18, lg: 22 }[size] ?? 14
   const rawId = useId()
   const gid   = rawId.replace(/:/g, '')
@@ -96,8 +100,8 @@ export default function DonjonButtonGroup({
               }}
               className="hover:brightness-110 active:brightness-90 focus:outline-hidden focus-visible:drop-shadow-[0_0_8px_#FFC183AA]"
             >
-              {hasOrnaments && (isFirst || isOnly) && <SideOrnament h={s.h} uid={`${uid}l`} />}
-              {hasOrnaments && (isLast  || isOnly) && <SideOrnament h={s.h} uid={`${uid}r`} flip />}
+              {hasOrnaments && (isFirst || isOnly) && <SideOrn h={s.h} uid={`${uid}l`} />}
+              {hasOrnaments && (isLast  || isOnly) && <SideOrn h={s.h} uid={`${uid}r`} flip />}
 
               {hasOrnaments && <HexOrnament uid={`${uid}t`} edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} hexOffsetX={(padL - padR) / 2} />}
               {hasOrnaments && <HexOrnament uid={`${uid}b`} flip edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} hexOffsetX={(padL - padR) / 2} />}

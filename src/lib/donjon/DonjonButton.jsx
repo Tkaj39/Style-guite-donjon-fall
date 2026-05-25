@@ -1,7 +1,7 @@
 import { useId } from 'react'
 import { octagon } from '../../utils/octagon'
 import { buttonSizes as sizes } from '../../utils/sizes'
-import { SideOrnament, HexOrnament } from './Ornaments'
+import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament } from './Ornaments'
 import { bg2, bg3, gold, goldDim, dangerColor, successColor, VARIANT_BG, VARIANT_BORDER, VARIANT_TITLE_GRAD } from './tokens'
 
 function Spinner({ size }) {
@@ -63,9 +63,16 @@ function DonjonButton({
   const uid   = rawId.replace(/:/g, '')
   const s     = sizes[size] ?? sizes.md
   const v     = variants[variant] ?? variants.default
-  const ornW  = Math.round(24 * (s.h / 66) * 10) / 10
+  /* ornW = šířka side ornametu pro výpočet paddingu (base / 66 * h)
+     decorated=24, zkosen=22, roh=25 */
+  const ORN_BASES = { decorated: 24, zkosen: 22, roh: 25 }
+  const ornW  = Math.round((ORN_BASES[ornament] ?? 24) * (s.h / 66) * 10) / 10
   const iSize = iconSize[size] ?? iconSize.md
   const hasOrnaments = ornament !== 'plain'
+  /* Výběr side ornamentu podle prop */
+  const SideOrn = ornament === 'zkosen' ? ZkosenOrnament
+                : ornament === 'roh'    ? RohOrnament
+                : SideOrnament
 
   // --- link variant renders as plain inline button ---
   if (variant === 'link') {
@@ -161,8 +168,8 @@ function DonjonButton({
       ].filter(Boolean).join(' ')}
       {...props}
     >
-      {hasOrnaments && <SideOrnament h={s.h} uid={`${uid}l`} />}
-      {hasOrnaments && <SideOrnament h={s.h} uid={`${uid}r`} flip />}
+      {hasOrnaments && <SideOrn h={s.h} uid={`${uid}l`} />}
+      {hasOrnaments && <SideOrn h={s.h} uid={`${uid}r`} flip />}
       {hasOrnaments && <HexOrnament uid={`${uid}t`} edgePadL={iconOnly ? s.cx : s.cx + 8} textPadL={iconOnly ? s.cx : s.px + ornW} textPadR={iconOnly ? s.cx : s.px + ornW} />}
       {hasOrnaments && <HexOrnament uid={`${uid}b`} flip edgePadL={iconOnly ? s.cx : s.cx + 8} textPadL={iconOnly ? s.cx : s.px + ornW} textPadR={iconOnly ? s.cx : s.px + ornW} />}
 

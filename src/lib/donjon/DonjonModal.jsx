@@ -2,7 +2,7 @@ import { useEffect, useRef, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { useModalPageInert } from '../../hooks/useModalPageInert'
 import { octagon } from '../../utils/octagon'
-import { SideOrnament, HexOrnament } from './Ornaments'
+import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament } from './Ornaments'
 import {
   goldDim, textActive,
   VARIANT_BG, VARIANT_BORDER, VARIANT_HEADER_BG, VARIANT_TITLE_GRAD,
@@ -75,6 +75,9 @@ export default function DonjonModal({
   const w        = SIZES[size] ?? SIZES.md
   const dialogRef = useRef(null)
   const hasOrnaments = ornament !== 'plain'
+  const SideOrn = ornament === 'zkosen' ? ZkosenOrnament
+                : ornament === 'roh'    ? RohOrnament
+                : SideOrnament
   const headerPadding = `14px ${showCloseButton ? 48 : hasOrnaments ? 40 : 28}px 12px ${hasOrnaments ? 40 : 28}px`
   const bodyPadding = `20px ${!title && showCloseButton ? 52 : hasOrnaments ? 28 : 24}px 20px ${hasOrnaments ? 28 : 24}px`
   const footerPadding = hasOrnaments ? '12px 28px 14px' : '12px 24px 14px'
@@ -134,8 +137,8 @@ export default function DonjonModal({
                 padding: headerPadding,
                 overflow: 'hidden',
               }}>
-                {hasOrnaments && <SideOrnament h={description ? 64 : 44} uid={`${uid}l`} />}
-                {hasOrnaments && <SideOrnament h={description ? 64 : 44} uid={`${uid}r`} flip />}
+                {hasOrnaments && <SideOrn h={description ? 64 : 44} uid={`${uid}l`} />}
+                {hasOrnaments && <SideOrn h={description ? 64 : 44} uid={`${uid}r`} flip />}
                 {hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={cx} />}
 
                 <h2

@@ -1,6 +1,6 @@
 import { useId } from 'react'
 import { octagon } from '../../utils/octagon'
-import { SideOrnament, HexOrnament } from './Ornaments'
+import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament } from './Ornaments'
 import {
   goldDim,
   VARIANT_BG, VARIANT_BORDER, VARIANT_HEADER_BG, VARIANT_TITLE_GRAD,
@@ -43,6 +43,9 @@ export default function DonjonCard({
   const v = variants[variant] ?? variants.default
   const ornH = 66
   const hasOrnaments = ornament !== 'plain'
+  const SideOrn = ornament === 'zkosen' ? ZkosenOrnament
+                : ornament === 'roh'    ? RohOrnament
+                : SideOrnament
   const hasHeader = !!(title || description)
   const headerPadding = hasOrnaments ? '14px 40px 12px' : '14px 28px 12px'
   const bodyPadding = hasOrnaments ? '16px 28px' : '18px 24px'
@@ -64,8 +67,8 @@ export default function DonjonCard({
       }}
     >
       {/* Side ornaments — only when there's a header to anchor them to */}
-      {hasOrnaments && hasHeader && <SideOrnament h={ornH} uid={`${uid}l`} />}
-      {hasOrnaments && hasHeader && <SideOrnament h={ornH} uid={`${uid}r`} flip />}
+      {hasOrnaments && hasHeader && <SideOrn h={ornH} uid={`${uid}l`} />}
+      {hasOrnaments && hasHeader && <SideOrn h={ornH} uid={`${uid}r`} flip />}
 
       {/* Header */}
       {hasHeader ? (

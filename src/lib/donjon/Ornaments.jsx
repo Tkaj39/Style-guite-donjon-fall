@@ -1,12 +1,20 @@
 /**
  * Shared decorative ornaments used across DonjonButton, DonjonCard, ButtonGroup.
  *
- * SideOrnament — vertical bracket placed on left/right edge of a component.
- *   Props: h (height px), uid (unique gradient id prefix), flip (mirror for right side)
+ * SideOrnament   — full-height vertical bracket (left/right edge). viewBox 24×66.
+ *   Props: h, uid, flip
  *
- * HexOrnament — horizontal bar with two lines + centered hexagon, placed top/bottom.
- *   Props: uid, flip (bottom variant), edgePadL/R (outer line inset), textPadL/R (inner line inset),
- *          hexOffsetX (horizontal shift of hexagon for asymmetric layouts)
+ * ZkosenOrnament — corner-only diagonal bracket + diamond. viewBox 22×22. ornament='zkosen'
+ *   Props: h, uid, flip
+ *
+ * RohOrnament    — corner bracket + partial vertical descent. viewBox 25×46. ornament='roh'
+ *   Props: h, uid, flip
+ *
+ * HexOrnament    — horizontal bar with two lines + centered hexagon (top/bottom).
+ *   Props: uid, flip, edgePadL/R, textPadL/R, hexOffsetX
+ *
+ * All ornaments scale proportionally: reference height = 66px (same as SideOrnament).
+ * Ornament widths at 100% scale: SideOrnament≈22, ZkosenOrnament=22, RohOrnament=25.
  */
 import { gold, goldDim, bg4 } from './tokens'
 
@@ -60,6 +68,119 @@ export function SideOrnament({ h, uid, flip }) {
 
       {/* bottom small rect */}
       <rect x="15.1799" y="51.6853" width="2.04" height="2.04" rx="0.5" transform="rotate(90 15.1799 51.6853)" fill={g} stroke={g} />
+    </svg>
+  )
+}
+
+/* ── ZkosenOrnament ────────────────────────────────────────────────────────
+   Rohový ornament — dvě diagonální závorky + diamant. viewBox 22×22.
+   Varianta ornament='zkosen' na DonjonButton, DonjonCard, DonjonModal.
+   ──────────────────────────────────────────────────────────────────────── */
+export function ZkosenOrnament({ h, uid, flip }) {
+  const size = Math.round(22 * (h / 66) * 10) / 10
+  const gv   = `url(#${uid}-v)`
+  const gd   = `url(#${uid}-d)`
+
+  return (
+    <svg
+      width={size} height={size}
+      viewBox="0 0 22 22"
+      fill="none"
+      aria-hidden="true"
+      style={{
+        position: 'absolute',
+        top: 0,
+        [flip ? 'right' : 'left']: 1,
+        transform: flip ? 'scaleX(-1)' : undefined,
+        pointerEvents: 'none',
+      }}
+    >
+      <defs>
+        <linearGradient id={`${uid}-v`} x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+          <stop stopColor={gold} />
+          <stop offset="1" stopColor={goldDim} />
+        </linearGradient>
+        <linearGradient id={`${uid}-d`} x1="1" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+          <stop stopColor={gold} />
+          <stop offset="1" stopColor={goldDim} />
+        </linearGradient>
+      </defs>
+
+      {/* outer bracket diagonal */}
+      <path d="M19.5303 0.530302C19.3535 0.353525 19.1767 0.176748 19 -2.83122e-05C18.6538 0.287176 18.3092 0.575852 17.966 0.866003C14.8774 3.47735 11.908 6.20803 9.05803 9.05803C6.20803 11.908 3.47736 14.8774 0.866002 17.966C0.575854 18.3092 0.287177 18.6538 -2.83122e-05 19C0.176748 19.1767 0.353525 19.3535 0.530302 19.5303C0.876433 19.2431 1.22109 18.9544 1.56427 18.6643C4.65292 16.0529 7.62224 13.3222 10.4722 10.4722C13.3222 7.62224 16.0529 4.65292 18.6643 1.56427C18.9544 1.22109 19.2431 0.876431 19.5303 0.530302Z" fill={gv} />
+
+      {/* inner bracket diagonal */}
+      <path d="M21.5307 4.52969C21.5905 4.45583 21.6255 4.3628 21.6234 4.26652C21.6215 4.17027 21.5833 4.0793 21.5163 4.01263C21.4493 3.94597 21.3582 3.9082 21.2619 3.90666C21.1656 3.90509 21.0728 3.94051 20.9992 4.00059C20.683 4.2592 20.3683 4.51927 20.055 4.78082C17.2358 7.13474 14.5362 9.6077 11.9562 12.1997C9.3762 14.7917 6.9158 17.5028 4.575 20.3329C4.31491 20.6473 4.0563 20.9633 3.79916 21.2807C3.73942 21.3545 3.70443 21.4476 3.70646 21.5438C3.70844 21.6401 3.74663 21.7311 3.81361 21.7977C3.88059 21.8644 3.97173 21.9022 4.06799 21.9037C4.16428 21.9053 4.25714 21.8698 4.33072 21.8098C4.64692 21.5512 4.96164 21.2911 5.27489 21.0295C8.09409 18.6756 10.7937 16.2027 13.3737 13.6106C15.9537 11.0186 18.4141 8.30757 20.7549 5.47746C21.015 5.16301 21.2736 4.84708 21.5307 4.52969Z" fill={gv} />
+
+      {/* diamond */}
+      <path d="M13.563 14.0803C13.5019 14.2481 13.3559 14.3706 13.1799 14.4016L10.3778 14.8949C10.202 14.9259 10.0231 14.8609 9.90828 14.7241L8.07947 12.5439C7.96478 12.407 7.93189 12.2196 7.99299 12.0518L8.96629 9.37822C9.02742 9.21038 9.17345 9.08788 9.34937 9.05689L12.1515 8.5636C12.3273 8.53263 12.5062 8.59764 12.621 8.73439L14.4498 10.9146C14.5645 11.0515 14.5974 11.239 14.5363 11.4068L13.563 14.0803Z" fill={bg4} stroke={gd} />
+    </svg>
+  )
+}
+
+/* ── RohOrnament ────────────────────────────────────────────────────────────
+   Rohový ornament + vertikální sestup — závorka v rohu + část SideOrnamant.
+   viewBox 25×46. Varianta ornament='roh' na DonjonButton, DonjonCard, DonjonModal.
+   ──────────────────────────────────────────────────────────────────────── */
+export function RohOrnament({ h, uid, flip }) {
+  const w  = Math.round(25 * (h / 66) * 10) / 10
+  const rh = Math.round(46 * (h / 66) * 10) / 10
+  const gv = `url(#${uid}-v)`
+  const gh = `url(#${uid}-h)`
+  const gd = `url(#${uid}-d)`
+
+  return (
+    <svg
+      width={w} height={rh}
+      viewBox="0 0 25 46"
+      fill="none"
+      aria-hidden="true"
+      style={{
+        position: 'absolute',
+        top: 0,
+        [flip ? 'right' : 'left']: 1,
+        transform: flip ? 'scaleX(-1)' : undefined,
+        pointerEvents: 'none',
+      }}
+    >
+      <defs>
+        {/* vertical gold→goldDim top to bottom */}
+        <linearGradient id={`${uid}-v`} x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+          <stop stopColor={gold} />
+          <stop offset="1" stopColor={goldDim} />
+        </linearGradient>
+        {/* horizontal for diamond stroke (bottom-right to top-left) */}
+        <linearGradient id={`${uid}-h`} x1="1" y1="1" x2="0" y2="0" gradientUnits="objectBoundingBox">
+          <stop stopColor={gold} />
+          <stop offset="1" stopColor={goldDim} />
+        </linearGradient>
+        {/* diagonal for corner accent (top-right to bottom-left) */}
+        <linearGradient id={`${uid}-d`} x1="1" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+          <stop stopColor={gold} />
+          <stop offset="1" stopColor={goldDim} />
+        </linearGradient>
+      </defs>
+
+      {/* corner accent — diagonal lines at top */}
+      <path d="M19.5634 14.9999C19.6336 14.9385 19.7285 14.9072 19.8247 14.9103C19.9211 14.9136 20.0108 14.951 20.0767 15.0169C20.1426 15.0828 20.18 15.1725 20.1833 15.2689C20.1864 15.365 20.1551 15.46 20.0937 15.5302C19.9901 15.6485 19.8865 15.7669 19.783 15.8852C18.1261 17.7777 16.4693 19.6701 14.8124 21.5626L15.0778 20.9219C15.0987 21.2364 15.1196 21.5509 15.1404 21.8654C15.1509 22.0223 15.1613 22.1792 15.1717 22.3361C15.1895 22.6013 15.0998 22.8557 14.912 23.0432C14.7247 23.2308 14.4548 23.3361 14.1717 23.3361C13.8886 23.3361 13.6186 23.2308 13.4314 23.0432C13.2435 22.8557 13.1538 22.6013 13.1717 22.3361C13.1821 22.1792 13.1925 22.0223 13.2029 21.8654C13.2238 21.5509 13.2447 21.2364 13.2656 20.9219C13.2774 20.743 13.396 20.3993 13.531 20.2812C15.4235 18.6243 17.3159 16.9675 19.2084 15.3106C19.3267 15.2071 19.4451 15.1035 19.5634 14.9999Z" fill={gd} />
+
+      {/* lower tick */}
+      <path d="M11.0894 35.3853C11.0956 35.4784 11.1405 35.5677 11.2107 35.6336C11.2811 35.6995 11.3711 35.7365 11.4644 35.7365C11.5576 35.7365 11.6476 35.6995 11.718 35.6336C11.7882 35.5677 11.8332 35.4784 11.8394 35.3853C11.8498 35.2263 11.8602 35.0674 11.8706 34.9085C12.0376 32.3607 12.2046 29.8129 12.3717 27.2651L12.1059 27.9067C12.3414 27.7002 12.5768 27.4937 12.8123 27.2872C12.932 27.1822 13.0517 27.0772 13.1715 26.9722C13.3715 26.7972 13.4877 26.5537 13.4875 26.2883C13.4877 26.0233 13.3715 25.758 13.1715 25.558C12.9715 25.358 12.7062 25.2418 12.4412 25.242C12.1758 25.2418 11.9323 25.358 11.7572 25.558C11.6523 25.6778 11.5473 25.7975 11.4423 25.9172C11.2358 26.1527 11.0293 26.3881 10.8228 26.6236C10.7044 26.7586 10.5453 27.086 10.5571 27.2651C10.7241 29.8129 10.8911 32.3607 11.0581 34.9085C11.0685 35.0674 11.0789 35.2264 11.0894 35.3853Z" fill={gv} />
+
+      {/* outer bracket */}
+      <path d="M22.7295 0.530302C22.5527 0.353525 22.376 0.176748 22.1992 -2.83122e-05C21.5424 0.597831 20.8871 1.19716 20.2333 1.79797C14.3487 7.20522 8.58348 12.7318 2.93758 18.3777C2.87747 18.4378 2.81737 18.4979 2.75729 18.5581L2.4646 18.8505L2.46441 19.2651C2.46797 27.1646 2.6367 35.0641 2.97061 42.9636C3.00811 43.8508 3.04769 44.738 3.08936 45.6251C3.33936 45.6251 3.58936 45.6251 3.83936 45.6251C3.88102 44.738 3.92061 43.8508 3.95811 42.9636C4.29201 35.0641 4.46074 27.1646 4.4643 19.2651L4.17142 19.9722C4.23156 19.9121 4.29168 19.852 4.35179 19.7919C9.99769 14.146 15.5243 8.38079 20.9315 2.49624C21.5323 1.8424 22.1317 1.18709 22.7295 0.530302Z" fill={gv} />
+
+      {/* inner bracket */}
+      <path d="M24.7304 4.52969C24.7952 4.45743 24.8323 4.36325 24.8312 4.26541C24.83 4.1676 24.7911 4.07452 24.7224 4.00617C24.6538 3.93783 24.5605 3.89932 24.4627 3.89863C24.3648 3.89792 24.2708 3.93548 24.1989 4.00059C23.6038 4.53939 23.0102 5.07965 22.418 5.62139C17.0888 10.497 11.8792 15.4917 6.78915 20.6054C6.7114 20.6835 6.63368 20.7617 6.55599 20.8398L6.26506 21.1317L6.26477 21.5452C6.26984 28.6502 6.43855 35.7551 6.7709 42.8601C6.8084 43.6618 6.84798 44.4635 6.88965 45.2651C6.89472 45.362 6.93484 45.455 7.00469 45.5235C7.07451 45.592 7.16777 45.6305 7.26465 45.6305C7.36153 45.6305 7.45479 45.592 7.52461 45.5235C7.59445 45.455 7.63458 45.362 7.63965 45.2651C7.68132 44.4635 7.7209 43.6618 7.7584 42.8601C8.09074 35.7551 8.25945 28.6502 8.26453 21.5452L7.97331 22.2506C8.05112 22.1725 8.12889 22.0945 8.20664 22.0163C13.2967 16.9026 18.2671 11.6699 23.1179 6.31803C23.6569 5.72339 24.1944 5.12727 24.7304 4.52969Z" fill={gv} />
+
+      {/* diamond */}
+      <path d="M8.42823 21.6878C8.42823 21.8664 8.33293 22.0315 8.17823 22.1208L5.71407 23.5431C5.55943 23.6324 5.36908 23.6326 5.21441 23.5433L2.74996 22.1205C2.59536 22.0311 2.5003 21.8662 2.5003 21.6877L2.50001 18.8425C2.50001 18.6638 2.59532 18.4988 2.75001 18.4095L5.21417 16.9871C5.36881 16.8978 5.55916 16.8977 5.71383 16.9869L8.17828 18.4098C8.33288 18.4991 8.42794 18.664 8.42794 18.8426L8.42823 21.6878Z" fill={bg4} stroke={gh} />
+
+      {/* top small rect */}
+      <rect x="16.6445" y="12.1652" width="2.04" height="2.04" rx="0.5" transform="rotate(90 16.6445 12.1652)" fill={gv} stroke={gv} />
+
+      {/* bottom small rect (rotated 135°) */}
+      <rect x="8.85637" y="33.7852" width="2.04" height="2.04" rx="0.5" transform="rotate(135 8.85637 33.7852)" fill={gv} stroke={gv} />
     </svg>
   )
 }
