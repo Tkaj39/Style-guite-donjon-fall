@@ -103,6 +103,7 @@ export default function EventLogPage() {
         Seznam herních eventů s automatickým scrollem na nejnovější.
         Barevné kódování podle typu: gain (zelená), loss (červená), event (zlatá),
         warning (jantarová), system (šedá). Auto-scroll se spustí při každé změně events.
+        Výchozí režim je plain log panel; nově lze zapnout i dekorovaný shell.
       </p>
 
       {/* ── Interaktivní demo ── */}
@@ -189,6 +190,28 @@ export default function EventLogPage() {
 
 {/* Vlastní nadpis */}
 <EventLog events={log} title="Poslední akce" maxHeight={160} />`}</Code>
+      </Section>
+
+      <div style={DIVIDER} />
+
+      <Section
+        id="ornament"
+        title="Plain vs Decorated"
+        desc="Plain je výchozí baseline pro hustý herní log. Decorated režim přidá výraznější donjon shell pro samostatné panely a highlightované výpisy."
+      >
+        <Demo style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+          <div style={{ flex: '0 0 260px' }}>
+            <p style={{ fontSize: '0.625rem', color: textFaint, margin: '0 0 6px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Plain</p>
+            <EventLog events={SAMPLE_EVENTS.slice(0, 5)} maxHeight={220} />
+          </div>
+          <div style={{ flex: '0 0 260px' }}>
+            <p style={{ fontSize: '0.625rem', color: textFaint, margin: '0 0 6px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Decorated</p>
+            <EventLog events={SAMPLE_EVENTS.slice(0, 5)} maxHeight={220} ornament="decorated" />
+          </div>
+        </Demo>
+        <Code>{`<EventLog events={log} maxHeight={220} />
+
+<EventLog events={log} maxHeight={220} ornament="decorated" />`}</Code>
       </Section>
     </div>
   )

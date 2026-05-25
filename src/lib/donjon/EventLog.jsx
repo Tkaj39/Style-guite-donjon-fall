@@ -3,6 +3,9 @@
    Typy: gain · loss · event · warning · system
    ─────────────────────────────────────────────────────────────────────── */
 import { useRef, useEffect } from 'react'
+import { useId } from 'react'
+import { octagon } from '../../utils/octagon'
+import { SideOrnament, HexOrnament } from './Ornaments'
 import {
   gold, goldDim,
   bg2, bg3, bgDeep,
@@ -58,11 +61,15 @@ export default function EventLog({
   showTitle    = true,
   showRound    = true,
   autoScroll   = true,
+  ornament     = 'plain',
   emptyMessage = 'Zatím žádné události.',
   style,
   className,
 }) {
   const scrollRef = useRef(null)
+  const uid = useId().replace(/:/g, '')
+  const hasOrnaments = ornament === 'decorated'
+  const cx = 14
 
   /* Auto-scroll na nejnovější záznam */
   useEffect(() => {
@@ -70,125 +77,186 @@ export default function EventLog({
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight
   }, [events, autoScroll])
 
+  const scrollContent = (
+    <div
+      ref={scrollRef}
+      style={{
+        position: 'relative',
+        maxHeight,
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        paddingTop: hasOrnaments && !showTitle ? 8 : 0,
+        paddingBottom: hasOrnaments ? 8 : 0,
+        scrollbarWidth: 'thin',
+        scrollbarColor: `${borderDefault} transparent`,
+      }}
+    >
+      {hasOrnaments && !showTitle && <HexOrnament uid={`${uid}ht`} edgePadL={cx} />}
+
+      {events.length === 0 ? (
+        <div style={{
+          padding: '20px 12px',
+          textAlign: 'center',
+          fontSize: '0.75rem',
+          color: textFaint,
+        }}>
+          {emptyMessage}
+        </div>
+      ) : (
+        <div>
+          {events.map((entry, i) => {
+            const cfg = TYPE_CFG[entry.type] ?? TYPE_CFG.system
+            const isLast = i === events.length - 1
+            return (
+              <div
+                key={entry.id ?? i}
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: 8,
+                  padding: '7px 12px',
+                  background: cfg.bg,
+                  borderBottom: isLast ? 'none' : `1px solid ${borderMid}`,
+                }}
+              >
+                <div style={{ paddingTop: 3, flexShrink: 0 }}>
+                  <TypeIcon type={entry.type} size={9} />
+                </div>
+
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <span style={{
+                    fontSize: '0.75rem',
+                    color: entry.type === 'system' ? textLow : cfg.color,
+                    lineHeight: 1.4,
+                  }}>
+                    {entry.text}
+                  </span>
+                  {entry.detail && (
+                    <span style={{
+                      display: 'block',
+                      fontSize: '0.6875rem',
+                      color: textFaint,
+                      marginTop: 1,
+                      lineHeight: 1.3,
+                    }}>
+                      {entry.detail}
+                    </span>
+                  )}
+                </div>
+
+                {showRound && entry.round != null && (
+                  <span style={{
+                    fontSize: '0.625rem',
+                    color: textFaint,
+                    whiteSpace: 'nowrap',
+                    paddingTop: 2,
+                    flexShrink: 0,
+                    letterSpacing: '0.04em',
+                  }}>
+                    K{entry.round}
+                  </span>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+
+  if (!hasOrnaments) {
+    return (
+      <div
+        style={{
+          display: 'flex', flexDirection: 'column',
+          background: bg3,
+          border: `1px solid ${borderDefault}`,
+          borderRadius: 4,
+          overflow: 'hidden',
+          ...style,
+        }}
+        className={className}
+      >
+        {showTitle && (
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '8px 12px',
+            borderBottom: `1px solid ${borderMid}`,
+            background: bgDeep,
+            flexShrink: 0,
+          }}>
+            <span style={{
+              fontSize: '0.6875rem', fontWeight: 700,
+              color: textMid, letterSpacing: '0.1em', textTransform: 'uppercase',
+            }}>
+              {title}
+            </span>
+            <span style={{
+              fontSize: '0.625rem', color: textFaint,
+              letterSpacing: '0.06em',
+            }}>
+              {events.length} záznamů
+            </span>
+          </div>
+        )}
+
+        {scrollContent}
+      </div>
+    )
+  }
+
   return (
     <div
       style={{
-        display: 'flex', flexDirection: 'column',
-        background: bg3,
-        border: `1px solid ${borderDefault}`,
-        borderRadius: 4,
-        overflow: 'hidden',
+        clipPath: octagon(cx),
+        background: borderDefault,
+        padding: 1,
         ...style,
       }}
       className={className}
     >
-      {/* Hlavička */}
-      {showTitle && (
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '8px 12px',
-          borderBottom: `1px solid ${borderMid}`,
-          background: bgDeep,
-          flexShrink: 0,
-        }}>
-          <span style={{
-            fontSize: '0.6875rem', fontWeight: 700,
-            color: textMid, letterSpacing: '0.1em', textTransform: 'uppercase',
-          }}>
-            {title}
-          </span>
-          <span style={{
-            fontSize: '0.625rem', color: textFaint,
-            letterSpacing: '0.06em',
-          }}>
-            {events.length} záznamů
-          </span>
-        </div>
-      )}
-
-      {/* Scroll kontejner */}
       <div
-        ref={scrollRef}
         style={{
-          maxHeight,
-          overflowY: 'auto',
-          overflowX: 'hidden',
-          /* Scrollbar styling */
-          scrollbarWidth: 'thin',
-          scrollbarColor: `${borderDefault} transparent`,
+          position: 'relative',
+          clipPath: octagon(cx - 1),
+          background: bg3,
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
         }}
       >
-        {events.length === 0 ? (
+        {showTitle && (
           <div style={{
-            padding: '20px 12px',
-            textAlign: 'center',
-            fontSize: '0.75rem',
-            color: textFaint,
+            position: 'relative',
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '10px 36px 8px',
+            borderBottom: `1px solid ${borderMid}`,
+            background: bgDeep,
+            flexShrink: 0,
+            overflow: 'hidden',
           }}>
-            {emptyMessage}
-          </div>
-        ) : (
-          <div>
-            {events.map((entry, i) => {
-              const cfg = TYPE_CFG[entry.type] ?? TYPE_CFG.system
-              const isLast = i === events.length - 1
-              return (
-                <div
-                  key={entry.id ?? i}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: 8,
-                    padding: '7px 12px',
-                    background: cfg.bg,
-                    borderBottom: isLast ? 'none' : `1px solid ${borderMid}`,
-                  }}
-                >
-                  {/* Ikona */}
-                  <div style={{ paddingTop: 3, flexShrink: 0 }}>
-                    <TypeIcon type={entry.type} size={9} />
-                  </div>
+            <SideOrnament h={42} uid={`${uid}l`} />
+            <SideOrnament h={42} uid={`${uid}r`} flip />
+            <HexOrnament uid={`${uid}hh`} edgePadL={cx} />
 
-                  {/* Text */}
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <span style={{
-                      fontSize: '0.75rem',
-                      color: entry.type === 'system' ? textLow : cfg.color,
-                      lineHeight: 1.4,
-                    }}>
-                      {entry.text}
-                    </span>
-                    {entry.detail && (
-                      <span style={{
-                        display: 'block',
-                        fontSize: '0.6875rem',
-                        color: textFaint,
-                        marginTop: 1,
-                        lineHeight: 1.3,
-                      }}>
-                        {entry.detail}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Kolo */}
-                  {showRound && entry.round != null && (
-                    <span style={{
-                      fontSize: '0.625rem',
-                      color: textFaint,
-                      whiteSpace: 'nowrap',
-                      paddingTop: 2,
-                      flexShrink: 0,
-                      letterSpacing: '0.04em',
-                    }}>
-                      K{entry.round}
-                    </span>
-                  )}
-                </div>
-              )
-            })}
+            <span style={{
+              fontSize: '0.6875rem', fontWeight: 700,
+              color: textMid, letterSpacing: '0.1em', textTransform: 'uppercase',
+            }}>
+              {title}
+            </span>
+            <span style={{
+              fontSize: '0.625rem', color: textFaint,
+              letterSpacing: '0.06em',
+            }}>
+              {events.length} záznamů
+            </span>
           </div>
         )}
+
+        {scrollContent}
+
+        <HexOrnament uid={`${uid}hb`} flip edgePadL={cx} />
       </div>
     </div>
   )

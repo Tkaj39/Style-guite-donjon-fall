@@ -464,7 +464,7 @@ export const componentMeta = {
   },
 
   'event-log': {
-    description: 'Scrollovatelný seznam herních událostí s typovou ikonou, volitelným kolem a automatickým posunem na nejnovější záznam.',
+    description: 'Scrollovatelný seznam herních událostí s typovou ikonou, volitelným kolem a automatickým posunem na nejnovější záznam. Výchozí režim je plain; volitelně umí i dekorovaný donjon shell.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/event-log',
@@ -475,6 +475,7 @@ export const componentMeta = {
       { name: 'showTitle',    type: 'boolean',                                          required: false, default: 'true',               description: 'Zobrazí nebo skryje hlavičku s titulkem a počtem záznamů.' },
       { name: 'showRound',    type: 'boolean',                                          required: false, default: 'true',               description: 'Zobrazí číslo kola u jednotlivých záznamů.' },
       { name: 'autoScroll',   type: 'boolean',                                          required: false, default: 'true',               description: 'Po změně events automaticky posune výpis na konec.' },
+      { name: 'ornament',     type: "'plain'|'decorated'",                              required: false, default: "'plain'",            description: 'Vizuální režim shellu logu — plain baseline nebo dekorovaný donjon panel.' },
       { name: 'emptyMessage', type: 'string',                                           required: false, default: "'Zatím žádné události.'", description: 'Text pro prázdný stav bez záznamů.' },
       { name: 'style',        type: 'CSSProperties',                                    required: false, description: 'Inline styly na obalový kontejner.' },
       { name: 'className',    type: 'string',                                           required: false, description: 'Doplňkové CSS třídy na obalový kontejner.' },
