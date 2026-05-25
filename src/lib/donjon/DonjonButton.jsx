@@ -126,23 +126,26 @@ function DonjonButton({
     position: 'relative',
   }
 
-  return (
+  /* ── Plain mode: outer/inner octagon border trick ──────────────────────
+     CSS `border` gets clipped on diagonal octagon corners → unusable.
+     Fix: outer div = border color + padding:1, inner button fills 100%.
+  ─────────────────────────────────────────────────────────────────────── */
+  const buttonEl = (
     <button
       ref={ref}
       disabled={disabled || loading}
       style={{
-        ...propStyle,            // uživatelský style první (marginTop, opacity…)
-        position: 'relative',   // pak fixed layout props — nelze přepsat přes propStyle
+        ...(hasOrnaments ? propStyle : {}),
+        position: 'relative',
         boxSizing: 'border-box',
-        height: s.h,
-        width: iconOnly ? s.h : (fullWidth ? '100%' : undefined),
+        height: hasOrnaments ? s.h : '100%',
+        width: hasOrnaments ? (iconOnly ? s.h : (fullWidth ? '100%' : undefined)) : '100%',
         padding: iconOnly ? 0 : `0 ${hasOrnaments ? s.px + ornW : s.px}px`,
         clipPath: octagon(s.cx),
         background: hasOrnaments ? v.bg : v.plainBg,
-        border: hasOrnaments ? 'none' : `1px solid ${v.border}`,
-        boxShadow: hasOrnaments ? 'none' : `inset 0 0 0 1px ${v.border}22`,
+        border: 'none',
         display: 'inline-flex',
-        alignSelf: fullWidth ? undefined : 'flex-start',
+        alignSelf: (fullWidth || !hasOrnaments) ? undefined : 'flex-start',
         alignItems: 'center',
         justifyContent: 'center',
         gap: s.px * 0.4,
@@ -151,7 +154,8 @@ function DonjonButton({
         'cursor-pointer select-none',
         'transition-[filter] duration-150',
         'hover:brightness-110 active:brightness-90',
-        'focus:outline-hidden focus-visible:drop-shadow-[0_0_8px_#FFC183AA]',
+        'focus:outline-hidden',
+        hasOrnaments && 'focus-visible:drop-shadow-[0_0_8px_#FFC183AA]',
         'disabled:opacity-40 disabled:pointer-events-none',
         className,
       ].filter(Boolean).join(' ')}
@@ -177,6 +181,29 @@ function DonjonButton({
       )}
     </button>
   )
+
+  if (!hasOrnaments) {
+    return (
+      <div
+        className="dj-clip-focus"
+        style={{
+          ...propStyle,
+          display: 'inline-flex',
+          alignSelf: fullWidth ? undefined : 'flex-start',
+          height: s.h,
+          width: iconOnly ? s.h : (fullWidth ? '100%' : undefined),
+          clipPath: octagon(s.cx),
+          background: v.border,
+          padding: 1,
+          boxSizing: 'border-box',
+        }}
+      >
+        {buttonEl}
+      </div>
+    )
+  }
+
+  return buttonEl
 }
 
 export default DonjonButton

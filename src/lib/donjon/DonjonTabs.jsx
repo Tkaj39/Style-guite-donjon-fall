@@ -7,7 +7,7 @@
 import { useId, useState, useRef, useLayoutEffect } from 'react'
 import { HexOrnament } from './Ornaments'
 import { octagon } from '../../utils/octagon'
-import { gold, goldMid, goldDim, bg0, bg3, bg4, textActive, textDisabled, VARIANT_BG, VARIANT_TITLE_GRAD } from './tokens'
+import { gold, goldMid, goldDim, bg0, bg3, bg4, textActive, textDisabled, VARIANT_BG, VARIANT_BORDER, VARIANT_TITLE_GRAD } from './tokens'
 
 const SIZES = {
   sm: { fontSize: '0.75rem',   px: 10, py: 5,  gap: 2, cx: 5 },
@@ -123,6 +123,8 @@ export default function DonjonTabs({
       {safeItems.map((item, i) => {
         const isActive = item.value === value
         const isPillsActive = isActive && variant === 'pills'
+        /* active pill in plain mode: border goes on outer wrapper, not button */
+        const needsPillBorder = isPillsActive && !hasOrnaments
         const plainUnderlineStyle = !hasOrnaments && variant !== 'pills'
           ? variant === 'topline'
             ? {
@@ -137,7 +139,9 @@ export default function DonjonTabs({
               }
           : null
         const tabStyle = isPillsActive
-          ? { clipPath: octagon(s.cx), background: VARIANT_BG.default }
+          ? needsPillBorder
+            ? { background: VARIANT_BG.default }                          // clip-path on wrapper
+            : { clipPath: octagon(s.cx), background: VARIANT_BG.default } // decorated pills
           : plainUnderlineStyle
             ? plainUnderlineStyle
           : isActive ? ACTIVE_TAB[variant] : INACTIVE_TAB[variant]
@@ -151,38 +155,39 @@ export default function DonjonTabs({
             }}>{item.label}</span>
           : item.label
 
-        return (
-          <button
-            key={item.value}
-            id={`dtab-${item.value}`}
-            ref={el => { tabRefs.current[item.value] = el }}
-            role="tab"
-            aria-selected={isActive}
-            aria-disabled={item.disabled}
-            tabIndex={item.disabled ? -1 : (isActive ? 0 : -1)}
-            onClick={() => !item.disabled && onChange?.(item.value)}
-            onKeyDown={e => handleKeyDown(e, item, i)}
-            onMouseEnter={() => { if (!item.disabled) setHoveredValue(item.value) }}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: `${s.py}px ${s.px}px`,
-              fontSize: s.fontSize,
-              fontWeight: isActive ? 600 : 400,
-              letterSpacing: isPillsActive ? '0.08em' : isActive ? '0.04em' : '0.02em',
-              textTransform: isPillsActive ? 'uppercase' : undefined,
-              cursor: item.disabled ? 'not-allowed' : 'pointer',
-              opacity: item.disabled ? 0.35 : 1,
-              background: 'transparent',
-              border: 'none',
-              transition: 'color 0.12s',
-              outline: 'none',
-              ...tabStyle,
-            }}
-            onFocus={e => { if (e.currentTarget.matches(':focus-visible')) { e.currentTarget.style.outline = `2px solid ${gold}99`; e.currentTarget.style.outlineOffset = '3px' } }}
-            onBlur={e => { e.currentTarget.style.outline = 'none' }}
-          >
+        /* Shared button props/children — key is added at render site */
+        const btnProps = {
+          id: `dtab-${item.value}`,
+          ref: el => { tabRefs.current[item.value] = el },
+          role: 'tab',
+          'aria-selected': isActive,
+          'aria-disabled': item.disabled,
+          tabIndex: item.disabled ? -1 : (isActive ? 0 : -1),
+          onClick: () => !item.disabled && onChange?.(item.value),
+          onKeyDown: e => handleKeyDown(e, item, i),
+          onMouseEnter: () => { if (!item.disabled) setHoveredValue(item.value) },
+          style: {
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+            padding: `${s.py}px ${s.px}px`,
+            fontSize: s.fontSize,
+            fontWeight: isActive ? 600 : 400,
+            letterSpacing: isPillsActive ? '0.08em' : isActive ? '0.04em' : '0.02em',
+            textTransform: isPillsActive ? 'uppercase' : undefined,
+            cursor: item.disabled ? 'not-allowed' : 'pointer',
+            opacity: item.disabled ? 0.35 : 1,
+            background: 'transparent',
+            border: 'none',
+            transition: 'color 0.12s',
+            outline: 'none',
+            ...tabStyle,
+          },
+          onFocus: e => { if (e.currentTarget.matches(':focus-visible')) { e.currentTarget.style.outline = `2px solid ${gold}99`; e.currentTarget.style.outlineOffset = '3px' } },
+          onBlur: e => { e.currentTarget.style.outline = 'none' },
+        }
+        const btnChildren = (
+          <>
             {item.icon && <span style={{ display: 'flex', alignItems: 'center', opacity: isActive ? 1 : 0.6 }}>{item.icon}</span>}
             {labelNode}
             {item.badge != null && (
@@ -197,8 +202,22 @@ export default function DonjonTabs({
                 {item.badge}
               </span>
             )}
-          </button>
+          </>
         )
+
+        if (needsPillBorder) {
+          return (
+            <div key={item.value} style={{
+              display: 'inline-flex',
+              clipPath: octagon(s.cx),
+              background: VARIANT_BORDER.default,
+              padding: 1,
+            }}>
+              <button {...btnProps}>{btnChildren}</button>
+            </div>
+          )
+        }
+        return <button key={item.value} {...btnProps}>{btnChildren}</button>
       })}
     </div>
   )

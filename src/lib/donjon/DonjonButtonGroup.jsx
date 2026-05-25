@@ -1,7 +1,7 @@
 import { useId } from 'react'
 import { octagon, clipLeft, clipRight } from '../../utils/octagon'
 import { SideOrnament, HexOrnament } from './Ornaments'
-import { gold, goldDim, bg2, bgInactive, VARIANT_BG, VARIANT_TITLE_GRAD } from './tokens'
+import { gold, goldDim, bg2, bgInactive, VARIANT_BG, VARIANT_BORDER, VARIANT_TITLE_GRAD } from './tokens'
 
 const sizeMap = {
   xs: { h: 32, cx: 9.61,  px: 10, fontSize: '0.6875rem' },
@@ -28,8 +28,20 @@ export default function DonjonButtonGroup({
   const last  = safeItems.length - 1
   const hasOrnaments = ornament !== 'plain'
 
-  return (
-    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 0 }} role="group">
+  /* ── Plain mode: outer octagon border wrapper ────────────────────────────
+     CSS `border` gets clipped on diagonal corners → outer/inner trick.
+     The whole group gets one octagon wrapper so borders align at corners.
+  ─────────────────────────────────────────────────────────────────────── */
+  const groupInner = (
+    <div
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 0,
+        ...(hasOrnaments ? {} : { clipPath: octagon(s.cx) }),
+      }}
+      role="group"
+    >
       {safeItems.map((item, i) => {
         const isActive = item.value === value
         const isFirst  = i === 0
@@ -127,4 +139,21 @@ export default function DonjonButtonGroup({
       })}
     </div>
   )
+
+  if (!hasOrnaments) {
+    return (
+      <div style={{
+        display: 'inline-flex',
+        alignSelf: 'flex-start',
+        clipPath: octagon(s.cx),
+        background: VARIANT_BORDER.default,
+        padding: 1,
+        boxSizing: 'border-box',
+      }}>
+        {groupInner}
+      </div>
+    )
+  }
+
+  return groupInner
 }
