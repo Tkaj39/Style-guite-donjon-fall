@@ -5,7 +5,7 @@
 import {
   gold, bg2, bg3,
   gainColor, dangerColor, warningColor, infoColor, magicColor,
-  textMid, textFaint,
+  textMid, textLow, textFaint,
 } from './tokens'
 
 function thresholdColor(pct) {

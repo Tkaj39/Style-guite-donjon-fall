@@ -6,7 +6,7 @@
    ─────────────────────────────────────────────────────────────────────── */
 import {
   bg2, borderDefault,
-  textMid, textFaint,
+  textMid, textLow, textFaint,
   gainColor, dangerColor, warningColor, infoColor, magicColor, shieldColor,
 } from './tokens'
 

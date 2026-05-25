@@ -5,7 +5,7 @@
 import {
   gold, goldDim, goldMid,
   bgDeep,
-  textMid, textFaint,
+  textMid, textLow, textFaint,
 } from './tokens'
 
 const SIZES = {

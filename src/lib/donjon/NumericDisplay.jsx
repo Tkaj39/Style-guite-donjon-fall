@@ -7,7 +7,7 @@ import {
   gold, goldDim, goldMid,
   bg2, bg3, bg4,
   borderDefault,
-  textHigh, textMid, textFaint,
+  textHigh, textMid, textLow, textFaint,
   gainColor, dangerColor, infoColor, infoLight,
 } from './tokens'
 
