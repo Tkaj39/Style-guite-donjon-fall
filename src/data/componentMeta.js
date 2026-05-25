@@ -484,7 +484,7 @@ export const componentMeta = {
   },
 
   'numeric-display': {
-    description: 'Číselný herní counter pro VP, HP, manu nebo zdroje. Při změně hodnoty krátce problikne a zobrazí plovoucí delta badge.',
+    description: 'Číselný herní counter pro VP, HP, manu nebo zdroje. V donjon konzistenci slouží jako referenční plain baseline counter bez ornamentální vrstvy; při změně hodnoty krátce problikne a zobrazí plovoucí delta badge.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/numeric-display',

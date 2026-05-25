@@ -57,6 +57,22 @@ export default function NumericDisplayPage() {
         Ideální pro HUD countery, scoreboard a resource displeje.
       </p>
 
+      <Section
+        id="plain-baseline"
+        title="Plain baseline counter"
+        desc="NumericDisplay je záměrně plain referenční counter. Těžiště je v rychlé čitelnosti čísla, stavu změny a HUD rytmu, ne v ornamentálním shellu."
+      >
+        <Demo style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'center' }}>
+          <NumericDisplay value={7} variant="vp" label="VP" size="lg" suffix=" VP" />
+          <NumericDisplay value={72} variant="default" label="HP" size="md" suffix=" hp" />
+          <NumericDisplay value={45} variant="mana" label="Mana" size="md" suffix=" mp" />
+        </Demo>
+        <Code>{`{/* NumericDisplay zůstává záměrně plain baseline counter */}
+<NumericDisplay value={7} variant="vp" label="VP" size="lg" suffix=" VP" />
+<NumericDisplay value={72} variant="default" label="HP" size="md" suffix=" hp" />
+<NumericDisplay value={45} variant="mana" label="Mana" size="md" suffix=" mp" />`}</Code>
+      </Section>
+
       {/* ── Interaktivní demo ── */}
       <Section id="demo" title="Interaktivní demo" desc="Klikni na tlačítka pro demonstraci animace.">
         <Demo style={{ display: 'flex', flexWrap: 'wrap', gap: 32, alignItems: 'flex-start' }}>
