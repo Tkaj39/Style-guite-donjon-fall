@@ -563,7 +563,7 @@ export const componentMeta = {
   },
 
   'resource-bar': {
-    description: 'Herní resource bar pro HP, manu, staminu nebo štít. Na rozdíl od generického progress baru umí zobrazit nebezpečné zóny a damage flash overlay.',
+    description: 'Herní resource bar pro HP, manu, staminu nebo štít. Je záměrně vedený jako referenční plain baseline bez ornamentální vrstvy; proti generickému progress baru přidává nebezpečné zóny a damage flash overlay.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/resource-bar',

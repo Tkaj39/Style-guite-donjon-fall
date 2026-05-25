@@ -4,7 +4,7 @@ import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonSlider from '../lib/donjon/DonjonSlider'
 import {
   gold, goldDim, bg2, bg3, bgDeep, borderDefault,
-  textHigh, textMid, textFaint, textParchment,
+  textHigh, textMid, textFaint, textParchment, textLow,
   gainColor, dangerColor, warningColor,
 } from '../lib/donjon/tokens'
 
@@ -64,6 +64,26 @@ export default function ResourceBarPage() {
         HP/mana/stamina bar s vizuálními zónami. Hranice danger/warning jsou <em>vždy viditelné</em> v pozadí traku —
         i při plném HP hráč vidí kde zóny začínají. Liší se od DonjonProgressBar: zóny jsou prostorové, ne jen reaktivní.
       </p>
+
+      <Section
+        id="plain-baseline"
+        title="Plain baseline resource shell"
+        desc="ResourceBar je záměrně plain referenční stavebnice: prioritu mají čitelné prahy, rychlé skenování hodnoty a minimální vizuální šum, ne ornamentální rámování."
+      >
+        <Demo>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14, maxWidth: 420 }}>
+            <ResourceBar value={72} max={100} variant="hp" label="HP" showValue zones />
+            <ResourceBar value={45} max={100} variant="mana" label="Mana" showValue zones={false} />
+            <p style={{ margin: 0, fontSize: '0.8125rem', color: textMid, lineHeight: 1.6 }}>
+              Tahle komponenta nemá druhý ornament režim. V donjon auditní logice slouží jako plain baseline pro resource HUD a
+              její vizuální identita stojí na zónách, barvě fillu a rychlé čitelnosti, ne na SideOrnament nebo HexOrnament vrstvě.
+            </p>
+          </div>
+        </Demo>
+        <Code>{`{/* ResourceBar zůstává záměrně plain baseline komponenta */}
+<ResourceBar value={72} max={100} variant="hp" label="HP" showValue zones />
+<ResourceBar value={45} max={100} variant="mana" label="Mana" showValue zones={false} />`}</Code>
+      </Section>
 
       {/* ── Interaktivní demo ── */}
       <Section id="demo" title="Interaktivní demo" desc="Přetáhni slider nebo spusť damage flash.">
@@ -191,5 +211,3 @@ const takeDamage = () => {
     </div>
   )
 }
-
-const textLow = '#9A9080'
