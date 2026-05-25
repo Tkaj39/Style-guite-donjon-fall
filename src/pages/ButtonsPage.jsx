@@ -86,38 +86,6 @@ function ButtonContent() {
         </Section>
       )}
 
-      {lib === 'donjon' && (
-        <Section
-          id="ornament-types"
-          title="Typy ornamentů"
-          description="Čtyři varianty side ornametu: decorated (výchozí), zkosen (rohová závorka), roh (závorka + vertikální sestup), plain (bez ornametu, jen zlatý rámeček)."
-        >
-          <Preview>
-            <DonjonButton ornament="decorated">Decorated</DonjonButton>
-            <DonjonButton ornament="zkosen">Zkosen</DonjonButton>
-            <DonjonButton ornament="roh">Roh</DonjonButton>
-            <DonjonButton ornament="plain">Plain</DonjonButton>
-          </Preview>
-          <Preview>
-            <DonjonButton ornament="decorated" leadingIcon={<PlusIcon />}>Decorated</DonjonButton>
-            <DonjonButton ornament="zkosen" leadingIcon={<PlusIcon />}>Zkosen</DonjonButton>
-            <DonjonButton ornament="roh" leadingIcon={<PlusIcon />}>Roh</DonjonButton>
-            <DonjonButton ornament="plain" leadingIcon={<PlusIcon />}>Plain</DonjonButton>
-          </Preview>
-          <Preview>
-            <DonjonButton ornament="decorated" size="sm">Decorated sm</DonjonButton>
-            <DonjonButton ornament="zkosen" size="sm">Zkosen sm</DonjonButton>
-            <DonjonButton ornament="roh" size="sm">Roh sm</DonjonButton>
-            <DonjonButton ornament="decorated" size="lg">Decorated lg</DonjonButton>
-            <DonjonButton ornament="zkosen" size="lg">Zkosen lg</DonjonButton>
-            <DonjonButton ornament="roh" size="lg">Roh lg</DonjonButton>
-          </Preview>
-          <CodeBlock code={`<DonjonButton ornament="decorated">Decorated</DonjonButton>
-<DonjonButton ornament="zkosen">Zkosen</DonjonButton>
-<DonjonButton ornament="roh">Roh</DonjonButton>
-<DonjonButton ornament="plain">Plain</DonjonButton>`} />
-        </Section>
-      )}
 
       {/* Content */}
       <Section

@@ -1,4 +1,4 @@
-import { SideOrnament, HexOrnament } from '../lib/donjon/Ornaments'
+import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament } from '../lib/donjon/Ornaments'
 import CornerOrnament from '../lib/donjon/CornerOrnament'
 import { buttonSizes, CARD_ORN_H } from '../utils/sizes'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
@@ -139,6 +139,76 @@ export default function OrnamentsPage() {
 
 {/* ButtonGroup první item (clipLeft) */}
 <HexOrnament uid="..." edgePadL={17.61} edgePadR={0} textPadL={27} textPadR={10} hexOffsetX={8.5} />`}</pre>
+      </Section>
+
+      {/* ── ZkosenOrnament ── */}
+      <Section
+        id="zkosen-ornament"
+        description="Rohový ornament — dvě diagonální závorky + diamant uprostřed. Nahrazuje SideOrnament v komponentách přes ornament='zkosen'. Škáluje stejně: referenční výška 66 px."
+      >
+        <h2 className="text-base font-semibold text-neutral-100 mb-4">ZkosenOrnament</h2>
+
+        <Preview>
+          <div className="flex items-end gap-8 flex-wrap">
+            {[...SIZES, CARD_SIZE].map(({ key, h }) => (
+              <div key={key} className="flex flex-col items-center gap-2">
+                <div style={{ position: 'relative', width: Math.round(22 * (h / 66) * 10) / 10, height: Math.round(22 * (h / 66) * 10) / 10 }}>
+                  <ZkosenOrnament h={h} uid={`demo-zkosen-${key}`} />
+                </div>
+                <span className="text-[10px] text-neutral-600 font-mono">{key} · {h}px</span>
+              </div>
+            ))}
+            {[...SIZES, CARD_SIZE].map(({ key, h }) => (
+              <div key={`${key}-flip`} className="flex flex-col items-center gap-2">
+                <div style={{ position: 'relative', width: Math.round(22 * (h / 66) * 10) / 10, height: Math.round(22 * (h / 66) * 10) / 10 }}>
+                  <ZkosenOrnament h={h} uid={`demo-zkosen-flip-${key}`} flip />
+                </div>
+                <span className="text-[10px] text-neutral-600 font-mono">{key} flip</span>
+              </div>
+            ))}
+          </div>
+        </Preview>
+
+        <pre className="mt-4 p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-[11px] font-mono text-brand-400 overflow-x-auto leading-relaxed">{`<ZkosenOrnament h={52} uid="unique-id" />
+<ZkosenOrnament h={52} uid="unique-id" flip />
+
+{/* V komponentě: */}
+<DonjonButton ornament="zkosen">Tlačítko</DonjonButton>`}</pre>
+      </Section>
+
+      {/* ── RohOrnament ── */}
+      <Section
+        id="roh-ornament"
+        description="Rohový ornament + vertikální sestup — diagonální závorka v rohu + spodní část jako SideOrnament (výška ~46/66). Škáluje stejně: referenční výška 66 px."
+      >
+        <h2 className="text-base font-semibold text-neutral-100 mb-4">RohOrnament</h2>
+
+        <Preview>
+          <div className="flex items-end gap-8 flex-wrap">
+            {[...SIZES, CARD_SIZE].map(({ key, h }) => (
+              <div key={key} className="flex flex-col items-center gap-2">
+                <div style={{ position: 'relative', width: Math.round(25 * (h / 66) * 10) / 10, height: Math.round(46 * (h / 66) * 10) / 10 }}>
+                  <RohOrnament h={h} uid={`demo-roh-${key}`} />
+                </div>
+                <span className="text-[10px] text-neutral-600 font-mono">{key} · {h}px</span>
+              </div>
+            ))}
+            {[...SIZES, CARD_SIZE].map(({ key, h }) => (
+              <div key={`${key}-flip`} className="flex flex-col items-center gap-2">
+                <div style={{ position: 'relative', width: Math.round(25 * (h / 66) * 10) / 10, height: Math.round(46 * (h / 66) * 10) / 10 }}>
+                  <RohOrnament h={h} uid={`demo-roh-flip-${key}`} flip />
+                </div>
+                <span className="text-[10px] text-neutral-600 font-mono">{key} flip</span>
+              </div>
+            ))}
+          </div>
+        </Preview>
+
+        <pre className="mt-4 p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-[11px] font-mono text-brand-400 overflow-x-auto leading-relaxed">{`<RohOrnament h={52} uid="unique-id" />
+<RohOrnament h={52} uid="unique-id" flip />
+
+{/* V komponentě: */}
+<DonjonButton ornament="roh">Tlačítko</DonjonButton>`}</pre>
       </Section>
 
       {/* ── CornerOrnament ── */}
