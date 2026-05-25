@@ -67,6 +67,7 @@ function TabsContent() {
   const lib = useLibVariant()
   const T   = lib === 'tkajui' ? Tabs : DonjonTabs
   const cmp = lib === 'tkajui' ? 'Tabs' : 'DonjonTabs'
+  const demoProps = lib === 'donjon' ? { ornament: 'plain' } : undefined
 
   return (
     <>
@@ -91,6 +92,45 @@ function TabsContent() {
         </Preview>
         <CodeBlock code={`<${cmp} variant="underline" value={tab} onChange={setTab} items={items} />`} />
       </Section>
+
+      {lib === 'donjon' && (
+        <Section
+          id="ornament"
+          title="Decorated vs Plain"
+          description="DonjonTabs může používat ornamentové linky s hex motivem nebo čistší plain track bez dekoru."
+        >
+          <Preview>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
+              <div>
+                <p style={{ margin: '0 0 8px', fontSize: '0.75rem', color: textDeep, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Decorated</p>
+                <TabsDemo TabsCmp={T}
+                  items={[
+                    { value: 'overview', label: 'Přehled' },
+                    { value: 'details',  label: 'Detail' },
+                    { value: 'history',  label: 'Historie' },
+                  ]}
+                  variant="underline"
+                />
+              </div>
+              <div>
+                <p style={{ margin: '0 0 8px', fontSize: '0.75rem', color: textDeep, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Plain</p>
+                <TabsDemo TabsCmp={T}
+                  items={[
+                    { value: 'overview', label: 'Přehled' },
+                    { value: 'details',  label: 'Detail' },
+                    { value: 'history',  label: 'Historie' },
+                  ]}
+                  variant="underline"
+                  {...demoProps}
+                />
+              </div>
+            </div>
+          </Preview>
+          <CodeBlock code={`<DonjonTabs items={items} value={tab} onChange={setTab} variant="underline" />
+
+<DonjonTabs items={items} value={tab} onChange={setTab} variant="underline" ornament="plain" />`} />
+        </Section>
+      )}
 
       {/* Topline */}
       <Section
@@ -228,7 +268,7 @@ export default function TabsPage() {
   return (
     <ShowcasePage
       title="Tabs"
-      description="Horizontální záložková navigace. Dvě varianty vizuálu — underline (čárka pod aktivní záložkou) a pills (vyplněné pozadí). Klávesnicová navigace šipkami."
+      description="Horizontální záložková navigace. Dvě varianty vizuálu — underline (čárka pod aktivní záložkou) a pills (vyplněné pozadí). Klávesnicová navigace šipkami. DonjonTabs nově umí i plain režim bez ornamentových linek."
       componentSlugs={['donjon-tabs', 'tabs']}
       variants={[
         { id: 'donjon', label: 'donjon-fall-ui' },

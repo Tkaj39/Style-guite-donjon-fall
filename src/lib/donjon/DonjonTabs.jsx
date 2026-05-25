@@ -54,11 +54,13 @@ export default function DonjonTabs({
   onChange,
   variant = 'underline',
   size = 'md',
+  ornament = 'decorated',
 }) {
   const rawId = useId()
   const uid   = rawId.replace(/:/g, '')
   const s     = SIZES[size] ?? SIZES.md
   const safeItems = items ?? []
+  const hasOrnaments = ornament !== 'plain'
 
   /* ── Hover tracking pro underline hex ── */
   const [hoveredValue, setHoveredValue] = useState(null)
@@ -121,8 +123,23 @@ export default function DonjonTabs({
       {safeItems.map((item, i) => {
         const isActive = item.value === value
         const isPillsActive = isActive && variant === 'pills'
+        const plainUnderlineStyle = !hasOrnaments && variant !== 'pills'
+          ? variant === 'topline'
+            ? {
+                color: isActive ? textActive : textDisabled,
+                borderTop: `1px solid ${isActive ? gold : 'transparent'}`,
+                marginTop: -1,
+              }
+            : {
+                color: isActive ? textActive : textDisabled,
+                borderBottom: `1px solid ${isActive ? gold : 'transparent'}`,
+                marginBottom: -1,
+              }
+          : null
         const tabStyle = isPillsActive
           ? { clipPath: octagon(s.cx), background: VARIANT_BG.default }
+          : plainUnderlineStyle
+            ? plainUnderlineStyle
           : isActive ? ACTIVE_TAB[variant] : INACTIVE_TAB[variant]
 
         const labelNode = isPillsActive
@@ -230,6 +247,17 @@ export default function DonjonTabs({
 
   /* ── Pills variant — čáry s efekty nahoře i dole ── */
   if (variant === 'pills') {
+    if (!hasOrnaments) {
+      return (
+        <div
+          ref={containerRef}
+          onMouseLeave={() => setHoveredValue(null)}
+        >
+          {tabList}
+        </div>
+      )
+    }
+
     return (
       <div
         ref={containerRef}
@@ -252,6 +280,22 @@ export default function DonjonTabs({
      topline:   indikátor nahoře
   ── */
   const indicatorAtBottom = variant === 'underline'
+
+  if (!hasOrnaments) {
+    return (
+      <div
+        ref={containerRef}
+        style={{
+          position: 'relative',
+          borderTop: indicatorAtBottom ? 'none' : `1px solid ${goldDim}55`,
+          borderBottom: indicatorAtBottom ? `1px solid ${goldDim}55` : 'none',
+        }}
+        onMouseLeave={() => setHoveredValue(null)}
+      >
+        {tabList}
+      </div>
+    )
+  }
 
   return (
     <div

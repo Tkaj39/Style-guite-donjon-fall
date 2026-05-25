@@ -162,6 +162,12 @@ describe('DonjonTabs — varianty a velikosti', () => {
     expect(() => render(<DonjonTabs items={TABS} value="a" onChange={() => {}} variant="pills" />)).not.toThrow()
   })
 
+  it('ornament="plain" → renderuje bez dekorativních overlay uzlů a zachová tablist', () => {
+    const { container } = render(<DonjonTabs items={TABS} value="a" onChange={() => {}} ornament="plain" />)
+    expect(screen.getByRole('tablist')).toBeInTheDocument()
+    expect(container.querySelectorAll('[aria-hidden="true"]').length).toBe(0)
+  })
+
   it('variant="underline" → renderuje bez pádu', () => {
     expect(() => render(<DonjonTabs items={TABS} value="a" onChange={() => {}} variant="underline" />)).not.toThrow()
   })

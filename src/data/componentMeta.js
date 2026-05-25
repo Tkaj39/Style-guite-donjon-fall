@@ -584,7 +584,7 @@ export const componentMeta = {
   /* ── donjon-fall-ui rozšíření TkajUI (re-exporty) ─────────────────── */
 
   'donjon-tabs': {
-    description: 'Herní varianta Tabs. Vizuálně identická s TkajUI — herní barevná paleta je zabudovaná v základní komponentě. Stejné API jako Tabs.',
+    description: 'Herní varianta Tabs. Pro underline a topline používá ornamentové linky s hex motivem, pro pills rámovaný track. Nově umí i plain režim bez ornamentových linek. Stejné API jako Tabs s rozšířením o ornament mód.',
     subcategory: 'extends-tkajui',
     status: 'documented',
     showcaseRoute: '/tabs',
@@ -593,6 +593,7 @@ export const componentMeta = {
       { name: 'value',    type: 'string',                                                   required: true,  description: 'Hodnota aktivní záložky.' },
       { name: 'onChange', type: '(value: string) => void',                                 required: true,  description: 'Callback při změně záložky.' },
       { name: 'variant',  type: "'underline'|'pills'",                                    required: false, default: "'underline'", description: 'Vizuální styl.' },
+      { name: 'ornament', type: "'decorated'|'plain'",                                    required: false, default: "'decorated'", description: 'Vizuální režim donjon linek a shellu — s ornamenty nebo bez nich.' },
       { name: 'size',     type: "'sm'|'md'|'lg'",                                         required: false, default: "'md'",        description: 'Velikost záložek.' },
     ],
     relatedSlugs: ['tabs', 'donjon-card', 'donjon-modal'],
