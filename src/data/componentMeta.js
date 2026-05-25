@@ -537,7 +537,7 @@ export const componentMeta = {
   },
 
   'player-panel': {
-    description: 'Kompaktní panel hráče pro HUD a score přehled. Kombinuje erb, jméno, VP badge a volitelné resource bary v jednom herním bloku.',
+    description: 'Kompaktní panel hráče pro HUD a score přehled. Kombinuje erb, jméno, VP badge a volitelné resource bary v jednom herním bloku. V donjon konzistenci slouží jako referenční plain shell bez ornamentální vrstvy.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/player-panel',

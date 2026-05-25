@@ -72,6 +72,7 @@ export default function PlayerPanelPage() {
         Mini karta hráče — erb, jméno, VP badge, resource bary.
         Aktivní stav (isActive) signalizuje kdo je na tahu.
         Kombinuje Shield, ResourceBar a DonjonBadge do jednoho kompozitu.
+        V rámci donjon konzistence funguje jako referenční plain shell bez ornamentální vrstvy.
       </p>
 
       {/* ── Interaktivní demo ── */}
@@ -125,6 +126,32 @@ export default function PlayerPanelPage() {
 
 {/* Vyřazený — 45% opacity + VYŘAZEN badge */}
 <PlayerPanel name="Vyřazen" color="#9A9080" eliminated />`}</Code>
+      </Section>
+
+      <div style={DIVIDER} />
+
+      <Section
+        id="plain-shell"
+        title="Plain baseline shell"
+        desc="PlayerPanel je záměrně střídmější než DonjonCard nebo DonjonModal. Slouží jako referenční plain gold-frame blok pro HUD a score přehledy, ne jako ornamentální hero panel."
+      >
+        <Demo>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
+            <PlayerPanel name="HUD hráč" color="#4A90E2" symbol="sword" vp={7} hp={72} mana={46} stamina={54} isActive />
+            <PlayerPanel name="Score přehled" color="#C84A4A" symbol="shield" vp={4} hp={31} mana={58} stamina={40} />
+          </div>
+        </Demo>
+        <Code>{`{/* Záměrně plain shell bez ornament API */}
+<PlayerPanel
+  name="HUD hráč"
+  color="#4A90E2"
+  symbol="sword"
+  vp={7}
+  hp={72}
+  mana={46}
+  stamina={54}
+  isActive
+/>`}</Code>
       </Section>
 
       <div style={DIVIDER} />
