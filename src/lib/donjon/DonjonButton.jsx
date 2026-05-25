@@ -42,6 +42,7 @@ function DonjonButton({
   children,
   size = 'md',
   variant = 'default',
+  ornament = 'decorated',
   leadingIcon,
   trailingIcon,
   iconOnly = false,
@@ -58,6 +59,7 @@ function DonjonButton({
   const v     = variants[variant] ?? variants.default
   const ornW  = Math.round(24 * (s.h / 66) * 10) / 10
   const iSize = iconSize[size] ?? iconSize.md
+  const hasOrnaments = ornament !== 'plain'
 
   // --- link variant renders as plain inline button ---
   if (variant === 'link') {
@@ -127,7 +129,7 @@ function DonjonButton({
         position: 'relative',   // pak fixed layout props — nelze přepsat přes propStyle
         height: s.h,
         width: iconOnly ? s.h : (fullWidth ? '100%' : undefined),
-        padding: iconOnly ? 0 : `0 ${s.px + ornW}px`,
+        padding: iconOnly ? 0 : `0 ${hasOrnaments ? s.px + ornW : s.px}px`,
         clipPath: octagon(s.cx),
         background: v.bg,
         display: 'inline-flex',
@@ -146,10 +148,10 @@ function DonjonButton({
       ].filter(Boolean).join(' ')}
       {...props}
     >
-      <SideOrnament h={s.h} uid={`${uid}l`} />
-      <SideOrnament h={s.h} uid={`${uid}r`} flip />
-      <HexOrnament uid={`${uid}t`} edgePadL={iconOnly ? s.cx : s.cx + 8} textPadL={iconOnly ? s.cx : s.px + ornW} textPadR={iconOnly ? s.cx : s.px + ornW} />
-      <HexOrnament uid={`${uid}b`} flip edgePadL={iconOnly ? s.cx : s.cx + 8} textPadL={iconOnly ? s.cx : s.px + ornW} textPadR={iconOnly ? s.cx : s.px + ornW} />
+      {hasOrnaments && <SideOrnament h={s.h} uid={`${uid}l`} />}
+      {hasOrnaments && <SideOrnament h={s.h} uid={`${uid}r`} flip />}
+      {hasOrnaments && <HexOrnament uid={`${uid}t`} edgePadL={iconOnly ? s.cx : s.cx + 8} textPadL={iconOnly ? s.cx : s.px + ornW} textPadR={iconOnly ? s.cx : s.px + ornW} />}
+      {hasOrnaments && <HexOrnament uid={`${uid}b`} flip edgePadL={iconOnly ? s.cx : s.cx + 8} textPadL={iconOnly ? s.cx : s.px + ornW} textPadR={iconOnly ? s.cx : s.px + ornW} />}
 
       {loading ? (
         <>

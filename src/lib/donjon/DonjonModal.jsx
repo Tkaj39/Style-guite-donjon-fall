@@ -64,6 +64,7 @@ export default function DonjonModal({
   footer,
   size = 'md',
   variant = 'default',
+  ornament = 'decorated',
   closeOnBackdrop = true,
   closeOnEscape = true,
   showCloseButton = true,
@@ -73,6 +74,10 @@ export default function DonjonModal({
   const v        = VARIANTS[variant] ?? VARIANTS.default
   const w        = SIZES[size] ?? SIZES.md
   const dialogRef = useRef(null)
+  const hasOrnaments = ornament !== 'plain'
+  const headerPadding = `14px ${showCloseButton ? 48 : hasOrnaments ? 40 : 28}px 12px ${hasOrnaments ? 40 : 28}px`
+  const bodyPadding = `20px ${!title && showCloseButton ? 52 : hasOrnaments ? 28 : 24}px 20px ${hasOrnaments ? 28 : 24}px`
+  const footerPadding = hasOrnaments ? '12px 28px 14px' : '12px 24px 14px'
 
   useModalPageInert(isOpen)
 
@@ -126,12 +131,12 @@ export default function DonjonModal({
                 position: 'relative',
                 background: v.headerBg,
                 borderBottom: `1px solid ${v.border}44`,
-                padding: '14px 48px 12px 40px',
+                padding: headerPadding,
                 overflow: 'hidden',
               }}>
-                <SideOrnament h={description ? 64 : 44} uid={`${uid}l`} />
-                <SideOrnament h={description ? 64 : 44} uid={`${uid}r`} flip />
-                <HexOrnament uid={`${uid}ht`} edgePadL={cx} />
+                {hasOrnaments && <SideOrnament h={description ? 64 : 44} uid={`${uid}l`} />}
+                {hasOrnaments && <SideOrnament h={description ? 64 : 44} uid={`${uid}r`} flip />}
+                {hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={cx} />}
 
                 <h2
                   id={titleId}
@@ -186,8 +191,8 @@ export default function DonjonModal({
             )}
 
             {/* Body */}
-            <div style={{ position: 'relative', padding: `20px ${!title && showCloseButton ? 52 : 28}px 20px 28px`, flex: 1 }}>
-              {!title && <HexOrnament uid={`${uid}ht`} edgePadL={cx} />}
+            <div style={{ position: 'relative', padding: bodyPadding, flex: 1 }}>
+              {!title && hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={cx} />}
               {!title && showCloseButton && (
                 <button
                   onClick={onClose}
@@ -221,9 +226,9 @@ export default function DonjonModal({
               <div style={{
                 position: 'relative',
                 borderTop: `1px solid ${v.border}44`,
-                padding: '12px 28px 14px',
+                padding: footerPadding,
               }}>
-                <HexOrnament uid={`${uid}hb`} flip edgePadL={cx} />
+                {hasOrnaments && <HexOrnament uid={`${uid}hb`} flip edgePadL={cx} />}
                 <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
                   {footer}
                 </div>

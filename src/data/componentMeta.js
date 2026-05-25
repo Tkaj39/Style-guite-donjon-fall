@@ -200,7 +200,7 @@ export const componentMeta = {
   },
 
   'donjon-modal': {
-    description: 'Herní varianta Modal — rozšiřuje TkajUI Modal o SideOrnament a HexOrnament dekoraci v hlavičce, těle a patičce. Zachovává identické API.',
+    description: 'Herní varianta Modal — rozšiřuje TkajUI Modal o SideOrnament a HexOrnament dekoraci v hlavičce, těle a patičce. Nově umí i plain gold-frame režim bez ornamentů.',
     subcategory: 'extends-tkajui',
     status: 'documented',
     showcaseRoute: '/modal',
@@ -213,6 +213,7 @@ export const componentMeta = {
       { name: 'footer',          type: 'ReactNode',                                         required: false, description: 'Obsah patičky.' },
       { name: 'size',            type: "'sm'|'md'|'lg'",                                   required: false, default: "'md'",      description: 'Maximální šířka panelu.' },
       { name: 'variant',         type: "'default'|'danger'|'success'|'warning'",           required: false, default: "'default'", description: 'Barevná varianta.' },
+      { name: 'ornament',        type: "'decorated'|'plain'",                              required: false, default: "'decorated'", description: 'Vizuální režim donjon shellu — s ornamenty nebo bez nich.' },
       { name: 'closeOnBackdrop', type: 'boolean',                                           required: false, default: 'true',      description: 'Klik na backdrop zavře modál.' },
       { name: 'closeOnEscape',   type: 'boolean',                                           required: false, default: 'true',      description: 'Escape zavře modál.' },
       { name: 'showCloseButton', type: 'boolean',                                           required: false, default: 'true',      description: 'Zobrazí tlačítko × v hlavičce.' },
@@ -237,7 +238,7 @@ export const componentMeta = {
   },
 
   'donjon-button': {
-    description: 'Primární akční prvek design systému. Podporuje čtyři barevné varianty, čtyři velikosti, ikonové módy a loading / disabled stav.',
+    description: 'Primární akční prvek design systému. Podporuje čtyři barevné varianty, čtyři velikosti, ikonové módy a loading / disabled stav. Nově umí i plain gold-frame režim bez ornamentů.',
     subcategory: 'extends-tkajui',
     status: 'documented',
     showcaseRoute: '/buttons',
@@ -245,6 +246,7 @@ export const componentMeta = {
       { name: 'children',     type: 'ReactNode',                               required: false, description: 'Obsah tlačítka — text nebo ReactNode.' },
       { name: 'variant',      type: "'default'|'danger'|'success'|'warning'",  required: false, default: "'default'", description: 'Barevná varianta.' },
       { name: 'size',         type: "'xs'|'sm'|'md'|'lg'",                     required: false, default: "'md'",      description: 'Velikost tlačítka.' },
+      { name: 'ornament',     type: "'decorated'|'plain'",                     required: false, default: "'decorated'", description: 'Vizuální režim donjon shellu — s ornamenty nebo bez nich.' },
       { name: 'leadingIcon',  type: 'ReactNode',                               required: false, description: 'Ikona před textem.' },
       { name: 'trailingIcon', type: 'ReactNode',                               required: false, description: 'Ikona za textem.' },
       { name: 'iconOnly',     type: 'boolean',                                 required: false, default: 'false',     description: 'Skryje text, zobrazí jen ikonu.' },
@@ -273,7 +275,7 @@ export const componentMeta = {
   },
 
   'donjon-button-group': {
-    description: 'Herní varianta ButtonGroup — rozšiřuje TkajUI ButtonGroup o SideOrnament a HexOrnament dekoraci. Zachovává identické API.',
+    description: 'Herní varianta ButtonGroup — rozšiřuje TkajUI ButtonGroup o SideOrnament a HexOrnament dekoraci. Nově umí i plain gold-frame režim bez ornamentů.',
     subcategory: 'extends-tkajui',
     status: 'documented',
     showcaseRoute: '/button-groups',
@@ -282,6 +284,7 @@ export const componentMeta = {
       { name: 'value',    type: 'string',                       required: true,  description: 'Aktuálně vybraná hodnota.' },
       { name: 'onChange', type: '(value: string) => void',      required: true,  description: 'Callback při změně výběru.' },
       { name: 'variant',  type: "'menu'|'tabs'",                required: false, default: "'menu'", description: 'Vizuální styl skupiny.' },
+      { name: 'ornament', type: "'decorated'|'plain'",          required: false, default: "'decorated'", description: 'Vizuální režim donjon shellu — s ornamenty nebo bez nich.' },
       { name: 'size',     type: "'xs'|'sm'|'md'|'lg'",         required: false, default: "'md'",   description: 'Velikost skupiny.' },
       { name: 'dividers', type: 'boolean',                      required: false, default: 'false',  description: 'Zobrazí oddělovače mezi položkami.' },
     ],
@@ -324,7 +327,7 @@ export const componentMeta = {
   },
 
   'donjon-card': {
-    description: 'Kontejner pro seskupený obsah. Má pevnou strukturu hlavička–tělo–patička a barevné varianty pro různé kontexty.',
+    description: 'Kontejner pro seskupený obsah. Má pevnou strukturu hlavička–tělo–patička a barevné varianty pro různé kontexty. Nově umí i plain gold-frame režim bez ornamentů.',
     subcategory: 'extends-tkajui',
     status: 'documented',
     showcaseRoute: '/cards',
@@ -333,6 +336,7 @@ export const componentMeta = {
       { name: 'title',       type: 'string',                                 required: false, description: 'Nadpis v hlavičce karty.' },
       { name: 'description', type: 'string',                                 required: false, description: 'Podnadpis v hlavičce karty.' },
       { name: 'footer',      type: 'ReactNode',                              required: false, description: 'Obsah patičky — typicky tlačítka.' },
+      { name: 'ornament',    type: "'decorated'|'plain'",                    required: false, default: "'decorated'", description: 'Vizuální režim donjon shellu — s ornamenty nebo bez nich.' },
       { name: 'variant',     type: "'default'|'danger'|'success'|'warning'", required: false, default: "'default'", description: 'Barevná varianta ovlivňuje border a pozadí.' },
     ],
     relatedSlugs: ['donjon-badge', 'donjon-button', 'donjon-input'],

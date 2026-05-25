@@ -36,11 +36,17 @@ export default function DonjonCard({
   description,
   footer,
   variant = 'default',
+  ornament = 'decorated',
 }) {
   const rawId = useId()
   const uid = rawId.replace(/:/g, '')
   const v = variants[variant] ?? variants.default
   const ornH = 66
+  const hasOrnaments = ornament !== 'plain'
+  const hasHeader = !!(title || description)
+  const headerPadding = hasOrnaments ? '14px 40px 12px' : '14px 28px 12px'
+  const bodyPadding = hasOrnaments ? '16px 28px' : '18px 24px'
+  const footerPadding = hasOrnaments ? '12px 28px 14px' : '12px 24px 14px'
 
   return (
     /* Outer border shell */
@@ -58,20 +64,20 @@ export default function DonjonCard({
       }}
     >
       {/* Side ornaments — only when there's a header to anchor them to */}
-      {(title || description) && <SideOrnament h={ornH} uid={`${uid}l`} />}
-      {(title || description) && <SideOrnament h={ornH} uid={`${uid}r`} flip />}
+      {hasOrnaments && hasHeader && <SideOrnament h={ornH} uid={`${uid}l`} />}
+      {hasOrnaments && hasHeader && <SideOrnament h={ornH} uid={`${uid}r`} flip />}
 
       {/* Header */}
-      {(title || description) ? (
+      {hasHeader ? (
         <div
           style={{
             position: 'relative',
             background: v.headerBg,
             borderBottom: `1px solid ${v.border}44`,
-            padding: '14px 40px 12px',
+            padding: headerPadding,
           }}
         >
-          <HexOrnament uid={`${uid}ht`} edgePadL={cx} />
+          {hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={cx} />}
 
           {title && (
             <h3
@@ -108,8 +114,8 @@ export default function DonjonCard({
       ) : null}
 
       {/* Body */}
-      <div style={{ position: 'relative', padding: '16px 28px', flex: 1 }}>
-        {!title && !description && <HexOrnament uid={`${uid}ht`} edgePadL={cx} />}
+      <div style={{ position: 'relative', padding: bodyPadding, flex: 1 }}>
+        {!hasHeader && hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={cx} />}
         {children}
       </div>
 
@@ -119,10 +125,10 @@ export default function DonjonCard({
           style={{
             position: 'relative',
             borderTop: `1px solid ${v.border}44`,
-            padding: '12px 28px 14px',
+            padding: footerPadding,
           }}
         >
-          <HexOrnament uid={`${uid}hb`} flip edgePadL={cx} />
+          {hasOrnaments && <HexOrnament uid={`${uid}hb`} flip edgePadL={cx} />}
           {footer}
         </div>
       )}

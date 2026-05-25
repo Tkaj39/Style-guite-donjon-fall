@@ -68,6 +68,24 @@ function ButtonContent() {
 <${cmp} variant="link" size="sm">podmínkami</${cmp}>`} />
       </Section>
 
+      {lib === 'donjon' && (
+        <Section
+          title="Decorated vs Plain"
+          description="DonjonButton nově umí běžet i bez ornamentů. Default zůstává decorated, plain je opt-in režim se stejným shell a tokeny."
+        >
+          <Preview>
+            <DonjonButton>Decorated</DonjonButton>
+            <DonjonButton ornament="plain">Plain</DonjonButton>
+            <DonjonButton leadingIcon={<PlusIcon />}>Decorated + icon</DonjonButton>
+            <DonjonButton ornament="plain" leadingIcon={<PlusIcon />}>Plain + icon</DonjonButton>
+          </Preview>
+          <CodeBlock code={`<DonjonButton>Decorated</DonjonButton>
+<DonjonButton ornament="plain">Plain</DonjonButton>
+<DonjonButton leadingIcon={<PlusIcon />}>Decorated + icon</DonjonButton>
+<DonjonButton ornament="plain" leadingIcon={<PlusIcon />}>Plain + icon</DonjonButton>`} />
+        </Section>
+      )}
+
       {/* Content */}
       <Section
         title="Content"
@@ -264,7 +282,7 @@ export default function ButtonsPage() {
   return (
     <ShowcasePage
       title="Buttons"
-      description="Herní tlačítka Donjon Fall — osmihranný tvar. donjon-fall-ui varianta přidává SideOrnament a HexOrnament, TkajUI základ je čistý bez ornamentů."
+      description="Herní tlačítka Donjon Fall — osmihranný tvar. donjon-fall-ui umí dekorovaný ornamentální režim i plain gold-frame režim, TkajUI základ zůstává čistý bez ornamentů."
       componentSlugs={['donjon-button', 'button']}
       variants={[
         { id: 'donjon', label: 'donjon-fall-ui' },

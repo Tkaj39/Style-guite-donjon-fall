@@ -221,6 +221,44 @@ function ModalContent() {
 </${cmp}>`} />
       </Section>
 
+      {lib === 'donjon' && (
+        <Section
+          id="ornament"
+          title="Decorated vs Plain"
+          description="DonjonModal může běžet v plně ornamentovaném režimu nebo jako čistý gold-frame panel bez postranních dekorací."
+        >
+          <Preview>
+            <ModalDemo {...ctx} label="Decorated" title="Ornamentovaný modal" description="Výchozí donjon režim s postranními ornamenty a hex motivem.">
+              <p style={{ color: goldMid, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+                Použij pro hero dialogy, důležité potvrzovací kroky a místa, kde má shell nést výraznou vizuální identitu.
+              </p>
+            </ModalDemo>
+
+            <ModalDemo {...ctx} label="Plain" title="Plain gold-frame modal" description="Stejná struktura bez ornamentů." ornament="plain">
+              <p style={{ color: goldMid, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
+                Plain režim se hodí tam, kde má modal navazovat na jednodušší panely a dekor nesmí konkurovat obsahu.
+              </p>
+            </ModalDemo>
+          </Preview>
+          <CodeBlock code={`<DonjonModal
+  isOpen={open}
+  onClose={() => setOpen(false)}
+  title="Výchozí decorated režim"
+>
+  Obsah modálu
+</DonjonModal>
+
+<DonjonModal
+  isOpen={open}
+  onClose={() => setOpen(false)}
+  ornament="plain"
+  title="Plain gold-frame režim"
+>
+  Obsah modálu
+</DonjonModal>`} />
+        </Section>
+      )}
+
       {/* With footer */}
       <Section
         id="footer"
@@ -382,7 +420,7 @@ export default function ModalPage() {
   return (
     <ShowcasePage
       title="Modal"
-      description="Modální dialog s fokusovým uzamčením, Escape zavřením a zamčeným scrollem. Oktagonální border, barevné varianty. DonjonModal rozšiřuje TkajUI Modal o herní ornaments."
+      description="Modální dialog s fokusovým uzamčením, Escape zavřením a zamčeným scrollem. Oktagonální border, barevné varianty. DonjonModal rozšiřuje TkajUI Modal o herní ornaments a plain gold-frame režim."
       componentSlugs={['donjon-modal', 'modal']}
       variants={[
         { id: 'donjon', label: 'donjon-fall-ui' },

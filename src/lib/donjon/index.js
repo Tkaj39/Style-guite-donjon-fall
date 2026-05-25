@@ -111,6 +111,15 @@ export { default as DonjonCard }        from './DonjonCard'
 export { default as DonjonModal }       from './DonjonModal'
 
 /**
+ * Herní tab navigace s ornamentálním shell rámem.
+ * @prop {Array<{value, label, icon?, badge?, disabled?}>} items - Definice záložek
+ * @prop {string} value - Aktivní hodnota
+ * @prop {(value: string) => void} onChange - Callback při změně aktivní záložky
+ * @prop {'underline'|'pills'} variant - Vizuální styl tabů
+ */
+export { default as DonjonTabs }        from './DonjonTabs'
+
+/**
  * Herní tooltip s pergamenovým stylem a zlatým borderem.
  * @prop {React.ReactNode} children - Trigger element
  * @prop {string|React.ReactNode} content - Obsah tooltipu

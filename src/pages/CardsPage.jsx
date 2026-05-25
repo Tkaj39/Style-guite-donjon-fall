@@ -118,6 +118,48 @@ function CardContent() {
 <${cmp} title="Victory!" variant="success">…</${cmp}>`} />
       </Section>
 
+      {lib === 'donjon' && (
+        <Section
+          title="Decorated vs Plain"
+          description="DonjonCard nově umí i plain gold-frame režim. Default zůstává decorated, plain vypíná ornaments a současně zhušťuje header/body/footer spacing."
+        >
+          <Preview>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, width: '100%' }}>
+              <div style={{ flex: '1 1 260px' }}>
+                <DonjonCard title="Decorated" description="Ornamentální shell" footer={<DonjonButton size="sm">Akce</DonjonButton>}>
+                  <p style={{ color: goldMid, fontSize: '0.8125rem', lineHeight: 1.6, margin: 0 }}>
+                    Donjon card s bočními a hex ornamenty.
+                  </p>
+                </DonjonCard>
+              </div>
+              <div style={{ flex: '1 1 260px' }}>
+                <DonjonCard ornament="plain" title="Plain" description="Gold-frame shell" footer={<DonjonButton ornament="plain" size="sm">Akce</DonjonButton>}>
+                  <p style={{ color: goldMid, fontSize: '0.8125rem', lineHeight: 1.6, margin: 0 }}>
+                    Stejná karta bez ornamentů, ale se zachovaným donjon shell a hierarchií.
+                  </p>
+                </DonjonCard>
+              </div>
+            </div>
+          </Preview>
+          <CodeBlock code={`<DonjonCard
+  title="Decorated"
+  description="Ornamentální shell"
+  footer={<DonjonButton size="sm">Akce</DonjonButton>}
+>
+  <p>Obsah karty.</p>
+</DonjonCard>
+
+<DonjonCard
+  ornament="plain"
+  title="Plain"
+  description="Gold-frame shell"
+  footer={<DonjonButton ornament="plain" size="sm">Akce</DonjonButton>}
+>
+  <p>Obsah karty.</p>
+</DonjonCard>`} />
+        </Section>
+      )}
+
       {/* With footer */}
       <Section
         title="S patičkou"
@@ -275,7 +317,7 @@ export default function CardsPage() {
   return (
     <ShowcasePage
       title="Cards"
-      description="Donjon Fall panel cards — oktagonální tvar. donjon-fall-ui varianta přidává SideOrnament + HexOrnament, TkajUI základ je čistý bez ornamentů."
+      description="Donjon Fall panel cards — oktagonální tvar. donjon-fall-ui nově umí dekorovaný i plain gold-frame režim, TkajUI základ zůstává čistý bez ornamentů."
       componentSlugs={['donjon-card', 'card']}
       variants={[
         { id: 'donjon', label: 'donjon-fall-ui' },

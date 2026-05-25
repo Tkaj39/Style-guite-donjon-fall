@@ -98,6 +98,42 @@ function ButtonGroupContent() {
 />`} />
       </Section>
 
+      {lib === 'donjon' && (
+        <Section
+          title="Decorated vs Plain"
+          description="DonjonButtonGroup nově umí i plain gold-frame režim. Default zůstává decorated, plain je opt-in bez bočních a hex ornamentů."
+        >
+          <Preview>
+            <DonjonButtonGroup variant="menu" items={viewItems} value={menuView} onChange={setMenuView} />
+            <DonjonButtonGroup ornament="plain" variant="menu" items={viewItems} value={menuView} onChange={setMenuView} />
+            <DonjonButtonGroup variant="tabs" items={tabItems} value={tabActive} onChange={setTabActive} />
+            <DonjonButtonGroup ornament="plain" variant="tabs" items={tabItems} value={tabActive} onChange={setTabActive} />
+          </Preview>
+          <CodeBlock code={`<DonjonButtonGroup
+  variant="menu"
+  items={viewItems}
+  value={active}
+  onChange={setActive}
+/>
+
+<DonjonButtonGroup
+  ornament="plain"
+  variant="menu"
+  items={viewItems}
+  value={active}
+  onChange={setActive}
+/>
+
+<DonjonButtonGroup
+  ornament="plain"
+  variant="tabs"
+  items={tabItems}
+  value={active}
+  onChange={setActive}
+/>`} />
+        </Section>
+      )}
+
       <Section
         title="Menu — se svislými oddělovači"
         description="Oddělovač dividers={true} — tenká čára mezi tlačítky."
@@ -280,7 +316,7 @@ export default function ButtonGroupsPage() {
   return (
     <ShowcasePage
       title="Button Groups"
-      description="Skupiny tlačítek pro přepínání pohledů, navigaci nebo filtrování. Vždy jedno tlačítko je aktivní."
+      description="Skupiny tlačítek pro přepínání pohledů, navigaci nebo filtrování. donjon-fall-ui nově umí dekorovaný i plain gold-frame režim, přičemž aktivní položka zůstává vždy jednoznačná."
       componentSlugs={['donjon-button-group', 'button-group']}
       variants={[
         { id: 'donjon', label: 'donjon-fall-ui' },

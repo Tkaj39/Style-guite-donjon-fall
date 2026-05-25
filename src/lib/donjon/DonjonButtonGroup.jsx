@@ -12,6 +12,7 @@ const sizeMap = {
 
 export default function DonjonButtonGroup({
   variant = 'menu',
+  ornament = 'decorated',
   size = 'md',
   dividers = false,
   items = [],
@@ -25,6 +26,7 @@ export default function DonjonButtonGroup({
   const gid   = rawId.replace(/:/g, '')
   const safeItems = items ?? []
   const last  = safeItems.length - 1
+  const hasOrnaments = ornament !== 'plain'
 
   return (
     <div style={{ display: 'inline-flex', alignItems: 'center', gap: 0 }} role="group">
@@ -40,11 +42,11 @@ export default function DonjonButtonGroup({
                        : isLast  ? clipRight(s.cx)
                        : undefined
 
-        const padL = isFirst || isOnly ? s.px + ornW : s.px
-        const padR = isLast  || isOnly ? s.px + ornW : s.px
+                    const padL = hasOrnaments && (isFirst || isOnly) ? s.px + ornW : s.px
+                    const padR = hasOrnaments && (isLast  || isOnly) ? s.px + ornW : s.px
 
-        const edgePadL = isFirst || isOnly ? s.cx + 8 : 0
-        const edgePadR = isLast  || isOnly ? s.cx + 8 : 0
+                    const edgePadL = hasOrnaments && (isFirst || isOnly) ? s.cx + 8 : 0
+                    const edgePadR = hasOrnaments && (isLast  || isOnly) ? s.cx + 8 : 0
 
         return (
           <div key={item.value} style={{ display: 'flex', alignItems: 'center' }}>
@@ -82,11 +84,11 @@ export default function DonjonButtonGroup({
               }}
               className="hover:brightness-110 active:brightness-90 focus:outline-hidden focus-visible:drop-shadow-[0_0_8px_#FFC183AA]"
             >
-              {(isFirst || isOnly) && <SideOrnament h={s.h} uid={`${uid}l`} />}
-              {(isLast  || isOnly) && <SideOrnament h={s.h} uid={`${uid}r`} flip />}
+              {hasOrnaments && (isFirst || isOnly) && <SideOrnament h={s.h} uid={`${uid}l`} />}
+              {hasOrnaments && (isLast  || isOnly) && <SideOrnament h={s.h} uid={`${uid}r`} flip />}
 
-              <HexOrnament uid={`${uid}t`} edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} hexOffsetX={(padL - padR) / 2} />
-              <HexOrnament uid={`${uid}b`} flip edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} hexOffsetX={(padL - padR) / 2} />
+              {hasOrnaments && <HexOrnament uid={`${uid}t`} edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} hexOffsetX={(padL - padR) / 2} />}
+              {hasOrnaments && <HexOrnament uid={`${uid}b`} flip edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} hexOffsetX={(padL - padR) / 2} />}
 
               {item.icon && (
                 <span style={{
