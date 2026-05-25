@@ -101,7 +101,7 @@ export default function Toggle({
       style={trackStyle}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-      onFocus={e => { if (!disabled) e.currentTarget.style.boxShadow = `0 0 0 2px ${v.border}44` }}
+      onFocus={e => { if (!disabled) e.currentTarget.style.boxShadow = `0 0 0 2px ${v.border}99` }}
       onBlur={e => { e.currentTarget.style.boxShadow = 'none' }}
     >
       <div style={thumbStyle} />

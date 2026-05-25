@@ -143,7 +143,6 @@ export default function ResourceBar({
         )}
       </div>
 
-      <style>{`@keyframes donjonResFlash{0%{opacity:1}50%{opacity:.6}100%{opacity:0}}`}</style>
     </div>
   )
 }

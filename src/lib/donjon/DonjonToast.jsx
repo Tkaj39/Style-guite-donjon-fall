@@ -2,19 +2,18 @@
    Herní toast notifikace — Provider + hook.
    Herní varianty: default(zlatá) · gain(zelená) · loss(červená) ·
                    warning(jantarová) · event(modrá)
-   Bez oktagonálního tvaru — rovný box s barevnou levou lištou.
+   Tvar: oktagon cx=12, tmavý bgDeep, variant barva v borderu + titulu + glow.
    ─────────────────────────────────────────────────────────────────────── */
-import { createContext, useContext, useState, useCallback } from 'react'
-import { createPortal } from 'react-dom'
+import { octagon } from '../../utils/octagon'
+import { createToastContext } from '../../utils/toastContext'
 import {
   gold, goldDim,
-  bg2, bg3,
-  borderDefault,
-  textHigh, textMid,
+  bgDeep,
+  textMid,
   gainColor, dangerColor, warningColor, infoColor, infoLight,
 } from './tokens'
 
-const Z_TOAST = 2000
+const CX = 12
 
 /* ── Varianty ── */
 const VARIANTS = {
@@ -23,13 +22,6 @@ const VARIANTS = {
   loss:    { bar: dangerColor,  title: dangerColor,   icon: dangerColor  },
   warning: { bar: warningColor, title: warningColor,  icon: warningColor },
   event:   { bar: infoColor,    title: infoLight,     icon: infoColor   },
-}
-
-const POSITIONS = {
-  'bottom-right': { bottom: 24, right: 24, alignItems: 'flex-end' },
-  'top-right':    { top: 24,    right: 24, alignItems: 'flex-end' },
-  'bottom-left':  { bottom: 24, left: 24,  alignItems: 'flex-start' },
-  'top-left':     { top: 24,    left: 24,  alignItems: 'flex-start' },
 }
 
 /* ── Ikony ── */
@@ -101,150 +93,101 @@ function ToastItem({ id, title, message, variant = 'default', duration = 4000, o
       className="starting:opacity-0 starting:translate-x-5 transition-[opacity,transform] duration-200 ease"
       style={{ width: 310 }}
     >
-      <div style={{
-        display: 'flex',
-        background: bg3,
-        border: `1px solid ${borderDefault}`,
-        borderLeft: `3px solid ${v.bar}`,
-        borderRadius: 3,
-        overflow: 'hidden',
-        boxShadow: `0 4px 24px rgba(0,0,0,0.6), 0 0 0 1px ${v.bar}11`,
-      }}>
-        {/* Icon */}
-        <div style={{
-          flexShrink: 0,
-          display: 'flex',
-          alignItems: 'flex-start',
-          paddingTop: 12,
-          paddingLeft: 12,
-        }}>
-          <VariantIcon variant={variant} color={v.icon} />
-        </div>
+      {/* Shadow wrapper — bez clip-path, aby drop-shadow nebyl oříznutý */}
+      <div style={{ filter: `drop-shadow(0 4px 20px rgba(0,0,0,0.7)) drop-shadow(0 0 14px ${v.bar}25)` }}>
+        {/* Outer border layer */}
+        <div style={{ clipPath: octagon(CX), background: v.bar, padding: 1 }}>
+          {/* Inner content */}
+          <div style={{ clipPath: octagon(CX - 1), background: bgDeep, display: 'flex', flexDirection: 'column' }}>
 
-        {/* Content */}
-        <div style={{ flex: 1, minWidth: 0, padding: '10px 12px 10px 10px' }}>
-          {title && (
-            <p style={{
-              margin: '0 0 2px',
-              fontSize: '0.8125rem',
-              fontWeight: 700,
-              color: v.title,
-              letterSpacing: '0.04em',
-            }}>
-              {title}
-            </p>
-          )}
-          {message && (
-            <p style={{
-              margin: 0,
-              fontSize: '0.75rem',
-              color: textMid,
-              lineHeight: 1.4,
-            }}>
-              {message}
-            </p>
-          )}
-        </div>
+            {/* Content row */}
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '11px 12px 10px' }}>
+              <div style={{ flexShrink: 0, marginTop: 1 }}>
+                <VariantIcon variant={variant} color={v.icon} />
+              </div>
 
-        {/* Close */}
-        <button
-          onClick={() => onRemove(id)}
-          aria-label="Zavřít"
-          style={{
-            flexShrink: 0,
-            alignSelf: 'flex-start',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 24,
-            height: 24,
-            margin: '8px 8px 0 0',
-            background: 'transparent',
-            border: `1px solid ${borderDefault}`,
-            borderRadius: 2,
-            color: textMid,
-            cursor: 'pointer',
-            transition: 'background 0.12s, color 0.12s',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.background = borderDefault; e.currentTarget.style.color = textHigh }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = textMid }}
-        >
-          <CloseIcon />
-        </button>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                {title && (
+                  <p style={{
+                    margin: '0 0 2px',
+                    fontSize: '0.8125rem',
+                    fontWeight: 700,
+                    color: v.title,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                  }}>
+                    {title}
+                  </p>
+                )}
+                {message && (
+                  <p style={{ margin: 0, fontSize: '0.75rem', color: textMid, lineHeight: 1.4 }}>
+                    {message}
+                  </p>
+                )}
+              </div>
+
+              {/* Close */}
+              <button
+                onClick={() => onRemove(id)}
+                aria-label="Zavřít"
+                style={{
+                  flexShrink: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 22,
+                  height: 22,
+                  background: `${goldDim}22`,
+                  border: 'none',
+                  clipPath: octagon(5),
+                  color: textMid,
+                  cursor: 'pointer',
+                  marginTop: -1,
+                  transition: 'background 0.12s, color 0.12s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = `${goldDim}55`; e.currentTarget.style.color = gold }}
+                onMouseLeave={e => { e.currentTarget.style.background = `${goldDim}22`; e.currentTarget.style.color = textMid }}
+              >
+                <CloseIcon />
+              </button>
+            </div>
+
+            {/* Progress bar */}
+            {duration > 0 && (
+              <div style={{ height: 2, background: `${v.bar}22`, margin: '0 10px 10px', overflow: 'hidden' }}>
+                <div style={{
+                  height: '100%',
+                  background: v.bar,
+                  transformOrigin: 'left',
+                  animation: `donjonToastProgress ${duration}ms linear forwards`,
+                }} />
+              </div>
+            )}
+
+          </div>
+        </div>
       </div>
-
-      {/* Progress bar */}
-      {duration > 0 && (
-        <div style={{ height: 2, background: `${v.bar}22`, borderRadius: '0 0 3px 3px', overflow: 'hidden', marginTop: -1 }}>
-          <div style={{
-            height: '100%',
-            background: v.bar,
-            transformOrigin: 'left',
-            animation: `donjonToastProgress ${duration}ms linear forwards`,
-          }} />
-        </div>
-      )}
     </div>
   )
 }
 
-/* ── Context ── */
-const ToastContext = createContext(null)
+/* ── Context, Provider a Hook — sdílená logika z toastContext ── */
+const { ToastProvider: _Provider, useToast } = createToastContext({
+  zIndex:   2000,
+  hookName: 'useToast (DonjonToast)',
+})
 
-/* ── ToastProvider ── */
+export { useToast }
+
 export function ToastProvider({ children, position = 'bottom-right' }) {
-  const [toasts, setToasts] = useState([])
-
-  const removeToast = useCallback((id) => {
-    setToasts(prev => prev.filter(t => t.id !== id))
-  }, [])
-
-  const addToast = useCallback(({ title, message, variant = 'default', duration = 4000 }) => {
-    const id = typeof crypto !== 'undefined' && crypto.randomUUID
-      ? crypto.randomUUID()
-      : `${Date.now()}-${Math.random()}`
-    setToasts(prev => [...prev.slice(-4), { id, title, message, variant, duration }])
-    if (duration > 0) {
-      setTimeout(() => removeToast(id), duration)
-    }
-    return id
-  }, [removeToast])
-
-  const pos = POSITIONS[position] ?? POSITIONS['bottom-right']
-
   return (
-    <ToastContext.Provider value={{ addToast, removeToast }}>
+    <_Provider
+      position={position}
+      renderToasts={(toasts, removeToast) =>
+        toasts.map(t => <ToastItem key={t.id} {...t} onRemove={removeToast} />)
+      }
+    >
       {children}
-      {createPortal(
-        <>
-          <style>{`
-            @keyframes donjonToastProgress {
-              from { transform: scaleX(1) }
-              to   { transform: scaleX(0) }
-            }
-          `}</style>
-          <div style={{
-            position: 'fixed',
-            zIndex: Z_TOAST,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 8,
-            ...pos,
-          }}>
-            {toasts.map(t => (
-              <ToastItem key={t.id} {...t} onRemove={removeToast} />
-            ))}
-          </div>
-        </>,
-        document.body
-      )}
-    </ToastContext.Provider>
+    </_Provider>
   )
-}
-
-/* ── Hook ── */
-export function useToast() {
-  const ctx = useContext(ToastContext)
-  if (!ctx) throw new Error('useToast musí být použito uvnitř <ToastProvider>')
-  return ctx
 }

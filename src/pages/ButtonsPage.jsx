@@ -86,6 +86,41 @@ function ButtonContent() {
 <${cmp} iconOnly aria-label="Přidat"><PlusIcon /></${cmp}>`} />
       </Section>
 
+      {/* Interactive States */}
+      <Section
+        title="Interaktivní stavy"
+        description="Vizuální stav tlačítka při hover, stisknutí a fokus — simulované pro přehled."
+      >
+        <Preview>
+          <div className="flex flex-wrap gap-6">
+            {[
+              { label: 'idle',    filter: 'none',              shadow: 'none'                     },
+              { label: 'hover',   filter: 'brightness(1.1)',   shadow: 'none'                     },
+              { label: 'active',  filter: 'brightness(0.9)',   shadow: 'none'                     },
+              { label: 'focus',   filter: 'none',              shadow: '0 0 8px #FFC183AA'        },
+              { label: 'disabled',filter: 'opacity(0.4)',      shadow: 'none', disabled: true     },
+            ].map(({ label, filter, shadow, disabled: dis }) => (
+              <div key={label} className="flex flex-col items-center gap-2">
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    filter: [filter !== 'none' ? filter : null, shadow !== 'none' ? `drop-shadow(${shadow})` : null].filter(Boolean).join(' ') || 'none',
+                    pointerEvents: 'none',
+                  }}
+                >
+                  <Btn disabled={dis} tabIndex={-1}>Akce</Btn>
+                </span>
+                <span className="text-[10px] font-mono text-neutral-500">{label}</span>
+              </div>
+            ))}
+          </div>
+        </Preview>
+        <CodeBlock code={`// hover  → filter: brightness(1.1)
+// active → filter: brightness(0.9)
+// focus  → filter: drop-shadow(0 0 8px #FFC183AA)
+// disabled → opacity: 0.4 + pointer-events: none`} />
+      </Section>
+
       {/* Loading */}
       <Section
         title="Loading State"
@@ -151,6 +186,59 @@ function ButtonContent() {
                 <Btn size={size}>{previewText || 'Text'}</Btn>
               </div>
             ))}
+          </div>
+        </Preview>
+      </Section>
+
+      {/* Variants × States matrix */}
+      <Section
+        title="Varianty × stavy"
+        description="Přehledná mřížka — každá varianta tlačítka ve všech stavech najednou."
+      >
+        <Preview>
+          <div className="w-full overflow-x-auto">
+            <table className="text-xs text-neutral-500 border-collapse w-full min-w-[520px]">
+              <thead>
+                <tr>
+                  <th className="text-left py-2 pr-4 font-normal text-neutral-600 w-20">variant</th>
+                  {['idle','hover','active','focus','disabled'].map(s => (
+                    <th key={s} className="py-2 px-3 font-mono font-normal text-neutral-600 text-center">{s}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {(lib === 'tkajui'
+                  ? ['default','primary','danger','success']
+                  : ['default','danger','success']
+                ).map(variant => (
+                  <tr key={variant} className="border-t border-neutral-800/50">
+                    <td className="py-3 pr-4 font-mono text-[10px] text-neutral-600">{variant}</td>
+                    {[
+                      { filter: 'none',           shadow: 'none' },
+                      { filter: 'brightness(1.1)', shadow: 'none' },
+                      { filter: 'brightness(0.9)', shadow: 'none' },
+                      { filter: 'none',            shadow: '0 0 8px #FFC183AA' },
+                      { filter: 'opacity(0.4)',    shadow: 'none', disabled: true },
+                    ].map(({ filter, shadow, disabled: dis }, i) => (
+                      <td key={i} className="py-3 px-3 text-center">
+                        <span
+                          style={{
+                            display: 'inline-flex',
+                            filter: [
+                              filter !== 'none' ? filter : null,
+                              shadow !== 'none' ? `drop-shadow(${shadow})` : null,
+                            ].filter(Boolean).join(' ') || 'none',
+                            pointerEvents: 'none',
+                          }}
+                        >
+                          <Btn size="sm" variant={variant} disabled={dis} tabIndex={-1}>Text</Btn>
+                        </span>
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </Preview>
       </Section>

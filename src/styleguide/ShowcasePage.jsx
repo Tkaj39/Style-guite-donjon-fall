@@ -121,10 +121,15 @@ export function ShowcasePage({ title, description, children, componentSlug, comp
   const slugs = componentSlugs ?? (componentSlug ? [componentSlug] : [])
 
   // Varianta — inicializuje z ?lib= URL parametru, pak z první položky variants
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const libParam = searchParams.get('lib')
   const initVariant = variants?.find(v => v.id === libParam)?.id ?? variants?.[0]?.id ?? null
   const [activeVariant, setActiveVariant] = useState(initVariant)
+
+  const handleVariantChange = (v) => {
+    setActiveVariant(v)
+    setSearchParams({ lib: v }, { replace: true })
+  }
 
   // Aktivní knihovna: buď z varianty nebo ze statického library prop
   const effectiveLibrary = activeVariant ?? library
@@ -141,7 +146,7 @@ export function ShowcasePage({ title, description, children, componentSlug, comp
                 <h2 className="text-2xl lg:text-3xl font-bold text-white text-balance">{title}</h2>
                 {/* Variantní přepínač — nahrazuje statický LibraryBadge */}
                 {variants
-                  ? <VariantSwitcher variants={variants} active={activeVariant} onChange={setActiveVariant} />
+                  ? <VariantSwitcher variants={variants} active={activeVariant} onChange={handleVariantChange} />
                   : <LibraryBadge library={effectiveLibrary} />
                 }
               </div>

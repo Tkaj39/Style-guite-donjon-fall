@@ -177,7 +177,7 @@ export default function Input({
         </p>
       )}
 
-      <style>{`
+      <style href="tkajui-input-placeholder" precedence="low">{`
         input::placeholder, textarea::placeholder { color: ${textLow}; }
       `}</style>
     </div>

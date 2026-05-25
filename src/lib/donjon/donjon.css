@@ -48,6 +48,10 @@
   --donjon-fail:    #C04040;   /* darker than danger, error states */
   --donjon-gain:    #50B86C;   /* herní gain feedback (jiný než success) */
 
+  /* ── Focus ring ──────────────────────────────────────────────────────── */
+  --donjon-focus-ring-color: #FFC18399;        /* gold @ 60% — keyboard focus */
+  --donjon-focus-ring: 0 0 0 2px #FFC18399;   /* box-shadow forma ring */
+
   /* ── Herní feedback ───────────────────────────────────────────────────── */
   --donjon-hp-high:   #50B86C;   /* HP > 50% */
   --donjon-hp-mid:    #C08040;   /* HP 25–50% */

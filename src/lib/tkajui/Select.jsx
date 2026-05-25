@@ -64,6 +64,7 @@ export default function Select({
 }) {
   const [open, setOpen] = useState(false)
   const [highlighted, setHighlighted] = useState(-1)
+  const [focused, setFocused] = useState(false)
   const uid = useId()
   const triggerId = externalId ?? `select-${uid}`
   const listId = `select-list-${uid}`
@@ -119,8 +120,8 @@ export default function Select({
     triggerRef.current?.focus()
   }
 
-  // Dynamic border: open → accent, else default
-  const outerBorder = open ? accent : borderDefault
+  // Dynamic border: open or keyboard-focused → accent, else default
+  const outerBorder = (open || focused) ? accent : borderDefault
 
   return (
     <div style={{ position: 'relative', display: 'inline-block', width: '100%' }}>
@@ -149,6 +150,8 @@ export default function Select({
           disabled={disabled}
           onClick={() => !disabled && setOpen(o => !o)}
           onKeyDown={handleKeyDown}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
           style={{
             clipPath: octagon(s.cx - 1),
             display: 'flex',

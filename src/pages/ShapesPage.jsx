@@ -108,17 +108,19 @@ function CornerOrnament({ size = 20, color = goldDim, variant = 'bracket', style
 function NotchDemo({ cx = 15, nw = 28, nh = 12, side = 'bottom', label, color = goldDim }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-      <div style={{
-        clipPath: octagonWithNotch(cx, nw, nh, side),
-        background: `linear-gradient(150deg,${bg4} 0%,${bgDeep} 100%)`,
-        width: 160, height: 80,
-        border: `1px solid ${color}33`,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: '0.625rem', color: textCool, fontFamily: inter,
-        letterSpacing: '0.08em', textTransform: 'uppercase',
-      }}>
+      <NotchedBox
+        cx={cx} nw={nw} nh={nh} side={side}
+        borderColor={`${color}33`}
+        style={{
+          background: `linear-gradient(150deg,${bg4} 0%,${bgDeep} 100%)`,
+          width: 160, height: 80,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: '0.625rem', color: textCool, fontFamily: inter,
+          letterSpacing: '0.08em', textTransform: 'uppercase',
+        }}
+      >
         {side}
-      </div>
+      </NotchedBox>
       <p style={lbl}>{label}</p>
     </div>
   )
@@ -392,16 +394,12 @@ const clipPath = clipFn?.(cx)`} />
         {/* Použití — tooltip nad hexem */}
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
-            <div style={{
-              clipPath: octagonWithNotch(10, 28, 12, 'bottom'),
-              background: '#1E1C3A',
-              border: `1px solid ${goldDim}44`,
-              padding: '10px 18px',
-              fontSize: '0.8125rem', color: textActive, fontFamily: inter,
-              letterSpacing: '0.04em',
-              marginBottom: -1,
-            }}>
-              Hex D4 · Obsazeno
+            <div style={{ marginBottom: -1 }}>
+              <NotchedBox cx={10} nw={28} nh={12} side="bottom" borderColor={`${goldDim}44`}
+                style={{ background: '#1E1C3A', padding: '10px 18px', fontSize: '0.8125rem', color: textActive, fontFamily: inter, letterSpacing: '0.04em' }}
+              >
+                Hex D4 · Obsazeno
+              </NotchedBox>
             </div>
             <div style={{
               width: 40, height: 40,
@@ -705,10 +703,10 @@ import ScoopClip from '../lib/tkajui/ScoopClip'
               <ScoopClip
                 key={w}
                 r={0.25}
+                borderColor="#40A05540"
                 style={{
                   width: w, height: 48,
                   background: `linear-gradient(150deg, #40A05518 0%, ${bg0} 100%)`,
-                  border: '1px solid #40A05540',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}
               >

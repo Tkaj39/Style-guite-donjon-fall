@@ -103,7 +103,21 @@ const sections = [
           },
         ],
       },
-      { to: '/shapes',  label: 'Shapes' },
+      {
+        to: '/shapes', label: 'Shapes',
+        children: [
+          { to: '/scoop-clip', label: '— ScoopClip detail',
+            children: [
+              { to: '/scoop-clip#r-hodnoty',      label: 'r hodnoty' },
+              { to: '/scoop-clip#responzivita',   label: 'Responzivita' },
+              { to: '/scoop-clip#priklady',       label: 'Příklady' },
+              { to: '/scoop-clip#interaktivni',   label: 'Interaktivní demo' },
+              { to: '/scoop-clip#jak-to-funguje', label: 'Jak to funguje' },
+              { to: '/scoop-clip#props',          label: 'Props' },
+            ],
+          },
+        ],
+      },
       { to: '/texture', label: 'Texture systém' },
       {
         to: '/glow-shadow', label: 'Glow & Shadow',

@@ -89,6 +89,10 @@ export const VARIANT_TITLE_GRAD = {
   warning: 'linear-gradient(180deg,#FFD580 0%,#C08040 100%)',
 }
 
+// ── Focus ring ────────────────────────────────────────────────────────────
+/** Barva focus prstence pro klávesnicovou navigaci — gold@60% */
+export const focusRingColor = `${gold}99`  // '#FFC18399'
+
 // ── Animační timing ────────────────────────────────────────────────────────
 /** Rychlé UI reakce: tooltip appear, damage flash (80 ms) */
 export const animFast     = 80

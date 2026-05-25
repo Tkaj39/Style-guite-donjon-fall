@@ -6,34 +6,11 @@ import { useState, useRef, useCallback, useEffect } from 'react'
 import {
   gold, goldDim,
   bg2,
-  textMid, textParchment,
+  textMid,
 } from './tokens'
+import { getPosition, Arrow } from '../../utils/tooltipUtils'
 
 const Z_TOOLTIP = 2100
-
-/* ── Výpočet pozice ── */
-function getPosition(rect, placement) {
-  const gap = 8
-  switch (placement) {
-    case 'bottom': return { top: rect.bottom + gap, left: rect.left + rect.width / 2, tx: '-50%', ty: '0' }
-    case 'left':   return { top: rect.top + rect.height / 2, left: rect.left - gap,  tx: '-100%', ty: '-50%' }
-    case 'right':  return { top: rect.top + rect.height / 2, left: rect.right + gap, tx: '0',     ty: '-50%' }
-    default:       return { top: rect.top - gap,  left: rect.left + rect.width / 2,  tx: '-50%',  ty: '-100%' }
-  }
-}
-
-/* ── Šipka v goldDim barvě ── */
-function Arrow({ placement }) {
-  const s = 5
-  const base = { position: 'absolute', width: 0, height: 0 }
-  const styles = {
-    top:    { ...base, bottom: -s, left: '50%', transform: 'translateX(-50%)', borderLeft: `${s}px solid transparent`, borderRight: `${s}px solid transparent`, borderTop: `${s}px solid ${goldDim}` },
-    bottom: { ...base, top: -s,   left: '50%', transform: 'translateX(-50%)', borderLeft: `${s}px solid transparent`, borderRight: `${s}px solid transparent`, borderBottom: `${s}px solid ${goldDim}` },
-    left:   { ...base, right: -s, top: '50%',  transform: 'translateY(-50%)', borderTop: `${s}px solid transparent`, borderBottom: `${s}px solid transparent`, borderLeft: `${s}px solid ${goldDim}` },
-    right:  { ...base, left: -s,  top: '50%',  transform: 'translateY(-50%)', borderTop: `${s}px solid transparent`, borderBottom: `${s}px solid transparent`, borderRight: `${s}px solid ${goldDim}` },
-  }
-  return <span style={styles[placement] ?? styles.top} />
-}
 
 export default function DonjonTooltip({
   children,
@@ -88,36 +65,35 @@ export default function DonjonTooltip({
             minWidth: 80,
           }}
         >
-          <span style={{
-            display: 'block',
-            position: 'relative',
-            background: bg2,
-            border: `1px solid ${goldDim}`,
-            borderRadius: 2,
-            padding: title ? '8px 12px' : '5px 10px',
-            boxShadow: `0 4px 20px rgba(0,0,0,0.7), 0 0 0 1px ${goldDim}22`,
-          }}>
-            <Arrow placement={placement} />
-            {title && (
-              <p style={{
-                margin: '0 0 3px 0',
-                fontSize: '0.6875rem',
-                fontWeight: 600,
-                color: gold,
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
+          {/* Arrow + bubble ve společném filtru → shadow kruje celý tvar */}
+          <span style={{ display: 'block', position: 'relative', filter: `drop-shadow(0 4px 16px rgba(0,0,0,0.75)) drop-shadow(0 0 8px ${goldDim}33)` }}>
+            <Arrow placement={placement} color={goldDim} />
+            {/* Outer border */}
+            <span style={{ display: 'block', clipPath: 'polygon(8px 0%,calc(100% - 8px) 0%,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0% calc(100% - 8px),0% 8px)', background: goldDim, padding: 1 }}>
+              {/* Inner content */}
+              <span style={{
+                display: 'block',
+                clipPath: 'polygon(7px 0%,calc(100% - 7px) 0%,100% 7px,100% calc(100% - 7px),calc(100% - 7px) 100%,7px 100%,0% calc(100% - 7px),0% 7px)',
+                background: bg2,
+                padding: title ? '8px 12px' : '5px 10px',
               }}>
-                {title}
-              </p>
-            )}
-            <p style={{
-              margin: 0,
-              fontSize: '0.75rem',
-              color: textMid,
-              lineHeight: 1.5,
-            }}>
-              {content}
-            </p>
+                {title && (
+                  <p style={{
+                    margin: '0 0 3px 0',
+                    fontSize: '0.6875rem',
+                    fontWeight: 600,
+                    color: gold,
+                    letterSpacing: '0.06em',
+                    textTransform: 'uppercase',
+                  }}>
+                    {title}
+                  </p>
+                )}
+                <p style={{ margin: 0, fontSize: '0.75rem', color: textMid, lineHeight: 1.5 }}>
+                  {content}
+                </p>
+              </span>
+            </span>
           </span>
         </span>
       )}

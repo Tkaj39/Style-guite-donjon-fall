@@ -1,6 +1,5 @@
-import { createContext, useContext, useState, useCallback } from 'react'
-import { createPortal } from 'react-dom'
 import { octagon } from '../../utils/octagon'
+import { createToastContext } from '../../utils/toastContext'
 import {
   surface3,
   borderDefault, borderMid,
@@ -50,13 +49,6 @@ const VARIANTS = {
     icon:   infoColor,
     bar:    infoColor,
   },
-}
-
-const POSITIONS = {
-  'bottom-right': { bottom: 24, right: 24, alignItems: 'flex-end' },
-  'top-right':    { top: 24,    right: 24, alignItems: 'flex-end' },
-  'bottom-left':  { bottom: 24, left: 24,  alignItems: 'flex-start' },
-  'top-left':     { top: 24,    left: 24,  alignItems: 'flex-start' },
 }
 
 const cx = 10
@@ -178,63 +170,23 @@ function ToastItem({ id, title, message, variant = 'default', duration = 4000, o
   )
 }
 
-/* ── Context ── */
-const ToastContext = createContext(null)
+/* ── Context, Provider a Hook — sdílená logika z toastContext ── */
+const { ToastProvider: _Provider, useToast } = createToastContext({
+  zIndex:   zToast,
+  hookName: 'useToast',
+})
 
-/* ── ToastProvider ── */
+export { useToast }
+
 export function ToastProvider({ children, position = 'bottom-right' }) {
-  const [toasts, setToasts] = useState([])
-
-  const removeToast = useCallback((id) => {
-    setToasts(prev => prev.filter(t => t.id !== id))
-  }, [])
-
-  const addToast = useCallback(({ title, message, variant = 'default', duration = 4000 }) => {
-    const id = typeof crypto !== 'undefined' && crypto.randomUUID
-      ? crypto.randomUUID()
-      : `${Date.now()}-${Math.random()}`
-    setToasts(prev => [...prev.slice(-4), { id, title, message, variant, duration }])
-    if (duration > 0) {
-      setTimeout(() => removeToast(id), duration)
-    }
-    return id
-  }, [removeToast])
-
-  const pos = POSITIONS[position] ?? POSITIONS['bottom-right']
-
   return (
-    <ToastContext.Provider value={{ addToast, removeToast }}>
+    <_Provider
+      position={position}
+      renderToasts={(toasts, removeToast) =>
+        toasts.map(t => <ToastItem key={t.id} {...t} onRemove={removeToast} />)
+      }
+    >
       {children}
-      {createPortal(
-        <>
-          <style>{`
-            @keyframes toastProgress {
-              from { transform: scaleX(1) }
-              to   { transform: scaleX(0) }
-            }
-          `}</style>
-          <div style={{
-            position: 'fixed',
-            zIndex: zToast,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 8,
-            ...pos,
-          }}>
-            {toasts.map(t => (
-              <ToastItem key={t.id} {...t} onRemove={removeToast} />
-            ))}
-          </div>
-        </>,
-        document.body
-      )}
-    </ToastContext.Provider>
+    </_Provider>
   )
-}
-
-/* ── Hook ── */
-export function useToast() {
-  const ctx = useContext(ToastContext)
-  if (!ctx) throw new Error('useToast musí být použito uvnitř <ToastProvider>')
-  return ctx
 }

@@ -79,6 +79,43 @@ function ToggleContent() {
 <${cmp} checked={false} label="Nedostupné" disabled />`} />
       </Section>
 
+      {/* Sharp tvar */}
+      {lib === 'donjon' && (
+        <Section
+          id="shape"
+          title="Sharp — ukosené rohy"
+          description="Oktagon track + diamond thumb. Vizuálně ladí s ostatními herními prvky."
+        >
+          <Preview>
+            <ToggleDemo ToggleCmp={To} label="Vypnuto" initial={false} shape="sharp" />
+            <ToggleDemo ToggleCmp={To} label="Zapnuto" initial={true}  shape="sharp" />
+            <To checked={false} label="Disabled off" disabled shape="sharp" />
+            <To checked={true}  label="Disabled on"  disabled shape="sharp" />
+          </Preview>
+          <Preview>
+            <ToggleDemo ToggleCmp={To} label="Small" initial={true} shape="sharp" size="sm" />
+            <ToggleDemo ToggleCmp={To} label="Medium" initial={true} shape="sharp" size="md" />
+          </Preview>
+          <CodeBlock code={`<DonjonToggle shape="sharp" checked={value} onChange={setValue} label="Zvuky" />`} />
+        </Section>
+      )}
+
+      {lib === 'donjon' && (
+        <Section
+          id="shape-outline"
+          title="Sharp outline"
+          description="Stejný tvar jako sharp, ale pouze obrys — transparentní vnitřek."
+        >
+          <Preview>
+            <ToggleDemo ToggleCmp={To} label="Vypnuto" initial={false} shape="sharp-outline" />
+            <ToggleDemo ToggleCmp={To} label="Zapnuto" initial={true}  shape="sharp-outline" />
+            <To checked={false} label="Disabled off" disabled shape="sharp-outline" />
+            <To checked={true}  label="Disabled on"  disabled shape="sharp-outline" />
+          </Preview>
+          <CodeBlock code={`<DonjonToggle shape="sharp-outline" checked={value} onChange={setValue} label="Zvuky" />`} />
+        </Section>
+      )}
+
       {/* Varianty */}
       <Section
         id="variants"

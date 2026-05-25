@@ -4,8 +4,7 @@
    ─────────────────────────────────────────────────────────────────────── */
 import {
   gold, goldDim, goldMid,
-  bg2, bgDeep,
-  borderDefault,
+  bgDeep,
   textMid, textFaint,
 } from './tokens'
 
@@ -58,7 +57,7 @@ export default function DonjonSlider({
           position: 'absolute', left: 0, right: 0,
           height: s.trackH, background: bgDeep,
           borderRadius: s.radius,
-          border: `1px solid ${borderDefault}`,
+          border: `1px solid ${goldDim}`,
           overflow: 'hidden',
           pointerEvents: 'none',
         }}>

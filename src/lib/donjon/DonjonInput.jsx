@@ -9,8 +9,7 @@ import { useState, useId } from 'react'
 import { octagon } from '../../utils/octagon'
 import {
   gold, goldDim, goldMid,
-  bg2,
-  borderDefault,
+  bg2, bgDeep,
   textHigh, textMid, textLow,
   dangerColor,
 } from './tokens'
@@ -54,11 +53,11 @@ export default function DonjonInput({
 
   const borderColor = error
     ? dangerColor
-    : isFocused ? gold : borderDefault
+    : isFocused ? gold : goldDim
 
   const glowColor = error
     ? `${dangerColor}33`
-    : `${gold}30`
+    : `${gold}40`
 
   const iconColor = isFocused ? gold : goldDim
 
@@ -84,6 +83,7 @@ export default function DonjonInput({
 
       {/* Outer obal — border barva (1 px clip trick) */}
       <div
+        className="dj-clip-focus"
         style={{
           position:   'relative',
           height:     multiline ? undefined : s.h,
@@ -102,7 +102,7 @@ export default function DonjonInput({
             inset:      multiline ? undefined   : 1,
             margin:     multiline ? 1           : undefined,
             clipPath:   octagon(Math.max(s.cx - 1, 0)),
-            background: bg2,
+            background: bgDeep,
             display:    'flex',
             alignItems: multiline ? 'flex-start' : 'center',
           }}
@@ -211,7 +211,7 @@ export default function DonjonInput({
         </p>
       )}
 
-      <style>{`
+      <style href="donjon-input-placeholder" precedence="low">{`
         input::placeholder, textarea::placeholder { color: ${textLow}; }
       `}</style>
     </div>

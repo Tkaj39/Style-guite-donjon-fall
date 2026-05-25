@@ -191,6 +191,75 @@ function ButtonGroupContent() {
 <${cmp} variant="tabs" size="lg" … />  {/* 64px */}`} />
       </Section>
 
+      {/* Interactive States */}
+      <Section
+        title="Interaktivní stavy"
+        description="Jedno tlačítko, jeden stav — neaktivní a aktivní varianta každého stavu."
+      >
+        <Preview>
+          {/* Tabulka stavů */}
+          <div className="w-full overflow-x-auto">
+            <table className="border-collapse w-full min-w-[480px]">
+              <thead>
+                <tr>
+                  <th className="text-left py-2 pr-6 text-[10px] font-mono font-normal text-neutral-600 w-24" />
+                  {['idle', 'hover', 'pressed', 'focus'].map(s => (
+                    <th key={s} className="py-2 px-4 text-[10px] font-mono font-normal text-neutral-600 text-center">{s}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { rowLabel: 'neaktivní', selected: false },
+                  { rowLabel: 'aktivní',   selected: true  },
+                ].map(({ rowLabel, selected }) => (
+                  ['menu', 'tabs'].map(bgVariant => (
+                    <tr key={`${rowLabel}-${bgVariant}`} className="border-t border-neutral-800/40">
+                      <td className="py-4 pr-6 align-middle">
+                        <div className="flex flex-col gap-0.5">
+                          <span className="text-[10px] font-mono text-neutral-400">{rowLabel}</span>
+                          <span className="text-[10px] font-mono text-neutral-700">{bgVariant}</span>
+                        </div>
+                      </td>
+                      {[
+                        { filter: 'none',            shadow: 'none'              },
+                        { filter: 'brightness(1.1)', shadow: 'none'              },
+                        { filter: 'brightness(0.9)', shadow: 'none'              },
+                        { filter: 'none',            shadow: '0 0 8px #FFC183AA' },
+                      ].map(({ filter, shadow }, i) => (
+                        <td key={i} className="py-4 px-4 align-middle text-center">
+                          <span
+                            style={{
+                              display: 'inline-flex',
+                              pointerEvents: 'none',
+                              filter: [
+                                filter !== 'none' ? filter : null,
+                                shadow !== 'none' ? `drop-shadow(${shadow})` : null,
+                              ].filter(Boolean).join(' ') || 'none',
+                            }}
+                          >
+                            <BG
+                              variant={bgVariant}
+                              size="sm"
+                              items={[{ value: 'x', label: 'Akce' }]}
+                              value={selected ? 'x' : null}
+                              onChange={() => {}}
+                            />
+                          </span>
+                        </td>
+                      ))}
+                    </tr>
+                  ))
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Preview>
+        <CodeBlock code={`// hover   → filter: brightness(1.1)
+// pressed → filter: brightness(0.9)
+// focus   → filter: drop-shadow(0 0 8px #FFC183AA)`} />
+      </Section>
+
       {/* Pravidla */}
       <Section id="pravidla" title="Pravidla použití">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">

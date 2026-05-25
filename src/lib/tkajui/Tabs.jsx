@@ -101,7 +101,7 @@ export default function Tabs({
               marginBottom: variant === 'underline' ? -1 : 0,
               ...tabStyle,
             }}
-            onFocus={e => { e.currentTarget.style.outline = `2px solid ${accent}44`; e.currentTarget.style.outlineOffset = '2px' }}
+            onFocus={e => { e.currentTarget.style.outline = `2px solid ${accent}99`; e.currentTarget.style.outlineOffset = '3px' }}
             onBlur={e => { e.currentTarget.style.outline = 'none' }}
           >
             {item.icon && <span style={{ display: 'flex', alignItems: 'center', opacity: isActive ? 1 : 0.6 }}>{item.icon}</span>}

@@ -309,18 +309,18 @@ export const componentMeta = {
   },
 
   'donjon-badge': {
-    description: 'Statusový štítek pro stav, kategorii nebo krátký label. Podporuje barevné varianty, tečku a ikonu.',
-    subcategory: 'extends-tkajui',
+    description: 'Herní odznak s hexagonálním tvarem a glow efektem. Vizuálně odlišný od TkajUI Badge — nativní herní varianty (gain/loss/event/warning/magic), diamantový indikátor místo kruhu.',
+    subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/badges',
     props: [
-      { name: 'children', type: 'ReactNode',                              required: false, description: 'Text nebo obsah štítku.' },
-      { name: 'variant',  type: "'default'|'danger'|'success'|'warning'|'info'", required: false, default: "'default'", description: 'Barevná varianta.' },
-      { name: 'size',     type: "'sm'|'md'",                              required: false, default: "'md'",      description: 'Velikost štítku.' },
-      { name: 'dot',      type: 'boolean',                                required: false, default: 'false',     description: 'Zobrazí barevnou tečku vlevo.' },
-      { name: 'icon',     type: 'ReactNode',                              required: false, description: 'SVG ikona vlevo od textu.' },
+      { name: 'children', type: 'ReactNode',                                                                              required: false, description: 'Text nebo obsah odznaku.' },
+      { name: 'variant',  type: "'default'|'gain'|'loss'|'event'|'warning'|'magic'|'muted'|'success'|'danger'|'info'|'primary'", required: false, default: "'default'", description: 'Herní varianta. Backward-compat: success=gain, danger=loss, info=infoColor, primary=event.' },
+      { name: 'size',     type: "'sm'|'md'",                                                                              required: false, default: "'md'",      description: 'Velikost odznaku.' },
+      { name: 'dot',      type: 'boolean',                                                                                required: false, default: 'false',     description: 'Zobrazí heraldický diamant vlevo.' },
+      { name: 'icon',     type: 'ReactNode',                                                                              required: false, description: 'SVG ikona vlevo od textu — alternativa k dot.' },
     ],
-    relatedSlugs: ['donjon-card', 'float-feedback'],
+    relatedSlugs: ['donjon-card', 'float-feedback', 'badge'],
   },
 
   'donjon-card': {
@@ -709,7 +709,7 @@ export const componentMeta = {
       { name: 'icon',      type: 'React.ComponentType<{width, height}>', required: true,  description: 'SVG komponenta z donjon/icons.' },
       { name: 'size',      type: "'sm'|'md'|'lg'|'xl'",                  required: false, default: "'md'",      description: 'Velikost ikony (16 / 24 / 32 / 48 px).' },
       { name: 'variant',   type: "'active'|'passive'|'disabled'|'danger'|'success'", required: false, default: "'active'", description: 'Barevná varianta — určuje barvu ikony a pozadí.' },
-      { name: 'bare',      type: 'boolean',                              required: false, default: 'false',     description: 'Bez pozadí — jen ikona s herní barvou.' },
+      { name: 'bare',      type: 'boolean',                              required: false, default: 'true',      description: 'Bez pozadí — jen ikona s herní barvou. bare={false} přidá oktagonální rámeček s tmavým pozadím.' },
       { name: 'className', type: 'string',                               required: false, description: 'Tailwind třídy na obalový span.' },
       { name: 'style',     type: 'CSSProperties',                        required: false, description: 'Inline styly na obalový span.' },
     ],
@@ -733,7 +733,7 @@ export const componentMeta = {
   'scoop-clip': {
     description: 'Obal s konkávně zaoblenými rohy (scoop tvar) via SVG clipPath s objectBoundingBox — přizpůsobí se libovolným rozměrům elementu. Interní utilita pro tvarování panelů a tlačítek.',
     status: 'documented',
-    showcaseRoute: '/shapes',
+    showcaseRoute: '/scoop-clip',
     props: [
       { name: 'r',         type: 'number',      required: false, default: '0.25',  description: 'Poloměr vydlabání jako podíl výšky (0–0.5).' },
       { name: 'children',  type: 'ReactNode',   required: false, description: 'Obsah obalený clipPath tvarem.' },
@@ -827,6 +827,20 @@ export const componentMeta = {
       { name: 'children', type: 'ReactNode', required: true, description: 'Obsah aplikace nebo stránky chráněný error boundary wrapperem.' },
     ],
     relatedSlugs: ['layout', 'showcase-page'],
+  },
+
+  'donjon-notification-center': {
+    description: 'Herní panel notifikací vysouvající se z rohu obrazovky. Agreguje herní události (gain/loss/event/warning/system) s barevným kódováním, DonjonBadge typem a HH:MM časovým razítkem. Kombinuje GameTransition (animace panelu) + DonjonBadge (typ eventu) + createPortal. Counter nepřečtených zpráv na toggle tlačítku.',
+    subcategory: 'exclusive',
+    status: 'stable',
+    showcaseRoute: '/notification-center',
+    props: [
+      { name: 'events',     type: "Array<{id, text, type, timestamp}>",                              required: true,  description: "Pole herních událostí. Typy: 'gain' | 'loss' | 'event' | 'warning' | 'system'." },
+      { name: 'maxVisible', type: 'number',                                                           required: false, default: '5',             description: 'Maximální počet zobrazených nejnovějších záznamů. Starší jsou archivovány.' },
+      { name: 'position',   type: "'bottom-right'|'bottom-left'|'top-right'|'top-left'",             required: false, default: "'bottom-right'", description: 'Roh obrazovky kde se panel zobrazí.' },
+      { name: 'onClear',    type: '() => void',                                                       required: false, description: 'Callback pro tlačítko Smazat v hlavičce panelu.' },
+    ],
+    relatedSlugs: ['event-log', 'donjon-toast', 'game-transition', 'donjon-badge'],
   },
 
   'showcase-page': {

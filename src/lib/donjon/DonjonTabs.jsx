@@ -1,25 +1,51 @@
 /* ── DonjonTabs ──────────────────────────────────────────────────────────
-   Herní varianta Tabs. Stejná funkce jako TkajUI Tabs, ale:
-   - underline: HexOrnament nahrazuje spodní linku
-   - pills:     HexOrnament nahoře i dole kolem tracku
+   Herní varianta Tabs.
+   - underline: dvě full-width čáry (top + bottom), na hover mezera v horní
+                čáře u dané položky + hexagon v mezeře
+   - pills:     HexOrnament nahoře i dole kolem tracku (nezměněno)
    ─────────────────────────────────────────────────────────────────────── */
-import { useId } from 'react'
+import { useId, useState, useRef, useLayoutEffect } from 'react'
 import { HexOrnament } from './Ornaments'
-import { gold, goldMid, goldDim, bg0, bg3, bg4, textActive, textDisabled } from './tokens'
+import { octagon } from '../../utils/octagon'
+import { gold, goldMid, goldDim, bg0, bg3, bg4, textActive, textDisabled, VARIANT_BG, VARIANT_TITLE_GRAD } from './tokens'
 
 const SIZES = {
-  sm: { fontSize: '0.75rem',   px: 10, py: 5,  gap: 2  },
-  md: { fontSize: '0.8125rem', px: 14, py: 7,  gap: 4  },
-  lg: { fontSize: '0.875rem',  px: 18, py: 9,  gap: 6  },
+  sm: { fontSize: '0.75rem',   px: 10, py: 5,  gap: 2, cx: 5 },
+  md: { fontSize: '0.8125rem', px: 14, py: 7,  gap: 4, cx: 7 },
+  lg: { fontSize: '0.875rem',  px: 18, py: 9,  gap: 6, cx: 9 },
 }
 
 const ACTIVE_TAB = {
-  underline: { color: textActive, borderBottom: `2px solid ${goldMid}` },
-  pills:     { color: textActive, background: `linear-gradient(135deg,${bg4} 0%,${bg3} 100%)`, border: `1px solid ${goldDim}66`, borderRadius: 4 },
+  underline: { color: textActive },
+  topline:   { color: textActive },
+  pills:     {},
 }
 const INACTIVE_TAB = {
-  underline: { color: textDisabled, borderBottom: '2px solid transparent' },
-  pills:     { color: textDisabled, background: 'transparent', border: '1px solid transparent', borderRadius: 4 },
+  underline: { color: textDisabled },
+  topline:   { color: textDisabled },
+  pills:     { color: textDisabled },
+}
+
+const LINE_GRAD = `linear-gradient(90deg,${goldDim} 0%,${gold} 50%,${goldDim} 100%)`
+
+/* Inline hexagon SVG — stejný tvar jako v HexOrnament */
+function HexSvg({ uid }) {
+  const g = `url(#${uid}-hg)`
+  return (
+    <svg width="10.14" height="7" viewBox="18.65 0 5.07 7" fill="none" style={{ display: 'block' }}>
+      <defs>
+        <linearGradient id={`${uid}-hg`} x1="21.1848" y1="0" x2="21.1848" y2="7" gradientUnits="userSpaceOnUse">
+          <stop stopColor={gold} />
+          <stop offset="1" stopColor={goldDim} />
+        </linearGradient>
+      </defs>
+      <path
+        d="M20.9348 0.72168C21.0895 0.632366 21.2801 0.632366 21.4348 0.72168L23.4661 1.89453C23.6206 1.98384 23.716 2.14867 23.7161 2.32715V4.67285C23.716 4.85133 23.6206 5.01616 23.4661 5.10547L21.4348 6.27832C21.2801 6.36763 21.0895 6.36763 20.9348 6.27832L18.9036 5.10547C18.749 5.01616 18.6536 4.85133 18.6536 4.67285V2.32715C18.6536 2.14867 18.749 1.98384 18.9036 1.89453L20.9348 0.72168Z"
+        fill={bg4}
+        stroke={g}
+      />
+    </svg>
+  )
 }
 
 export default function DonjonTabs({
@@ -34,6 +60,33 @@ export default function DonjonTabs({
   const s     = SIZES[size] ?? SIZES.md
   const safeItems = items ?? []
 
+  /* ── Hover tracking pro underline hex ── */
+  const [hoveredValue, setHoveredValue] = useState(null)
+  const [activeGap, setActiveGap] = useState(null)
+  const [hoverGap,  setHoverGap]  = useState(null)
+  const containerRef = useRef(null)
+  const tabRefs = useRef({})
+
+  const measureTab = (tabValue) => {
+    const container = containerRef.current
+    const tab = tabRefs.current[tabValue]
+    if (!container || !tab) return null
+    const cr = container.getBoundingClientRect()
+    const tr = tab.getBoundingClientRect()
+    return { left: tr.left - cr.left, rightEdge: tr.right - cr.left, centerX: tr.left - cr.left + tr.width / 2 }
+  }
+
+  useLayoutEffect(() => {
+    if (!value) { setActiveGap(null); return }
+    setActiveGap(measureTab(value))
+  }, [value])
+
+  useLayoutEffect(() => {
+    if (!hoveredValue || hoveredValue === value) { setHoverGap(null); return }
+    setHoverGap(measureTab(hoveredValue))
+  }, [hoveredValue, value])
+
+  /* ── Keyboard navigation ── */
   const handleKeyDown = (e, item, i) => {
     if (item.disabled) return
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onChange?.(item.value); return }
@@ -49,6 +102,7 @@ export default function DonjonTabs({
     }
   }
 
+  /* ── Tab list ── */
   const tabList = (
     <div
       role="tablist"
@@ -66,20 +120,32 @@ export default function DonjonTabs({
     >
       {safeItems.map((item, i) => {
         const isActive = item.value === value
-        const tabStyle = isActive ? ACTIVE_TAB[variant] : INACTIVE_TAB[variant]
+        const isPillsActive = isActive && variant === 'pills'
+        const tabStyle = isPillsActive
+          ? { clipPath: octagon(s.cx), background: VARIANT_BG.default }
+          : isActive ? ACTIVE_TAB[variant] : INACTIVE_TAB[variant]
+
+        const labelNode = isPillsActive
+          ? <span style={{
+              backgroundImage: VARIANT_TITLE_GRAD.default,
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}>{item.label}</span>
+          : item.label
 
         return (
           <button
             key={item.value}
             id={`dtab-${item.value}`}
+            ref={el => { tabRefs.current[item.value] = el }}
             role="tab"
             aria-selected={isActive}
             aria-disabled={item.disabled}
             tabIndex={item.disabled ? -1 : (isActive ? 0 : -1)}
             onClick={() => !item.disabled && onChange?.(item.value)}
             onKeyDown={e => handleKeyDown(e, item, i)}
-            onMouseEnter={e => { if (!isActive && !item.disabled) e.currentTarget.style.color = goldMid }}
-            onMouseLeave={e => { if (!isActive && !item.disabled) e.currentTarget.style.color = INACTIVE_TAB[variant].color }}
+            onMouseEnter={() => { if (!item.disabled) setHoveredValue(item.value) }}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -87,21 +153,21 @@ export default function DonjonTabs({
               padding: `${s.py}px ${s.px}px`,
               fontSize: s.fontSize,
               fontWeight: isActive ? 600 : 400,
-              letterSpacing: isActive ? '0.04em' : '0.02em',
+              letterSpacing: isPillsActive ? '0.08em' : isActive ? '0.04em' : '0.02em',
+              textTransform: isPillsActive ? 'uppercase' : undefined,
               cursor: item.disabled ? 'not-allowed' : 'pointer',
               opacity: item.disabled ? 0.35 : 1,
               background: 'transparent',
               border: 'none',
-              transition: 'color 0.12s, background 0.12s, border-color 0.12s',
+              transition: 'color 0.12s',
               outline: 'none',
-              marginBottom: variant === 'underline' ? -1 : 0,
               ...tabStyle,
             }}
-            onFocus={e => { e.currentTarget.style.outline = `2px solid ${goldDim}55`; e.currentTarget.style.outlineOffset = '2px' }}
+            onFocus={e => { if (e.currentTarget.matches(':focus-visible')) { e.currentTarget.style.outline = `2px solid ${gold}99`; e.currentTarget.style.outlineOffset = '3px' } }}
             onBlur={e => { e.currentTarget.style.outline = 'none' }}
           >
             {item.icon && <span style={{ display: 'flex', alignItems: 'center', opacity: isActive ? 1 : 0.6 }}>{item.icon}</span>}
-            {item.label}
+            {labelNode}
             {item.badge != null && (
               <span style={{
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
@@ -120,22 +186,92 @@ export default function DonjonTabs({
     </div>
   )
 
+  /* ── Sdílený ornament: čáry s mezerami a hexagonem ── */
+  const GappedLines = ({ hexUid }) => {
+    const sorted = [activeGap, hoverGap].filter(Boolean).sort((a, b) => a.left - b.left)
+    /* Merguj sousední/překrývající se mezery — zabrání drobné čárečce mezi tabu */
+    const gaps = sorted.reduce((acc, g) => {
+      const prev = acc[acc.length - 1]
+      if (prev && g.left <= prev.rightEdge + 8) {
+        acc[acc.length - 1] = { ...prev, rightEdge: Math.max(prev.rightEdge, g.rightEdge) }
+      } else {
+        acc.push(g)
+      }
+      return acc
+    }, [])
+    const segs = []
+    let cursor = 0
+    for (const g of gaps) {
+      segs.push({ from: cursor, to: Math.max(cursor, g.left) })
+      cursor = g.rightEdge
+    }
+    return <>
+      {gaps.length === 0
+        ? <div style={{ position: 'absolute', left: 0, right: 0, top: 2, height: 1, background: LINE_GRAD }} />
+        : <>
+            {segs.map((seg, i) => (
+              <div key={i} style={{ position: 'absolute', left: seg.from, width: Math.max(0, seg.to - seg.from), top: 2, height: 1, background: LINE_GRAD }} />
+            ))}
+            <div style={{ position: 'absolute', left: cursor, right: 0, top: 2, height: 1, background: LINE_GRAD }} />
+          </>
+      }
+      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 1, height: 1, background: LINE_GRAD, opacity: 0.4 }} />
+      <div style={{
+        position: 'absolute', top: 0,
+        left: (hoverGap ?? activeGap)?.centerX ?? 0,
+        transform: 'translateX(-50%)',
+        opacity: activeGap !== null ? 1 : 0,
+        pointerEvents: 'none',
+      }}>
+        <HexSvg uid={hexUid} />
+      </div>
+    </>
+  }
+
+  /* ── Pills variant — čáry s efekty nahoře i dole ── */
   if (variant === 'pills') {
-    /* Pills: HexOrnament nahoře i dole kolem celého tracku */
     return (
-      <div style={{ position: 'relative', paddingTop: 8, paddingBottom: 8 }}>
-        <HexOrnament uid={`${uid}t`} edgePadL={4} />
+      <div
+        ref={containerRef}
+        style={{ position: 'relative', paddingTop: 10, paddingBottom: 10 }}
+        onMouseLeave={() => setHoveredValue(null)}
+      >
+        <div aria-hidden="true" style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 7, pointerEvents: 'none' }}>
+          <GappedLines hexUid={`${uid}th`} />
+        </div>
         {tabList}
-        <HexOrnament uid={`${uid}b`} flip edgePadL={4} />
+        <div aria-hidden="true" style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 7, pointerEvents: 'none', transform: 'scaleY(-1)' }}>
+          <GappedLines hexUid={`${uid}bh`} />
+        </div>
       </div>
     )
   }
 
-  /* Underline: HexOrnament místo spodní linky */
+  /* ── Underline / Topline variant ──
+     underline: indikátor (mezera + hex) dole
+     topline:   indikátor nahoře
+  ── */
+  const indicatorAtBottom = variant === 'underline'
+
   return (
-    <div style={{ position: 'relative', paddingBottom: 8 }}>
+    <div
+      ref={containerRef}
+      style={{ position: 'relative', paddingTop: 10, paddingBottom: 10 }}
+      onMouseLeave={() => setHoveredValue(null)}
+    >
+      {!indicatorAtBottom && (
+        <div aria-hidden="true" style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 7, pointerEvents: 'none' }}>
+          <GappedLines hexUid={`${uid}th`} />
+        </div>
+      )}
+
       {tabList}
-      <HexOrnament uid={`${uid}b`} flip edgePadL={0} />
+
+      {indicatorAtBottom && (
+        <div aria-hidden="true" style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 7, pointerEvents: 'none', transform: 'scaleY(-1)' }}>
+          <GappedLines hexUid={`${uid}bh`} />
+        </div>
+      )}
     </div>
   )
 }

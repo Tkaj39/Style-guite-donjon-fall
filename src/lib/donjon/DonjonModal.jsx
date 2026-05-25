@@ -120,18 +120,17 @@ export default function DonjonModal({
             display: 'flex',
             flexDirection: 'column',
           }}>
-            {/* Side ornaments — only when there's a header */}
-            {title && <SideOrnament h={66} uid={`${uid}l`} />}
-            {title && <SideOrnament h={66} uid={`${uid}r`} flip />}
-
-            {/* Header */}
+              {/* Header */}
             {title && (
               <div style={{
                 position: 'relative',
                 background: v.headerBg,
                 borderBottom: `1px solid ${v.border}44`,
                 padding: '14px 48px 12px 40px',
+                overflow: 'hidden',
               }}>
+                <SideOrnament h={description ? 64 : 44} uid={`${uid}l`} />
+                <SideOrnament h={description ? 64 : 44} uid={`${uid}r`} flip />
                 <HexOrnament uid={`${uid}ht`} edgePadL={cx} />
 
                 <h2
@@ -187,7 +186,7 @@ export default function DonjonModal({
             )}
 
             {/* Body */}
-            <div style={{ position: 'relative', padding: '20px 28px', flex: 1 }}>
+            <div style={{ position: 'relative', padding: `20px ${!title && showCloseButton ? 52 : 28}px 20px 28px`, flex: 1 }}>
               {!title && <HexOrnament uid={`${uid}ht`} edgePadL={cx} />}
               {!title && showCloseButton && (
                 <button

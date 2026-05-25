@@ -1,20 +1,20 @@
 /* ── DonjonSelect ──────────────────────────────────────────────────────────
    Herní dropdown — zlatý border, tmavé pozadí, zlatá šipka.
-   Bez oktagonálního tvaru. Klávesnicová navigace, click-outside, Escape.
-   API identické s TkajUI Select, jiná vizuální estetika.
+   Oktagonální tvar triggeru (outer/inner clip-path trick jako DonjonInput).
+   Klávesnicová navigace, click-outside, Escape.
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useRef, useEffect, useId } from 'react'
+import { octagon } from '../../utils/octagon'
 import {
   gold, goldDim, goldMid,
-  bg2, bg3, bg4,
-  borderDefault, borderMid,
+  bg2, bg3, bgDeep,
   textHigh, textMid, textLow, textFaint,
 } from './tokens'
 
 const SIZES = {
-  sm: { h: 30, fontSize: '0.75rem',   px: 10, radius: 3 },
-  md: { h: 36, fontSize: '0.8125rem', px: 12, radius: 3 },
-  lg: { h: 44, fontSize: '0.875rem',  px: 14, radius: 4 },
+  sm: { h: 30, cx: 8,  fontSize: '0.75rem',   px: 10 },
+  md: { h: 36, cx: 10, fontSize: '0.8125rem', px: 12 },
+  lg: { h: 44, cx: 12, fontSize: '0.875rem',  px: 14 },
 }
 
 const Z_DROPDOWN = 900
@@ -69,6 +69,7 @@ export default function DonjonSelect({
 }) {
   const [open, setOpen]           = useState(false)
   const [highlighted, setHighlighted] = useState(-1)
+  const [focused, setFocused]     = useState(false)
   const uid       = useId()
   const triggerId = externalId ?? `donjon-select-${uid}`
   const listId    = `donjon-select-list-${uid}`
@@ -124,7 +125,9 @@ export default function DonjonSelect({
     triggerRef.current?.focus()
   }
 
-  const triggerBorder = open ? goldDim : borderDefault
+  const active       = open || focused
+  const borderColor  = active ? gold : goldDim
+  const glowColor    = `${gold}40`
 
   return (
     <div style={{ position: 'relative', display: 'inline-block', width: '100%' }}>
@@ -136,108 +139,131 @@ export default function DonjonSelect({
           style={{
             display: 'block',
             marginBottom: 5,
-            fontSize: '0.75rem',
-            color: textMid,
-            letterSpacing: '0.06em',
+            fontSize: '0.6875rem',
+            color: active ? goldMid : textMid,
+            letterSpacing: '0.1em',
             fontWeight: 600,
             textTransform: 'uppercase',
+            transition: 'color 150ms',
           }}
         >
           {label}
         </label>
       )}
 
-      {/* Trigger */}
-      <button
-        ref={triggerRef}
-        id={triggerId}
-        type="button"
-        role="combobox"
-        aria-expanded={open}
-        aria-haspopup="listbox"
-        aria-controls={listId}
-        aria-disabled={disabled}
-        disabled={disabled}
-        onClick={() => !disabled && setOpen(o => !o)}
-        onKeyDown={handleKeyDown}
+      {/* Trigger — outer border layer */}
+      <div
+        className="dj-clip-focus"
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 8,
-          width: '100%',
-          height: s.h,
-          padding: `0 ${s.px}px`,
-          background: bg2,
-          border: `1px solid ${triggerBorder}`,
-          borderRadius: s.radius,
-          fontSize: s.fontSize,
-          color: selected ? textHigh : textLow,
-          cursor: disabled ? 'not-allowed' : 'pointer',
-          opacity: disabled ? 0.45 : 1,
-          transition: 'border-color 0.15s',
-          textAlign: 'left',
-          outline: 'none',
-          boxShadow: open ? `0 0 0 1px ${goldDim}33` : 'none',
+          position:   'relative',
+          height:     s.h,
+          clipPath:   octagon(s.cx),
+          background: borderColor,
+          transition: 'background 150ms ease, filter 150ms ease',
+          filter:     active ? `drop-shadow(0 0 6px ${gold}40)` : undefined,
+          opacity:    disabled ? 0.45 : 1,
         }}
       >
-        <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-          {selected ? selected.label : (
-            <span style={{ color: textFaint }}>{placeholder}</span>
-          )}
-        </span>
-        <ChevronIcon open={open} />
-      </button>
+        {/* Inner fill */}
+        <div style={{ position: 'absolute', inset: 1, clipPath: octagon(Math.max(s.cx - 1, 0)), background: bgDeep }}>
+          <button
+            ref={triggerRef}
+            id={triggerId}
+            type="button"
+            role="combobox"
+            aria-expanded={open}
+            aria-haspopup="listbox"
+            aria-controls={listId}
+            aria-disabled={disabled}
+            disabled={disabled}
+            onClick={() => !disabled && setOpen(o => !o)}
+            onKeyDown={handleKeyDown}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 8,
+              width: '100%',
+              height: s.h - 2,
+              padding: `0 ${s.px}px`,
+              background: 'transparent',
+              border: 'none',
+              outline: 'none',
+              fontSize: s.fontSize,
+              color: selected ? textHigh : textFaint,
+              cursor: disabled ? 'not-allowed' : 'pointer',
+              textAlign: 'left',
+            }}
+          >
+            <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {selected ? selected.label : placeholder}
+            </span>
+            <ChevronIcon open={open} />
+          </button>
+        </div>
+      </div>
 
       {/* Dropdown list */}
       {open && (
-        <div
-          ref={listRef}
-          id={listId}
-          role="listbox"
-          aria-label={label}
-          style={{
-            position: 'absolute',
-            top: 'calc(100% + 4px)',
-            left: 0,
-            right: 0,
-            zIndex: Z_DROPDOWN,
-            background: bg2,
-            border: `1px solid ${borderDefault}`,
-            borderRadius: s.radius,
-            overflow: 'hidden',
-            boxShadow: `0 8px 24px rgba(0,0,0,0.6), 0 0 0 1px ${goldDim}22`,
-          }}
-        >
-          {safeOptions.map((opt, i) => {
-            const isHighlighted = i === highlighted && !opt.disabled
-            const isSelected    = opt.value === value
-            return (
-              <div
-                key={opt.value}
-                role="option"
-                aria-selected={isSelected}
-                aria-disabled={opt.disabled}
-                onMouseEnter={() => !opt.disabled && setHighlighted(i)}
-                onClick={() => handleSelect(opt)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: `8px ${s.px}px`,
-                  fontSize: s.fontSize,
-                  color: opt.disabled ? textLow : (isHighlighted ? textHigh : textMid),
-                  background: isHighlighted ? bg3 : 'transparent',
-                  cursor: opt.disabled ? 'not-allowed' : 'pointer',
-                  transition: 'background 0.1s, color 0.1s',
-                  borderBottom: i < safeOptions.length - 1 ? `1px solid ${borderDefault}` : 'none',
-                }}
-              >
-                <span>{opt.label}</span>
-                {isSelected && <CheckIcon />}
-              </div>
-            )
-          })}
+        <div style={{
+          position: 'absolute',
+          top: 'calc(100% + 4px)',
+          left: 0,
+          right: 0,
+          zIndex: Z_DROPDOWN,
+          filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.7))',
+        }}>
+          {/* Outer border layer */}
+          <div style={{
+            clipPath: octagon(s.cx),
+            background: goldDim,
+            padding: 1,
+          }}>
+            {/* Inner content layer */}
+            <div
+              ref={listRef}
+              id={listId}
+              role="listbox"
+              aria-label={label}
+              style={{
+                clipPath: octagon(Math.max(s.cx - 1, 0)),
+                background: bgDeep,
+                overflow: 'hidden',
+              }}
+            >
+              {safeOptions.map((opt, i) => {
+                const isHighlighted = i === highlighted && !opt.disabled
+                const isSelected    = opt.value === value
+                return (
+                  <div
+                    key={opt.value}
+                    role="option"
+                    aria-selected={isSelected}
+                    aria-disabled={opt.disabled}
+                    onMouseEnter={() => !opt.disabled && setHighlighted(i)}
+                    onClick={() => handleSelect(opt)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: `8px ${s.px}px`,
+                      fontSize: s.fontSize,
+                      color: opt.disabled ? textLow : (isHighlighted ? textHigh : textMid),
+                      background: isHighlighted ? bg3 : 'transparent',
+                      cursor: opt.disabled ? 'not-allowed' : 'pointer',
+                      transition: 'background 0.1s, color 0.1s',
+                      borderBottom: i < safeOptions.length - 1 ? `1px solid ${goldDim}33` : 'none',
+                    }}
+                  >
+                    <span>{opt.label}</span>
+                    {isSelected && <CheckIcon />}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
         </div>
       )}
     </div>

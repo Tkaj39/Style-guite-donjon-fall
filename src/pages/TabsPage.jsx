@@ -74,7 +74,7 @@ function TabsContent() {
       <Section
         id="underline"
         title="Underline (výchozí)"
-        description="Aktivní záložka je podtržena zlatou linkou — klasický a úsporný styl."
+        description="Indikátor aktivní záložky je dole — zlatá mezera s hexagonem v dolní čáře."
       >
         <Preview>
           <div style={{ width: '100%' }}>
@@ -89,18 +89,29 @@ function TabsContent() {
             />
           </div>
         </Preview>
-        <CodeBlock code={`const [tab, setTab] = useState('overview')
+        <CodeBlock code={`<${cmp} variant="underline" value={tab} onChange={setTab} items={items} />`} />
+      </Section>
 
-<${cmp}
-  variant="underline"
-  value={tab}
-  onChange={setTab}
-  items={[
-    { value: 'overview', label: 'Přehled' },
-    { value: 'details',  label: 'Detail' },
-    { value: 'history',  label: 'Historie' },
-  ]}
-/>`} />
+      {/* Topline */}
+      <Section
+        id="topline"
+        title="Topline"
+        description="Indikátor aktivní záložky je nahoře — zlatá mezera s hexagonem v horní čáře."
+      >
+        <Preview>
+          <div style={{ width: '100%' }}>
+            <TabsDemo TabsCmp={T}
+              items={[
+                { value: 'overview', label: 'Přehled' },
+                { value: 'details',  label: 'Detail' },
+                { value: 'history',  label: 'Historie' },
+                { value: 'settings', label: 'Nastavení' },
+              ]}
+              variant="topline"
+            />
+          </div>
+        </Preview>
+        <CodeBlock code={`<${cmp} variant="topline" value={tab} onChange={setTab} items={items} />`} />
       </Section>
 
       {/* Pills */}

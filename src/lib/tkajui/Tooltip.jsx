@@ -10,6 +10,7 @@ import {
   infoColor, infoBg, infoBorder, infoText,
   zTooltip,
 } from './tokens'
+import { getPosition, Arrow } from '../../utils/tooltipUtils'
 
 /* ── Varianty ── */
 const VARIANTS = {
@@ -18,30 +19,6 @@ const VARIANTS = {
   success: { bg: successBg,   border: successBorder,  title: successColor,  text: successText },
   warning: { bg: warningBg,   border: warningBorder,  title: warningColor,  text: warningText },
   info:    { bg: infoBg,      border: infoBorder,     title: infoColor,     text: infoText    },
-}
-
-/* ── Výpočet pozice ── */
-function getPosition(rect, placement) {
-  const gap = 8
-  switch (placement) {
-    case 'bottom': return { top: rect.bottom + gap, left: rect.left + rect.width / 2, tx: '-50%', ty: '0' }
-    case 'left':   return { top: rect.top + rect.height / 2, left: rect.left - gap, tx: '-100%', ty: '-50%' }
-    case 'right':  return { top: rect.top + rect.height / 2, left: rect.right + gap, tx: '0',    ty: '-50%' }
-    default:       return { top: rect.top - gap,  left: rect.left + rect.width / 2, tx: '-50%', ty: '-100%' }
-  }
-}
-
-/* ── Šipka ── */
-function Arrow({ placement, color }) {
-  const s = 5
-  const base = { position: 'absolute', width: 0, height: 0 }
-  const styles = {
-    top:    { ...base, bottom: -s, left: '50%', transform: 'translateX(-50%)', borderLeft: `${s}px solid transparent`, borderRight: `${s}px solid transparent`, borderTop: `${s}px solid ${color}` },
-    bottom: { ...base, top: -s,   left: '50%', transform: 'translateX(-50%)', borderLeft: `${s}px solid transparent`, borderRight: `${s}px solid transparent`, borderBottom: `${s}px solid ${color}` },
-    left:   { ...base, right: -s, top: '50%',  transform: 'translateY(-50%)', borderTop: `${s}px solid transparent`, borderBottom: `${s}px solid transparent`, borderLeft: `${s}px solid ${color}` },
-    right:  { ...base, left: -s,  top: '50%',  transform: 'translateY(-50%)', borderTop: `${s}px solid transparent`, borderBottom: `${s}px solid transparent`, borderRight: `${s}px solid ${color}` },
-  }
-  return <span style={styles[placement] ?? styles.top} />
 }
 
 /* ── Tooltip ── */

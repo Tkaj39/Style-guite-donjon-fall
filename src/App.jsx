@@ -1,5 +1,5 @@
-import { lazy, Suspense } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { lazy, Suspense, useEffect } from 'react'
+import { Routes, Route, Navigate, useSearchParams } from 'react-router-dom'
 import Layout from './styleguide/Layout'
 import ErrorBoundary from './styleguide/ErrorBoundary'
 
@@ -69,15 +69,25 @@ const TokensPage           = lazy(() => import('./pages/TokensPage'))
 const HudPage              = lazy(() => import('./pages/HudPage'))
 const TexturePage          = lazy(() => import('./pages/TexturePage'))
 const CornerOrnamentPage   = lazy(() => import('./pages/CornerOrnamentPage'))
+const ScoopClipPage        = lazy(() => import('./pages/ScoopClipPage'))
 const SnippetsPage         = lazy(() => import('./pages/SnippetsPage'))
 const ResourceBarPage      = lazy(() => import('./pages/ResourceBarPage'))
 const NumericDisplayPage   = lazy(() => import('./pages/NumericDisplayPage'))
 const PlayerPanelPage      = lazy(() => import('./pages/PlayerPanelPage'))
 const ActionTilePage       = lazy(() => import('./pages/ActionTilePage'))
 const EventLogPage         = lazy(() => import('./pages/EventLogPage'))
-const PhaseIndicatorPage   = lazy(() => import('./pages/PhaseIndicatorPage'))
+const PhaseIndicatorPage          = lazy(() => import('./pages/PhaseIndicatorPage'))
+const NotificationCenterPage      = lazy(() => import('./pages/NotificationCenterPage'))
 
 export default function App() {
+  const [searchParams] = useSearchParams()
+
+  useEffect(() => {
+    const lib = searchParams.get('lib')
+    const favicon = document.querySelector('link[rel="icon"]')
+    if (favicon) favicon.href = lib === 'donjon' ? '/favicon-donjon.svg' : '/favicon-tkajui.svg'
+  }, [searchParams])
+
   return (
     <Routes>
       <Route element={<Layout />}>
@@ -142,13 +152,15 @@ export default function App() {
         <Route path="hud"                element={<S><HudPage /></S>} />
         <Route path="texture"            element={<S><TexturePage /></S>} />
         <Route path="corner-ornament"   element={<S><CornerOrnamentPage /></S>} />
+        <Route path="scoop-clip"        element={<S><ScoopClipPage /></S>} />
         <Route path="snippets"          element={<S><SnippetsPage /></S>} />
         <Route path="resource-bar"      element={<S><ResourceBarPage /></S>} />
         <Route path="numeric-display"   element={<S><NumericDisplayPage /></S>} />
         <Route path="player-panel"      element={<S><PlayerPanelPage /></S>} />
         <Route path="action-tile"       element={<S><ActionTilePage /></S>} />
         <Route path="event-log"         element={<S><EventLogPage /></S>} />
-        <Route path="phase-indicator"   element={<S><PhaseIndicatorPage /></S>} />
+        <Route path="phase-indicator"        element={<S><PhaseIndicatorPage /></S>} />
+        <Route path="notification-center"    element={<S><NotificationCenterPage /></S>} />
       </Route>
     </Routes>
   )

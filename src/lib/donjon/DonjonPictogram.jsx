@@ -7,7 +7,7 @@
  * @param {React.ComponentType} icon      - SVG komponenta z donjon/icons
  * @param {'sm'|'md'|'lg'|'xl'} size      - výchozí 'md'
  * @param {'active'|'passive'|'disabled'|'danger'|'success'} variant - výchozí 'active'
- * @param {boolean}             bare      - true = bez pozadí (jen ikona s barvou)
+ * @param {boolean}             bare      - false = s oktagonálním rámečkem a pozadím (výchozí: true = jen ikona)
  * @param {string}              className
  * @param {object}              style
  *
@@ -23,13 +23,13 @@ const SIZES = { sm: 16, md: 24, lg: 32, xl: 48 }
 
 // Donjon barevná paleta variant
 const VARIANTS = {
-  active:   { color: gold,            bg: bg2,    border: `${gold}33`,                    glow: `0 0 10px ${gold}33` },
-  passive:  { color: goldDim,         bg: bg1,    border: `${goldDim}33`,                 glow: 'none' },
+  active:   { color: gold,            bg: bg2,    border: `${gold}44`,                    glow: `drop-shadow(0 0 6px ${gold}44)` },
+  passive:  { color: goldDim,         bg: bg1,    border: `${goldDim}44`,                 glow: 'none' },
   disabled: { color: borderDefault,   bg: bg0,    border: borderMid,                      glow: 'none' },
   // eslint-disable-next-line donjon/no-hardcoded-hex -- unikátní tmavá plocha pro danger/success pictogram varianty (fialová/zelená tónovaná)
-  danger:   { color: VARIANT_BORDER.danger,  bg: '#1C1020', border: `${VARIANT_BORDER.danger}33`,  glow: `0 0 8px ${VARIANT_BORDER.danger}22` },
+  danger:   { color: VARIANT_BORDER.danger,  bg: '#1C1020', border: `${VARIANT_BORDER.danger}55`,  glow: `drop-shadow(0 0 5px ${VARIANT_BORDER.danger}44)` },
   // eslint-disable-next-line donjon/no-hardcoded-hex -- unikátní tmavá plocha pro danger/success pictogram varianty (fialová/zelená tónovaná)
-  success:  { color: VARIANT_BORDER.success, bg: '#101C14', border: `${VARIANT_BORDER.success}33`, glow: `0 0 8px ${VARIANT_BORDER.success}22` },
+  success:  { color: VARIANT_BORDER.success, bg: '#101C14', border: `${VARIANT_BORDER.success}55`, glow: `drop-shadow(0 0 5px ${VARIANT_BORDER.success}44)` },
 }
 
 // Padding obklopující ikonu (proporcionální k velikosti)
@@ -38,7 +38,7 @@ const PADDING = { sm: 5, md: 7, lg: 10, xl: 14 }
 // cx pro oktagonální clip (30 % paddingu → zaoblení)
 const CX = { sm: 3, md: 4, lg: 5, xl: 7 }
 
-export default function DonjonPictogram({ icon: Icon, size = 'md', variant = 'active', bare = false, className, style = {} }) {
+export default function DonjonPictogram({ icon: Icon, size = 'md', variant = 'active', bare = true, className, style = {} }) {
   const px  = SIZES[size]  ?? SIZES.md
   const pad = PADDING[size] ?? PADDING.md
   const cx  = CX[size] ?? CX.md
@@ -56,27 +56,38 @@ export default function DonjonPictogram({ icon: Icon, size = 'md', variant = 'ac
     )
   }
 
-  // S pozadím — tmavý oktagonální kontejner
+  // S pozadím — outer/inner wrapper trick (stejně jako DonjonInput/DonjonButton)
+  // outer = border barva + clip, inner = fill barva + clip-1, filter pro glow
   const total = px + pad * 2
   return (
     <span
       className={className}
       style={{
+        position: 'relative',
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
         width: total,
         height: total,
-        background: v.bg,
-        border: `1px solid ${v.border}`,
-        boxShadow: v.glow,
         clipPath: octagon(cx),
+        background: v.border,
+        filter: v.glow !== 'none' ? v.glow : undefined,
         color: v.color,
         ...style,
       }}
     >
-      <Icon width={px} height={px} />
+      <span style={{
+        position: 'absolute',
+        inset: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        clipPath: octagon(Math.max(cx - 1, 0)),
+        background: v.bg,
+      }}>
+        <Icon width={px} height={px} />
+      </span>
     </span>
   )
 }

@@ -78,9 +78,9 @@ export default function ActionTile({
         transition: 'border-color 0.15s, background 0.15s, box-shadow 0.15s',
         boxShadow: selected ? `0 0 10px ${v.selBorder}33, inset 0 0 0 1px ${v.selBorder}22` : 'none',
         padding: '8px 6px 10px',
-        outline: 'none',
         ...style,
       }}
+      className={['focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFC183]/60', className].filter(Boolean).join(' ')}
       onMouseEnter={e => {
         if (!isBlocked) {
           e.currentTarget.style.background = bg3
@@ -93,7 +93,6 @@ export default function ActionTile({
           e.currentTarget.style.borderColor = selected ? v.selBorder : v.border
         }
       }}
-      className={className}
     >
       {/* Ikona */}
       <div style={{

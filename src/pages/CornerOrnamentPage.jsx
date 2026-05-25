@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import CornerOrnament from '../lib/donjon/CornerOrnament'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import { gold, goldDim, goldMid, bg0, bg2, bg4, borderDefault, textCool, successColor, dangerColor } from '../lib/donjon/tokens'
@@ -26,6 +27,196 @@ function CornerPanel({ cornerType = 'cut', size = 14, color, bg = bg2, border = 
         {children}
       </div>
       {label && <span className="text-[9px] text-neutral-600 font-mono text-center">{label}</span>}
+    </div>
+  )
+}
+
+/* ── Interaktivní demo ── */
+const VARIANT_OPTIONS    = ['bracket', 'dot', 'diamond', 'cross']
+const CORNER_TYPE_OPTIONS = ['cut', 'round', 'scoop']
+const SIZE_OPTIONS       = [8, 12, 16, 20, 28, 40]
+const COLOR_OPTIONS      = [
+  { label: 'goldDim',     value: goldDim,      token: 'goldDim' },
+  { label: 'gold',        value: gold,         token: 'gold' },
+  { label: 'goldMid',     value: goldMid,      token: 'goldMid' },
+  { label: 'textCool',    value: textCool,     token: 'textCool' },
+  { label: 'success',     value: successColor, token: 'successColor' },
+  { label: 'danger',      value: dangerColor,  token: 'dangerColor' },
+]
+
+function PickerBtn({ active, onClick, children, disabled }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      style={{
+        padding: '3px 10px',
+        borderRadius: 3,
+        border: `1px solid ${active ? gold : '#2a2838'}`,
+        background: active ? `${gold}18` : 'transparent',
+        color: active ? gold : disabled ? '#3a3848' : '#8a8899',
+        fontSize: '0.6875rem',
+        fontFamily: 'monospace',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        transition: 'all 0.12s',
+        lineHeight: 1,
+        whiteSpace: 'nowrap',
+      }}
+    >
+      {children}
+    </button>
+  )
+}
+
+function InteractiveDemo() {
+  const [variant,    setVariant]    = useState('bracket')
+  const [cornerType, setCornerType] = useState('cut')
+  const [size,       setSize]       = useState(16)
+  const [colorIdx,   setColorIdx]   = useState(0)
+
+  const col     = COLOR_OPTIONS[colorIdx]
+  const isBracket = variant === 'bracket'
+
+  const OFFSETS = [
+    { style: { position: 'absolute', top: 8, left: 8 } },
+    { style: { position: 'absolute', top: 8, right: 8, transform: 'scaleX(-1)' } },
+    { style: { position: 'absolute', bottom: 8, left: 8, transform: 'scaleY(-1)' } },
+    { style: { position: 'absolute', bottom: 8, right: 8, transform: 'scale(-1)' } },
+  ]
+
+  const ctArg    = isBracket ? cornerType : 'cut'
+  const ctSnippet = isBracket ? ` cornerType="${cornerType}"` : ''
+  const snippet = `<div style={{ position: 'relative' }}>
+  {/* TL */}
+  <CornerOrnament variant="${variant}"${ctSnippet} size={${size}} color={${col.token}}
+    style={{ position: 'absolute', top: 8, left: 8 }} />
+  {/* TR */}
+  <CornerOrnament variant="${variant}"${ctSnippet} size={${size}} color={${col.token}}
+    style={{ position: 'absolute', top: 8, right: 8, transform: 'scaleX(-1)' }} />
+  {/* BL */}
+  <CornerOrnament variant="${variant}"${ctSnippet} size={${size}} color={${col.token}}
+    style={{ position: 'absolute', bottom: 8, left: 8, transform: 'scaleY(-1)' }} />
+  {/* BR */}
+  <CornerOrnament variant="${variant}"${ctSnippet} size={${size}} color={${col.token}}
+    style={{ position: 'absolute', bottom: 8, right: 8, transform: 'scale(-1)' }} />
+</div>`
+
+  const labelStyle = {
+    fontSize: '0.5625rem', fontWeight: 600,
+    letterSpacing: '0.1em', textTransform: 'uppercase',
+    color: '#4a4860', marginBottom: 6,
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {/* Pickers */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20 }}>
+
+        {/* Variant */}
+        <div>
+          <p style={labelStyle}>variant</p>
+          <div style={{ display: 'flex', gap: 4 }}>
+            {VARIANT_OPTIONS.map(v => (
+              <PickerBtn key={v} active={variant === v} onClick={() => setVariant(v)}>{v}</PickerBtn>
+            ))}
+          </div>
+        </div>
+
+        {/* cornerType — disabled for non-bracket */}
+        <div>
+          <p style={{ ...labelStyle, color: isBracket ? '#4a4860' : '#2a2838' }}>
+            cornerType {!isBracket && <span style={{ fontSize: '0.5rem', textTransform: 'none', letterSpacing: 0, color: '#3a3848' }}>(jen bracket)</span>}
+          </p>
+          <div style={{ display: 'flex', gap: 4 }}>
+            {CORNER_TYPE_OPTIONS.map(ct => (
+              <PickerBtn
+                key={ct}
+                active={isBracket && cornerType === ct}
+                disabled={!isBracket}
+                onClick={() => isBracket && setCornerType(ct)}
+              >
+                {ct}
+              </PickerBtn>
+            ))}
+          </div>
+        </div>
+
+        {/* Size */}
+        <div>
+          <p style={labelStyle}>size</p>
+          <div style={{ display: 'flex', gap: 4 }}>
+            {SIZE_OPTIONS.map(s => (
+              <PickerBtn key={s} active={size === s} onClick={() => setSize(s)}>{s}</PickerBtn>
+            ))}
+          </div>
+        </div>
+
+        {/* Color */}
+        <div>
+          <p style={labelStyle}>color</p>
+          <div style={{ display: 'flex', gap: 4 }}>
+            {COLOR_OPTIONS.map((c, i) => (
+              <button
+                key={c.token}
+                type="button"
+                title={c.label}
+                onClick={() => setColorIdx(i)}
+                style={{
+                  width: 20, height: 20,
+                  borderRadius: 3,
+                  border: `2px solid ${colorIdx === i ? '#ffffff44' : 'transparent'}`,
+                  background: c.value,
+                  cursor: 'pointer',
+                  flexShrink: 0,
+                  transition: 'border-color 0.12s',
+                }}
+              />
+            ))}
+          </div>
+          <p style={{ fontSize: '0.5rem', color: '#4a4860', marginTop: 4, fontFamily: 'monospace' }}>{col.label}</p>
+        </div>
+      </div>
+
+      {/* Live preview */}
+      <div style={{
+        position: 'relative',
+        width: '100%', height: 140,
+        background: bg2,
+        border: `1px solid ${borderDefault}`,
+        borderRadius: 4,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        {OFFSETS.map((o, i) => (
+          <CornerOrnament
+            key={i}
+            variant={variant}
+            cornerType={ctArg}
+            size={size}
+            color={col.value}
+            style={o.style}
+          />
+        ))}
+        <span style={{ fontSize: '0.625rem', color: '#3a3848', fontFamily: 'monospace', pointerEvents: 'none' }}>
+          {variant}{isBracket ? ` / ${cornerType}` : ''} · {size}px
+        </span>
+      </div>
+
+      {/* Code snippet */}
+      <pre style={{
+        margin: 0, padding: '14px 16px',
+        background: '#0F0E1A',
+        border: '1px solid #1e1c2e',
+        borderRadius: 4,
+        fontSize: '0.6875rem',
+        fontFamily: 'monospace',
+        color: goldDim,
+        lineHeight: 1.7,
+        overflow: 'auto',
+        whiteSpace: 'pre',
+      }}>
+        {snippet}
+      </pre>
     </div>
   )
 }
@@ -353,6 +544,15 @@ export default function CornerOrnamentPage() {
             ))}
           </div>
         </Preview>
+      </Section>
+
+      {/* ── Interaktivní demo ── */}
+      <Section
+        id="interaktivni"
+        title="Interaktivní demo"
+        description="Zvolte kombinaci variant / cornerType / size / color — náhled a kódový snippet se aktualizují živě."
+      >
+        <InteractiveDemo />
       </Section>
 
       {/* ── Props ── */}

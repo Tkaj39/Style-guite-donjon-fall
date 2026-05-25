@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Vrstva_2" data-name="Vrstva 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145.26 145.26">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #232138;
+        stroke: #fabf84;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="Vrstva_2-2" data-name="Vrstva 2">
+    <g>
+      <polygon class="cls-1" points="130.74 0 116.21 0 101.68 0 87.16 0 72.63 0 58.11 0 43.58 0 29.05 0 14.53 0 0 0 0 14.53 0 29.05 0 43.58 0 58.11 0 72.63 0 87.16 0 101.68 0 116.21 0 130.74 0 145.26 14.53 145.26 29.05 145.26 43.58 145.26 58.11 145.26 72.63 145.26 87.16 145.26 101.68 145.26 116.21 145.26 130.74 145.26 145.26 145.26 145.26 130.74 145.26 116.21 145.26 101.68 145.26 87.16 145.26 72.63 145.26 58.11 145.26 43.58 145.26 29.05 145.26 14.53 145.26 0 130.74 0"/>
+      <g>
+        <rect class="cls-2" x="58.11" y="101.68" width="29.05" height="29.05" transform="translate(188.84 43.58) rotate(90)"/>
+        <rect class="cls-2" x="58.11" y="14.53" width="29.05" height="29.05" transform="translate(101.68 -43.58) rotate(90)"/>
+        <rect class="cls-2" x="14.53" y="58.11" width="29.05" height="29.05" transform="translate(101.68 43.58) rotate(90)"/>
+        <rect class="cls-2" x="58.11" y="58.11" width="29.05" height="29.05" transform="translate(145.26 0) rotate(90)"/>
+        <rect class="cls-2" x="101.68" y="58.11" width="29.05" height="29.05" transform="translate(188.84 -43.58) rotate(90)"/>
+        <path class="cls-2" d="M101.68,101.68h0c16.03,0,29.05,13.02,29.05,29.05h-29.05v-29.05h0Z" transform="translate(232.42 0) rotate(90)"/>
+        <path class="cls-2" d="M14.53,101.68h0c16.03,0,29.05,13.02,29.05,29.05H14.53v-29.05h0Z" transform="translate(58.11 232.42) rotate(-180)"/>
+        <path class="cls-2" d="M14.53,14.53h0c16.03,0,29.05,13.02,29.05,29.05H14.53V14.53h0Z" transform="translate(0 58.11) rotate(-90)"/>
+        <path class="cls-2" d="M101.68,14.53h0c16.03,0,29.05,13.02,29.05,29.05h-29.05V14.53h0Z"/>
+      </g>
+    </g>
+  </g>
+</svg>

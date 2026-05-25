@@ -16,8 +16,9 @@ import { scoopBBPath } from '../../utils/octagon'
  *   Obsah tlačítka
  * </ScoopClip>
  */
-export default function ScoopClip({ r = 0.25, children, style = {}, className }) {
-  const id = useId().replace(/:/g, '')  // bezpečné ID pro SVG
+export default function ScoopClip({ r = 0.25, children, style = {}, className, borderColor, borderWidth = 1 }) {
+  const id    = useId().replace(/:/g, '')
+  const clipId = `scoop-${id}`
 
   return (
     <>
@@ -27,18 +28,25 @@ export default function ScoopClip({ r = 0.25, children, style = {}, className })
         style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden', pointerEvents: 'none' }}
       >
         <defs>
-          <clipPath id={`scoop-${id}`} clipPathUnits="objectBoundingBox">
+          <clipPath id={clipId} clipPathUnits="objectBoundingBox">
             <path d={scoopBBPath(r)} />
           </clipPath>
         </defs>
       </svg>
 
-      <div
-        className={className}
-        style={{ clipPath: `url(#scoop-${id})`, ...style }}
-      >
-        {children}
-      </div>
+      {borderColor ? (
+        /* Outer = border barva + clip, inner = fill + clip
+           objectBoundingBox se přizpůsobí velikosti každého divu → rohy sedí */
+        <div style={{ clipPath: `url(#${clipId})`, background: borderColor }}>
+          <div className={className} style={{ clipPath: `url(#${clipId})`, margin: borderWidth, ...style }}>
+            {children}
+          </div>
+        </div>
+      ) : (
+        <div className={className} style={{ clipPath: `url(#${clipId})`, ...style }}>
+          {children}
+        </div>
+      )}
     </>
   )
 }

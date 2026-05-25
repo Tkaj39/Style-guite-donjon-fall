@@ -190,7 +190,7 @@ export default function Modal({
             )}
 
             {/* Body */}
-            <div style={{ position: 'relative', padding: '20px 28px', flex: 1 }}>
+            <div style={{ position: 'relative', padding: `20px ${!title && showCloseButton ? 52 : 28}px 20px 28px`, flex: 1 }}>
               {!title && showCloseButton && (
                 <button
                   onClick={onClose}

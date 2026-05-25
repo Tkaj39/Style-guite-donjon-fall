@@ -19,8 +19,8 @@ const MANUAL_TASKS = [
       { status: 'done',        text: 'Tabs — showcase stránka' },
       { status: 'done',        text: 'ButtonGroup — showcase stránka' },
       { status: 'done',        text: 'FloatFeedback — showcase stránka' },
-      { status: 'todo',        text: 'ScoopClip — vlastní showcase (teď jen v /shapes)' },
-      { status: 'todo',        text: 'CornerOrnament — vlastní showcase (teď jen v /ornaments)' },
+      { status: 'done',        text: 'ScoopClip — vlastní showcase (teď jen v /shapes)' },
+      { status: 'done',        text: 'CornerOrnament — vlastní showcase (teď jen v /ornaments)' },
     ],
   },
   {
@@ -50,17 +50,17 @@ const MANUAL_TASKS = [
       { status: 'done',        text: 'Barvy — paleta dokumentována' },
       { status: 'done',        text: 'Typografie — dokumentována' },
       { status: 'done',        text: 'Spacing — dokumentován' },
-      { status: 'in-progress', text: 'Pictograms — přidat zbývající herní ikony do sady' },
-      { status: 'todo',        text: 'Shapes — doplnit interaktivní demo CornerOrnament variant' },
+      { status: 'done',        text: 'Pictograms — přidat zbývající herní ikony do sady' },
+      { status: 'done',        text: 'Shapes — doplnit interaktivní demo CornerOrnament variant' },
       { status: 'todo',        text: 'Tokens — exportovat CSS custom properties ze style guidu' },
     ],
   },
   {
     group: 'Interakce & pohyb',
     items: [
-      { status: 'in-progress', text: 'Animace — dokončit sekci "Ohnisko" a "Sudden death"' },
-      { status: 'todo',        text: 'Motion — specifikovat easing kř ivky a délky přechodů' },
-      { status: 'todo',        text: 'Focus ring — unifikovat styl across všech interaktivních komponent' },
+      { status: 'done',        text: 'Animace — dokončit sekci "Ohnisko" a "Sudden death"' },
+      { status: 'done',        text: 'Motion — specifikovat easing křivky a délky přechodů' },
+      { status: 'done',        text: 'Focus ring — unifikovat styl across všech interaktivních komponent' },
     ],
   },
   {

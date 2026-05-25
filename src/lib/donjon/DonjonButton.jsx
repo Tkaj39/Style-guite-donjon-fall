@@ -140,7 +140,7 @@ function DonjonButton({
         'cursor-pointer select-none',
         'transition-[filter] duration-150',
         'hover:brightness-110 active:brightness-90',
-        'focus:outline-hidden focus-visible:brightness-110',
+        'focus:outline-hidden focus-visible:drop-shadow-[0_0_8px_#FFC183AA]',
         'disabled:opacity-40 disabled:pointer-events-none',
         className,
       ].filter(Boolean).join(' ')}

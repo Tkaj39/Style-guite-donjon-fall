@@ -2,13 +2,45 @@ import { ShowcasePage, Section, Preview, useLibVariant } from '../styleguide/Sho
 import { textFaint, textParchment, gold, goldDim, successColor, failColor } from '../lib/donjon/tokens'
 import Pictogram from '../lib/tkajui/Pictogram'
 import DonjonPictogram from '../lib/donjon/DonjonPictogram'
-import { SwordIcon, ShieldIcon, TowerIcon } from '../lib/donjon/icons'
+import {
+  SwordIcon, ShieldIcon, TowerIcon,
+  HeartIcon, DropIcon, BoltIcon,
+  MoveIcon, TargetIcon, MagicIcon,
+  StarIcon, CrownIcon, DiceIcon, HourglassIcon,
+} from '../lib/donjon/icons'
 
-const ICONS   = [
-  { icon: SwordIcon,  label: 'SwordIcon',  note: 'Útok / souboj' },
-  { icon: ShieldIcon, label: 'ShieldIcon', note: 'Obrana / základna' },
-  { icon: TowerIcon,  label: 'TowerIcon',  note: 'Donjon / pevnost' },
+const ICON_GROUPS = [
+  {
+    label: 'Zdroje (Resources)',
+    icons: [
+      { icon: HeartIcon,  label: 'HeartIcon',  note: 'HP / zdraví' },
+      { icon: DropIcon,   label: 'DropIcon',   note: 'Mana / magická energie' },
+      { icon: BoltIcon,   label: 'BoltIcon',   note: 'Stamina / energie akce' },
+    ],
+  },
+  {
+    label: 'Akce (Actions)',
+    icons: [
+      { icon: SwordIcon,  label: 'SwordIcon',  note: 'Útok / souboj' },
+      { icon: ShieldIcon, label: 'ShieldIcon', note: 'Obrana / základna hráče' },
+      { icon: MoveIcon,   label: 'MoveIcon',   note: 'Pohyb / přesun kostky' },
+      { icon: TargetIcon, label: 'TargetIcon', note: 'Cíl / dosah útoku' },
+      { icon: MagicIcon,  label: 'MagicIcon',  note: 'Magie / speciální schopnost' },
+    ],
+  },
+  {
+    label: 'Herní stav (Game State)',
+    icons: [
+      { icon: StarIcon,        label: 'StarIcon',        note: 'Vítězné body (VP)' },
+      { icon: CrownIcon,       label: 'CrownIcon',       note: 'Vítěz / lídr skóre' },
+      { icon: DiceIcon,        label: 'DiceIcon',        note: 'Kostka / přehazování' },
+      { icon: HourglassIcon,   label: 'HourglassIcon',   note: 'Konec tahu / čas' },
+      { icon: TowerIcon,       label: 'TowerIcon',       note: 'Věž / donjon' },
+    ],
+  },
 ]
+
+// Flat list for size/variant demos — use first icon from each group
 const SIZES    = ['sm', 'md', 'lg', 'xl']
 const VARIANTS = ['active', 'passive', 'disabled', 'danger', 'success']
 
@@ -61,16 +93,21 @@ function TkajuiContent() {
             </div>
 
             <div>
-              <p style={subLabel}>Dostupné ikony</p>
-              <div style={{ display: 'flex', gap: 20 }}>
-                {ICONS.map(({ icon, label, note }) => (
-                  <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                    <Pictogram icon={icon} size="lg" color="goldDim" />
-                    <span style={{ ...nano, color: textParchment }}>{label}</span>
-                    <span style={{ fontSize: '0.4375rem', color: textFaint }}>{note}</span>
+              <p style={subLabel}>Dostupné ikony — 13 herních ikon ve 3 kategoriích</p>
+              {ICON_GROUPS.map(group => (
+                <div key={group.label} style={{ marginBottom: 20 }}>
+                  <p style={{ ...nano, color: goldDim, marginBottom: 10, fontSize: '0.5rem' }}>{group.label}</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+                    {group.icons.map(({ icon, label, note }) => (
+                      <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, minWidth: 60 }}>
+                        <Pictogram icon={icon} size="lg" color={goldDim} />
+                        <span style={{ ...nano, color: textParchment, fontSize: '0.4375rem', textAlign: 'center' }}>{label}</span>
+                        <span style={{ fontSize: '0.375rem', color: textFaint, textAlign: 'center', lineHeight: 1.3 }}>{note}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         </Preview>
@@ -99,7 +136,7 @@ function DonjonContent() {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
             <div>
-              <p style={subLabel}>Varianty — variant prop (s pozadím)</p>
+              <p style={subLabel}>Default — jen ikona s herní barvou (bare=true)</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                 {VARIANTS.map(v => (
                   <div key={v} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
@@ -111,11 +148,11 @@ function DonjonContent() {
             </div>
 
             <div>
-              <p style={subLabel}>bare — jen ikona s herní barvou, bez pozadí</p>
+              <p style={subLabel}>bare={'{false}'} — s oktagonálním pozadím a rámečkem</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                 {VARIANTS.map(v => (
                   <div key={v} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-                    <DonjonPictogram icon={ShieldIcon} size="lg" variant={v} bare />
+                    <DonjonPictogram icon={ShieldIcon} size="lg" variant={v} bare={false} />
                     <span style={{ ...nano, fontSize: '0.4375rem' }}>{v}</span>
                   </div>
                 ))}
@@ -135,16 +172,21 @@ function DonjonContent() {
             </div>
 
             <div>
-              <p style={subLabel}>Herní ikony × active variant</p>
-              <div style={{ display: 'flex', gap: 20 }}>
-                {ICONS.map(({ icon, label, note }) => (
-                  <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-                    <DonjonPictogram icon={icon} size="xl" variant="active" />
-                    <span style={{ ...nano, color: textParchment }}>{label}</span>
-                    <span style={{ fontSize: '0.4375rem', color: textFaint }}>{note}</span>
+              <p style={subLabel}>Všechny herní ikony — 13 ikon ve 3 kategoriích</p>
+              {ICON_GROUPS.map(group => (
+                <div key={group.label} style={{ marginBottom: 24 }}>
+                  <p style={{ ...nano, color: goldDim, marginBottom: 12, fontSize: '0.5rem' }}>{group.label}</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14 }}>
+                    {group.icons.map(({ icon, label, note }) => (
+                      <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 7, minWidth: 64 }}>
+                        <DonjonPictogram icon={icon} size="lg" variant="active" />
+                        <span style={{ ...nano, color: textParchment, fontSize: '0.4375rem', textAlign: 'center' }}>{label}</span>
+                        <span style={{ fontSize: '0.375rem', color: textFaint, textAlign: 'center', lineHeight: 1.3 }}>{note}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         </Preview>
@@ -153,11 +195,11 @@ function DonjonContent() {
 {`import DonjonPictogram from 'src/lib/donjon/DonjonPictogram'
 import { SwordIcon } from 'src/lib/donjon/icons'
 
-// S herním pozadím (oktagonální clip)
+// Default — jen barevná ikona, bez pozadí (bare=true)
 <DonjonPictogram icon={SwordIcon} size="lg" variant="active" />
 
-// Jen barevná ikona, bez pozadí
-<DonjonPictogram icon={SwordIcon} size="md" variant="passive" bare />`}
+// S oktagonálním pozadím a rámečkem
+<DonjonPictogram icon={SwordIcon} size="md" variant="active" bare={false} />`}
           </pre>
         </Preview>
       </Section>

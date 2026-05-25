@@ -140,13 +140,6 @@ export default function NumericDisplay({
       {valueEl}
       {isReversed && labelEl}
 
-      <style>{`
-        @keyframes numDeltaFloat {
-          0%   { opacity: 1; transform: translateY(0)     }
-          30%  { opacity: 1; transform: translateY(-6px)  }
-          100% { opacity: 0; transform: translateY(-20px) }
-        }
-      `}</style>
     </div>
   )
 }

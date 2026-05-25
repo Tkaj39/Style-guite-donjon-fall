@@ -108,7 +108,15 @@ dialog.modal-dialog > .modal-panel {
   }
 }
 
-/* ── prefers-reduced-motion — accessibility ────────────────────────────
+/* ── Focus ring — klávesnicová navigace ─────────────────────────────────
+   Baseline pro elementy co explicitně nepotlačují outline.
+   Komponenty s inline outline:none mají vlastní implementaci.            */
+:focus-visible {
+  outline: 2px solid #FFC18399;
+  outline-offset: 2px;
+}
+
+/* ── prefers-reduced-motion — accessibility ─────────────────────────────
    Uživatelé se systémovým nastavením "redukovat pohyb" dostanou UI bez
    animací. !important přebíjí inline duration hodnoty i Tailwind třídy.
    scroll-behavior: auto zastaví smooth scroll (pokud by byl přidán).    */
@@ -275,4 +283,55 @@ dialog.modal-dialog > .modal-panel {
   40%  { transform: translateY(-14px) scale(1.15); opacity: 1; }
   70%  { transform: translateY(-16px) scale(1);    opacity: 1; }
   100% { transform: translateY(-20px);             opacity: 0; }
+}
+
+/* ── Centrální focus ring pro clip-path prvky ─────────────────────────────
+   CSS outline se neřídí clip-path — vyjde jako obdélník.
+   .dj-clip-focus nahrazuje outline drop-shadow filtrem, který tvar sleduje.
+   Použití: přidej className="dj-clip-focus" na interaktivní prvek s clip-path.
+   ─────────────────────────────────────────────────────────────────────── */
+/* Prvek sám má clip-path a je focusable */
+.dj-clip-focus:focus-visible,
+.dj-clip-focus:has(:focus-visible) {
+  outline: none !important;
+  filter: drop-shadow(0 0 5px #FFC18399);
+}
+
+/* Potlačí outline na dětech uvnitř clippovaného wrapperu */
+.dj-clip-focus :focus-visible {
+  outline: none !important;
+}
+
+/* ── Donjon component animations ── */
+
+@keyframes donjonBarScan {
+  0%   { transform: translateX(-150%); }
+  100% { transform: translateX(400%); }
+}
+
+@keyframes donjonDmgFlash {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes donjonResFlash {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.6; }
+  100% { opacity: 0; }
+}
+
+@keyframes numDeltaFloat {
+  0%   { opacity: 1; transform: translateY(0); }
+  30%  { opacity: 1; transform: translateY(-6px); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+@keyframes donjonToastProgress {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0); }
+}
+
+@keyframes toastProgress {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0); }
 }

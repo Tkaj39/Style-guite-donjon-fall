@@ -29,20 +29,21 @@ const SIZES = {
 }
 
 export default function DonjonProgressBar({
-  value    = 0,
-  max      = 100,
-  size     = 'md',
-  variant  = 'hp',
+  value        = 0,
+  max          = 100,
+  size         = 'md',
+  variant      = 'hp',
   label,
-  showValue = false,
-  ticks    = 0,
-  flash    = false,
+  showValue    = false,
+  ticks        = 0,
+  flash        = false,
+  indeterminate = false,
   style,
   className,
 }) {
   const v   = VARIANTS[variant] ?? VARIANTS.hp
   const s   = SIZES[size]       ?? SIZES.md
-  const pct = Math.min(100, Math.max(0, (value / max) * 100))
+  const pct = indeterminate ? 100 : Math.min(100, Math.max(0, (value / max) * 100))
 
   const fillColor    = v.fill ?? thresholdColor(pct)
   const borderColor  = `${fillColor}44`
@@ -79,7 +80,9 @@ export default function DonjonProgressBar({
       {/* Track */}
       <div
         role="progressbar"
-        aria-valuenow={value} aria-valuemin={0} aria-valuemax={max}
+        aria-valuenow={indeterminate ? undefined : value}
+        aria-valuemin={indeterminate ? undefined : 0}
+        aria-valuemax={indeterminate ? undefined : max}
         aria-label={displayLabel || 'progress'}
         style={{
           position: 'relative', width: '100%', height: s.h,
@@ -88,14 +91,28 @@ export default function DonjonProgressBar({
           overflow: 'hidden',
         }}
       >
-        {/* Fill */}
+        {/* Fill — tlumený základ při indeterminate */}
         <div style={{
           position: 'absolute', inset: 0, width: `${pct}%`,
-          background: `linear-gradient(90deg, ${fillColor}99 0%, ${fillColor} 100%)`,
+          background: indeterminate
+            ? `${fillColor}22`
+            : `linear-gradient(90deg, ${fillColor}99 0%, ${fillColor} 100%)`,
           borderRadius: s.radius,
-          boxShadow: pct > 0 ? `0 0 8px ${fillColor}55` : 'none',
+          boxShadow: (!indeterminate && pct > 0) ? `0 0 8px ${fillColor}55` : 'none',
           transition: 'width 0.3s ease, background 0.4s ease, box-shadow 0.4s ease',
         }} />
+
+        {/* Indeterminate scan */}
+        {indeterminate && (
+          <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', borderRadius: s.radius }}>
+            <div style={{
+              position: 'absolute', top: 0, bottom: 0, width: '35%',
+              background: `linear-gradient(90deg, transparent 0%, ${fillColor}66 30%, ${fillColor} 55%, ${fillColor}cc 65%, transparent 100%)`,
+              boxShadow: `0 0 10px ${fillColor}88`,
+              animation: 'donjonBarScan 1.6s ease-in-out infinite',
+            }} />
+          </div>
+        )}
 
         {/* Damage flash overlay */}
         {flash && (
@@ -120,7 +137,6 @@ export default function DonjonProgressBar({
         ))}
       </div>
 
-      <style>{`@keyframes donjonDmgFlash{0%{opacity:1}100%{opacity:0}}`}</style>
     </div>
   )
 }
