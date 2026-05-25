@@ -89,6 +89,7 @@ export default function PhaseIndicatorPage() {
         Ukazatel fáze hry — kroky hráčova tahu nebo globální fáze hry.
         Lepší než generický Tabs: sekvenciální logika, splněné fáze mají checkmark,
         aktuální fáze je zlatá s glow, budoucí jsou faint. Spojovací linky vizualizují progress.
+        V rámci donjon konzistence funguje jako plain baseline progress indikátor bez ornamentální vrstvy.
       </p>
 
       {/* ── Interaktivní demo ── */}
@@ -167,6 +168,30 @@ export default function PhaseIndicatorPage() {
   size="sm"
   onPhaseClick={id => goToPhase(id)}
 />`}</Code>
+      </Section>
+
+      <div style={DIVIDER} />
+
+      <Section
+        id="plain-progress"
+        title="Plain baseline progress"
+        desc="PhaseIndicator je záměrně čistý a sekvenční. Má fungovat jako referenční plain progress blok pro tahové a stavové workflow, ne jako dekorovaný panel shell."
+      >
+        <Demo>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            <PhaseIndicator phases={FAZE_TAHU} currentPhase="souboj" orientation="horizontal" size="md" />
+            <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
+              <PhaseIndicator phases={FAZE_TAHU} currentPhase="souboj" orientation="vertical" size="sm" />
+              <div style={{ maxWidth: 280, fontSize: '0.75rem', color: textFaint, lineHeight: 1.6 }}>
+                Tento blok je plain záměrně: priorita je čitelnost postupu, pořadí kroků a stav dokončení,
+                ne ornamentální rámování kolem celé komponenty.
+              </div>
+            </div>
+          </div>
+        </Demo>
+        <Code>{`{/* Záměrně plain progress indikátor bez ornament API */}
+<PhaseIndicator phases={FAZE_TAHU} currentPhase="souboj" orientation="horizontal" />
+<PhaseIndicator phases={FAZE_TAHU} currentPhase="souboj" orientation="vertical" size="sm" />`}</Code>
       </Section>
 
       <div style={DIVIDER} />

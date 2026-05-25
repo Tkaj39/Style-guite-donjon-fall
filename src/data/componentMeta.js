@@ -521,7 +521,7 @@ export const componentMeta = {
   },
 
   'phase-indicator': {
-    description: 'Sekvenční ukazatel fází tahu nebo celé hry. Zobrazuje dokončené kroky, aktuální fázi a budoucí kroky v horizontálním i vertikálním rozložení.',
+    description: 'Sekvenční ukazatel fází tahu nebo celé hry. Zobrazuje dokončené kroky, aktuální fázi a budoucí kroky v horizontálním i vertikálním rozložení. V donjon konzistenci slouží jako referenční plain progress indikátor bez ornamentální vrstvy.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/phase-indicator',
