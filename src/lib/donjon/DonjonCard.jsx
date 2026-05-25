@@ -41,12 +41,11 @@ export default function DonjonCard({
   const rawId = useId()
   const uid = rawId.replace(/:/g, '')
   const v = variants[variant] ?? variants.default
-  const ornH = 66
   const hasOrnaments = ornament !== 'plain'
-  /* Card má HexOrnament nahoře/dole → v rohách stačí ZkosenOrnament (jen závorka).
-     RohOrnament = explicitní volba pro karty BEZ HexOrnametu.
-     SideOrnament se zde nepoužívá — je pro fixní výšku (tlačítka). */
+  /* ZkosenOrnament: h=66 → 22×22px (odpovídá cx=16).
+     RohOrnament:    šířka musí odpovídat cx → h = cx*(66/25). */
   const SideOrn = ornament === 'roh' ? RohOrnament : ZkosenOrnament
+  const ornH = ornament === 'roh' ? Math.round(cx * 66 / 25) : Math.round(cx * 66 / 22)
   const hasHeader = !!(title || description)
   const headerPadding = hasOrnaments ? '14px 40px 12px' : '14px 28px 12px'
   const bodyPadding = hasOrnaments ? '16px 28px' : '18px 24px'
@@ -67,10 +66,6 @@ export default function DonjonCard({
         height: '100%',
       }}
     >
-      {/* Side ornaments — only when there's a header to anchor them to */}
-      {hasOrnaments && hasHeader && <SideOrn h={ornH} uid={`${uid}l`} />}
-      {hasOrnaments && hasHeader && <SideOrn h={ornH} uid={`${uid}r`} flip />}
-
       {/* Header */}
       {hasHeader ? (
         <div
@@ -136,6 +131,10 @@ export default function DonjonCard({
           {footer}
         </div>
       )}
+
+      {/* Side ornaments — za obsahem, aby se vykreslily nad hlavičkou */}
+      {hasOrnaments && hasHeader && <SideOrn h={ornH} uid={`${uid}l`} />}
+      {hasOrnaments && hasHeader && <SideOrn h={ornH} uid={`${uid}r`} flip />}
     </div>
     </div>
   )

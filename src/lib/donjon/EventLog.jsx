@@ -5,7 +5,7 @@
 import { useRef, useEffect } from 'react'
 import { useId } from 'react'
 import { octagon } from '../../utils/octagon'
-import { SideOrnament, HexOrnament } from './Ornaments'
+import { RohOrnament, HexOrnament } from './Ornaments'
 import {
   gold, goldDim,
   bg2, bg3, bgDeep,
@@ -229,14 +229,12 @@ export default function EventLog({
           <div style={{
             position: 'relative',
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            padding: '10px 36px 8px',
+            padding: '10px 28px 8px',
             borderBottom: `1px solid ${borderMid}`,
             background: bgDeep,
             flexShrink: 0,
             overflow: 'hidden',
           }}>
-            <SideOrnament h={42} uid={`${uid}l`} />
-            <SideOrnament h={42} uid={`${uid}r`} flip />
             <HexOrnament uid={`${uid}hh`} edgePadL={cx} />
 
             <span style={{
@@ -257,6 +255,10 @@ export default function EventLog({
         {scrollContent}
 
         <HexOrnament uid={`${uid}hb`} flip edgePadL={cx} />
+
+        {/* RohOrnament — za ostatním obsahem, aby se vykreslil nad hlavičkou */}
+        <RohOrnament h={38} uid={`${uid}l`} />
+        <RohOrnament h={38} uid={`${uid}r`} flip />
       </div>
     </div>
   )

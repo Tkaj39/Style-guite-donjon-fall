@@ -2,9 +2,12 @@
    Mini karta hráče — erb, jméno, VP, resource bary.
    Aktivní stav: zlatý border + glow (signalizuje: na tahu).
    ─────────────────────────────────────────────────────────────────────── */
+import { useId } from 'react'
 import { Shield } from './Erb'
 import ResourceBar from './ResourceBar'
 import DonjonBadge from './DonjonBadge'
+import { RohOrnament } from './Ornaments'
+import { octagon } from '../../utils/octagon'
 import {
   gold, goldDim,
   bg2, bg3, bg4,
@@ -25,6 +28,8 @@ const SIZES = {
   },
 }
 
+const CX = 14
+
 export default function PlayerPanel({
   name,
   color          = infoColor,
@@ -39,26 +44,38 @@ export default function PlayerPanel({
   isActive       = false,     // je na tahu
   eliminated     = false,
   size           = 'md',
+  ornament       = 'plain',   // 'plain' | 'decorated'
   style,
   className,
 }) {
-  const s = SIZES[size] ?? SIZES.md
+  const uid          = useId().replace(/:/g, '')
+  const s            = SIZES[size] ?? SIZES.md
+  const hasOrnaments = ornament === 'decorated'
+  const borderColor  = isActive ? goldDim : borderDefault
 
-  return (
+  const inner = (
     <div
       style={{
         position: 'relative',
         background: isActive ? bg4 : bg3,
-        border: `1px solid ${isActive ? goldDim : borderDefault}`,
-        borderRadius: 4,
+        ...(hasOrnaments ? {
+          clipPath: octagon(CX - 1),
+        } : {
+          border: `1px solid ${borderColor}`,
+          borderRadius: 4,
+          boxShadow: isActive ? `0 0 12px ${goldDim}33, 0 0 4px ${goldDim}22` : 'none',
+        }),
         padding: s.padding,
-        boxShadow: isActive ? `0 0 12px ${goldDim}33, 0 0 4px ${goldDim}22` : 'none',
-        transition: 'border-color 0.2s, background 0.2s, box-shadow 0.2s',
+        transition: 'background 0.2s',
         opacity: eliminated ? 0.45 : 1,
-        ...style,
+        ...(!hasOrnaments ? style : {}),
       }}
-      className={className}
+      className={!hasOrnaments ? className : undefined}
     >
+      {/* Rohové ornamentální závorky */}
+      {hasOrnaments && <RohOrnament h={66} uid={`${uid}l`} />}
+      {hasOrnaments && <RohOrnament h={66} uid={`${uid}r`} flip />}
+
       {/* Aktivní indikátor — zlatá tečka vlevo nahoře */}
       {isActive && (
         <div style={{
@@ -123,6 +140,25 @@ export default function PlayerPanel({
           )}
         </div>
       )}
+    </div>
+  )
+
+  if (!hasOrnaments) return inner
+
+  return (
+    <div
+      style={{
+        clipPath: octagon(CX),
+        background: borderColor,
+        padding: 1,
+        filter: isActive ? `drop-shadow(0 0 12px ${goldDim}33) drop-shadow(0 0 4px ${goldDim}22)` : undefined,
+        transition: 'background 0.2s, filter 0.2s',
+        opacity: eliminated ? 0.45 : 1,
+        ...style,
+      }}
+      className={className}
+    >
+      {inner}
     </div>
   )
 }

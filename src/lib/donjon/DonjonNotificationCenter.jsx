@@ -17,6 +17,8 @@ import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import GameTransition from './GameTransition'
 import DonjonBadge from './DonjonBadge'
+import { RohOrnament } from './Ornaments'
+import { octagon } from '../../utils/octagon'
 import { useModalPageInert } from '../../hooks/useModalPageInert'
 import {
   gold, goldDim,
@@ -130,12 +132,16 @@ function EventRow({ event }) {
  * @param {'bottom-right'|'top-right'|'bottom-left'|'top-left'} position
  * @param {() => void} onClear - Callback pro smazání všech událostí
  */
+const CX = 14
+
 export default function DonjonNotificationCenter({
   events     = [],
   maxVisible = 5,
   position   = 'bottom-right',
+  ornament   = 'plain',   // 'plain' | 'decorated'
   onClear,
 }) {
+  const hasOrnaments = ornament === 'decorated'
   const [open, setOpen]   = useState(false)
   const [seen, setSeen]   = useState(0)
   const scrollRef         = useRef(null)
@@ -173,13 +179,28 @@ export default function DonjonNotificationCenter({
 
       {/* ── Panel ── */}
       <GameTransition show={open} preset={panelPreset} duration={240}>
+        {/* Outer wrapper — plain: border+radius, decorated: octagon border trick */}
         <div style={{
           width: 320,
           marginBottom: 8,
+          ...(hasOrnaments ? {
+            clipPath: octagon(CX),
+            background: goldDim,
+            padding: 1,
+            filter: `drop-shadow(0 8px 32px rgba(0,0,0,0.6)) drop-shadow(0 0 1px ${goldDim}40)`,
+          } : {
+            border: `1px solid ${borderDefault}`,
+            borderRadius: 4,
+            boxShadow: `0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px ${goldDim}20`,
+          }),
+        }}>
+        {/* Inner fill */}
+        <div style={{
+          ...(hasOrnaments ? {
+            position: 'relative',
+            clipPath: octagon(CX - 1),
+          } : {}),
           background: bg3,
-          border: `1px solid ${borderDefault}`,
-          borderRadius: 4,
-          boxShadow: `0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px ${goldDim}20`,
           overflow: 'hidden',
         }}>
 
@@ -293,6 +314,11 @@ export default function DonjonNotificationCenter({
               </>
             )}
           </div>
+
+          {/* RohOrnament závorky — pouze v decorated módu */}
+          {hasOrnaments && <RohOrnament h={66} uid="ncl" />}
+          {hasOrnaments && <RohOrnament h={66} uid="ncr" flip />}
+        </div>
         </div>
       </GameTransition>
 

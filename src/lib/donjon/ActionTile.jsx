@@ -2,6 +2,9 @@
    Klikatelná akční dlaždice — ikona, název, popis, cena.
    Jiná než Button: tile tvar, ikona-forward, cost badge v rohu, lock stav.
    ─────────────────────────────────────────────────────────────────────── */
+import { useState, useId } from 'react'
+import { octagon } from '../../utils/octagon'
+import { SideOrnament } from './Ornaments'
 import {
   gold, goldDim, goldMid,
   bg2, bg3, bg4,
@@ -11,9 +14,9 @@ import {
 } from './tokens'
 
 const SIZES = {
-  sm: { w: 80,  h: 72,  iconArea: 28, titleSize: '0.6875rem', descSize: '0.6rem',    costSize: '0.6875rem', radius: 3 },
-  md: { w: 110, h: 96,  iconArea: 36, titleSize: '0.75rem',   descSize: '0.6875rem', costSize: '0.75rem',   radius: 4 },
-  lg: { w: 148, h: 130, iconArea: 48, titleSize: '0.875rem',  descSize: '0.75rem',   costSize: '0.8125rem', radius: 4 },
+  sm: { w: 80,  h: 72,  cx: 14, iconArea: 28, titleSize: '0.6875rem', descSize: '0.6rem',    costSize: '0.6875rem', radius: 3 },
+  md: { w: 110, h: 96,  cx: 18, iconArea: 36, titleSize: '0.75rem',   descSize: '0.6875rem', costSize: '0.75rem',   radius: 4 },
+  lg: { w: 148, h: 130, cx: 22, iconArea: 48, titleSize: '0.875rem',  descSize: '0.75rem',   costSize: '0.8125rem', radius: 4 },
 }
 
 const VARIANTS = {
@@ -44,23 +47,39 @@ export default function ActionTile({
   onClick,
   size       = 'md',
   variant    = 'default',
+  ornament   = 'plain',
   style,
   className,
 }) {
+  const uid  = useId().replace(/:/g, '')
   const s = SIZES[size] ?? SIZES.md
   const v = VARIANTS[variant] ?? VARIANTS.default
+  const [hovered, setHovered] = useState(false)
 
-  const isBlocked  = disabled || locked
-  const borderColor = selected ? v.selBorder : v.border
-  const bgColor     = selected ? v.selBg : 'transparent'
+  const isBlocked     = disabled || locked
+  const hasOrnaments  = ornament === 'decorated'
+  const ornW          = hasOrnaments ? Math.round(24 * (s.h / 66) * 10) / 10 : 0
+  const padH          = 6 + ornW
 
-  return (
+  /* Barvy závislé na stavu */
+  const effectiveBorder = isBlocked ? borderMid
+                        : hovered   ? v.activeBorder
+                        : selected  ? v.selBorder
+                        : v.border
+  const effectiveBg     = isBlocked ? 'transparent'
+                        : hovered   ? bg3
+                        : selected  ? v.selBg
+                        : 'transparent'
+
+  const buttonEl = (
     <button
       type="button"
       disabled={disabled}
       onClick={!locked && !disabled ? onClick : undefined}
       aria-pressed={selected}
       aria-label={title}
+      onMouseEnter={() => { if (!isBlocked) setHovered(true)  }}
+      onMouseLeave={() => { if (!isBlocked) setHovered(false) }}
       style={{
         position: 'relative',
         display: 'flex',
@@ -68,32 +87,28 @@ export default function ActionTile({
         alignItems: 'center',
         justifyContent: 'center',
         gap: 5,
-        width: s.w,
+        width: hasOrnaments ? '100%' : s.w,
         height: s.h,
-        background: isBlocked ? 'transparent' : bgColor,
-        border: `1px solid ${isBlocked ? borderMid : borderColor}`,
-        borderRadius: s.radius,
+        background: effectiveBg,
+        ...(hasOrnaments ? {
+          clipPath: octagon(s.cx - 1),
+          padding: `8px ${padH}px 10px`,
+        } : {
+          border: `1px solid ${effectiveBorder}`,
+          borderRadius: s.radius,
+          boxShadow: selected ? `0 0 10px ${v.selBorder}33, inset 0 0 0 1px ${v.selBorder}22` : 'none',
+          padding: '8px 6px 10px',
+        }),
         cursor: disabled ? 'not-allowed' : locked ? 'default' : 'pointer',
         opacity: disabled ? 0.35 : locked ? 0.6 : 1,
         transition: 'border-color 0.15s, background 0.15s, box-shadow 0.15s',
-        boxShadow: selected ? `0 0 10px ${v.selBorder}33, inset 0 0 0 1px ${v.selBorder}22` : 'none',
-        padding: '8px 6px 10px',
-        ...style,
+        ...(!hasOrnaments ? style : {}),
       }}
       className={['focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFC183]/60', className].filter(Boolean).join(' ')}
-      onMouseEnter={e => {
-        if (!isBlocked) {
-          e.currentTarget.style.background = bg3
-          e.currentTarget.style.borderColor = v.activeBorder
-        }
-      }}
-      onMouseLeave={e => {
-        if (!isBlocked) {
-          e.currentTarget.style.background = selected ? v.selBg : 'transparent'
-          e.currentTarget.style.borderColor = selected ? v.selBorder : v.border
-        }
-      }}
     >
+      {hasOrnaments && <SideOrnament h={s.h} uid={`${uid}l`} />}
+      {hasOrnaments && <SideOrnament h={s.h} uid={`${uid}r`} flip />}
+
       {/* Ikona */}
       <div style={{
         width: s.iconArea, height: s.iconArea,
@@ -156,7 +171,7 @@ export default function ActionTile({
       {/* Selected checkmark — levý horní roh */}
       {selected && (
         <div style={{
-          position: 'absolute', top: 4, left: 5,
+          position: 'absolute', top: 4, left: hasOrnaments ? padH : 5,
           width: 8, height: 8, borderRadius: '50%',
           background: v.selBorder,
           boxShadow: `0 0 4px ${v.selBorder}88`,
@@ -164,4 +179,26 @@ export default function ActionTile({
       )}
     </button>
   )
+
+  if (hasOrnaments) {
+    return (
+      <div
+        style={{
+          display: 'inline-flex',
+          width: s.w,
+          clipPath: octagon(s.cx),
+          background: effectiveBorder,
+          padding: 1,
+          boxSizing: 'border-box',
+          boxShadow: selected ? `0 0 10px ${v.selBorder}33` : 'none',
+          transition: 'background 0.15s, box-shadow 0.15s',
+          ...style,
+        }}
+      >
+        {buttonEl}
+      </div>
+    )
+  }
+
+  return buttonEl
 }

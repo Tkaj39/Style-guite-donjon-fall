@@ -76,9 +76,9 @@ export default function DonjonModal({
   const dialogRef = useRef(null)
   const hasOrnaments = ornament !== 'plain'
   /* Modal má HexOrnament nahoře/dole → v rohách stačí ZkosenOrnament (jen závorka).
-     RohOrnament = explicitní volba pro modaly BEZ HexOrnametu.
-     SideOrnament se zde nepoužívá — je pro fixní výšku (tlačítka). */
+     RohOrnament: šířka musí odpovídat cx → h = cx*(66/25). */
   const SideOrn = ornament === 'roh' ? RohOrnament : ZkosenOrnament
+  const sideOrnH = ornament === 'roh' ? Math.round(cx * 66 / 25) : Math.round(cx * 66 / 22)
   const headerPadding = `14px ${showCloseButton ? 48 : hasOrnaments ? 40 : 28}px 12px ${hasOrnaments ? 40 : 28}px`
   const bodyPadding = `20px ${!title && showCloseButton ? 52 : hasOrnaments ? 28 : 24}px 20px ${hasOrnaments ? 28 : 24}px`
   const footerPadding = hasOrnaments ? '12px 28px 14px' : '12px 24px 14px'
@@ -138,8 +138,6 @@ export default function DonjonModal({
                 padding: headerPadding,
                 overflow: 'hidden',
               }}>
-                {hasOrnaments && <SideOrn h={description ? 64 : 44} uid={`${uid}l`} />}
-                {hasOrnaments && <SideOrn h={description ? 64 : 44} uid={`${uid}r`} flip />}
                 {hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={cx} />}
 
                 <h2
@@ -238,6 +236,10 @@ export default function DonjonModal({
                 </div>
               </div>
             )}
+
+            {/* Side ornaments — za obsahem, aby se vykreslily nad hlavičkou */}
+            {title && hasOrnaments && <SideOrn h={sideOrnH} uid={`${uid}l`} />}
+            {title && hasOrnaments && <SideOrn h={sideOrnH} uid={`${uid}r`} flip />}
           </div>
         </div>
       </div>

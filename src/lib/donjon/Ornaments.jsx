@@ -122,7 +122,7 @@ export function ZkosenOrnament({ h, uid, flip }) {
    Rohový ornament + vertikální sestup — závorka v rohu + část SideOrnamant.
    viewBox 25×46. Varianta ornament='roh' na DonjonButton, DonjonCard, DonjonModal.
    ──────────────────────────────────────────────────────────────────────── */
-export function RohOrnament({ h, uid, flip }) {
+export function RohOrnament({ h, uid, flip, style: styleProp }) {
   const w  = Math.round(25 * (h / 66) * 10) / 10
   const rh = Math.round(46 * (h / 66) * 10) / 10
   const gv = `url(#${uid}-v)`
@@ -137,10 +137,11 @@ export function RohOrnament({ h, uid, flip }) {
       aria-hidden="true"
       style={{
         position: 'absolute',
-        top: 0,
+        top: 3,
         [flip ? 'right' : 'left']: 1,
         transform: flip ? 'scaleX(-1)' : undefined,
         pointerEvents: 'none',
+        ...styleProp,
       }}
     >
       <defs>

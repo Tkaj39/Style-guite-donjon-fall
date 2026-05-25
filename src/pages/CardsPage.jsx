@@ -120,43 +120,39 @@ function CardContent() {
 
       {lib === 'donjon' && (
         <Section
-          title="Decorated vs Plain"
-          description="DonjonCard nově umí i plain gold-frame režim. Default zůstává decorated, plain vypíná ornaments a současně zhušťuje header/body/footer spacing."
+          title="Typy ornamentů"
+          description="decorated (ZkosenOrnament + HexOrnament) · roh (RohOrnament + HexOrnament) · plain (bez ornamentů)"
         >
           <Preview>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, width: '100%' }}>
-              <div style={{ flex: '1 1 260px' }}>
-                <DonjonCard title="Decorated" description="Ornamentální shell" footer={<DonjonButton size="sm">Akce</DonjonButton>}>
+              <div style={{ flex: '1 1 220px' }}>
+                <DonjonCard title="Decorated" description="ornament=&quot;decorated&quot;" footer={<DonjonButton size="sm">Akce</DonjonButton>}>
                   <p style={{ color: goldMid, fontSize: '0.8125rem', lineHeight: 1.6, margin: 0 }}>
-                    Donjon card s bočními a hex ornamenty.
+                    ZkosenOrnament v rozích + HexOrnament nahoře/dole.
                   </p>
                 </DonjonCard>
               </div>
-              <div style={{ flex: '1 1 260px' }}>
-                <DonjonCard ornament="plain" title="Plain" description="Gold-frame shell" footer={<DonjonButton ornament="plain" size="sm">Akce</DonjonButton>}>
+              <div style={{ flex: '1 1 220px' }}>
+                <DonjonCard ornament="roh" title="Roh" description="ornament=&quot;roh&quot;" footer={<DonjonButton size="sm">Akce</DonjonButton>}>
                   <p style={{ color: goldMid, fontSize: '0.8125rem', lineHeight: 1.6, margin: 0 }}>
-                    Stejná karta bez ornamentů, ale se zachovaným donjon shell a hierarchií.
+                    RohOrnament v rozích + HexOrnament nahoře/dole.
+                  </p>
+                </DonjonCard>
+              </div>
+              <div style={{ flex: '1 1 220px' }}>
+                <DonjonCard ornament="plain" title="Plain" description="ornament=&quot;plain&quot;" footer={<DonjonButton ornament="plain" size="sm">Akce</DonjonButton>}>
+                  <p style={{ color: goldMid, fontSize: '0.8125rem', lineHeight: 1.6, margin: 0 }}>
+                    Bez ornamentů, zachovaný donjon shell a hierarchie.
                   </p>
                 </DonjonCard>
               </div>
             </div>
           </Preview>
-          <CodeBlock code={`<DonjonCard
-  title="Decorated"
-  description="Ornamentální shell"
-  footer={<DonjonButton size="sm">Akce</DonjonButton>}
->
-  <p>Obsah karty.</p>
-</DonjonCard>
+          <CodeBlock code={`<DonjonCard title="Decorated">…</DonjonCard>
 
-<DonjonCard
-  ornament="plain"
-  title="Plain"
-  description="Gold-frame shell"
-  footer={<DonjonButton ornament="plain" size="sm">Akce</DonjonButton>}
->
-  <p>Obsah karty.</p>
-</DonjonCard>`} />
+<DonjonCard ornament="roh" title="Roh">…</DonjonCard>
+
+<DonjonCard ornament="plain" title="Plain">…</DonjonCard>`} />
         </Section>
       )}
 
