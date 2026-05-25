@@ -43,9 +43,10 @@ export default function DonjonCard({
   const v = variants[variant] ?? variants.default
   const ornH = 66
   const hasOrnaments = ornament !== 'plain'
-  const SideOrn = ornament === 'zkosen' ? ZkosenOrnament
-                : ornament === 'roh'    ? RohOrnament
-                : SideOrnament
+  /* Card má HexOrnament nahoře/dole → v rohách stačí ZkosenOrnament (jen závorka).
+     RohOrnament = explicitní volba pro karty BEZ HexOrnametu.
+     SideOrnament se zde nepoužívá — je pro fixní výšku (tlačítka). */
+  const SideOrn = ornament === 'roh' ? RohOrnament : ZkosenOrnament
   const hasHeader = !!(title || description)
   const headerPadding = hasOrnaments ? '14px 40px 12px' : '14px 28px 12px'
   const bodyPadding = hasOrnaments ? '16px 28px' : '18px 24px'

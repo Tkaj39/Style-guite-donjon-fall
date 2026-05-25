@@ -75,9 +75,10 @@ export default function DonjonModal({
   const w        = SIZES[size] ?? SIZES.md
   const dialogRef = useRef(null)
   const hasOrnaments = ornament !== 'plain'
-  const SideOrn = ornament === 'zkosen' ? ZkosenOrnament
-                : ornament === 'roh'    ? RohOrnament
-                : SideOrnament
+  /* Modal má HexOrnament nahoře/dole → v rohách stačí ZkosenOrnament (jen závorka).
+     RohOrnament = explicitní volba pro modaly BEZ HexOrnametu.
+     SideOrnament se zde nepoužívá — je pro fixní výšku (tlačítka). */
+  const SideOrn = ornament === 'roh' ? RohOrnament : ZkosenOrnament
   const headerPadding = `14px ${showCloseButton ? 48 : hasOrnaments ? 40 : 28}px 12px ${hasOrnaments ? 40 : 28}px`
   const bodyPadding = `20px ${!title && showCloseButton ? 52 : hasOrnaments ? 28 : 24}px 20px ${hasOrnaments ? 28 : 24}px`
   const footerPadding = hasOrnaments ? '12px 28px 14px' : '12px 24px 14px'
