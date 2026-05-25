@@ -16,6 +16,8 @@ describe('donjon ornament modes', () => {
       <DonjonButton>Zaútočit</DonjonButton>
     )
 
+    const button = container.querySelector('button')
+
     expect(container.querySelectorAll('[aria-hidden="true"]').length).toBeGreaterThan(0)
 
     rerender(
@@ -23,6 +25,9 @@ describe('donjon ornament modes', () => {
     )
 
     expect(container.querySelectorAll('[aria-hidden="true"]').length).toBe(0)
+    expect(button.style.borderTopWidth).toBe('1px')
+    expect(button.style.borderTopColor).toBe('rgb(143, 116, 88)')
+    expect(button.style.boxSizing).toBe('border-box')
   })
 
   it('DonjonButtonGroup plain mode removes decorative nodes', () => {

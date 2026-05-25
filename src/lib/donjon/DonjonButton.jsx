@@ -2,7 +2,7 @@ import { useId } from 'react'
 import { octagon } from '../../utils/octagon'
 import { buttonSizes as sizes } from '../../utils/sizes'
 import { SideOrnament, HexOrnament } from './Ornaments'
-import { gold, goldDim, VARIANT_BG, VARIANT_TITLE_GRAD } from './tokens'
+import { bg2, bg3, gold, goldDim, dangerColor, successColor, VARIANT_BG, VARIANT_BORDER, VARIANT_TITLE_GRAD } from './tokens'
 
 function Spinner({ size }) {
   return (
@@ -21,16 +21,22 @@ function Spinner({ size }) {
 
 const variants = {
   default: {
-    bg:   VARIANT_BG.default,
-    text: VARIANT_TITLE_GRAD.default,
+    bg:      VARIANT_BG.default,
+    plainBg: `linear-gradient(150deg,${bg3} 0%,${bg2} 70%)`,
+    border:  VARIANT_BORDER.default,
+    text:    VARIANT_TITLE_GRAD.default,
   },
   danger: {
-    bg:   VARIANT_BG.danger,
-    text: VARIANT_TITLE_GRAD.danger,
+    bg:      VARIANT_BG.danger,
+    plainBg: `linear-gradient(150deg,${dangerColor}22 0%,${bg2} 70%)`,
+    border:  VARIANT_BORDER.danger,
+    text:    VARIANT_TITLE_GRAD.danger,
   },
   success: {
-    bg:   VARIANT_BG.success,
-    text: VARIANT_TITLE_GRAD.success,
+    bg:      VARIANT_BG.success,
+    plainBg: `linear-gradient(150deg,${successColor}22 0%,${bg2} 70%)`,
+    border:  VARIANT_BORDER.success,
+    text:    VARIANT_TITLE_GRAD.success,
   },
 }
 
@@ -127,11 +133,14 @@ function DonjonButton({
       style={{
         ...propStyle,            // uživatelský style první (marginTop, opacity…)
         position: 'relative',   // pak fixed layout props — nelze přepsat přes propStyle
+        boxSizing: 'border-box',
         height: s.h,
         width: iconOnly ? s.h : (fullWidth ? '100%' : undefined),
         padding: iconOnly ? 0 : `0 ${hasOrnaments ? s.px + ornW : s.px}px`,
         clipPath: octagon(s.cx),
-        background: v.bg,
+        background: hasOrnaments ? v.bg : v.plainBg,
+        border: hasOrnaments ? 'none' : `1px solid ${v.border}`,
+        boxShadow: hasOrnaments ? 'none' : `inset 0 0 0 1px ${v.border}22`,
         display: 'inline-flex',
         alignSelf: fullWidth ? undefined : 'flex-start',
         alignItems: 'center',
