@@ -55,6 +55,7 @@ export default function DonjonTabs({
   variant = 'underline',
   size = 'md',
   ornament = 'decorated',
+  onClose,             // (itemValue) => void — closable taby s × ikonou (items.closable: true)
 }) {
   const rawId = useId()
   const uid   = rawId.replace(/:/g, '')
@@ -200,6 +201,25 @@ export default function DonjonTabs({
                 borderRadius: 8,
               }}>
                 {item.badge}
+              </span>
+            )}
+            {onClose && item.closable && (
+              <span
+                role="button"
+                aria-label={`Zavřít ${item.label}`}
+                tabIndex={-1}
+                onClick={e => { e.stopPropagation(); onClose(item.value) }}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                  width: 14, height: 14, marginLeft: 2,
+                  borderRadius: 3,
+                  fontSize: '0.75rem', lineHeight: 1,
+                  color: goldDim, cursor: 'pointer', opacity: 0.6,
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = `${goldDim}33`; e.currentTarget.style.opacity = 1 }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.opacity = 0.6 }}
+              >
+                ×
               </span>
             )}
           </>
