@@ -1,8 +1,13 @@
 /* ── PlayerPanel ───────────────────────────────────────────────────────────
    Mini karta hráče — erb, jméno, VP, resource bary.
    Aktivní stav: zlatý border + glow (signalizuje: na tahu).
+
+   Dvě API:
+     1) Flat props (backward compat) — hp, maxHp, mana, maxMana, stamina, maxStamina
+     2) Composition (preferované) — <PlayerPanel><PlayerPanel.Resource ... /></PlayerPanel>
+        Otevřené pro libovolné herní zdroje (sanity, hunger, ...).
    ─────────────────────────────────────────────────────────────────────── */
-import { useId } from 'react'
+import { Children, isValidElement, useId } from 'react'
 import { Shield } from './Erb'
 import ResourceBar from './ResourceBar'
 import DonjonBadge from './DonjonBadge'
@@ -14,6 +19,10 @@ import {
   borderDefault,
   textHigh, textMid, textLow, dangerColor, infoColor,
 } from './tokens'
+
+/* ── PlayerPanel.Resource — composition slot pro herní zdroj ── */
+function Resource() { return null }  // Marker komponenta, render obstará PlayerPanel
+Resource.displayName = 'PlayerPanel.Resource'
 
 const SIZES = {
   sm: {
@@ -30,11 +39,12 @@ const SIZES = {
 
 const CX = 14
 
-export default function PlayerPanel({
+function PlayerPanel({
   name,
   color          = infoColor,
   symbol         = 'sword',   // 'sword' | 'shield' | 'tower'
   vp             = 0,
+  // DEPRECATED flat props — preferuj <PlayerPanel.Resource> children
   hp,
   maxHp          = 100,
   mana,
@@ -45,6 +55,7 @@ export default function PlayerPanel({
   eliminated     = false,
   size           = 'md',
   ornament       = 'decorated', // 'plain' | 'decorated'
+  children,
   style,
   className,
 }) {
@@ -52,6 +63,18 @@ export default function PlayerPanel({
   const s            = SIZES[size] ?? SIZES.md
   const hasOrnaments = ornament === 'decorated'
   const borderColor  = isActive ? goldDim : borderDefault
+
+  // Resource sběr: composition children mají přednost; flat props jsou fallback
+  const resourcesFromChildren = Children.toArray(children)
+    .filter(c => isValidElement(c) && c.type === Resource)
+    .map(c => c.props)
+
+  const flatResources = []
+  if (hp != null)      flatResources.push({ variant: 'hp',      value: hp,      max: maxHp,      label: 'HP',   zones: true,  showValue: true })
+  if (mana != null)    flatResources.push({ variant: 'mana',    value: mana,    max: maxMana,    label: 'Mana', zones: false, showValue: true })
+  if (stamina != null) flatResources.push({ variant: 'stamina', value: stamina, max: maxStamina, label: 'Stam', zones: false, showValue: true })
+
+  const resources = resourcesFromChildren.length > 0 ? resourcesFromChildren : flatResources
 
   const inner = (
     <div
@@ -87,7 +110,7 @@ export default function PlayerPanel({
       )}
 
       {/* Hlavní řádek: erb + info */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: s.gap, marginBottom: hp != null || mana != null ? 10 : 0 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: s.gap, marginBottom: resources.length > 0 ? 10 : 0 }}>
         <Shield playerColor={color} symbol={symbol} size={s.shieldSize} />
 
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -115,29 +138,18 @@ export default function PlayerPanel({
       </div>
 
       {/* Resource bary */}
-      {(hp != null || mana != null || stamina != null) && (
+      {resources.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {hp != null && (
+          {resources.map((r, i) => (
             <ResourceBar
-              value={hp} max={maxHp}
-              variant="hp" size={s.barSize}
-              label="HP" showValue zones
+              key={i}
+              value={r.value} max={r.max}
+              variant={r.variant} size={r.size ?? s.barSize}
+              label={r.label} showValue={r.showValue ?? true}
+              zones={r.zones ?? (r.variant === 'hp')}
+              flashKey={r.flashKey}
             />
-          )}
-          {mana != null && (
-            <ResourceBar
-              value={mana} max={maxMana}
-              variant="mana" size={s.barSize}
-              label="Mana" showValue zones={false}
-            />
-          )}
-          {stamina != null && (
-            <ResourceBar
-              value={stamina} max={maxStamina}
-              variant="stamina" size={s.barSize}
-              label="Stam" showValue zones={false}
-            />
-          )}
+          ))}
         </div>
       )}
     </div>
@@ -162,3 +174,7 @@ export default function PlayerPanel({
     </div>
   )
 }
+
+PlayerPanel.Resource = Resource
+
+export default PlayerPanel

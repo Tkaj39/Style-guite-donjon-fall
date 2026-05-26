@@ -554,6 +554,7 @@ export const componentMeta = {
       { name: 'maxMana',    type: 'number',                               required: false, default: '100',        description: 'Maximální mana pro výpočet baru.' },
       { name: 'stamina',    type: 'number',                               required: false, description: 'Aktuální stamina; pokud je vyplněná, vykreslí stamina bar.' },
       { name: 'maxStamina', type: 'number',                               required: false, default: '100',        description: 'Maximální stamina pro výpočet baru.' },
+      { name: 'children',   type: '<PlayerPanel.Resource>[]',             required: false, description: 'Composition API — pole zdrojů (hp/mana/stamina/sanity/...). Když je předáno, ignorují se flat props.' },
       { name: 'isActive',   type: 'boolean',                              required: false, default: 'false',      description: 'Zvýrazní panel jako hráče na tahu.' },
       { name: 'eliminated', type: 'boolean',                              required: false, default: 'false',      description: 'Oslabí panel a zobrazí stav vyřazení.' },
       { name: 'size',       type: "'sm'|'md'",                           required: false, default: "'md'",     description: 'Velikost panelu.' },

@@ -156,6 +156,47 @@ export default function PlayerPanelPage() {
 
       <div style={DIVIDER} />
 
+      {/* ── Composition API — libovolné herní zdroje ── */}
+      <Section
+        id="composition"
+        title="Composition API — vlastní zdroje"
+        desc="Místo flat hp/mana/stamina props předej <PlayerPanel.Resource> children. Otevírá panel pro jakékoli herní zdroje (sanity, hunger, faith…) bez modifikace komponenty."
+      >
+        <Demo style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+          <PlayerPanel name="Standard" color="#4A90E2" symbol="sword" vp={7} isActive size="sm">
+            <PlayerPanel.Resource variant="hp"      value={72} max={100} label="HP" />
+            <PlayerPanel.Resource variant="mana"    value={45} max={100} label="Mana" />
+            <PlayerPanel.Resource variant="stamina" value={60} max={100} label="Stam" />
+          </PlayerPanel>
+
+          <PlayerPanel name="Survival" color="#C84A4A" symbol="shield" vp={3} size="sm">
+            <PlayerPanel.Resource variant="hp"      value={45} max={100} label="HP" />
+            <PlayerPanel.Resource variant="stamina" value={80} max={100} label="Hunger" />
+            <PlayerPanel.Resource variant="mana"    value={30} max={100} label="Sanity" />
+            <PlayerPanel.Resource variant="xp"      value={120} max={200} label="XP" />
+          </PlayerPanel>
+
+          <PlayerPanel name="Caster" color="#9A60C8" symbol="tower" vp={5} size="sm">
+            <PlayerPanel.Resource variant="hp"   value={62} max={100} label="HP" />
+            <PlayerPanel.Resource variant="mana" value={88} max={100} label="Mana" zones />
+          </PlayerPanel>
+        </Demo>
+        <Code>{`<PlayerPanel name="Survival" color="#C84A4A" symbol="shield" vp={3}>
+  <PlayerPanel.Resource variant="hp"      value={45} max={100} label="HP" />
+  <PlayerPanel.Resource variant="stamina" value={80} max={100} label="Hunger" />
+  <PlayerPanel.Resource variant="mana"    value={30} max={100} label="Sanity" />
+  <PlayerPanel.Resource variant="xp"      value={120} max={200} label="XP" />
+</PlayerPanel>
+
+// PlayerPanel.Resource přijímá stejné props jako ResourceBar:
+//   variant, value, max, label, showValue, zones, size, flashKey
+
+// Pokud předáš children, flat props (hp/mana/stamina) se ignorují.
+// Pokud nepřdáš, fallback na flat API zůstává funkční.`}</Code>
+      </Section>
+
+      <div style={DIVIDER} />
+
       {/* ── Bez resource barů ── */}
       <Section id="simple" title="Bez resource barů" desc="Jednoduchá verze — jen erb, jméno a VP.">
         <Demo style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
