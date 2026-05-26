@@ -120,13 +120,20 @@ export const SHAPE_SIZES = {
  * octagonWithNotch — octagon s V-zářezem na jedné straně.
  * Zářez jde dovnitř tvaru (odebrání materiálu).
  *
- * @param {number} cx   - rohové zkosení (stejné jako octagon)
- * @param {number} nw   - šířka zářezu v px (default 28)
- * @param {number} nh   - hloubka zářezu v px (default 12)
+ * @param {number} cx     - rohové zkosení (stejné jako octagon)
+ * @param {number} nw     - šířka zářezu v px (default 28)
+ * @param {number} nh     - hloubka zářezu v px (default 12)
  * @param {'bottom'|'top'|'left'|'right'} side - strana zářezu
+ * @param {number} offset - pozice zářezu podél strany (0 = start, 0.5 = střed, 1 = konec)
+ *
+ * ⚠ Validní rozsah: nw + 2·cx ≤ délka strany, nh ≤ poloviční tloušťka.
+ *    Funkce nevalidúje proti rozměrům — kontrolu provádí NotchedBox.
  */
-export function octagonWithNotch(cx, nw = 28, nh = 12, side = 'bottom') {
+export function octagonWithNotch(cx, nw = 28, nh = 12, side = 'bottom', offset = 0.5) {
   const hw = nw / 2
+  // offset clamp do bezpečného rozsahu — chrání před negativními % v calc()
+  const off = Math.max(0, Math.min(1, offset))
+  const pct = `${(off * 100).toFixed(3)}%`
   switch (side) {
     case 'bottom':
       return `polygon(
@@ -135,9 +142,9 @@ export function octagonWithNotch(cx, nw = 28, nh = 12, side = 'bottom') {
         100% ${cx}px,
         100% calc(100% - ${cx}px),
         calc(100% - ${cx}px) 100%,
-        calc(50% + ${hw}px) 100%,
-        50% calc(100% - ${nh}px),
-        calc(50% - ${hw}px) 100%,
+        calc(${pct} + ${hw}px) 100%,
+        ${pct} calc(100% - ${nh}px),
+        calc(${pct} - ${hw}px) 100%,
         ${cx}px 100%,
         0px calc(100% - ${cx}px),
         0px ${cx}px
@@ -145,9 +152,9 @@ export function octagonWithNotch(cx, nw = 28, nh = 12, side = 'bottom') {
     case 'top':
       return `polygon(
         ${cx}px 0px,
-        calc(50% - ${hw}px) 0px,
-        50% ${nh}px,
-        calc(50% + ${hw}px) 0px,
+        calc(${pct} - ${hw}px) 0px,
+        ${pct} ${nh}px,
+        calc(${pct} + ${hw}px) 0px,
         calc(100% - ${cx}px) 0px,
         100% ${cx}px,
         100% calc(100% - ${cx}px),
@@ -165,9 +172,9 @@ export function octagonWithNotch(cx, nw = 28, nh = 12, side = 'bottom') {
         calc(100% - ${cx}px) 100%,
         ${cx}px 100%,
         0px calc(100% - ${cx}px),
-        0px calc(50% + ${hw}px),
-        ${nh}px 50%,
-        0px calc(50% - ${hw}px),
+        0px calc(${pct} + ${hw}px),
+        ${nh}px ${pct},
+        0px calc(${pct} - ${hw}px),
         0px ${cx}px
       )`
     case 'right':
@@ -175,9 +182,9 @@ export function octagonWithNotch(cx, nw = 28, nh = 12, side = 'bottom') {
         ${cx}px 0px,
         calc(100% - ${cx}px) 0px,
         100% ${cx}px,
-        100% calc(50% - ${hw}px),
-        calc(100% - ${nh}px) 50%,
-        100% calc(50% + ${hw}px),
+        100% calc(${pct} - ${hw}px),
+        calc(100% - ${nh}px) ${pct},
+        100% calc(${pct} + ${hw}px),
         100% calc(100% - ${cx}px),
         calc(100% - ${cx}px) 100%,
         ${cx}px 100%,
@@ -186,5 +193,49 @@ export function octagonWithNotch(cx, nw = 28, nh = 12, side = 'bottom') {
       )`
     default:
       return octagon(cx)
+  }
+}
+
+/**
+ * notchClamp — sanity-check a clamp parametrů zářezu vůči rozměrům prvku.
+ *
+ * Validní geometrie vyžaduje:
+ *  - nw + 2·cx ≤ délka strany (jinak zářez přesahuje rohy)
+ *  - nh ≤ tloušťka / 2     (jinak V projde středem prvku)
+ *
+ * Při neznámých rozměrech (width/height = null) se vrátí původní hodnoty
+ * bez clampingu — caller je zodpovědný za sanity check.
+ *
+ * @param {{ cx, nw, nh, side, offset, width, height }} params
+ * @returns {{ cx, nw, nh, offset, warning?: string }}
+ */
+export function notchClamp({ cx, nw, nh, side = 'bottom', offset = 0.5, width, height }) {
+  const horizontal = side === 'top' || side === 'bottom'
+  const sideLen    = horizontal ? width  : height
+  const thickness  = horizontal ? height : width
+
+  let clampedNw  = nw
+  let clampedNh  = nh
+  const warnings = []
+
+  // nh ≤ thickness/2 — V nesmí projít středem
+  if (thickness != null && nh > thickness / 2) {
+    clampedNh = Math.floor(thickness / 2)
+    warnings.push(`nh=${nh} > thickness/2=${thickness / 2}, clamping na ${clampedNh}`)
+  }
+  // nw + 2·cx ≤ délka strany — zářez nesmí přesahovat rohy
+  if (sideLen != null && nw + 2 * cx > sideLen) {
+    clampedNw = Math.max(0, sideLen - 2 * cx)
+    warnings.push(`nw + 2·cx=${nw + 2 * cx} > ${side} length=${sideLen}, clamping nw na ${clampedNw}`)
+  }
+  // offset clamp už dělá octagonWithNotch, tady jen normalizace
+  const clampedOffset = Math.max(0, Math.min(1, offset))
+
+  return {
+    cx,
+    nw: clampedNw,
+    nh: clampedNh,
+    offset: clampedOffset,
+    warning: warnings.length ? warnings.join('; ') : undefined,
   }
 }

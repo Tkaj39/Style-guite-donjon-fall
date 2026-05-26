@@ -3,7 +3,7 @@ import { octagon, clipLeft, clipRight, octagonWithNotch, roundRect, pill, scoopP
 import { buttonSizes } from '../utils/sizes'
 import ScoopClip from '../lib/tkajui/ScoopClip'
 import NotchedBox from '../lib/tkajui/NotchedBox'
-import { gold, goldMid, goldDim, bg0, bg4, bgDeep, textFaint, textDeep, textCool, textActive, borderSubtle, failColor, successColor } from '../lib/donjon/tokens'
+import { gold, goldMid, goldDim, bg0, bg4, bgDeep, textMid, textFaint, textDeep, textCool, textActive, borderSubtle, failColor, successColor } from '../lib/donjon/tokens'
 
 /* ── sdílené styly ── */
 const inter = '"Inter", sans-serif'
@@ -325,6 +325,36 @@ const clipPath = clipFn?.(cx)`} />
               <p style={lbl}>{label}</p>
             </div>
           ))}
+        </Preview>
+
+        {/* notchOffset — pozice zářezu podél strany */}
+        <Preview>
+          <div style={{ width: '100%' }}>
+            <p style={{ ...lbl, marginBottom: 12, color: textMid }}>
+              <strong style={{ color: goldDim }}>notchOffset</strong> — pozice zářezu podél strany (0 = start, 0.5 = střed, 1 = konec)
+            </p>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+              {[
+                { offset: 0,    label: '0 (start)' },
+                { offset: 0.25, label: '0.25' },
+                { offset: 0.5,  label: '0.5 (default)' },
+                { offset: 0.75, label: '0.75' },
+                { offset: 1,    label: '1 (konec)' },
+              ].map(({ offset, label }) => (
+                <div key={offset} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <div style={{
+                    clipPath: octagonWithNotch(10, 28, 12, 'bottom', offset),
+                    background: `linear-gradient(150deg,${bg4} 0%,${bgDeep} 100%)`,
+                    width: 140, height: 60,
+                  }} />
+                  <p style={lbl}>{label}</p>
+                </div>
+              ))}
+            </div>
+            <p style={{ ...lbl, marginTop: 12, color: textFaint, fontSize: '0.6875rem' }}>
+              Slot v NotchedBox automaticky sleduje notchOffset.
+            </p>
+          </div>
         </Preview>
 
         {/* NotchedBox komponenta — se Slotem */}
