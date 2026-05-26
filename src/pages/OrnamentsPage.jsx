@@ -15,7 +15,7 @@ const CX_REFERENCE = [
 ]
 
 /* ── OrnamentRow — vizualizace pro corner ornamenty (zkosen, roh) ──
-   Reálný oktagon shell + ornament uvnitř, aby bylo vidět jak na sebe sednou. */
+   Reálný oktagon shell + ornament uvnitř ve všech 4 rozích. */
 function OrnamentRow({ cx, type, label }) {
   const h = ornamentHForCx(cx, type)
   const baseW = ORNAMENT_BASE_WIDTH[type]
@@ -36,8 +36,11 @@ function OrnamentRow({ cx, type, label }) {
           width: '100%',
           height: '100%',
         }}>
-          <Orn h={h} uid={`${uid}l`} />
-          <Orn h={h} uid={`${uid}r`} flip />
+          {/* všechny 4 rohy: top-left, top-right, bottom-left, bottom-right */}
+          <Orn h={h} uid={`${uid}tl`} />
+          <Orn h={h} uid={`${uid}tr`} flip />
+          <Orn h={h} uid={`${uid}bl`} bottom />
+          <Orn h={h} uid={`${uid}br`} flip bottom />
         </div>
       </div>
       <span style={{ fontSize: '0.75rem', color: textMid, fontFamily: 'ui-monospace, monospace', minWidth: 140 }}>
@@ -186,10 +189,13 @@ export default function OrnamentsPage() {
 {`import { RohOrnament, ZkosenOrnament, SideOrnament, ornamentHForCx } from './Ornaments'
 
 const cx = 14   // corner-cut komponenty
+const h = ornamentHForCx(cx, 'roh')
 
-// ✓ Corner ornamenty (Zkosen, Roh) — šířka derivuje z cx
-<ZkosenOrnament h={ornamentHForCx(cx, 'zkosen')} uid="..." />
-<RohOrnament    h={ornamentHForCx(cx, 'roh')}    uid="..." />
+// ✓ Všechny 4 rohy přes kombinaci flip × bottom
+<RohOrnament h={h} uid="tl" />                {/* top-left   */}
+<RohOrnament h={h} uid="tr" flip />           {/* top-right  */}
+<RohOrnament h={h} uid="bl" bottom />         {/* bottom-left  */}
+<RohOrnament h={h} uid="br" flip bottom />    {/* bottom-right */}
 
 // ✓ SideOrnament — full-height bracket, h = výška komponenty (NE z cx)
 <SideOrnament h={buttonHeight} uid="..." />   // typ. 28 / 36 / 44 (sm/md/lg)

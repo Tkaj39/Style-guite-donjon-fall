@@ -5,10 +5,10 @@
  *   Props: h, uid, flip
  *
  * ZkosenOrnament — corner-only diagonal bracket + diamond. viewBox 22×22. ornament='zkosen'
- *   Props: h, uid, flip
+ *   Props: h, uid, flip (horizontal = right corner), bottom (vertical = bottom corner)
  *
  * RohOrnament    — corner bracket + partial vertical descent. viewBox 25×46. ornament='roh'
- *   Props: h, uid, flip
+ *   Props: h, uid, flip (horizontal = right corner), bottom (vertical = bottom corner), style
  *
  * HexOrnament    — horizontal bar with two lines + centered hexagon (top/bottom).
  *   Props: uid, flip, edgePadL/R, textPadL/R, hexOffsetX
@@ -103,10 +103,15 @@ export function SideOrnament({ h, uid, flip }) {
    Rohový ornament — dvě diagonální závorky + diamant. viewBox 22×22.
    Varianta ornament='zkosen' na DonjonButton, DonjonCard, DonjonModal.
    ──────────────────────────────────────────────────────────────────────── */
-export function ZkosenOrnament({ h, uid, flip }) {
+export function ZkosenOrnament({ h, uid, flip, bottom }) {
   const size = Math.round(22 * (h / 66) * 10) / 10
   const gv   = `url(#${uid}-v)`
   const gd   = `url(#${uid}-d)`
+
+  /* Transform kombinuje horizontální (flip) a vertikální (bottom) zrcadlení */
+  const sx = flip ? -1 : 1
+  const sy = bottom ? -1 : 1
+  const transform = (flip || bottom) ? `scale(${sx}, ${sy})` : undefined
 
   return (
     <svg
@@ -116,9 +121,9 @@ export function ZkosenOrnament({ h, uid, flip }) {
       aria-hidden="true"
       style={{
         position: 'absolute',
-        top: 0,
+        [bottom ? 'bottom' : 'top']: 0,
         [flip ? 'right' : 'left']: 1,
-        transform: flip ? 'scaleX(-1)' : undefined,
+        transform,
         pointerEvents: 'none',
       }}
     >
@@ -149,11 +154,16 @@ export function ZkosenOrnament({ h, uid, flip }) {
    Rohový ornament + vertikální sestup — závorka v rohu + část SideOrnamant.
    viewBox 25×46. Varianta ornament='roh' na DonjonButton, DonjonCard, DonjonModal.
    ──────────────────────────────────────────────────────────────────────── */
-export function RohOrnament({ h, uid, flip, style: styleProp }) {
+export function RohOrnament({ h, uid, flip, bottom, style: styleProp }) {
   const w  = Math.round(25 * (h / 66) * 10) / 10
   const rh = Math.round(46 * (h / 66) * 10) / 10
   const gv = `url(#${uid}-v)`
   const gh = `url(#${uid}-h)`
+
+  /* Transform kombinuje horizontální (flip) a vertikální (bottom) zrcadlení */
+  const sx = flip ? -1 : 1
+  const sy = bottom ? -1 : 1
+  const baseTransform = (flip || bottom) ? `scale(${sx}, ${sy})` : undefined
   const gd = `url(#${uid}-d)`
 
   return (
@@ -164,14 +174,14 @@ export function RohOrnament({ h, uid, flip, style: styleProp }) {
       aria-hidden="true"
       style={{
         position: 'absolute',
-        /* Top offset škáluje s h — větší cx (= větší diagonální řez octagonu)
+        /* Offset škáluje s h — větší cx (= větší diagonální řez octagonu)
            potřebuje větší offset, aby ornament seděl na hraně.
-             cx ≤ 12 (h ≤ 32) → top 2
-             cx 14–18 (h 37–48) → top 3
-             cx ≥ 20 (h ≥ 53)  → top 4+ */
-        top: Math.max(1, Math.round(h / 14)),
+             cx ≤ 12 (h ≤ 32) → 2
+             cx 14–18 (h 37–48) → 3
+             cx ≥ 20 (h ≥ 53)  → 4+ */
+        [bottom ? 'bottom' : 'top']: Math.max(1, Math.round(h / 14)),
         [flip ? 'right' : 'left']: 1,
-        transform: flip ? 'scaleX(-1)' : undefined,
+        transform: baseTransform,
         pointerEvents: 'none',
         ...styleProp,
       }}
