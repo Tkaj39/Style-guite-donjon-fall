@@ -1,5 +1,6 @@
-import { useState, createContext, useContext } from 'react'
+import { useState, createContext, useContext, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import { useLibPreference } from './LibPreferenceProvider'
 
 /* ── Variant context — sdílí aktivní knihovnu se všemi dětmi ── */
 const LibVariantContext = createContext(null)
@@ -120,15 +121,33 @@ function ApiChip({ slug }) {
 export function ShowcasePage({ title, description, children, componentSlug, componentSlugs, library, variants }) {
   const slugs = componentSlugs ?? (componentSlug ? [componentSlug] : [])
 
-  // Varianta — inicializuje z ?lib= URL parametru, pak z první položky variants
+  // Varianta — priorita: URL ?lib= > globální preference > první položka variants
   const [searchParams, setSearchParams] = useSearchParams()
+  const [preference, setPreference] = useLibPreference()
   const libParam = searchParams.get('lib')
-  const initVariant = variants?.find(v => v.id === libParam)?.id ?? variants?.[0]?.id ?? null
+  const preferredInVariants = variants?.find(v => v.id === preference)?.id
+  const initVariant = variants?.find(v => v.id === libParam)?.id
+                   ?? preferredInVariants
+                   ?? variants?.[0]?.id
+                   ?? null
   const [activeVariant, setActiveVariant] = useState(initVariant)
+
+  /* Sync s globální preferencí — když user změní v TopNav, aktualizuj zde
+     (pouze pokud nová preference je v dostupných variantách stránky). */
+  useEffect(() => {
+    if (!variants) return
+    if (preference === activeVariant) return
+    const allowed = variants.find(v => v.id === preference)
+    if (allowed) {
+      setActiveVariant(preference)
+      setSearchParams({ lib: preference }, { replace: true })
+    }
+  }, [preference, variants, activeVariant, setSearchParams])
 
   const handleVariantChange = (v) => {
     setActiveVariant(v)
     setSearchParams({ lib: v }, { replace: true })
+    setPreference(v)  // uložit jako globální preference
   }
 
   // Aktivní knihovna: buď z varianty nebo ze statického library prop

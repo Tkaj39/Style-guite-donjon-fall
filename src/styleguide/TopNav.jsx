@@ -7,6 +7,8 @@ import { useState, useMemo } from 'react'
 import { useLocation, Link } from 'react-router-dom'
 import pkg from '../../package.json'
 import { sections } from './Sidebar'
+import { useLibPreference } from './LibPreferenceProvider'
+import { LIBRARY_CFG } from './ShowcasePage'
 import {
   gold, goldMid, goldDim,
   bgDeep, borderDefault, textHigh, textMid, textLow,
@@ -63,6 +65,64 @@ function CheckIcon() {
     <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
       <path d="m3.5 8 3 3 6-6.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
+  )
+}
+
+/* ── LibPreferenceToggle — globální přepínač knihovny ── */
+function LibPreferenceToggle() {
+  const [preference, setPreference] = useLibPreference()
+  const options = [
+    { id: 'tkajui', cfg: LIBRARY_CFG.tkajui },
+    { id: 'donjon', cfg: LIBRARY_CFG.donjon },
+  ]
+  return (
+    <div
+      role="group"
+      aria-label="Výchozí knihovna pro showcase stránky"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 2,
+        padding: 2,
+        background: `${borderDefault}33`,
+        border: `1px solid ${borderDefault}`,
+        borderRadius: 6,
+      }}
+    >
+      {options.map(({ id, cfg }) => {
+        const active = preference === id
+        const Icon = cfg.Icon
+        return (
+          <button
+            key={id}
+            onClick={() => setPreference(id)}
+            aria-pressed={active}
+            title={`Nastavit ${cfg.label} jako výchozí knihovnu`}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 5,
+              padding: '4px 9px',
+              borderRadius: 4,
+              border: 'none',
+              background: active ? `${cfg.color}1F` : 'transparent',
+              color: active ? cfg.color : textLow,
+              fontSize: '0.75rem',
+              fontWeight: active ? 600 : 500,
+              fontFamily: 'inherit',
+              letterSpacing: '0.02em',
+              cursor: 'pointer',
+              transition: 'background 120ms, color 120ms',
+            }}
+            onMouseEnter={e => { if (!active) e.currentTarget.style.color = textHigh }}
+            onMouseLeave={e => { if (!active) e.currentTarget.style.color = textLow }}
+          >
+            <Icon size={12} />
+            <span className="hidden xl:inline">{cfg.label}</span>
+          </button>
+        )
+      })}
+    </div>
   )
 }
 
@@ -354,6 +414,11 @@ export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButto
             <SearchIcon />
           </button>
         )}
+
+        {/* Library variant preference — desktop a tablet (md+) */}
+        <div className="hidden md:block">
+          <LibPreferenceToggle />
+        </div>
 
         {/* NPM install — desktop full button */}
         <div className="hidden lg:block">

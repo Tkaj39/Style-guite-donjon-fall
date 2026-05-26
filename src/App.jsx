@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect } from 'react'
 import { Routes, Route, Navigate, useSearchParams } from 'react-router-dom'
 import Layout from './styleguide/Layout'
 import ErrorBoundary from './styleguide/ErrorBoundary'
+import { LibPreferenceProvider } from './styleguide/LibPreferenceProvider'
 
 /** Kombinace ErrorBoundary + Suspense — zachytí chyby lazy stránek a zobrazí je čitelně */
 function S({ children }) {
@@ -89,6 +90,7 @@ export default function App() {
   }, [searchParams])
 
   return (
+    <LibPreferenceProvider>
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Navigate to="/mood" replace />} />
@@ -163,5 +165,6 @@ export default function App() {
         <Route path="notification-center"    element={<S><NotificationCenterPage /></S>} />
       </Route>
     </Routes>
+    </LibPreferenceProvider>
   )
 }
