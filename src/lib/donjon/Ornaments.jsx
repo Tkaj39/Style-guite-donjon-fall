@@ -2,22 +2,28 @@
  * Shared decorative ornaments used across DonjonButton, DonjonCard, ButtonGroup.
  *
  * SideOrnament   — full-height vertical bracket (left/right edge). viewBox 24×66.
- *   Props: h, uid?, flip, style?
+ *   Props: h, uid?, flip, color?, colorDim?, style?
  *
  * ZkosenOrnament — corner-only diagonal bracket + diamond. viewBox 22×22. ornament='zkosen'
- *   Props: h, uid?, flip (right corner), bottom (bottom corner), style?
+ *   Props: h, uid?, flip (right corner), bottom (bottom corner), color?, colorDim?, style?
  *
  * RohOrnament    — corner bracket + partial vertical descent. viewBox 25×46. ornament='roh'
- *   Props: h, uid?, flip (right corner), bottom (bottom corner), style?
+ *   Props: h, uid?, flip (right corner), bottom (bottom corner), color?, colorDim?, style?
  *
  * HexOrnament    — horizontal bar with two lines + centered hexagon (top/bottom).
- *   Props: uid?, flip, edgePadL/R, textPadL/R, hexOffsetX, style?
+ *   Props: uid?, flip, edgePadL/R, textPadL/R, hexOffsetX, color?, colorDim?, style?
  *
  * All ornaments scale proportionally: reference height = 66px (same as SideOrnament).
  * Ornament widths at 100% scale: SideOrnament≈22, ZkosenOrnament=22, RohOrnament=25.
  *
  * The `uid` prop is OPTIONAL — pokud chybí, useId() vygeneruje unikátní hodnotu.
- * Explicit uid je vhodný pro SSR snapshots a stabilní výstup, ale není povinný.
+ *
+ * Variant colors — `color` (a optional `colorDim`) prop překryje výchozí zlatou
+ * gradient. Pokud je předáno jen `color`, dim varianta se derivuje jako
+ * `${color}88` (přibližně 53% alpha). Pro plnou kontrolu předej oba propu.
+ *
+ *   <RohOrnament color={dangerColor} />            // červené brackety
+ *   <HexOrnament color={infoColor} colorDim="#2A4060" />  // modré s explicit dim
  */
 import { useId } from 'react'
 import { gold, goldDim, bg4 } from './tokens'
@@ -57,7 +63,9 @@ export function ornamentHForCx(cx, type = 'zkosen') {
   return Math.round(cx * 66 / baseW)
 }
 
-export function SideOrnament({ h, uid: uidProp, flip, style: styleProp }) {
+export function SideOrnament({ h, uid: uidProp, flip, color, colorDim, style: styleProp }) {
+  const stopMain = color ?? gold
+  const stopDim  = colorDim ?? (color ? `${color}88` : goldDim)
   const uid = useOrnamentUid(uidProp)
   const w  = Math.round(24 * (h / 66) * 10) / 10 - 2
   const g  = `url(#${uid}-v)`
@@ -80,12 +88,12 @@ export function SideOrnament({ h, uid: uidProp, flip, style: styleProp }) {
     >
       <defs>
         <linearGradient id={`${uid}-v`} x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-          <stop stopColor={gold} />
-          <stop offset="1" stopColor={goldDim} />
+          <stop stopColor={stopMain} />
+          <stop offset="1" stopColor={stopDim} />
         </linearGradient>
         <linearGradient id={`${uid}-h`} x1="1" y1="0" x2="0" y2="0" gradientUnits="objectBoundingBox">
-          <stop stopColor={gold} />
-          <stop offset="1" stopColor={goldDim} />
+          <stop stopColor={stopMain} />
+          <stop offset="1" stopColor={stopDim} />
         </linearGradient>
       </defs>
 
@@ -117,7 +125,9 @@ export function SideOrnament({ h, uid: uidProp, flip, style: styleProp }) {
    Rohový ornament — dvě diagonální závorky + diamant. viewBox 22×22.
    Varianta ornament='zkosen' na DonjonButton, DonjonCard, DonjonModal.
    ──────────────────────────────────────────────────────────────────────── */
-export function ZkosenOrnament({ h, uid: uidProp, flip, bottom, style: styleProp }) {
+export function ZkosenOrnament({ h, uid: uidProp, flip, bottom, color, colorDim, style: styleProp }) {
+  const stopMain = color ?? gold
+  const stopDim  = colorDim ?? (color ? `${color}88` : goldDim)
   const uid = useOrnamentUid(uidProp)
   const size = Math.round(22 * (h / 66) * 10) / 10
   const gv   = `url(#${uid}-v)`
@@ -145,12 +155,12 @@ export function ZkosenOrnament({ h, uid: uidProp, flip, bottom, style: styleProp
     >
       <defs>
         <linearGradient id={`${uid}-v`} x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-          <stop stopColor={gold} />
-          <stop offset="1" stopColor={goldDim} />
+          <stop stopColor={stopMain} />
+          <stop offset="1" stopColor={stopDim} />
         </linearGradient>
         <linearGradient id={`${uid}-d`} x1="1" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-          <stop stopColor={gold} />
-          <stop offset="1" stopColor={goldDim} />
+          <stop stopColor={stopMain} />
+          <stop offset="1" stopColor={stopDim} />
         </linearGradient>
       </defs>
 
@@ -170,12 +180,17 @@ export function ZkosenOrnament({ h, uid: uidProp, flip, bottom, style: styleProp
    Rohový ornament + vertikální sestup — závorka v rohu + část SideOrnamant.
    viewBox 25×46. Varianta ornament='roh' na DonjonButton, DonjonCard, DonjonModal.
    ──────────────────────────────────────────────────────────────────────── */
-export function RohOrnament({ h, uid: uidProp, flip, bottom, style: styleProp }) {
+export function RohOrnament({ h, uid: uidProp, flip, bottom, color, colorDim, style: styleProp }) {
   const uid = useOrnamentUid(uidProp)
   const w  = Math.round(25 * (h / 66) * 10) / 10
   const rh = Math.round(46 * (h / 66) * 10) / 10
   const gv = `url(#${uid}-v)`
   const gh = `url(#${uid}-h)`
+
+  /* Variant-aware barvy: color override default zlaté.
+     colorDim derivuje z color přes alpha pokud není explicit. */
+  const stopMain = color ?? gold
+  const stopDim  = colorDim ?? (color ? `${color}88` : goldDim)
 
   /* Transform kombinuje horizontální (flip) a vertikální (bottom) zrcadlení */
   const sx = flip ? -1 : 1
@@ -204,20 +219,20 @@ export function RohOrnament({ h, uid: uidProp, flip, bottom, style: styleProp })
       }}
     >
       <defs>
-        {/* vertical gold→goldDim top to bottom */}
+        {/* vertical main→dim top to bottom */}
         <linearGradient id={`${uid}-v`} x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-          <stop stopColor={gold} />
-          <stop offset="1" stopColor={goldDim} />
+          <stop stopColor={stopMain} />
+          <stop offset="1" stopColor={stopDim} />
         </linearGradient>
         {/* horizontal for diamond stroke (bottom-right to top-left) */}
         <linearGradient id={`${uid}-h`} x1="1" y1="1" x2="0" y2="0" gradientUnits="objectBoundingBox">
-          <stop stopColor={gold} />
-          <stop offset="1" stopColor={goldDim} />
+          <stop stopColor={stopMain} />
+          <stop offset="1" stopColor={stopDim} />
         </linearGradient>
         {/* diagonal for corner accent (top-right to bottom-left) */}
         <linearGradient id={`${uid}-d`} x1="1" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-          <stop stopColor={gold} />
-          <stop offset="1" stopColor={goldDim} />
+          <stop stopColor={stopMain} />
+          <stop offset="1" stopColor={stopDim} />
         </linearGradient>
       </defs>
 
@@ -253,6 +268,8 @@ export function HexOrnament({
   textPadL,
   textPadR,
   hexOffsetX = 0,
+  color,
+  colorDim,
   style: styleProp,
 }) {
   const uid   = useOrnamentUid(uidProp)
@@ -260,6 +277,8 @@ export function HexOrnament({
   const padR  = edgePadR  ?? edgePadL
   const innerL = textPadL != null ? textPadL + 2 : '23%'
   const innerR = textPadR != null ? textPadR + 2 : '23%'
+  const stopMain = color ?? gold
+  const stopDim  = colorDim ?? (color ? `${color}88` : goldDim)
 
   return (
     <div
@@ -281,7 +300,7 @@ export function HexOrnament({
         right: padR + 1,
         top: 2,
         height: 1,
-        background: `linear-gradient(90deg,${goldDim} 0%,${gold} 50%,${goldDim} 100%)`,
+        background: `linear-gradient(90deg,${stopDim} 0%,${stopMain} 50%,${stopDim} 100%)`,
       }} />
       {/* inner line */}
       <div style={{
@@ -290,7 +309,7 @@ export function HexOrnament({
         right: innerR,
         bottom: 1,
         height: 1,
-        background: `linear-gradient(90deg,${goldDim} 0%,${gold} 50%,${goldDim} 100%)`,
+        background: `linear-gradient(90deg,${stopDim} 0%,${stopMain} 50%,${stopDim} 100%)`,
       }} />
       {/* hexagon */}
       <svg
@@ -306,8 +325,8 @@ export function HexOrnament({
       >
         <defs>
           <linearGradient id={`${uid}-hg`} x1="21.1848" y1="0" x2="21.1848" y2="7" gradientUnits="userSpaceOnUse">
-            <stop stopColor={gold} />
-            <stop offset="1" stopColor={goldDim} />
+            <stop stopColor={stopMain} />
+            <stop offset="1" stopColor={stopDim} />
           </linearGradient>
         </defs>
         <path

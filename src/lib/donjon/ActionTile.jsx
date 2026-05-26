@@ -110,14 +110,14 @@ export default function ActionTile({
       className={['focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFC183]/60', className].filter(Boolean).join(' ')}
     >
       {/* Ornamenty: 4 rohové RohOrnament závorky + HexOrnament nahoře a dole.
-          Sjednoceno s ornament systémem — RohOrnament má vertikální descent
-          podél hran, dynamičtější než Zkosen pro výrazné herní dlaždice. */}
-      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tl`} />}
-      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tr`} flip />}
-      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}bl`} bottom />}
-      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}br`} flip bottom />}
-      {hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={s.cx + 4} />}
-      {hasOrnaments && <HexOrnament uid={`${uid}hb`} flip edgePadL={s.cx + 4} />}
+          Variant-aware: barva ornamentů sleduje stav (default goldDim,
+          selected/hovered → variant accent barva — red/green/purple). */}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tl`} color={effectiveBorder} />}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tr`} flip color={effectiveBorder} />}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}bl`} bottom color={effectiveBorder} />}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}br`} flip bottom color={effectiveBorder} />}
+      {hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={s.cx + 4} color={effectiveBorder} />}
+      {hasOrnaments && <HexOrnament uid={`${uid}hb`} flip edgePadL={s.cx + 4} color={effectiveBorder} />}
 
       {/* Ikona */}
       <div style={{
