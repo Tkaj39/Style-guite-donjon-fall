@@ -1,13 +1,27 @@
 /* ── TopNav ────────────────────────────────────────────────────────────────
    Horní lišta nad sidebarem + obsahem.
-   Na mobilu obsahuje hamburger toggle pro sidebar.
-   Na desktopu zobrazuje brand vlevo, GitHub link vpravo.
+   Levá: hamburger (mobile) + brand + aktivní stránka.
+   Pravá: search trigger, npm install copy, changelog, GitHub.
    ─────────────────────────────────────────────────────────────────────── */
+import { useState, useMemo } from 'react'
+import { useLocation, Link } from 'react-router-dom'
 import pkg from '../../package.json'
-import { gold, goldMid, goldDim, bgDeep, borderDefault, textHigh, textLow } from '../lib/donjon/tokens'
+import { sections } from './Sidebar'
+import {
+  gold, goldMid, goldDim,
+  bgDeep, borderDefault, textHigh, textMid, textLow,
+} from '../lib/donjon/tokens'
 
-const GITHUB_URL = 'https://github.com/tkajdamek/donjon-fall-ui'
+/* ── Konfigurace pro publish ── */
+const NPM_PACKAGE  = 'donjon-fall-ui'
+const GITHUB_URL   = 'https://github.com/tkajdamek/donjon-fall-ui'
+const RELEASES_URL = `${GITHUB_URL}/releases`
 
+/* Detekce platformy pro hotkey hint */
+const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
+const HOTKEY_LABEL = isMac ? '⌘K' : 'Ctrl+K'
+
+/* ── Ikonky ── */
 function HamburgerIcon() {
   return (
     <svg className="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -26,10 +40,6 @@ function GitHubIcon() {
   )
 }
 
-/* Detekce platformy pro hotkey hint */
-const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
-const HOTKEY_LABEL = isMac ? '⌘K' : 'Ctrl+K'
-
 function SearchIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -39,7 +49,120 @@ function SearchIcon() {
   )
 }
 
+function CopyIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" stroke="currentColor" strokeWidth="1.4" />
+    </svg>
+  )
+}
+
+function CheckIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="m3.5 8 3 3 6-6.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function ChangelogIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M3 3h7l3 3v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+      <path d="M10 3v3h3M5 9h6M5 11.5h4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+/* ── Helper: najdi aktivní položku v sections podle pathname ── */
+function findActivePage(pathname) {
+  for (const section of sections) {
+    for (const item of section.items) {
+      if (item.to === pathname) {
+        return { label: item.label.replace(/^[^\w\s]+\s*/, '').trim(), to: item.to }
+      }
+      if (item.children) {
+        for (const c of item.children) {
+          // c.to může být '/components#tkajui' — match po porovnání jen pathname části
+          const cPath = c.to.split('#')[0]
+          if (cPath === pathname) {
+            return { label: c.label, to: c.to }
+          }
+        }
+      }
+    }
+  }
+  return null
+}
+
+/* ── NPM install button s clipboard copy ── */
+function NpmInstallButton({ compact = false }) {
+  const [copied, setCopied] = useState(false)
+  const cmd = `npm install ${NPM_PACKAGE}`
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(cmd)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    } catch {
+      // fallback — vybere text v dummy textareu (zde stačí)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    }
+  }
+
+  if (compact) {
+    return (
+      <button
+        onClick={copy}
+        aria-label={copied ? 'Zkopírováno' : `Zkopírovat ${cmd}`}
+        className="flex items-center justify-center w-9 h-9 rounded-md transition-colors"
+        style={{ color: copied ? gold : textLow }}
+        onMouseEnter={e => { if (!copied) { e.currentTarget.style.color = gold; e.currentTarget.style.background = `${borderDefault}66` } }}
+        onMouseLeave={e => { if (!copied) { e.currentTarget.style.color = textLow; e.currentTarget.style.background = 'transparent' } }}
+      >
+        {copied ? <CheckIcon /> : <CopyIcon />}
+      </button>
+    )
+  }
+
+  return (
+    <button
+      onClick={copy}
+      aria-label={copied ? 'Zkopírováno' : `Zkopírovat ${cmd}`}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 8,
+        padding: '6px 10px',
+        background: `${borderDefault}33`,
+        border: `1px solid ${copied ? `${gold}66` : borderDefault}`,
+        borderRadius: 6,
+        color: copied ? gold : textMid,
+        fontSize: '0.8125rem',
+        fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+        cursor: 'pointer',
+        transition: 'all 120ms',
+      }}
+      onMouseEnter={e => { if (!copied) e.currentTarget.style.borderColor = goldDim }}
+      onMouseLeave={e => { if (!copied) e.currentTarget.style.borderColor = borderDefault }}
+    >
+      <span style={{ color: copied ? gold : textLow }}>
+        {copied ? <CheckIcon /> : <CopyIcon />}
+      </span>
+      <span>
+        {copied ? 'Zkopírováno' : `npm i ${NPM_PACKAGE}`}
+      </span>
+    </button>
+  )
+}
+
 export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButtonRef, menuOpen = false, onSearchOpen }) {
+  const location = useLocation()
+  const activePage = useMemo(() => findActivePage(location.pathname), [location.pathname])
+
   return (
     <header
       style={{
@@ -49,8 +172,8 @@ export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButto
       }}
       className="sticky top-0 z-40 flex items-center justify-between px-4 lg:px-6"
     >
-      {/* Levá strana — hamburger (mobile) + brand */}
-      <div className="flex items-center gap-3">
+      {/* Levá strana — hamburger (mobile) + brand + aktivní stránka */}
+      <div className="flex items-center gap-3 min-w-0">
         {showMenuToggle && (
           <button
             ref={menuButtonRef}
@@ -67,7 +190,7 @@ export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButto
           </button>
         )}
 
-        <a href="/" className="flex items-center gap-2.5 group" aria-label="donjon-fall-ui homepage">
+        <Link to="/" className="flex items-center gap-2.5 group shrink-0" aria-label="donjon-fall-ui homepage">
           <span aria-hidden="true" style={{ fontSize: 22, lineHeight: 1, filter: `drop-shadow(0 0 6px ${gold}33)` }}>
             🏰
           </span>
@@ -96,12 +219,32 @@ export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButto
           >
             v{pkg.version}
           </span>
-        </a>
+        </Link>
+
+        {/* Aktivní stránka — viditelné jen na desktopu, jen pokud nejsme na homepage */}
+        {activePage && (
+          <div className="hidden md:flex items-center gap-2 min-w-0">
+            <span aria-hidden="true" style={{ color: goldDim, fontSize: '0.875rem', userSelect: 'none' }}>/</span>
+            <span
+              style={{
+                fontSize: '0.875rem',
+                color: textMid,
+                fontWeight: 500,
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+              title={activePage.label}
+            >
+              {activePage.label}
+            </span>
+          </div>
+        )}
       </div>
 
-      {/* Pravá strana — search + externí odkazy */}
+      {/* Pravá strana — search + install + changelog + GitHub */}
       <div className="flex items-center gap-2">
-        {/* Search trigger — vypadá jako input, otevírá command palette */}
+        {/* Search trigger — desktop varianta */}
         {onSearchOpen && (
           <button
             onClick={onSearchOpen}
@@ -121,7 +264,7 @@ export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButto
               transition: 'border-color 120ms, background 120ms',
               minWidth: 180,
             }}
-            className="hidden sm:flex"
+            className="hidden lg:flex"
             onMouseEnter={e => { e.currentTarget.style.borderColor = goldDim; e.currentTarget.style.background = `${borderDefault}66` }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = borderDefault; e.currentTarget.style.background = `${borderDefault}33` }}
           >
@@ -141,12 +284,12 @@ export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButto
           </button>
         )}
 
-        {/* Mobile-only search icon button */}
+        {/* Search ikona — mobile + tablet */}
         {onSearchOpen && (
           <button
             onClick={onSearchOpen}
             aria-label={`Hledat (${HOTKEY_LABEL})`}
-            className="sm:hidden flex items-center justify-center w-9 h-9 rounded-md transition-colors"
+            className="lg:hidden flex items-center justify-center w-9 h-9 rounded-md transition-colors"
             style={{ color: textLow }}
             onMouseEnter={e => { e.currentTarget.style.color = gold; e.currentTarget.style.background = `${borderDefault}66` }}
             onMouseLeave={e => { e.currentTarget.style.color = textLow; e.currentTarget.style.background = 'transparent' }}
@@ -155,6 +298,32 @@ export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButto
           </button>
         )}
 
+        {/* NPM install — desktop full button */}
+        <div className="hidden lg:block">
+          <NpmInstallButton />
+        </div>
+
+        {/* NPM install — mobile compact icon */}
+        <div className="lg:hidden">
+          <NpmInstallButton compact />
+        </div>
+
+        {/* Changelog */}
+        <a
+          href={RELEASES_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Changelog (GitHub releases)"
+          title="Changelog"
+          style={{ color: textLow }}
+          className="flex items-center justify-center w-9 h-9 rounded-md transition-colors"
+          onMouseEnter={e => { e.currentTarget.style.color = gold; e.currentTarget.style.background = `${borderDefault}66` }}
+          onMouseLeave={e => { e.currentTarget.style.color = textLow; e.currentTarget.style.background = 'transparent' }}
+        >
+          <ChangelogIcon />
+        </a>
+
+        {/* GitHub */}
         <a
           href={GITHUB_URL}
           target="_blank"
