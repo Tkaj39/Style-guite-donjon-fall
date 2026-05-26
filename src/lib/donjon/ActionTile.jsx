@@ -64,11 +64,16 @@ export default function ActionTile({
   const ornW          = hasOrnaments ? Math.round(ORNAMENT_BASE_WIDTH.roh * ornH / 66 * 10) / 10 : 0
   const padH          = 6 + ornW
 
-  /* Barvy závislé na stavu */
+  /* Barvy závislé na stavu — border (rámeček) je tmavý v idle, ornament je vždy viditelný */
   const effectiveBorder = isBlocked ? borderMid
                         : hovered   ? v.activeBorder
                         : selected  ? v.selBorder
                         : v.border
+  /* Ornament barva: idle = goldDim (viditelná na bg), aktivní stavy = variant accent */
+  const ornamentColor   = isBlocked ? borderMid
+                        : hovered   ? v.activeBorder
+                        : selected  ? v.selBorder
+                        : goldDim
   const effectiveBg     = isBlocked ? 'transparent'
                         : hovered   ? bg3
                         : selected  ? v.selBg
@@ -112,12 +117,12 @@ export default function ActionTile({
       {/* Ornamenty: 4 rohové RohOrnament závorky + HexOrnament nahoře a dole.
           Variant-aware: barva ornamentů sleduje stav (default goldDim,
           selected/hovered → variant accent barva — red/green/purple). */}
-      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tl`} color={effectiveBorder} />}
-      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tr`} flip color={effectiveBorder} />}
-      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}bl`} bottom color={effectiveBorder} />}
-      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}br`} flip bottom color={effectiveBorder} />}
-      {hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={s.cx + 4} color={effectiveBorder} />}
-      {hasOrnaments && <HexOrnament uid={`${uid}hb`} flip edgePadL={s.cx + 4} color={effectiveBorder} />}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tl`} color={ornamentColor} />}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tr`} flip color={ornamentColor} />}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}bl`} bottom color={ornamentColor} />}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}br`} flip bottom color={ornamentColor} />}
+      {hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={s.cx + 4} color={ornamentColor} />}
+      {hasOrnaments && <HexOrnament uid={`${uid}hb`} flip edgePadL={s.cx + 4} color={ornamentColor} />}
 
       {/* Ikona */}
       <div style={{
