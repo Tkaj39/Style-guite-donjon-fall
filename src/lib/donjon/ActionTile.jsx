@@ -4,7 +4,7 @@
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useId } from 'react'
 import { octagon, octagonInner } from '../../utils/octagon'
-import { ZkosenOrnament, HexOrnament, ornamentHForCx, ORNAMENT_BASE_WIDTH } from './Ornaments'
+import { RohOrnament, HexOrnament, ornamentHForCx, ORNAMENT_BASE_WIDTH } from './Ornaments'
 import {
   gold, goldDim, goldMid,
   bg2, bg3, bg4,
@@ -59,9 +59,9 @@ export default function ActionTile({
   const isBlocked     = disabled || locked
   const hasOrnaments  = ornament === 'decorated'
   // Corner ornament výška škálovaná z cx (ne z výšky tile — to byla magic formule)
-  const ornH          = hasOrnaments ? ornamentHForCx(s.cx, 'zkosen') : 0
-  // Šířka ornamentu pro výpočet horizontálního paddingu (≈ cx pro zkosen)
-  const ornW          = hasOrnaments ? Math.round(ORNAMENT_BASE_WIDTH.zkosen * ornH / 66 * 10) / 10 : 0
+  const ornH          = hasOrnaments ? ornamentHForCx(s.cx, 'roh') : 0
+  // Šířka ornamentu pro výpočet horizontálního paddingu (≈ cx pro roh)
+  const ornW          = hasOrnaments ? Math.round(ORNAMENT_BASE_WIDTH.roh * ornH / 66 * 10) / 10 : 0
   const padH          = 6 + ornW
 
   /* Barvy závislé na stavu */
@@ -109,13 +109,13 @@ export default function ActionTile({
       }}
       className={['focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFC183]/60', className].filter(Boolean).join(' ')}
     >
-      {/* Ornamenty: 4 rohové ZkosenOrnament závorky + HexOrnament nahoře a dole.
-          Sjednoceno s DonjonCard / DonjonModal — corner brackets pro square-ish
-          tile vypadají vyváženěji než SideOrnament (full-height vertikální). */}
-      {hasOrnaments && <ZkosenOrnament h={ornH} uid={`${uid}tl`} />}
-      {hasOrnaments && <ZkosenOrnament h={ornH} uid={`${uid}tr`} flip />}
-      {hasOrnaments && <ZkosenOrnament h={ornH} uid={`${uid}bl`} bottom />}
-      {hasOrnaments && <ZkosenOrnament h={ornH} uid={`${uid}br`} flip bottom />}
+      {/* Ornamenty: 4 rohové RohOrnament závorky + HexOrnament nahoře a dole.
+          Sjednoceno s ornament systémem — RohOrnament má vertikální descent
+          podél hran, dynamičtější než Zkosen pro výrazné herní dlaždice. */}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tl`} />}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tr`} flip />}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}bl`} bottom />}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}br`} flip bottom />}
       {hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={s.cx + 4} />}
       {hasOrnaments && <HexOrnament uid={`${uid}hb`} flip edgePadL={s.cx + 4} />}
 
