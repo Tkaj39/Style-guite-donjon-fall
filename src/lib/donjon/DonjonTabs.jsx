@@ -10,6 +10,7 @@ import { octagon } from '../../utils/octagon'
 import { gold, goldMid, goldDim, bg0, bg3, bg4, textActive, textDisabled, VARIANT_BG, VARIANT_BORDER, VARIANT_TITLE_GRAD } from './tokens'
 
 const SIZES = {
+  xs: { fontSize: '0.6875rem', px: 8,  py: 4,  gap: 2, cx: 3 },
   sm: { fontSize: '0.75rem',   px: 10, py: 5,  gap: 2, cx: 5 },
   md: { fontSize: '0.8125rem', px: 14, py: 7,  gap: 4, cx: 7 },
   lg: { fontSize: '0.875rem',  px: 18, py: 9,  gap: 6, cx: 9 },

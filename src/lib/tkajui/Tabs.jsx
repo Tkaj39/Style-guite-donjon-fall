@@ -27,6 +27,7 @@ const VARIANTS = {
 }
 
 const SIZES = {
+  xs: { fontSize: '0.6875rem', px: 8,  py: 4,  gap: 2 },
   sm: { fontSize: '0.75rem',   px: 10, py: 5,  gap: 2 },
   md: { fontSize: '0.8125rem', px: 14, py: 7,  gap: 4 },
   lg: { fontSize: '0.875rem',  px: 18, py: 9,  gap: 6 },

@@ -23,6 +23,7 @@ const VARIANTS = {
 }
 
 const SIZES = {
+  xs: { h: 3,  radius: 1, fontSize: '0.625rem'  },
   sm: { h: 6,  radius: 2, fontSize: '0.6875rem' },
   md: { h: 10, radius: 3, fontSize: '0.75rem'   },
   lg: { h: 14, radius: 4, fontSize: '0.8125rem' },

@@ -48,6 +48,7 @@ const VARIANTS = {
 }
 
 const SIZES = {
+  xs: { h: 2,  radius: 1 },
   sm: { h: 4,  radius: 2 },
   md: { h: 8,  radius: 4 },
   lg: { h: 14, radius: 5 },

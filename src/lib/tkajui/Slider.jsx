@@ -40,6 +40,7 @@ const VARIANTS = {
 }
 
 const SIZES = {
+  xs: { trackH: 3,  thumbD: 10, radius: 1, fontSize: '0.6875rem' },
   sm: { trackH: 4,  thumbD: 14, radius: 2, fontSize: '0.75rem' },
   md: { trackH: 6,  thumbD: 18, radius: 3, fontSize: '0.8125rem' },
   lg: { trackH: 10, thumbD: 24, radius: 5, fontSize: '0.875rem' },

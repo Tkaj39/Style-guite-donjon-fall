@@ -24,6 +24,7 @@ const VARIANTS = {
 }
 
 const SIZES = {
+  xs: { h: 24, fontSize: '0.6875rem', px: 8,  cx: 3 },
   sm: { h: 30, fontSize: '0.75rem',   px: 10, cx: 5 },
   md: { h: 36, fontSize: '0.8125rem', px: 12, cx: 7 },
   lg: { h: 44, fontSize: '0.875rem',  px: 14, cx: 9 },

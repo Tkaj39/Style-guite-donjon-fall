@@ -12,6 +12,7 @@ import {
 } from './tokens'
 
 const SIZES = {
+  xs: { h: 24, cx: 6,  fontSize: '0.6875rem', px: 8  },
   sm: { h: 30, cx: 8,  fontSize: '0.75rem',   px: 10 },
   md: { h: 36, cx: 10, fontSize: '0.8125rem', px: 12 },
   lg: { h: 44, cx: 12, fontSize: '0.875rem',  px: 14 },
