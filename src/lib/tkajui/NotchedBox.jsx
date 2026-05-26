@@ -36,6 +36,25 @@ function pxValue(v) {
   return null
 }
 
+/**
+ * Border-aware adjustment outer notchů.
+ *
+ * V (diagonální stěny):   outer = inner (border viditelný díky úhlu stěny ~0.7·bw)
+ * Square (axis-aligned):  outer.nw = inner.nw - 2·bw  → svislé stěny se rozjedou
+ * Trapezoid (mix):        outer = inner (plateau vidět z svislého offsetu,
+ *                                       diagonály vidět z úhlu)
+ *
+ * Bez tohoto adjustu má square neviditelné svislé stěny — outer & inner
+ * stěny jsou na stejné axis-aligned souřadnici, takže border layer
+ * žádný gap neudělá.
+ */
+function adjustNotchForBorder(notch, borderWidth) {
+  if (notch.shape === 'square') {
+    return { ...notch, nw: Math.max(0, notch.nw - 2 * borderWidth) }
+  }
+  return notch
+}
+
 // ─── NotchedBox ────────────────────────────────────────────────────────────
 /**
  * NotchedBox — kontejner s V-zářezem na jedné straně.
@@ -129,7 +148,9 @@ function NotchedBox({
     }))
     clipPath = octagonWithNotches(cx, finalNotches)
     if (borderColor) {
-      outerClipPath = octagonWithNotches(cx + borderWidth, finalNotches)
+      // Border-aware: square notch potřebuje outer.nw - 2·bw aby svislé stěny dostaly gap
+      const outerNotches = finalNotches.map(n => adjustNotchForBorder(n, borderWidth))
+      outerClipPath = octagonWithNotches(cx + borderWidth, outerNotches)
     }
     slotInfos = finalNotches.map(n => ({ side: n.side, offset: n.offset }))
   } else {
@@ -140,7 +161,12 @@ function NotchedBox({
     }
     clipPath = octagonWithNotch(cx, clamped.nw, clamped.nh, side, clamped.offset, notchShape)
     if (borderColor) {
-      outerClipPath = octagonWithNotch(cx + borderWidth, clamped.nw, clamped.nh, side, clamped.offset, notchShape)
+      // Border-aware: square shape vyžaduje outer.nw - 2·bw pro viditelné svislé stěny
+      const outer = adjustNotchForBorder(
+        { side, offset: clamped.offset, nw: clamped.nw, nh: clamped.nh, shape: notchShape },
+        borderWidth,
+      )
+      outerClipPath = octagonWithNotch(cx + borderWidth, outer.nw, outer.nh, side, outer.offset, notchShape)
     }
     slotInfos = [{ side, offset: clamped.offset }]
   }
