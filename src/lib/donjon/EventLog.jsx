@@ -2,7 +2,7 @@
    Seznam herních eventů s automatickým scrollem na nejnovější.
    Typy: gain · loss · event · warning · system
    ─────────────────────────────────────────────────────────────────────── */
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState, useMemo } from 'react'
 import { useId } from 'react'
 import { octagon, octagonInner } from '../../utils/octagon'
 import { RohOrnament, HexOrnament, ornamentHForCx } from './Ornaments'
@@ -54,6 +54,141 @@ function TypeIcon({ type, size = 8 }) {
   )
 }
 
+/* ── Default event row renderer ── */
+function DefaultEventRow({ entry, showRound, isLast }) {
+  const cfg = TYPE_CFG[entry.type] ?? TYPE_CFG.system
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: 8,
+        padding: '7px 12px',
+        background: cfg.bg,
+        borderBottom: isLast ? 'none' : `1px solid ${borderMid}`,
+      }}
+    >
+      <div style={{ paddingTop: 3, flexShrink: 0 }}>
+        <TypeIcon type={entry.type} size={9} />
+      </div>
+
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <span style={{
+          fontSize: '0.75rem',
+          color: entry.type === 'system' ? textLow : cfg.color,
+          lineHeight: 1.4,
+        }}>
+          {entry.text}
+        </span>
+        {entry.detail && (
+          <span style={{
+            display: 'block',
+            fontSize: '0.6875rem',
+            color: textLow,
+            marginTop: 1,
+            lineHeight: 1.3,
+          }}>
+            {entry.detail}
+          </span>
+        )}
+      </div>
+
+      {showRound && entry.round != null && (
+        <span style={{
+          fontSize: '0.625rem',
+          color: textLow,
+          whiteSpace: 'nowrap',
+          paddingTop: 2,
+          flexShrink: 0,
+          letterSpacing: '0.04em',
+        }}>
+          K{entry.round}
+        </span>
+      )}
+    </div>
+  )
+}
+
+/* ── Render seznamu — s/bez groupByRound + custom renderEvent ── */
+function renderEventList({ events, showRound, groupByRound, renderEvent }) {
+  const renderOne = (entry, isLast) => {
+    const def = <DefaultEventRow entry={entry} showRound={showRound} isLast={isLast} />
+    return renderEvent ? renderEvent(entry, def) : def
+  }
+
+  if (!groupByRound) {
+    return events.map((entry, i) => (
+      <div key={entry.id ?? i}>
+        {renderOne(entry, i === events.length - 1)}
+      </div>
+    ))
+  }
+
+  // Seskupení podle round (null/undefined = "Bez kola")
+  const groups = []
+  const groupMap = new Map()
+  for (const e of events) {
+    const key = e.round ?? '_none'
+    if (!groupMap.has(key)) {
+      groupMap.set(key, [])
+      groups.push(key)
+    }
+    groupMap.get(key).push(e)
+  }
+
+  return groups.map(round => {
+    const items = groupMap.get(round)
+    return (
+      <div key={round}>
+        <div style={{
+          padding: '5px 12px',
+          background: bgDeep,
+          fontSize: '0.625rem',
+          fontWeight: 700,
+          color: textLow,
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          borderBottom: `1px solid ${borderMid}`,
+        }}>
+          {round === '_none' ? 'Bez kola' : `Kolo ${round}`}
+        </div>
+        {items.map((entry, i) => (
+          <div key={entry.id ?? i}>
+            {renderOne(entry, i === items.length - 1)}
+          </div>
+        ))}
+      </div>
+    )
+  })
+}
+
+/* ── Filter chip pro type ── */
+function FilterChip({ type, active, count, onClick }) {
+  const cfg = TYPE_CFG[type] ?? TYPE_CFG.system
+  return (
+    <button
+      onClick={onClick}
+      aria-pressed={active}
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: 4,
+        padding: '2px 7px',
+        background: active ? `${cfg.color}22` : 'transparent',
+        border: `1px solid ${active ? cfg.color : borderMid}`,
+        borderRadius: 3,
+        color: active ? cfg.color : textLow,
+        fontSize: '0.625rem', fontWeight: 600,
+        letterSpacing: '0.04em',
+        cursor: 'pointer',
+        fontFamily: 'inherit',
+      }}
+    >
+      <TypeIcon type={type} size={7} />
+      {type}
+      {count != null && <span style={{ opacity: 0.7 }}>({count})</span>}
+    </button>
+  )
+}
+
 export default function EventLog({
   events       = [],
   maxHeight    = 280,
@@ -63,6 +198,11 @@ export default function EventLog({
   autoScroll   = true,
   ornament     = 'decorated',
   emptyMessage = 'Zatím žádné události.',
+  // ── Nové filtrovací / vyhledávací props ───────────────────────────
+  showFilters  = false,   // zobrazí type-filter chipy v hlavičce
+  showSearch   = false,   // zobrazí search input v hlavičce
+  groupByRound = false,   // seskupí události podle round
+  renderEvent,            // (entry, defaultRender) => ReactNode — custom renderer
   style,
   className,
 }) {
@@ -71,11 +211,88 @@ export default function EventLog({
   const hasOrnaments = ornament === 'decorated'
   const cx = 14
 
+  // Filter state — null = všechny typy, jinak Set typů k zobrazení
+  const allTypes = useMemo(() => {
+    const set = new Set()
+    events.forEach(e => e.type && set.add(e.type))
+    return Array.from(set)
+  }, [events])
+  const [activeTypes, setActiveTypes] = useState(null)  // null = vše
+  const [query, setQuery] = useState('')
+
+  const filteredEvents = useMemo(() => {
+    let out = events
+    if (activeTypes && activeTypes.size > 0) {
+      out = out.filter(e => activeTypes.has(e.type ?? 'system'))
+    }
+    if (query.trim()) {
+      const q = query.toLowerCase()
+      out = out.filter(e => {
+        const text = (e.text ?? '').toLowerCase()
+        const detail = (e.detail ?? '').toLowerCase()
+        return text.includes(q) || detail.includes(q)
+      })
+    }
+    return out
+  }, [events, activeTypes, query])
+
+  const toggleType = (t) => {
+    setActiveTypes(prev => {
+      if (!prev) return new Set(allTypes.filter(x => x !== t))
+      const next = new Set(prev)
+      if (next.has(t)) next.delete(t); else next.add(t)
+      return next.size === 0 ? null : next
+    })
+  }
+
   /* Auto-scroll na nejnovější záznam */
   useEffect(() => {
     if (!autoScroll || !scrollRef.current) return
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight
-  }, [events, autoScroll])
+  }, [filteredEvents, autoScroll])
+
+  /* Bar s filter chipy + search inputem — renderuje se pod hlavičkou */
+  const filterBar = (showFilters || showSearch) && (
+    <div style={{
+      display: 'flex',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      gap: 6,
+      padding: '6px 12px',
+      borderBottom: `1px solid ${borderMid}`,
+      background: bgDeep,
+    }}>
+      {showSearch && (
+        <input
+          type="text"
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          placeholder="Hledat…"
+          style={{
+            flex: '1 1 120px',
+            background: bg3,
+            border: `1px solid ${borderMid}`,
+            borderRadius: 3,
+            padding: '3px 7px',
+            color: textHigh,
+            fontSize: '0.6875rem',
+            fontFamily: 'inherit',
+            outline: 'none',
+            minWidth: 80,
+          }}
+        />
+      )}
+      {showFilters && allTypes.map(t => (
+        <FilterChip
+          key={t}
+          type={t}
+          active={!activeTypes || activeTypes.has(t)}
+          count={events.filter(e => (e.type ?? 'system') === t).length}
+          onClick={() => toggleType(t)}
+        />
+      ))}
+    </div>
+  )
 
   const scrollContent = (
     <div
@@ -93,72 +310,18 @@ export default function EventLog({
     >
       {hasOrnaments && !showTitle && <HexOrnament uid={`${uid}ht`} edgePadL={cx} />}
 
-      {events.length === 0 ? (
+      {filteredEvents.length === 0 ? (
         <div style={{
           padding: '20px 12px',
           textAlign: 'center',
           fontSize: '0.75rem',
           color: textLow,
         }}>
-          {emptyMessage}
+          {query.trim() ? `Žádné výsledky pro „${query}".` : emptyMessage}
         </div>
       ) : (
         <div>
-          {events.map((entry, i) => {
-            const cfg = TYPE_CFG[entry.type] ?? TYPE_CFG.system
-            const isLast = i === events.length - 1
-            return (
-              <div
-                key={entry.id ?? i}
-                style={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: 8,
-                  padding: '7px 12px',
-                  background: cfg.bg,
-                  borderBottom: isLast ? 'none' : `1px solid ${borderMid}`,
-                }}
-              >
-                <div style={{ paddingTop: 3, flexShrink: 0 }}>
-                  <TypeIcon type={entry.type} size={9} />
-                </div>
-
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <span style={{
-                    fontSize: '0.75rem',
-                    color: entry.type === 'system' ? textLow : cfg.color,
-                    lineHeight: 1.4,
-                  }}>
-                    {entry.text}
-                  </span>
-                  {entry.detail && (
-                    <span style={{
-                      display: 'block',
-                      fontSize: '0.6875rem',
-                      color: textLow,
-                      marginTop: 1,
-                      lineHeight: 1.3,
-                    }}>
-                      {entry.detail}
-                    </span>
-                  )}
-                </div>
-
-                {showRound && entry.round != null && (
-                  <span style={{
-                    fontSize: '0.625rem',
-                    color: textLow,
-                    whiteSpace: 'nowrap',
-                    paddingTop: 2,
-                    flexShrink: 0,
-                    letterSpacing: '0.04em',
-                  }}>
-                    K{entry.round}
-                  </span>
-                )}
-              </div>
-            )
-          })}
+          {renderEventList({ events: filteredEvents, showRound, groupByRound, renderEvent })}
         </div>
       )}
     </div>
@@ -195,10 +358,11 @@ export default function EventLog({
               fontSize: '0.625rem', color: textLow,
               letterSpacing: '0.06em',
             }}>
-              {events.length} záznamů
+              {filteredEvents.length === events.length ? events.length : filteredEvents.length + " z " + events.length} záznamů
             </span>
           </div>
         )}
+        {filterBar}
 
         {scrollContent}
       </div>
@@ -247,10 +411,11 @@ export default function EventLog({
               fontSize: '0.625rem', color: textLow,
               letterSpacing: '0.06em',
             }}>
-              {events.length} záznamů
+              {filteredEvents.length === events.length ? events.length : filteredEvents.length + " z " + events.length} záznamů
             </span>
           </div>
         )}
+        {filterBar}
 
         {scrollContent}
 
