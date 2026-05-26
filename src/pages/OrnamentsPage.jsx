@@ -14,32 +14,21 @@ const CX_REFERENCE = [
   { cx: 20, usage: 'velké panely', sample: 'custom hero karta' },
 ]
 
-/* ── OrnamentRow — vizualizace jedné velikosti ──
-   Reálný oktagon shell + ornament uvnitř, aby bylo vidět jak na sebe sednou.
-   SideOrnament používá narrow/tall shell (typický button), rohové čtvercový. */
+/* ── OrnamentRow — vizualizace pro corner ornamenty (zkosen, roh) ──
+   Reálný oktagon shell + ornament uvnitř, aby bylo vidět jak na sebe sednou. */
 function OrnamentRow({ cx, type, label }) {
+  const h = ornamentHForCx(cx, type)
   const baseW = ORNAMENT_BASE_WIDTH[type]
-  // Pro SideOrnament: h ≈ výška buttonu (typicky 28-44px), šířka derivuje z baseW
-  // Pro corner ornamenty: h derivuje z cx → šířka = cx
-  const h = type === 'side'
-    ? Math.max(28, cx * 2)              // button-like výška (sm=28, md=36, lg=44)
-    : ornamentHForCx(cx, type)
   const renderedW = Math.round(baseW * h / 66 * 10) / 10
-
-  // Side ornament používá tall narrow shell (jako tlačítko), corner ornamenty čtvercový
-  const shellW = type === 'side' ? 90 : 110
-  const shellH = type === 'side' ? h + 4 : 64
-
-  const uid  = `prev-${type}-${cx}`
-  const Orn  = type === 'roh' ? RohOrnament : type === 'side' ? SideOrnament : ZkosenOrnament
+  const uid = `prev-${type}-${cx}`
+  const Orn = type === 'roh' ? RohOrnament : ZkosenOrnament
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '8px 0' }}>
       <span style={{ width: 60, fontSize: '0.75rem', color: goldDim, fontFamily: 'ui-monospace, monospace' }}>
         cx={cx}
       </span>
-      {/* Mock octagon shell s ornamentem uvnitř */}
-      <div style={{ clipPath: octagon(cx), background: goldDim, padding: 1, width: shellW, height: shellH }}>
+      <div style={{ clipPath: octagon(cx), background: goldDim, padding: 1, width: 110, height: 64 }}>
         <div style={{
           position: 'relative',
           clipPath: octagon(cx - 1),
@@ -53,6 +42,42 @@ function OrnamentRow({ cx, type, label }) {
       </div>
       <span style={{ fontSize: '0.75rem', color: textMid, fontFamily: 'ui-monospace, monospace', minWidth: 140 }}>
         h={h}  →  {renderedW}px {label || ''}
+      </span>
+    </div>
+  )
+}
+
+/* ── SideOrnamentRow — DonjonButton shell ──
+   Reálná replika tlačítka: h = button height, cx = button cx, plus HexOrnament. */
+function SideOrnamentRow({ sizeKey, h, cx, px }) {
+  const baseW = ORNAMENT_BASE_WIDTH.side
+  const renderedW = Math.round(baseW * h / 66 * 10) / 10
+  const uid = `prev-side-${sizeKey}`
+  // Button-style width: scale to keep typical button proportion
+  const shellW = Math.round(h * 2.4)
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '8px 0' }}>
+      <span style={{ width: 60, fontSize: '0.75rem', color: goldDim, fontFamily: 'ui-monospace, monospace' }}>
+        size={sizeKey}
+      </span>
+      {/* Real DonjonButton shell s outer border + inner fill + ornamenty */}
+      <div style={{ clipPath: octagon(cx), background: goldDim, padding: 1, width: shellW, height: h }}>
+        <div style={{
+          position: 'relative',
+          clipPath: octagon(cx - 1),
+          background: bg3,
+          width: '100%',
+          height: '100%',
+        }}>
+          <SideOrnament h={h} uid={`${uid}l`} />
+          <SideOrnament h={h} uid={`${uid}r`} flip />
+          <HexOrnament uid={`${uid}t`} edgePadL={cx + 8} textPadL={px + renderedW} textPadR={px + renderedW} />
+          <HexOrnament uid={`${uid}b`} flip edgePadL={cx + 8} textPadL={px + renderedW} textPadR={px + renderedW} />
+        </div>
+      </div>
+      <span style={{ fontSize: '0.75rem', color: textMid, fontFamily: 'ui-monospace, monospace', minWidth: 160 }}>
+        h={h}, cx={cx}  →  {renderedW}px
       </span>
     </div>
   )
@@ -94,16 +119,18 @@ export default function OrnamentsPage() {
               {CX_REFERENCE.map(({ cx }) => <OrnamentRow key={cx} cx={cx} type="roh" />)}
             </div>
 
-            {/* SideOrnament sloupec — narrow tall shell jako u tlačítka */}
-            <div style={{ flex: '1 1 300px' }}>
+            {/* SideOrnament sloupec — reálný DonjonButton shell pro 4 velikosti */}
+            <div style={{ flex: '1 1 360px' }}>
               <h4 style={{ fontSize: '0.8125rem', fontWeight: 700, color: gold, marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                 SideOrnament <span style={{ color: textLow, fontWeight: 400 }}>(base 22, full-height)</span>
               </h4>
               <p style={{ fontSize: '0.6875rem', color: textLow, marginBottom: 8, lineHeight: 1.5 }}>
-                Vertikální závorka přes celou výšku — používá se v tlačítkách. Výška h odpovídá
-                výšce komponenty (typ. 28/36/44 pro sm/md/lg).
+                Vertikální závorka přes celou výšku — používá se v DonjonButton. Ukázka je reálný
+                button shell včetně HexOrnament nahoře a dole, převzato z <code style={{ color: textMid }}>buttonSizes</code>.
               </p>
-              {CX_REFERENCE.map(({ cx }) => <OrnamentRow key={cx} cx={cx} type="side" />)}
+              {Object.entries(buttonSizes).map(([key, s]) => (
+                <SideOrnamentRow key={key} sizeKey={key} h={s.h} cx={s.cx} px={s.px} />
+              ))}
             </div>
           </div>
         </Preview>
