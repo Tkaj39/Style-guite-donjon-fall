@@ -12,6 +12,7 @@ import {
   textHigh, textMid, textLow, textFaint,
   dangerColor, warningColor, gainColor, magicColor,
   infoColor, infoDark,
+  selBgInfo, selBgDanger, selBgGain, selBgMagic,
 } from './tokens'
 
 const SIZES = {
@@ -35,10 +36,10 @@ const SIZES = {
  *   selOrn     = infoDark UNIVERSAL (#1E3A6B navy accent)
  */
 const VARIANTS = {
-  default: { border: borderDefault, activeBorder: infoColor,    selBg: `${infoColor}22`,    selBgSolid: '#242948', selBorder: infoColor,    selOrn: infoDark },
-  attack:  { border: borderDefault, activeBorder: dangerColor,  selBg: `${dangerColor}22`,  selBgSolid: '#382536', selBorder: dangerColor,  selOrn: infoDark },
-  move:    { border: borderDefault, activeBorder: gainColor,    selBg: `${gainColor}22`,    selBgSolid: '#253138', selBorder: gainColor,    selOrn: infoDark },
-  special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}22`,   selBgSolid: '#2F2544', selBorder: magicColor,   selOrn: infoDark },
+  default: { border: borderDefault, activeBorder: infoColor,    selBg: `${infoColor}22`,    selBgSolid: selBgInfo,   selBorder: infoColor,    selOrn: infoDark },
+  attack:  { border: borderDefault, activeBorder: dangerColor,  selBg: `${dangerColor}22`,  selBgSolid: selBgDanger, selBorder: dangerColor,  selOrn: infoDark },
+  move:    { border: borderDefault, activeBorder: gainColor,    selBg: `${gainColor}22`,    selBgSolid: selBgGain,   selBorder: gainColor,    selOrn: infoDark },
+  special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}22`,   selBgSolid: selBgMagic,  selBorder: magicColor,   selOrn: infoDark },
 }
 
 /* ── Lock ikona ── */

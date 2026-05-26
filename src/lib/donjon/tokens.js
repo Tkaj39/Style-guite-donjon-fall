@@ -46,6 +46,13 @@ export const infoColor   = '#4A80E2'  // mana / info / event modrá
 export const infoLight   = '#7AAEF5'  // světlejší tint pro nadpisy a ikony
 export const infoMid     = '#2D3D6B'  // solid mid-blue pro selected pozadí (bez alpha → ornament hex výplň matchne button bg)
 export const infoDark    = '#1E3A6B'  // tmavší info — selected ornamenty, kontrast na light blue bg
+
+// ── Solid selected backgrounds — pre-computed `${variantColor}22` na bg2 ──
+// Používají se jako bgFill v SVG ornamentech pro matchne button surface bez alpha double-blend.
+export const selBgInfo    = '#242948'  // ≈ infoColor@13% na bg2
+export const selBgDanger  = '#382536'  // ≈ dangerColor@13% na bg2
+export const selBgGain    = '#253138'  // ≈ gainColor@13% na bg2
+export const selBgMagic   = '#2F2544'  // ≈ magicColor@13% na bg2
 export const magicColor  = '#9A60C8'  // magie / XP fialová
 export const magicDark   = '#7A48A8'  // tmavší magic — selected border, shadow
 export const shieldColor = '#7AB5E0'  // štít / obrana — světle modrá
