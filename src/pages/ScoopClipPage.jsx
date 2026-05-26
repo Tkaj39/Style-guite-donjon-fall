@@ -244,38 +244,72 @@ export default function ScoopClipPage() {
         description="Stejný velikostní systém jako u octagonu: xs / sm / md / lg. V bezier módu mapuje na SHAPE_SIZES[size].bb (relativní), v circle módu na SHAPE_SIZES[size].scoop (absolutní px)."
       >
         <Preview>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'flex-end' }}>
-            {[
-              { size: 'xs', w: 100, h: 32 },
-              { size: 'sm', w: 130, h: 40 },
-              { size: 'md', w: 170, h: 52 },
-              { size: 'lg', w: 210, h: 64 },
-            ].map(({ size, w, h }) => (
-              <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <ScoopClip
-                  size={size}
-                  borderColor={`${goldDim}55`}
-                  style={{
-                    width: w, height: h,
-                    background: `${goldDim}12`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  }}
-                >
-                  <span style={{ fontSize: '0.6875rem', color: goldDim, fontFamily: 'monospace' }}>size="{size}"</span>
-                </ScoopClip>
-                <p style={nano}>{size} · {w}×{h}px</p>
-              </div>
-            ))}
+          <div style={{ width: '100%' }}>
+            <p style={{ ...nano, marginBottom: 8, color: goldDim, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Bezier (responzivní)
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'flex-end', marginBottom: 18 }}>
+              {[
+                { size: 'xs', w: 100, h: 32 },
+                { size: 'sm', w: 130, h: 40 },
+                { size: 'md', w: 170, h: 52 },
+                { size: 'lg', w: 210, h: 64 },
+              ].map(({ size, w, h }) => (
+                <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <ScoopClip
+                    shape="bezier" size={size}
+                    borderColor={`${goldDim}55`}
+                    style={{
+                      width: w, height: h,
+                      background: `${goldDim}12`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}
+                  >
+                    <span style={{ fontSize: '0.6875rem', color: goldDim, fontFamily: 'monospace' }}>size="{size}"</span>
+                  </ScoopClip>
+                  <p style={nano}>{size} · {w}×{h}px</p>
+                </div>
+              ))}
+            </div>
+
+            <p style={{ ...nano, marginBottom: 8, color: goldDim, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Circle (pevný výřez kruhu)
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'flex-end' }}>
+              {[
+                { size: 'xs', r: 8  },
+                { size: 'sm', r: 10 },
+                { size: 'md', r: 13 },
+                { size: 'lg', r: 16 },
+              ].map(({ size, r }) => (
+                <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <ScoopClip
+                    shape="circle" size={size}
+                    borderColor={`${goldDim}55`}
+                    style={{
+                      background: `${goldDim}12`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}
+                  >
+                    <span style={{ fontSize: '0.6875rem', color: goldDim, fontFamily: 'monospace' }}>size="{size}"</span>
+                  </ScoopClip>
+                  <p style={nano}>{size} · r={r}px</p>
+                </div>
+              ))}
+            </div>
           </div>
         </Preview>
         <CodeBlock code={`<ScoopClip size="md" style={{ width: 170, height: 52 }}>
-  Tlačítko
+  Tlačítko (bezier default)
+</ScoopClip>
+
+<ScoopClip shape="circle" size="md">
+  Pevný kruhový výřez (container auto 170×52)
 </ScoopClip>
 
 // Custom hodnota přes r má přednost před size:
-<ScoopClip r={0.30} style={{ height: 80 }}>
-  Hluboký scoop
-</ScoopClip>`} />
+<ScoopClip r={0.30} style={{ height: 80 }}>...</ScoopClip>
+<ScoopClip shape="circle" r={20} style={{ width: 200, height: 60 }}>...</ScoopClip>`} />
       </Section>
 
       {/* ── Shape: bezier vs circle ── */}
@@ -369,25 +403,54 @@ export default function ScoopClipPage() {
         description="r je relativní hloubka scoopnutí vůči výšce elementu. Hodnota 0.25 znamená vydlabání 25 % výšky z každého rohu. Doporučený rozsah: 0.18–0.30."
       >
         <Preview>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'flex-end' }}>
-            {[0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40].map(r => (
-              <div key={r} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <ScoopClip
-                  r={r}
-                  borderColor={`${goldDim}44`}
-                  style={{
-                    width: 110, height: 52,
-                    background: `${goldDim}12`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <span style={{ fontSize: '0.6875rem', color: goldDim, fontFamily: 'monospace' }}>r={r}</span>
-                </ScoopClip>
-                <p style={nano}>r={r}</p>
-              </div>
-            ))}
+          <div style={{ width: '100%' }}>
+            <p style={{ ...nano, marginBottom: 8, color: goldDim, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Bezier — r v 0–0.5 (podíl výšky)
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'flex-end', marginBottom: 18 }}>
+              {[0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40].map(r => (
+                <div key={r} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <ScoopClip
+                    shape="bezier" r={r}
+                    borderColor={`${goldDim}44`}
+                    style={{
+                      width: 110, height: 52,
+                      background: `${goldDim}12`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <span style={{ fontSize: '0.6875rem', color: goldDim, fontFamily: 'monospace' }}>r={r}</span>
+                  </ScoopClip>
+                  <p style={nano}>r={r}</p>
+                </div>
+              ))}
+            </div>
+
+            <p style={{ ...nano, marginBottom: 8, color: goldDim, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Circle — r v px (poloměr kruhu, stejný container 110×52)
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'flex-end' }}>
+              {[5, 8, 11, 13, 16, 18, 21].map(r => (
+                <div key={r} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <ScoopClip
+                    shape="circle" r={r}
+                    borderColor={`${goldDim}44`}
+                    style={{
+                      width: 110, height: 52,
+                      background: `${goldDim}12`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <span style={{ fontSize: '0.6875rem', color: goldDim, fontFamily: 'monospace' }}>r={r}px</span>
+                  </ScoopClip>
+                  <p style={nano}>r={r}px</p>
+                </div>
+              ))}
+            </div>
           </div>
         </Preview>
       </Section>
@@ -400,11 +463,14 @@ export default function ScoopClipPage() {
       >
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%', maxWidth: 400 }}>
+            <p style={{ ...nano, marginBottom: 6, color: goldDim, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Bezier — r=0.25 (relativní) deformuje při změně šířky
+            </p>
             {[80, 140, 200, 300, 400].map(w => (
               <div key={w} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span style={{ fontSize: '0.5rem', color: textFaint, fontFamily: 'monospace', width: 36, textAlign: 'right', flexShrink: 0 }}>{w}px</span>
                 <ScoopClip
-                  r={0.25}
+                  shape="bezier" r={0.25}
                   borderColor={`${goldDim}33`}
                   style={{
                     width: w,
@@ -417,6 +483,30 @@ export default function ScoopClipPage() {
                   }}
                 >
                   <span style={{ fontSize: '0.625rem', color: goldDim, fontFamily: 'monospace' }}>r=0.25</span>
+                </ScoopClip>
+              </div>
+            ))}
+
+            <p style={{ ...nano, marginTop: 18, marginBottom: 6, color: goldDim, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Circle — r=11px (absolutní) zůstává stejný kruh při různé šířce
+            </p>
+            {[80, 140, 200, 300, 400].map(w => (
+              <div key={w} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span style={{ fontSize: '0.5rem', color: textFaint, fontFamily: 'monospace', width: 36, textAlign: 'right', flexShrink: 0 }}>{w}px</span>
+                <ScoopClip
+                  shape="circle" r={11}
+                  borderColor={`${goldDim}33`}
+                  style={{
+                    width: w,
+                    height: 44,
+                    background: `${goldDim}10`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}
+                >
+                  <span style={{ fontSize: '0.625rem', color: goldDim, fontFamily: 'monospace' }}>r=11px</span>
                 </ScoopClip>
               </div>
             ))}
