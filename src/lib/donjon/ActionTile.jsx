@@ -27,16 +27,19 @@ const SIZES = {
  *    pro vizuální pop — default goldDim → gold, special magicDark → magicColor)
  */
 /* Selected stav unified pattern napříč variantami:
- *   selBg     = `${variantColor}22` — jemný tinted bg (alpha ~13%, visible blue/red/green/purple cast)
- *   selBorder = variant color (full bright 1px rámeček)
- *   selOrn    = variant color (full bright, kontrast proti tinted bg)
- *   hex bgFill (z ActionTile) = selBg (alpha matchne button surface)
+ *   selBg     = `${variantColor}22` — jemný tinted bg (alpha ~13%, blue/red/green/purple cast)
+ *   selBorder = variant color (full bright 1px rámeček — signalizuje variant)
+ *   selOrn    = gold UNIVERSAL (kontrast hue proti všem tinted bg —
+ *               zlato ≠ modrá/červená/zelená/fialová → vždy viditelné)
+ *
+ * Vizuální hierarchie: variant identity přes border + bg tint,
+ * ornamenty jako konzistentní zlatý accent přes všechny varianty.
  */
 const VARIANTS = {
-  default: { border: borderDefault, activeBorder: infoColor,    selBg: `${infoColor}22`,    selBorder: infoColor,    selOrn: infoColor   },
-  attack:  { border: borderDefault, activeBorder: dangerColor,  selBg: `${dangerColor}22`,  selBorder: dangerColor,  selOrn: dangerColor },
-  move:    { border: borderDefault, activeBorder: gainColor,    selBg: `${gainColor}22`,    selBorder: gainColor,    selOrn: gainColor   },
-  special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}22`,   selBorder: magicColor,   selOrn: magicColor  },
+  default: { border: borderDefault, activeBorder: infoColor,    selBg: `${infoColor}22`,    selBorder: infoColor,    selOrn: gold },
+  attack:  { border: borderDefault, activeBorder: dangerColor,  selBg: `${dangerColor}22`,  selBorder: dangerColor,  selOrn: gold },
+  move:    { border: borderDefault, activeBorder: gainColor,    selBg: `${gainColor}22`,    selBorder: gainColor,    selOrn: gold },
+  special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}22`,   selBorder: magicColor,   selOrn: gold },
 }
 
 /* ── Lock ikona ── */
