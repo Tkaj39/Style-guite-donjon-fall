@@ -15,13 +15,23 @@ const CX_REFERENCE = [
 ]
 
 /* ── OrnamentRow — vizualizace jedné velikosti ──
-   Reálný oktagon shell + ornament uvnitř, aby bylo vidět jak na sebe sednou. */
+   Reálný oktagon shell + ornament uvnitř, aby bylo vidět jak na sebe sednou.
+   SideOrnament používá narrow/tall shell (typický button), rohové čtvercový. */
 function OrnamentRow({ cx, type, label }) {
-  const h = ornamentHForCx(cx, type)
   const baseW = ORNAMENT_BASE_WIDTH[type]
+  // Pro SideOrnament: h ≈ výška buttonu (typicky 28-44px), šířka derivuje z baseW
+  // Pro corner ornamenty: h derivuje z cx → šířka = cx
+  const h = type === 'side'
+    ? Math.max(28, cx * 2)              // button-like výška (sm=28, md=36, lg=44)
+    : ornamentHForCx(cx, type)
   const renderedW = Math.round(baseW * h / 66 * 10) / 10
-  const uid = `prev-${type}-${cx}`
-  const Orn = type === 'roh' ? RohOrnament : type === 'side' ? SideOrnament : ZkosenOrnament
+
+  // Side ornament používá tall narrow shell (jako tlačítko), corner ornamenty čtvercový
+  const shellW = type === 'side' ? 90 : 110
+  const shellH = type === 'side' ? h + 4 : 64
+
+  const uid  = `prev-${type}-${cx}`
+  const Orn  = type === 'roh' ? RohOrnament : type === 'side' ? SideOrnament : ZkosenOrnament
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '8px 0' }}>
@@ -29,7 +39,7 @@ function OrnamentRow({ cx, type, label }) {
         cx={cx}
       </span>
       {/* Mock octagon shell s ornamentem uvnitř */}
-      <div style={{ clipPath: octagon(cx), background: goldDim, padding: 1, width: 110, height: 64 }}>
+      <div style={{ clipPath: octagon(cx), background: goldDim, padding: 1, width: shellW, height: shellH }}>
         <div style={{
           position: 'relative',
           clipPath: octagon(cx - 1),
@@ -69,19 +79,31 @@ export default function OrnamentsPage() {
         <Preview>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32, width: '100%' }}>
             {/* ZkosenOrnament sloupec */}
-            <div style={{ flex: '1 1 320px' }}>
+            <div style={{ flex: '1 1 300px' }}>
               <h4 style={{ fontSize: '0.8125rem', fontWeight: 700, color: gold, marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                ZkosenOrnament <span style={{ color: textLow, fontWeight: 400 }}>(base width 22)</span>
+                ZkosenOrnament <span style={{ color: textLow, fontWeight: 400 }}>(base 22)</span>
               </h4>
               {CX_REFERENCE.map(({ cx }) => <OrnamentRow key={cx} cx={cx} type="zkosen" />)}
             </div>
 
             {/* RohOrnament sloupec */}
-            <div style={{ flex: '1 1 320px' }}>
+            <div style={{ flex: '1 1 300px' }}>
               <h4 style={{ fontSize: '0.8125rem', fontWeight: 700, color: gold, marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                RohOrnament <span style={{ color: textLow, fontWeight: 400 }}>(base width 25)</span>
+                RohOrnament <span style={{ color: textLow, fontWeight: 400 }}>(base 25)</span>
               </h4>
               {CX_REFERENCE.map(({ cx }) => <OrnamentRow key={cx} cx={cx} type="roh" />)}
+            </div>
+
+            {/* SideOrnament sloupec — narrow tall shell jako u tlačítka */}
+            <div style={{ flex: '1 1 300px' }}>
+              <h4 style={{ fontSize: '0.8125rem', fontWeight: 700, color: gold, marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                SideOrnament <span style={{ color: textLow, fontWeight: 400 }}>(base 22, full-height)</span>
+              </h4>
+              <p style={{ fontSize: '0.6875rem', color: textLow, marginBottom: 8, lineHeight: 1.5 }}>
+                Vertikální závorka přes celou výšku — používá se v tlačítkách. Výška h odpovídá
+                výšce komponenty (typ. 28/36/44 pro sm/md/lg).
+              </p>
+              {CX_REFERENCE.map(({ cx }) => <OrnamentRow key={cx} cx={cx} type="side" />)}
             </div>
           </div>
         </Preview>
@@ -98,6 +120,7 @@ export default function OrnamentsPage() {
                   <th style={{ padding: '8px 12px', fontWeight: 600 }}>cx</th>
                   <th style={{ padding: '8px 12px', fontWeight: 600 }}>h (zkosen)</th>
                   <th style={{ padding: '8px 12px', fontWeight: 600 }}>h (roh)</th>
+                  <th style={{ padding: '8px 12px', fontWeight: 600 }}>h (side)*</th>
                   <th style={{ padding: '8px 12px', fontWeight: 600 }}>Použití</th>
                   <th style={{ padding: '8px 12px', fontWeight: 600 }}>Příklad</th>
                 </tr>
@@ -108,12 +131,17 @@ export default function OrnamentsPage() {
                     <td style={{ padding: '8px 12px', fontFamily: 'ui-monospace, monospace', color: textHigh }}>{cx}</td>
                     <td style={{ padding: '8px 12px', fontFamily: 'ui-monospace, monospace', color: textLow }}>{ornamentHForCx(cx, 'zkosen')}</td>
                     <td style={{ padding: '8px 12px', fontFamily: 'ui-monospace, monospace', color: textLow }}>{ornamentHForCx(cx, 'roh')}</td>
+                    <td style={{ padding: '8px 12px', fontFamily: 'ui-monospace, monospace', color: textLow }}>{Math.max(28, cx * 2)}</td>
                     <td style={{ padding: '8px 12px' }}>{usage}</td>
                     <td style={{ padding: '8px 12px', color: textLow, fontFamily: 'ui-monospace, monospace', fontSize: '0.75rem' }}>{sample}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
+            <p style={{ fontSize: '0.6875rem', color: textLow, marginTop: 10, lineHeight: 1.5 }}>
+              * SideOrnament neodvozuje h z cx — jeho výška = výška komponenty (full-height bracket).
+              Hodnoty v tabulce jsou orientační (button výšky 28/36/44).
+            </p>
           </div>
         </Preview>
 
@@ -128,12 +156,16 @@ export default function OrnamentsPage() {
           lineHeight: 1.5,
           overflow: 'auto',
         }}>
-{`import { RohOrnament, ornamentHForCx } from './Ornaments'
+{`import { RohOrnament, ZkosenOrnament, SideOrnament, ornamentHForCx } from './Ornaments'
 
 const cx = 14   // corner-cut komponenty
 
-// ✓ Centrálně — šířka ornamentu odpovídá zkosení
-<RohOrnament h={ornamentHForCx(cx, 'roh')} uid="..." />
+// ✓ Corner ornamenty (Zkosen, Roh) — šířka derivuje z cx
+<ZkosenOrnament h={ornamentHForCx(cx, 'zkosen')} uid="..." />
+<RohOrnament    h={ornamentHForCx(cx, 'roh')}    uid="..." />
+
+// ✓ SideOrnament — full-height bracket, h = výška komponenty (NE z cx)
+<SideOrnament h={buttonHeight} uid="..." />   // typ. 28 / 36 / 44 (sm/md/lg)
 
 // ✗ Magic čísla per komponenta (předtím)
 <RohOrnament h={66} uid="..." />   // šířka 25px, ale cx je jen 14 → vyčuhuje
