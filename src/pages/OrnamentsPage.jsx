@@ -3,7 +3,7 @@ import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament, ornamentHForCx,
 import CornerOrnament from '../lib/donjon/CornerOrnament'
 import { buttonSizes, CARD_ORN_H } from '../utils/sizes'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
-import { octagon, octagonPerCorner } from '../utils/octagon'
+import { octagon, octagonInner, octagonPerCorner, octagonInnerPerCorner } from '../utils/octagon'
 import { gold, goldMid, goldDim, bg2, bg3, borderDefault, borderMid, textHigh, textMid, textLow } from '../lib/donjon/tokens'
 
 /* ── Doporučené hodnoty cx pro různé komponenty ── */
@@ -32,7 +32,7 @@ function OrnamentRow({ cx, type, label }) {
       <div style={{ clipPath: octagon(cx), background: goldDim, padding: 1, width: 110, height: 64 }}>
         <div style={{
           position: 'relative',
-          clipPath: octagon(cx - 1),
+          clipPath: octagonInner(cx),
           background: bg3,
           width: '100%',
           height: '100%',
@@ -69,7 +69,7 @@ function SideOrnamentRow({ sizeKey, h, cx, px }) {
       <div style={{ clipPath: octagon(cx), background: goldDim, padding: 1, width: shellW, height: h }}>
         <div style={{
           position: 'relative',
-          clipPath: octagon(cx - 1),
+          clipPath: octagonInner(cx),
           background: bg3,
           width: '100%',
           height: '100%',
@@ -209,12 +209,7 @@ function MixedCornerDemo() {
           }}>
             <div style={{
               position: 'relative',
-              clipPath: octagonPerCorner({
-                tl: Math.max(0, corners.tl - 1),
-                tr: Math.max(0, corners.tr - 1),
-                br: Math.max(0, corners.br - 1),
-                bl: Math.max(0, corners.bl - 1),
-              }),
+              clipPath: octagonInnerPerCorner(corners),
               background: bg3,
               width: '100%', height: '100%',
               display: 'flex', alignItems: 'center', justifyContent: 'center',

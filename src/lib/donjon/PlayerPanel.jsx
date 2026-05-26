@@ -7,7 +7,7 @@ import { Shield } from './Erb'
 import ResourceBar from './ResourceBar'
 import DonjonBadge from './DonjonBadge'
 import { RohOrnament, ornamentHForCx } from './Ornaments'
-import { octagon } from '../../utils/octagon'
+import { octagon, octagonInner } from '../../utils/octagon'
 import {
   gold, goldDim,
   bg2, bg3, bg4,
@@ -59,7 +59,7 @@ export default function PlayerPanel({
         position: 'relative',
         background: isActive ? bg4 : bg3,
         ...(hasOrnaments ? {
-          clipPath: octagon(CX - 1),
+          clipPath: octagonInner(CX),
         } : {
           border: `1px solid ${borderColor}`,
           borderRadius: 4,

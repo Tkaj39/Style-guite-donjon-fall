@@ -4,7 +4,7 @@
                    warning(jantarová) · event(modrá)
    Tvar: oktagon cx=12, tmavý bgDeep, variant barva v borderu + titulu + glow.
    ─────────────────────────────────────────────────────────────────────── */
-import { octagon } from '../../utils/octagon'
+import { octagon, octagonInner } from '../../utils/octagon'
 import { createToastContext } from '../../utils/toastContext'
 import {
   gold, goldDim,
@@ -98,7 +98,7 @@ function ToastItem({ id, title, message, variant = 'default', duration = 4000, o
         {/* Outer border layer */}
         <div style={{ clipPath: octagon(CX), background: v.bar, padding: 1 }}>
           {/* Inner content */}
-          <div style={{ clipPath: octagon(CX - 1), background: bgDeep, display: 'flex', flexDirection: 'column' }}>
+          <div style={{ clipPath: octagonInner(CX), background: bgDeep, display: 'flex', flexDirection: 'column' }}>
 
             {/* Content row */}
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '11px 12px 10px' }}>

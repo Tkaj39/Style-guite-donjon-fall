@@ -15,6 +15,36 @@ export function octagonPerCorner({ tl = 0, tr = 0, br = 0, bl = 0 } = {}) {
   return `polygon(${tl}px 0px,calc(100% - ${tr}px) 0px,100% ${tr}px,100% calc(100% - ${br}px),calc(100% - ${br}px) 100%,${bl}px 100%,0px calc(100% - ${bl}px),0px ${tl}px)`
 }
 
+/**
+ * octagonInner — vnitřní octagon pro outer/inner border trick.
+ *
+ * Outer shell má clip-path: octagon(cx) + background: border, padding: 1.
+ * Inner fill pak používá octagon(cx - 1), aby zlatý lem 1px byl viditelný.
+ * Tato funkce odstraňuje opakovaný "cx - 1" boilerplate napříč komponentami.
+ *
+ * @param {number} cx        outer corner-cut
+ * @param {number} [border]  tloušťka borderu (default 1px)
+ */
+export function octagonInner(cx, border = 1) {
+  return octagon(Math.max(0, cx - border))
+}
+
+/**
+ * octagonInnerPerCorner — vnitřní octagon pro asymetrický blok.
+ * Per-corner pendant k octagonInner.
+ *
+ * @param {{ tl?, tr?, br?, bl? }} corners
+ * @param {number} [border]  tloušťka borderu (default 1px)
+ */
+export function octagonInnerPerCorner(corners, border = 1) {
+  return octagonPerCorner({
+    tl: Math.max(0, (corners.tl ?? 0) - border),
+    tr: Math.max(0, (corners.tr ?? 0) - border),
+    br: Math.max(0, (corners.br ?? 0) - border),
+    bl: Math.max(0, (corners.bl ?? 0) - border),
+  })
+}
+
 export function clipLeft(cx) {
   return `polygon(${cx}px 0px,100% 0px,100% 100%,${cx}px 100%,0px calc(100% - ${cx}px),0px ${cx}px)`
 }

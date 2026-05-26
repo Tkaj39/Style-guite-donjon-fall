@@ -4,7 +4,7 @@
    ─────────────────────────────────────────────────────────────────────── */
 import { useRef, useEffect } from 'react'
 import { useId } from 'react'
-import { octagon } from '../../utils/octagon'
+import { octagon, octagonInner } from '../../utils/octagon'
 import { RohOrnament, HexOrnament, ornamentHForCx } from './Ornaments'
 import {
   gold, goldDim,
@@ -218,7 +218,7 @@ export default function EventLog({
       <div
         style={{
           position: 'relative',
-          clipPath: octagon(cx - 1),
+          clipPath: octagonInner(cx),
           background: bg3,
           display: 'flex',
           flexDirection: 'column',

@@ -2,21 +2,33 @@
  * Shared decorative ornaments used across DonjonButton, DonjonCard, ButtonGroup.
  *
  * SideOrnament   — full-height vertical bracket (left/right edge). viewBox 24×66.
- *   Props: h, uid, flip
+ *   Props: h, uid?, flip, style?
  *
  * ZkosenOrnament — corner-only diagonal bracket + diamond. viewBox 22×22. ornament='zkosen'
- *   Props: h, uid, flip (horizontal = right corner), bottom (vertical = bottom corner)
+ *   Props: h, uid?, flip (right corner), bottom (bottom corner), style?
  *
  * RohOrnament    — corner bracket + partial vertical descent. viewBox 25×46. ornament='roh'
- *   Props: h, uid, flip (horizontal = right corner), bottom (vertical = bottom corner), style
+ *   Props: h, uid?, flip (right corner), bottom (bottom corner), style?
  *
  * HexOrnament    — horizontal bar with two lines + centered hexagon (top/bottom).
- *   Props: uid, flip, edgePadL/R, textPadL/R, hexOffsetX
+ *   Props: uid?, flip, edgePadL/R, textPadL/R, hexOffsetX, style?
  *
  * All ornaments scale proportionally: reference height = 66px (same as SideOrnament).
  * Ornament widths at 100% scale: SideOrnament≈22, ZkosenOrnament=22, RohOrnament=25.
+ *
+ * The `uid` prop is OPTIONAL — pokud chybí, useId() vygeneruje unikátní hodnotu.
+ * Explicit uid je vhodný pro SSR snapshots a stabilní výstup, ale není povinný.
  */
+import { useId } from 'react'
 import { gold, goldDim, bg4 } from './tokens'
+
+/* ── Auto-uid helper ────────────────────────────────────────────────────────
+   Pokud caller nepředá `uid`, useId() vygeneruje unikátní fallback.
+   `:` z React id se odstraní — invalidní v SVG ID. */
+function useOrnamentUid(uid) {
+  const auto = useId()
+  return uid ?? `orn-${auto.replace(/:/g, '')}`
+}
 
 /* ── Centrální mapování typ ornamentu → základní šířka (při h=66) ────────────
    Jediný zdroj pravdy pro škálování. Pokud upravíš viewBox ornamentu, oprav
@@ -45,7 +57,8 @@ export function ornamentHForCx(cx, type = 'zkosen') {
   return Math.round(cx * 66 / baseW)
 }
 
-export function SideOrnament({ h, uid, flip }) {
+export function SideOrnament({ h, uid: uidProp, flip, style: styleProp }) {
+  const uid = useOrnamentUid(uidProp)
   const w  = Math.round(24 * (h / 66) * 10) / 10 - 2
   const g  = `url(#${uid}-v)`
   const gh = `url(#${uid}-h)`
@@ -62,6 +75,7 @@ export function SideOrnament({ h, uid, flip }) {
         [flip ? 'right' : 'left']: 1,
         transform: flip ? 'scaleX(-1)' : undefined,
         pointerEvents: 'none',
+        ...styleProp,
       }}
     >
       <defs>
@@ -103,7 +117,8 @@ export function SideOrnament({ h, uid, flip }) {
    Rohový ornament — dvě diagonální závorky + diamant. viewBox 22×22.
    Varianta ornament='zkosen' na DonjonButton, DonjonCard, DonjonModal.
    ──────────────────────────────────────────────────────────────────────── */
-export function ZkosenOrnament({ h, uid, flip, bottom }) {
+export function ZkosenOrnament({ h, uid: uidProp, flip, bottom, style: styleProp }) {
+  const uid = useOrnamentUid(uidProp)
   const size = Math.round(22 * (h / 66) * 10) / 10
   const gv   = `url(#${uid}-v)`
   const gd   = `url(#${uid}-d)`
@@ -125,6 +140,7 @@ export function ZkosenOrnament({ h, uid, flip, bottom }) {
         [flip ? 'right' : 'left']: 1,
         transform,
         pointerEvents: 'none',
+        ...styleProp,
       }}
     >
       <defs>
@@ -154,7 +170,8 @@ export function ZkosenOrnament({ h, uid, flip, bottom }) {
    Rohový ornament + vertikální sestup — závorka v rohu + část SideOrnamant.
    viewBox 25×46. Varianta ornament='roh' na DonjonButton, DonjonCard, DonjonModal.
    ──────────────────────────────────────────────────────────────────────── */
-export function RohOrnament({ h, uid, flip, bottom, style: styleProp }) {
+export function RohOrnament({ h, uid: uidProp, flip, bottom, style: styleProp }) {
+  const uid = useOrnamentUid(uidProp)
   const w  = Math.round(25 * (h / 66) * 10) / 10
   const rh = Math.round(46 * (h / 66) * 10) / 10
   const gv = `url(#${uid}-v)`
@@ -229,14 +246,16 @@ export function RohOrnament({ h, uid, flip, bottom, style: styleProp }) {
 }
 
 export function HexOrnament({
-  uid,
+  uid: uidProp,
   flip,
   edgePadL = 16,
   edgePadR,
   textPadL,
   textPadR,
   hexOffsetX = 0,
+  style: styleProp,
 }) {
+  const uid   = useOrnamentUid(uidProp)
   const g     = `url(#${uid}-hg)`
   const padR  = edgePadR  ?? edgePadL
   const innerL = textPadL != null ? textPadL + 2 : '23%'
@@ -252,6 +271,7 @@ export function HexOrnament({
         height: 7,
         pointerEvents: 'none',
         transform: flip ? 'scaleY(-1)' : undefined,
+        ...styleProp,
       }}
     >
       {/* outer line */}

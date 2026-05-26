@@ -1,7 +1,7 @@
 import { useEffect, useRef, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { useModalPageInert } from '../../hooks/useModalPageInert'
-import { octagon } from '../../utils/octagon'
+import { octagon, octagonInner } from '../../utils/octagon'
 import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament, ornamentHForCx } from './Ornaments'
 import {
   goldDim, goldMid, textActive,
@@ -124,7 +124,7 @@ export default function DonjonModal({
           {/* Inner fill */}
           <div style={{
             position: 'relative',
-            clipPath: octagon(cx - 1),
+            clipPath: octagonInner(cx),
             background: v.bg,
             display: 'flex',
             flexDirection: 'column',

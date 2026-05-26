@@ -13,7 +13,7 @@ import {
   textHigh, textMid, textLow,
   gainColor, dangerColor, warningColor, infoColor, magicColor,
 } from '../lib/donjon/tokens'
-import { octagon } from '../utils/octagon'
+import { octagon, octagonInner } from '../utils/octagon'
 
 const NPM_PACKAGE = 'donjon-fall-ui'
 
@@ -121,7 +121,7 @@ function HomeCard({ to, icon, title, description, accent = gold, badge }) {
     >
       <div style={{
         position: 'relative',
-        clipPath: octagon(cx - 1),
+        clipPath: octagonInner(cx),
         background: hover ? bg3 : bg2,
         padding: '20px 22px',
         height: '100%',

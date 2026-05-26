@@ -1,5 +1,5 @@
 import { useId } from 'react'
-import { octagon } from '../../utils/octagon'
+import { octagon, octagonInner } from '../../utils/octagon'
 import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament, ornamentHForCx } from './Ornaments'
 import {
   goldDim, goldMid,
@@ -58,7 +58,7 @@ export default function DonjonCard({
     <div
       style={{
         position: 'relative',
-        clipPath: octagon(Math.max(cx - 1, 0)),
+        clipPath: octagonInner(cx),
         background: v.bg,
         display: 'flex',
         flexDirection: 'column',

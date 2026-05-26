@@ -18,7 +18,7 @@ import { createPortal } from 'react-dom'
 import GameTransition from './GameTransition'
 import DonjonBadge from './DonjonBadge'
 import { RohOrnament, ornamentHForCx } from './Ornaments'
-import { octagon } from '../../utils/octagon'
+import { octagon, octagonInner } from '../../utils/octagon'
 import { useModalPageInert } from '../../hooks/useModalPageInert'
 import {
   gold, goldDim,
@@ -198,7 +198,7 @@ export default function DonjonNotificationCenter({
         <div style={{
           ...(hasOrnaments ? {
             position: 'relative',
-            clipPath: octagon(CX - 1),
+            clipPath: octagonInner(CX),
           } : {}),
           background: bg3,
           overflow: 'hidden',
