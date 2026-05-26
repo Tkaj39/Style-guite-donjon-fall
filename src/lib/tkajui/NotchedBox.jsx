@@ -1,5 +1,5 @@
 import { Children, isValidElement } from 'react'
-import { octagonWithNotch, notchClamp } from '../../utils/octagon'
+import { octagonWithNotch, octagonWithNotches, notchClamp } from '../../utils/octagon'
 
 // ─── Slot ──────────────────────────────────────────────────────────────────
 /**
@@ -82,6 +82,8 @@ function NotchedBox({
   nh = 12,
   side = 'bottom',
   notchOffset = 0.5,
+  notchShape = 'v',
+  notches,           // advanced API — pole zářezů, přepisuje single-notch propsy
   children,
   style,
   className,
@@ -100,25 +102,57 @@ function NotchedBox({
     }
   })
 
-  // Auto-clamp pokud máme explicit px rozměry ve style
+  // Auto-clamp pro single-notch režim
   const width  = pxValue(style?.width)
   const height = pxValue(style?.height)
-  const clamped = notchClamp({ cx, nw, nh, side, offset: notchOffset, width, height })
 
-  if (clamped.warning && typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production') {
-    // eslint-disable-next-line no-console
-    console.warn(`[NotchedBox] ${clamped.warning}`)
+  // Multi-notch režim: pole notches má přednost, single-notch propsy se ignorují
+  const isMulti = Array.isArray(notches) && notches.length > 0
+  let clipPath, outerClipPath, slotInfos
+
+  if (isMulti) {
+    // Clamp každý notch zvlášť proti rozměrům
+    const clampedAll = notches.map(n => notchClamp({
+      cx, nw: n.nw, nh: n.nh, side: n.side, offset: n.offset, width, height,
+    }))
+    const warnings = clampedAll.map(c => c.warning).filter(Boolean)
+    if (warnings.length && typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production') {
+      // eslint-disable-next-line no-console
+      console.warn('[NotchedBox] ' + warnings.join('; '))
+    }
+    const finalNotches = notches.map((n, i) => ({
+      side: n.side,
+      offset: clampedAll[i].offset,
+      nw: clampedAll[i].nw,
+      nh: clampedAll[i].nh,
+      shape: n.shape ?? 'v',
+    }))
+    clipPath = octagonWithNotches(cx, finalNotches)
+    if (borderColor) {
+      outerClipPath = octagonWithNotches(cx + borderWidth, finalNotches)
+    }
+    slotInfos = finalNotches.map(n => ({ side: n.side, offset: n.offset }))
+  } else {
+    const clamped = notchClamp({ cx, nw, nh, side, offset: notchOffset, width, height })
+    if (clamped.warning && typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production') {
+      // eslint-disable-next-line no-console
+      console.warn(`[NotchedBox] ${clamped.warning}`)
+    }
+    clipPath = octagonWithNotch(cx, clamped.nw, clamped.nh, side, clamped.offset, notchShape)
+    if (borderColor) {
+      outerClipPath = octagonWithNotch(cx + borderWidth, clamped.nw, clamped.nh, side, clamped.offset, notchShape)
+    }
+    slotInfos = [{ side, offset: clamped.offset }]
   }
 
   return (
     <div style={{ position: 'relative', display: 'inline-block' }}>
-      {/* Podkladová vrstva — border trick: stejný tvar, o borderWidth větší, barva borderu.
-          Absolutně pozicovaná za content div, clip-path sleduje rohy i zářez. */}
+      {/* Podkladová vrstva — border trick: stejný tvar, o borderWidth větší, barva borderu. */}
       {borderColor && (
         <div style={{
           position: 'absolute',
           inset: -borderWidth,
-          clipPath: octagonWithNotch(cx + borderWidth, clamped.nw, clamped.nh, side, clamped.offset),
+          clipPath: outerClipPath,
           background: borderColor,
         }} />
       )}
@@ -126,8 +160,7 @@ function NotchedBox({
       <div
         ref={ref}
         style={{
-          clipPath: octagonWithNotch(cx, clamped.nw, clamped.nh, side, clamped.offset),
-          /* position: relative zajistí že content div se vykreslí nad podkladovou vrstvou */
+          clipPath,
           position: borderColor ? 'relative' : undefined,
           ...style,
         }}
@@ -137,19 +170,27 @@ function NotchedBox({
         {content}
       </div>
 
-      {slots.map((slot, i) => (
-        <div
-          key={i}
-          style={{
-            position: 'absolute',
-            ...slotPos(side, clamped.offset),
-            ...(slot.props.style ?? {}),
-          }}
-          className={slot.props.className}
-        >
-          {slot.props.children}
-        </div>
-      ))}
+      {/* Sloty — v multi-notch režimu se Slot bez identifikace pozice umístí na první notch.
+          Pokud má Slot prop 'notchIndex', použije se ten konkrétní zářez. */}
+      {slots.map((slot, i) => {
+        const idx = typeof slot.props.notchIndex === 'number'
+          ? Math.max(0, Math.min(slotInfos.length - 1, slot.props.notchIndex))
+          : Math.min(i, slotInfos.length - 1)
+        const info = slotInfos[idx]
+        return (
+          <div
+            key={i}
+            style={{
+              position: 'absolute',
+              ...slotPos(info.side, info.offset),
+              ...(slot.props.style ?? {}),
+            }}
+            className={slot.props.className}
+          >
+            {slot.props.children}
+          </div>
+        )
+      })}
     </div>
   )
 }

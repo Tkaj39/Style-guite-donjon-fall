@@ -116,85 +116,151 @@ export const SHAPE_SIZES = {
   card: { w: 220, h: 120, cut: 16,    round: 12, scoop: 28, bb: 0.23 },
 }
 
-/**
- * octagonWithNotch — octagon s V-zářezem na jedné straně.
- * Zářez jde dovnitř tvaru (odebrání materiálu).
- *
- * @param {number} cx     - rohové zkosení (stejné jako octagon)
- * @param {number} nw     - šířka zářezu v px (default 28)
- * @param {number} nh     - hloubka zářezu v px (default 12)
- * @param {'bottom'|'top'|'left'|'right'} side - strana zářezu
- * @param {number} offset - pozice zářezu podél strany (0 = start, 0.5 = střed, 1 = konec)
- *
- * ⚠ Validní rozsah: nw + 2·cx ≤ délka strany, nh ≤ poloviční tloušťka.
- *    Funkce nevalidúje proti rozměrům — kontrolu provádí NotchedBox.
- */
-export function octagonWithNotch(cx, nw = 28, nh = 12, side = 'bottom', offset = 0.5) {
-  const hw = nw / 2
-  // offset clamp do bezpečného rozsahu — chrání před negativními % v calc()
+/* ── Notch geometry helpers ────────────────────────────────────────────────
+   Polygon points pro jeden zářez podle strany + tvaru.
+   Vrací pole stringů ve směru perimetru (clockwise od top-left).
+   Pro 'top' jde zleva doprava, 'bottom' zprava doleva (reverse),
+   'right' shora dolů, 'left' zdola nahoru (reverse). */
+
+const NOTCH_SHAPES = ['v', 'square', 'trapezoid']
+
+function pctStr(offset) {
   const off = Math.max(0, Math.min(1, offset))
-  const pct = `${(off * 100).toFixed(3)}%`
-  switch (side) {
-    case 'bottom':
-      return `polygon(
-        ${cx}px 0px,
-        calc(100% - ${cx}px) 0px,
-        100% ${cx}px,
-        100% calc(100% - ${cx}px),
-        calc(100% - ${cx}px) 100%,
-        calc(${pct} + ${hw}px) 100%,
-        ${pct} calc(100% - ${nh}px),
-        calc(${pct} - ${hw}px) 100%,
-        ${cx}px 100%,
-        0px calc(100% - ${cx}px),
-        0px ${cx}px
-      )`
-    case 'top':
-      return `polygon(
-        ${cx}px 0px,
-        calc(${pct} - ${hw}px) 0px,
-        ${pct} ${nh}px,
-        calc(${pct} + ${hw}px) 0px,
-        calc(100% - ${cx}px) 0px,
-        100% ${cx}px,
-        100% calc(100% - ${cx}px),
-        calc(100% - ${cx}px) 100%,
-        ${cx}px 100%,
-        0px calc(100% - ${cx}px),
-        0px ${cx}px
-      )`
-    case 'left':
-      return `polygon(
-        ${cx}px 0px,
-        calc(100% - ${cx}px) 0px,
-        100% ${cx}px,
-        100% calc(100% - ${cx}px),
-        calc(100% - ${cx}px) 100%,
-        ${cx}px 100%,
-        0px calc(100% - ${cx}px),
-        0px calc(${pct} + ${hw}px),
-        ${nh}px ${pct},
-        0px calc(${pct} - ${hw}px),
-        0px ${cx}px
-      )`
-    case 'right':
-      return `polygon(
-        ${cx}px 0px,
-        calc(100% - ${cx}px) 0px,
-        100% ${cx}px,
-        100% calc(${pct} - ${hw}px),
-        calc(100% - ${nh}px) ${pct},
-        100% calc(${pct} + ${hw}px),
-        100% calc(100% - ${cx}px),
-        calc(100% - ${cx}px) 100%,
-        ${cx}px 100%,
-        0px calc(100% - ${cx}px),
-        0px ${cx}px
-      )`
-    default:
-      return octagon(cx)
-  }
+  // parseFloat odstraní trailing zeros: 50.000 → 50, 33.333 → 33.333
+  return `${parseFloat((off * 100).toFixed(3))}%`
 }
+
+/** Body zářezu na horizontální straně (top / bottom) — order zleva doprava. */
+function horizontalNotchPoints({ shape, pct, hw, edgeY, apexYExpr }) {
+  if (shape === 'square') {
+    return [
+      `calc(${pct} - ${hw}px) ${edgeY}`,
+      `calc(${pct} - ${hw}px) ${apexYExpr}`,
+      `calc(${pct} + ${hw}px) ${apexYExpr}`,
+      `calc(${pct} + ${hw}px) ${edgeY}`,
+    ]
+  }
+  if (shape === 'trapezoid') {
+    const flat = hw * 0.4
+    return [
+      `calc(${pct} - ${hw}px) ${edgeY}`,
+      `calc(${pct} - ${flat}px) ${apexYExpr}`,
+      `calc(${pct} + ${flat}px) ${apexYExpr}`,
+      `calc(${pct} + ${hw}px) ${edgeY}`,
+    ]
+  }
+  return [
+    `calc(${pct} - ${hw}px) ${edgeY}`,
+    `${pct} ${apexYExpr}`,
+    `calc(${pct} + ${hw}px) ${edgeY}`,
+  ]
+}
+
+/** Body zářezu na vertikální straně (left / right) — order shora dolů. */
+function verticalNotchPoints({ shape, pct, hw, edgeX, apexXExpr }) {
+  if (shape === 'square') {
+    return [
+      `${edgeX} calc(${pct} - ${hw}px)`,
+      `${apexXExpr} calc(${pct} - ${hw}px)`,
+      `${apexXExpr} calc(${pct} + ${hw}px)`,
+      `${edgeX} calc(${pct} + ${hw}px)`,
+    ]
+  }
+  if (shape === 'trapezoid') {
+    const flat = hw * 0.4
+    return [
+      `${edgeX} calc(${pct} - ${hw}px)`,
+      `${apexXExpr} calc(${pct} - ${flat}px)`,
+      `${apexXExpr} calc(${pct} + ${flat}px)`,
+      `${edgeX} calc(${pct} + ${hw}px)`,
+    ]
+  }
+  return [
+    `${edgeX} calc(${pct} - ${hw}px)`,
+    `${apexXExpr} ${pct}`,
+    `${edgeX} calc(${pct} + ${hw}px)`,
+  ]
+}
+
+/** Body jednoho zářezu ve směru perimetru (clockwise od top-left). */
+function notchPolygonPoints({ side, offset, nw, nh, shape = 'v' }) {
+  const hw  = nw / 2
+  const pct = pctStr(offset)
+  const sh  = NOTCH_SHAPES.includes(shape) ? shape : 'v'
+
+  if (side === 'top') {
+    return horizontalNotchPoints({ shape: sh, pct, hw, edgeY: '0px', apexYExpr: `${nh}px` })
+  }
+  if (side === 'bottom') {
+    return horizontalNotchPoints({ shape: sh, pct, hw, edgeY: '100%', apexYExpr: `calc(100% - ${nh}px)` }).reverse()
+  }
+  if (side === 'right') {
+    return verticalNotchPoints({ shape: sh, pct, hw, edgeX: '100%', apexXExpr: `calc(100% - ${nh}px)` })
+  }
+  if (side === 'left') {
+    return verticalNotchPoints({ shape: sh, pct, hw, edgeX: '0px', apexXExpr: `${nh}px` }).reverse()
+  }
+  return []
+}
+
+/**
+ * octagonWithNotches — octagon s libovolným počtem zářezů na různých stranách.
+ *
+ * @param {number} cx
+ * @param {Array<{ side, offset, nw, nh, shape? }>} notches
+ *
+ * Obchází perimeter clockwise (top → right → bottom → left), na každé straně
+ * setřídí zářezy podle offsetu a vloží je mezi rohy.
+ *
+ * @example
+ *   octagonWithNotches(12, [
+ *     { side: 'top',    offset: 0.5, nw: 28, nh: 12, shape: 'v' },
+ *     { side: 'bottom', offset: 0.3, nw: 20, nh: 10, shape: 'square' },
+ *   ])
+ */
+export function octagonWithNotches(cx, notches = []) {
+  const grouped = { top: [], right: [], bottom: [], left: [] }
+  for (const n of notches) {
+    if (grouped[n.side]) grouped[n.side].push(n)
+  }
+  grouped.top.sort((a, b)    => a.offset - b.offset)
+  grouped.right.sort((a, b)  => a.offset - b.offset)
+  grouped.bottom.sort((a, b) => b.offset - a.offset)
+  grouped.left.sort((a, b)   => b.offset - a.offset)
+
+  const pts = []
+  pts.push(`${cx}px 0px`)
+  for (const n of grouped.top) pts.push(...notchPolygonPoints(n))
+  pts.push(`calc(100% - ${cx}px) 0px`)
+  pts.push(`100% ${cx}px`)
+  for (const n of grouped.right) pts.push(...notchPolygonPoints(n))
+  pts.push(`100% calc(100% - ${cx}px)`)
+  pts.push(`calc(100% - ${cx}px) 100%`)
+  for (const n of grouped.bottom) pts.push(...notchPolygonPoints(n))
+  pts.push(`${cx}px 100%`)
+  pts.push(`0px calc(100% - ${cx}px)`)
+  for (const n of grouped.left) pts.push(...notchPolygonPoints(n))
+  pts.push(`0px ${cx}px`)
+
+  return `polygon(${pts.join(',')})`
+}
+
+/**
+ * octagonWithNotch — single-notch shortcut nad octagonWithNotches.
+ * Backward compatible API.
+ *
+ * @param {number} cx
+ * @param {number} nw           default 28
+ * @param {number} nh           default 12
+ * @param {'bottom'|'top'|'left'|'right'} side  default 'bottom'
+ * @param {number} offset       default 0.5
+ * @param {'v'|'square'|'trapezoid'} shape  default 'v'
+ */
+export function octagonWithNotch(cx, nw = 28, nh = 12, side = 'bottom', offset = 0.5, shape = 'v') {
+  return octagonWithNotches(cx, [{ side, offset, nw, nh, shape }])
+}
+
+export { NOTCH_SHAPES }
 
 /**
  * notchClamp — sanity-check a clamp parametrů zářezu vůči rozměrům prvku.

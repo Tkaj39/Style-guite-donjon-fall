@@ -1,5 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { octagon, clipLeft, clipRight, octagonWithNotch, roundRect, pill, scoopPath, SHAPE_SIZES } from '../utils/octagon'
+import { octagon, clipLeft, clipRight, octagonWithNotch, octagonWithNotches, roundRect, pill, scoopPath, SHAPE_SIZES } from '../utils/octagon'
 import { buttonSizes } from '../utils/sizes'
 import ScoopClip from '../lib/tkajui/ScoopClip'
 import NotchedBox from '../lib/tkajui/NotchedBox'
@@ -354,6 +354,75 @@ const clipPath = clipFn?.(cx)`} />
             <p style={{ ...lbl, marginTop: 12, color: textFaint, fontSize: '0.6875rem' }}>
               Slot v NotchedBox automaticky sleduje notchOffset.
             </p>
+          </div>
+        </Preview>
+
+        {/* notchShape — V, square, trapezoid */}
+        <Preview>
+          <div style={{ width: '100%' }}>
+            <p style={{ ...lbl, marginBottom: 12, color: textMid }}>
+              <strong style={{ color: goldDim }}>notchShape</strong> — tvar zářezu
+            </p>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+              {[
+                { shape: 'v',         label: 'v (triangulární — default)' },
+                { shape: 'square',    label: 'square (obdélníkový tab)' },
+                { shape: 'trapezoid', label: 'trapezoid (V s plochým dnem)' },
+              ].map(({ shape, label }) => (
+                <div key={shape} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <div style={{
+                    clipPath: octagonWithNotch(10, 32, 14, 'bottom', 0.5, shape),
+                    background: `linear-gradient(150deg,${bg4} 0%,${bgDeep} 100%)`,
+                    width: 140, height: 60,
+                  }} />
+                  <p style={lbl}>{label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Preview>
+
+        {/* Multi-notch — pole zářezů na různých stranách */}
+        <Preview>
+          <div style={{ width: '100%' }}>
+            <p style={{ ...lbl, marginBottom: 12, color: textMid }}>
+              <strong style={{ color: goldDim }}>octagonWithNotches</strong> — libovolný počet zářezů na různých stranách
+            </p>
+            <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+              {[
+                {
+                  label: 'top + bottom (panel connector)',
+                  notches: [
+                    { side: 'top',    offset: 0.5, nw: 28, nh: 10, shape: 'v' },
+                    { side: 'bottom', offset: 0.5, nw: 28, nh: 10, shape: 'v' },
+                  ],
+                },
+                {
+                  label: 'top × 2 (dual tabs)',
+                  notches: [
+                    { side: 'top', offset: 0.25, nw: 20, nh: 10, shape: 'square' },
+                    { side: 'top', offset: 0.75, nw: 20, nh: 10, shape: 'square' },
+                  ],
+                },
+                {
+                  label: 'mixed shapes around perimeter',
+                  notches: [
+                    { side: 'top',    offset: 0.5, nw: 24, nh: 10, shape: 'v' },
+                    { side: 'right',  offset: 0.5, nw: 20, nh: 8,  shape: 'trapezoid' },
+                    { side: 'bottom', offset: 0.3, nw: 16, nh: 8,  shape: 'square' },
+                  ],
+                },
+              ].map(({ label, notches }) => (
+                <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <div style={{
+                    clipPath: octagonWithNotches(10, notches),
+                    background: `linear-gradient(150deg,${bg4} 0%,${bgDeep} 100%)`,
+                    width: 160, height: 100,
+                  }} />
+                  <p style={lbl}>{label}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </Preview>
 
