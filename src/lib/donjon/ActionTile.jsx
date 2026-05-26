@@ -11,7 +11,7 @@ import {
   borderDefault, borderMid,
   textHigh, textMid, textLow, textFaint,
   dangerColor, warningColor, gainColor, magicColor, magicDark,
-  infoColor, infoDark,
+  infoColor, infoMid, infoDark,
 } from './tokens'
 
 const SIZES = {
@@ -27,7 +27,7 @@ const SIZES = {
  *    pro vizuální pop — default goldDim → gold, special magicDark → magicColor)
  */
 const VARIANTS = {
-  default: { border: borderDefault, activeBorder: infoColor,    selBg: `${infoColor}16`,    selBorder: infoColor,    selOrn: infoDark    },
+  default: { border: borderDefault, activeBorder: infoColor,    selBg: infoMid,             selBorder: infoColor,    selOrn: infoDark    },
   attack:  { border: borderDefault, activeBorder: dangerColor,  selBg: `${dangerColor}12`,  selBorder: dangerColor,  selOrn: dangerColor },
   move:    { border: borderDefault, activeBorder: gainColor,    selBg: `${gainColor}10`,    selBorder: gainColor,    selOrn: gainColor   },
   special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}18`,   selBorder: magicDark,    selOrn: magicColor  },
