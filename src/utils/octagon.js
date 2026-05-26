@@ -1,4 +1,14 @@
-export function octagon(cx) {
+/**
+ * octagon — clip-path s 8 stranami (oktagon).
+ *
+ * Standardní corner-cut tvar pro donjon-fall-ui — diagonální řez 45°
+ * na každém rohu. Sjednocená terminologie napříč clip-path utilitami:
+ * `cornerSize` znamená velikost rohového zkosení v px.
+ *
+ * @param {number} cornerSize  velikost zkosení rohu v px
+ */
+export function octagon(cornerSize) {
+  const cx = cornerSize
   return `polygon(${cx}px 0px,calc(100% - ${cx}px) 0px,100% ${cx}px,100% calc(100% - ${cx}px),calc(100% - ${cx}px) 100%,${cx}px 100%,0px calc(100% - ${cx}px),0px ${cx}px)`
 }
 
@@ -18,15 +28,15 @@ export function octagonPerCorner({ tl = 0, tr = 0, br = 0, bl = 0 } = {}) {
 /**
  * octagonInner — vnitřní octagon pro outer/inner border trick.
  *
- * Outer shell má clip-path: octagon(cx) + background: border, padding: 1.
- * Inner fill pak používá octagon(cx - 1), aby zlatý lem 1px byl viditelný.
- * Tato funkce odstraňuje opakovaný "cx - 1" boilerplate napříč komponentami.
+ * Outer shell má clip-path: octagon(cornerSize) + background: border, padding: 1.
+ * Inner fill pak používá octagon(cornerSize - 1), aby zlatý lem 1px byl viditelný.
+ * Tato funkce odstraňuje opakovaný "- 1" boilerplate napříč komponentami.
  *
- * @param {number} cx        outer corner-cut
- * @param {number} [border]  tloušťka borderu (default 1px)
+ * @param {number} cornerSize  outer corner-cut v px
+ * @param {number} [border]    tloušťka borderu (default 1px)
  */
-export function octagonInner(cx, border = 1) {
-  return octagon(Math.max(0, cx - border))
+export function octagonInner(cornerSize, border = 1) {
+  return octagon(Math.max(0, cornerSize - border))
 }
 
 /**
@@ -231,7 +241,7 @@ function notchPolygonPoints({ side, offset, nw, nh, shape = 'v' }) {
 /**
  * octagonWithNotches — octagon s libovolným počtem zářezů na různých stranách.
  *
- * @param {number} cx
+ * @param {number} cornerSize  velikost rohového zkosení v px
  * @param {Array<{ side, offset, nw, nh, shape? }>} notches
  *
  * Obchází perimeter clockwise (top → right → bottom → left), na každé straně
@@ -243,7 +253,8 @@ function notchPolygonPoints({ side, offset, nw, nh, shape = 'v' }) {
  *     { side: 'bottom', offset: 0.3, nw: 20, nh: 10, shape: 'square' },
  *   ])
  */
-export function octagonWithNotches(cx, notches = []) {
+export function octagonWithNotches(cornerSize, notches = []) {
+  const cx = cornerSize
   const grouped = { top: [], right: [], bottom: [], left: [] }
   for (const n of notches) {
     if (grouped[n.side]) grouped[n.side].push(n)
@@ -272,17 +283,16 @@ export function octagonWithNotches(cx, notches = []) {
 
 /**
  * octagonWithNotch — single-notch shortcut nad octagonWithNotches.
- * Backward compatible API.
  *
- * @param {number} cx
+ * @param {number} cornerSize   velikost rohového zkosení v px
  * @param {number} nw           default 28
  * @param {number} nh           default 12
  * @param {'bottom'|'top'|'left'|'right'} side  default 'bottom'
  * @param {number} offset       default 0.5
  * @param {'v'|'square'|'trapezoid'} shape  default 'v'
  */
-export function octagonWithNotch(cx, nw = 28, nh = 12, side = 'bottom', offset = 0.5, shape = 'v') {
-  return octagonWithNotches(cx, [{ side, offset, nw, nh, shape }])
+export function octagonWithNotch(cornerSize, nw = 28, nh = 12, side = 'bottom', offset = 0.5, shape = 'v') {
+  return octagonWithNotches(cornerSize, [{ side, offset, nw, nh, shape }])
 }
 
 export { NOTCH_SHAPES }
@@ -291,16 +301,20 @@ export { NOTCH_SHAPES }
  * notchClamp — sanity-check a clamp parametrů zářezu vůči rozměrům prvku.
  *
  * Validní geometrie vyžaduje:
- *  - nw + 2·cx ≤ délka strany (jinak zářez přesahuje rohy)
- *  - nh ≤ tloušťka / 2     (jinak V projde středem prvku)
+ *  - nw + 2·cornerSize ≤ délka strany (jinak zářez přesahuje rohy)
+ *  - nh ≤ tloušťka / 2                (jinak V projde středem prvku)
  *
  * Při neznámých rozměrech (width/height = null) se vrátí původní hodnoty
  * bez clampingu — caller je zodpovědný za sanity check.
  *
- * @param {{ cx, nw, nh, side, offset, width, height }} params
+ * @param {{ cornerSize, cx?, nw, nh, side, offset, width, height }} params
+ *        cornerSize je preferovaný název; cx je backward-compat alias.
  * @returns {{ cx, nw, nh, offset, warning?: string }}
+ *        Zatím vrací 'cx' v návratovce kvůli backward compat s existujícími callery.
  */
-export function notchClamp({ cx, nw, nh, side = 'bottom', offset = 0.5, width, height }) {
+export function notchClamp({ cornerSize, cx, nw, nh, side = 'bottom', offset = 0.5, width, height }) {
+  // Sjednocená terminologie — cornerSize je preferovaný, cx je alias
+  cx = cornerSize ?? cx
   const horizontal = side === 'top' || side === 'bottom'
   const sideLen    = horizontal ? width  : height
   const thickness  = horizontal ? height : width

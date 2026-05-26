@@ -249,6 +249,26 @@ describe('scoopCirclePath — pevný kruhový výřez', () => {
   })
 })
 
+describe('Sjednocená terminologie — cornerSize napříč API', () => {
+  it('notchClamp přijímá cornerSize jako preferovaný parametr', () => {
+    const r = notchClamp({ cornerSize: 12, nw: 100, nh: 10, side: 'bottom', width: 100, height: 60 })
+    expect(r.cx).toBe(12)
+    expect(r.nw).toBe(76)  // 100 - 2*12
+  })
+
+  it('notchClamp zachovává cx jako backward-compat alias', () => {
+    const r = notchClamp({ cx: 12, nw: 100, nh: 10, side: 'bottom', width: 100, height: 60 })
+    expect(r.cx).toBe(12)
+    expect(r.nw).toBe(76)
+  })
+
+  it('notchClamp cornerSize má přednost před cx pokud oba předány', () => {
+    const r = notchClamp({ cornerSize: 14, cx: 12, nw: 100, nh: 10, side: 'bottom', width: 100, height: 60 })
+    expect(r.cx).toBe(14)
+    expect(r.nw).toBe(72)  // 100 - 2*14
+  })
+})
+
 describe('SHAPE_SIZES — kalibrované hodnoty pro velikostní systém', () => {
   it('obsahuje 4 button velikosti + card', () => {
     expect(Object.keys(SHAPE_SIZES)).toEqual(['xs', 'sm', 'md', 'lg', 'card'])

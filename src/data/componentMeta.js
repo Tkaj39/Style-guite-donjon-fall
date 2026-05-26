@@ -744,8 +744,9 @@ export const componentMeta = {
     showcaseRoute: '/scoop-clip',
     props: [
       { name: 'shape',       type: "'bezier'|'circle'", required: false, default: "'bezier'", description: 'Geometrie oblouku. bezier = responzivní Q křivka v objectBoundingBox, circle = pevný kruhový výřez s absolutním px poloměrem.' },
-      { name: 'size',        type: "'xs'|'sm'|'md'|'lg'", required: false, description: 'Velikostní preset — stejný systém jako octagon cx. V bezier módu mapuje na SHAPE_SIZES[size].bb, v circle módu na SHAPE_SIZES[size].scoop + default w/h z SHAPE_SIZES.' },
-      { name: 'r',           type: 'number',      required: false, default: '0.25 (bezier) / preset.scoop (circle)',  description: 'Poloměr vydlabání. V bezier módu 0–0.5 (relativní podíl), v circle módu absolutní px. Má přednost před size.' },
+      { name: 'size',        type: "'xs'|'sm'|'md'|'lg'", required: false, description: 'Velikostní preset — sjednocený s octagonem. V bezier módu mapuje na SHAPE_SIZES[size].bb, v circle módu na SHAPE_SIZES[size].scoop + default w/h z SHAPE_SIZES.' },
+      { name: 'cornerSize',  type: 'number',      required: false, default: '0.25 (bezier) / preset.scoop (circle)',  description: 'Velikost rohového zkosení (sjednocená terminologie s octagonem). V bezier módu 0–0.5 (relativní podíl), v circle módu absolutní px. Má přednost před size.' },
+      { name: 'r',           type: 'number',      required: false, description: '⚠ DEPRECATED — alias pro cornerSize, zachováno pro backward compat. V novém kódu používej cornerSize.' },
       { name: 'borderColor', type: 'string',      required: false, description: 'Barva borderu — renderuje outer vrstvu se stejným clipPath.' },
       { name: 'borderWidth', type: 'number',      required: false, default: '1', description: 'Tloušťka borderu v px.' },
       { name: 'children',    type: 'ReactNode',   required: false, description: 'Obsah obalený clipPath tvarem.' },
@@ -774,7 +775,8 @@ export const componentMeta = {
     status: 'documented',
     showcaseRoute: '/shapes',
     props: [
-      { name: 'cx',       type: 'number',                                required: false, default: '15',       description: 'Rohové zkosení v px — stejný parametr jako octagon(cx).' },
+      { name: 'cornerSize', type: 'number',                              required: false, default: '15',       description: 'Velikost rohového zkosení v px — sjednocená terminologie s octagon a ScoopClip.' },
+      { name: 'cx',       type: 'number',                                required: false, description: '⚠ DEPRECATED — alias pro cornerSize.' },
       { name: 'nw',       type: 'number',                                required: false, default: '28',       description: 'Šířka zářezu v px.' },
       { name: 'nh',       type: 'number',                                required: false, default: '12',       description: 'Hloubka zářezu v px.' },
       { name: 'side',        type: "'top'|'bottom'|'left'|'right'",   required: false, default: "'bottom'", description: 'Strana na které je zářez.' },

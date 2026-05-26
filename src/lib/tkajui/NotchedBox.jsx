@@ -96,7 +96,8 @@ function adjustNotchForBorder(notch, borderWidth) {
  */
 function NotchedBox({
   ref,
-  cx = 15,
+  cornerSize,        // preferovaný název (sjednocená terminologie s octagon/ScoopClip)
+  cx,                // DEPRECATED alias pro cornerSize
   nw = 28,
   nh = 12,
   side = 'bottom',
@@ -110,6 +111,8 @@ function NotchedBox({
   borderWidth = 1,
   ...props
 }) {
+  // Sjednocená terminologie — cornerSize má přednost, cx je alias, default 15
+  cx = cornerSize ?? cx ?? 15
   const slots = []
   const content = []
 

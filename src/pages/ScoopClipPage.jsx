@@ -307,9 +307,14 @@ export default function ScoopClipPage() {
   Pevný kruhový výřez (container auto 170×52)
 </ScoopClip>
 
-// Custom hodnota přes r má přednost před size:
-<ScoopClip r={0.30} style={{ height: 80 }}>...</ScoopClip>
-<ScoopClip shape="circle" r={20} style={{ width: 200, height: 60 }}>...</ScoopClip>`} />
+// Custom hodnota přes cornerSize má přednost před size:
+<ScoopClip cornerSize={0.30} style={{ height: 80 }}>...</ScoopClip>
+<ScoopClip shape="circle" cornerSize={20} style={{ width: 200, height: 60 }}>...</ScoopClip>
+
+// Sjednocená terminologie: cornerSize odpovídá octagon argumentu
+clipPath: octagon(16)                    // octagon utility
+<ScoopClip cornerSize={16} shape="circle">  // ScoopClip se stejným cornerSize
+`} />
       </Section>
 
       {/* ── Shape: bezier vs circle ── */}
@@ -393,7 +398,7 @@ export default function ScoopClipPage() {
 <ScoopClip shape="circle" size="md">...</ScoopClip>
 
 // Circle s custom hodnotami
-<ScoopClip shape="circle" r={20} style={{ width: 250, height: 80 }}>...</ScoopClip>`} />
+<ScoopClip shape="circle" cornerSize={20} style={{ width: 250, height: 80 }}>...</ScoopClip>`} />
       </Section>
 
       {/* ── r hodnoty ── */}
