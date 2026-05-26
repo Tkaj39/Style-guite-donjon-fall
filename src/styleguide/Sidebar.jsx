@@ -27,7 +27,7 @@ function LibIcon({ library }) {
 
 // ── Navigační data ────────────────────────────────────────────────────────────
 
-const sections = [
+export const sections = [
   {
     label: 'System',
     items: [
@@ -542,8 +542,11 @@ function NavItem({ item, onClose }) {
 export default function Sidebar({ isOpen, onClose }) {
   return (
     <aside
+      id="sidebar-nav"
+      aria-label="Hlavní navigace"
+      aria-hidden={!isOpen ? undefined : false}
       className={[
-        'fixed lg:sticky top-0 h-screen z-50',
+        'fixed lg:sticky top-0 lg:top-14 h-screen lg:h-[calc(100vh-3.5rem)] z-50',
         'w-64 shrink-0 border-r border-neutral-800',
         'bg-neutral-950 py-8 px-5 flex flex-col gap-8',
         'transition-transform duration-300 ease-in-out',

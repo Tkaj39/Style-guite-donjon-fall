@@ -131,6 +131,11 @@ dialog.modal-dialog > .modal-panel {
 
 /* ── UI component animations ── */
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
