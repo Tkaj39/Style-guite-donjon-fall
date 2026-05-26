@@ -237,6 +237,48 @@ export default function ScoopClipPage() {
       library="donjon"
     >
 
+      {/* ── Velikosti — size prop ── */}
+      <Section
+        id="velikosti"
+        title="Velikosti — prop size"
+        description="Stejný velikostní systém jako u octagonu (xs/sm/md/lg/card). Mapuje na kalibrované hodnoty v SHAPE_SIZES.bb tak aby scoop vypadal proporcionálně k octagon cutu při stejné velikosti containeru."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'flex-end' }}>
+            {[
+              { size: 'xs',   w: 100, h: 32  },
+              { size: 'sm',   w: 130, h: 40  },
+              { size: 'md',   w: 170, h: 52  },
+              { size: 'lg',   w: 210, h: 64  },
+              { size: 'card', w: 220, h: 120 },
+            ].map(({ size, w, h }) => (
+              <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <ScoopClip
+                  size={size}
+                  borderColor={`${goldDim}55`}
+                  style={{
+                    width: w, height: h,
+                    background: `${goldDim}12`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}
+                >
+                  <span style={{ fontSize: '0.6875rem', color: goldDim, fontFamily: 'monospace' }}>size="{size}"</span>
+                </ScoopClip>
+                <p style={nano}>{size} · {w}×{h}px</p>
+              </div>
+            ))}
+          </div>
+        </Preview>
+        <CodeBlock code={`<ScoopClip size="md" style={{ width: 170, height: 52 }}>
+  Tlačítko
+</ScoopClip>
+
+// Custom hodnota přes r má přednost před size:
+<ScoopClip r={0.30} style={{ height: 80 }}>
+  Hluboký scoop
+</ScoopClip>`} />
+      </Section>
+
       {/* ── r hodnoty ── */}
       <Section
         id="r-hodnoty"

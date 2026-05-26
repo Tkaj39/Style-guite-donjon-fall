@@ -1,5 +1,5 @@
 import { useId } from 'react'
-import { scoopBBPath } from '../../utils/octagon'
+import { scoopBBPath, SHAPE_SIZES } from '../../utils/octagon'
 
 /**
  * ScoopClip — obal pro elementy s responzivním konkávním rohováním
@@ -11,12 +11,28 @@ import { scoopBBPath } from '../../utils/octagon'
  *    prohnutí mírně deformuje — scoop vypadá nejlépe při konstantní výšce
  *    (tlačítka, panely se známou výškou).
  *
+ * Velikost:
+ *   - `size` — 'xs' | 'sm' | 'md' | 'lg' | 'card' (stejný systém jako octagon cx).
+ *              Mapuje na SHAPE_SIZES[size].bb hodnotu, kalibrovanou tak aby scoop
+ *              vypadal proporcionálně k octagon cutu při stejné velikosti.
+ *   - `r`   — přímá relativní hodnota 0–1 (override pro custom velikost).
+ *
  * @example
- * <ScoopClip r={0.25} style={{ height: 52, padding: '0 18px' }}>
- *   Obsah tlačítka
+ * <ScoopClip size="md" style={{ height: 52, padding: '0 18px' }}>
+ *   Obsah tlačítka — stejná vizuální váha jako octagon(cx=15.62)
+ * </ScoopClip>
+ *
+ * <ScoopClip r={0.30} style={{ height: 80 }}>
+ *   Hluboký scoop přes přímý r
  * </ScoopClip>
  */
-export default function ScoopClip({ r = 0.25, children, style = {}, className, borderColor, borderWidth = 1 }) {
+export default function ScoopClip({ r, size, children, style = {}, className, borderColor, borderWidth = 1 }) {
+  // Priorita: explicit r > size mapping > default 0.25
+  const finalR = r != null
+    ? r
+    : size != null
+      ? (SHAPE_SIZES[size]?.bb ?? 0.25)
+      : 0.25
   const id    = useId().replace(/:/g, '')
   const clipId = `scoop-${id}`
 
@@ -29,7 +45,7 @@ export default function ScoopClip({ r = 0.25, children, style = {}, className, b
       >
         <defs>
           <clipPath id={clipId} clipPathUnits="objectBoundingBox">
-            <path d={scoopBBPath(r)} />
+            <path d={scoopBBPath(finalR)} />
           </clipPath>
         </defs>
       </svg>

@@ -743,12 +743,15 @@ export const componentMeta = {
     status: 'documented',
     showcaseRoute: '/scoop-clip',
     props: [
-      { name: 'r',         type: 'number',      required: false, default: '0.25',  description: 'Poloměr vydlabání jako podíl výšky (0–0.5).' },
-      { name: 'children',  type: 'ReactNode',   required: false, description: 'Obsah obalený clipPath tvarem.' },
-      { name: 'style',     type: 'CSSProperties', required: false, description: 'Inline styly na obalový div (výška, padding…).' },
-      { name: 'className', type: 'string',      required: false, description: 'Tailwind třídy na obalový div.' },
+      { name: 'size',        type: "'xs'|'sm'|'md'|'lg'|'card'", required: false, description: 'Velikostní preset — mapuje na SHAPE_SIZES[size].bb. Stejný systém jako octagon cx.' },
+      { name: 'r',           type: 'number',      required: false, default: '0.25',  description: 'Poloměr vydlabání jako podíl výšky (0–0.5). Override pro custom velikost — má přednost před size.' },
+      { name: 'borderColor', type: 'string',      required: false, description: 'Barva borderu — renderuje outer vrstvu se stejným clipPath.' },
+      { name: 'borderWidth', type: 'number',      required: false, default: '1', description: 'Tloušťka borderu v px.' },
+      { name: 'children',    type: 'ReactNode',   required: false, description: 'Obsah obalený clipPath tvarem.' },
+      { name: 'style',       type: 'CSSProperties', required: false, description: 'Inline styly na obalový div (výška, padding…).' },
+      { name: 'className',   type: 'string',      required: false, description: 'Tailwind třídy na obalový div.' },
     ],
-    relatedSlugs: ['corner-ornament', 'ornaments'],
+    relatedSlugs: ['corner-ornament', 'ornaments', 'notched-box'],
   },
 
   'corner-ornament': {
