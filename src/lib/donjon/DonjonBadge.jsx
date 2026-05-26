@@ -17,9 +17,7 @@ import {
   gainColor, dangerColor, warningColor, infoColor, magicColor,
 } from './tokens'
 
-/* Šestihranný tvar — polygon se špičkami vlevo a vpravo */
-const hex = (i) =>
-  `polygon(${i}px 0%,calc(100% - ${i}px) 0%,100% 50%,calc(100% - ${i}px) 100%,${i}px 100%,0% 50%)`
+import { hexFlatTop } from '../../utils/polygon'
 
 /* ── Varianty ──
    Inner bg musí být tmavé — barevný text na tmavém bg je čitelný.
@@ -135,8 +133,8 @@ export default function DonjonBadge({
   const v = VARIANTS[variant] ?? VARIANTS.default
   const s = SIZES[size]       ?? SIZES.md
 
-  const outerShape = hex(s.indent)
-  const innerShape = hex(Math.max(s.indent - s.bord, 1))
+  const outerShape = hexFlatTop(s.indent)
+  const innerShape = hexFlatTop(Math.max(s.indent - s.bord, 1))
 
   return (
     <span

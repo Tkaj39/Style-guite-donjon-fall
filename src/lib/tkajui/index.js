@@ -47,6 +47,9 @@ export {
   SHAPE_SIZES,
 } from '../../utils/octagon'
 
+// Polygon shape utility (hex, regularPolygon)
+export { hexFlatTop, hexPointyTop, regularPolygon } from '../../utils/polygon'
+
 // ─── Přesunuto do lib/donjon/ — re-exporty pro zpětnou kompatibilitu ─────
 export { default as CornerOrnament } from '../donjon/CornerOrnament'
 export { SideOrnament, HexOrnament } from '../donjon/Ornaments'

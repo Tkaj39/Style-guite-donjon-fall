@@ -1,6 +1,7 @@
 import { gold, textActive, textFaint, bgDeep, gainColor, dangerColor, borderMid } from './tokens'
+import { hexPointyTop } from '../../utils/polygon'
 
-const HEX_CLIP = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
+const HEX_CLIP = hexPointyTop()
 
 const sizeMap = {
   sm: { w: 42,  h: 48  },
