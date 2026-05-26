@@ -105,6 +105,31 @@ export function scoopBBPath(r) {
 }
 
 /**
+ * scoopCirclePath — konkávní rohy jako PRAVÉ KRUHOVÉ OBLOUKY (ne bezier).
+ *
+ * Používá SVG A (arc) command místo Q bezier — výsledkem je matematicky
+ * přesný výřez kruhu (čtvrtina kruhu na každém rohu). Funguje pouze
+ * s absolutními px souřadnicemi — element musí mít přesně w×h.
+ *
+ * Rozdíl oproti scoopPath/scoopBBPath (Q bezier):
+ *  - Bezier = aproximace, kruh = přesná geometrie. Vizuální rozdíl je
+ *    subtilní u malých r, výraznější u velkých r.
+ *  - Bezier škáluje s objectBoundingBox; arc škáluje pouze pokud měníš
+ *    parametry. Pro fixed scoop velikost (např. "kruh 12px na všech rozích
+ *    bez ohledu na velikost elementu") použij circle path.
+ *
+ * @param {number} w  šířka elementu v px
+ * @param {number} h  výška elementu v px
+ * @param {number} r  poloměr kruhu v px (doporučeno ~25–30 % výšky)
+ */
+export function scoopCirclePath(w, h, r) {
+  // A rx ry x-axis-rotation large-arc-flag sweep-flag x y
+  // sweep-flag=0 → counter-clockwise v SVG souřadnicích (Y dolů) → oblouk
+  //                 se prohýbá DOVNITŘ tvaru (concave / scoop směr)
+  return `M ${r},0 H ${w - r} A ${r},${r} 0 0,0 ${w},${r} V ${h - r} A ${r},${r} 0 0,0 ${w - r},${h} H ${r} A ${r},${r} 0 0,0 0,${h - r} V ${r} A ${r},${r} 0 0,0 ${r},0 Z`
+}
+
+/**
  * Tabulka doporučených hodnot pro 5 velikostí shapes systému.
  * Zachovává poměr ~0.30 (cut cx/h) a ~0.24 (scoop r/h).
  */

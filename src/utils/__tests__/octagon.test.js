@@ -8,6 +8,10 @@ import {
   octagonWithNotches,
   notchClamp,
   NOTCH_SHAPES,
+  scoopBBPath,
+  scoopCirclePath,
+  scoopPath,
+  SHAPE_SIZES,
 } from '../octagon'
 
 describe('octagon', () => {
@@ -201,3 +205,67 @@ describe('notchClamp', () => {
     expect(r.nh).toBe(30)
   })
 })
+
+describe('scoopBBPath — bezier responsive', () => {
+  it('vrací SVG path s Q (quadratic bezier) komandy', () => {
+    const p = scoopBBPath(0.25)
+    expect(p).toContain('Q')
+    expect(p.startsWith('M ')).toBe(true)
+    expect(p.endsWith('Z')).toBe(true)
+  })
+
+  it('používá souřadnice v 0–1 rozsahu (objectBoundingBox)', () => {
+    const p = scoopBBPath(0.25)
+    expect(p).toContain('0.25')
+    expect(p).toContain('0.75')   // 1 - 0.25
+    expect(p).not.toContain('25px')
+  })
+})
+
+describe('scoopCirclePath — pevný kruhový výřez', () => {
+  it('používá A (arc) command místo Q', () => {
+    const p = scoopCirclePath(170, 52, 13)
+    expect(p).toContain('A ')
+    expect(p).not.toContain('Q ')
+  })
+
+  it('používá absolutní pixely', () => {
+    const p = scoopCirclePath(170, 52, 13)
+    expect(p).toContain('13')
+    expect(p).toContain('170')
+    expect(p).toContain('52')
+  })
+
+  it('arc command má sweep-flag 0 (konkávní = scoop směr)', () => {
+    const p = scoopCirclePath(170, 52, 13)
+    // A rx ry x-axis-rot large-arc-flag sweep-flag x y
+    // hledáme pattern "A 13,13 0 0,0"
+    expect(p).toContain('A 13,13 0 0,0')
+  })
+
+  it('rx == ry (kruh, ne elipsa)', () => {
+    const p = scoopCirclePath(200, 100, 15)
+    expect(p).toContain('A 15,15')
+  })
+})
+
+describe('SHAPE_SIZES — kalibrované hodnoty pro velikostní systém', () => {
+  it('obsahuje 4 button velikosti + card', () => {
+    expect(Object.keys(SHAPE_SIZES)).toEqual(['xs', 'sm', 'md', 'lg', 'card'])
+  })
+
+  it('xs/sm/md/lg mají konzistentní cut/h poměr ~0.30', () => {
+    for (const key of ['xs', 'sm', 'md', 'lg']) {
+      const { cut, h } = SHAPE_SIZES[key]
+      expect(cut / h).toBeCloseTo(0.30, 1)
+    }
+  })
+
+  it('xs/sm/md/lg mají scoop/h poměr 0.25', () => {
+    for (const key of ['xs', 'sm', 'md', 'lg']) {
+      const { scoop, h } = SHAPE_SIZES[key]
+      expect(scoop / h).toBeCloseTo(0.25, 2)
+    }
+  })
+})
+

@@ -1,44 +1,107 @@
 import { useId } from 'react'
-import { scoopBBPath, SHAPE_SIZES } from '../../utils/octagon'
+import { scoopBBPath, scoopCirclePath, SHAPE_SIZES } from '../../utils/octagon'
 
 /**
- * ScoopClip — obal pro elementy s responzivním konkávním rohováním
+ * ScoopClip — obal pro elementy s konkávně vyřezanými rohy.
  *
- * Používá SVG clipPath s clipPathUnits="objectBoundingBox" — souřadnice
- * jsou 0–1 relativně k elementu, takže shape se přizpůsobí rozměrům.
+ * Dva režimy přes `shape` prop:
  *
- * ⚠ Při výrazné změně poměru stran (úzký/velmi široký element) se
- *    prohnutí mírně deformuje — scoop vypadá nejlépe při konstantní výšce
- *    (tlačítka, panely se známou výškou).
+ *  **shape="bezier"** (default) — RESPONZIVNÍ
+ *    SVG clipPath s objectBoundingBox a Q bezier křivkou. Tvar se
+ *    automaticky přizpůsobí libovolným rozměrům elementu (0–1 souřadnice).
+ *    Při výrazné změně poměru stran se prohnutí mírně deformuje.
+ *    `r` je v rozsahu 0–1 (podíl).
+ *
+ *  **shape="circle"** — PEVNÝ VÝŘEZ KRUHU
+ *    SVG clipPath s absolutními px a A arc command (matematicky přesný
+ *    kruh). Element MUSÍ mít explicitní width/height — ScoopClip je
+ *    auto-nastaví podle `size` presetu, pokud není ve style override.
+ *    `r` je v PIXELECH (poloměr kruhu).
  *
  * Velikost:
- *   - `size` — 'xs' | 'sm' | 'md' | 'lg' | 'card' (stejný systém jako octagon cx).
- *              Mapuje na SHAPE_SIZES[size].bb hodnotu, kalibrovanou tak aby scoop
- *              vypadal proporcionálně k octagon cutu při stejné velikosti.
- *   - `r`   — přímá relativní hodnota 0–1 (override pro custom velikost).
+ *   - `size` — 'xs' | 'sm' | 'md' | 'lg' (stejný systém jako octagon cx).
+ *              V bezier módu mapuje na SHAPE_SIZES[size].bb (relativní).
+ *              V circle módu mapuje na SHAPE_SIZES[size].scoop (absolutní px)
+ *              a default container width/height z SHAPE_SIZES[size].w/h.
+ *   - `r`    — přímá hodnota (0–1 v bezier, px v circle). Přednost před size.
  *
  * @example
- * <ScoopClip size="md" style={{ height: 52, padding: '0 18px' }}>
- *   Obsah tlačítka — stejná vizuální váha jako octagon(cx=15.62)
- * </ScoopClip>
+ * // Responzivní bezier — přizpůsobí se containeru
+ * <ScoopClip size="md" style={{ width: 200, height: 60 }}>...</ScoopClip>
  *
- * <ScoopClip r={0.30} style={{ height: 80 }}>
- *   Hluboký scoop přes přímý r
- * </ScoopClip>
+ * // Pevný kruhový výřez — kruh 13px na všech rozích
+ * <ScoopClip shape="circle" size="md">...</ScoopClip>
+ *
+ * // Vlastní velikost přes r
+ * <ScoopClip shape="circle" r={20} style={{ width: 250, height: 80 }}>...</ScoopClip>
  */
-export default function ScoopClip({ r, size, children, style = {}, className, borderColor, borderWidth = 1 }) {
-  // Priorita: explicit r > size mapping > default 0.25
+export default function ScoopClip({
+  shape = 'bezier',
+  size,
+  r,
+  children,
+  style = {},
+  className,
+  borderColor,
+  borderWidth = 1,
+}) {
+  const id     = useId().replace(/:/g, '')
+  const clipId = `scoop-${id}`
+
+  const isCircle = shape === 'circle'
+
+  if (isCircle) {
+    /* ── Circle mode: absolutní px, pevný kruhový výřez ────────────── */
+    const preset = size && SHAPE_SIZES[size]
+    const w = pxValue(style.width)  ?? preset?.w ?? 170
+    const h = pxValue(style.height) ?? preset?.h ?? 52
+    const rPx = r ?? preset?.scoop ?? 13
+
+    // CSS clip-path: path() — funguje s absolutními px
+    const clip = `path('${scoopCirclePath(w, h, rPx)}')`
+
+    // Auto-set width/height pokud nejsou ve style
+    const baseStyle = {
+      width: w,
+      height: h,
+      ...style,
+    }
+
+    if (borderColor) {
+      // Border trick: outer s clip-path o (r + bw) px (větší kruh, větší arc)
+      const outerClip = `path('${scoopCirclePath(w + 2 * borderWidth, h + 2 * borderWidth, rPx + borderWidth)}')`
+      return (
+        <div style={{ position: 'relative', display: 'inline-block', width: w, height: h }}>
+          <div style={{
+            position: 'absolute', inset: -borderWidth,
+            clipPath: outerClip,
+            background: borderColor,
+          }} />
+          <div className={className} style={{
+            ...baseStyle,
+            position: 'relative',
+            clipPath: clip,
+          }}>
+            {children}
+          </div>
+        </div>
+      )
+    }
+
+    return (
+      <div className={className} style={{ ...baseStyle, clipPath: clip }}>
+        {children}
+      </div>
+    )
+  }
+
+  /* ── Bezier mode: responsive, SVG clipPath objectBoundingBox ──── */
   const finalR = r != null
     ? r
-    : size != null
-      ? (SHAPE_SIZES[size]?.bb ?? 0.25)
-      : 0.25
-  const id    = useId().replace(/:/g, '')
-  const clipId = `scoop-${id}`
+    : (size && SHAPE_SIZES[size]?.bb) ?? 0.25
 
   return (
     <>
-      {/* Inline SVG clipPath — musí být v DOM */}
       <svg
         aria-hidden="true"
         style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden', pointerEvents: 'none' }}
@@ -51,8 +114,6 @@ export default function ScoopClip({ r, size, children, style = {}, className, bo
       </svg>
 
       {borderColor ? (
-        /* Outer = border barva + clip, inner = fill + clip
-           objectBoundingBox se přizpůsobí velikosti každého divu → rohy sedí */
         <div style={{ clipPath: `url(#${clipId})`, background: borderColor }}>
           <div className={className} style={{ clipPath: `url(#${clipId})`, margin: borderWidth, ...style }}>
             {children}
@@ -65,4 +126,13 @@ export default function ScoopClip({ r, size, children, style = {}, className, bo
       )}
     </>
   )
+}
+
+function pxValue(v) {
+  if (typeof v === 'number') return v
+  if (typeof v === 'string') {
+    const m = v.match(/^(\d+(?:\.\d+)?)px$/)
+    if (m) return parseFloat(m[1])
+  }
+  return null
 }

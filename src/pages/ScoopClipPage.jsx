@@ -3,9 +3,9 @@ import ScoopClip from '../lib/tkajui/ScoopClip'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import {
   gold, goldDim, goldMid,
-  bg2, bg3, bg4,
+  bg2, bg3, bg4, bgDeep,
   borderDefault,
-  textHigh, textMid, textFaint,
+  textHigh, textMid, textLow, textFaint, textCool,
   successColor, dangerColor, infoColor, warningColor,
 } from '../lib/donjon/tokens'
 
@@ -241,16 +241,15 @@ export default function ScoopClipPage() {
       <Section
         id="velikosti"
         title="Velikosti — prop size"
-        description="Stejný velikostní systém jako u octagonu (xs/sm/md/lg/card). Mapuje na kalibrované hodnoty v SHAPE_SIZES.bb tak aby scoop vypadal proporcionálně k octagon cutu při stejné velikosti containeru."
+        description="Stejný velikostní systém jako u octagonu: xs / sm / md / lg. V bezier módu mapuje na SHAPE_SIZES[size].bb (relativní), v circle módu na SHAPE_SIZES[size].scoop (absolutní px)."
       >
         <Preview>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'flex-end' }}>
             {[
-              { size: 'xs',   w: 100, h: 32  },
-              { size: 'sm',   w: 130, h: 40  },
-              { size: 'md',   w: 170, h: 52  },
-              { size: 'lg',   w: 210, h: 64  },
-              { size: 'card', w: 220, h: 120 },
+              { size: 'xs', w: 100, h: 32 },
+              { size: 'sm', w: 130, h: 40 },
+              { size: 'md', w: 170, h: 52 },
+              { size: 'lg', w: 210, h: 64 },
             ].map(({ size, w, h }) => (
               <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <ScoopClip
@@ -277,6 +276,90 @@ export default function ScoopClipPage() {
 <ScoopClip r={0.30} style={{ height: 80 }}>
   Hluboký scoop
 </ScoopClip>`} />
+      </Section>
+
+      {/* ── Shape: bezier vs circle ── */}
+      <Section
+        id="shape"
+        title="Tvar oblouku — bezier vs circle"
+        description="Dva geometrické režimy. Bezier (default) je responzivní Q křivka v objectBoundingBox — přizpůsobí se libovolné velikosti elementu. Circle používá A arc command s absolutními px — matematicky přesný kruhový výřez, ale element musí mít explicitní width × height."
+      >
+        <Preview>
+          <div style={{ width: '100%' }}>
+            <p style={{ ...nano, marginBottom: 8, color: goldDim, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Bezier (responzivní)
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'flex-end', marginBottom: 20 }}>
+              {['xs', 'sm', 'md', 'lg'].map(size => {
+                const { w, h } = { xs: { w: 100, h: 32 }, sm: { w: 130, h: 40 }, md: { w: 170, h: 52 }, lg: { w: 210, h: 64 } }[size]
+                return (
+                  <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <ScoopClip
+                      shape="bezier" size={size}
+                      borderColor={`${goldDim}55`}
+                      style={{ width: w, height: h, background: `${goldDim}12` }}
+                    />
+                    <p style={nano}>{size}</p>
+                  </div>
+                )
+              })}
+            </div>
+
+            <p style={{ ...nano, marginBottom: 8, color: goldDim, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Circle (pevný výřez kruhu)
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'flex-end', marginBottom: 8 }}>
+              {['xs', 'sm', 'md', 'lg'].map(size => (
+                <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <ScoopClip
+                    shape="circle" size={size}
+                    borderColor={`${goldDim}55`}
+                    style={{ background: `${goldDim}12` }}
+                  />
+                  <p style={nano}>{size}</p>
+                </div>
+              ))}
+            </div>
+            <p style={{ ...nano, color: textFaint, fontSize: '0.6875rem' }}>
+              U circle módu se width × height automaticky nastaví z SHAPE_SIZES[size].
+              Kruhový výřez má pevný poloměr (xs: 8px, sm: 10px, md: 13px, lg: 16px).
+            </p>
+          </div>
+        </Preview>
+
+        {/* Direct comparison */}
+        <Preview>
+          <div style={{ width: '100%' }}>
+            <p style={{ ...nano, marginBottom: 8, color: textCool, letterSpacing: '0.06em' }}>
+              Srovnání na stejně velkém boxu (lg = 210×64, r=16px)
+            </p>
+            <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <ScoopClip shape="bezier" r={16/64} borderColor={gold} borderWidth={1}
+                  style={{ width: 210, height: 64, background: bgDeep }} />
+                <p style={nano}>bezier · r=0.25</p>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <ScoopClip shape="circle" r={16} borderColor={gold} borderWidth={1}
+                  style={{ width: 210, height: 64, background: bgDeep }} />
+                <p style={nano}>circle · r=16px</p>
+              </div>
+            </div>
+            <p style={{ ...nano, marginTop: 10, color: textFaint, fontSize: '0.6875rem' }}>
+              Bezier oblouk je vizuálně podobný, ale kontrolní bod kvadratické křivky
+              není přesně na kružnici — drobné odchylky vidět zejména v rozích.
+            </p>
+          </div>
+        </Preview>
+
+        <CodeBlock code={`// Bezier — responzivní, scaluje s containerem
+<ScoopClip shape="bezier" size="md" style={{ width: 200, height: 60 }}>...</ScoopClip>
+
+// Circle — pevný kruhový výřez, container je z SHAPE_SIZES.md
+<ScoopClip shape="circle" size="md">...</ScoopClip>
+
+// Circle s custom hodnotami
+<ScoopClip shape="circle" r={20} style={{ width: 250, height: 80 }}>...</ScoopClip>`} />
       </Section>
 
       {/* ── r hodnoty ── */}
