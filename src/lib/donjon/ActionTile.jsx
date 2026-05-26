@@ -3,8 +3,8 @@
    Jiná než Button: tile tvar, ikona-forward, cost badge v rohu, lock stav.
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useId } from 'react'
-import { octagon } from '../../utils/octagon'
-import { SideOrnament } from './Ornaments'
+import { octagon, octagonInner } from '../../utils/octagon'
+import { ZkosenOrnament, HexOrnament, ornamentHForCx, ORNAMENT_BASE_WIDTH } from './Ornaments'
 import {
   gold, goldDim, goldMid,
   bg2, bg3, bg4,
@@ -58,7 +58,10 @@ export default function ActionTile({
 
   const isBlocked     = disabled || locked
   const hasOrnaments  = ornament === 'decorated'
-  const ornW          = hasOrnaments ? Math.round(24 * (s.h / 66) * 10) / 10 : 0
+  // Corner ornament výška škálovaná z cx (ne z výšky tile — to byla magic formule)
+  const ornH          = hasOrnaments ? ornamentHForCx(s.cx, 'zkosen') : 0
+  // Šířka ornamentu pro výpočet horizontálního paddingu (≈ cx pro zkosen)
+  const ornW          = hasOrnaments ? Math.round(ORNAMENT_BASE_WIDTH.zkosen * ornH / 66 * 10) / 10 : 0
   const padH          = 6 + ornW
 
   /* Barvy závislé na stavu */
@@ -91,7 +94,7 @@ export default function ActionTile({
         height: s.h,
         background: effectiveBg,
         ...(hasOrnaments ? {
-          clipPath: octagon(s.cx - 1),
+          clipPath: octagonInner(s.cx),
           padding: `8px ${padH}px 10px`,
         } : {
           border: `1px solid ${effectiveBorder}`,
@@ -106,8 +109,15 @@ export default function ActionTile({
       }}
       className={['focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFC183]/60', className].filter(Boolean).join(' ')}
     >
-      {hasOrnaments && <SideOrnament h={s.h} uid={`${uid}l`} />}
-      {hasOrnaments && <SideOrnament h={s.h} uid={`${uid}r`} flip />}
+      {/* Ornamenty: 4 rohové ZkosenOrnament závorky + HexOrnament nahoře a dole.
+          Sjednoceno s DonjonCard / DonjonModal — corner brackets pro square-ish
+          tile vypadají vyváženěji než SideOrnament (full-height vertikální). */}
+      {hasOrnaments && <ZkosenOrnament h={ornH} uid={`${uid}tl`} />}
+      {hasOrnaments && <ZkosenOrnament h={ornH} uid={`${uid}tr`} flip />}
+      {hasOrnaments && <ZkosenOrnament h={ornH} uid={`${uid}bl`} bottom />}
+      {hasOrnaments && <ZkosenOrnament h={ornH} uid={`${uid}br`} flip bottom />}
+      {hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={s.cx + 4} />}
+      {hasOrnaments && <HexOrnament uid={`${uid}hb`} flip edgePadL={s.cx + 4} />}
 
       {/* Ikona */}
       <div style={{
