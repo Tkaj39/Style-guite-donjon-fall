@@ -8,7 +8,7 @@ import {
   bg2,
   textMid,
 } from './tokens'
-import { getPosition, Arrow } from '../../utils/tooltipUtils'
+import { getPosition, resolveFlip, Arrow } from '../../utils/tooltipUtils'
 
 const Z_TOOLTIP = 2100
 
@@ -16,22 +16,29 @@ export default function DonjonTooltip({
   children,
   content,
   title,
-  placement = 'top',
+  placement = 'top',     // 12 hodnot — viz TOOLTIP_PLACEMENTS
   delay     = 120,
   disabled  = false,
+  autoFlip  = true,      // automaticky otoč pokud by tooltip přesahoval viewport
 }) {
-  const [pos, setPos]   = useState(null)
-  const triggerRef      = useRef(null)
-  const timerRef        = useRef(null)
+  const [pos, setPos]               = useState(null)
+  const [effectivePlacement, setEP] = useState(placement)
+  const triggerRef                  = useRef(null)
+  const tooltipRef                  = useRef(null)
+  const timerRef                    = useRef(null)
 
   const show = useCallback(() => {
     if (disabled || !content) return
     timerRef.current = setTimeout(() => {
       const rect = triggerRef.current?.getBoundingClientRect()
       if (!rect) return
-      setPos(getPosition(rect, placement))
+      // První render — odhadované rozměry, druhý effect doladí po měření
+      const tooltipBox = tooltipRef.current?.getBoundingClientRect()
+      const final = autoFlip ? resolveFlip(rect, tooltipBox, placement) : placement
+      setEP(final)
+      setPos(getPosition(rect, final))
     }, delay)
-  }, [disabled, content, placement, delay])
+  }, [disabled, content, placement, delay, autoFlip])
 
   const hide = useCallback(() => {
     clearTimeout(timerRef.current)
@@ -53,6 +60,7 @@ export default function DonjonTooltip({
 
       {pos && (
         <span
+          ref={tooltipRef}
           role="tooltip"
           style={{
             position: 'fixed',
@@ -67,7 +75,7 @@ export default function DonjonTooltip({
         >
           {/* Arrow + bubble ve společném filtru → shadow kruje celý tvar */}
           <span style={{ display: 'block', position: 'relative', filter: `drop-shadow(0 4px 16px rgba(0,0,0,0.75)) drop-shadow(0 0 8px ${goldDim}33)` }}>
-            <Arrow placement={placement} color={goldDim} />
+            <Arrow placement={effectivePlacement} color={goldDim} />
             {/* Outer border */}
             <span style={{ display: 'block', clipPath: 'polygon(8px 0%,calc(100% - 8px) 0%,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0% calc(100% - 8px),0% 8px)', background: goldDim, padding: 1 }}>
               {/* Inner content */}

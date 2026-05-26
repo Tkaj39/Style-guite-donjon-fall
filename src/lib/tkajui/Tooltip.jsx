@@ -10,7 +10,7 @@ import {
   infoColor, infoBg, infoBorder, infoText,
   zTooltip,
 } from './tokens'
-import { getPosition, Arrow } from '../../utils/tooltipUtils'
+import { getPosition, resolveFlip, Arrow } from '../../utils/tooltipUtils'
 
 /* ── Varianty ── */
 const VARIANTS = {
@@ -26,13 +26,16 @@ export default function Tooltip({
   children,
   content,
   title,
-  placement = 'top',
+  placement = 'top',     // 12 hodnot: top/bottom/left/right × default/-start/-end
   variant = 'default',
   delay = 120,
   disabled = false,
+  autoFlip = true,
 }) {
   const [pos, setPos] = useState(null)
+  const [effectivePlacement, setEP] = useState(placement)
   const triggerRef = useRef(null)
+  const tooltipRef = useRef(null)
   const timerRef  = useRef(null)
   const v = VARIANTS[variant] ?? VARIANTS.default
 
@@ -41,9 +44,12 @@ export default function Tooltip({
     timerRef.current = setTimeout(() => {
       const rect = triggerRef.current?.getBoundingClientRect()
       if (!rect) return
-      setPos(getPosition(rect, placement))
+      const tooltipBox = tooltipRef.current?.getBoundingClientRect()
+      const final = autoFlip ? resolveFlip(rect, tooltipBox, placement) : placement
+      setEP(final)
+      setPos(getPosition(rect, final))
     }, delay)
-  }, [disabled, content, placement, delay])
+  }, [disabled, content, placement, delay, autoFlip])
 
   const hide = useCallback(() => {
     clearTimeout(timerRef.current)
@@ -65,6 +71,7 @@ export default function Tooltip({
 
       {pos && (
         <span
+          ref={tooltipRef}
           role="tooltip"
           style={{
             position: 'fixed',
@@ -86,7 +93,7 @@ export default function Tooltip({
             padding: title ? '8px 12px' : '5px 10px',
             boxShadow: `0 4px 20px rgba(0,0,0,0.6), 0 0 0 1px ${v.border}33`,
           }}>
-            <Arrow placement={placement} color={v.border} />
+            <Arrow placement={effectivePlacement} color={v.border} />
             {title && (
               <p style={{ margin: '0 0 3px 0', fontSize: '0.6875rem', fontWeight: 600, color: v.title, letterSpacing: '0.04em' }}>
                 {title}
