@@ -6,7 +6,7 @@ import { useId } from 'react'
 import { Shield } from './Erb'
 import ResourceBar from './ResourceBar'
 import DonjonBadge from './DonjonBadge'
-import { RohOrnament } from './Ornaments'
+import { RohOrnament, ornamentHForCx } from './Ornaments'
 import { octagon } from '../../utils/octagon'
 import {
   gold, goldDim,
@@ -72,9 +72,9 @@ export default function PlayerPanel({
       }}
       className={!hasOrnaments ? className : undefined}
     >
-      {/* Rohové ornamentální závorky */}
-      {hasOrnaments && <RohOrnament h={66} uid={`${uid}l`} />}
-      {hasOrnaments && <RohOrnament h={66} uid={`${uid}r`} flip />}
+      {/* Rohové ornamentální závorky — výška škálovaná dle CX (šířka ≈ CX) */}
+      {hasOrnaments && <RohOrnament h={ornamentHForCx(CX, 'roh')} uid={`${uid}l`} />}
+      {hasOrnaments && <RohOrnament h={ornamentHForCx(CX, 'roh')} uid={`${uid}r`} flip />}
 
       {/* Aktivní indikátor — zlatá tečka vlevo nahoře */}
       {isActive && (

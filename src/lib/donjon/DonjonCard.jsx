@@ -1,6 +1,6 @@
 import { useId } from 'react'
 import { octagon } from '../../utils/octagon'
-import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament } from './Ornaments'
+import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament, ornamentHForCx } from './Ornaments'
 import {
   goldDim, goldMid,
   VARIANT_BG, VARIANT_BORDER, VARIANT_HEADER_BG, VARIANT_TITLE_GRAD,
@@ -45,7 +45,7 @@ export default function DonjonCard({
   /* ZkosenOrnament: h=66 → 22×22px (odpovídá cx=16).
      RohOrnament:    šířka musí odpovídat cx → h = cx*(66/25). */
   const SideOrn = ornament === 'roh' ? RohOrnament : ZkosenOrnament
-  const ornH = ornament === 'roh' ? Math.round(cx * 66 / 25) : Math.round(cx * 66 / 22)
+  const ornH = ornamentHForCx(cx, ornament === 'roh' ? 'roh' : 'zkosen')
   const hasHeader = !!(title || description)
   const headerPadding = hasOrnaments ? '14px 40px 12px' : '14px 28px 12px'
   const bodyPadding = hasOrnaments ? '16px 28px' : '18px 24px'

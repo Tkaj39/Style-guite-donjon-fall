@@ -18,6 +18,33 @@
  */
 import { gold, goldDim, bg4 } from './tokens'
 
+/* ── Centrální mapování typ ornamentu → základní šířka (při h=66) ────────────
+   Jediný zdroj pravdy pro škálování. Pokud upravíš viewBox ornamentu, oprav
+   sem — všechny call sites se přepočítají automaticky. */
+export const ORNAMENT_BASE_WIDTH = {
+  side:   22,   // SideOrnament — efektivní šířka po -2 odsazení
+  zkosen: 22,   // ZkosenOrnament — viewBox 22×22
+  roh:    25,   // RohOrnament — viewBox 25×46
+}
+
+/**
+ * Spočítá výšku side-ornament SVG tak, aby jeho vykreslená šířka odpovídala
+ * zadanému zkosení rohu (cx z octagon clip-pathu).
+ *
+ * Použití místo magic čísel `h={66}` ve voláních ornamentů:
+ *
+ *   <ZkosenOrnament h={ornamentHForCx(cx, 'zkosen')} uid={...} />
+ *   <RohOrnament    h={ornamentHForCx(cx, 'roh')}    uid={...} />
+ *
+ * @param {number} cx   Hodnota corner-cut (px) — typicky 10–22.
+ * @param {'side'|'zkosen'|'roh'} type
+ * @returns {number} Výška ornamentu v px, zaokrouhlená.
+ */
+export function ornamentHForCx(cx, type = 'zkosen') {
+  const baseW = ORNAMENT_BASE_WIDTH[type] ?? ORNAMENT_BASE_WIDTH.zkosen
+  return Math.round(cx * 66 / baseW)
+}
+
 export function SideOrnament({ h, uid, flip }) {
   const w  = Math.round(24 * (h / 66) * 10) / 10 - 2
   const g  = `url(#${uid}-v)`

@@ -1,7 +1,52 @@
-import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament } from '../lib/donjon/Ornaments'
+import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament, ornamentHForCx, ORNAMENT_BASE_WIDTH } from '../lib/donjon/Ornaments'
 import CornerOrnament from '../lib/donjon/CornerOrnament'
 import { buttonSizes, CARD_ORN_H } from '../utils/sizes'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
+import { octagon } from '../utils/octagon'
+import { gold, goldDim, bg2, bg3, borderDefault, textHigh, textMid, textLow } from '../lib/donjon/tokens'
+
+/* ── Doporučené hodnoty cx pro různé komponenty ── */
+const CX_REFERENCE = [
+  { cx: 10, usage: 'malá tlačítka (sm)', sample: 'DonjonButton size="sm"' },
+  { cx: 12, usage: 'střední tlačítka (md)', sample: 'DonjonButton size="md"' },
+  { cx: 14, usage: 'mini panely', sample: 'PlayerPanel, EventLog, NotificationCenter' },
+  { cx: 16, usage: 'karty a modaly', sample: 'DonjonCard, DonjonModal' },
+  { cx: 20, usage: 'velké panely', sample: 'custom hero karta' },
+]
+
+/* ── OrnamentRow — vizualizace jedné velikosti ──
+   Reálný oktagon shell + ornament uvnitř, aby bylo vidět jak na sebe sednou. */
+function OrnamentRow({ cx, type, label }) {
+  const h = ornamentHForCx(cx, type)
+  const baseW = ORNAMENT_BASE_WIDTH[type]
+  const renderedW = Math.round(baseW * h / 66 * 10) / 10
+  const uid = `prev-${type}-${cx}`
+  const Orn = type === 'roh' ? RohOrnament : type === 'side' ? SideOrnament : ZkosenOrnament
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '8px 0' }}>
+      <span style={{ width: 60, fontSize: '0.75rem', color: goldDim, fontFamily: 'ui-monospace, monospace' }}>
+        cx={cx}
+      </span>
+      {/* Mock octagon shell s ornamentem uvnitř */}
+      <div style={{ clipPath: octagon(cx), background: goldDim, padding: 1, width: 110, height: 64 }}>
+        <div style={{
+          position: 'relative',
+          clipPath: octagon(cx - 1),
+          background: bg3,
+          width: '100%',
+          height: '100%',
+        }}>
+          <Orn h={h} uid={`${uid}l`} />
+          <Orn h={h} uid={`${uid}r`} flip />
+        </div>
+      </div>
+      <span style={{ fontSize: '0.75rem', color: textMid, fontFamily: 'ui-monospace, monospace', minWidth: 140 }}>
+        h={h}  →  {renderedW}px {label || ''}
+      </span>
+    </div>
+  )
+}
 
 const SIZES = Object.entries(buttonSizes).map(([key, s]) => ({ key, h: s.h }))
 const CARD_SIZE = { key: 'card', h: CARD_ORN_H }
@@ -14,6 +59,90 @@ export default function OrnamentsPage() {
       componentSlugs={['ornaments', 'corner-ornament']}
       library="donjon"
     >
+
+      {/* ── Centrální škálování přes ornamentHForCx ── */}
+      <Section
+        id="sizing"
+        title="Velikost ornamentu vs. cx (zkosení rohu)"
+        description="Centrální helper ornamentHForCx(cx, type) vrací výšku ornamentu tak, aby jeho vykreslená šířka odpovídala zadanému cx (octagon corner-cut). Žádná magic čísla per-komponenta."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32, width: '100%' }}>
+            {/* ZkosenOrnament sloupec */}
+            <div style={{ flex: '1 1 320px' }}>
+              <h4 style={{ fontSize: '0.8125rem', fontWeight: 700, color: gold, marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                ZkosenOrnament <span style={{ color: textLow, fontWeight: 400 }}>(base width 22)</span>
+              </h4>
+              {CX_REFERENCE.map(({ cx }) => <OrnamentRow key={cx} cx={cx} type="zkosen" />)}
+            </div>
+
+            {/* RohOrnament sloupec */}
+            <div style={{ flex: '1 1 320px' }}>
+              <h4 style={{ fontSize: '0.8125rem', fontWeight: 700, color: gold, marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                RohOrnament <span style={{ color: textLow, fontWeight: 400 }}>(base width 25)</span>
+              </h4>
+              {CX_REFERENCE.map(({ cx }) => <OrnamentRow key={cx} cx={cx} type="roh" />)}
+            </div>
+          </div>
+        </Preview>
+
+        {/* Tabulka doporučených cx + usage */}
+        <Preview>
+          <div style={{ width: '100%' }}>
+            <h4 style={{ fontSize: '0.8125rem', fontWeight: 700, color: gold, marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              Doporučené cx hodnoty
+            </h4>
+            <table style={{ width: '100%', fontSize: '0.8125rem', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ borderBottom: `1px solid ${borderDefault}`, color: goldDim, textAlign: 'left' }}>
+                  <th style={{ padding: '8px 12px', fontWeight: 600 }}>cx</th>
+                  <th style={{ padding: '8px 12px', fontWeight: 600 }}>h (zkosen)</th>
+                  <th style={{ padding: '8px 12px', fontWeight: 600 }}>h (roh)</th>
+                  <th style={{ padding: '8px 12px', fontWeight: 600 }}>Použití</th>
+                  <th style={{ padding: '8px 12px', fontWeight: 600 }}>Příklad</th>
+                </tr>
+              </thead>
+              <tbody>
+                {CX_REFERENCE.map(({ cx, usage, sample }) => (
+                  <tr key={cx} style={{ borderBottom: `1px solid ${borderDefault}44`, color: textMid }}>
+                    <td style={{ padding: '8px 12px', fontFamily: 'ui-monospace, monospace', color: textHigh }}>{cx}</td>
+                    <td style={{ padding: '8px 12px', fontFamily: 'ui-monospace, monospace', color: textLow }}>{ornamentHForCx(cx, 'zkosen')}</td>
+                    <td style={{ padding: '8px 12px', fontFamily: 'ui-monospace, monospace', color: textLow }}>{ornamentHForCx(cx, 'roh')}</td>
+                    <td style={{ padding: '8px 12px' }}>{usage}</td>
+                    <td style={{ padding: '8px 12px', color: textLow, fontFamily: 'ui-monospace, monospace', fontSize: '0.75rem' }}>{sample}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Preview>
+
+        <pre style={{
+          background: bg2,
+          border: `1px solid ${borderDefault}`,
+          borderRadius: 6,
+          padding: '12px 16px',
+          fontSize: '0.75rem',
+          color: textHigh,
+          fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+          lineHeight: 1.5,
+          overflow: 'auto',
+        }}>
+{`import { RohOrnament, ornamentHForCx } from './Ornaments'
+
+const cx = 14   // corner-cut komponenty
+
+// ✓ Centrálně — šířka ornamentu odpovídá zkosení
+<RohOrnament h={ornamentHForCx(cx, 'roh')} uid="..." />
+
+// ✗ Magic čísla per komponenta (předtím)
+<RohOrnament h={66} uid="..." />   // šířka 25px, ale cx je jen 14 → vyčuhuje
+<RohOrnament h={38} uid="..." />   // ručně dopočítané, nepřenosné
+
+// Pro DonjonCard, DonjonModal s 'roh' i 'zkosen' variantou:
+const ornH = ornamentHForCx(cx, ornament === 'roh' ? 'roh' : 'zkosen')`}
+        </pre>
+      </Section>
 
       {/* ── SideOrnament ── */}
       <Section

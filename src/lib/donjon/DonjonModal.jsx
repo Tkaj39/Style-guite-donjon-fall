@@ -2,7 +2,7 @@ import { useEffect, useRef, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { useModalPageInert } from '../../hooks/useModalPageInert'
 import { octagon } from '../../utils/octagon'
-import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament } from './Ornaments'
+import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament, ornamentHForCx } from './Ornaments'
 import {
   goldDim, goldMid, textActive,
   VARIANT_BG, VARIANT_BORDER, VARIANT_HEADER_BG, VARIANT_TITLE_GRAD,
@@ -78,7 +78,7 @@ export default function DonjonModal({
   /* Modal má HexOrnament nahoře/dole → v rohách stačí ZkosenOrnament (jen závorka).
      RohOrnament: šířka musí odpovídat cx → h = cx*(66/25). */
   const SideOrn = ornament === 'roh' ? RohOrnament : ZkosenOrnament
-  const sideOrnH = ornament === 'roh' ? Math.round(cx * 66 / 25) : Math.round(cx * 66 / 22)
+  const sideOrnH = ornamentHForCx(cx, ornament === 'roh' ? 'roh' : 'zkosen')
   const headerPadding = `14px ${showCloseButton ? 48 : hasOrnaments ? 40 : 28}px 12px ${hasOrnaments ? 40 : 28}px`
   const bodyPadding = `20px ${!title && showCloseButton ? 52 : hasOrnaments ? 28 : 24}px 20px ${hasOrnaments ? 28 : 24}px`
   const footerPadding = hasOrnaments ? '12px 28px 14px' : '12px 24px 14px'

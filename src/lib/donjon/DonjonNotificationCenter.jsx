@@ -17,7 +17,7 @@ import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import GameTransition from './GameTransition'
 import DonjonBadge from './DonjonBadge'
-import { RohOrnament } from './Ornaments'
+import { RohOrnament, ornamentHForCx } from './Ornaments'
 import { octagon } from '../../utils/octagon'
 import { useModalPageInert } from '../../hooks/useModalPageInert'
 import {
@@ -316,8 +316,8 @@ export default function DonjonNotificationCenter({
           </div>
 
           {/* RohOrnament závorky — pouze v decorated módu */}
-          {hasOrnaments && <RohOrnament h={66} uid="ncl" />}
-          {hasOrnaments && <RohOrnament h={66} uid="ncr" flip />}
+          {hasOrnaments && <RohOrnament h={ornamentHForCx(CX, 'roh')} uid="ncl" />}
+          {hasOrnaments && <RohOrnament h={ornamentHForCx(CX, 'roh')} uid="ncr" flip />}
         </div>
         </div>
       </GameTransition>

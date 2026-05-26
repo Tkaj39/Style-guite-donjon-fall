@@ -5,7 +5,7 @@
 import { useRef, useEffect } from 'react'
 import { useId } from 'react'
 import { octagon } from '../../utils/octagon'
-import { RohOrnament, HexOrnament } from './Ornaments'
+import { RohOrnament, HexOrnament, ornamentHForCx } from './Ornaments'
 import {
   gold, goldDim,
   bg2, bg3, bgDeep,
@@ -257,8 +257,8 @@ export default function EventLog({
         <HexOrnament uid={`${uid}hb`} flip edgePadL={cx} />
 
         {/* RohOrnament — za ostatním obsahem, aby se vykreslil nad hlavičkou */}
-        <RohOrnament h={38} uid={`${uid}l`} />
-        <RohOrnament h={38} uid={`${uid}r`} flip />
+        <RohOrnament h={ornamentHForCx(cx, 'roh')} uid={`${uid}l`} />
+        <RohOrnament h={ornamentHForCx(cx, 'roh')} uid={`${uid}r`} flip />
       </div>
     </div>
   )
