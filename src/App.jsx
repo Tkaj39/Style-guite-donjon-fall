@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { Routes, Route, Navigate, useSearchParams } from 'react-router-dom'
+import { Routes, Route, useSearchParams } from 'react-router-dom'
 import Layout from './styleguide/Layout'
 import ErrorBoundary from './styleguide/ErrorBoundary'
 import { LibPreferenceProvider } from './styleguide/LibPreferenceProvider'
@@ -16,6 +16,7 @@ const InputsPage           = lazy(() => import('./pages/InputsPage'))
 const BadgesPage           = lazy(() => import('./pages/BadgesPage'))
 const CardsPage            = lazy(() => import('./pages/CardsPage'))
 const ColorsPage           = lazy(() => import('./pages/ColorsPage'))
+const HomePage             = lazy(() => import('./pages/HomePage'))
 const MoodPage             = lazy(() => import('./pages/MoodPage'))
 const TypographyPage       = lazy(() => import('./pages/TypographyPage'))
 const SpacingPage          = lazy(() => import('./pages/SpacingPage'))
@@ -93,7 +94,7 @@ export default function App() {
     <LibPreferenceProvider>
     <Routes>
       <Route element={<Layout />}>
-        <Route index element={<Navigate to="/mood" replace />} />
+        <Route index element={<S><HomePage /></S>} />
         <Route path="buttons"      element={<S><ButtonsPage /></S>} />
         <Route path="button-groups" element={<S><ButtonGroupsPage /></S>} />
         <Route path="mood"         element={<S><MoodPage /></S>} />

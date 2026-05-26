@@ -31,6 +31,7 @@ export const sections = [
   {
     label: 'System',
     items: [
+      { to: '/', label: '🏰 Home' },
       { to: '/snippets', label: '⚡ Snippety', library: 'donjon' },
       { to: '/todo', label: '✦ TODO' },
       {
