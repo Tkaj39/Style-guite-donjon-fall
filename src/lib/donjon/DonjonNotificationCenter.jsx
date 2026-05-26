@@ -138,7 +138,7 @@ export default function DonjonNotificationCenter({
   events     = [],
   maxVisible = 5,
   position   = 'bottom-right',
-  ornament   = 'plain',   // 'plain' | 'decorated'
+  ornament   = 'decorated', // 'plain' | 'decorated'
   onClear,
 }) {
   const hasOrnaments = ornament === 'decorated'

@@ -61,7 +61,7 @@ export default function EventLog({
   showTitle    = true,
   showRound    = true,
   autoScroll   = true,
-  ornament     = 'plain',
+  ornament     = 'decorated',
   emptyMessage = 'Zatím žádné události.',
   style,
   className,

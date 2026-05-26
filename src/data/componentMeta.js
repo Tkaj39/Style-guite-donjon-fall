@@ -457,6 +457,7 @@ export const componentMeta = {
       { name: 'onClick',     type: '() => void',                                       required: false, description: 'Callback při kliknutí na odemčenou dlaždici.' },
       { name: 'size',        type: "'sm'|'md'|'lg'",                                  required: false, default: "'md'",    description: 'Velikost dlaždice.' },
       { name: 'variant',     type: "'default'|'attack'|'move'|'special'",             required: false, default: "'default'", description: 'Barevný a významový typ akce.' },
+      { name: 'ornament',    type: "'plain'|'decorated'",                              required: false, default: "'decorated'", description: 'Decorated přidá SideOrnament závorky a octagon shell (default), plain je baseline tile.' },
       { name: 'style',       type: 'CSSProperties',                                    required: false, description: 'Inline styly pro layoutové doladění.' },
       { name: 'className',   type: 'string',                                           required: false, description: 'Doplňkové CSS třídy.' },
     ],
@@ -475,7 +476,7 @@ export const componentMeta = {
       { name: 'showTitle',    type: 'boolean',                                          required: false, default: 'true',               description: 'Zobrazí nebo skryje hlavičku s titulkem a počtem záznamů.' },
       { name: 'showRound',    type: 'boolean',                                          required: false, default: 'true',               description: 'Zobrazí číslo kola u jednotlivých záznamů.' },
       { name: 'autoScroll',   type: 'boolean',                                          required: false, default: 'true',               description: 'Po změně events automaticky posune výpis na konec.' },
-      { name: 'ornament',     type: "'plain'|'decorated'",                              required: false, default: "'plain'",            description: 'Vizuální režim shellu logu — plain baseline nebo dekorovaný donjon panel.' },
+      { name: 'ornament',     type: "'plain'|'decorated'",                              required: false, default: "'decorated'",        description: 'Vizuální režim shellu logu — dekorovaný donjon panel (default) nebo plain baseline.' },
       { name: 'emptyMessage', type: 'string',                                           required: false, default: "'Zatím žádné události.'", description: 'Text pro prázdný stav bez záznamů.' },
       { name: 'style',        type: 'CSSProperties',                                    required: false, description: 'Inline styly na obalový kontejner.' },
       { name: 'className',    type: 'string',                                           required: false, description: 'Doplňkové CSS třídy na obalový kontejner.' },
@@ -556,6 +557,7 @@ export const componentMeta = {
       { name: 'isActive',   type: 'boolean',                              required: false, default: 'false',      description: 'Zvýrazní panel jako hráče na tahu.' },
       { name: 'eliminated', type: 'boolean',                              required: false, default: 'false',      description: 'Oslabí panel a zobrazí stav vyřazení.' },
       { name: 'size',       type: "'sm'|'md'",                           required: false, default: "'md'",     description: 'Velikost panelu.' },
+      { name: 'ornament',   type: "'plain'|'decorated'",                required: false, default: "'decorated'", description: 'Decorated přidá RohOrnament závorky v rozích a octagon shell (default), plain je baseline panel.' },
       { name: 'style',      type: 'CSSProperties',                        required: false, description: 'Inline styly na obalový panel.' },
       { name: 'className',  type: 'string',                               required: false, description: 'Doplňkové CSS třídy na obalový panel.' },
     ],
@@ -845,6 +847,7 @@ export const componentMeta = {
       { name: 'maxVisible', type: 'number',                                                           required: false, default: '5',             description: 'Maximální počet zobrazených nejnovějších záznamů. Starší jsou archivovány.' },
       { name: 'position',   type: "'bottom-right'|'bottom-left'|'top-right'|'top-left'",             required: false, default: "'bottom-right'", description: 'Roh obrazovky kde se panel zobrazí.' },
       { name: 'onClear',    type: '() => void',                                                       required: false, description: 'Callback pro tlačítko Smazat v hlavičce panelu.' },
+      { name: 'ornament',   type: "'plain'|'decorated'",                                                  required: false, default: "'decorated'", description: 'Decorated přidá RohOrnament závorky v octagon shellu (default), plain je baseline panel.' },
     ],
     relatedSlugs: ['event-log', 'donjon-toast', 'game-transition', 'donjon-badge'],
   },
@@ -865,146 +868,6 @@ export const componentMeta = {
       { name: 'code',        type: 'string',    required: true,  description: '[CodeBlock] Zdrojový kód k zobrazení.' },
     ],
     relatedSlugs: ['layout', 'sidebar', 'device-frame'],
-  },
-
-  /* ── Herní primitiva (donjon-fall-ui) ─────────────────────────────── */
-
-  'resource-bar': {
-    description: 'HP/mana/stamina/XP bar s vizuálními zónami (danger/warning/safe) a damage flash animací. Pět prefab variant pro herní zdroje.',
-    status: 'documented',
-    showcaseRoute: '/resource-bar',
-    props: [
-      { name: 'value',     type: 'number',  required: false, default: '100',   description: 'Aktuální hodnota zdroje.' },
-      { name: 'max',       type: 'number',  required: false, default: '100',   description: 'Maximální hodnota zdroje.' },
-      { name: 'variant',   type: "'hp'|'mana'|'stamina'|'xp'|'shield'|'default'", required: false, default: "'hp'", description: 'Sémantická varianta — určuje barvu výplně.' },
-      { name: 'size',      type: "'sm'|'md'|'lg'", required: false, default: "'md'", description: 'Velikost baru.' },
-      { name: 'label',     type: 'string',  required: false, description: 'Popisek nad barem.' },
-      { name: 'showValue', type: 'boolean', required: false, default: 'false', description: 'Zobrazí aktuální/max hodnotu nad barem.' },
-      { name: 'zones',     type: 'boolean', required: false, default: 'true',  description: 'Vykreslí barevná pásma v pozadí (HP zóny).' },
-      { name: 'flashKey',  type: 'any',     required: false, description: 'Změna spustí damage flash animaci (key-change pattern).' },
-    ],
-    relatedSlugs: ['numeric-display', 'player-panel', 'donjon-progress-bar'],
-  },
-
-  'numeric-display': {
-    description: 'Animovaný číselný displej pro herní zdroje (VP, počítadla, mana). Při změně hodnoty zobrazí +/− delta badge s gain/loss flash animací.',
-    status: 'documented',
-    showcaseRoute: '/numeric-display',
-    props: [
-      { name: 'value',         type: 'number',                    required: false, default: '0', description: 'Zobrazovaná hodnota — změna spustí animaci.' },
-      { name: 'label',         type: 'string',                    required: false, description: 'Popisek u čísla.' },
-      { name: 'prefix',        type: 'ReactNode',                 required: false, description: 'Před hodnotou (např. ikona).' },
-      { name: 'suffix',        type: 'ReactNode',                 required: false, description: 'Za hodnotou (např. jednotka).' },
-      { name: 'variant',       type: "'default'|'vp'|'resource'|'mana'", required: false, default: "'default'", description: 'Sémantická varianta — určuje barvu textu a flash.' },
-      { name: 'size',          type: "'sm'|'md'|'lg'",            required: false, default: "'md'",  description: 'Velikost.' },
-      { name: 'labelPosition', type: "'top'|'bottom'|'left'|'right'", required: false, default: "'top'", description: 'Umístění labelu vůči číslu.' },
-    ],
-    relatedSlugs: ['resource-bar', 'player-panel'],
-  },
-
-  'player-panel': {
-    description: 'Mini karta hráče — erb (barva + symbol), jméno, VP počítadlo, HP/mana/stamina bary. Označuje aktivního hráče glow efektem.',
-    status: 'documented',
-    showcaseRoute: '/player-panel',
-    props: [
-      { name: 'name',       type: 'string',                  required: true,  description: 'Jméno hráče.' },
-      { name: 'color',      type: 'string',                  required: false, default: 'infoColor', description: 'Brand barva hráče (hex). Promítne se do erbu a aktivního stavu.' },
-      { name: 'symbol',     type: "'sword'|'shield'|'tower'", required: false, default: "'sword'",   description: 'Ikona v erbu.' },
-      { name: 'vp',         type: 'number',                  required: false, default: '0',   description: 'Victory Points.' },
-      { name: 'hp',         type: 'number',                  required: false, description: 'Aktuální HP (skryje resource bary když undefined).' },
-      { name: 'maxHp',      type: 'number',                  required: false, default: '100', description: 'Maximální HP.' },
-      { name: 'mana',       type: 'number',                  required: false, description: 'Aktuální mana.' },
-      { name: 'maxMana',    type: 'number',                  required: false, default: '100', description: 'Maximální mana.' },
-      { name: 'stamina',    type: 'number',                  required: false, description: 'Aktuální stamina.' },
-      { name: 'maxStamina', type: 'number',                  required: false, default: '100', description: 'Maximální stamina.' },
-      { name: 'isActive',   type: 'boolean',                 required: false, default: 'false', description: 'Je hráč na tahu — přidá zlatý border + glow.' },
-      { name: 'eliminated', type: 'boolean',                 required: false, default: 'false', description: 'Hráč vyřazen — sníží opacitu.' },
-      { name: 'size',       type: "'sm'|'md'|'lg'",          required: false, default: "'md'", description: 'Velikost karty.' },
-      { name: 'ornament',   type: "'plain'|'decorated'",     required: false, default: "'plain'", description: 'Decorated přidá RohOrnament závorky v rozích.' },
-    ],
-    relatedSlugs: ['resource-bar', 'numeric-display', 'phase-indicator', 'erb'],
-  },
-
-  'action-tile': {
-    description: 'Klikatelná herní akční dlaždice s ikonou, titlem, popisem a costem. Stavy: selected, disabled, locked. Decorated varianta přidá SideOrnament závorky.',
-    status: 'documented',
-    showcaseRoute: '/action-tile',
-    props: [
-      { name: 'icon',        type: 'ReactNode', required: true,  description: 'Ikona dlaždice.' },
-      { name: 'title',       type: 'string',    required: true,  description: 'Název akce.' },
-      { name: 'description', type: 'string',    required: false, description: 'Popis akce pod titlem.' },
-      { name: 'cost',        type: 'ReactNode', required: false, description: 'Cena akce — chip v rohu (mana, AP…).' },
-      { name: 'selected',    type: 'boolean',   required: false, default: 'false', description: 'Vybrané — zvýrazněný border + glow.' },
-      { name: 'disabled',    type: 'boolean',   required: false, default: 'false', description: 'Nedostupné — snížená opacita, ignoruje click.' },
-      { name: 'locked',      type: 'boolean',   required: false, default: 'false', description: 'Zamčené (např. quest gate) — vizuálně i funkčně non-interactive.' },
-      { name: 'onClick',     type: '() => void', required: false, description: 'Handler kliknutí.' },
-      { name: 'variant',     type: "'default'|'danger'|'success'|'magic'", required: false, default: "'default'", description: 'Barevná varianta.' },
-      { name: 'size',        type: "'sm'|'md'|'lg'", required: false, default: "'md'", description: 'Velikost dlaždice.' },
-      { name: 'ornament',    type: "'plain'|'decorated'", required: false, default: "'plain'", description: 'Decorated přidá SideOrnament závorky a octagon shell.' },
-    ],
-    relatedSlugs: ['donjon-button', 'event-log', 'phase-indicator'],
-  },
-
-  'event-log': {
-    description: 'Scrollovatelný seznam herních událostí s auto-scroll na nejnovější. Barevné kódování typů: gain · loss · event · warning · system. Volitelná hlavička s počtem záznamů.',
-    status: 'documented',
-    showcaseRoute: '/event-log',
-    props: [
-      { name: 'events',       type: 'Array<{id?, type, text, detail?, round?}>', required: false, default: '[]', description: 'Pole herních událostí.' },
-      { name: 'maxHeight',    type: 'number',  required: false, default: '280', description: 'Maximální výška v px.' },
-      { name: 'title',        type: 'string',  required: false, default: "'Herní log'", description: 'Nadpis hlavičky.' },
-      { name: 'showTitle',    type: 'boolean', required: false, default: 'true', description: 'Zobrazit hlavičku s názvem a počtem.' },
-      { name: 'showRound',    type: 'boolean', required: false, default: 'true', description: 'Zobrazit číslo kola u událostí.' },
-      { name: 'autoScroll',   type: 'boolean', required: false, default: 'true', description: 'Automaticky scrollovat na nejnovější.' },
-      { name: 'ornament',     type: "'plain'|'decorated'", required: false, default: "'plain'", description: 'Decorated přidá HexOrnament + RohOrnament v octagon shellu.' },
-      { name: 'emptyMessage', type: 'string',  required: false, default: "'Zatím žádné události.'", description: 'Text pro prázdný log.' },
-    ],
-    relatedSlugs: ['action-tile', 'phase-indicator', 'donjon-notification-center'],
-  },
-
-  'phase-indicator': {
-    description: 'Ukazatel aktuální fáze hry (např. příprava → boj → konec kola). Zvýrazní aktivní fázi zlatým glow, dokončené zelenou. Volitelný popis u aktivní fáze.',
-    status: 'documented',
-    showcaseRoute: '/phase-indicator',
-    props: [
-      { name: 'phases',       type: 'Array<{id, label, description?}>', required: false, default: '[]', description: 'Pole fází.' },
-      { name: 'currentPhase', type: 'string',           required: false, description: 'ID aktuální fáze (musí existovat v phases).' },
-      { name: 'orientation',  type: "'horizontal'|'vertical'", required: false, default: "'horizontal'", description: 'Orientace ukazatele.' },
-      { name: 'size',         type: "'sm'|'md'|'lg'",   required: false, default: "'md'", description: 'Velikost.' },
-      { name: 'onPhaseClick', type: '(phaseId: string) => void', required: false, description: 'Handler kliknutí na fázi (nepovinné — fáze je read-only bez handleru).' },
-    ],
-    relatedSlugs: ['player-panel', 'event-log', 'resource-bar'],
-  },
-
-  /* ── Animace & motion ─────────────────────────────────────────────── */
-
-  'game-transition': {
-    description: 'Wrapper pro mount/unmount animace s 6 prefab presety. Spravuje phase machine (entering → in → out → unmounted) a respektuje prefers-reduced-motion.',
-    status: 'documented',
-    showcaseRoute: '/motion',
-    props: [
-      { name: 'show',     type: 'boolean',   required: true,  description: 'Řídí viditelnost — true = mount + in animace, false = out animace + unmount.' },
-      { name: 'preset',   type: "'fadeScale'|'slideUp'|'slideDown'|'pop'|'fade'|'slideLeft'", required: false, default: "'fadeScale'", description: 'Předdefinovaná animace.' },
-      { name: 'duration', type: 'number',    required: false, description: 'Délka animace v ms (default per-preset).' },
-      { name: 'children', type: 'ReactNode', required: true,  description: 'Obsah k animování.' },
-      { name: 'as',       type: 'ElementType', required: false, default: "'div'", description: 'HTML element wrapperu.' },
-      { name: 'onExited', type: '() => void', required: false, description: 'Callback po dokončení exit animace.' },
-    ],
-    relatedSlugs: ['donjon-modal', 'donjon-toast', 'donjon-notification-center'],
-  },
-
-  /* ── Formuláře (TkajUI) ───────────────────────────────────────────── */
-
-  'submit-button': {
-    description: 'Tlačítko pro odesílání formulářů. Wrapper nad Button s React 19 useFormStatus — automaticky přepne na loading stav při pending submitu. Musí být přímý potomek <form>.',
-    status: 'documented',
-    showcaseRoute: '/inputs',
-    props: [
-      { name: 'children',     type: 'ReactNode', required: false, default: "'Odeslat'", description: 'Text v idle stavu.' },
-      { name: 'loadingLabel', type: 'string',    required: false, description: 'Text při pending submitu (default: children + …).' },
-      { name: '...props',     type: 'ButtonProps', required: false, description: 'Všechny props z Button (variant, size, leadingIcon, …).' },
-    ],
-    relatedSlugs: ['button', 'donjon-button', 'input'],
   },
 
 }

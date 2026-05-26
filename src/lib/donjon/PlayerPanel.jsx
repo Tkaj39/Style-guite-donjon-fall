@@ -44,7 +44,7 @@ export default function PlayerPanel({
   isActive       = false,     // je na tahu
   eliminated     = false,
   size           = 'md',
-  ornament       = 'plain',   // 'plain' | 'decorated'
+  ornament       = 'decorated', // 'plain' | 'decorated'
   style,
   className,
 }) {

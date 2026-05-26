@@ -47,7 +47,7 @@ export default function ActionTile({
   onClick,
   size       = 'md',
   variant    = 'default',
-  ornament   = 'plain',
+  ornament   = 'decorated',
   style,
   className,
 }) {
