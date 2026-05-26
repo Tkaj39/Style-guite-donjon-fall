@@ -11,7 +11,7 @@ import {
   borderDefault, borderMid,
   textHigh, textMid, textLow, textFaint,
   dangerColor, warningColor, gainColor, magicColor,
-  infoColor,
+  infoColor, infoDark,
 } from './tokens'
 
 const SIZES = {
@@ -29,17 +29,17 @@ const SIZES = {
 /* Selected stav unified pattern napříč variantami:
  *   selBg     = `${variantColor}22` — jemný tinted bg (alpha ~13%, blue/red/green/purple cast)
  *   selBorder = variant color (full bright 1px rámeček — signalizuje variant)
- *   selOrn    = gold UNIVERSAL (kontrast hue proti všem tinted bg —
- *               zlato ≠ modrá/červená/zelená/fialová → vždy viditelné)
+ *   selOrn    = infoDark UNIVERSAL (#1E3A6B tmavá navy — konzistentní accent
+ *               napříč všemi variantami, kontrast lightness proti tinted bg)
  *
  * Vizuální hierarchie: variant identity přes border + bg tint,
- * ornamenty jako konzistentní zlatý accent přes všechny varianty.
+ * ornamenty jako konzistentní navy accent přes všechny varianty.
  */
 const VARIANTS = {
-  default: { border: borderDefault, activeBorder: infoColor,    selBg: `${infoColor}22`,    selBorder: infoColor,    selOrn: gold },
-  attack:  { border: borderDefault, activeBorder: dangerColor,  selBg: `${dangerColor}22`,  selBorder: dangerColor,  selOrn: gold },
-  move:    { border: borderDefault, activeBorder: gainColor,    selBg: `${gainColor}22`,    selBorder: gainColor,    selOrn: gold },
-  special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}22`,   selBorder: magicColor,   selOrn: gold },
+  default: { border: borderDefault, activeBorder: infoColor,    selBg: `${infoColor}22`,    selBorder: infoColor,    selOrn: infoDark },
+  attack:  { border: borderDefault, activeBorder: dangerColor,  selBg: `${dangerColor}22`,  selBorder: dangerColor,  selOrn: infoDark },
+  move:    { border: borderDefault, activeBorder: gainColor,    selBg: `${gainColor}22`,    selBorder: gainColor,    selOrn: infoDark },
+  special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}22`,   selBorder: magicColor,   selOrn: infoDark },
 }
 
 /* ── Lock ikona ── */
