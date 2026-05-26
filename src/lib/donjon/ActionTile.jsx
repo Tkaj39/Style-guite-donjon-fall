@@ -10,8 +10,8 @@ import {
   bg2, bg3, bg4,
   borderDefault, borderMid,
   textHigh, textMid, textLow, textFaint,
-  dangerColor, warningColor, gainColor, magicColor, magicDark,
-  infoColor, infoMid, infoDark,
+  dangerColor, warningColor, gainColor, magicColor,
+  infoColor,
 } from './tokens'
 
 const SIZES = {
@@ -26,11 +26,17 @@ const SIZES = {
  *  - selOrn: barva ornamentů ve vybraném stavu (jasnější než selBorder
  *    pro vizuální pop — default goldDim → gold, special magicDark → magicColor)
  */
+/* Selected stav unified pattern napříč variantami:
+ *   selBg     = `${variantColor}22` — jemný tinted bg (alpha ~13%, visible blue/red/green/purple cast)
+ *   selBorder = variant color (full bright 1px rámeček)
+ *   selOrn    = variant color (full bright, kontrast proti tinted bg)
+ *   hex bgFill (z ActionTile) = selBg (alpha matchne button surface)
+ */
 const VARIANTS = {
-  default: { border: borderDefault, activeBorder: infoColor,    selBg: infoMid,             selBorder: infoColor,    selOrn: infoDark    },
-  attack:  { border: borderDefault, activeBorder: dangerColor,  selBg: `${dangerColor}12`,  selBorder: dangerColor,  selOrn: dangerColor },
-  move:    { border: borderDefault, activeBorder: gainColor,    selBg: `${gainColor}10`,    selBorder: gainColor,    selOrn: gainColor   },
-  special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}18`,   selBorder: magicDark,    selOrn: magicColor  },
+  default: { border: borderDefault, activeBorder: infoColor,    selBg: `${infoColor}22`,    selBorder: infoColor,    selOrn: infoColor   },
+  attack:  { border: borderDefault, activeBorder: dangerColor,  selBg: `${dangerColor}22`,  selBorder: dangerColor,  selOrn: dangerColor },
+  move:    { border: borderDefault, activeBorder: gainColor,    selBg: `${gainColor}22`,    selBorder: gainColor,    selOrn: gainColor   },
+  special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}22`,   selBorder: magicColor,   selOrn: magicColor  },
 }
 
 /* ── Lock ikona ── */
