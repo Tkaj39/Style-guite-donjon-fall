@@ -44,6 +44,7 @@ export const failColor    = '#C04040'  // fail / error state (darker than danger
 // napříč DonjonProgressBar, ResourceBar, NumericDisplay, DonjonToast aj.
 export const infoColor   = '#4A80E2'  // mana / info / event modrá
 export const infoLight   = '#7AAEF5'  // světlejší tint pro nadpisy a ikony
+export const infoDark    = '#1E3A6B'  // tmavší info — selected ornamenty, kontrast na light blue bg
 export const magicColor  = '#9A60C8'  // magie / XP fialová
 export const magicDark   = '#7A48A8'  // tmavší magic — selected border, shadow
 export const shieldColor = '#7AB5E0'  // štít / obrana — světle modrá

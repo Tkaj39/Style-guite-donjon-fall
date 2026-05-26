@@ -11,7 +11,7 @@ import {
   borderDefault, borderMid,
   textHigh, textMid, textLow, textFaint,
   dangerColor, warningColor, gainColor, magicColor, magicDark,
-  infoColor,
+  infoColor, infoDark,
 } from './tokens'
 
 const SIZES = {
@@ -27,7 +27,7 @@ const SIZES = {
  *    pro vizuální pop — default goldDim → gold, special magicDark → magicColor)
  */
 const VARIANTS = {
-  default: { border: borderDefault, activeBorder: infoColor,    selBg: `${infoColor}16`,    selBorder: infoColor,    selOrn: infoColor   },
+  default: { border: borderDefault, activeBorder: infoColor,    selBg: `${infoColor}16`,    selBorder: infoColor,    selOrn: infoDark    },
   attack:  { border: borderDefault, activeBorder: dangerColor,  selBg: `${dangerColor}12`,  selBorder: dangerColor,  selOrn: dangerColor },
   move:    { border: borderDefault, activeBorder: gainColor,    selBg: `${gainColor}10`,    selBorder: gainColor,    selOrn: gainColor   },
   special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}18`,   selBorder: magicDark,    selOrn: magicColor  },
@@ -123,14 +123,14 @@ export default function ActionTile({
       className={['focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFC183]/60', className].filter(Boolean).join(' ')}
     >
       {/* Ornamenty: 4 rohové RohOrnament závorky + HexOrnament nahoře a dole.
-          Variant-aware: barva ornamentů sleduje stav (default goldDim,
-          selected/hovered → variant accent barva — red/green/purple). */}
-      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tl`} color={ornamentColor} />}
-      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tr`} flip color={ornamentColor} />}
-      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}bl`} bottom color={ornamentColor} />}
-      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}br`} flip bottom color={ornamentColor} />}
-      {hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={s.cx + 4} color={ornamentColor} />}
-      {hasOrnaments && <HexOrnament uid={`${uid}hb`} flip edgePadL={s.cx + 4} color={ornamentColor} />}
+          Variant-aware: barva ornamentů sleduje stav. bgFill = aktuální button
+          bg → hexagon výplň ladí s pozadím tlačítka (tinted v selected stavu). */}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tl`} color={ornamentColor} bgFill={selected ? v.selBg : undefined} />}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tr`} flip color={ornamentColor} bgFill={selected ? v.selBg : undefined} />}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}bl`} bottom color={ornamentColor} bgFill={selected ? v.selBg : undefined} />}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}br`} flip bottom color={ornamentColor} bgFill={selected ? v.selBg : undefined} />}
+      {hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={s.cx + 4} color={ornamentColor} bgFill={selected ? v.selBg : undefined} />}
+      {hasOrnaments && <HexOrnament uid={`${uid}hb`} flip edgePadL={s.cx + 4} color={ornamentColor} bgFill={selected ? v.selBg : undefined} />}
 
       {/* Ikona */}
       <div style={{

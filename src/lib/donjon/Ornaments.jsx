@@ -63,13 +63,14 @@ export function ornamentHForCx(cx, type = 'zkosen') {
   return Math.round(cx * 66 / baseW)
 }
 
-export function SideOrnament({ h, uid: uidProp, flip, color, colorDim, style: styleProp }) {
+export function SideOrnament({ h, uid: uidProp, flip, color, colorDim, bgFill, style: styleProp }) {
   const stopMain = color ?? gold
   // Když je předán jen 'color', oba stopy mají stejnou barvu → solid fill.
   // Alpha-fade by na tmavém bg dělala spodek ornamentu skoro neviditelný
   // (zejm. u už tmavých barev jako goldDim). Explicit 'colorDim' override
   // umožňuje vlastní gradient kdyby caller chtěl.
   const stopDim  = colorDim ?? (color ?? goldDim)
+  const hexFill  = bgFill ?? bg4
   const uid = useOrnamentUid(uidProp)
   const w  = Math.round(24 * (h / 66) * 10) / 10 - 2
   const g  = `url(#${uid}-v)`
@@ -114,7 +115,7 @@ export function SideOrnament({ h, uid: uidProp, flip, color, colorDim, style: st
       <path d="M23.2658 4.5297C23.3323 4.458 23.3702 4.36342 23.3693 4.26505C23.3685 4.1667 23.3293 4.07291 23.26 4.00399C23.1908 3.93506 23.0968 3.8963 22.9984 3.89591C22.9001 3.8955 22.8057 3.93377 22.7343 4.0006C21.8663 4.81353 20.9998 5.62794 20.1348 6.44381C15.0848 11.2071 10.085 16.0204 5.13558 20.8838L4.86693 21.1478L4.86253 21.5452C4.82088 25.3029 4.80005 29.0606 4.80005 32.8183C4.80005 36.6606 4.82182 40.5029 4.86538 44.3452L4.86106 44.7262L5.14458 45.0115C10.0852 49.7627 15.0743 54.4644 20.1121 59.1168C20.9856 59.9235 21.8606 60.7287 22.7371 61.5325C22.8092 61.5986 22.904 61.6358 23.0023 61.6344C23.1007 61.633 23.1942 61.5932 23.2627 61.5236C23.3313 61.4539 23.3695 61.3597 23.3693 61.2614C23.3691 61.163 23.3303 61.0688 23.263 60.9978C22.445 60.1347 21.6255 59.273 20.8046 58.4128C16.0701 53.4521 11.2871 48.5408 6.45552 43.6789L6.73472 44.3452C6.77827 40.5029 6.80005 36.6606 6.80005 32.8183C6.80005 29.0606 6.77922 25.3029 6.73757 21.5452L6.46451 22.2066C11.3049 17.2347 16.095 12.2126 20.8347 7.14045C21.6466 6.27167 22.4569 5.40142 23.2658 4.5297Z" fill={g} />
 
       {/* diamond */}
-      <path d="M7.27832 33.0152C7.36763 33.1699 7.36763 33.3605 7.27832 33.5152L5.85547 35.979C5.76619 36.1337 5.60141 36.229 5.42285 36.229L2.57715 36.229C2.39859 36.229 2.23381 36.1337 2.14453 35.979L0.72168 33.5152C0.643532 33.3798 0.633775 33.217 0.692383 33.0747L0.72168 33.0152L2.14453 30.5513C2.23381 30.3967 2.39859 30.3014 2.57715 30.3013L5.42285 30.3013C5.60141 30.3014 5.76619 30.3967 5.85547 30.5513L7.27832 33.0152Z" fill={bg4} stroke={gh} />
+      <path d="M7.27832 33.0152C7.36763 33.1699 7.36763 33.3605 7.27832 33.5152L5.85547 35.979C5.76619 36.1337 5.60141 36.229 5.42285 36.229L2.57715 36.229C2.39859 36.229 2.23381 36.1337 2.14453 35.979L0.72168 33.5152C0.643532 33.3798 0.633775 33.217 0.692383 33.0747L0.72168 33.0152L2.14453 30.5513C2.23381 30.3967 2.39859 30.3014 2.57715 30.3013L5.42285 30.3013C5.60141 30.3014 5.76619 30.3967 5.85547 30.5513L7.27832 33.0152Z" fill={hexFill} stroke={gh} />
 
       {/* top small rect */}
       <rect x="15.1799" y="12.1652" width="2.04" height="2.04" rx="0.5" transform="rotate(90 15.1799 12.1652)" fill={g} stroke={g} />
@@ -129,13 +130,14 @@ export function SideOrnament({ h, uid: uidProp, flip, color, colorDim, style: st
    Rohový ornament — dvě diagonální závorky + diamant. viewBox 22×22.
    Varianta ornament='zkosen' na DonjonButton, DonjonCard, DonjonModal.
    ──────────────────────────────────────────────────────────────────────── */
-export function ZkosenOrnament({ h, uid: uidProp, flip, bottom, color, colorDim, style: styleProp }) {
+export function ZkosenOrnament({ h, uid: uidProp, flip, bottom, color, colorDim, bgFill, style: styleProp }) {
   const stopMain = color ?? gold
   // Když je předán jen 'color', oba stopy mají stejnou barvu → solid fill.
   // Alpha-fade by na tmavém bg dělala spodek ornamentu skoro neviditelný
   // (zejm. u už tmavých barev jako goldDim). Explicit 'colorDim' override
   // umožňuje vlastní gradient kdyby caller chtěl.
   const stopDim  = colorDim ?? (color ?? goldDim)
+  const hexFill  = bgFill ?? bg4
   const uid = useOrnamentUid(uidProp)
   const size = Math.round(22 * (h / 66) * 10) / 10
   const gv   = `url(#${uid}-v)`
@@ -179,7 +181,7 @@ export function ZkosenOrnament({ h, uid: uidProp, flip, bottom, color, colorDim,
       <path d="M21.5307 4.52969C21.5905 4.45583 21.6255 4.3628 21.6234 4.26652C21.6215 4.17027 21.5833 4.0793 21.5163 4.01263C21.4493 3.94597 21.3582 3.9082 21.2619 3.90666C21.1656 3.90509 21.0728 3.94051 20.9992 4.00059C20.683 4.2592 20.3683 4.51927 20.055 4.78082C17.2358 7.13474 14.5362 9.6077 11.9562 12.1997C9.3762 14.7917 6.9158 17.5028 4.575 20.3329C4.31491 20.6473 4.0563 20.9633 3.79916 21.2807C3.73942 21.3545 3.70443 21.4476 3.70646 21.5438C3.70844 21.6401 3.74663 21.7311 3.81361 21.7977C3.88059 21.8644 3.97173 21.9022 4.06799 21.9037C4.16428 21.9053 4.25714 21.8698 4.33072 21.8098C4.64692 21.5512 4.96164 21.2911 5.27489 21.0295C8.09409 18.6756 10.7937 16.2027 13.3737 13.6106C15.9537 11.0186 18.4141 8.30757 20.7549 5.47746C21.015 5.16301 21.2736 4.84708 21.5307 4.52969Z" fill={gv} />
 
       {/* diamond */}
-      <path d="M13.563 14.0803C13.5019 14.2481 13.3559 14.3706 13.1799 14.4016L10.3778 14.8949C10.202 14.9259 10.0231 14.8609 9.90828 14.7241L8.07947 12.5439C7.96478 12.407 7.93189 12.2196 7.99299 12.0518L8.96629 9.37822C9.02742 9.21038 9.17345 9.08788 9.34937 9.05689L12.1515 8.5636C12.3273 8.53263 12.5062 8.59764 12.621 8.73439L14.4498 10.9146C14.5645 11.0515 14.5974 11.239 14.5363 11.4068L13.563 14.0803Z" fill={bg4} stroke={gd} />
+      <path d="M13.563 14.0803C13.5019 14.2481 13.3559 14.3706 13.1799 14.4016L10.3778 14.8949C10.202 14.9259 10.0231 14.8609 9.90828 14.7241L8.07947 12.5439C7.96478 12.407 7.93189 12.2196 7.99299 12.0518L8.96629 9.37822C9.02742 9.21038 9.17345 9.08788 9.34937 9.05689L12.1515 8.5636C12.3273 8.53263 12.5062 8.59764 12.621 8.73439L14.4498 10.9146C14.5645 11.0515 14.5974 11.239 14.5363 11.4068L13.563 14.0803Z" fill={hexFill} stroke={gd} />
     </svg>
   )
 }
@@ -188,12 +190,13 @@ export function ZkosenOrnament({ h, uid: uidProp, flip, bottom, color, colorDim,
    Rohový ornament + vertikální sestup — závorka v rohu + část SideOrnamant.
    viewBox 25×46. Varianta ornament='roh' na DonjonButton, DonjonCard, DonjonModal.
    ──────────────────────────────────────────────────────────────────────── */
-export function RohOrnament({ h, uid: uidProp, flip, bottom, color, colorDim, style: styleProp }) {
+export function RohOrnament({ h, uid: uidProp, flip, bottom, color, colorDim, bgFill, style: styleProp }) {
   const uid = useOrnamentUid(uidProp)
   const w  = Math.round(25 * (h / 66) * 10) / 10
   const rh = Math.round(46 * (h / 66) * 10) / 10
   const gv = `url(#${uid}-v)`
   const gh = `url(#${uid}-h)`
+  const hexFill = bgFill ?? bg4
 
   /* Variant-aware barvy: color override default zlaté.
      colorDim derivuje z color přes alpha pokud není explicit. */
@@ -261,7 +264,7 @@ export function RohOrnament({ h, uid: uidProp, flip, bottom, color, colorDim, st
       <path d="M24.7304 4.52969C24.7952 4.45743 24.8323 4.36325 24.8312 4.26541C24.83 4.1676 24.7911 4.07452 24.7224 4.00617C24.6538 3.93783 24.5605 3.89932 24.4627 3.89863C24.3648 3.89792 24.2708 3.93548 24.1989 4.00059C23.6038 4.53939 23.0102 5.07965 22.418 5.62139C17.0888 10.497 11.8792 15.4917 6.78915 20.6054C6.7114 20.6835 6.63368 20.7617 6.55599 20.8398L6.26506 21.1317L6.26477 21.5452C6.26984 28.6502 6.43855 35.7551 6.7709 42.8601C6.8084 43.6618 6.84798 44.4635 6.88965 45.2651C6.89472 45.362 6.93484 45.455 7.00469 45.5235C7.07451 45.592 7.16777 45.6305 7.26465 45.6305C7.36153 45.6305 7.45479 45.592 7.52461 45.5235C7.59445 45.455 7.63458 45.362 7.63965 45.2651C7.68132 44.4635 7.7209 43.6618 7.7584 42.8601C8.09074 35.7551 8.25945 28.6502 8.26453 21.5452L7.97331 22.2506C8.05112 22.1725 8.12889 22.0945 8.20664 22.0163C13.2967 16.9026 18.2671 11.6699 23.1179 6.31803C23.6569 5.72339 24.1944 5.12727 24.7304 4.52969Z" fill={gv} />
 
       {/* diamond */}
-      <path d="M8.42823 21.6878C8.42823 21.8664 8.33293 22.0315 8.17823 22.1208L5.71407 23.5431C5.55943 23.6324 5.36908 23.6326 5.21441 23.5433L2.74996 22.1205C2.59536 22.0311 2.5003 21.8662 2.5003 21.6877L2.50001 18.8425C2.50001 18.6638 2.59532 18.4988 2.75001 18.4095L5.21417 16.9871C5.36881 16.8978 5.55916 16.8977 5.71383 16.9869L8.17828 18.4098C8.33288 18.4991 8.42794 18.664 8.42794 18.8426L8.42823 21.6878Z" fill={bg4} stroke={gh} />
+      <path d="M8.42823 21.6878C8.42823 21.8664 8.33293 22.0315 8.17823 22.1208L5.71407 23.5431C5.55943 23.6324 5.36908 23.6326 5.21441 23.5433L2.74996 22.1205C2.59536 22.0311 2.5003 21.8662 2.5003 21.6877L2.50001 18.8425C2.50001 18.6638 2.59532 18.4988 2.75001 18.4095L5.21417 16.9871C5.36881 16.8978 5.55916 16.8977 5.71383 16.9869L8.17828 18.4098C8.33288 18.4991 8.42794 18.664 8.42794 18.8426L8.42823 21.6878Z" fill={hexFill} stroke={gh} />
 
       {/* top small rect */}
       <rect x="16.6445" y="12.1652" width="2.04" height="2.04" rx="0.5" transform="rotate(90 16.6445 12.1652)" fill={gv} stroke={gv} />
@@ -282,6 +285,8 @@ export function HexOrnament({
   hexOffsetX = 0,
   color,
   colorDim,
+  bgFill,        // barva výplně hexagonu — default bg4 (tmavá). Pro selected
+                 // stavy s tinted bg by měla odpovídat efektivnímu bg komponenty.
   style: styleProp,
 }) {
   const uid   = useOrnamentUid(uidProp)
@@ -289,6 +294,7 @@ export function HexOrnament({
   const padR  = edgePadR  ?? edgePadL
   const innerL = textPadL != null ? textPadL + 2 : '23%'
   const innerR = textPadR != null ? textPadR + 2 : '23%'
+  const hexFill  = bgFill ?? bg4
   const stopMain = color ?? gold
   // Když je předán jen 'color', oba stopy mají stejnou barvu → solid fill.
   // Alpha-fade by na tmavém bg dělala spodek ornamentu skoro neviditelný
@@ -347,7 +353,7 @@ export function HexOrnament({
         </defs>
         <path
           d="M20.9348 0.72168C21.0895 0.632366 21.2801 0.632366 21.4348 0.72168L23.4661 1.89453C23.6206 1.98384 23.716 2.14867 23.7161 2.32715V4.67285C23.716 4.85133 23.6206 5.01616 23.4661 5.10547L21.4348 6.27832C21.2801 6.36763 21.0895 6.36763 20.9348 6.27832L18.9036 5.10547C18.749 5.01616 18.6536 4.85133 18.6536 4.67285V2.32715C18.6536 2.14867 18.749 1.98384 18.9036 1.89453L20.9348 0.72168Z"
-          fill={bg4}
+          fill={hexFill}
           stroke={g}
         />
       </svg>
