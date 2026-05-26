@@ -304,6 +304,7 @@ export const componentMeta = {
       { name: 'leadingIcon', type: 'ReactNode',                  required: false, description: 'Ikona vlevo uvnitř pole.' },
       { name: 'trailingIcon',type: 'ReactNode',                  required: false, description: 'Ikona vpravo uvnitř pole.' },
       { name: 'size',        type: "'sm'|'md'|'lg'",             required: false, default: "'md'",    description: 'Velikost pole.' },
+      { name: 'cornerSize',  type: 'number',                     required: false, description: 'Override pro corner-cut v px (jinak derivováno z size). Sjednoceno s octagon/ScoopClip.' },
       { name: 'error',       type: 'string',                     required: false, description: 'Chybová zpráva — zobrazí pole v error stavu.' },
       { name: 'hint',        type: 'string',                     required: false, description: 'Pomocný text pod polem.' },
       { name: 'disabled',    type: 'boolean',                    required: false, default: 'false',   description: 'Zakáže editaci.' },

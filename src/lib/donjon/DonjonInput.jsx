@@ -6,7 +6,7 @@
      DonjonInput     → cx=12, zlatá focus glow, bg2 tmavé pozadí, gold caret
    ─────────────────────────────────────────────────────────────────────────── */
 import { useState, useId } from 'react'
-import { octagon } from '../../utils/octagon'
+import { octagon, octagonInner } from '../../utils/octagon'
 import {
   gold, goldDim, goldMid,
   bg2, bgDeep,
@@ -39,17 +39,19 @@ export default function DonjonInput({
   placeholder,
   leadingIcon,
   trailingIcon,
-  size     = 'md',
+  size       = 'md',
+  cornerSize,                 // override pro custom cx (jinak z size presetu)
   error,
   disabled,
   hint,
-  multiline = false,
-  rows      = 3,
+  multiline  = false,
+  rows       = 3,
   ...props
 }) {
   const [isFocused, setIsFocused] = useState(false)
   const id = useId()
   const s  = sizes[size] ?? sizes.md
+  const cx = cornerSize ?? s.cx   // explicit cornerSize má přednost
 
   const borderColor = error
     ? dangerColor
@@ -87,7 +89,7 @@ export default function DonjonInput({
         style={{
           position:   'relative',
           height:     multiline ? undefined : s.h,
-          clipPath:   octagon(s.cx),
+          clipPath:   octagon(cx),
           background: borderColor,
           transition: 'background 150ms ease, filter 150ms ease',
           filter:     (isFocused || error) ? `drop-shadow(0 0 6px ${glowColor})` : undefined,
@@ -101,7 +103,7 @@ export default function DonjonInput({
             position:   multiline ? 'relative' : 'absolute',
             inset:      multiline ? undefined   : 1,
             margin:     multiline ? 1           : undefined,
-            clipPath:   octagon(Math.max(s.cx - 1, 0)),
+            clipPath:   octagonInner(cx),
             background: bgDeep,
             display:    'flex',
             alignItems: multiline ? 'flex-start' : 'center',
