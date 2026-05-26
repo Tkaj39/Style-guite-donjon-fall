@@ -65,7 +65,11 @@ export function ornamentHForCx(cx, type = 'zkosen') {
 
 export function SideOrnament({ h, uid: uidProp, flip, color, colorDim, style: styleProp }) {
   const stopMain = color ?? gold
-  const stopDim  = colorDim ?? (color ? `${color}88` : goldDim)
+  // Když je předán jen 'color', oba stopy mají stejnou barvu → solid fill.
+  // Alpha-fade by na tmavém bg dělala spodek ornamentu skoro neviditelný
+  // (zejm. u už tmavých barev jako goldDim). Explicit 'colorDim' override
+  // umožňuje vlastní gradient kdyby caller chtěl.
+  const stopDim  = colorDim ?? (color ?? goldDim)
   const uid = useOrnamentUid(uidProp)
   const w  = Math.round(24 * (h / 66) * 10) / 10 - 2
   const g  = `url(#${uid}-v)`
@@ -127,7 +131,11 @@ export function SideOrnament({ h, uid: uidProp, flip, color, colorDim, style: st
    ──────────────────────────────────────────────────────────────────────── */
 export function ZkosenOrnament({ h, uid: uidProp, flip, bottom, color, colorDim, style: styleProp }) {
   const stopMain = color ?? gold
-  const stopDim  = colorDim ?? (color ? `${color}88` : goldDim)
+  // Když je předán jen 'color', oba stopy mají stejnou barvu → solid fill.
+  // Alpha-fade by na tmavém bg dělala spodek ornamentu skoro neviditelný
+  // (zejm. u už tmavých barev jako goldDim). Explicit 'colorDim' override
+  // umožňuje vlastní gradient kdyby caller chtěl.
+  const stopDim  = colorDim ?? (color ?? goldDim)
   const uid = useOrnamentUid(uidProp)
   const size = Math.round(22 * (h / 66) * 10) / 10
   const gv   = `url(#${uid}-v)`
@@ -190,7 +198,11 @@ export function RohOrnament({ h, uid: uidProp, flip, bottom, color, colorDim, st
   /* Variant-aware barvy: color override default zlaté.
      colorDim derivuje z color přes alpha pokud není explicit. */
   const stopMain = color ?? gold
-  const stopDim  = colorDim ?? (color ? `${color}88` : goldDim)
+  // Když je předán jen 'color', oba stopy mají stejnou barvu → solid fill.
+  // Alpha-fade by na tmavém bg dělala spodek ornamentu skoro neviditelný
+  // (zejm. u už tmavých barev jako goldDim). Explicit 'colorDim' override
+  // umožňuje vlastní gradient kdyby caller chtěl.
+  const stopDim  = colorDim ?? (color ?? goldDim)
 
   /* Transform kombinuje horizontální (flip) a vertikální (bottom) zrcadlení */
   const sx = flip ? -1 : 1
@@ -278,7 +290,11 @@ export function HexOrnament({
   const innerL = textPadL != null ? textPadL + 2 : '23%'
   const innerR = textPadR != null ? textPadR + 2 : '23%'
   const stopMain = color ?? gold
-  const stopDim  = colorDim ?? (color ? `${color}88` : goldDim)
+  // Když je předán jen 'color', oba stopy mají stejnou barvu → solid fill.
+  // Alpha-fade by na tmavém bg dělala spodek ornamentu skoro neviditelný
+  // (zejm. u už tmavých barev jako goldDim). Explicit 'colorDim' override
+  // umožňuje vlastní gradient kdyby caller chtěl.
+  const stopDim  = colorDim ?? (color ?? goldDim)
 
   return (
     <div
