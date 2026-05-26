@@ -170,8 +170,60 @@ export default function ActionTilePage() {
 
       <div style={DIVIDER} />
 
+      {/* ── State matrix — všechny varianty × všechny stavy ── */}
+      <Section id="state-matrix" title="State matrix — kompletní přehled" desc="Všechny 4 varianty × 4 stavy (idle, selected, disabled, locked). Hover stav je interaktivní — najeď myší nad kteroukoli idle dlaždici.">
+        <Demo style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {[
+            { state: 'idle',     props: {},               label: 'Idle' },
+            { state: 'selected', props: { selected: true }, label: 'Selected' },
+            { state: 'disabled', props: { disabled: true }, label: 'Disabled' },
+            { state: 'locked',   props: { locked: true },   label: 'Locked' },
+          ].map(({ state, props, label }) => (
+            <div key={state} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div style={{
+                minWidth: 80,
+                fontSize: '0.6875rem',
+                color: textMid,
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+              }}>
+                {label}
+              </div>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                {[
+                  { variant: 'default', title: 'Default', icon: <ShieldIcon /> },
+                  { variant: 'attack',  title: 'Attack',  icon: <SwordIcon />  },
+                  { variant: 'move',    title: 'Move',    icon: <MoveIcon />   },
+                  { variant: 'special', title: 'Special', icon: <TowerIcon /> },
+                ].map(v => (
+                  <ActionTile
+                    key={v.variant}
+                    variant={v.variant}
+                    icon={v.icon}
+                    title={v.title}
+                    cost={2}
+                    size="sm"
+                    {...props}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </Demo>
+        <p style={{ fontSize: '0.6875rem', color: textFaint, marginTop: 16, lineHeight: 1.6 }}>
+          <strong style={{ color: textMid }}>Pozn.</strong>{' '}
+          <strong style={{ color: textMid }}>Idle:</strong> šedý border + zlatý ornament &nbsp;·&nbsp;
+          <strong style={{ color: textMid }}>Selected:</strong> variant border + variant ornament + jemný tinted bg &nbsp;·&nbsp;
+          <strong style={{ color: textMid }}>Disabled:</strong> 35% opacity + neutrální šedá &nbsp;·&nbsp;
+          <strong style={{ color: textMid }}>Locked:</strong> 60% opacity + lock ikona, non-interactive
+        </p>
+      </Section>
+
+      <div style={DIVIDER} />
+
       {/* ── Stavy ── */}
-      <Section id="stavy" title="Stavy" desc="Výchozí, vybraná, disabled, locked.">
+      <Section id="stavy" title="Stavy (default variant)" desc="Tradiční přehled stavů na default variantě.">
         <Demo style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           <ActionTile icon={<SwordIcon />} title="Výchozí"  cost={2} />
           <ActionTile icon={<SwordIcon />} title="Vybraná"  cost={2} selected />
