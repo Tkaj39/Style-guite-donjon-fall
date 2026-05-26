@@ -165,9 +165,11 @@ export function RohOrnament({ h, uid, flip, style: styleProp }) {
       style={{
         position: 'absolute',
         /* Top offset škáluje s h — větší cx (= větší diagonální řez octagonu)
-           potřebuje větší offset, aby ornament seděl na hraně. Pro h≤49 (cx≤19)
-           zůstává top=3, pro větší cx se zvětšuje proporcionálně. */
-        top: Math.max(3, Math.round(h / 14)),
+           potřebuje větší offset, aby ornament seděl na hraně.
+             cx ≤ 12 (h ≤ 32) → top 2
+             cx 14–18 (h 37–48) → top 3
+             cx ≥ 20 (h ≥ 53)  → top 4+ */
+        top: Math.max(1, Math.round(h / 14)),
         [flip ? 'right' : 'left']: 1,
         transform: flip ? 'scaleX(-1)' : undefined,
         pointerEvents: 'none',
