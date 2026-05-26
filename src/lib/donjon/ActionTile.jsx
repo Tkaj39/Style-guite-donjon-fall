@@ -82,6 +82,12 @@ export default function ActionTile({
                         : hovered   ? v.activeBorder
                         : selected  ? v.selOrn
                         : goldDim
+  /* Hex výplň uvnitř ornamentů: matchne aktuální button bg → hex splývá
+     s povrchem tlačítka místo aby dělal kontrastní dot. */
+  const ornamentBgFill  = isBlocked ? undefined        // default bg4
+                        : hovered   ? bg3              // matchne hover bg
+                        : selected  ? v.selBg          // matchne selected bg
+                        : undefined                    // idle = default bg4
   const effectiveBg     = isBlocked ? 'transparent'
                         : hovered   ? bg3
                         : selected  ? v.selBg
@@ -124,13 +130,16 @@ export default function ActionTile({
     >
       {/* Ornamenty: 4 rohové RohOrnament závorky + HexOrnament nahoře a dole.
           Variant-aware: barva ornamentů sleduje stav. bgFill = aktuální button
-          bg → hexagon výplň ladí s pozadím tlačítka (tinted v selected stavu). */}
-      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tl`} color={ornamentColor} bgFill={selected ? v.selBg : undefined} />}
-      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tr`} flip color={ornamentColor} bgFill={selected ? v.selBg : undefined} />}
-      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}bl`} bottom color={ornamentColor} bgFill={selected ? v.selBg : undefined} />}
-      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}br`} flip bottom color={ornamentColor} bgFill={selected ? v.selBg : undefined} />}
-      {hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={s.cx + 4} color={ornamentColor} bgFill={selected ? v.selBg : undefined} />}
-      {hasOrnaments && <HexOrnament uid={`${uid}hb`} flip edgePadL={s.cx + 4} color={ornamentColor} bgFill={selected ? v.selBg : undefined} />}
+          bg → hexagon výplň ladí s pozadím tlačítka:
+            selected → v.selBg (variant tint)
+            hover    → bg3 (stejné jako effective hover bg)
+            idle     → undefined (default bg4 v ornamentu) */}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tl`} color={ornamentColor} bgFill={ornamentBgFill} />}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tr`} flip color={ornamentColor} bgFill={ornamentBgFill} />}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}bl`} bottom color={ornamentColor} bgFill={ornamentBgFill} />}
+      {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}br`} flip bottom color={ornamentColor} bgFill={ornamentBgFill} />}
+      {hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={s.cx + 4} color={ornamentColor} bgFill={ornamentBgFill} />}
+      {hasOrnaments && <HexOrnament uid={`${uid}hb`} flip edgePadL={s.cx + 4} color={ornamentColor} bgFill={ornamentBgFill} />}
 
       {/* Ikona */}
       <div style={{
