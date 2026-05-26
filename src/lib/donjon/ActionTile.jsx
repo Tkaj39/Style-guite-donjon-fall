@@ -92,10 +92,12 @@ export default function ActionTile({
                         : selected  ? v.selOrn
                         : goldDim
   /* Hex výplň uvnitř ornamentů: matchne aktuální button bg → hex splývá
-     s povrchem tlačítka místo aby dělal kontrastní dot. */
+     s povrchem tlačítka místo aby dělal kontrastní dot.
+     Pro hover/selected: 'transparent' aby button bg projel přes hex bez
+     double-alpha-blend (selBg má alpha → blendlo by se 2×). */
   const ornamentBgFill  = isBlocked ? undefined        // default bg4
-                        : hovered   ? bg3              // matchne hover bg
-                        : selected  ? v.selBg          // matchne selected bg
+                        : hovered   ? 'transparent'    // button bg projde
+                        : selected  ? 'transparent'    // button bg projde (no double-blend)
                         : undefined                    // idle = default bg4
   const effectiveBg     = isBlocked ? 'transparent'
                         : hovered   ? bg3
