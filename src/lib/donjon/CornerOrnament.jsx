@@ -1,3 +1,5 @@
+import { SHAPE_SIZES } from '../../utils/octagon'
+
 /**
  * CornerOrnament — dekorativní rohová ozdoba
  *
@@ -5,20 +7,28 @@
  * Pro ostatní rohy použij CSS transform: scaleX(-1), scaleY(-1), scale(-1).
  *
  * Props:
- *   size       {number}                        px — výchozí 16
+ *   cornerSize {number|'xs'|'sm'|'md'|'lg'}    velikost ornamentu — px nebo size preset
+ *                                              (sjednocená terminologie s octagon a ScoopClip).
+ *                                              Preset mapuje na SHAPE_SIZES[preset].cut.
+ *   size       {number}                        DEPRECATED alias pro cornerSize (px, default 16)
  *   color      {string}                        barva fill — výchozí 'currentColor' (dědí z rodiče)
  *   variant    {'bracket'|'dot'|'diamond'|'cross'}  tvar ornamentu
  *   cornerType {'cut'|'round'|'scoop'}         geometrie rohu, na kterém ornament sedí (výchozí 'cut')
  *   style      {object}                        extra inline styly (position, top, left…)
  */
 export default function CornerOrnament({
+  cornerSize,
   size       = 16,
   color      = 'currentColor',
   variant    = 'bracket',
   cornerType = 'cut',
   style      = {},
 }) {
-  const s = size
+  // Resolve: cornerSize (preset string nebo px number) > size (px number)
+  const resolved = cornerSize ?? size
+  const s = typeof resolved === 'string'
+    ? (SHAPE_SIZES[resolved]?.cut ?? 16)
+    : resolved
 
   // ── bracket ────────────────────────────────────────────────────────────────
   if (variant === 'bracket') {

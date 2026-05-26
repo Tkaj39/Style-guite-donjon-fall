@@ -761,7 +761,8 @@ export const componentMeta = {
     status: 'documented',
     showcaseRoute: '/ornaments',
     props: [
-      { name: 'size',       type: 'number',                                     required: false, default: '16',       description: 'Rozměr ornamenty v px.' },
+      { name: 'cornerSize', type: "number|'xs'|'sm'|'md'|'lg'",                 required: false, description: 'Velikost ornamenty — px nebo size preset. Preset mapuje na SHAPE_SIZES[preset].cut. Sjednocená terminologie s octagon a ScoopClip.' },
+      { name: 'size',       type: 'number',                                     required: false, default: '16',       description: '⚠ DEPRECATED — alias pro cornerSize (px).' },
       { name: 'color',      type: 'string',                                     required: false, default: "'#8F7458'", description: 'CSS barva výplně.' },
       { name: 'variant',    type: "'bracket'|'dot'|'diamond'|'cross'",         required: false, default: "'bracket'", description: 'Dekorativní tvar ornamenty.' },
       { name: 'cornerType', type: "'cut'|'round'|'scoop'",                     required: false, default: "'cut'",     description: 'Geometrie rohu komponenty — přizpůsobí tvar elbow (bracket variant).' },
