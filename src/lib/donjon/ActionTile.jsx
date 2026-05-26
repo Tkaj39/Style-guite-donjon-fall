@@ -27,19 +27,18 @@ const SIZES = {
  *    pro vizuální pop — default goldDim → gold, special magicDark → magicColor)
  */
 /* Selected stav unified pattern napříč variantami:
- *   selBg     = `${variantColor}22` — jemný tinted bg (alpha ~13%, blue/red/green/purple cast)
- *   selBorder = variant color (full bright 1px rámeček — signalizuje variant)
- *   selOrn    = infoDark UNIVERSAL (#1E3A6B tmavá navy — konzistentní accent
- *               napříč všemi variantami, kontrast lightness proti tinted bg)
- *
- * Vizuální hierarchie: variant identity přes border + bg tint,
- * ornamenty jako konzistentní navy accent přes všechny varianty.
+ *   selBg      = `${variantColor}22` — alpha tinted bg (vizuálně příjemný, ale alpha)
+ *   selBgSolid = pre-computed SOLID ekvivalent tinted bg na bg2 (#1E1C30)
+ *                — používá se jako bgFill na hex SVG, matchne button surface
+ *                  bez double-blend issues.
+ *   selBorder  = variant color (full bright 1px rámeček)
+ *   selOrn     = infoDark UNIVERSAL (#1E3A6B navy accent)
  */
 const VARIANTS = {
-  default: { border: borderDefault, activeBorder: infoColor,    selBg: `${infoColor}22`,    selBorder: infoColor,    selOrn: infoDark },
-  attack:  { border: borderDefault, activeBorder: dangerColor,  selBg: `${dangerColor}22`,  selBorder: dangerColor,  selOrn: infoDark },
-  move:    { border: borderDefault, activeBorder: gainColor,    selBg: `${gainColor}22`,    selBorder: gainColor,    selOrn: infoDark },
-  special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}22`,   selBorder: magicColor,   selOrn: infoDark },
+  default: { border: borderDefault, activeBorder: infoColor,    selBg: `${infoColor}22`,    selBgSolid: '#242948', selBorder: infoColor,    selOrn: infoDark },
+  attack:  { border: borderDefault, activeBorder: dangerColor,  selBg: `${dangerColor}22`,  selBgSolid: '#382536', selBorder: dangerColor,  selOrn: infoDark },
+  move:    { border: borderDefault, activeBorder: gainColor,    selBg: `${gainColor}22`,    selBgSolid: '#253138', selBorder: gainColor,    selOrn: infoDark },
+  special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}22`,   selBgSolid: '#2F2544', selBorder: magicColor,   selOrn: infoDark },
 }
 
 /* ── Lock ikona ── */
@@ -92,12 +91,11 @@ export default function ActionTile({
                         : selected  ? v.selOrn
                         : goldDim
   /* Hex výplň uvnitř ornamentů: matchne aktuální button bg → hex splývá
-     s povrchem tlačítka místo aby dělal kontrastní dot.
-     Pro hover/selected: 'transparent' aby button bg projel přes hex bez
-     double-alpha-blend (selBg má alpha → blendlo by se 2×). */
+     s povrchem tlačítka. Solid hodnoty (žádné alpha) aby nedošlo k
+     double-blend (alpha overlay na alpha overlay → saturovanější dot). */
   const ornamentBgFill  = isBlocked ? undefined        // default bg4
-                        : hovered   ? 'transparent'    // button bg projde
-                        : selected  ? 'transparent'    // button bg projde (no double-blend)
+                        : hovered   ? bg3              // solid bg3 (= effective hover bg)
+                        : selected  ? v.selBgSolid     // solid pre-computed tinted bg
                         : undefined                    // idle = default bg4
   const effectiveBg     = isBlocked ? 'transparent'
                         : hovered   ? bg3
