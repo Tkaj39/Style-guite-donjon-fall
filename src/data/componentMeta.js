@@ -638,6 +638,8 @@ export const componentMeta = {
       { name: 'showValue',   type: 'boolean',                             required: false, default: 'false', description: 'Zobrazí aktuální hodnotu.' },
       { name: 'disabled',    type: 'boolean',                             required: false, default: 'false', description: 'Znepřístupní slider.' },
       { name: 'formatValue', type: '(value: number) => string',          required: false, description: 'Formátovací funkce pro zobrazení hodnoty.' },
+      { name: 'ticks',       type: 'number | number[]',                   required: false, description: 'Vizuální markery na trati. Číslo = počet rozdělení; pole = konkrétní hodnoty.' },
+      { name: 'thumbShape',  type: "'diamond'|'circle'|'octagon'",       required: false, default: "'diamond'", description: 'Tvar thumbu — diamond (default), circle, octagon.' },
     ],
     relatedSlugs: ['slider', 'donjon-progress-bar'],
   },
