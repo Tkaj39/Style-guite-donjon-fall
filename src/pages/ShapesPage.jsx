@@ -426,6 +426,118 @@ const clipPath = clipFn?.(cx)`} />
           </div>
         </Preview>
 
+        {/* Bordered notch — border sleduje obrys včetně zářezu */}
+        <Preview>
+          <div style={{ width: '100%' }}>
+            <p style={{ ...lbl, marginBottom: 4, color: textMid }}>
+              <strong style={{ color: goldDim }}>borderColor</strong> — zlatý border sleduje celý perimeter včetně zářezu
+            </p>
+            <p style={{ ...lbl, marginBottom: 12, color: textFaint, fontSize: '0.6875rem' }}>
+              CSS <code style={{ color: textMid }}>border</code> na clip-path elementu nefunguje (ořízne se).
+              NotchedBox používá underlay trick — outer vrstva o <code style={{ color: textMid }}>borderWidth</code> větší
+              s vyplněním <code style={{ color: textMid }}>borderColor</code>.
+            </p>
+
+            {/* 3 shape varianty s plným zlatým borderem */}
+            <p style={{ ...lbl, marginTop: 16, marginBottom: 8, color: textCool, letterSpacing: '0.06em' }}>
+              Všechny 3 tvary zářezu s 1px zlatým borderem
+            </p>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+              {[
+                { shape: 'v',         label: 'v' },
+                { shape: 'square',    label: 'square' },
+                { shape: 'trapezoid', label: 'trapezoid' },
+              ].map(({ shape, label }) => (
+                <div key={shape} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <NotchedBox
+                    cx={12} nw={30} nh={14} side="bottom" notchShape={shape}
+                    borderColor={gold}
+                    borderWidth={1}
+                    style={{
+                      width: 150, height: 70,
+                      background: bgDeep,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '0.75rem', color: gold, fontFamily: inter,
+                      letterSpacing: '0.06em',
+                    }}
+                  >
+                    {label}
+                  </NotchedBox>
+                  <p style={lbl}>notchShape="{shape}"</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Tloušťka borderu */}
+            <p style={{ ...lbl, marginTop: 20, marginBottom: 8, color: textCool, letterSpacing: '0.06em' }}>
+              Tloušťka borderu (1px → 4px)
+            </p>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+              {[1, 2, 3, 4].map(bw => (
+                <div key={bw} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <NotchedBox
+                    cx={12} nw={28} nh={12} side="bottom"
+                    borderColor={gold}
+                    borderWidth={bw}
+                    style={{
+                      width: 130, height: 64,
+                      background: bgDeep,
+                    }}
+                  />
+                  <p style={lbl}>borderWidth={bw}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Multi-notch s borderem */}
+            <p style={{ ...lbl, marginTop: 20, marginBottom: 8, color: textCool, letterSpacing: '0.06em' }}>
+              Multi-notch s borderem — funguje totožně
+            </p>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+              <NotchedBox
+                cx={12}
+                notches={[
+                  { side: 'top',    offset: 0.5, nw: 24, nh: 10, shape: 'v' },
+                  { side: 'bottom', offset: 0.5, nw: 24, nh: 10, shape: 'v' },
+                ]}
+                borderColor={gold}
+                borderWidth={1}
+                style={{
+                  width: 160, height: 110,
+                  background: bgDeep,
+                }}
+              />
+              <NotchedBox
+                cx={12}
+                notches={[
+                  { side: 'top', offset: 0.3, nw: 20, nh: 10, shape: 'square' },
+                  { side: 'top', offset: 0.7, nw: 20, nh: 10, shape: 'square' },
+                ]}
+                borderColor={gold}
+                borderWidth={1}
+                style={{
+                  width: 180, height: 100,
+                  background: bgDeep,
+                }}
+              />
+              <NotchedBox
+                cx={12}
+                notches={[
+                  { side: 'top',    offset: 0.5, nw: 22, nh: 10, shape: 'v' },
+                  { side: 'right',  offset: 0.5, nw: 18, nh: 8,  shape: 'trapezoid' },
+                  { side: 'bottom', offset: 0.3, nw: 16, nh: 8,  shape: 'square' },
+                ]}
+                borderColor={gold}
+                borderWidth={1}
+                style={{
+                  width: 170, height: 110,
+                  background: bgDeep,
+                }}
+              />
+            </div>
+          </div>
+        </Preview>
+
         {/* NotchedBox komponenta — se Slotem */}
         <Preview>
           <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'flex-end' }}>
