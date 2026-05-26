@@ -19,11 +19,17 @@ const SIZES = {
   lg: { w: 148, h: 130, cx: 22, iconArea: 48, titleSize: '0.875rem',  descSize: '0.75rem',   costSize: '0.8125rem', radius: 4 },
 }
 
+/* VARIANTS:
+ *  - border, activeBorder, selBorder: barva 1px rámečku v daném stavu
+ *  - selBg: jemné tinted pozadí ve vybraném stavu
+ *  - selOrn: barva ornamentů ve vybraném stavu (jasnější než selBorder
+ *    pro vizuální pop — default goldDim → gold, special magicDark → magicColor)
+ */
 const VARIANTS = {
-  default: { border: borderDefault, activeBorder: goldDim,      selBg: `${gold}0E`,    selBorder: goldDim     },
-  attack:  { border: borderDefault, activeBorder: dangerColor,  selBg: `${dangerColor}12`, selBorder: dangerColor  },
-  move:    { border: borderDefault, activeBorder: gainColor,    selBg: `${gainColor}10`, selBorder: gainColor   },
-  special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}18`, selBorder: magicDark  },
+  default: { border: borderDefault, activeBorder: goldDim,      selBg: `${gold}0E`,         selBorder: goldDim,      selOrn: gold        },
+  attack:  { border: borderDefault, activeBorder: dangerColor,  selBg: `${dangerColor}12`,  selBorder: dangerColor,  selOrn: dangerColor },
+  move:    { border: borderDefault, activeBorder: gainColor,    selBg: `${gainColor}10`,    selBorder: gainColor,    selOrn: gainColor   },
+  special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}18`,   selBorder: magicDark,    selOrn: magicColor  },
 }
 
 /* ── Lock ikona ── */
@@ -69,10 +75,11 @@ export default function ActionTile({
                         : hovered   ? v.activeBorder
                         : selected  ? v.selBorder
                         : v.border
-  /* Ornament barva: idle = goldDim (viditelná na bg), aktivní stavy = variant accent */
+  /* Ornament barva: idle = goldDim (viditelná na bg), selected = v.selOrn
+     (jasnější varianta — gold/dangerColor/gainColor/magicColor pro pop) */
   const ornamentColor   = isBlocked ? borderMid
                         : hovered   ? v.activeBorder
-                        : selected  ? v.selBorder
+                        : selected  ? v.selOrn
                         : goldDim
   const effectiveBg     = isBlocked ? 'transparent'
                         : hovered   ? bg3
