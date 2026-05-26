@@ -66,6 +66,26 @@ function CheckIcon() {
   )
 }
 
+/* Malá tečka v pravém horním rohu — vizuální indikátor "v přípravě" */
+function WipDot() {
+  return (
+    <span
+      aria-hidden="true"
+      style={{
+        position: 'absolute',
+        top: 6,
+        right: 6,
+        width: 6,
+        height: 6,
+        borderRadius: '50%',
+        background: '#C08040',  // warningColor — "v přípravě"
+        boxShadow: '0 0 4px #C0804099',
+        pointerEvents: 'none',
+      }}
+    />
+  )
+}
+
 function ChangelogIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -113,17 +133,26 @@ function NpmInstallButton({ compact = false }) {
     }
   }
 
+  const ariaLabel = copied
+    ? 'Příkaz zkopírován do schránky'
+    : `Zkopíruj install příkaz "${cmd}" — balíček zatím není publikován na npm, připravujeme`
+  const tooltip = copied
+    ? 'Zkopírováno do schránky'
+    : `${cmd}\n\n⚠ Balíček zatím není publikován na npm — v přípravě`
+
   if (compact) {
     return (
       <button
         onClick={copy}
-        aria-label={copied ? 'Zkopírováno' : `Zkopírovat ${cmd}`}
-        className="flex items-center justify-center w-9 h-9 rounded-md transition-colors"
+        aria-label={ariaLabel}
+        title={tooltip}
+        className="flex items-center justify-center w-9 h-9 rounded-md transition-colors relative"
         style={{ color: copied ? gold : textLow }}
         onMouseEnter={e => { if (!copied) { e.currentTarget.style.color = gold; e.currentTarget.style.background = `${borderDefault}66` } }}
         onMouseLeave={e => { if (!copied) { e.currentTarget.style.color = textLow; e.currentTarget.style.background = 'transparent' } }}
       >
         {copied ? <CheckIcon /> : <CopyIcon />}
+        {!copied && <WipDot />}
       </button>
     )
   }
@@ -131,8 +160,10 @@ function NpmInstallButton({ compact = false }) {
   return (
     <button
       onClick={copy}
-      aria-label={copied ? 'Zkopírováno' : `Zkopírovat ${cmd}`}
+      aria-label={ariaLabel}
+      title={tooltip}
       style={{
+        position: 'relative',
         display: 'flex',
         alignItems: 'center',
         gap: 8,
@@ -155,6 +186,25 @@ function NpmInstallButton({ compact = false }) {
       <span>
         {copied ? 'Zkopírováno' : `npm i ${NPM_PACKAGE}`}
       </span>
+      {!copied && (
+        <span
+          aria-hidden="true"
+          style={{
+            fontSize: '0.625rem',
+            fontWeight: 700,
+            color: '#C08040',
+            border: '1px solid #C0804055',
+            background: '#C0804011',
+            borderRadius: 3,
+            padding: '1px 4px',
+            letterSpacing: '0.06em',
+            marginLeft: 4,
+          }}
+          title="V přípravě — balíček zatím není publikován"
+        >
+          WIP
+        </span>
+      )}
     </button>
   )
 }
@@ -190,7 +240,12 @@ export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButto
           </button>
         )}
 
-        <Link to="/" className="flex items-center gap-2.5 group shrink-0" aria-label="donjon-fall-ui homepage">
+        <Link
+          to="/"
+          className="flex items-center gap-2.5 group shrink-0"
+          aria-label={`donjon-fall-ui style guide v${pkg.version} — domovská stránka (knihovna se připravuje k publikaci)`}
+          title={`donjon-fall-ui v${pkg.version}\nHerní UI knihovna — style guide\n\n⚠ Knihovna se připravuje k publikaci`}
+        >
           <span aria-hidden="true" style={{ fontSize: 22, lineHeight: 1, filter: `drop-shadow(0 0 6px ${gold}33)` }}>
             🏰
           </span>
@@ -248,7 +303,8 @@ export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButto
         {onSearchOpen && (
           <button
             onClick={onSearchOpen}
-            aria-label={`Hledat (${HOTKEY_LABEL})`}
+            aria-label={`Hledat stránky a komponenty (klávesová zkratka ${HOTKEY_LABEL})`}
+            title={`Hledat napříč style guidem\nStránky • komponenty • props\n\nKlávesová zkratka: ${HOTKEY_LABEL}`}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -288,7 +344,8 @@ export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButto
         {onSearchOpen && (
           <button
             onClick={onSearchOpen}
-            aria-label={`Hledat (${HOTKEY_LABEL})`}
+            aria-label={`Hledat stránky a komponenty (klávesová zkratka ${HOTKEY_LABEL})`}
+            title={`Hledat\nKlávesová zkratka: ${HOTKEY_LABEL}`}
             className="lg:hidden flex items-center justify-center w-9 h-9 rounded-md transition-colors"
             style={{ color: textLow }}
             onMouseEnter={e => { e.currentTarget.style.color = gold; e.currentTarget.style.background = `${borderDefault}66` }}
@@ -308,19 +365,20 @@ export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButto
           <NpmInstallButton compact />
         </div>
 
-        {/* Changelog */}
+        {/* Changelog — odkaz na GitHub releases */}
         <a
           href={RELEASES_URL}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Changelog (GitHub releases)"
-          title="Changelog"
+          aria-label="Changelog (seznam vydání na GitHubu) — repo se zatím připravuje k publikaci"
+          title={`Changelog (GitHub releases)\n\n⚠ Repo se zatím připravuje k publikaci\n${RELEASES_URL}`}
           style={{ color: textLow }}
-          className="flex items-center justify-center w-9 h-9 rounded-md transition-colors"
+          className="flex items-center justify-center w-9 h-9 rounded-md transition-colors relative"
           onMouseEnter={e => { e.currentTarget.style.color = gold; e.currentTarget.style.background = `${borderDefault}66` }}
           onMouseLeave={e => { e.currentTarget.style.color = textLow; e.currentTarget.style.background = 'transparent' }}
         >
           <ChangelogIcon />
+          <WipDot />
         </a>
 
         {/* GitHub */}
@@ -328,13 +386,15 @@ export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButto
           href={GITHUB_URL}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="GitHub repository"
+          aria-label="GitHub repository (zdrojový kód) — repo se zatím připravuje k publikaci"
+          title={`GitHub repository\n\n⚠ Repo se zatím připravuje k publikaci\n${GITHUB_URL}`}
           style={{ color: textLow }}
-          className="flex items-center justify-center w-9 h-9 rounded-md transition-colors"
+          className="flex items-center justify-center w-9 h-9 rounded-md transition-colors relative"
           onMouseEnter={e => { e.currentTarget.style.color = gold; e.currentTarget.style.background = `${borderDefault}66` }}
           onMouseLeave={e => { e.currentTarget.style.color = textLow; e.currentTarget.style.background = 'transparent' }}
         >
           <GitHubIcon />
+          <WipDot />
         </a>
       </div>
     </header>
