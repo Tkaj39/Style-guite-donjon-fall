@@ -1,9 +1,10 @@
+import { useState } from 'react'
 import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament, ornamentHForCx, ORNAMENT_BASE_WIDTH } from '../lib/donjon/Ornaments'
 import CornerOrnament from '../lib/donjon/CornerOrnament'
 import { buttonSizes, CARD_ORN_H } from '../utils/sizes'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
-import { octagon } from '../utils/octagon'
-import { gold, goldDim, bg2, bg3, borderDefault, textHigh, textMid, textLow } from '../lib/donjon/tokens'
+import { octagon, octagonPerCorner } from '../utils/octagon'
+import { gold, goldMid, goldDim, bg2, bg3, borderDefault, borderMid, textHigh, textMid, textLow } from '../lib/donjon/tokens'
 
 /* ── Doporučené hodnoty cx pro různé komponenty ── */
 const CX_REFERENCE = [
@@ -88,6 +89,172 @@ function SideOrnamentRow({ sizeKey, h, cx, px }) {
 
 const SIZES = Object.entries(buttonSizes).map(([key, s]) => ({ key, h: s.h }))
 const CARD_SIZE = { key: 'card', h: CARD_ORN_H }
+
+/* ── MixedCornerDemo — interaktivní demo asymetrického octagonu ── */
+const MIXED_PRESETS = [
+  { label: 'Symetrický 14',     corners: { tl: 14, tr: 14, br: 14, bl: 14 } },
+  { label: 'Symetrický 20',     corners: { tl: 20, tr: 20, br: 20, bl: 20 } },
+  { label: 'Top heavy',         corners: { tl: 20, tr: 20, br: 10, bl: 10 } },
+  { label: 'Diagonála',         corners: { tl: 20, tr: 10, br: 20, bl: 10 } },
+  { label: 'Mixed',             corners: { tl: 20, tr: 10, br: 14, bl: 16 } },
+]
+const CORNER_LABELS = {
+  tl: 'Top-Left', tr: 'Top-Right', br: 'Bottom-Right', bl: 'Bottom-Left',
+}
+
+function MixedCornerDemo() {
+  const [corners, setCorners] = useState({ tl: 20, tr: 10, br: 14, bl: 16 })
+  const [type, setType] = useState('roh')   // 'roh' | 'zkosen'
+  const Orn = type === 'roh' ? RohOrnament : ZkosenOrnament
+
+  function setCorner(key, value) {
+    setCorners(c => ({ ...c, [key]: Math.max(0, Math.min(40, Number(value) || 0)) }))
+  }
+
+  return (
+    <Preview>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, width: '100%' }}>
+        {/* Controls */}
+        <div style={{ flex: '0 1 280px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {/* Type switcher */}
+          <div>
+            <p style={{ margin: '0 0 6px', fontSize: '0.6875rem', color: goldDim, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Typ ornamentu
+            </p>
+            <div style={{ display: 'flex', gap: 4, padding: 2, background: `${borderDefault}33`, border: `1px solid ${borderDefault}`, borderRadius: 6 }}>
+              {['roh', 'zkosen'].map(t => (
+                <button
+                  key={t}
+                  onClick={() => setType(t)}
+                  style={{
+                    flex: 1, padding: '5px 10px', borderRadius: 4, border: 'none',
+                    background: type === t ? `${gold}1F` : 'transparent',
+                    color: type === t ? gold : textLow,
+                    fontSize: '0.75rem', fontWeight: type === t ? 600 : 500,
+                    cursor: 'pointer', fontFamily: 'inherit',
+                  }}
+                >
+                  {t === 'roh' ? 'RohOrnament' : 'ZkosenOrnament'}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Per-corner inputs */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+            {['tl','tr','bl','br'].map(key => (
+              <label key={key} style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <span style={{ fontSize: '0.6875rem', color: goldDim, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                  {CORNER_LABELS[key]}
+                </span>
+                <input
+                  type="number"
+                  min="0"
+                  max="40"
+                  value={corners[key]}
+                  onChange={e => setCorner(key, e.target.value)}
+                  style={{
+                    padding: '6px 10px',
+                    background: bg2,
+                    border: `1px solid ${borderDefault}`,
+                    borderRadius: 4,
+                    color: textHigh,
+                    fontFamily: 'ui-monospace, monospace',
+                    fontSize: '0.8125rem',
+                    width: '100%',
+                  }}
+                />
+              </label>
+            ))}
+          </div>
+
+          {/* Presets */}
+          <div>
+            <p style={{ margin: '0 0 6px', fontSize: '0.6875rem', color: goldDim, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Presety
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+              {MIXED_PRESETS.map(p => {
+                const isActive = JSON.stringify(p.corners) === JSON.stringify(corners)
+                return (
+                  <button
+                    key={p.label}
+                    onClick={() => setCorners(p.corners)}
+                    style={{
+                      padding: '4px 10px',
+                      borderRadius: 3,
+                      border: `1px solid ${isActive ? gold : borderDefault}`,
+                      background: isActive ? `${gold}14` : 'transparent',
+                      color: isActive ? gold : textMid,
+                      fontSize: '0.6875rem', fontWeight: isActive ? 600 : 500,
+                      cursor: 'pointer', fontFamily: 'inherit',
+                    }}
+                  >
+                    {p.label}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Live preview */}
+        <div style={{ flex: '1 1 320px', minWidth: 280, display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{
+            clipPath: octagonPerCorner(corners),
+            background: goldDim,
+            padding: 1,
+            width: '100%',
+            height: 200,
+          }}>
+            <div style={{
+              position: 'relative',
+              clipPath: octagonPerCorner({
+                tl: Math.max(0, corners.tl - 1),
+                tr: Math.max(0, corners.tr - 1),
+                br: Math.max(0, corners.br - 1),
+                bl: Math.max(0, corners.bl - 1),
+              }),
+              background: bg3,
+              width: '100%', height: '100%',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              {corners.tl > 0 && <Orn h={ornamentHForCx(corners.tl, type)} uid="m-tl" />}
+              {corners.tr > 0 && <Orn h={ornamentHForCx(corners.tr, type)} uid="m-tr" flip />}
+              {corners.bl > 0 && <Orn h={ornamentHForCx(corners.bl, type)} uid="m-bl" bottom />}
+              {corners.br > 0 && <Orn h={ornamentHForCx(corners.br, type)} uid="m-br" flip bottom />}
+              <span style={{ fontSize: '0.6875rem', color: textLow, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Live preview
+              </span>
+            </div>
+          </div>
+
+          {/* Hodnoty na ornamenty */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 6,
+            fontSize: '0.6875rem',
+            fontFamily: 'ui-monospace, monospace',
+            color: textLow,
+          }}>
+            {['tl','tr','bl','br'].map(key => (
+              <div key={key} style={{
+                padding: '6px 10px',
+                background: bg2,
+                border: `1px solid ${borderMid}`,
+                borderRadius: 4,
+              }}>
+                <span style={{ color: goldMid }}>{key}</span>{' '}
+                cx={corners[key]} → h={corners[key] > 0 ? ornamentHForCx(corners[key], type) : '—'}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Preview>
+  )
+}
 
 export default function OrnamentsPage() {
   return (
@@ -206,6 +373,46 @@ const h = ornamentHForCx(cx, 'roh')
 
 // Pro DonjonCard, DonjonModal s 'roh' i 'zkosen' variantou:
 const ornH = ornamentHForCx(cx, ornament === 'roh' ? 'roh' : 'zkosen')`}
+        </pre>
+      </Section>
+
+      {/* ── Mixed cx — asymetrický octagon ── */}
+      <Section
+        id="mixed-cx"
+        title="Různé velikosti zkosení v jednom bloku"
+        description="Octagon nemusí mít všechny 4 rohy stejné. octagonPerCorner({ tl, tr, br, bl }) umožňuje per-roh kontrolu, ornamenty se přizpůsobí každému rohu zvlášť přes ornamentHForCx."
+      >
+        <MixedCornerDemo />
+
+        <pre style={{
+          background: bg2,
+          border: `1px solid ${borderDefault}`,
+          borderRadius: 6,
+          padding: '12px 16px',
+          fontSize: '0.75rem',
+          color: textHigh,
+          fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+          lineHeight: 1.5,
+          overflow: 'auto',
+        }}>
+{`import { octagonPerCorner } from '../utils/octagon'
+import { RohOrnament, ornamentHForCx } from './Ornaments'
+
+const corners = { tl: 20, tr: 10, br: 14, bl: 16 }
+
+// Outer border + inner fill octagon s individuálními zkoseními
+<div style={{ clipPath: octagonPerCorner(corners), background: borderColor, padding: 1 }}>
+  <div style={{ clipPath: octagonPerCorner({
+    tl: corners.tl - 1, tr: corners.tr - 1,
+    br: corners.br - 1, bl: corners.bl - 1,
+  }), background: bg }}>
+    {/* Každý roh dostane ornament škálovaný dle SVÉHO cx */}
+    <RohOrnament h={ornamentHForCx(corners.tl, 'roh')} uid="tl" />
+    <RohOrnament h={ornamentHForCx(corners.tr, 'roh')} uid="tr" flip />
+    <RohOrnament h={ornamentHForCx(corners.bl, 'roh')} uid="bl" bottom />
+    <RohOrnament h={ornamentHForCx(corners.br, 'roh')} uid="br" flip bottom />
+  </div>
+</div>`}
         </pre>
       </Section>
 

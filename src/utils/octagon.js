@@ -2,6 +2,19 @@ export function octagon(cx) {
   return `polygon(${cx}px 0px,calc(100% - ${cx}px) 0px,100% ${cx}px,100% calc(100% - ${cx}px),calc(100% - ${cx}px) 100%,${cx}px 100%,0px calc(100% - ${cx}px),0px ${cx}px)`
 }
 
+/**
+ * octagonPerCorner — octagon s individuálními zkoseními v každém rohu.
+ *
+ * @param {{ tl?: number, tr?: number, br?: number, bl?: number }} corners
+ *        Velikost cutu v px pro každý roh; chybějící = 0 (ostrý roh).
+ *
+ * @example
+ *   clipPath: octagonPerCorner({ tl: 20, tr: 10, br: 14, bl: 16 })
+ */
+export function octagonPerCorner({ tl = 0, tr = 0, br = 0, bl = 0 } = {}) {
+  return `polygon(${tl}px 0px,calc(100% - ${tr}px) 0px,100% ${tr}px,100% calc(100% - ${br}px),calc(100% - ${br}px) 100%,${bl}px 100%,0px calc(100% - ${bl}px),0px ${tl}px)`
+}
+
 export function clipLeft(cx) {
   return `polygon(${cx}px 0px,100% 0px,100% 100%,${cx}px 100%,0px calc(100% - ${cx}px),0px ${cx}px)`
 }
