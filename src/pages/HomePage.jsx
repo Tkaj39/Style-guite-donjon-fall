@@ -22,6 +22,7 @@ import {
   gainColor, dangerColor, warningColor, infoColor, magicColor,
 } from '../lib/donjon/tokens'
 import { octagon, octagonInner } from '../utils/octagon'
+import ArchDiagram from '../styleguide/ArchDiagram'
 
 const NPM_PACKAGE = 'donjon-fall-ui'
 
@@ -433,66 +434,6 @@ function LibraryCard({ brand, emoji, role, tagline, bullets, ctaTo, ctaLabel }) 
   )
 }
 
-/* ── Architektonický diagram: shared → tkajui → donjon ── */
-function ArchDiagram() {
-  const node = (label, sub, color, bg) => (
-    <div style={{
-      padding: '10px 14px',
-      background: bg,
-      border: `1px solid ${color}55`,
-      borderLeft: `3px solid ${color}`,
-      borderRadius: 5,
-      minWidth: 130,
-      textAlign: 'center',
-    }}>
-      <div style={{
-        fontSize: '0.8125rem', fontWeight: 700, color,
-        letterSpacing: '0.02em',
-      }}>
-        {label}
-      </div>
-      <div style={{
-        fontSize: '0.625rem', color: textLow,
-        marginTop: 3, letterSpacing: '0.04em',
-      }}>
-        {sub}
-      </div>
-    </div>
-  )
-  const arrow = (
-    <span aria-hidden="true" style={{
-      color: borderMid, fontSize: '1.25rem', flexShrink: 0,
-      padding: '0 4px',
-    }}>
-      →
-    </span>
-  )
-  return (
-    <div
-      role="img"
-      aria-label="Závislostní diagram: shared → tkajui → donjon"
-      style={{
-        padding: '14px 18px',
-        background: bgDeep,
-        border: `1px solid ${borderMid}`,
-        borderRadius: 6,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexWrap: 'wrap',
-        gap: 4,
-        rowGap: 12,
-      }}
-    >
-      {node('shared', 'motion · breakpoints · z-index', textMid, bg2)}
-      {arrow}
-      {node('tkajui', BRAND.tkajui.label, BRAND.tkajui.color, `${BRAND.tkajui.color}0E`)}
-      {arrow}
-      {node('donjon', BRAND.donjon.label, BRAND.donjon.color, `${BRAND.donjon.color}0E`)}
-    </div>
-  )
-}
-
 /* ── Section header (sjednocený styl pro všechny sekce) ── */
 function SectionHeader({ kicker, title, description }) {
   return (
@@ -758,6 +699,13 @@ export default function HomePage() {
               icon={<SparkIcon />}
               title="Design tokeny"
               description="Barvy, fonty, spacing, animace. Sdílené (motion, z-index) i lib-specifické (gold vs accent blue)."
+            />
+            <HomeCard
+              to="/architecture"
+              icon={<ArchIcon />}
+              title="Architektura"
+              description="Závislostní směr knihoven, naming kontrakt, 13 párů TkajUI↔donjon a pravidla pro nové komponenty."
+              badge="new"
             />
           </div>
         </section>

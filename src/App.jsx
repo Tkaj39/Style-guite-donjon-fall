@@ -17,6 +17,7 @@ const BadgesPage           = lazy(() => import('./pages/BadgesPage'))
 const CardsPage            = lazy(() => import('./pages/CardsPage'))
 const ColorsPage           = lazy(() => import('./pages/ColorsPage'))
 const HomePage             = lazy(() => import('./pages/HomePage'))
+const ArchitecturePage     = lazy(() => import('./pages/ArchitecturePage'))
 const MoodPage             = lazy(() => import('./pages/MoodPage'))
 const TypographyPage       = lazy(() => import('./pages/TypographyPage'))
 const SpacingPage          = lazy(() => import('./pages/SpacingPage'))
@@ -95,6 +96,7 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<S><HomePage /></S>} />
+        <Route path="architecture" element={<S><ArchitecturePage /></S>} />
         <Route path="buttons"      element={<S><ButtonsPage /></S>} />
         <Route path="button-groups" element={<S><ButtonGroupsPage /></S>} />
         <Route path="mood"         element={<S><MoodPage /></S>} />

@@ -32,6 +32,17 @@ export const sections = [
     label: 'System',
     items: [
       { to: '/', label: '🏰 Home' },
+      {
+        to: '/architecture', label: '🏛️ Architektura',
+        children: [
+          { to: '/architecture#zavislosti',         label: 'Závislostní směr' },
+          { to: '/architecture#naming',             label: 'Naming kontrakt' },
+          { to: '/architecture#extends-pairs',      label: 'TkajUI ↔ donjon páry' },
+          { to: '/architecture#exclusive',          label: 'Herní primitiva' },
+          { to: '/architecture#sdilene-tokeny',     label: 'Sdílené tokeny' },
+          { to: '/architecture#pridat-komponentu',  label: 'Přidat komponentu' },
+        ],
+      },
       { to: '/snippets', label: '⚡ Snippety', library: 'donjon' },
       { to: '/todo', label: '✦ TODO' },
       {
