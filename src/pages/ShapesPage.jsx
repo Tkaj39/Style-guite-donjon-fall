@@ -105,11 +105,13 @@ function CornerOrnament({ size = 20, color = goldDim, variant = 'bracket', style
 }
 
 /* ── NotchDemo — lokální demo pro shape ilustraci ── */
+// `cornerSize` je sjednocený název napříč shape API (octagon, ScoopClip, NotchedBox).
+// V NotchedBox je `cx` zachován jako alias pro zpětnou kompatibilitu.
 function NotchDemo({ cx = 15, nw = 28, nh = 12, side = 'bottom', label, color = goldDim }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
       <NotchedBox
-        cx={cx} nw={nw} nh={nh} side={side}
+        cornerSize={cx} nw={nw} nh={nh} side={side}
         borderColor={`${color}33`}
         style={{
           background: `linear-gradient(150deg,${bg4} 0%,${bgDeep} 100%)`,

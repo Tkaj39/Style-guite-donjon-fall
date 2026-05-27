@@ -89,6 +89,9 @@ export default function PlayerPanelPage() {
                 hp={hpValues[i]}
                 maxHp={p.maxHp}
                 mana={60}
+                maxMana={80}
+                stamina={45}
+                maxStamina={60}
                 isActive={activeIdx === i}
                 eliminated={eliminated[i]}
                 size="md"

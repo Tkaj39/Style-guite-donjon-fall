@@ -213,6 +213,64 @@ export default function EventLogPage() {
 
 <EventLog events={log} maxHeight={220} ornament="decorated" />`}</Code>
       </Section>
+
+      {/* Pokročilé props */}
+      <Section
+        id="pokrocile"
+        title="Pokročilé možnosti"
+        desc="Filtry, vyhledávání, seskupení podle kola, custom render, prázdný stav a auto-scroll vypnutí."
+      >
+        <Demo style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+          <div style={{ flex: '0 0 280px' }}>
+            <p style={{ fontSize: '0.625rem', color: textFaint, margin: '0 0 6px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>showFilters + showSearch + groupByRound</p>
+            <EventLog
+              events={SAMPLE_EVENTS}
+              maxHeight={260}
+              showFilters
+              showSearch
+              groupByRound
+            />
+          </div>
+          <div style={{ flex: '0 0 280px' }}>
+            <p style={{ fontSize: '0.625rem', color: textFaint, margin: '0 0 6px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>autoScroll=false + emptyMessage</p>
+            <EventLog
+              events={[]}
+              maxHeight={120}
+              autoScroll={false}
+              emptyMessage="Žádné záznamy zatím. Začni hru pro generování událostí."
+            />
+          </div>
+          <div style={{ flex: '0 0 280px' }}>
+            <p style={{ fontSize: '0.625rem', color: textFaint, margin: '0 0 6px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>renderEvent — custom render</p>
+            <EventLog
+              events={SAMPLE_EVENTS.slice(0, 3)}
+              maxHeight={160}
+              renderEvent={(event) => (
+                <div style={{ padding: '6px 10px', fontSize: '0.75rem', color: textFaint }}>
+                  <strong style={{ color: '#B8956A' }}>[{event.type}]</strong> {event.text}
+                </div>
+              )}
+            />
+          </div>
+        </Demo>
+        <Code>{`{/* Filtrování + vyhledávání + seskupení podle kola */}
+<EventLog events={log} maxHeight={260} showFilters showSearch groupByRound />
+
+{/* Vypnutý auto-scroll + vlastní prázdný stav */}
+<EventLog
+  events={[]}
+  autoScroll={false}
+  emptyMessage="Žádné záznamy zatím."
+/>
+
+{/* Custom render každého záznamu */}
+<EventLog
+  events={log}
+  renderEvent={(event) => (
+    <div>[{event.type}] {event.text}</div>
+  )}
+/>`}</Code>
+      </Section>
     </div>
   )
 }

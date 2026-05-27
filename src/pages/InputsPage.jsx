@@ -402,6 +402,32 @@ function MyForm() {
 }`} />
       </Section>
 
+      {/* SubmitButton — iconOnly + fullWidth */}
+      <Section id="submit-modifikatory" title="SubmitButton — iconOnly a fullWidth" description="`iconOnly` skryje text a zobrazí jen ikonu. `fullWidth` roztáhne tlačítko na šířku formuláře.">
+        <Preview>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+            <SubmitButton iconOnly leadingIcon={<span>✓</span>} loadingLabel="Ukládám">Uložit</SubmitButton>
+            <div style={{ width: 280 }}>
+              <SubmitButton fullWidth loadingLabel="Odesílám…">Odeslat formulář</SubmitButton>
+            </div>
+          </div>
+        </Preview>
+        <CodeBlock code={`<SubmitButton iconOnly leadingIcon={<CheckIcon />}>Uložit</SubmitButton>
+<SubmitButton fullWidth>Odeslat formulář</SubmitButton>`} />
+      </Section>
+
+      {/* DonjonInput cornerSize override */}
+      <Section id="donjon-input-corner" title="DonjonInput — cornerSize override" description="`cornerSize` přepíše výchozí oktagonální cx z size presetu. Vhodné pro vyladění designu v custom layoutech.">
+        <Preview>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <DonjonInput label="Výchozí (md → cx=12)" value="Donjon Input" onChange={() => {}} />
+            <DonjonInput label="cornerSize={4} (ostřejší)" value="Donjon Input" onChange={() => {}} cornerSize={4} />
+            <DonjonInput label="cornerSize={18} (zaoblenější)" value="Donjon Input" onChange={() => {}} cornerSize={18} />
+          </div>
+        </Preview>
+        <CodeBlock code={`<DonjonInput label="..." value="..." onChange={setValue} cornerSize={18} />`} />
+      </Section>
+
       {/* Pravidla */}
       <Section id="pravidla" title="Pravidla použití">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">

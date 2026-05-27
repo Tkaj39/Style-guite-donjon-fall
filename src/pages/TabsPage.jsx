@@ -249,6 +249,61 @@ function TabsContent() {
 <${cmp} size="lg" items={items} value={tab} onChange={setTab} />`} />
       </Section>
 
+      {/* Orientation — horizontal vs vertical (parita s TkajUI Tabs) */}
+      <Section id="orientation" title="Orientace — horizontal vs vertical" description="Vertikální tablist se hodí pro postranní navigaci. Klávesnice: ArrowUp/Down ve vertikální, ArrowLeft/Right v horizontální.">
+        <Preview>
+          <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
+            <TabsDemo TabsCmp={cmp === 'Tabs' ? Tabs : DonjonTabs} items={GAME_TABS} variant="underline" size="md" />
+            <div style={{ display: 'flex', gap: 12 }}>
+              {(() => {
+                const Comp = cmp === 'Tabs' ? Tabs : DonjonTabs
+                return (
+                  <Comp
+                    items={GAME_TABS}
+                    value={GAME_TABS[0].value}
+                    onChange={() => {}}
+                    orientation="vertical"
+                    variant="underline"
+                    size="md"
+                  />
+                )
+              })()}
+            </div>
+          </div>
+        </Preview>
+        <CodeBlock code={`<${cmp} orientation="vertical" items={items} value={tab} onChange={setTab} />`} />
+      </Section>
+
+      {/* Closable tabs — onClose */}
+      <Section id="closable" title="Zavíratelné taby (onClose)" description="Položky s `closable: true` zobrazí × ikonu, pokud je předán `onClose` handler. Vhodné pro dynamicky vytvářené taby (otevřené dokumenty, herní okna).">
+        <Preview>
+          {(() => {
+            const Comp = cmp === 'Tabs' ? Tabs : DonjonTabs
+            const items = [
+              { value: 'a', label: 'Karta 1', closable: true },
+              { value: 'b', label: 'Karta 2', closable: true },
+              { value: 'c', label: 'Karta 3', closable: true },
+            ]
+            return (
+              <Comp
+                items={items}
+                value="a"
+                onChange={() => {}}
+                onClose={(v) => alert(`Zavřít: ${v}`)}
+                variant="pills"
+                size="md"
+              />
+            )
+          })()}
+        </Preview>
+        <CodeBlock code={`<${cmp}
+  items={[{ value: 'a', label: 'Karta', closable: true }]}
+  value="a"
+  onChange={setTab}
+  onClose={(v) => closeTab(v)}
+/>`} />
+      </Section>
+
       {/* Pravidla */}
       <Section id="pravidla" title="Pravidla použití">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">

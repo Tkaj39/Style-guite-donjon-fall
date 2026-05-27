@@ -737,7 +737,11 @@ const corners = { tl: 20, tr: 10, br: 14, bl: 16 }
 <CornerOrnament cornerType="round" style={{ position: 'absolute', top: 6, left: 6 }} />
 
 {/* Komponenta se scoop tvarem (concave rohy) */}
-<CornerOrnament cornerType="scoop" style={{ position: 'absolute', top: 6, left: 6 }} />`}</pre>
+<CornerOrnament cornerType="scoop" style={{ position: 'absolute', top: 6, left: 6 }} />
+
+{/* cornerSize override — přizpůsobí cornerType geometrii dle paneluže */}
+<CornerOrnament cornerType="scoop" cornerSize={8} style={{ position: 'absolute', top: 6, left: 6 }} />
+<CornerOrnament cornerType="round" cornerSize={4} style={{ position: 'absolute', top: 6, left: 6 }} />`}</pre>
       </Section>
 
       {/* ── Pravidla použití ── */}

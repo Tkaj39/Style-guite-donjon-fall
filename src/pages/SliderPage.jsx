@@ -153,6 +153,26 @@ function SliderContent() {
         <CodeBlock code={`<${cmp} value={60} label="Uzamčeno" disabled />`} />
       </Section>
 
+      {/* DonjonSlider — ticks + thumbShape */}
+      <Section
+        id="donjon-extras"
+        title="DonjonSlider — ticks a thumbShape (herní extras)"
+        description="ticks přidá vizuální markery na trati (pro počítatelné hodnoty). thumbShape mění tvar palce: diamond (default herní), circle, octagon."
+      >
+        <Preview>
+          <div style={{ width: '100%', maxWidth: 360, display: 'flex', flexDirection: 'column', gap: 18 }}>
+            <DonjonSlider value={6} max={10} step={1} ticks={10} label="HP ticks (1-10)" showValue />
+            <DonjonSlider value={50} ticks={[0, 25, 50, 75, 100]} label="Custom ticks markery" showValue />
+            <DonjonSlider value={50} label="thumbShape=diamond (default)" thumbShape="diamond" />
+            <DonjonSlider value={50} label="thumbShape=circle" thumbShape="circle" />
+            <DonjonSlider value={50} label="thumbShape=octagon" thumbShape="octagon" />
+          </div>
+        </Preview>
+        <CodeBlock code={`<DonjonSlider value={6} max={10} ticks={10} label="HP" />
+<DonjonSlider value={50} ticks={[0, 25, 50, 75, 100]} />
+<DonjonSlider value={50} thumbShape="circle" />`} />
+      </Section>
+
       {/* Pravidla */}
       <Section id="pravidla" title="Pravidla použití">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">

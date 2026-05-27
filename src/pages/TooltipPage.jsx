@@ -163,6 +163,26 @@ function TooltipContent() {
 </${cmp}>`} />
       </Section>
 
+      {/* Delay & autoFlip */}
+      <Section id="delay-autoflip" title="Delay a autoFlip" description="`delay` (ms) — zpoždění před zobrazením. `autoFlip` — když by tooltip přesáhl viewport, automaticky se otočí na opačnou stranu. Default: delay=120, autoFlip=true.">
+        <Preview>
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+            <Tip content="Okamžitě (delay=0)" delay={0}>
+              <Btn size="sm">delay=0</Btn>
+            </Tip>
+            <Tip content="Pomalu (delay=600 ms)" delay={600}>
+              <Btn size="sm">delay=600</Btn>
+            </Tip>
+            <Tip content="Bez autoFlip — může vyjet z viewportu" autoFlip={false} placement="top">
+              <Btn size="sm">autoFlip=false</Btn>
+            </Tip>
+          </div>
+        </Preview>
+        <CodeBlock code={`<${cmp} content="Okamžitě" delay={0}>...</${cmp}>
+<${cmp} content="Pomalu" delay={600}>...</${cmp}>
+<${cmp} content="Fixní pozice" autoFlip={false}>...</${cmp}>`} />
+      </Section>
+
       {/* Pravidla */}
       <Section id="pravidla" title="Pravidla použití">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">

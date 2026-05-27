@@ -226,6 +226,28 @@ export default function PictogramsPage() {
       ]}
     >
       <PictogramContent />
+
+      {/* Raw SVG icons — width/height props */}
+      <Section
+        id="raw-icons"
+        title="Raw ikony — width a height"
+        description="Ikony z `donjon/icons` jsou čisté SVG komponenty. Lze je použít přímo s `width` a `height` props, nebo přes Pictogram/DonjonPictogram wrapper (doporučeno)."
+      >
+        <div style={{ display: 'flex', gap: 16, alignItems: 'center', color: gold }}>
+          <SwordIcon width={16} height={16} />
+          <SwordIcon width={24} height={24} />
+          <SwordIcon width={32} height={32} />
+          <SwordIcon width={48} height={48} />
+        </div>
+        <pre style={{ marginTop: 12, padding: 12, background: '#0a0a14', borderRadius: 4, fontSize: '0.75rem', color: textParchment, overflow: 'auto' }}>{`import { SwordIcon } from 'donjon-fall-ui'
+
+<SwordIcon width={24} height={24} />        {/* default — 24×24 */}
+<SwordIcon width={48} height={48} />        {/* HUD/title screen */}
+
+{/* Doporučeno: Pictogram wrapper pro konzistentní velikosti */}
+<DonjonPictogram icon={SwordIcon} size="lg" />`}</pre>
+      </Section>
+
       <Section id="pravidla" title="Pravidla použití">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">
           <p>✓ Piktogram vždy doplň textem (label nebo tooltip) — ikonový jazyk sám o sobě nestačí pro nové hráče.</p>

@@ -451,7 +451,17 @@ onGameEnd={() => victory()         // výsledek`}</Code>
 </GameTransition>
 
 // Presety: fadeScale | slideUp | slideDown | pop | fade | slideLeft
-// Props:   show, preset, duration, onExited, as, style, className`}</Code>
+// Props:   show, preset, duration, onExited, as, style, className
+
+// Render jako list item (sémantický wrapper):
+<GameTransition show={isVisible} preset="slideUp" as="li">
+  <PlayerPanel name="Hráč 2" />
+</GameTransition>
+
+// Render jako section (custom HTML tag):
+<GameTransition show={panelOpen} preset="fadeScale" as="section">
+  <DonjonCard title="Inventář" />
+</GameTransition>`}</Code>
       </Section>
 
       <div style={DIVIDER} />

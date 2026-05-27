@@ -214,7 +214,14 @@ function onGameEvent(event) {
     text:      event.message,
     timestamp: Date.now(),
   }])
-}`} />
+}
+
+// Plain mode bez ornamentů (denser layout):
+<DonjonNotificationCenter
+  events={events}
+  position="bottom-right"
+  ornament="plain"
+/>`} />
       </Section>
 
       <Section id="pravidla" title="Pravidla použití">

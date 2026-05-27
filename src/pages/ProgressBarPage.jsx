@@ -203,6 +203,19 @@ function ProgressBarContent() {
 <${cmp} value={3}  max={5}  size="sm" variant="default" />`} />
       </Section>
 
+      {/* DonjonProgressBar — ticks + flash */}
+      <Section id="donjon-extras" title="DonjonProgressBar — ticks a flash (herní extras)" description="`ticks` přidá dělicí čáry pro počitatelné resourcy (např. 10 HP). `flash` spustí damage flash animaci při změně hodnoty.">
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: 320 }}>
+            <DonjonProgressBar value={7} max={10} ticks={10} variant="hp" label="HP s 10 ticks" showValue />
+            <DonjonProgressBar value={42} max={100} ticks={4} variant="mana" label="Mana s 4 zónami" showValue />
+            <DonjonProgressBar value={25} max={100} variant="hp" label="HP — damage flash" flash showValue />
+          </div>
+        </Preview>
+        <CodeBlock code={`<DonjonProgressBar value={7} max={10} ticks={10} variant="hp" />
+<DonjonProgressBar value={25} max={100} variant="hp" flash />`} />
+      </Section>
+
       {/* Pravidla */}
       <Section id="pravidla" title="Pravidla použití">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">
