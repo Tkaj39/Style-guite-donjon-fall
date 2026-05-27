@@ -360,3 +360,134 @@ export function HexOrnament({
     </div>
   )
 }
+
+/* ── ScoopOrnament ──────────────────────────────────────────────────────────
+   Dekorativní ornament pro konkávní (scoop) rohy z ScoopClip.
+   Kopíruje tvar výřezu — paralelní zlatý oblouk uvnitř shape s diamond
+   na vrcholu a krátkými ticky na koncích.
+
+   Geometrie: scoop je čtvrtkruh poloměru `r` vystřižený z rohu.
+   Ornament je SVG `r × r` umístěné absolutně do daného rohu shape.
+   Oblouk uvnitř SVG má poloměr `r - inset` (default inset=4) → leží
+   uvnitř viditelné plochy, blízko hrany výřezu.
+
+   Vykreslení je vždy ve „top-left" orientaci v lokálních SVG souřadnicích;
+   rotace pro ostatní rohy se aplikuje přes CSS `transform: rotate()`
+   se středem otáčení na střed SVG (default).
+
+   Props:
+     r         - poloměr scoop výřezu v px (= cornerSize ScoopClip v circle módu)
+     corner    - 'tl' | 'tr' | 'bl' | 'br' (default 'tl')
+     color     - barva ornamentu (override default gold)
+     colorDim  - solidní druhá stop gradientu (default = color ?? goldDim)
+     bgFill    - výplň diamond (default bg4)
+     inset     - vzdálenost oblouku od scoop hrany v px (default 4)
+     uid       - explicitní ID prefix (default useId)
+     style     - merge styling pro absolute pozici
+   ─────────────────────────────────────────────────────────────────────── */
+const SCOOP_ROTATIONS = { tl: 0, tr: 90, br: 180, bl: 270 }
+
+export function ScoopOrnament({
+  r,
+  corner = 'tl',
+  color,
+  colorDim,
+  bgFill,
+  inset = 4,
+  uid: uidProp,
+  style: styleProp,
+}) {
+  const uid     = useOrnamentUid(uidProp)
+  const stopMain = color    ?? gold
+  const stopDim  = colorDim ?? (color ?? goldDim)
+  const hexFill  = bgFill   ?? bg4
+
+  const arcR    = Math.max(2, r - inset)
+  // Apex souřadnice diamondu — bod nejdál od rohu na arc (na 45° diagonále)
+  const apex    = (arcR * Math.SQRT1_2)   // ≈ 0.707 * arcR
+  // Diamond half-size škáluje s r (ale clamp na rozumný interval)
+  const dHalf   = Math.max(2, Math.min(4, r * 0.18))
+
+  const rotation = SCOOP_ROTATIONS[corner] ?? 0
+
+  // Pozice SVG v parentu (parent musí mít position: relative)
+  const posStyle = {
+    [corner.startsWith('t') ? 'top'  : 'bottom']: 0,
+    [corner.endsWith('l')   ? 'left' : 'right' ]: 0,
+  }
+
+  // Gradient — diagonálně od inner po outer (vrchol arc je sytější zlatý)
+  const grad = `url(#${uid}-sg)`
+
+  return (
+    <svg
+      width={r}
+      height={r}
+      viewBox={`0 0 ${r} ${r}`}
+      fill="none"
+      aria-hidden="true"
+      style={{
+        position: 'absolute',
+        ...posStyle,
+        transform: `rotate(${rotation}deg)`,
+        pointerEvents: 'none',
+        ...styleProp,
+      }}
+    >
+      <defs>
+        <linearGradient id={`${uid}-sg`} x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+          <stop stopColor={stopDim} />
+          <stop offset="1" stopColor={stopMain} />
+        </linearGradient>
+      </defs>
+
+      {/* Hlavní zlatý oblouk — paralelní se scoop hranou, uvnitř shape.
+          Top-left scoop jde od (0, r) přes outer-corner-arc do (r, 0).
+          Náš oblouk leží uvnitř, od (0, arcR) do (arcR, 0). */}
+      <path
+        d={`M 0,${arcR} A ${arcR} ${arcR} 0 0 1 ${arcR},0`}
+        stroke={grad}
+        strokeWidth="1.2"
+        strokeLinecap="round"
+      />
+
+      {/* Tenký druhý oblouk — jemnější paralel pro double-bracket feel.
+          Inset o ~3px od hlavního. */}
+      {arcR > 8 && (
+        <path
+          d={`M 0,${arcR - 3} A ${arcR - 3} ${arcR - 3} 0 0 1 ${arcR - 3},0`}
+          stroke={stopDim}
+          strokeWidth="0.8"
+          opacity="0.7"
+          strokeLinecap="round"
+        />
+      )}
+
+      {/* Diamond na apexu oblouku (45° od rohu) */}
+      <path
+        d={`M ${apex},${apex - dHalf} L ${apex + dHalf},${apex} L ${apex},${apex + dHalf} L ${apex - dHalf},${apex} Z`}
+        fill={hexFill}
+        stroke={grad}
+        strokeWidth="0.9"
+      />
+
+      {/* Krátké ticky na koncích oblouku (perpendikulární k hraně) */}
+      {arcR > 6 && (
+        <>
+          <line
+            x1="0" y1={arcR} x2="2" y2={arcR}
+            stroke={stopMain}
+            strokeWidth="1"
+            strokeLinecap="round"
+          />
+          <line
+            x1={arcR} y1="0" x2={arcR} y2="2"
+            stroke={stopMain}
+            strokeWidth="1"
+            strokeLinecap="round"
+          />
+        </>
+      )}
+    </svg>
+  )
+}

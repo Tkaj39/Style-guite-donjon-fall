@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import ScoopClip from '../lib/tkajui/ScoopClip'
+import { ScoopOrnament } from '../lib/donjon/Ornaments'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import {
   gold, goldDim, goldMid,
@@ -209,20 +210,7 @@ function InteractiveDemo() {
       </div>
 
       {/* Code snippet */}
-      <pre style={{
-        margin: 0, padding: '14px 16px',
-        background: '#0F0E1A',
-        border: '1px solid #1e1c2e',
-        borderRadius: 4,
-        fontSize: '0.6875rem',
-        fontFamily: 'monospace',
-        color: goldDim,
-        lineHeight: 1.7,
-        overflow: 'auto',
-        whiteSpace: 'pre',
-      }}>
-        {snippet}
-      </pre>
+      <CodeBlock code={snippet} />
     </div>
   )
 }
@@ -719,6 +707,126 @@ clipPath: octagon(16)                    // octagon utility
             ))}
           </div>
         </div>
+      </Section>
+
+      {/* ── ScoopOrnament — dekorace kopírující výřez ── */}
+      <Section id="ornaments">
+        <h2 className="text-base font-semibold text-neutral-100 mb-2">ScoopOrnament — dekorace v zákoutí</h2>
+        <p className="text-sm text-neutral-400 mb-4 max-w-2xl">
+          Donjon ornament kopíruje tvar scoop výřezu — paralelní zlatý oblouk uvnitř shape,
+          diamond na vrcholu (45° od rohu) a krátké ticky na koncích. Geometrie se škáluje
+          s `r` (poloměr výřezu). Importuj z <code className="text-brand-300">donjon-fall-ui</code>.
+        </p>
+
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Basic — bez ornamentu vs s ornamenty */}
+          <div className="flex flex-col gap-2">
+            <p style={{ fontSize: '0.625rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Bez ornamentu</p>
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+              <ScoopClip shape="circle" cornerSize={18} style={{
+                width: 200, height: 80,
+                background: bg3, border: 'none',
+              }}>
+                <div style={{ padding: 16, color: textHigh, fontSize: '0.875rem' }}>Base shape</div>
+              </ScoopClip>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <p style={{ fontSize: '0.625rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Se ScoopOrnament (gold)</p>
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+              <ScoopClip shape="circle" cornerSize={18} style={{
+                width: 200, height: 80,
+                background: bg3, border: 'none',
+              }}>
+                <div style={{ padding: 16, color: textHigh, fontSize: '0.875rem' }}>Decorated</div>
+                <ScoopOrnament r={18} corner="tl" bgFill={bg3} />
+                <ScoopOrnament r={18} corner="tr" bgFill={bg3} />
+                <ScoopOrnament r={18} corner="bl" bgFill={bg3} />
+                <ScoopOrnament r={18} corner="br" bgFill={bg3} />
+              </ScoopClip>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <p style={{ fontSize: '0.625rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Custom barva (danger)</p>
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+              <ScoopClip shape="circle" cornerSize={18} style={{
+                width: 200, height: 80,
+                background: bg3, border: 'none',
+              }}>
+                <div style={{ padding: 16, color: textHigh, fontSize: '0.875rem' }}>Danger</div>
+                <ScoopOrnament r={18} corner="tl" color={dangerColor} bgFill={bg3} />
+                <ScoopOrnament r={18} corner="tr" color={dangerColor} bgFill={bg3} />
+                <ScoopOrnament r={18} corner="bl" color={dangerColor} bgFill={bg3} />
+                <ScoopOrnament r={18} corner="br" color={dangerColor} bgFill={bg3} />
+              </ScoopClip>
+            </div>
+          </div>
+        </div>
+
+        {/* Velikost škálování */}
+        <div className="mt-8">
+          <p style={{ fontSize: '0.625rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>Škálování s poloměrem r</p>
+          <div className="flex gap-6 items-end flex-wrap">
+            {[10, 16, 22, 30, 40].map(r => (
+              <div key={r} className="flex flex-col items-center gap-2">
+                <div style={{ position: 'relative', display: 'inline-block' }}>
+                  <ScoopClip shape="circle" cornerSize={r} style={{
+                    width: r * 6, height: r * 3,
+                    background: bg3, border: 'none',
+                  }}>
+                    <div />
+                    <ScoopOrnament r={r} corner="tl" bgFill={bg3} />
+                    <ScoopOrnament r={r} corner="tr" bgFill={bg3} />
+                    <ScoopOrnament r={r} corner="bl" bgFill={bg3} />
+                    <ScoopOrnament r={r} corner="br" bgFill={bg3} />
+                  </ScoopClip>
+                </div>
+                <span style={{ fontSize: '0.6875rem', color: textLow, fontFamily: 'ui-monospace, monospace' }}>r={r}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Pouze vybrané rohy */}
+        <div className="mt-8">
+          <p style={{ fontSize: '0.625rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>Selektivní rohy (např. hlavička panelu)</p>
+          <div style={{ position: 'relative', display: 'inline-block' }}>
+            <ScoopClip shape="circle" cornerSize={20} style={{
+              width: 320, height: 56,
+              background: `linear-gradient(150deg, ${bg4} 0%, ${bgDeep} 100%)`,
+              border: 'none',
+            }}>
+              <div style={{ padding: '14px 24px', color: gold, fontSize: '0.875rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                ⚔ Bitva u Mostu
+              </div>
+              <ScoopOrnament r={20} corner="tl" bgFill={bg4} />
+              <ScoopOrnament r={20} corner="tr" bgFill={bg4} />
+            </ScoopClip>
+          </div>
+        </div>
+
+        <CodeBlock code={`import ScoopClip from 'tkajui/ScoopClip'
+import { ScoopOrnament } from 'donjon-fall-ui'
+
+{/* Parent musí mít position: relative (ScoopClip s inline-block to má) */}
+<ScoopClip shape="circle" cornerSize={18} style={{ width: 200, height: 80, background: bg3 }}>
+  <div>Tvůj obsah</div>
+
+  {/* 4 rohy — bgFill = barva podkladu (matchne pozadí karty pro splývající diamond) */}
+  <ScoopOrnament r={18} corner="tl" bgFill={bg3} />
+  <ScoopOrnament r={18} corner="tr" bgFill={bg3} />
+  <ScoopOrnament r={18} corner="bl" bgFill={bg3} />
+  <ScoopOrnament r={18} corner="br" bgFill={bg3} />
+</ScoopClip>
+
+{/* Varianty barvy */}
+<ScoopOrnament r={20} corner="tl" color={dangerColor} bgFill={bg3} />
+
+{/* Jen horní rohy — hlavička panelu */}
+<ScoopOrnament r={20} corner="tl" />
+<ScoopOrnament r={20} corner="tr" />`} />
       </Section>
 
       {/* ── Props ── */}
