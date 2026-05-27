@@ -4,8 +4,14 @@
  * Přepisuje vizuální styl TkajUI Pictogram: herní estetika, tmavé pozadí
  * s jemným oktagonálním ořezem, zlatá / fantasy barevná schémata.
  *
+ * API parita s TkajUI Pictogram:
+ *   `color` prop přepíše paletu z variant — pro drop-in compat s TkajUI,
+ *   kde `<Pictogram color="#FFC183" />` přiřadí color ikoně přímo.
+ *   Když je `color` předán, ignoruje se `variant`.
+ *
  * @param {React.ComponentType} icon      - SVG komponenta z donjon/icons
  * @param {'sm'|'md'|'lg'|'xl'} size      - výchozí 'md'
+ * @param {string}              color     - override barvy ikony (parita s TkajUI). Když je předán, přebíjí `variant`.
  * @param {'active'|'passive'|'disabled'|'danger'|'success'} variant - výchozí 'active'
  * @param {boolean}             bare      - false = s oktagonálním rámečkem a pozadím (výchozí: true = jen ikona)
  * @param {string}              className
@@ -13,6 +19,7 @@
  *
  * @example
  * <DonjonPictogram icon={SwordIcon} size="lg" variant="active" />
+ * <DonjonPictogram icon={ShieldIcon} size="sm" color="#FFC183" />  // TkajUI-style
  * <DonjonPictogram icon={ShieldIcon} size="sm" variant="passive" bare />
  */
 
@@ -38,18 +45,21 @@ const PADDING = { sm: 5, md: 7, lg: 10, xl: 14 }
 // cx pro oktagonální clip (30 % paddingu → zaoblení)
 const CX = { sm: 3, md: 4, lg: 5, xl: 7 }
 
-export default function DonjonPictogram({ icon: Icon, size = 'md', variant = 'active', bare = true, className, style = {} }) {
+export default function DonjonPictogram({ icon: Icon, size = 'md', color, variant = 'active', bare = true, className, style = {} }) {
   const px  = SIZES[size]  ?? SIZES.md
   const pad = PADDING[size] ?? PADDING.md
   const cx  = CX[size] ?? CX.md
   const v   = VARIANTS[variant] ?? VARIANTS.active
+  // `color` prop (parita s TkajUI Pictogram) přebíjí barvu z variant.
+  // Bg a border zůstávají z variant (estetický herní rámeček zachován).
+  const iconColor = color ?? v.color
 
   if (bare) {
-    // Bez pozadí — jen ikona s herní barvou
+    // Bez pozadí — jen ikona s herní barvou (nebo `color` override)
     return (
       <span
         className={className}
-        style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: v.color, ...style }}
+        style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: iconColor, ...style }}
       >
         <Icon width={px} height={px} />
       </span>
@@ -73,7 +83,7 @@ export default function DonjonPictogram({ icon: Icon, size = 'md', variant = 'ac
         clipPath: octagon(cx),
         background: v.border,
         filter: v.glow !== 'none' ? v.glow : undefined,
-        color: v.color,
+        color: iconColor,
         ...style,
       }}
     >

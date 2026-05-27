@@ -56,6 +56,7 @@ export default function DonjonTabs({
   variant = 'underline',
   size = 'md',
   ornament = 'decorated',
+  orientation = 'horizontal',   // 'horizontal' | 'vertical' — parita s TkajUI Tabs
   onClose,             // (itemValue) => void — closable taby s × ikonou (items.closable: true)
 }) {
   const rawId = useId()
@@ -63,6 +64,10 @@ export default function DonjonTabs({
   const s     = SIZES[size] ?? SIZES.md
   const safeItems = items ?? []
   const hasOrnaments = ornament !== 'plain'
+  const isVertical = orientation === 'vertical'
+  // Hexagonové gapped-lines ornamenty jsou navrhnuty pro horizontální layout
+  // — ve vertikální orientaci je vypneme (decorated → effectively plain).
+  const showHexOrnaments = hasOrnaments && !isVertical
 
   /* ── Hover tracking pro underline hex ── */
   const [hoveredValue, setHoveredValue] = useState(null)
@@ -96,11 +101,14 @@ export default function DonjonTabs({
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onChange?.(item.value); return }
     const enabled = safeItems.map((it, idx) => ({ it, idx })).filter(x => !x.it.disabled)
     const cur = enabled.findIndex(x => x.idx === i)
-    if (e.key === 'ArrowRight') {
+    // Klávesa pro pohyb závisí na orientaci — parita s TkajUI Tabs
+    const nextKey = isVertical ? 'ArrowDown' : 'ArrowRight'
+    const prevKey = isVertical ? 'ArrowUp'   : 'ArrowLeft'
+    if (e.key === nextKey) {
       const next = enabled[(cur + 1) % enabled.length]
       if (next) { onChange?.(next.it.value); document.getElementById(`dtab-${next.it.value}`)?.focus() }
     }
-    if (e.key === 'ArrowLeft') {
+    if (e.key === prevKey) {
       const prev = enabled[(cur - 1 + enabled.length) % enabled.length]
       if (prev) { onChange?.(prev.it.value); document.getElementById(`dtab-${prev.it.value}`)?.focus() }
     }
@@ -110,9 +118,12 @@ export default function DonjonTabs({
   const tabList = (
     <div
       role="tablist"
+      aria-orientation={orientation}
       style={{
         display: 'flex',
-        flexWrap: 'wrap',
+        flexDirection: isVertical ? 'column' : 'row',
+        flexWrap: isVertical ? 'nowrap' : 'wrap',
+        alignItems: isVertical ? 'stretch' : 'center',
         gap: s.gap,
         ...(variant === 'pills' ? {
           background: bg0,
@@ -287,7 +298,7 @@ export default function DonjonTabs({
 
   /* ── Pills variant — čáry s efekty nahoře i dole ── */
   if (variant === 'pills') {
-    if (!hasOrnaments) {
+    if (!showHexOrnaments) {
       return (
         <div
           ref={containerRef}
@@ -321,14 +332,22 @@ export default function DonjonTabs({
   ── */
   const indicatorAtBottom = variant === 'underline'
 
-  if (!hasOrnaments) {
+  if (!showHexOrnaments) {
+    // Vertical orientation: jednoduchá levá hrana (underline → vlevo) místo
+    // horizontálních čar. Plain mode horizontal: zachovaný original (top/bottom border).
+    const verticalEdge = isVertical
+      ? indicatorAtBottom
+        ? { borderLeft: `1px solid ${goldDim}55` }
+        : { borderRight: `1px solid ${goldDim}55` }
+      : indicatorAtBottom
+        ? { borderBottom: `1px solid ${goldDim}55` }
+        : { borderTop: `1px solid ${goldDim}55` }
     return (
       <div
         ref={containerRef}
         style={{
           position: 'relative',
-          borderTop: indicatorAtBottom ? 'none' : `1px solid ${goldDim}55`,
-          borderBottom: indicatorAtBottom ? `1px solid ${goldDim}55` : 'none',
+          ...verticalEdge,
         }}
         onMouseLeave={() => setHoveredValue(null)}
       >

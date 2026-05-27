@@ -22,18 +22,22 @@ const VARIANTS = {
   default: { fill: null,         label: ''        },
 }
 
+// Výška md sjednocena s TkajUI ProgressBar (h:8) pro vizuální paritu —
+// drop-in replacement neposune layout. fontSize donjon-specific (extra).
 const SIZES = {
-  xs: { h: 3,  radius: 1, fontSize: '0.625rem'  },
-  sm: { h: 6,  radius: 2, fontSize: '0.6875rem' },
-  md: { h: 10, radius: 3, fontSize: '0.75rem'   },
-  lg: { h: 14, radius: 4, fontSize: '0.8125rem' },
+  xs: { h: 2,  radius: 1, fontSize: '0.625rem'  },
+  sm: { h: 4,  radius: 2, fontSize: '0.6875rem' },
+  md: { h: 8,  radius: 4, fontSize: '0.75rem'   },
+  lg: { h: 14, radius: 5, fontSize: '0.8125rem' },
 }
 
 export default function DonjonProgressBar({
   value        = 0,
   max          = 100,
   size         = 'md',
-  variant      = 'hp',
+  // Default 'default' (z 'hp') — drop-in replacement za TkajUI ProgressBar
+  // bez nutnosti explicitního variant prop. Pro HP bar předej variant="hp".
+  variant      = 'default',
   label,
   showValue    = false,
   ticks        = 0,
@@ -42,7 +46,7 @@ export default function DonjonProgressBar({
   style,
   className,
 }) {
-  const v   = VARIANTS[variant] ?? VARIANTS.hp
+  const v   = VARIANTS[variant] ?? VARIANTS.default
   const s   = SIZES[size]       ?? SIZES.md
   const pct = indeterminate ? 100 : Math.min(100, Math.max(0, (value / max) * 100))
 
