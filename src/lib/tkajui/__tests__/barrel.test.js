@@ -85,24 +85,18 @@ describe('barrel export (index.js)', () => {
     expect(typeof TkajUI.ScoopClip).toBe('function')
   })
 
-  it('CornerOrnament je exportován jako funkce', () => {
-    expect(TkajUI.CornerOrnament).toBeDefined()
-    expect(typeof TkajUI.CornerOrnament).toBe('function')
-  })
-
   it('NotchedBox je exportován jako funkce', () => {
     expect(TkajUI.NotchedBox).toBeDefined()
     expect(typeof TkajUI.NotchedBox).toBe('function')
   })
 
-  it('SideOrnament je exportován jako funkce', () => {
-    expect(TkajUI.SideOrnament).toBeDefined()
-    expect(typeof TkajUI.SideOrnament).toBe('function')
-  })
-
-  it('HexOrnament je exportován jako funkce', () => {
-    expect(TkajUI.HexOrnament).toBeDefined()
-    expect(typeof TkajUI.HexOrnament).toBe('function')
+  // Pozn.: CornerOrnament, SideOrnament, HexOrnament patří do donjon-fall-ui
+  // (herní dekorace) a NEJSOU re-exportovány z tkajui. Tkajui je base library
+  // a nezná donjon. Tyto komponenty importuj přímo z 'donjon-fall-ui'.
+  it('NEexportuje herní ornamenty (architektonický kontrakt)', () => {
+    expect(TkajUI.CornerOrnament).toBeUndefined()
+    expect(TkajUI.SideOrnament).toBeUndefined()
+    expect(TkajUI.HexOrnament).toBeUndefined()
   })
 
   // Utils re-exporty z octagon

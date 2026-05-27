@@ -71,11 +71,25 @@ export const infoDim    = '#2070d0'  // gradient end (ProgressBar, Slider)
 export const primaryText = '#ffffff'
 export const primaryIcon = '#ffffffcc'
 
-// ── Z-index škála ─────────────────────────────────────────────────────────
-// Modály nepoužívají z-index — jsou v native <dialog> top-layer.
-export const zDropdown = 900   // Select dropdown, Combobox
-export const zToast    = 2000  // Toast notification stack
-export const zTooltip  = 2100  // Tooltip (nad toasty)
+// ── Sdílené tokeny (motion, breakpoints, z-index) ─────────────────────────
+// Re-export ze `lib/shared/tokens.js` — strukturálně neutrální tokeny
+// společné pro tkajui i donjon. Změna se projeví v obou knihovnách.
+// Pozn.: Modály nepoužívají z-index — jsou v native <dialog> top-layer.
+export {
+  animFast, animNormal, animSlow, animDramatic,
+  easingSharp, easingBounce, easingEnter, easingExit,
+  bpMobile, bpTablet, bpDesktop, bpWide, BREAKPOINTS,
+  zDropdown, zNotification, zToast, zTooltip,
+} from '../shared/tokens'
+
+// ── Background aliases (sjednocené naming napříč knihovnami) ──────────────
+// donjon používá `bg0..4`, tkajui historicky `surface0..4`. Aliasy umožňují
+// psát knihovně-agnostické kódy. Pro tkajui-specifický kód preferuj `surface*`.
+export const bg0 = surface0
+export const bg1 = surface1
+export const bg2 = surface2
+export const bg3 = surface3
+export const bg4 = surface4
 
 // ── Helpers: variant lookup tables ────────────────────────────────────────
 export const VARIANT_COLORS = {

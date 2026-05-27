@@ -84,6 +84,8 @@ function makeEntry(globKey, subdir) {
     status: 'generated',         // 'generated' | 'draft' | 'documented'
     relatedSlugs: [],
     subcategory: null,           // 'extends-tkajui' | 'exclusive' | null
+    extendsSlug: null,           // slug základní TkajUI komponenty (jen pro 'extends-tkajui')
+    differencesFromBase: [],     // pole rozdílů oproti `extendsSlug` (pro showcase diff)
   }
 }
 
@@ -106,6 +108,8 @@ function applyMeta(entry) {
     relatedSlugs:  meta.relatedSlugs   ?? entry.relatedSlugs,
     showcaseRoute: meta.showcaseRoute  ?? entry.showcaseRoute,
     subcategory:   meta.subcategory    ?? entry.subcategory,
+    extendsSlug:   meta.extendsSlug    ?? entry.extendsSlug,
+    differencesFromBase: meta.differencesFromBase ?? entry.differencesFromBase,
   }
 }
 

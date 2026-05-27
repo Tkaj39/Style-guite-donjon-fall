@@ -204,6 +204,12 @@ export const componentMeta = {
   'donjon-modal': {
     description: 'Herní varianta Modal — rozšiřuje TkajUI Modal o SideOrnament a HexOrnament dekoraci v hlavičce, těle a patičce. Nově umí i plain gold-frame režim bez ornamentů.',
     subcategory: 'extends-tkajui',
+    extendsSlug: 'modal',
+    differencesFromBase: [
+      'Ornamentální shell — SideOrnament po stranách, HexOrnament v hlavičce a patičce',
+      'Plain režim (`ornament="plain"`) — gold-frame bez ornamentů pro hustší layouty',
+      'Donjon paleta — zlatý border, teplý warm pergamen bg2 místo cool surface2',
+    ],
     status: 'documented',
     showcaseRoute: '/modal',
     props: [
@@ -243,6 +249,13 @@ export const componentMeta = {
   'donjon-button': {
     description: 'Primární akční prvek design systému. Podporuje čtyři barevné varianty, čtyři velikosti, ikonové módy a loading / disabled stav. Nově umí i plain gold-frame režim bez ornamentů.',
     subcategory: 'extends-tkajui',
+    extendsSlug: 'button',
+    differencesFromBase: [
+      'Větší octagon cornerSize (12 vs 8) — výraznější herní siluetu',
+      '4 ornamenty (SideOrnament + ZkosenOrnament + RohOrnament + HexOrnament) v decorated módu',
+      'Plain režim (`ornament="plain"`) — outer-wrapper octagon border trick místo CSS borderu',
+      'Donjon paleta — zlatý gradient místo accent blue',
+    ],
     status: 'documented',
     showcaseRoute: '/buttons',
     props: [
@@ -280,6 +293,12 @@ export const componentMeta = {
   'donjon-button-group': {
     description: 'Herní varianta ButtonGroup — rozšiřuje TkajUI ButtonGroup o SideOrnament a HexOrnament dekoraci. Nově umí i plain gold-frame režim bez ornamentů.',
     subcategory: 'extends-tkajui',
+    extendsSlug: 'button-group',
+    differencesFromBase: [
+      'Sdílené ornamenty SideOrnament + HexOrnament napříč skupinou',
+      'Variants `menu` a `tabs` — herní kontext (akce vs navigace)',
+      'Plain režim (`ornament="plain"`) — outer-wrapper octagon border bez ornamentů',
+    ],
     status: 'documented',
     showcaseRoute: '/button-groups',
     props: [
@@ -297,6 +316,12 @@ export const componentMeta = {
   'donjon-input': {
     description: 'Textové vstupní pole pro formuláře. Podporuje label, hint, chybový stav, ikony a disabled.',
     subcategory: 'extends-tkajui',
+    extendsSlug: 'input',
+    differencesFromBase: [
+      'Oktagonový tvar s vyšším cornerSize — herní vizuální podpis',
+      'Zlatý focus ring + warm placeholder color (`textLow` z donjon palety)',
+      'Variant gradient hlavička pro `danger`/`success` stavy',
+    ],
     status: 'documented',
     showcaseRoute: '/inputs',
     props: [
@@ -333,6 +358,12 @@ export const componentMeta = {
   'donjon-card': {
     description: 'Kontejner pro seskupený obsah. Má pevnou strukturu hlavička–tělo–patička a barevné varianty pro různé kontexty. Nově umí i plain gold-frame režim bez ornamentů.',
     subcategory: 'extends-tkajui',
+    extendsSlug: 'card',
+    differencesFromBase: [
+      'Ornamentální shell — SideOrnament + ZkosenOrnament + RohOrnament + HexOrnament',
+      'Plain režim (`ornament="plain"`) — gold-frame bez ornamentů',
+      'Variant gradient hlavička (`VARIANT_HEADER_BG`) místo solid bg',
+    ],
     status: 'documented',
     showcaseRoute: '/cards',
     props: [
@@ -598,6 +629,12 @@ export const componentMeta = {
   'donjon-tabs': {
     description: 'Herní varianta Tabs. Pro underline a topline používá ornamentové linky s hex motivem, pro pills rámovaný track. Nově umí i plain režim bez ornamentových linek. Stejné API jako Tabs s rozšířením o ornament mód.',
     subcategory: 'extends-tkajui',
+    extendsSlug: 'tabs',
+    differencesFromBase: [
+      'Ornamentální shell s HexOrnament akcentem',
+      'Zlatý aktivní stav + ornamentální indikátor',
+      'Variants `underline` a `pills` mapované na herní estetiku',
+    ],
     status: 'documented',
     showcaseRoute: '/tabs',
     props: [
@@ -615,6 +652,12 @@ export const componentMeta = {
   'donjon-select': {
     description: 'Herní varianta Select. Vizuálně identická s TkajUI — oktagonální trigger a herní barevná paleta jsou zabudované v základní komponentě. Stejné API jako Select.',
     subcategory: 'extends-tkajui',
+    extendsSlug: 'select',
+    differencesFromBase: [
+      'Oktagonový tvar trigger + dropdown panel',
+      'Zlatý dropdown arrow + warm dark dropdown background',
+      'Donjon paleta — gold border, bg2 dropdown surface',
+    ],
     status: 'documented',
     showcaseRoute: '/select',
     props: [
@@ -633,6 +676,12 @@ export const componentMeta = {
   'donjon-slider': {
     description: 'Herní varianta Slider. Vizuálně identická s TkajUI — herní gradients a glow jsou zabudované v základní komponentě. Stejné API jako Slider.',
     subcategory: 'extends-tkajui',
+    extendsSlug: 'slider',
+    differencesFromBase: [
+      'Zlatý thumb s diamantovým tvarem (octagon clip) místo round',
+      'Tmavá drážka — bg1 trough místo surface2',
+      'Donjon paleta — gold fill místo accent blue',
+    ],
     status: 'documented',
     showcaseRoute: '/slider',
     props: [
@@ -656,6 +705,12 @@ export const componentMeta = {
   'donjon-toggle': {
     description: 'Herní varianta Toggle. Vizuálně identická s TkajUI — herní barevná schémata jsou zabudovaná v základní komponentě. Stejné API jako Toggle.',
     subcategory: 'extends-tkajui',
+    extendsSlug: 'toggle',
+    differencesFromBase: [
+      'Magická switch estetika — zlatý track při ON, tmavý při OFF',
+      'Octagon clip-path thumb místo round',
+      'Donjon paleta — gold ON state místo accent blue',
+    ],
     status: 'documented',
     showcaseRoute: '/toggle',
     props: [
@@ -673,6 +728,12 @@ export const componentMeta = {
   'donjon-progress-bar': {
      description: 'Herní varianta ProgressBar. V donjon konzistenci slouží jako referenční plain baseline progress komponenta bez ornamentální vrstvy; herní gradients a glow jsou zabudované přímo v základu. Stejné API jako ProgressBar.',
     subcategory: 'extends-tkajui',
+    extendsSlug: 'progress-bar',
+    differencesFromBase: [
+      'HP/mana/stamina/xp varianty s automatickými barevnými prahy',
+      'Ticks pro počítatelné resourcy (např. 10 dílků pro HP)',
+      'Damage flash animace (`flash` prop) — herní feedback',
+    ],
     status: 'documented',
     showcaseRoute: '/progress-bar',
     props: [
@@ -690,6 +751,12 @@ export const componentMeta = {
   'donjon-tooltip': {
     description: 'Herní varianta Tooltip. Vizuálně identická s TkajUI — herní barevná schémata jsou zabudovaná v základní komponentě. Stejné API jako Tooltip.',
     subcategory: 'extends-tkajui',
+    extendsSlug: 'tooltip',
+    differencesFromBase: [
+      'Pergamen-feel — zlatý border + warm dark bg2',
+      'Octagon arrow místo triangle',
+      'Volitelný titulek (gold gradient) nad obsahem',
+    ],
     status: 'documented',
     showcaseRoute: '/tooltip',
     props: [
@@ -708,6 +775,12 @@ export const componentMeta = {
   'donjon-toast': {
     description: 'Herní varianta Toast. Vizuálně identická s TkajUI — oktagonální shell a herní varianty jsou zabudované v základní komponentě. Použití: ToastProvider + useToast hook. Stejné API jako Toast.',
     subcategory: 'extends-tkajui',
+    extendsSlug: 'toast',
+    differencesFromBase: [
+      'Herní varianty: `gain` (zelená), `loss` (červená), `event` (modrá), `warning` (jantarová)',
+      'Pergamen-feel — zlatý border + warm dark bg',
+      'Octagon clip-path místo rounded card',
+    ],
     status: 'documented',
     showcaseRoute: '/toast',
     props: [
@@ -724,6 +797,12 @@ export const componentMeta = {
   'donjon-pictogram': {
     description: 'Herní varianta Pictogram — ikona s tmavým oktagonálním pozadím a zlatou/fantasy barevnou paletou. Pět variant (active, passive, disabled, danger, success), čtyři velikosti, volitelný bare mód bez pozadí.',
     subcategory: 'extends-tkajui',
+    extendsSlug: 'pictogram',
+    differencesFromBase: [
+      'Octagon clip-path wrapper kolem ikony',
+      'Variant border (default/danger/success/warning) v donjon paletě',
+      'Zlatý gradient hover stav',
+    ],
     status: 'documented',
     showcaseRoute: '/pictograms',
     props: [

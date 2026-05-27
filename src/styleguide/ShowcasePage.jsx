@@ -1,6 +1,7 @@
 import { useState, createContext, useContext, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useLibPreference } from './LibPreferenceProvider'
+import { componentMeta } from '../data/componentMeta'
 
 /* ── Variant context — sdílí aktivní knihovnu se všemi dětmi ── */
 const LibVariantContext = createContext(null)
@@ -93,6 +94,62 @@ function VariantSwitcher({ variants, active, onChange }) {
   )
 }
 
+/* ── ExtendsBanner ──
+ * Pro donjon komponenty s subcategory:'extends-tkajui' zobrazí pruh s:
+ *   • Link na TkajUI protějšek (extendsSlug)
+ *   • Seznam differencesFromBase — co donjon přidává/mění oproti base
+ * Skryje se pokud aktivní varianta je tkajui (nedává smysl ukazovat "extends" pro base).
+ */
+function ExtendsBanner({ slugs, activeVariant }) {
+  // Najdi první slug, který extends-tkajui (typicky stránka má jen jeden donjon slug)
+  const extendingSlug = slugs.find(s => componentMeta[s]?.subcategory === 'extends-tkajui')
+  if (!extendingSlug) return null
+  const meta = componentMeta[extendingSlug]
+  if (!meta.extendsSlug) return null
+  // Skryj na tkajui variantě — uživatel kouká na base, ne na rozšíření
+  if (activeVariant === 'tkajui') return null
+
+  const baseMeta = componentMeta[meta.extendsSlug]
+  const baseLabel = baseMeta?.title || meta.extendsSlug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+
+  return (
+    <div
+      className="mt-5 rounded-lg border border-neutral-800/80 bg-neutral-900/60 p-4"
+      style={{ borderLeftWidth: 3, borderLeftColor: LIBRARY_CFG.donjon.color }}
+    >
+      <div className="flex items-center gap-2 flex-wrap text-xs">
+        <span className="text-neutral-500 uppercase tracking-wider font-semibold">Rozšiřuje</span>
+        <Link
+          to={`/components/${meta.extendsSlug}?lib=tkajui`}
+          className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[#7BAED4] bg-[#7BAED4]/10 border border-[#7BAED4]/30 hover:bg-[#7BAED4]/20 transition-colors font-medium"
+        >
+          <TkajuiIcon size={10} />
+          {baseLabel}
+        </Link>
+        <span className="text-neutral-600">→</span>
+        <span className="text-neutral-400">přidává herní vrstvu</span>
+      </div>
+      {meta.differencesFromBase?.length > 0 && (
+        <ul className="mt-3 flex flex-col gap-1.5 text-xs text-neutral-400">
+          {meta.differencesFromBase.map((diff, i) => (
+            <li key={i} className="flex items-start gap-2">
+              <span className="text-[#B8956A] mt-0.5 flex-shrink-0">▸</span>
+              <span dangerouslySetInnerHTML={{ __html: formatDiff(diff) }} />
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+// Backtick → <code> inline markup pro diff body
+function formatDiff(str) {
+  return str
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/`([^`]+)`/g, '<code class="px-1 py-0.5 rounded bg-neutral-800/80 text-neutral-300 text-[10.5px]">$1</code>')
+}
+
 function ApiChip({ slug }) {
   return (
     <Link
@@ -179,6 +236,8 @@ export function ShowcasePage({ title, description, children, componentSlug, comp
               </div>
             )}
           </div>
+          {/* Extends-tkajui banner — pro donjon komponenty s TkajUI protějškem */}
+          {slugs.length > 0 && <ExtendsBanner slugs={slugs} activeVariant={activeVariant} />}
         </header>
         {/* *:scroll-mt-8 — kotvové odkazy ze sidebaru nezakrývá hlavička */}
         <div className="flex flex-col gap-10 lg:gap-12 *:scroll-mt-8">{children}</div>

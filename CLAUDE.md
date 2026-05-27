@@ -25,6 +25,7 @@ npm run lint:lib   # ESLint pouze src/lib/
 ```
 src/
   lib/
+    shared/       ← motion, breakpoints, z-index — sdílené strukturální tokeny
     tkajui/       ← TkajUI — obecná UI knihovna (chladná modrá paleta)
     donjon/       ← donjon-fall-ui — herní UI (zlatá středověká paleta)
   pages/          ← showcase stránky (jedna per komponenta nebo téma)
@@ -45,22 +46,49 @@ src/
 
 ---
 
-## Dva oddělené design systémy
+## Dva oddělené design systémy — provázané architekturou
 
-### TkajUI (`src/lib/tkajui/`)
+**Závislostní směr** (NIKDY naopak):
+```
+shared  ← tkajui     (base library)
+shared  ← donjon  ← tkajui  (game layer — staví na base)
+```
+
+- `src/lib/shared/tokens.js` — motion, breakpoints, z-index (strukturálně neutrální)
+- `tkajui` smí importovat ze `shared` — NIKDY ne z donjon
+- `donjon` smí importovat ze `shared` (a teoreticky z tkajui) — NIKDY naopak
+
+### TkajUI (`src/lib/tkajui/`) — base library
 - Chladná paleta: `surface0–4`, `accent=#6576ff`, `textHigh=#eeeef8`
 - Import: `import { surface2, accent } from './tokens'`
 - Tvar tlačítek: **oktagon** přes `octagon(cx)` z `../../utils/octagon`
 - Placeholder barva: `textLow = '#4c4c68'`
 
-### donjon-fall-ui (`src/lib/donjon/`)
+### donjon-fall-ui (`src/lib/donjon/`) — game layer
 - Teplá zlatá paleta: `bg0–4`, `gold=#FFC183`, `textHigh=#E8DDD0`
 - Import: `import { gold, bg2, borderDefault } from './tokens'`
 - Tvar tlačítek: **oktagon s větším cx** (donjon má cx=12 vs tkajui cx=8)
 - DonjonBadge: **hex polygon** (ne oktagon) — vlastní `hex(i)` funkce inline
 - Placeholder barva: `textLow = '#9A9080'`
 
-> ⚠ Nikdy nemíchej tokeny mezi knihovnami. Každá má vlastní `tokens.js`.
+### Naming konvence
+
+- `Donjon*` prefix ↔ `subcategory: 'extends-tkajui'` (rozšiřuje TkajUI protějšek)
+  Příklady: DonjonButton, DonjonCard, DonjonModal, DonjonInput, DonjonTabs
+- bez prefixu ↔ `subcategory: 'exclusive'` (herní primitivum bez analogie v TkajUI)
+  Příklady: ActionTile, ResourceBar, PlayerPanel, EventLog, HexTile
+
+Pro extends-tkajui komponenty MUSÍ `componentMeta` obsahovat:
+- `extendsSlug: 'button'` — slug TkajUI protějšku
+- `differencesFromBase: ['...', ...]` — co donjon přidává/mění (zobrazí se v showcase)
+
+> ⚠ Tokeny barev/povrchů/textu si každá knihovna definuje vlastní. Sdíleno přes
+> `lib/shared/tokens.js` je jen motion, breakpoints a z-index — strukturální
+> hodnoty bez vizuální barvy. Test `architectureContract.test.js` to vynucuje.
+
+**Aliasy:** donjon exportuje `surface0..4` (= `bg0..4`) a tkajui exportuje `bg0..4`
+(= `surface0..4`) — pro knihovně-agnostické kódy (utils, hooks). Idiomatický
+název pro každou knihovnu je její nativní (donjon: `bg*`, tkajui: `surface*`).
 
 ---
 

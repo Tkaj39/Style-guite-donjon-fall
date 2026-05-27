@@ -50,6 +50,8 @@ export {
 // Polygon shape utility (hex, regularPolygon)
 export { hexFlatTop, hexPointyTop, regularPolygon } from '../../utils/polygon'
 
-// ─── Přesunuto do lib/donjon/ — re-exporty pro zpětnou kompatibilitu ─────
-export { default as CornerOrnament } from '../donjon/CornerOrnament'
-export { SideOrnament, HexOrnament } from '../donjon/Ornaments'
+// Pozn.: Ornamenty (CornerOrnament, SideOrnament, HexOrnament) jsou herní
+// dekorace exkluzivní pro donjon-fall-ui. Importuj přímo:
+//   import { CornerOrnament } from 'donjon-fall-ui'
+//   import { SideOrnament, HexOrnament } from 'donjon-fall-ui'
+// TkajUI je base library — nezávisí na donjon a neměla by je re-exportovat.

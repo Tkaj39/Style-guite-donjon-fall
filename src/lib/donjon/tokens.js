@@ -104,39 +104,29 @@ export const focusRingColor = `${gold}99`  // '#FFC18399'
 /** Barva aktivního/focus borderu pro UI elementy (inputy, tlačítka) — 4:1+ non-text contrast ✅ */
 export const borderFocus = '#8886C0'
 
-// ── Animační timing ────────────────────────────────────────────────────────
-/** Rychlé UI reakce: tooltip appear, damage flash (80 ms) */
-export const animFast     = 80
-/** Standardní přechody: hover, focus, stav (160 ms) */
-export const animNormal   = 160
-/** Otevření panelů, expand, slide (300 ms) */
-export const animSlow     = 300
-/** Dramatické herní události: výsledek souboje, výhry (600 ms) */
-export const animDramatic = 600
+// ── Surface aliases (sjednocené naming napříč knihovnami) ─────────────────
+// TkajUI používá `surface0..4`, donjon historicky `bg0..4`. Aliasy umožňují
+// psát knihovně-agnostické kódy (např. ve `src/utils/` nebo `src/hooks/`).
+// Pro donjon-specifický kód preferuj `bg0..4` (idiomatický pro tuto paletu).
+export const surface0 = bg0
+export const surface1 = bg1
+export const surface2 = bg2
+export const surface3 = bg3
+export const surface4 = bg4
 
-/** Čisté in-out pro panely a rozvíjení */
-export const easingSharp  = 'cubic-bezier(0.4, 0, 0.6, 1)'
-/** Overshoot pro pop, bounce, spawn */
-export const easingBounce = 'cubic-bezier(0.34, 1.56, 0.64, 1)'
-/** Ease-out pro příchozí elementy */
-export const easingEnter  = 'cubic-bezier(0, 0, 0.2, 1)'
-/** Ease-in pro odcházející elementy */
-export const easingExit   = 'cubic-bezier(0.4, 0, 1, 1)'
+// ── Border scale — `borderStrong` ────────────────────────────────────────
+// TkajUI má 4-úrovňovou škálu (Subtle/Default/Mid/Strong). Donjon historicky
+// 3 úrovně — přidáno `borderStrong` pro paritu (aktivní/highlighted bordery
+// nad `borderMid`). Hodnota leží mezi borderMid a goldDim — viditelný akcent
+// bez plné saturace.
+export const borderStrong  = '#4F4D6E'
 
-// ── Breakpointy ────────────────────────────────────────────────────────────
-/** Mobilní zařízení — portrait (< 480 px) */
-export const bpMobile  = 480
-/** Tablet / landscape mobil (≥ 480 px) */
-export const bpTablet  = 768
-/** Desktop (≥ 768 px) */
-export const bpDesktop = 1024
-/** Wide desktop (≥ 1024 px) */
-export const bpWide    = 1280
-
-/** Breakpoint objekt pro useBreakpoint hook a podmíněné styly */
-export const BREAKPOINTS = {
-  mobile:  bpMobile,
-  tablet:  bpTablet,
-  desktop: bpDesktop,
-  wide:    bpWide,
-}
+// ── Sdílené tokeny (motion, breakpoints, z-index) ─────────────────────────
+// Re-export ze `lib/shared/tokens.js` — strukturálně neutrální tokeny
+// společné pro tkajui i donjon. Změna se projeví v obou knihovnách.
+export {
+  animFast, animNormal, animSlow, animDramatic,
+  easingSharp, easingBounce, easingEnter, easingExit,
+  bpMobile, bpTablet, bpDesktop, bpWide, BREAKPOINTS,
+  zDropdown, zNotification, zToast, zTooltip,
+} from '../shared/tokens'
