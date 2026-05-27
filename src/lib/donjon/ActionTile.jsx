@@ -187,11 +187,19 @@ export default function ActionTile({
         </span>
       )}
 
-      {/* Cost badge — pravý dolní roh */}
+      {/* Cost badge — v decorated módu BOTTOM-CENTER (mimo corner ornamenty),
+          v plain módu klasický pravý dolní roh. */}
       {cost != null && !locked && (
         <span style={{
           position: 'absolute',
-          bottom: 5, right: 6,
+          ...(hasOrnaments ? {
+            bottom: 6,
+            left: '50%',
+            transform: 'translateX(-50%)',
+          } : {
+            bottom: 5,
+            right: 6,
+          }),
           fontSize: s.costSize,
           fontWeight: 700,
           color: disabled ? textFaint : goldMid,
@@ -201,19 +209,32 @@ export default function ActionTile({
         </span>
       )}
 
-      {/* Lock overlay */}
+      {/* Lock overlay — v decorated módu CENTER overlay (sémanticky: zámek
+          blokuje akci → kryje obsah), v plain módu pravý horní roh. */}
       {locked && (
         <div style={{
-          position: 'absolute', top: 5, right: 5,
+          position: 'absolute',
+          ...(hasOrnaments ? {
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          } : {
+            top: 5,
+            right: 5,
+          }),
         }}>
           <LockIcon />
         </div>
       )}
 
-      {/* Selected checkmark — levý horní roh */}
-      {selected && (
+      {/* Selected checkmark — pouze v plain módu (v decorated módu je
+          'selected' signál redundantní: border + bg tint + ornament color
+          už ho dostatečně jasně komunikují). */}
+      {selected && !hasOrnaments && (
         <div style={{
-          position: 'absolute', top: 4, left: hasOrnaments ? padH : 5,
+          position: 'absolute',
+          top: 4,
+          left: 5,
           width: 8, height: 8, borderRadius: '50%',
           background: v.selBorder,
           boxShadow: `0 0 4px ${v.selBorder}88`,
