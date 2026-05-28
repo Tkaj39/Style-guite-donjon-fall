@@ -388,17 +388,21 @@ export function HexOrnament({
 /**
  * Hand-designed SVG paths (originál: /public/ScoopClip-ornament.svg, 15×15 viewBox).
  *
- * Originální orientace: corner='br' — scoop center v (0,0) SVG, parent corner
- * v (15,15). Curve bracket trace scoop boundary uvnitř shape (~radius 10 od
- * scoop centra), diamond sedí v rohu pozemku směrem k carved corner.
+ * Originální orientace: corner='tl' — carved (parent) corner v SVG (0,0),
+ * scoop center v SVG (15,15) (uvnitř shape). Curve bracket trace scoop
+ * boundary, diamond sedí blíže k carved rohu.
  *
- * Pro ostatní rohy: scaleX/Y flip přes inner <g>. Není potřeba měnit paths.
+ * Pro ostatní rohy: scaleX/Y flip přes inner <g>. Design 'tl' se zrcadlí
+ * tak, aby carved corner zůstal vůči SVG layoutu na správné straně:
+ *   tr: horizontal flip — design (0,0) → SVG (15,0)
+ *   bl: vertical flip   — design (0,0) → SVG (0,15)
+ *   br: both (180° rot) — design (0,0) → SVG (15,15)
  */
 const SCOOP_TRANSFORMS = {
-  br: '',                               // originál
-  bl: 'translate(15 0) scale(-1 1)',    // horizontal flip
-  tr: 'translate(0 15) scale(1 -1)',    // vertical flip
-  tl: 'translate(15 15) scale(-1 -1)',  // both = 180° rotation
+  tl: '',                               // originál
+  tr: 'translate(15 0) scale(-1 1)',    // horizontal flip
+  bl: 'translate(0 15) scale(1 -1)',    // vertical flip
+  br: 'translate(15 15) scale(-1 -1)',  // both = 180° rotation
 }
 
 export function ScoopOrnament({
