@@ -442,12 +442,16 @@ export function ScoopOrnament({
   // pro velké r místo aby rostl proporcionálně s rohem.
   const svgSize  = Math.min(r, maxSize)
 
-  // Pozice SVG v parentu — odsazení 3px od hrany (parent musí mít position: relative).
-  // 3px ladí s tloušťkou scoop ornament curvy a vytváří jemnou mezeru mezi
-  // ornamentem a okrajem shape pro vizuální dýchání.
+  // Pozice SVG v parentu — odsazení škáluje s r aby ornament zůstal
+  // v carved region pro velké r (parent musí mít position: relative).
+  //   r=10 → 3px (30% — uživatel chce zachovat)
+  //   r=16 → 5px, r=22 → 7px, r=30 → 9px, r=40 → 12px
+  // Bez tohoto škálování byl ornament při r ≥ 16 částečně oříznut scoop
+  // curvou (3px ze 16/22/40 = jen 19/14/8 % rohu → ornament v carved zóně).
+  const inset = Math.max(3, Math.round(r * 0.3))
   const posStyle = {
-    [corner.startsWith('t') ? 'top'  : 'bottom']: 3,
-    [corner.endsWith('l')   ? 'left' : 'right' ]: 3,
+    [corner.startsWith('t') ? 'top'  : 'bottom']: inset,
+    [corner.endsWith('l')   ? 'left' : 'right' ]: inset,
   }
 
   // 2 unikátní IDs pro 2 gradient defy
