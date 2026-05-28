@@ -491,7 +491,7 @@ export function ScoopOrnament({
 
 /* ── HrotErbu ───────────────────────────────────────────────────────────────
    Dekorativní hrot pro spodní vrchol erbu/prapor — dvě zakřivené čáry
-   tvořící stylizovaný chevron. Inline SVG z /src/hrot-erbu.svg.
+   tvořící stylizovaný chevron. Inline SVG z /design-sources/hrot-erbu.svg.
 
    Originální viewBox 48×14 (aspect ratio ~3.4:1, široký a plochý).
    Renderuje se ve `width × (width * 14/48)` aby zachoval proporce.

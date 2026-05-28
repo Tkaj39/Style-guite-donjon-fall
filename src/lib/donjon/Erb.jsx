@@ -3,7 +3,7 @@
    PlayerIdentityBadge: kompaktní badge pro scoreboard / HUD
 
    Tvary:
-     • shape="erb"    — square top, tapered bottom (default, ze src/erb.svg)
+     • shape="erb"    — square top, tapered bottom (default, ze /design-sources/erb.svg)
                         Fixní proporce: aspect ratio ~1:1, tip = 28.9 % šířky.
      • shape="prapor" — banner s fixní špičkou, variabilní délka.
                         Tip = 28.9 % šířky (fixní). Tělo libovolně dlouhé.
@@ -15,7 +15,7 @@ import { HexOrnament, HrotErbu } from './Ornaments'
 // nevykreslí (size='xs' je 24px → moc malé na detail).
 const ORNAMENT_MIN_WIDTH = 30
 
-// Erb — fixní proporce, polygon z src/erb.svg:
+// Erb — fixní proporce, polygon z /design-sources/erb.svg:
 // 116.22×116.21 viewBox, body 116.22,0 → 116.22,82.66 → 58.11,116.21 → 0,82.66 → 0,0
 // V procentech: 0% 0% → 100% 0% → 100% 71.13% → 50% 100% → 0% 71.13%
 // Tip height = 116.21 - 82.66 = 33.55 = 28.87 % šířky.

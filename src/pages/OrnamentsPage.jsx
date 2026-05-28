@@ -738,7 +738,7 @@ const corners = { tl: 20, tr: 10, br: 14, bl: 16 }
         <h2 className="text-base font-semibold text-neutral-100 mb-2">HrotErbu</h2>
         <p className="text-sm text-neutral-400 mb-4 max-w-2xl">
           Dekorativní chevron pro spodní vrchol erbu nebo prapor. Inline SVG
-          z <code className="text-brand-300">/src/hrot-erbu.svg</code>, native
+          z <code className="text-brand-300">/design-sources/hrot-erbu.svg</code>, native
           viewBox 48×14. Renderuje se s libovolnou šířkou, výška se dopočítá
           z aspect ratio (~3.4:1).
         </p>
