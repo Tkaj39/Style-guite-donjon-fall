@@ -278,10 +278,64 @@ export function Preview({ children, dark = true, label }) {
   )
 }
 
+/**
+ * CodeBlock — kód s copy buttonem v pravém horním rohu.
+ *
+ * Copy button je vždy viditelný (ne hover-only) — uživatel vidí, že
+ * snippet lze kopírovat. Po kliknutí: text se změní na "Copied ✓"
+ * po dobu 1.5s, pak se vrátí na "Copy".
+ *
+ * Selhání clipboard (např. v insecure context) tichá — button zůstane
+ * v "Copy" stavu, žádná error UI (nepřerušuje flow uživatele).
+ */
 export function CodeBlock({ code }) {
+  const [copied, setCopied] = useState(false)
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(code)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    } catch {
+      /* clipboard nedostupný — nedělej nic */
+    }
+  }
+
   return (
-    <pre className="rounded-lg bg-neutral-950 border border-neutral-800 px-4 lg:px-5 py-3 lg:py-4 text-xs lg:text-sm text-neutral-300 overflow-x-auto">
-      <code>{code}</code>
-    </pre>
+    <div className="relative group">
+      <pre className="rounded-lg bg-neutral-950 border border-neutral-800 pl-4 lg:pl-5 pr-16 py-3 lg:py-4 text-xs lg:text-sm text-neutral-300 overflow-x-auto">
+        <code>{code}</code>
+      </pre>
+      <button
+        type="button"
+        onClick={handleCopy}
+        aria-label={copied ? 'Zkopírováno' : 'Kopírovat kód'}
+        className={[
+          'absolute top-2 right-2 inline-flex items-center gap-1.5',
+          'px-2 py-1 rounded-md text-[10.5px] font-mono font-medium uppercase tracking-wider',
+          'border transition-all duration-150',
+          copied
+            ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300'
+            : 'bg-neutral-900 border-neutral-700 text-neutral-400 hover:text-neutral-200 hover:border-neutral-500',
+        ].join(' ')}
+      >
+        {copied ? (
+          <>
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m2.5 6 2.5 2.5 4.5-5" />
+            </svg>
+            Copied
+          </>
+        ) : (
+          <>
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3.5" y="3.5" width="6" height="7" rx="1" />
+              <path d="M5.5 1.5h5a1 1 0 0 1 1 1v5" />
+            </svg>
+            Copy
+          </>
+        )}
+      </button>
+    </div>
   )
 }

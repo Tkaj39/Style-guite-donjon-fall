@@ -1,4 +1,4 @@
-import { ShowcasePage, Section, Preview, useLibVariant } from '../styleguide/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 import { textFaint, textParchment, gold, goldDim, successColor, failColor } from '../lib/donjon/tokens'
 import Pictogram from '../lib/tkajui/Pictogram'
 import DonjonPictogram from '../lib/donjon/DonjonPictogram'
@@ -112,12 +112,10 @@ function TkajuiContent() {
           </div>
         </Preview>
         <Preview label="Použití">
-          <pre style={{ margin: 0, fontFamily: 'monospace', fontSize: '0.75rem', color: goldDim, lineHeight: 1.7, background: '#0F0E1A', padding: '16px 20px', borderRadius: 4 }}>
-{`import Pictogram from 'src/lib/tkajui/Pictogram'
+          <CodeBlock code={`import Pictogram from 'src/lib/tkajui/Pictogram'
 import { SwordIcon } from 'src/lib/donjon/icons'
 
-<Pictogram icon={SwordIcon} size="lg" color="gold" />`}
-          </pre>
+<Pictogram icon={SwordIcon} size="lg" color="gold" />`} />
         </Preview>
       </Section>
     </>
@@ -191,16 +189,14 @@ function DonjonContent() {
           </div>
         </Preview>
         <Preview label="Použití">
-          <pre style={{ margin: 0, fontFamily: 'monospace', fontSize: '0.75rem', color: goldDim, lineHeight: 1.7, background: '#0F0E1A', padding: '16px 20px', borderRadius: 4 }}>
-{`import DonjonPictogram from 'src/lib/donjon/DonjonPictogram'
+          <CodeBlock code={`import DonjonPictogram from 'src/lib/donjon/DonjonPictogram'
 import { SwordIcon } from 'src/lib/donjon/icons'
 
 // Default — jen barevná ikona, bez pozadí (bare=true)
 <DonjonPictogram icon={SwordIcon} size="lg" variant="active" />
 
 // S oktagonálním pozadím a rámečkem
-<DonjonPictogram icon={SwordIcon} size="md" variant="active" bare={false} />`}
-          </pre>
+<DonjonPictogram icon={SwordIcon} size="md" variant="active" bare={false} />`} />
         </Preview>
       </Section>
     </>
@@ -239,13 +235,15 @@ export default function PictogramsPage() {
           <SwordIcon width={32} height={32} />
           <SwordIcon width={48} height={48} />
         </div>
-        <pre style={{ marginTop: 12, padding: 12, background: '#0a0a14', borderRadius: 4, fontSize: '0.75rem', color: textParchment, overflow: 'auto' }}>{`import { SwordIcon } from 'donjon-fall-ui'
+        <div style={{ marginTop: 12 }}>
+          <CodeBlock code={`import { SwordIcon } from 'donjon-fall-ui'
 
 <SwordIcon width={24} height={24} />        {/* default — 24×24 */}
 <SwordIcon width={48} height={48} />        {/* HUD/title screen */}
 
 {/* Doporučeno: Pictogram wrapper pro konzistentní velikosti */}
-<DonjonPictogram icon={SwordIcon} size="lg" />`}</pre>
+      <DonjonPictogram icon={SwordIcon} size="lg" />`} />
+        </div>
       </Section>
 
       <Section id="pravidla" title="Pravidla použití">

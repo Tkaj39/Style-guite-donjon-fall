@@ -5,6 +5,7 @@ import PlayerPanel from '../lib/donjon/PlayerPanel'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonModal from '../lib/donjon/DonjonModal'
+import { CodeBlock } from '../styleguide/ShowcasePage'
 import { SwordIcon, ShieldIcon, TowerIcon } from '../lib/donjon/icons'
 import {
   gold, bg2, bg3, bgDeep, borderDefault,
@@ -38,14 +39,9 @@ function Demo({ children, style }) {
 
 function Code({ children }) {
   return (
-    <pre style={{
-      background: bgDeep, border: `1px solid ${borderDefault}`, borderRadius: 4,
-      padding: '12px 16px', fontSize: '0.75rem', color: textParchment,
-      overflowX: 'auto', margin: '8px 0 0', lineHeight: 1.6,
-      fontFamily: "'JetBrains Mono', Consolas, monospace",
-    }}>
-      <code>{children.trim()}</code>
-    </pre>
+    <div style={{ marginTop: 8 }}>
+      <CodeBlock code={children.trim()} />
+    </div>
   )
 }
 

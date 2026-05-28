@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import FloatFeedback from '../lib/donjon/FloatFeedback'
-import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { gold, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
 
 /* ── Trigger tlačítko ── */
@@ -281,7 +281,7 @@ export default function FloatFeedbackPage() {
       {/* ── Použití ── */}
       <Section id="pouziti" description="Správný způsob integrace do herního containeru.">
         <h2 className="text-base font-semibold text-neutral-100 mb-4">Použití</h2>
-        <pre className="p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-[11px] font-mono text-brand-400 overflow-x-auto leading-relaxed">{`import { useState } from 'react'
+        <CodeBlock code={`import { useState } from 'react'
 import FloatFeedback from 'donjon-fall-ui/FloatFeedback'
 
 function HexTileWithFeedback() {
@@ -306,7 +306,7 @@ function HexTileWithFeedback() {
       />
     </div>
   )
-}`}</pre>
+}`} />
 
         <div className="mt-4 flex flex-col gap-2 p-4 rounded-lg bg-neutral-900 border border-neutral-800">
           <p className="text-[11px] font-semibold uppercase tracking-widest text-neutral-600 mb-1">Pravidla</p>

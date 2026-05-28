@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import CornerOrnament from '../lib/donjon/CornerOrnament'
-import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { gold, goldDim, goldMid, bg0, bg2, bg4, borderDefault, textCool, successColor, dangerColor } from '../lib/donjon/tokens'
 
 /* ── Ukázkový panel se čtyřmi rohy ── */
@@ -203,20 +203,7 @@ function InteractiveDemo() {
       </div>
 
       {/* Code snippet */}
-      <pre style={{
-        margin: 0, padding: '14px 16px',
-        background: '#0F0E1A',
-        border: '1px solid #1e1c2e',
-        borderRadius: 4,
-        fontSize: '0.6875rem',
-        fontFamily: 'monospace',
-        color: goldDim,
-        lineHeight: 1.7,
-        overflow: 'auto',
-        whiteSpace: 'pre',
-      }}>
-        {snippet}
-      </pre>
+      <CodeBlock code={snippet} />
     </div>
   )
 }
@@ -377,14 +364,16 @@ export default function CornerOrnamentPage() {
           </div>
         </Preview>
 
-        <pre className="mt-4 p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-[11px] font-mono text-brand-400 overflow-x-auto leading-relaxed">{`{/* Donjon panely — ostrý L */}
+        <div className="mt-4">
+          <CodeBlock code={`{/* Donjon panely — ostrý L */}
 <CornerOrnament cornerType="cut"   ... />
 
 {/* Karty s border-radius */}
 <CornerOrnament cornerType="round" ... />
 
 {/* Speciální vydlabaný tvar */}
-<CornerOrnament cornerType="scoop" ... />`}</pre>
+      <CornerOrnament cornerType="scoop" ... />`} />
+        </div>
       </Section>
 
       {/* ── Barvy ── */}
@@ -448,7 +437,8 @@ export default function CornerOrnamentPage() {
           </div>
         </Preview>
 
-        <pre className="mt-4 p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-[11px] font-mono text-brand-400 overflow-x-auto leading-relaxed">{`{/* Dědí barvu textu rodiče — nejčistší přístup */}
+        <div className="mt-4">
+          <CodeBlock code={`{/* Dědí barvu textu rodiče — nejčistší přístup */}
 <div style={{ color: goldDim }}>
   <CornerOrnament />        {/* color="currentColor" — default */}
 </div>
@@ -456,7 +446,8 @@ export default function CornerOrnamentPage() {
 {/* Explicitní barva */}
 <CornerOrnament color={gold} />
 <CornerOrnament color={successColor} />
-<CornerOrnament color={dangerColor} />`}</pre>
+<CornerOrnament color={dangerColor} />`} />
+        </div>
       </Section>
 
       {/* ── Panel vzor — čtyři rohy ── */}
@@ -502,7 +493,8 @@ export default function CornerOrnamentPage() {
           </div>
         </Preview>
 
-        <pre className="mt-4 p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-[11px] font-mono text-brand-400 overflow-x-auto leading-relaxed">{`{/* Parent musí mít position: relative */}
+        <div className="mt-4">
+          <CodeBlock code={`{/* Parent musí mít position: relative */}
 <div style={{ position: 'relative', width: 200, height: 120 }}>
 
   {/* TL — originál */}
@@ -518,7 +510,8 @@ export default function CornerOrnamentPage() {
   <CornerOrnament style={{ position: 'absolute', bottom: 6, right: 6, transform: 'scale(-1)' }} />
 
   {/* obsah panelu */}
-</div>`}</pre>
+</div>`} />
+        </div>
       </Section>
 
       {/* ── Velikosti ── */}
@@ -565,13 +558,14 @@ export default function CornerOrnamentPage() {
       <Section id="pouziti" description="Implementační pravidla — co kontrolovat před použitím.">
         <h2 className="text-base font-semibold text-neutral-100 mb-4">Použití</h2>
 
-        <pre className="p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-[11px] font-mono text-brand-400 overflow-x-auto leading-relaxed mb-4">{`import CornerOrnament from 'donjon-fall-ui/CornerOrnament'
+        <div className="mb-4">
+          <CodeBlock code={`import CornerOrnament from 'donjon-fall-ui/CornerOrnament'
 
 function Panel({ children }) {
   return (
-    // ⚠ parent musí mít position: relative
+    // parent musi mit position: relative
     <div style={{ position: 'relative', background: bg2, border: \`1px solid \${goldDim}\` }}>
-      {/* čtyři rohy pomocí transform */}
+      {/* ctyri rohy pomoci transform */}
       <CornerOrnament size={14} color={goldDim}
         style={{ position: 'absolute', top: 6, left: 6 }} />
       <CornerOrnament size={14} color={goldDim}
@@ -584,7 +578,8 @@ function Panel({ children }) {
       {children}
     </div>
   )
-}`}</pre>
+}`} />
+        </div>
 
         <div id="pravidla" className="flex flex-col gap-2 p-4 rounded-lg bg-neutral-900 border border-neutral-800">
           <p className="text-[11px] font-semibold uppercase tracking-widest text-neutral-600 mb-1">Pravidla</p>
