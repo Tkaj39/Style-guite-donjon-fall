@@ -89,6 +89,71 @@ describe('Architektonický kontrakt: TkajUI ↔ donjon-fall-ui', () => {
     })
   })
 
+  // ── Pravidlo 5: Palette tokens dostupné v barrel ────────────────────────
+  // Hist. bug: tkajui barrel zapomněl `export * from './tokens'` —
+  // uživatel `import { accent } from 'tkajui'` dostal undefined.
+  // Tento test brání regresi.
+  describe('Palette tokens v barrel exportech', () => {
+
+    it('tkajui barrel re-exportuje paletu (accent, surface*, text*)', async () => {
+      const TkajUI = await import('../../lib/tkajui/index.js')
+      // Accent paleta
+      expect(TkajUI.accent).toBeDefined()
+      expect(TkajUI.accentLight).toBeDefined()
+      expect(TkajUI.accentDim).toBeDefined()
+      // Surface škála
+      expect(TkajUI.surface0).toBeDefined()
+      expect(TkajUI.surface2).toBeDefined()
+      expect(TkajUI.surface4).toBeDefined()
+      // Border škála
+      expect(TkajUI.borderSubtle).toBeDefined()
+      expect(TkajUI.borderDefault).toBeDefined()
+      expect(TkajUI.borderMid).toBeDefined()
+      expect(TkajUI.borderStrong).toBeDefined()
+      // Text škála
+      expect(TkajUI.textHigh).toBeDefined()
+      expect(TkajUI.textMid).toBeDefined()
+      // Semantic
+      expect(TkajUI.successColor).toBeDefined()
+      expect(TkajUI.dangerColor).toBeDefined()
+      expect(TkajUI.warningColor).toBeDefined()
+      expect(TkajUI.infoColor).toBeDefined()
+    })
+
+    it('donjon barrel re-exportuje paletu (gold, bg*, text*)', async () => {
+      const donjon = await import('../../lib/donjon/index.js')
+      // Gold paleta
+      expect(donjon.gold).toBeDefined()
+      expect(donjon.goldMid).toBeDefined()
+      expect(donjon.goldDim).toBeDefined()
+      // Bg škála
+      expect(donjon.bg0).toBeDefined()
+      expect(donjon.bg2).toBeDefined()
+      expect(donjon.bg4).toBeDefined()
+      // Text škála
+      expect(donjon.textHigh).toBeDefined()
+      expect(donjon.textMid).toBeDefined()
+      // Herní barvy
+      expect(donjon.gainColor).toBeDefined()
+      expect(donjon.magicColor).toBeDefined()
+    })
+
+    it('shared tokeny dostupné v obou barrelech (motion, breakpoints, z-index)', async () => {
+      const TkajUI = await import('../../lib/tkajui/index.js')
+      const donjon = await import('../../lib/donjon/index.js')
+      // Motion
+      expect(TkajUI.animNormal).toBeDefined()
+      expect(donjon.animNormal).toBeDefined()
+      expect(TkajUI.animNormal).toBe(donjon.animNormal)
+      // Breakpoints
+      expect(TkajUI.BREAKPOINTS).toBeDefined()
+      expect(donjon.BREAKPOINTS).toBeDefined()
+      // Z-index
+      expect(TkajUI.zTooltip).toBeDefined()
+      expect(donjon.zTooltip).toBeDefined()
+    })
+  })
+
   // ── Pravidlo 3: Shared tokeny ───────────────────────────────────────────
   describe('Sdílené tokeny mezi knihovnami', () => {
 

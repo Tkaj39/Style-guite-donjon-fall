@@ -50,6 +50,17 @@ export {
 // Polygon shape utility (hex, regularPolygon)
 export { hexFlatTop, hexPointyTop, regularPolygon } from '../../utils/polygon'
 
+// ─── Design tokens ──────────────────────────────────────────────────────
+/**
+ * Re-export palette tokenů ze `./tokens` — paleta je první-class export
+ * stejně jako komponenty. Parita s donjon-fall-ui barrel exportem.
+ *
+ * @example
+ *   import { Button, accent, surface2 } from 'tkajui'
+ *   import { animNormal, zTooltip, BREAKPOINTS } from 'tkajui'   // shared tokens
+ */
+export * from './tokens'
+
 // Pozn.: Ornamenty (CornerOrnament, SideOrnament, HexOrnament) jsou herní
 // dekorace exkluzivní pro donjon-fall-ui. Importuj přímo:
 //   import { CornerOrnament } from 'donjon-fall-ui'
