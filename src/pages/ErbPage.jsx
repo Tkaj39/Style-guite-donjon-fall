@@ -70,6 +70,76 @@ export default function ErbPage() {
       </Section>
 
       <Section
+        id="decorated"
+        title="Dekorovaný režim — HexOrnament + HrotErbu"
+        description="Opt-in přes ornament=&quot;decorated&quot;. Přidá HexOrnament na horní hranu + HrotErbu (chevron) pod spodní vrchol. Barva ornamentů: zlatá (default) nebo dle hráče. Skryto pro velikost < 30 px."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
+            {/* Erb — gold ornaments */}
+            <div>
+              <div style={{ fontSize: '0.625rem', color: '#9A9080', marginBottom: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                Erb · ornamentColor=&quot;gold&quot; (default)
+              </div>
+              <div style={{ display: 'flex', gap: 24, alignItems: 'flex-end' }}>
+                {['sm', 'md', 'lg'].map(sz => (
+                  <div key={sz} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+                    <Shield player={players[0]} size={sz} ornament="decorated" />
+                    <span style={{ fontSize: '0.6875rem', color: '#9A9080', fontFamily: 'ui-monospace, monospace' }}>
+                      size={sz}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Erb — player ornaments */}
+            <div>
+              <div style={{ fontSize: '0.625rem', color: '#9A9080', marginBottom: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                Erb · ornamentColor=&quot;player&quot;
+              </div>
+              <div style={{ display: 'flex', gap: 24, alignItems: 'flex-end' }}>
+                {players.slice(0, 4).map(p => (
+                  <div key={p.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+                    <Shield player={p} size="md" ornament="decorated" ornamentColor="player" />
+                    <span style={{ fontSize: '0.6875rem', color: p.color, fontFamily: 'ui-monospace, monospace' }}>
+                      {p.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Prapor — decorated */}
+            <div>
+              <div style={{ fontSize: '0.625rem', color: '#9A9080', marginBottom: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                Prapor · decorated (gold + player)
+              </div>
+              <div style={{ display: 'flex', gap: 20, alignItems: 'flex-end' }}>
+                <Shield shape="prapor" player={players[0]} width={40} height={140} ornament="decorated" />
+                <Shield shape="prapor" player={players[1]} width={40} height={160} ornament="decorated" />
+                <Shield shape="prapor" player={players[2]} width={40} height={180} ornament="decorated" ornamentColor="player" />
+                <Shield shape="prapor" player={players[3]} width={48} height={200} ornament="decorated" ornamentColor="player" />
+              </div>
+            </div>
+          </div>
+        </Preview>
+        <CodeBlock code={`{/* Default ornament = 'plain' — žádné dekorace (back-compat) */}
+<Shield player={{ id: 1, color: '#E05C5C' }} size="md" />
+
+{/* Decorated s gold ornaments (default ornamentColor) */}
+<Shield player={{ id: 1, color: '#E05C5C' }} size="lg" ornament="decorated" />
+
+{/* Decorated s barvou hráče */}
+<Shield player={{ id: 2, color: '#4A90E2' }} size="md"
+  ornament="decorated" ornamentColor="player" />
+
+{/* Prapor decorated */}
+<Shield shape="prapor" playerColor="#C84A4A"
+  width={40} height={160} ornament="decorated" ornamentColor="player" />`} />
+      </Section>
+
+      <Section
         id="prapor"
         title="Prapor — banner s variabilní délkou"
         description="Stejný komponent Shield, jiný tvar. Tip má fixní velikost relativně k šířce (28.9 %), tělo libovolně dlouhé. Vhodné pro side-panel dekorace, herní rangy, vlastnické značky."

@@ -8,7 +8,12 @@
      • shape="prapor" — banner s fixní špičkou, variabilní délka.
                         Tip = 28.9 % šířky (fixní). Tělo libovolně dlouhé.
    ─────────────────────────────────────────────────────────────────────── */
-import { bg2, neutralColor, textHighest } from './tokens'
+import { bg2, gold, goldDim, neutralColor, textHighest } from './tokens'
+import { HexOrnament, HrotErbu } from './Ornaments'
+
+// Minimální šířka pro renderování ornamentů — pod tímto thresholdem se
+// nevykreslí (size='xs' je 24px → moc malé na detail).
+const ORNAMENT_MIN_WIDTH = 30
 
 // Erb — fixní proporce, polygon z src/erb.svg:
 // 116.22×116.21 viewBox, body 116.22,0 → 116.22,82.66 → 58.11,116.21 → 0,82.66 → 0,0
@@ -51,6 +56,13 @@ const symbols = ['I', 'II', 'III', 'IV', 'V', 'VI']
  *   - shape="prapor" — banner s fixním tipem, libovolně dlouhý.
  *                      Velikost přes `width` (default 32) + `height` (default 120).
  *
+ * Dekorace (opt-in):
+ *   - ornament="plain"     (default) — žádné ornamenty, back-compat
+ *   - ornament="decorated"  — HexOrnament nahoře + HrotErbu dole
+ *   - ornamentColor="gold" (default) | "player"  — barva ornamentů
+ *
+ * Ornamenty se neukáží u příliš malých velikostí (< 30px šířky).
+ *
  * Podporuje dvě API pro barvu:
  *   - Starší: player={{ color, label, id }}
  *   - Flat:   playerColor="#E05C5C"
@@ -62,6 +74,8 @@ const symbols = ['I', 'II', 'III', 'IV', 'V', 'VI']
  * @param {number} [width=32]  - Šířka pro shape='prapor'
  * @param {number} [height=120] - Délka pro shape='prapor'
  * @param {boolean} [showSymbol=true]
+ * @param {'plain'|'decorated'} [ornament='plain'] - Dekorativní hrot + HexOrnament
+ * @param {'gold'|'player'} [ornamentColor='gold'] - Barva ornamentů
  * @example
  * // Erb (klasický štít):
  * <Shield player={{ id: 1, color: '#E05C5C' }} size="sm" />
@@ -69,6 +83,9 @@ const symbols = ['I', 'II', 'III', 'IV', 'V', 'VI']
  * // Prapor (banner):
  * <Shield shape="prapor" playerColor="#E05C5C" width={32} height={120} />
  * <Shield shape="prapor" playerColor="#4A90E2" width={40} height={200} />
+ * // Dekorovaný:
+ * <Shield player={{ id: 1, color: '#E05C5C' }} size="lg" ornament="decorated" />
+ * <Shield playerColor="#4A90E2" size="md" ornament="decorated" ornamentColor="player" />
  */
 export function Shield({
   player,
@@ -78,6 +95,8 @@ export function Shield({
   width,
   height,
   showSymbol = true,
+  ornament = 'plain',
+  ornamentColor = 'gold',
 }) {
   // Barva: flat prop má přednost před player objektem
   const color = playerColor ?? player?.color ?? neutralColor
@@ -104,9 +123,20 @@ export function Shield({
   const symAlign = isPrapor ? 'flex-start' : 'center'
   const symPadTop = isPrapor ? Math.max(4, s.w * 0.18) : 0
 
+  // Dekorace — viditelné jen u větších štítů (xs/menší se přeskočí)
+  const isDecorated = ornament === 'decorated' && s.w >= ORNAMENT_MIN_WIDTH
+  const ornMain = ornamentColor === 'player' ? color : gold
+  const ornDim  = ornamentColor === 'player' ? `${color}88` : goldDim
+  // HrotErbu = 50 % šířky erbu (plán bod 5)
+  const hrotWidth = s.w * 0.5
+  const hrotHeight = hrotWidth * 14 / 48
+  // HexOrnament edgePadL proportional — vejde se i pro úzký prapor
+  const hexPad = Math.max(4, Math.round(s.w * 0.15))
+
   return (
     <div style={{
       display: 'inline-block',
+      position: 'relative',  // pro absolute pozici ornamentů
       filter: `drop-shadow(0 0 8px ${color}55)`,
       flexShrink: 0,
     }}>
@@ -118,7 +148,25 @@ export function Shield({
         display: 'flex',
         alignItems: symAlign,
         justifyContent: 'center',
+        position: 'relative',  // pro HexOrnament uvnitř
       }}>
+        {/* HexOrnament — horní hrana (uvnitř outer borderu, nad inner fill) */}
+        {isDecorated && (
+          <div style={{
+            position: 'absolute',
+            top: 0, left: 0, right: 0,
+            zIndex: 1,
+            pointerEvents: 'none',
+          }}>
+            <HexOrnament
+              edgePadL={hexPad}
+              color={ornMain}
+              colorDim={ornDim}
+              bgFill={color + '22'}
+            />
+          </div>
+        )}
+
         {/* Inner fill */}
         <div style={{
           width: s.w - 3, height: s.h - 3,
@@ -145,6 +193,22 @@ export function Shield({
           )}
         </div>
       </div>
+
+      {/* HrotErbu — pod spodním tipem (mimo outer, aby nebyl ořezán clip-pathem) */}
+      {isDecorated && (
+        <div style={{
+          position: 'absolute',
+          left: '50%',
+          // Pozice nad tipem — výška hrotu nahrazuje "spodní hranu" ozdoby.
+          // Posunujeme nahoru o ~30 % výšky hrotu, aby chevron seděl přes tip.
+          bottom: -hrotHeight * 0.3,
+          transform: 'translateX(-50%)',
+          pointerEvents: 'none',
+          lineHeight: 0,  // odstraní baseline gap kolem inline-svg
+        }}>
+          <HrotErbu width={hrotWidth} color={ornMain} colorDim={ornDim} />
+        </div>
+      )}
     </div>
   )
 }

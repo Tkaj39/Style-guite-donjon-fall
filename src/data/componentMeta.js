@@ -430,8 +430,10 @@ export const componentMeta = {
       { name: 'width',       type: 'number',                                         required: false, default: '32',   description: 'Šířka v px pro shape="prapor". Tip škáluje s width (28.9 %).' },
       { name: 'height',      type: 'number',                                         required: false, default: '120',  description: 'Délka v px pro shape="prapor". Tip má fixní velikost relativně k width, zbytek tělo škáluje libovolně.' },
       { name: 'showSymbol',  type: 'boolean',                                         required: false, default: 'true', description: 'Zobrazí římskou číslici uvnitř štítu (I–VI dle player.id). U prapor zarovnán nahoru.' },
+      { name: 'ornament',      type: "'plain'|'decorated'",                          required: false, default: "'plain'", description: 'Dekorativní režim — zapne HexOrnament na horní hraně a HrotErbu pod spodním vrcholem. Skryto pro size < 30 px.' },
+      { name: 'ornamentColor', type: "'gold'|'player'",                              required: false, default: "'gold'",  description: 'Barva ornamentů — gold (klasická heraldická zlatá) nebo player (převzato z player.color s alpha fade).' },
     ],
-    relatedSlugs: ['hex-tile', 'die-face', 'donjon-badge'],
+    relatedSlugs: ['hex-tile', 'die-face', 'donjon-badge', 'ornaments'],
   },
 
   'hex-tile': {

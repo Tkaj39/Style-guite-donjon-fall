@@ -383,7 +383,7 @@ export { default as CornerOrnament }    from './CornerOrnament'
  * @prop {boolean} flip - Otočí pro spodní okraj
  * @prop {number} edgePadL - Odsazení vnější čáry zleva (default: 16)
  */
-export { SideOrnament, HexOrnament, ScoopOrnament } from './Ornaments'
+export { SideOrnament, HexOrnament, ScoopOrnament, HrotErbu } from './Ornaments'
 
 // ── Tokeny ────────────────────────────────────────────────────────────────
 

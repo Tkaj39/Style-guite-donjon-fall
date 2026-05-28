@@ -488,3 +488,62 @@ export function ScoopOrnament({
     </svg>
   )
 }
+
+/* ── HrotErbu ───────────────────────────────────────────────────────────────
+   Dekorativní hrot pro spodní vrchol erbu/prapor — dvě zakřivené čáry
+   tvořící stylizovaný chevron. Inline SVG z /src/hrot-erbu.svg.
+
+   Originální viewBox 48×14 (aspect ratio ~3.4:1, široký a plochý).
+   Renderuje se ve `width × (width * 14/48)` aby zachoval proporce.
+
+   Props:
+     width    - šířka v px (height se dopočítá z aspect ratio)
+     color    - hlavní barva gradientu (default gold)
+     colorDim - tmavá strana gradientu (default goldDim nebo color ?? goldDim)
+     style    - merge styling pro pozici (callsite řídí absolute layout)
+     uid      - ID prefix (default useId)
+   ─────────────────────────────────────────────────────────────────────── */
+export function HrotErbu({ width, color, colorDim, style: styleProp, uid: uidProp }) {
+  const uid     = useOrnamentUid(uidProp)
+  const stopMain = color    ?? gold
+  const stopDim  = colorDim ?? (color ?? goldDim)
+  const height  = width * 14 / 48
+
+  const g0 = `${uid}-h0`
+  const g1 = `${uid}-h1`
+
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 48 14"
+      fill="none"
+      aria-hidden="true"
+      style={{ pointerEvents: 'none', ...styleProp }}
+    >
+      <defs>
+        {/* Horizontální gradient stopDim → stopMain → stopDim */}
+        <linearGradient id={g0} x1="0.186" y1="6.686" x2="47.186" y2="6.686" gradientUnits="userSpaceOnUse">
+          <stop stopColor={stopDim} />
+          <stop offset="0.5" stopColor={stopMain} />
+          <stop offset="1" stopColor={stopDim} />
+        </linearGradient>
+        <linearGradient id={g1} x1="11.186" y1="4.686" x2="36.186" y2="4.686" gradientUnits="userSpaceOnUse">
+          <stop stopColor={stopDim} />
+          <stop offset="0.5" stopColor={stopMain} />
+          <stop offset="1" stopColor={stopDim} />
+        </linearGradient>
+      </defs>
+      {/* Vnější (delší) chevron */}
+      <path
+        d="M47.2763 0.350043C47.3188 0.325243 47.3504 0.285024 47.3638 0.237523C47.3773 0.190029 47.3715 0.139264 47.3477 0.0962623C47.3239 0.0532609 47.284 0.0213986 47.2366 0.00755307C47.1892 -0.00629947 47.1384 -0.000881091 47.0948 0.0219052C47.0948 0.0219052 47.0948 0.0219052 47.0948 0.0219052C46.3014 0.437009 45.5085 0.853024 44.716 1.26995C37.5844 5.02229 30.4935 8.84846 23.4435 12.7485C23.4435 12.7485 23.4435 12.7485 23.4435 12.7485H23.9276C16.8776 8.84846 9.78673 5.02229 2.65505 1.26995C1.86264 0.853025 1.06972 0.437007 0.276308 0.0219052C0.232741 -0.000880867 0.181867 -0.00629902 0.134484 0.00755368C0.0871052 0.0213994 0.0471649 0.0532617 0.023377 0.0962631C-0.000411019 0.139264 -0.00617987 0.19003 0.00726661 0.237524C0.0207092 0.285025 0.0523321 0.325243 0.0947854 0.350043C0.0947854 0.350043 0.0947854 0.350043 0.0947854 0.350043C0.868032 0.801605 1.64179 1.25226 2.41604 1.702C9.38436 5.74966 16.3935 9.72349 23.4435 13.6235L23.6855 13.7574L23.9276 13.6235C23.9276 13.6235 23.9276 13.6235 23.9276 13.6235C30.9776 9.72349 37.9867 5.74966 44.955 1.702C45.7293 1.25226 46.5031 0.801606 47.2763 0.350043Z"
+        fill={`url(#${g0})`}
+      />
+      {/* Vnitřní (kratší) chevron */}
+      <path
+        d="M36.2772 1.34957C36.3186 1.32393 36.3495 1.28367 36.3624 1.23636C36.3754 1.18905 36.3694 1.13878 36.3456 1.09634C36.3218 1.0539 36.2821 1.02251 36.235 1.00882C36.1879 0.995128 36.1374 1.00047 36.0939 1.02238C36.0939 1.02238 36.0939 1.02238 36.0939 1.02238C35.6671 1.23754 35.2408 1.4536 34.8149 1.67057C30.9825 3.62334 27.1912 5.64972 23.4412 7.74972C23.4412 7.74972 23.4412 7.74972 23.4412 7.74972H23.9298C20.1798 5.64972 16.3886 3.62334 12.5562 1.67057C12.1303 1.4536 11.704 1.23754 11.2772 1.02238C11.2337 1.00047 11.1832 0.995128 11.1361 1.00882C11.089 1.02251 11.0492 1.0539 11.0255 1.09634C11.0017 1.13878 10.9957 1.18906 11.0087 1.23636C11.0216 1.28367 11.0525 1.32393 11.0939 1.34957C11.0939 1.34957 11.0939 1.34957 11.0939 1.34957C11.5004 1.60108 11.9074 1.85168 12.3149 2.10137C15.9825 4.34861 19.6912 6.52223 23.4412 8.62223L23.6855 8.75904L23.9298 8.62223C23.9298 8.62223 23.9298 8.62223 23.9298 8.62223C27.6798 6.52223 31.3886 4.34861 35.0562 2.10137C35.4637 1.85168 35.8707 1.60108 36.2772 1.34957Z"
+        fill={`url(#${g1})`}
+      />
+    </svg>
+  )
+}
