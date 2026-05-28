@@ -9,7 +9,18 @@ import {
   gold, goldDim, goldMid,
   bg2, bg3, bgDeep,
   textHigh, textMid, textLow, textFaint,
+  dangerColor, successColor, warningColor, infoColor,
 } from './tokens'
+
+/* Variant lookup — parita s TkajUI Select.
+   Pro každou variantu: active border (focus/open), idle border, label. */
+const VARIANTS = {
+  default: { active: gold,         idle: goldDim,            label: goldMid      },
+  danger:  { active: dangerColor,  idle: `${dangerColor}88`, label: dangerColor  },
+  success: { active: successColor, idle: `${successColor}88`, label: successColor },
+  warning: { active: warningColor, idle: `${warningColor}88`, label: warningColor },
+  info:    { active: infoColor,    idle: `${infoColor}88`,    label: infoColor    },
+}
 
 const SIZES = {
   xs: { h: 24, cx: 6,  fontSize: '0.6875rem', px: 8  },
@@ -65,9 +76,11 @@ export default function DonjonSelect({
   placeholder = 'Vyber možnost…',
   label,
   size        = 'md',
+  variant     = 'default',   // 'default'|'danger'|'success'|'warning'|'info' — parita s TkajUI Select
   disabled    = false,
   id: externalId,
 }) {
+  const v = VARIANTS[variant] ?? VARIANTS.default
   const [open, setOpen]           = useState(false)
   const [highlighted, setHighlighted] = useState(-1)
   const [focused, setFocused]     = useState(false)
@@ -127,8 +140,8 @@ export default function DonjonSelect({
   }
 
   const active       = open || focused
-  const borderColor  = active ? gold : goldDim
-  const glowColor    = `${gold}40`
+  const borderColor  = active ? v.active : v.idle
+  const glowColor    = `${v.active}40`
 
   return (
     <div style={{ position: 'relative', display: 'inline-block', width: '100%' }}>

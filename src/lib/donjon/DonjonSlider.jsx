@@ -9,8 +9,19 @@ import {
   gold, goldDim, goldMid,
   bgDeep,
   textMid, textLow,
+  dangerColor, successColor, warningColor, infoColor,
 } from './tokens'
 import { octagon } from '../../utils/octagon'
+
+/* Variant lookup — parita s TkajUI Slider.
+   main = primary stop (bright), mid = secondary stop (mid-tone), dim = idle/inactive. */
+const VARIANTS = {
+  default: { main: gold,         mid: goldMid,             dim: goldDim             },
+  danger:  { main: dangerColor,  mid: `${dangerColor}AA`,  dim: `${dangerColor}66`  },
+  success: { main: successColor, mid: `${successColor}AA`, dim: `${successColor}66` },
+  warning: { main: warningColor, mid: `${warningColor}AA`, dim: `${warningColor}66` },
+  info:    { main: infoColor,    mid: `${infoColor}AA`,    dim: `${infoColor}66`    },
+}
 
 const SIZES = {
   xs: { trackH: 3,  thumbD: 10, radius: 1, fontSize: '0.6875rem' },
@@ -31,16 +42,16 @@ function resolveTicks(ticks, min, max) {
   return []
 }
 
-/* Thumb rendering podle shape */
-function Thumb({ pct, shape, size: thumbD, disabled }) {
+/* Thumb rendering podle shape — variant-aware */
+function Thumb({ pct, shape, size: thumbD, disabled, v }) {
   const baseStyle = {
     position: 'absolute',
     left: `${pct}%`,
     pointerEvents: 'none',
     transition: 'left 0.05s',
-    boxShadow: `0 0 8px ${gold}66, 0 2px 4px rgba(0,0,0,0.5)`,
-    background: `linear-gradient(135deg, ${goldMid} 0%, ${gold} 100%)`,
-    border: `1px solid ${gold}88`,
+    boxShadow: `0 0 8px ${v.main}66, 0 2px 4px rgba(0,0,0,0.5)`,
+    background: `linear-gradient(135deg, ${v.mid} 0%, ${v.main} 100%)`,
+    border: `1px solid ${v.main}88`,
   }
   if (shape === 'circle') {
     return (
@@ -81,6 +92,7 @@ export default function DonjonSlider({
   max          = 100,
   step         = 1,
   size         = 'md',
+  variant      = 'default',    // 'default'|'danger'|'success'|'warning'|'info' — parita s TkajUI Slider
   label,
   showValue    = false,
   disabled     = false,
@@ -88,6 +100,7 @@ export default function DonjonSlider({
   ticks,                       // number nebo pole — vizuální markery na trati
   thumbShape   = 'diamond',    // 'diamond' | 'circle' | 'octagon'
 }) {
+  const v    = VARIANTS[variant] ?? VARIANTS.default
   const s    = SIZES[size] ?? SIZES.md
   const pct  = Math.min(100, Math.max(0, ((value - min) / (max - min)) * 100))
   const disp = formatValue ? formatValue(value) : value
@@ -115,20 +128,20 @@ export default function DonjonSlider({
       {/* Track + thumb */}
       <div style={{ position: 'relative', height: s.thumbD, display: 'flex', alignItems: 'center' }}>
 
-        {/* Background track */}
+        {/* Background track — variant-aware border */}
         <div style={{
           position: 'absolute', left: 0, right: 0,
           height: s.trackH, background: bgDeep,
           borderRadius: s.radius,
-          border: `1px solid ${goldDim}`,
+          border: `1px solid ${v.dim}`,
           overflow: 'hidden',
           pointerEvents: 'none',
         }}>
-          {/* Filled portion */}
+          {/* Filled portion — variant-aware fill */}
           <div style={{
             height: '100%', width: `${pct}%`,
-            background: `linear-gradient(90deg, ${goldDim} 0%, ${gold} 100%)`,
-            boxShadow: `0 0 6px ${gold}44`,
+            background: `linear-gradient(90deg, ${v.dim} 0%, ${v.main} 100%)`,
+            boxShadow: `0 0 6px ${v.main}44`,
             transition: 'width 0.05s',
           }} />
         </div>
@@ -148,7 +161,7 @@ export default function DonjonSlider({
                 width: 1,
                 height: s.trackH + 6,
                 transform: 'translate(-50%, -50%)',
-                background: isFilled ? gold : goldDim,
+                background: isFilled ? v.main : v.dim,
                 opacity: isFilled ? 0.9 : 0.55,
                 pointerEvents: 'none',
               }}
@@ -157,7 +170,7 @@ export default function DonjonSlider({
         })}
 
         {/* Thumb */}
-        <Thumb pct={pct} shape={thumbShape} size={s.thumbD} disabled={disabled} />
+        <Thumb pct={pct} shape={thumbShape} size={s.thumbD} disabled={disabled} v={v} />
 
         {/* Native input (invisible overlay) */}
         <input

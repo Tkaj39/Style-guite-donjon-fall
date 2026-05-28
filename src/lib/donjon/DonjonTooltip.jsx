@@ -7,20 +7,33 @@ import {
   gold, goldDim,
   bg2,
   textMid,
+  dangerColor, successColor, warningColor, infoColor,
 } from './tokens'
 import { getPosition, resolveFlip, Arrow } from '../../utils/tooltipUtils'
 
 const Z_TOOLTIP = 2100
+
+/* Variant lookup — parita s TkajUI Tooltip.
+   Pro každou variantu: border (outer barva), title (titulek tooltipu). */
+const VARIANTS = {
+  default: { border: goldDim,      title: gold         },
+  danger:  { border: dangerColor,  title: dangerColor  },
+  success: { border: successColor, title: successColor },
+  warning: { border: warningColor, title: warningColor },
+  info:    { border: infoColor,    title: infoColor    },
+}
 
 export default function DonjonTooltip({
   children,
   content,
   title,
   placement = 'top',     // 12 hodnot — viz TOOLTIP_PLACEMENTS
+  variant   = 'default', // 'default'|'danger'|'success'|'warning'|'info' — parita s TkajUI Tooltip
   delay     = 120,
   disabled  = false,
   autoFlip  = true,      // automaticky otoč pokud by tooltip přesahoval viewport
 }) {
+  const v = VARIANTS[variant] ?? VARIANTS.default
   const [pos, setPos]               = useState(null)
   const [effectivePlacement, setEP] = useState(placement)
   const triggerRef                  = useRef(null)
@@ -74,10 +87,10 @@ export default function DonjonTooltip({
           }}
         >
           {/* Arrow + bubble ve společném filtru → shadow kruje celý tvar */}
-          <span style={{ display: 'block', position: 'relative', filter: `drop-shadow(0 4px 16px rgba(0,0,0,0.75)) drop-shadow(0 0 8px ${goldDim}33)` }}>
-            <Arrow placement={effectivePlacement} color={goldDim} />
-            {/* Outer border */}
-            <span style={{ display: 'block', clipPath: 'polygon(8px 0%,calc(100% - 8px) 0%,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0% calc(100% - 8px),0% 8px)', background: goldDim, padding: 1 }}>
+          <span style={{ display: 'block', position: 'relative', filter: `drop-shadow(0 4px 16px rgba(0,0,0,0.75)) drop-shadow(0 0 8px ${v.border}33)` }}>
+            <Arrow placement={effectivePlacement} color={v.border} />
+            {/* Outer border — variant-aware */}
+            <span style={{ display: 'block', clipPath: 'polygon(8px 0%,calc(100% - 8px) 0%,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0% calc(100% - 8px),0% 8px)', background: v.border, padding: 1 }}>
               {/* Inner content */}
               <span style={{
                 display: 'block',
@@ -90,7 +103,7 @@ export default function DonjonTooltip({
                     margin: '0 0 3px 0',
                     fontSize: '0.6875rem',
                     fontWeight: 600,
-                    color: gold,
+                    color: v.title,
                     letterSpacing: '0.06em',
                     textTransform: 'uppercase',
                   }}>

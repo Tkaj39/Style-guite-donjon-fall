@@ -96,9 +96,19 @@ function CloseIcon() {
 function ToastItem({ id, title, message, variant = 'default', duration = 4000, onRemove }) {
   const v = VARIANTS[variant] ?? VARIANTS.default
 
+  // Role a aria-live závisí na variantě:
+  //  danger/warning → alert + assertive (přeruší screen reader)
+  //  success/default → status + polite (počká na pauzu)
+  const isAssertive = variant === 'danger' || variant === 'warning'
+  const role = isAssertive ? 'alert' : 'status'
+  const ariaLive = isAssertive ? 'assertive' : 'polite'
+
   return (
     /* Tailwind v4 starting: variant — entry animace bez inline <style> tagu */
     <div
+      role={role}
+      aria-live={ariaLive}
+      aria-atomic="true"
       className="starting:opacity-0 starting:translate-x-5 transition-[opacity,transform] duration-200 ease"
       style={{ width: 320 }}
     >

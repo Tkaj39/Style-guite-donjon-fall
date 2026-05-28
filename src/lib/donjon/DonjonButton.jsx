@@ -2,7 +2,7 @@ import { useId } from 'react'
 import { octagon } from '../../utils/octagon'
 import { buttonSizes as sizes } from '../../utils/sizes'
 import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament } from './Ornaments'
-import { bg2, bg3, gold, goldDim, dangerColor, successColor, VARIANT_BG, VARIANT_BORDER, VARIANT_TITLE_GRAD } from './tokens'
+import { bg0, bg2, bg3, gold, goldDim, goldMid, dangerColor, successColor, warningColor, VARIANT_BG, VARIANT_BORDER, VARIANT_TITLE_GRAD } from './tokens'
 
 function Spinner({ size }) {
   return (
@@ -26,6 +26,14 @@ const variants = {
     border:  VARIANT_BORDER.default,
     text:    VARIANT_TITLE_GRAD.default,
   },
+  /* Primary — solid gold fill, tmavý text. Vyšší vizuální váha než default
+     (gradient). Parita s TkajUI Button.primary (solid accent). */
+  primary: {
+    bg:      `linear-gradient(150deg,${gold} 0%,${goldMid} 100%)`,
+    plainBg: `linear-gradient(150deg,${gold} 0%,${goldMid} 100%)`,
+    border:  gold,
+    text:    `linear-gradient(180deg,${bg0} 0%,${bg2} 100%)`,
+  },
   danger: {
     bg:      VARIANT_BG.danger,
     plainBg: `linear-gradient(150deg,${dangerColor}22 0%,${bg2} 70%)`,
@@ -37,6 +45,12 @@ const variants = {
     plainBg: `linear-gradient(150deg,${successColor}22 0%,${bg2} 70%)`,
     border:  VARIANT_BORDER.success,
     text:    VARIANT_TITLE_GRAD.success,
+  },
+  warning: {
+    bg:      VARIANT_BG.warning,
+    plainBg: `linear-gradient(150deg,${warningColor}22 0%,${bg2} 70%)`,
+    border:  VARIANT_BORDER.warning,
+    text:    VARIANT_TITLE_GRAD.warning,
   },
 }
 
@@ -69,6 +83,45 @@ function DonjonButton({
   const ornW  = Math.round((ORN_BASES[ornament] ?? 24) * (s.h / 66) * 10) / 10
   const iSize = iconSize[size] ?? iconSize.md
   const hasOrnaments = ornament !== 'plain'
+
+  /* Link variant — early return, žádný shell ani ornamenty.
+     Parita s TkajUI Button.link (text-only s underline na hover). */
+  if (variant === 'link') {
+    return (
+      <button
+        ref={ref}
+        disabled={disabled}
+        style={{
+          background: 'none',
+          border: 'none',
+          padding: 0,
+          fontSize: s.fontSize,
+          fontWeight: 600,
+          letterSpacing: '0.02em',
+          cursor: disabled ? 'not-allowed' : 'pointer',
+          color: gold,
+          textDecoration: 'underline',
+          textDecorationColor: 'transparent',
+          textUnderlineOffset: '3px',
+          transition: 'text-decoration-color 150ms',
+          opacity: disabled ? 0.4 : 1,
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 6,
+          ...propStyle,
+        }}
+        onMouseEnter={e => { if (!disabled) e.currentTarget.style.textDecorationColor = gold }}
+        onMouseLeave={e => { e.currentTarget.style.textDecorationColor = 'transparent' }}
+        className={className}
+        {...props}
+      >
+        {loading && <Spinner size={iSize} />}
+        {!loading && leadingIcon && <span style={{ display: 'inline-flex' }}>{leadingIcon}</span>}
+        {!iconOnly && children}
+        {!loading && trailingIcon && <span style={{ display: 'inline-flex' }}>{trailingIcon}</span>}
+      </button>
+    )
+  }
   /* Výběr side ornamentu podle prop */
   const SideOrn = ornament === 'zkosen' ? ZkosenOrnament
                 : ornament === 'roh'    ? RohOrnament

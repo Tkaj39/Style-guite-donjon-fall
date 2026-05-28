@@ -88,8 +88,18 @@ function CloseIcon() {
 function ToastItem({ id, title, message, variant = 'default', duration = 4000, onRemove }) {
   const v = VARIANTS[variant] ?? VARIANTS.default
 
+  // Role a aria-live podle herní varianty:
+  //  loss/warning → alert + assertive (přeruší screen reader pro důležité info)
+  //  gain/event/default → status + polite (čeká na pauzu — nepřerušuje hru)
+  const isAssertive = variant === 'loss' || variant === 'warning'
+  const role = isAssertive ? 'alert' : 'status'
+  const ariaLive = isAssertive ? 'assertive' : 'polite'
+
   return (
     <div
+      role={role}
+      aria-live={ariaLive}
+      aria-atomic="true"
       className="starting:opacity-0 starting:translate-x-5 transition-[opacity,transform] duration-200 ease"
       style={{ width: 310 }}
     >
