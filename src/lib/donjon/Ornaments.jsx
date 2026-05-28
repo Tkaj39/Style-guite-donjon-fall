@@ -385,7 +385,73 @@ export function HexOrnament({
      uid       - explicitní ID prefix (default useId)
      style     - merge styling pro absolute pozici
    ─────────────────────────────────────────────────────────────────────── */
-const SCOOP_ROTATIONS = { tl: 0, tr: 90, br: 180, bl: 270 }
+/**
+ * Geometrie per roh.
+ *
+ * Scoop výřez vytváří čtvrtkruhový oblouk poloměru `r` na rohu shape.
+ * Střed oblouku leží UVNITŘ shape, ve vzdálenosti `r` od skutečného
+ * rohu. Viditelná část SVG (umístěného `r × r` do rohu) je oblast
+ * ve vzdálenosti ≤ `r` od scoop centra.
+ *
+ * Pro každý roh vypočítáme:
+ *   - `arc`   — SVG path pro hlavní oblouk uvnitř shape (radius arcR=r-inset)
+ *   - `arc2`  — sekundární jemnější oblouk (radius arcR-3)
+ *   - `apex`  — souřadnice diamondu na vrcholu oblouku (směrem k rohu)
+ *   - `t1/t2` — tick čáry spojující koncové body oblouku s hranou shape
+ *
+ * Sweep flagy zvoleny tak, aby krátký oblouk procházel vrcholem směrem
+ * k rohu parentu (tedy do viditelné oblasti).
+ */
+function getScoopGeometry(r, inset, corner) {
+  const arcR  = Math.max(2, r - inset)
+  const arcR2 = Math.max(2, arcR - 3)
+  const p     = arcR * Math.SQRT1_2     // apex offset z centra (45°)
+  const p2    = arcR2 * Math.SQRT1_2
+
+  switch (corner) {
+    case 'tl':
+      // Scoop center v SVG (r, r). Apex směrem k (0,0).
+      return {
+        arc:   `M ${r},${inset} A ${arcR} ${arcR} 0 0 0 ${inset},${r}`,
+        arc2:  `M ${r},${inset + 3} A ${arcR2} ${arcR2} 0 0 0 ${inset + 3},${r}`,
+        apexX: r - p,  apexY: r - p,
+        apex2X: r - p2, apex2Y: r - p2,
+        t1: { x1: r,      y1: inset,  x2: r, y2: 0 },
+        t2: { x1: inset,  y1: r,      x2: 0, y2: r },
+      }
+    case 'tr':
+      // Scoop center v SVG (0, r). Apex směrem k (r, 0).
+      return {
+        arc:   `M 0,${inset} A ${arcR} ${arcR} 0 0 1 ${arcR},${r}`,
+        arc2:  `M 0,${inset + 3} A ${arcR2} ${arcR2} 0 0 1 ${arcR2},${r}`,
+        apexX: p,      apexY: r - p,
+        apex2X: p2,    apex2Y: r - p2,
+        t1: { x1: 0,    y1: inset, x2: 0, y2: 0 },
+        t2: { x1: arcR, y1: r,     x2: r, y2: r },
+      }
+    case 'bl':
+      // Scoop center v SVG (r, 0). Apex směrem k (0, r).
+      return {
+        arc:   `M ${inset},0 A ${arcR} ${arcR} 0 0 1 ${r},${arcR}`,
+        arc2:  `M ${inset + 3},0 A ${arcR2} ${arcR2} 0 0 1 ${r},${arcR2}`,
+        apexX: r - p,  apexY: p,
+        apex2X: r - p2, apex2Y: p2,
+        t1: { x1: inset, y1: 0,    x2: 0, y2: 0 },
+        t2: { x1: r,     y1: arcR, x2: r, y2: r },
+      }
+    case 'br':
+    default:
+      // Scoop center v SVG (0, 0). Apex směrem k (r, r).
+      return {
+        arc:   `M 0,${arcR} A ${arcR} ${arcR} 0 0 0 ${arcR},0`,
+        arc2:  `M 0,${arcR2} A ${arcR2} ${arcR2} 0 0 0 ${arcR2},0`,
+        apexX: p,      apexY: p,
+        apex2X: p2,    apex2Y: p2,
+        t1: { x1: 0,    y1: arcR, x2: 0, y2: r },
+        t2: { x1: arcR, y1: 0,    x2: r, y2: 0 },
+      }
+  }
+}
 
 export function ScoopOrnament({
   r,
@@ -397,18 +463,16 @@ export function ScoopOrnament({
   uid: uidProp,
   style: styleProp,
 }) {
-  const uid     = useOrnamentUid(uidProp)
+  const uid      = useOrnamentUid(uidProp)
   const stopMain = color    ?? gold
   const stopDim  = colorDim ?? (color ?? goldDim)
   const hexFill  = bgFill   ?? bg4
 
-  const arcR    = Math.max(2, r - inset)
-  // Apex souřadnice diamondu — bod nejdál od rohu na arc (na 45° diagonále)
-  const apex    = (arcR * Math.SQRT1_2)   // ≈ 0.707 * arcR
-  // Diamond half-size škáluje s r (ale clamp na rozumný interval)
-  const dHalf   = Math.max(2, Math.min(4, r * 0.18))
+  const arcR  = Math.max(2, r - inset)
+  // Diamond half-size škáluje s r (clamp pro rozumný interval)
+  const dHalf = Math.max(2, Math.min(4, r * 0.18))
 
-  const rotation = SCOOP_ROTATIONS[corner] ?? 0
+  const g = getScoopGeometry(r, inset, corner)
 
   // Pozice SVG v parentu (parent musí mít position: relative)
   const posStyle = {
@@ -416,7 +480,6 @@ export function ScoopOrnament({
     [corner.endsWith('l')   ? 'left' : 'right' ]: 0,
   }
 
-  // Gradient — diagonálně od inner po outer (vrchol arc je sytější zlatý)
   const grad = `url(#${uid}-sg)`
 
   return (
@@ -429,33 +492,37 @@ export function ScoopOrnament({
       style={{
         position: 'absolute',
         ...posStyle,
-        transform: `rotate(${rotation}deg)`,
         pointerEvents: 'none',
         ...styleProp,
       }}
     >
       <defs>
-        <linearGradient id={`${uid}-sg`} x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+        {/* Gradient diagonálně — sytější zlatá k apexu oblouku */}
+        <linearGradient
+          id={`${uid}-sg`}
+          x1={corner.endsWith('r') ? 1 : 0}
+          y1={corner.startsWith('b') ? 1 : 0}
+          x2={corner.endsWith('r') ? 0 : 1}
+          y2={corner.startsWith('b') ? 0 : 1}
+          gradientUnits="objectBoundingBox"
+        >
           <stop stopColor={stopDim} />
           <stop offset="1" stopColor={stopMain} />
         </linearGradient>
       </defs>
 
-      {/* Hlavní zlatý oblouk — paralelní se scoop hranou, uvnitř shape.
-          Top-left scoop jde od (0, r) přes outer-corner-arc do (r, 0).
-          Náš oblouk leží uvnitř, od (0, arcR) do (arcR, 0). */}
+      {/* Hlavní zlatý oblouk — paralelní se scoop hranou, uvnitř shape */}
       <path
-        d={`M 0,${arcR} A ${arcR} ${arcR} 0 0 1 ${arcR},0`}
+        d={g.arc}
         stroke={grad}
         strokeWidth="1.2"
         strokeLinecap="round"
       />
 
-      {/* Tenký druhý oblouk — jemnější paralel pro double-bracket feel.
-          Inset o ~3px od hlavního. */}
+      {/* Sekundární jemnější oblouk — double-bracket feel */}
       {arcR > 8 && (
         <path
-          d={`M 0,${arcR - 3} A ${arcR - 3} ${arcR - 3} 0 0 1 ${arcR - 3},0`}
+          d={g.arc2}
           stroke={stopDim}
           strokeWidth="0.8"
           opacity="0.7"
@@ -463,25 +530,25 @@ export function ScoopOrnament({
         />
       )}
 
-      {/* Diamond na apexu oblouku (45° od rohu) */}
+      {/* Diamond na apexu (45° směrem k rohu) */}
       <path
-        d={`M ${apex},${apex - dHalf} L ${apex + dHalf},${apex} L ${apex},${apex + dHalf} L ${apex - dHalf},${apex} Z`}
+        d={`M ${g.apexX},${g.apexY - dHalf} L ${g.apexX + dHalf},${g.apexY} L ${g.apexX},${g.apexY + dHalf} L ${g.apexX - dHalf},${g.apexY} Z`}
         fill={hexFill}
         stroke={grad}
         strokeWidth="0.9"
       />
 
-      {/* Krátké ticky na koncích oblouku (perpendikulární k hraně) */}
+      {/* Ticky — od koncových bodů oblouku k hraně shape */}
       {arcR > 6 && (
         <>
           <line
-            x1="0" y1={arcR} x2="2" y2={arcR}
+            x1={g.t1.x1} y1={g.t1.y1} x2={g.t1.x2} y2={g.t1.y2}
             stroke={stopMain}
             strokeWidth="1"
             strokeLinecap="round"
           />
           <line
-            x1={arcR} y1="0" x2={arcR} y2="2"
+            x1={g.t2.x1} y1={g.t2.y1} x2={g.t2.x2} y2={g.t2.y2}
             stroke={stopMain}
             strokeWidth="1"
             strokeLinecap="round"
