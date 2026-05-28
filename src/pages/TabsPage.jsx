@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { textDeep, textCool } from '../lib/donjon/tokens'
+import {
+  bg0, goldMid, textCool, textDeep,
+} from '../lib/donjon/tokens'
 import Tabs from '../lib/tkajui/Tabs'
 import DonjonTabs from '../lib/donjon/DonjonTabs'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
@@ -48,14 +50,14 @@ function TabsDemo({ TabsCmp, items, variant, size }) {
       <TabsCmp items={items} value={tab} onChange={setTab} variant={variant} size={size} />
       <div style={{
         padding: '14px 16px',
-        background: '#12102A',
+        background: bg0,
         border: '1px solid #8F745430',
         borderRadius: 4,
         fontSize: '0.8125rem',
         color: textCool,
         lineHeight: 1.5,
       }}>
-        Obsah záložky: <span style={{ color: '#B8956A', fontWeight: 600 }}>
+        Obsah záložky: <span style={{ color: goldMid, fontWeight: 600 }}>
           {items.find(i => i.value === tab)?.label}
         </span>
       </div>

@@ -51,6 +51,7 @@ function MultilineDemo({ I, cmp }) {
         onChange={e => setVal(e.target.value)}
         hint="Textarea roste s obsahem (field-sizing:content) — žádný JS resize handler."
       />
+      {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
       <p style={{ margin: 0, fontSize: '0.75rem', color: '#6868a0' }}>
         Délka: {val.length} znaků · {val.split('\n').length} řádků
       </p>
@@ -81,6 +82,7 @@ function SubmitButtonDemo() {
         Uložit profil
       </SubmitButton>
       {state.ok && (
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         <p style={{ margin: 0, fontSize: '0.8125rem', color: '#5ab87a' }}>
           ✓ Uloženo: <strong>{state.name}</strong>
         </p>
@@ -245,6 +247,7 @@ function InputContent() {
             {loginOk && (
               <div style={{
                 padding: '8px 12px', borderRadius: 4,
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                 background: '#183D2020', border: '1px solid #40A05550',
                 fontSize: '0.8125rem', color: successColor,
               }}>
@@ -304,6 +307,7 @@ function handleSubmit() {
             {settingsSaved && (
               <div style={{
                 padding: '8px 12px', borderRadius: 4,
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                 background: '#183D2020', border: '1px solid #40A05550',
                 fontSize: '0.8125rem', color: successColor,
               }}>

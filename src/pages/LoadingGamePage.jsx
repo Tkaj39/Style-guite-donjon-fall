@@ -99,6 +99,7 @@ function LoadingGameContent({ size = 'desktop' }) {
       {/* Hráči */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <PlayerPill player={p1} label="Hráč 1" />
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
         <span style={{ fontSize: metaFs, color: '#3A3858', fontWeight: 700 }}>vs</span>
         <PlayerPill player={p2} label="Hráč 2" />
       </div>
@@ -119,6 +120,7 @@ function LoadingGameContent({ size = 'desktop' }) {
 
       {/* Outline hex mapa */}
       <div style={{
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         background: '#0D0C1A', borderRadius: 4,
         border: '1px solid #1E1D30',
         padding: 10, opacity: 0.7,

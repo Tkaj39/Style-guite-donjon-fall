@@ -3,7 +3,9 @@ import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { players as basePlayers } from '../data/gameUiMockData'
-import { bgDeep, goldDim, goldMid, gold, textActive, textFaint } from '../lib/donjon/tokens'
+import {
+  bgDeep, dangerText, gold, goldDim, goldMid, textActive, textFaint,
+} from '../lib/donjon/tokens'
 
 const DEFAULT_MAP_VP = 5
 const TARGET_VP = DEFAULT_MAP_VP
@@ -237,7 +239,7 @@ export default function VictoryPointsPage() {
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <DonjonBadge variant="danger" icon={<SkullIcon />}>+1 VP</DonjonBadge>
-                <p style={{ margin: 0, fontSize: '0.8125rem', color: '#F9C0C0', lineHeight: 1.5 }}>
+                <p style={{ margin: 0, fontSize: '0.8125rem', color: dangerText, lineHeight: 1.5 }}>
                   Za každou nepřátelskou kostku zničenou vytlačením z mapy, obklíčením nebo kolapsem věže.
                 </p>
               </div>

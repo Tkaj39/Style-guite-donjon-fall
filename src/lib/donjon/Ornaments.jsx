@@ -423,7 +423,7 @@ export function ScoopOrnament({
   const uid      = useOrnamentUid(uidProp)
   const stopMain = color    ?? gold       // #FFC183 default
   const stopDim  = colorDim ?? (color ?? goldDim)  // #8F7458 default
-  const hexFill  = bgFill   ?? '#2A2948'  // borderMid — originál SVG default
+  const hexFill  = bgFill   ?? bg4  // borderMid — originál SVG default
 
   const transform = SCOOP_TRANSFORMS[corner] ?? ''
 

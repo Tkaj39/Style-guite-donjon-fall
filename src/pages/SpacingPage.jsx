@@ -1,5 +1,7 @@
 import { ShowcasePage, Section } from '../styleguide/ShowcasePage'
-import { gold, goldDim, borderSubtle } from '../lib/donjon/tokens'
+import {
+  borderSubtle, gold, goldDim, textDisabled,
+} from '../lib/donjon/tokens'
 
 const inter = '"Inter", sans-serif'
 
@@ -29,6 +31,7 @@ export default function SpacingPage() {
         description="Token odpovídá Tailwind konvenci (space-1 = 4px). Používej vždy jen hodnoty z této škály."
       >
         <div style={{
+          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
           background: '#0F0E1A',
           border: '1px solid #1E1C30',
           borderRadius: 2,
@@ -40,10 +43,12 @@ export default function SpacingPage() {
             gridTemplateColumns: '48px 56px 1fr 2fr',
             gap: 0,
             padding: '8px 20px',
+            // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
             background: '#141324',
             borderBottom: '1px solid #1E1C30',
           }}>
             {['Token', 'px', 'Vizuál', 'Kde se používá'].map(h => (
+              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
               <p key={h} style={{ margin: 0, fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#3A3A52' }}>
                 {h}
               </p>
@@ -65,7 +70,7 @@ export default function SpacingPage() {
               <p style={{ margin: 0, fontFamily: inter, fontSize: '0.8125rem', fontWeight: 600, color: gold, fontMono: true }}>
                 {s.token}
               </p>
-              <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: '#6B6A82', fontStyle: 'italic' }}>
+              <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: textDisabled, fontStyle: 'italic' }}>
                 {s.px}px
               </p>
               <div style={{ paddingRight: 16 }}>
@@ -77,7 +82,7 @@ export default function SpacingPage() {
                   borderRadius: 1,
                 }} />
               </div>
-              <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: '#6B6A82' }}>
+              <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: textDisabled }}>
                 {s.usage}
               </p>
             </div>
@@ -101,6 +106,7 @@ export default function SpacingPage() {
             { label: 'Large',  tokens: ['8', '10', '12', '16'], note: '32–64px — sekce, layout' },
           ].map(group => (
             <div key={group.label} style={{
+              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
               background: '#141324',
               border: '1px solid #1E1C30',
               borderRadius: 2,
@@ -113,6 +119,7 @@ export default function SpacingPage() {
                 <p style={{ margin: 0, fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: gold }}>
                   {group.label}
                 </p>
+                {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
                 <p style={{ margin: '3px 0 0', fontFamily: inter, fontSize: '0.6875rem', color: '#3A3A52' }}>
                   {group.note}
                 </p>
@@ -128,7 +135,7 @@ export default function SpacingPage() {
                         background: `linear-gradient(180deg, ${gold}, ${goldDim})`,
                         borderRadius: 1,
                       }} />
-                      <p style={{ margin: 0, fontFamily: inter, fontSize: '0.5625rem', color: '#6B6A82' }}>{t}</p>
+                      <p style={{ margin: 0, fontFamily: inter, fontSize: '0.5625rem', color: textDisabled }}>{t}</p>
                     </div>
                   )
                 })}

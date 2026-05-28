@@ -1,8 +1,11 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textDeep, textCool, goldMid, bg0, successColor, textActive, borderSubtle, failColor, goldDim } from '../lib/donjon/tokens'
+import {
+  bg0, borderSubtle, failColor, goldDim, goldMid, successColor, textActive, textCool, textDeep, warningColor,
+} from '../lib/donjon/tokens'
 
 /* ── Skeleton primitives ── */
 const shimmer = {
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   background: `linear-gradient(90deg, ${borderSubtle} 25%, #22203E 50%, ${borderSubtle} 75%)`,
   backgroundSize: '200% 100%',
   animation: 'skeletonShimmer 1.4s ease-in-out infinite',
@@ -192,6 +195,7 @@ export default function LoadingSkeletonPage() {
             </div>
           </div>
         </Preview>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
         <CodeBlock code={`/* SkeletonBox — základní primitivum */
 const shimmer = {
   background: \`linear-gradient(90deg, \${borderSubtle} 25%, #22203E 50%, \${borderSubtle} 75%)\`,
@@ -286,8 +290,9 @@ function SkeletonBox({ w = '100%', h = 16, radius = 3 }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 560 }}>
             {[
               { time: '0–200ms',   state: 'Žádný indikátor',     color: successColor, note: 'Optimistické UI — zobraz výsledek okamžitě (pro rychlé lokální operace).' },
+              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
               { time: '200–500ms', state: 'Skeleton nebo spinner', color: '#4080C0', note: 'Začni zobrazovat skeleton — uživatel začíná čekat.' },
-              { time: '500ms+',    state: 'Skeleton pokračuje',   color: '#C08040', note: 'Skeleton je aktivní — struktura je viditelná.' },
+              { time: '500ms+',    state: 'Skeleton pokračuje',   color: warningColor, note: 'Skeleton je aktivní — struktura je viditelná.' },
               { time: '8–12s',     state: 'Timeout → Error',      color: failColor, note: 'Přejdi na error stav s Retry. Skeleton nesmí trvat věčně.' },
             ].map(({ time, state, color, note }) => (
               <div key={time} style={{ display: 'grid', gridTemplateColumns: '90px 160px 1fr', gap: 10, padding: '9px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3, alignItems: 'start' }}>

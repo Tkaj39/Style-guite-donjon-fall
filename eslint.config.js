@@ -66,15 +66,24 @@ export default [
     },
   },
 
-  // ── DONJON pravidlo 1: žádné hardcoded hex v lib/ ─────────────────────────
-  // Výjimka: tokens.js samotný (tam hex být musí)
+  // ── DONJON pravidlo 1: žádné hardcoded hex v lib/ a pages/ ────────────────
+  // Výjimka: tokens.js samotný (tam hex být musí) + ColorsPage (paleta demo).
+  // Scope rozšířen na src/pages/ — kolega reportoval že hex v pages neslipne
+  // přes review (eslint rule scope byl příliš úzký).
   {
-    files: ['src/lib/**/*.jsx', 'src/lib/**/*.js'],
+    files: [
+      'src/lib/**/*.jsx',
+      'src/lib/**/*.js',
+      'src/pages/**/*.jsx',
+    ],
     ignores: [
       'src/lib/donjon/tokens.js',
       'src/lib/tkajui/tokens.js',
       'src/lib/**/__tests__/**',
       'src/lib/**/*.test.{js,jsx}',
+      // ColorsPage je palette demonstration — hex hodnoty jsou předmět ukázky.
+      // Vnitřně používá eslint-disable kde to potřebuje.
+      'src/pages/ColorsPage.jsx',
     ],
     plugins: { donjon: donjonPlugin },
     rules: {

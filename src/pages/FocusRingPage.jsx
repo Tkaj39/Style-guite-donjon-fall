@@ -3,6 +3,9 @@ import DonjonButton from '../lib/donjon/DonjonButton'
 import * as T from '../lib/tkajui/tokens'
 import * as D from '../lib/donjon/tokens'
 import { failColor, textCool, textDeep } from '../lib/donjon/tokens'
+import {
+  accent, primaryText,
+} from '../lib/tkajui/tokens'
 
 /* ── Sdílené demo primitiva ── */
 
@@ -11,6 +14,7 @@ function RingAnatomy({ label, offset, width, color, style: extraStyle = {} }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'center' }}>
       <div style={{
         padding: '10px 18px',
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         background: '#1E1C3A',
         border: `1px solid ${D.goldDim}40`,
         borderRadius: 3,
@@ -99,6 +103,7 @@ function TkajuiFocusContent() {
             <RingAnatomyTkaj label="Ring silnější" offset={2} width={3} color={T.accent} />
           </div>
         </Preview>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
         <CodeBlock code={`/* Výchozí focus ring — globální reset */
 *, *::before, *::after {
   outline: none; /* resetuj browser default */
@@ -205,7 +210,7 @@ useFocusTrap(modalRef, isOpen)`} />
                 left: 0,
                 padding: '8px 16px',
                 background: T.accent,
-                color: '#ffffff',
+                color: primaryText,
                 fontSize: '0.875rem',
                 fontWeight: 600,
                 textDecoration: 'none',
@@ -272,6 +277,7 @@ function DonjonFocusContent() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, maxWidth: 540 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
               <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: failColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>✗ Žádný ring</p>
+              {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
               <div style={{ padding: '8px 16px', background: '#1E1C3A', border: `1px solid ${D.goldDim}40`, borderRadius: 3, fontSize: '0.875rem', color: D.textActive, outline: 'none' }}>
                 Tlačítko
               </div>
@@ -279,6 +285,7 @@ function DonjonFocusContent() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
               <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: D.warningColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>⚠ Browser default</p>
+              {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
               <div style={{ padding: '8px 16px', background: '#1E1C3A', border: `1px solid ${D.goldDim}40`, borderRadius: 3, fontSize: '0.875rem', color: D.textActive, outline: '2px solid #0055FF' }}>
                 Tlačítko
               </div>
@@ -286,6 +293,7 @@ function DonjonFocusContent() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
               <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: D.successColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>✓ Donjon ring</p>
+              {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
               <div style={{ padding: '8px 16px', background: '#1E1C3A', border: `1px solid ${D.goldDim}40`, borderRadius: 3, fontSize: '0.875rem', color: D.textActive, outline: `2px solid ${D.goldMid}`, outlineOffset: 2 }}>
                 Tlačítko
               </div>
@@ -333,8 +341,9 @@ className="focus-visible:outline-2 focus-visible:outline-[goldMid] focus-visible
         <Preview>
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-start' }}>
             <RingAnatomy label="Default"  offset={2}  width={2} color={D.goldMid}      />
-            <RingAnatomy label="Danger"   offset={2}  width={2} color="failColor"         />
+            <RingAnatomy label="Danger"   offset={2}  width={2} color={failColor}         />
             <RingAnatomy label="Success"  offset={2}  width={2} color={D.successColor}  />
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             <RingAnatomy label="Info"     offset={2}  width={2} color="#4080C0"          />
             <RingAnatomy label="Inset"    offset={-2} width={2} color={D.goldMid}
               style={{ border: `2px solid ${D.goldDim}40` }}

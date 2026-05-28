@@ -1,5 +1,7 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textFaint } from '../lib/donjon/tokens'
+import {
+  dangerColor, textFaint, textLow,
+} from '../lib/donjon/tokens'
 import { players } from '../data/gameUiMockData'
 import { Shield, PlayerIdentityBadge } from '../lib/donjon/Erb'
 
@@ -38,7 +40,7 @@ export default function ErbPage() {
           </div>
         </Preview>
 
-        <CodeBlock code={`<Shield player={{ color: '#E05C5C', label: 'Hráč 1' }} size="md" />`} />
+        <CodeBlock code={`<Shield player={{ color: dangerColor, label: 'Hráč 1' }} size="md" />`} />
       </Section>
 
       <Section
@@ -78,14 +80,14 @@ export default function ErbPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
             {/* Erb — gold ornaments */}
             <div>
-              <div style={{ fontSize: '0.625rem', color: '#9A9080', marginBottom: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '0.625rem', color: textLow, marginBottom: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                 Erb · ornamentColor=&quot;gold&quot; (default)
               </div>
               <div style={{ display: 'flex', gap: 24, alignItems: 'flex-end' }}>
                 {['sm', 'md', 'lg'].map(sz => (
                   <div key={sz} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
                     <Shield player={players[0]} size={sz} ornament="decorated" />
-                    <span style={{ fontSize: '0.6875rem', color: '#9A9080', fontFamily: 'ui-monospace, monospace' }}>
+                    <span style={{ fontSize: '0.6875rem', color: textLow, fontFamily: 'ui-monospace, monospace' }}>
                       size={sz}
                     </span>
                   </div>
@@ -95,7 +97,7 @@ export default function ErbPage() {
 
             {/* Erb — player ornaments */}
             <div>
-              <div style={{ fontSize: '0.625rem', color: '#9A9080', marginBottom: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '0.625rem', color: textLow, marginBottom: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                 Erb · ornamentColor=&quot;player&quot;
               </div>
               <div style={{ display: 'flex', gap: 24, alignItems: 'flex-end' }}>
@@ -112,7 +114,7 @@ export default function ErbPage() {
 
             {/* Prapor — decorated */}
             <div>
-              <div style={{ fontSize: '0.625rem', color: '#9A9080', marginBottom: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '0.625rem', color: textLow, marginBottom: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                 Prapor · decorated (gold + player)
               </div>
               <div style={{ display: 'flex', gap: 20, alignItems: 'flex-end' }}>
@@ -124,11 +126,13 @@ export default function ErbPage() {
             </div>
           </div>
         </Preview>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
         <CodeBlock code={`{/* Default ornament = 'plain' — žádné dekorace (back-compat) */}
-<Shield player={{ id: 1, color: '#E05C5C' }} size="md" />
+<Shield player={{ id: 1, color: dangerColor }} size="md" />
 
 {/* Decorated s gold ornaments (default ornamentColor) */}
-<Shield player={{ id: 1, color: '#E05C5C' }} size="lg" ornament="decorated" />
+<Shield player={{ id: 1, color: dangerColor }} size="lg" ornament="decorated" />
 
 {/* Decorated s barvou hráče */}
 <Shield player={{ id: 2, color: '#4A90E2' }} size="md"
@@ -151,7 +155,7 @@ export default function ErbPage() {
               {[80, 120, 160, 200].map(h => (
                 <div key={h} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
                   <Shield shape="prapor" player={players[0]} width={32} height={h} />
-                  <span style={{ fontSize: '0.6875rem', color: '#9A9080', fontFamily: 'ui-monospace, monospace' }}>
+                  <span style={{ fontSize: '0.6875rem', color: textLow, fontFamily: 'ui-monospace, monospace' }}>
                     h={h}
                   </span>
                 </div>
@@ -163,7 +167,7 @@ export default function ErbPage() {
               {[24, 32, 48, 64].map(w => (
                 <div key={w} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
                   <Shield shape="prapor" player={players[1]} width={w} height={140} showSymbol={false} />
-                  <span style={{ fontSize: '0.6875rem', color: '#9A9080', fontFamily: 'ui-monospace, monospace' }}>
+                  <span style={{ fontSize: '0.6875rem', color: textLow, fontFamily: 'ui-monospace, monospace' }}>
                     w={w}
                   </span>
                 </div>
@@ -171,8 +175,11 @@ export default function ErbPage() {
             </div>
           </div>
         </Preview>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
         <CodeBlock code={`{/* Prapor s symbolem hráče u vrchu (showSymbol implicit true) */}
-<Shield shape="prapor" player={{ id: 1, color: '#E05C5C' }} width={32} height={120} />
+<Shield shape="prapor" player={{ id: 1, color: dangerColor }} width={32} height={120} />
 
 {/* Prapor bez symbolu (čistá dekorace) */}
 <Shield shape="prapor" playerColor="#4A90E2" width={40} height={200} showSymbol={false} />

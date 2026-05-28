@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { textFaint, textParchment, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
+import {
+  bg4, bgDeep, dangerText, goldDim, successText, textFaint, textParchment,
+} from '../lib/donjon/tokens'
 import { useBreakpoint } from '../hooks/useBreakpoint'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
@@ -203,7 +205,7 @@ export default function AkcePage() {
             >
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <DonjonBadge variant="warning">Pouze věž se 3+ kostkami</DonjonBadge>
-                <p style={{ margin: 0, fontSize: '0.8125rem', color: '#F9C0C0', lineHeight: 1.6 }}>
+                <p style={{ margin: 0, fontSize: '0.8125rem', color: dangerText, lineHeight: 1.6 }}>
                   Odstraň spodní kostku věže ze hry. Za každou zničenou nepřátelskou kostku získáš 1 VP.
                 </p>
               </div>
@@ -240,7 +242,7 @@ export default function AkcePage() {
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               <DonjonBadge variant="success">Vždy dostupné</DonjonBadge>
-              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#C0F0C8', lineHeight: 1.6 }}>
+              <p style={{ margin: 0, fontSize: '0.8125rem', color: successText, lineHeight: 1.6 }}>
                 Přehoď jednu svou kostku (solo nebo vrchol věže). Nová hodnota musí být ≥ původní — jinak se ponechá původní.
                 Kostka může jen posílit nebo zůstat stejná. Přehazování kostky s hodnotou 6 je legální.
               </p>

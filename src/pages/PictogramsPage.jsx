@@ -66,7 +66,7 @@ function TkajuiContent() {
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: 24 }}>
                 {SIZES.map(s => (
                   <div key={s} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-                    <Pictogram icon={SwordIcon} size={s} color="goldDim" />
+                    <Pictogram icon={SwordIcon} size={s} color={goldDim} />
                     <span style={nano}>{s}</span>
                   </div>
                 ))}
@@ -115,7 +115,7 @@ function TkajuiContent() {
           <CodeBlock code={`import Pictogram from 'src/lib/tkajui/Pictogram'
 import { SwordIcon } from 'src/lib/donjon/icons'
 
-<Pictogram icon={SwordIcon} size="lg" color="gold" />`} />
+<Pictogram icon={SwordIcon} size="lg" color={gold} />`} />
         </Preview>
       </Section>
     </>

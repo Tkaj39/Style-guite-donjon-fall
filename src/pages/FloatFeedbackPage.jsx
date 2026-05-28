@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import FloatFeedback from '../lib/donjon/FloatFeedback'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { gold, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
+import {
+  bg4, bgDeep, dangerColor, gainColor, gold, goldDim,
+} from '../lib/donjon/tokens'
 
 /* ── Trigger tlačítko ── */
 function TriggerButton({ label, color, onClick }) {
@@ -58,8 +60,8 @@ function HexContainer({ children, label }) {
 
 /* ── Varianta demo ── */
 const VARIANTS = [
-  { variant: 'gain',    label: 'gain',    text: '+1',     color: '#50B86C', desc: 'Zisk jednotky nebo akce' },
-  { variant: 'loss',    label: 'loss',    text: '−1',     color: '#E05C5C', desc: 'Ztráta jednotky nebo HP' },
+  { variant: 'gain',    label: 'gain',    text: '+1',     color: gainColor, desc: 'Zisk jednotky nebo akce' },
+  { variant: 'loss',    label: 'loss',    text: '−1',     color: dangerColor, desc: 'Ztráta jednotky nebo HP' },
   { variant: 'vp',      label: 'vp',      text: '+1 VP',  color: gold, desc: 'Získání vítězných bodů' },
   { variant: 'neutral', label: 'neutral', text: 'skip',   color: goldDim, desc: 'Neutrální herní event' },
 ]

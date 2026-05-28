@@ -1,13 +1,17 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textDeep, textCool, goldMid, bg0, successColor, textActive, failColor, goldDim } from '../lib/donjon/tokens'
+import {
+  bg0, failColor, goldDim, goldMid, successColor, textActive, textCool, textDeep, warningColor,
+} from '../lib/donjon/tokens'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 
 /* ── Error card ── */
 function ErrorCard({ icon, title, desc, actions, severity = 'danger' }) {
   const colors = {
+    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
     danger:  { border: `${failColor}`, bg: '#3D1818', badge: 'danger'  },
-    warning: { border: '#C08040', bg: '#3D2E10', badge: 'warning' },
+    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+    warning: { border: warningColor, bg: '#3D2E10', badge: 'warning' },
   }
   const c = colors[severity] ?? colors.danger
   return (
@@ -43,6 +47,7 @@ function InlineError({ label, value, error }) {
       <label style={{ fontSize: '0.75rem', color: textCool }}>{label}</label>
       <div style={{
         padding: '7px 10px',
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
         background: '#C0404018',
         border: `1.5px solid ${failColor}`,
         borderRadius: 3,
@@ -228,10 +233,12 @@ addToast({
               { bad: 'Illegal move: hex occupied',        good: 'Tento hex je obsazený hráčem 2 — zvol jiný cíl.' },
             ].map(({ bad, good }) => (
               <div key={bad} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, borderRadius: 3, overflow: 'hidden' }}>
+                {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
                 <div style={{ padding: '8px 12px', background: '#3D181820', border: '1px solid #C0404030' }}>
                   <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: failColor, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✗ Špatně</p>
                   <p style={{ margin: 0, fontSize: '0.8125rem', color: textCool, fontFamily: 'monospace' }}>{bad}</p>
                 </div>
+                {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
                 <div style={{ padding: '8px 12px', background: '#183D2020', border: '1px solid #40A05530' }}>
                   <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: successColor, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✓ Dobře</p>
                   <p style={{ margin: 0, fontSize: '0.8125rem', color: textActive }}>{good}</p>

@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { textFaint, goldMid, goldDim, bg4, failColor, bgDeep } from '../lib/donjon/tokens'
+import {
+  bg4, bgDeep, bgInactive, borderDefault, failColor, goldDim, goldMid, textFaint, textHighest,
+} from '../lib/donjon/tokens'
 import HexTile from '../lib/donjon/HexTile'
 import DieFace from '../lib/donjon/DieFace'
 import DonjonCard from '../lib/donjon/DonjonCard'
@@ -58,7 +60,9 @@ function TurnHUD({ player, turn, phase, warning = false }) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul)
       background: `linear-gradient(150deg,#232238 0%,${bgDeep} 70%)`,
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       border: `1px solid ${warning ? failColor : '#3A3858'}`,
       borderRadius: 4, padding: '10px 16px',
       boxShadow: warning ? '0 0 12px #C0404033' : 'none',
@@ -72,10 +76,12 @@ function TurnHUD({ player, turn, phase, warning = false }) {
       {/* Player name */}
       <span style={{
         fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul)
         background: `linear-gradient(180deg,#F9F9F9 0%,${goldMid} 100%)`,
         WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
       }}>{player.label}</span>
       {/* Divider */}
+      {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
       <div style={{ width: 1, height: 20, background: '#3A3858', flexShrink: 0 }} />
       {/* Turn number */}
       <DonjonBadge size="sm" variant="default">Tah {turn}</DonjonBadge>
@@ -242,7 +248,7 @@ export default function MapPage() {
             <div style={{ display: 'flex', gap: 8 }}>
               {turnPhases.map((ph, i) => (
                 <button key={i} onClick={() => setHudPhase(i)} style={{
-                  background: hudPhase === i ? '#353751' : bgDeep,
+                  background: hudPhase === i ? borderDefault : bgDeep,
                   border: '1px solid #3A3858', borderRadius: 3,
                   color: goldDim, fontSize: '0.625rem', padding: '4px 10px',
                   cursor: 'pointer', letterSpacing: '0.08em', textTransform: 'uppercase',

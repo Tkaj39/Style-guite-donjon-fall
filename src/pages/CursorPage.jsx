@@ -8,6 +8,7 @@ function CursorDemo({ cursor, label, desc, children }) {
       <div
         style={{
           padding: '12px 20px',
+          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
           background: '#1E1C3A',
           border: `1px solid ${goldDim}40`,
           borderRadius: 3,
@@ -120,11 +121,13 @@ export default function CursorPage() {
       >
         <Preview dark={false}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, maxWidth: 540 }}>
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             <div style={{ padding: '14px', border: '1px solid #C0404040', borderRadius: 4, background: '#3D181818' }}>
               <p style={{ margin: '0 0 8px', fontSize: '0.5625rem', fontWeight: 700, color: failColor, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✗ pointer-events: none na disabled</p>
               <p style={{ margin: '0 0 4px', fontSize: '0.8125rem', color: textActive }}>Tooltip se nezobrazí</p>
               <p style={{ margin: 0, fontSize: '0.75rem', color: textCool }}>Uživatel nevidí cursor not-allowed — neví proč je disabled.</p>
             </div>
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             <div style={{ padding: '14px', border: '1px solid #40A05540', borderRadius: 4, background: '#183D2018' }}>
               <p style={{ margin: '0 0 8px', fontSize: '0.5625rem', fontWeight: 700, color: successColor, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✓ cursor: not-allowed + disabled attr</p>
               <p style={{ margin: '0 0 4px', fontSize: '0.8125rem', color: textActive }}>Tooltip lze přidat na wrapper</p>

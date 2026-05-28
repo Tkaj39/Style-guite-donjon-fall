@@ -6,7 +6,9 @@ import FloatFeedback from '../lib/donjon/FloatFeedback'
 import HexTile from '../lib/donjon/HexTile'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import { players } from '../data/gameUiMockData'
-import { gold, goldDim, bg4, bgDeep, textFaint, textParchment } from '../lib/donjon/tokens'
+import {
+  bg4, bgDeep, dangerColor, gold, goldDim, textFaint, textParchment,
+} from '../lib/donjon/tokens'
 
 /* ── Static spec helpers ── */
 
@@ -89,6 +91,8 @@ function PlayButton({ onClick, playing }) {
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 6,
         background: playing ? bgDeep : bg4,
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         border: `1px solid ${playing ? '#3A3858' : '#5A5878'}`,
         borderRadius: 4, padding: '5px 14px',
         fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em',
@@ -1418,11 +1422,13 @@ function SuddenDeathDemo() {
         onClick={() => setActive(a => !a)}
         style={{
           display: 'inline-flex', alignItems: 'center', gap: 6,
+          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
           background: active ? '#2A1A1A' : bg4,
+          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
           border: `1px solid ${active ? '#E05C5C66' : '#5A5878'}`,
           borderRadius: 4, padding: '5px 14px',
           fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em',
-          color: active ? '#E05C5C' : textParchment,
+          color: active ? dangerColor : textParchment,
           cursor: 'pointer', transition: 'background 150ms, color 150ms',
         }}
       >
@@ -1807,7 +1813,7 @@ export default function AnimacePage() {
                 <HexWithDie hexState="selected" dieValue={5} dieColor={p1.color} />
                 <Arrow />
                 <HexWithDie hexState="selected" dieValue={4} dieColor={p1.color} />
-                <span style={{ fontSize: '0.75rem', color: '#E05C5C', fontWeight: 700 }}>−1</span>
+                <span style={{ fontSize: '0.75rem', color: dangerColor, fontWeight: 700 }}>−1</span>
               </FrameRow>
             </AnimSpec>
             <AnimSpec
@@ -1966,7 +1972,7 @@ export default function AnimacePage() {
                   { value: 4, color: p1.color },
                   { value: 2, color: p1.color },
                 ]} />
-                <span style={{ fontSize: '0.75rem', color: '#E05C5C', fontWeight: 700 }}>−1</span>
+                <span style={{ fontSize: '0.75rem', color: dangerColor, fontWeight: 700 }}>−1</span>
                 <Arrow />
                 <HexWithDie hexState="base" owner={p2.color} dieValue={3} dieColor={p2.color} />
                 <DonjonBadge variant="default">Push only</DonjonBadge>

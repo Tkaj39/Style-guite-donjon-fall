@@ -3,6 +3,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { registry, CATEGORIES, getCategoryCounts } from '../data/componentRegistry'
 import { ShowcasePage, Section } from '../styleguide/ShowcasePage'
 import {
+  accent, borderMid,
+} from '../lib/tkajui/tokens'
+import { goldMid } from '../lib/donjon/tokens'
+import {
   Badge,
   Button,
   ButtonGroup,
@@ -45,35 +49,45 @@ const TECH_STACK = [
   {
     group: 'Runtime',
     items: [
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       { name: 'React',        version: '19.2.6',  role: 'UI framework',                 url: 'https://react.dev',               accent: '#61dafb' },
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       { name: 'React DOM',    version: '19.2.6',  role: 'DOM renderer',                 url: 'https://react.dev',               accent: '#61dafb' },
     ],
   },
   {
     group: 'Routing',
     items: [
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       { name: 'React Router', version: '6.30.3',  role: 'SPA routing',                  url: 'https://reactrouter.com',         accent: '#ca4246' },
     ],
   },
   {
     group: 'Styling',
     items: [
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       { name: 'Tailwind CSS',       version: '4.3.0',  role: 'Utility-first CSS framework',  url: 'https://tailwindcss.com',         accent: '#38bdf8' },
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       { name: '@tailwindcss/vite',  version: '4.3.0',  role: 'Vite plugin pro Tailwind v4',  url: 'https://tailwindcss.com/docs/installation/using-vite', accent: '#38bdf8' },
     ],
   },
   {
     group: 'Build',
     items: [
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       { name: 'Vite',               version: '8.0.14', role: 'Dev server + bundler',          url: 'https://vite.dev',                accent: '#a78bfa' },
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       { name: '@vitejs/plugin-react', version: '6.0.2', role: 'React + Oxc transform',        url: 'https://github.com/vitejs/vite-plugin-react', accent: '#a78bfa' },
     ],
   },
   {
     group: 'Testing',
     items: [
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       { name: 'Vitest',                   version: '4.1.6',  role: 'Test runner (Vite-native)',     url: 'https://vitest.dev',              accent: '#6da13f' },
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       { name: '@testing-library/react',   version: '16.3.2', role: 'DOM testing utilities',         url: 'https://testing-library.com',     accent: '#e33d4c' },
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       { name: 'jest-axe',                 version: '10.0.0', role: 'Accessibility assertions',      url: 'https://github.com/nickcolley/jest-axe', accent: '#e33d4c' },
     ],
   },
@@ -306,8 +320,11 @@ const MINI_PREVIEWS = {
   tabs: <Tabs items={[{ value: 'map', label: 'Mapa' }, { value: 'hud', label: 'HUD' }]} value="map" onChange={_noop} size="sm" />,
   toggle: <Toggle checked onChange={_noop} size="sm" label="Aktivní" />,
   toast: <StaticToastPreview />,
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   pictogram: <Pictogram icon={SwordIcon} size="lg" color="#d9b46b" />,
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   'scoop-clip': <ScoopClip r={0.18} style={{ width: 84, height: 38, background: '#191922', border: '1px solid #34343c' }} />,
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   'notched-box': <NotchedBox style={{ width: 92, height: 42, background: '#17171f', border: '1px solid #30303a' }}><NotchedBox.Slot><span className="text-[9px] text-neutral-400">VP</span></NotchedBox.Slot></NotchedBox>,
   'corner-ornament': <div className="relative h-12 w-16 rounded border border-neutral-700 bg-neutral-900"><div className="absolute left-1 top-1 h-2.5 w-2.5 rounded-sm border border-amber-700/50" /></div>,
   ornaments: <div className="flex items-center gap-2 text-amber-300"><div className="h-7 w-2 rounded bg-amber-500/60" /><div className="h-7 w-7 rounded-[8px] border border-amber-500/60" /></div>,
@@ -328,6 +345,7 @@ const MINI_PREVIEWS = {
   'donjon-tooltip': <StaticTooltipPreview />,
   erb: <div className="flex items-center justify-center"><div className="flex h-12 w-10 items-center justify-center rounded-[12px] border border-amber-700/60 bg-neutral-900 text-[11px] font-bold text-amber-300">II</div></div>,
   'hex-tile': <HexTile state="selected" size="sm" label="A3" showLabel />,
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   'die-face': <DieFace value={5} playerColor="#d6aa57" size="sm" state="selected" />,
   'float-feedback': <FloatFeedback text="+2 VP" visible variant="success" animKey="preview" />,
   'action-tile': <ActionTile icon={<SwordIcon width={18} height={18} />} title="Útok" cost={2} size="sm" selected />,
@@ -335,6 +353,7 @@ const MINI_PREVIEWS = {
   'phase-indicator': <PhaseIndicator phases={[{ id: 'move', label: 'Pohyb' }, { id: 'fight', label: 'Souboj' }, { id: 'end', label: 'Konec' }]} currentPhase="fight" size="sm" />,
   'resource-bar': <ResourceBar value={68} max={100} variant="hp" size="sm" label="HP" showValue zones />,
   'numeric-display': <NumericDisplay value={12} label="VP" variant="vp" size="sm" />,
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token)
   'player-panel': <PlayerPanel name="Hráč 1" color="#4A90E2" symbol="shield" vp={7} hp={72} size="sm" isActive />,
   'game-transition': <GameTransition show preset="slideUp"><div className="rounded border border-amber-700/40 bg-neutral-900 px-3 py-2 text-xs text-neutral-200">Enter / exit</div></GameTransition>,
   'error-boundary': <StaticErrorPreview />,
@@ -589,9 +608,9 @@ export default function ComponentsPage() {
             </div>
             {/* Per-knihovna breakdown */}
             <div className="flex flex-wrap gap-4">
-              <LibStatBlock libId="TkajUI"         libLabel="TkajUI"         accent="#6576ff" reg={registry} />
-              <LibStatBlock libId="donjon-fall-ui"  libLabel="donjon-fall-ui" accent="goldMid" reg={registry} />
-              <LibStatBlock libId="Layout"          libLabel="Layout (internal)" accent="#484860" reg={registry} />
+              <LibStatBlock libId="TkajUI"         libLabel="TkajUI"         accent={accent} reg={registry} />
+              <LibStatBlock libId="donjon-fall-ui"  libLabel="donjon-fall-ui" accent={goldMid} reg={registry} />
+              <LibStatBlock libId="Layout"          libLabel="Layout (internal)" accent={borderMid} reg={registry} />
             </div>
           </div>
         ) : (

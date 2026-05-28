@@ -30,7 +30,9 @@ const NPM_PACKAGE = 'donjon-fall-ui'
 // Toto je výjimka z pravidla „nesmíchávej palety": HomePage prezentuje
 // OBĚ knihovny jako rovnocenné a potřebuje brand identitu pro každou.
 const BRAND = {
-  donjon: { color: '#B8956A', accent: gold,      label: 'donjon-fall-ui' },
+  donjon: { color: goldMid, accent: gold,      label: 'donjon-fall-ui' },
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)
   tkajui: { color: '#7BAED4', accent: '#7BAED4', label: 'TkajUI'         },
 }
 
@@ -118,6 +120,7 @@ function SparkIcon({ color = gold }) {
     </svg>
   )
 }
+// eslint-disable-next-line donjon/no-hardcoded-hex -- brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)
 function StackIcon({ color = '#7BAED4' }) {
   return (
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
@@ -127,6 +130,7 @@ function StackIcon({ color = '#7BAED4' }) {
     </svg>
   )
 }
+// eslint-disable-next-line donjon/no-hardcoded-hex -- brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)
 function FormIcon({ color = '#7BAED4' }) {
   return (
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
@@ -136,6 +140,7 @@ function FormIcon({ color = '#7BAED4' }) {
     </svg>
   )
 }
+// eslint-disable-next-line donjon/no-hardcoded-hex -- brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)
 function ButtonIcon({ color = '#7BAED4' }) {
   return (
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
@@ -144,6 +149,7 @@ function ButtonIcon({ color = '#7BAED4' }) {
     </svg>
   )
 }
+// eslint-disable-next-line donjon/no-hardcoded-hex -- brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)
 function ModalIcon({ color = '#7BAED4' }) {
   return (
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
@@ -153,6 +159,7 @@ function ModalIcon({ color = '#7BAED4' }) {
     </svg>
   )
 }
+// eslint-disable-next-line donjon/no-hardcoded-hex -- brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)
 function TabsIcon({ color = '#7BAED4' }) {
   return (
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
@@ -161,6 +168,7 @@ function TabsIcon({ color = '#7BAED4' }) {
     </svg>
   )
 }
+// eslint-disable-next-line donjon/no-hardcoded-hex -- brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)
 function ToggleIcon({ color = '#7BAED4' }) {
   return (
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">

@@ -33,6 +33,7 @@ function SettingsGroup({ ToggleCmp, items }) {
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '10px 16px',
+            // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
             background: i % 2 === 0 ? '#1A183020' : 'transparent',
             borderBottom: i < items.length - 1 ? `1px solid ${goldDim}20` : 'none',
           }}

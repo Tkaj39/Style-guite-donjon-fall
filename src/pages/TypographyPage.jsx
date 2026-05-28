@@ -1,5 +1,10 @@
 import { useLibVariant, ShowcasePage, Section, CodeBlock } from '../styleguide/ShowcasePage'
-import { gold, goldMid, goldDim, bg4, textActive, borderSubtle } from '../lib/donjon/tokens'
+import {
+  bg3, bg4, borderSubtle, gold, goldDim, goldMid, infoText, textActive, textDisabled,
+} from '../lib/donjon/tokens'
+import {
+  accent, borderDefault, infoBg, infoColor, surface0, surface1, surface2, surface3, textHigh, textLow, textMid,
+} from '../lib/tkajui/tokens'
 
 const inter     = '"Inter", sans-serif'
 const cormorant = '"Cormorant Garamond", serif'
@@ -19,7 +24,7 @@ function TkajuiTypeScale() {
   ]
 
   return (
-    <div style={{ background: '#0d0d14', borderRadius: 8, border: '1px solid #35354a', overflow: 'hidden' }}>
+    <div style={{ background: surface0, borderRadius: 8, border: '1px solid #35354a', overflow: 'hidden' }}>
       {scale.map((r, i) => (
         <div
           key={r.label}
@@ -32,7 +37,7 @@ function TkajuiTypeScale() {
             borderBottom: i < scale.length - 1 ? '1px solid #1b1b27' : 'none',
           }}
         >
-          <span style={{ fontSize: '0.625rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#35354a', fontFamily: inter }}>
+          <span style={{ fontSize: '0.625rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: borderDefault, fontFamily: inter }}>
             {r.label}
           </span>
           <p style={{
@@ -41,14 +46,14 @@ function TkajuiTypeScale() {
             fontSize: r.size,
             fontWeight: r.weight,
             letterSpacing: r.tracking,
-            color: '#eeeef8',
+            color: textHigh,
             lineHeight: 1.2,
           }}>
             {r.sample}
           </p>
           <div style={{ textAlign: 'right', flexShrink: 0 }}>
-            <p style={{ margin: 0, fontSize: '0.6875rem', color: '#4c4c68', fontFamily: inter }}>{r.role}</p>
-            <p style={{ margin: '2px 0 0', fontSize: '0.5625rem', color: '#35354a', fontFamily: inter, fontStyle: 'italic' }}>{r.note}</p>
+            <p style={{ margin: 0, fontSize: '0.6875rem', color: textLow, fontFamily: inter }}>{r.role}</p>
+            <p style={{ margin: '2px 0 0', fontSize: '0.5625rem', color: borderDefault, fontFamily: inter, fontStyle: 'italic' }}>{r.note}</p>
           </div>
         </div>
       ))}
@@ -58,8 +63,8 @@ function TkajuiTypeScale() {
 
 function TkajuiWeightScale() {
   return (
-    <div style={{ background: '#13131c', borderRadius: 8, border: '1px solid #35354a', padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#35354a', fontFamily: inter }}>
+    <div style={{ background: surface1, borderRadius: 8, border: '1px solid #35354a', padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: borderDefault, fontFamily: inter }}>
         Inter — přehled vah
       </p>
       {[
@@ -69,11 +74,11 @@ function TkajuiWeightScale() {
         { weight: 700, label: 'Bold',    usage: 'Stránkové nadpisy, display čísla' },
       ].map(r => (
         <div key={r.weight} style={{ display: 'grid', gridTemplateColumns: '80px 1fr 1fr', gap: 16, alignItems: 'baseline' }}>
-          <span style={{ fontSize: '0.625rem', color: '#4c4c68', fontFamily: inter }}>{r.weight} — {r.label}</span>
-          <p style={{ margin: 0, fontFamily: inter, fontSize: '1.25rem', fontWeight: r.weight, color: '#eeeef8', letterSpacing: '-0.01em' }}>
+          <span style={{ fontSize: '0.625rem', color: textLow, fontFamily: inter }}>{r.weight} — {r.label}</span>
+          <p style={{ margin: 0, fontFamily: inter, fontSize: '1.25rem', fontWeight: r.weight, color: textHigh, letterSpacing: '-0.01em' }}>
             Přehled komponent
           </p>
-          <p style={{ margin: 0, fontSize: '0.6875rem', color: '#4c4c68', fontFamily: inter }}>{r.usage}</p>
+          <p style={{ margin: 0, fontSize: '0.6875rem', color: textLow, fontFamily: inter }}>{r.usage}</p>
         </div>
       ))}
     </div>
@@ -85,12 +90,12 @@ function TkajuiKontext() {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 12 }}>
 
       {/* Karta */}
-      <div style={{ background: '#1b1b27', border: '1px solid #35354a', borderRadius: 8, overflow: 'hidden' }}>
-        <div style={{ background: '#232332', borderBottom: '1px solid #35354a', padding: '12px 16px' }}>
-          <p style={{ margin: 0, fontFamily: inter, fontSize: '0.875rem', fontWeight: 600, color: '#eeeef8', letterSpacing: '-0.01em' }}>
+      <div style={{ background: surface2, border: '1px solid #35354a', borderRadius: 8, overflow: 'hidden' }}>
+        <div style={{ background: surface3, borderBottom: '1px solid #35354a', padding: '12px 16px' }}>
+          <p style={{ margin: 0, fontFamily: inter, fontSize: '0.875rem', fontWeight: 600, color: textHigh, letterSpacing: '-0.01em' }}>
             Nastavení účtu
           </p>
-          <p style={{ margin: '2px 0 0', fontFamily: inter, fontSize: '0.75rem', color: '#4c4c68' }}>Profil a zabezpečení</p>
+          <p style={{ margin: '2px 0 0', fontFamily: inter, fontSize: '0.75rem', color: textLow }}>Profil a zabezpečení</p>
         </div>
         <div style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
           {[
@@ -98,36 +103,36 @@ function TkajuiKontext() {
             { label: 'E-mail', value: 'jan@novak.cz' },
           ].map(f => (
             <div key={f.label}>
-              <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.75rem', fontWeight: 500, color: '#8888a8' }}>{f.label}</p>
-              <p style={{ margin: 0, fontFamily: inter, fontSize: '0.875rem', color: '#eeeef8' }}>{f.value}</p>
+              <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.75rem', fontWeight: 500, color: textMid }}>{f.label}</p>
+              <p style={{ margin: 0, fontFamily: inter, fontSize: '0.875rem', color: textHigh }}>{f.value}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* Statistiky */}
-      <div style={{ background: '#1b1b27', border: '1px solid #35354a', borderRadius: 8, padding: '20px 16px', display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', fontWeight: 500, color: '#8888a8' }}>
+      <div style={{ background: surface2, border: '1px solid #35354a', borderRadius: 8, padding: '20px 16px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', fontWeight: 500, color: textMid }}>
           Celkem komponent
         </p>
-        <p style={{ margin: 0, fontFamily: inter, fontSize: '3rem', fontWeight: 700, letterSpacing: '-0.03em', color: '#6576ff', lineHeight: 1 }}>
+        <p style={{ margin: 0, fontFamily: inter, fontSize: '3rem', fontWeight: 700, letterSpacing: '-0.03em', color: accent, lineHeight: 1 }}>
           247
         </p>
-        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: '#4c4c68' }}>
+        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: textLow }}>
           ↑ 12 přidáno tento měsíc
         </p>
       </div>
 
       {/* Alert */}
-      <div style={{ background: '#071424', border: '1px solid #4fa3f544', borderRadius: 8, padding: '14px 16px', display: 'flex', gap: 10 }}>
+      <div style={{ background: infoBg, border: '1px solid #4fa3f544', borderRadius: 8, padding: '14px 16px', display: 'flex', gap: 10 }}>
         <div style={{ width: 16, height: 16, borderRadius: '50%', border: '1.5px solid #4fa3f5', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 1 }}>
-          <span style={{ fontSize: '0.5rem', color: '#4fa3f5', fontWeight: 700 }}>i</span>
+          <span style={{ fontSize: '0.5rem', color: infoColor, fontWeight: 700 }}>i</span>
         </div>
         <div>
-          <p style={{ margin: '0 0 3px', fontFamily: inter, fontSize: '0.8125rem', fontWeight: 600, color: '#93c5fd' }}>
+          <p style={{ margin: '0 0 3px', fontFamily: inter, fontSize: '0.8125rem', fontWeight: 600, color: infoText }}>
             Nová verze dostupná
           </p>
-          <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: '#8888a8', lineHeight: 1.4 }}>
+          <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: textMid, lineHeight: 1.4 }}>
             Aktualizace přináší opravy a nové komponenty.
           </p>
         </div>
@@ -141,20 +146,20 @@ function TkajuiContent() {
   return (
     <>
       <Section title="Rodina fontů">
-        <div style={{ background: '#1b1b27', border: '1px solid #35354a', borderRadius: 8, padding: '24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div style={{ background: surface2, border: '1px solid #35354a', borderRadius: 8, padding: '24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div>
-            <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.625rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#6576ff' }}>Jediný font</p>
-            <p style={{ margin: 0, fontFamily: inter, fontSize: '2rem', fontWeight: 700, color: '#eeeef8', letterSpacing: '-0.02em' }}>Inter</p>
+            <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.625rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: accent }}>Jediný font</p>
+            <p style={{ margin: 0, fontFamily: inter, fontSize: '2rem', fontWeight: 700, color: textHigh, letterSpacing: '-0.02em' }}>Inter</p>
           </div>
-          <p style={{ margin: 0, fontFamily: inter, fontSize: '0.875rem', color: '#8888a8', lineHeight: 1.6 }}>
+          <p style={{ margin: 0, fontFamily: inter, fontSize: '0.875rem', color: textMid, lineHeight: 1.6 }}>
             Čistý sans-serif pro vše — nadpisy, tělo, labely, kód. Kontrast skrze váhu (400 → 700) a velikost,
             ne skrze druhý display font. Žádné serifové ornamenty, žádná středověká stylizace.
           </p>
           <div style={{ display: 'flex', gap: 16, paddingTop: 4, borderTop: '1px solid #35354a' }}>
             {[400, 500, 600, 700].map(w => (
               <div key={w}>
-                <p style={{ margin: '0 0 3px', fontFamily: inter, fontSize: '0.5625rem', color: '#35354a' }}>{w}</p>
-                <p style={{ margin: 0, fontFamily: inter, fontWeight: w, fontSize: '1.25rem', color: '#eeeef8', letterSpacing: '-0.01em' }}>Aa</p>
+                <p style={{ margin: '0 0 3px', fontFamily: inter, fontSize: '0.5625rem', color: borderDefault }}>{w}</p>
+                <p style={{ margin: 0, fontFamily: inter, fontWeight: w, fontSize: '1.25rem', color: textHigh, letterSpacing: '-0.01em' }}>Aa</p>
               </div>
             ))}
           </div>
@@ -215,14 +220,16 @@ function DonjonRodiny() {
       <div style={{ background: 'linear-gradient(150deg,#1E1C30 0%,#141324 100%)', border: '1px solid #353751', borderRadius: 4, padding: '24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
         <div>
           <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: gold }}>Display</p>
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
           <p style={{ margin: 0, fontFamily: cormorant, fontSize: '1.5rem', fontWeight: 700, color: '#E8DDD0', letterSpacing: '0.04em' }}>Cormorant Garamond</p>
         </div>
-        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: '#6B6A82', lineHeight: 1.6 }}>
+        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: textDisabled, lineHeight: 1.6 }}>
           Jednoslovné nadpisy, výsledkové obrazovky, titulky dialogů. Vždy uppercase, vždy gold gradient. Nikdy pro tělo ani labely.
         </p>
         <div style={{ display: 'flex', gap: 12 }}>
           {[400, 600, 700].map(w => (
             <div key={w}>
+              {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
               <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.5625rem', color: '#3A3A52' }}>{w}</p>
               <p style={{ margin: 0, fontFamily: cormorant, fontWeight: w, fontSize: '1.125rem', letterSpacing: '0.04em', textTransform: 'uppercase', ...goldGrad }}>Donjon</p>
             </div>
@@ -232,15 +239,17 @@ function DonjonRodiny() {
 
       <div style={{ background: 'linear-gradient(150deg,#1E1C30 0%,#141324 100%)', border: '1px solid #353751', borderRadius: 4, padding: '24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
         <div>
-          <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6B6A82' }}>UI & Tělo</p>
+          <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: textDisabled }}>UI & Tělo</p>
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
           <p style={{ margin: 0, fontFamily: inter, fontSize: '1.5rem', fontWeight: 700, color: '#E8DDD0', letterSpacing: '-0.01em' }}>Inter</p>
         </div>
-        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: '#6B6A82', lineHeight: 1.6 }}>
+        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: textDisabled, lineHeight: 1.6 }}>
           Vše ostatní — labely, tlačítka, popisky, tělo textu, herní informace. Uppercase + letter-spacing vytváří herní charakter.
         </p>
         <div style={{ display: 'flex', gap: 12 }}>
           {[400, 500, 600, 700].map(w => (
             <div key={w}>
+              {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
               <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.5625rem', color: '#3A3A52' }}>{w}</p>
               <p style={{ margin: 0, fontFamily: inter, fontWeight: w, fontSize: '1rem', color: goldMid }}>Aa</p>
             </div>
@@ -253,6 +262,7 @@ function DonjonRodiny() {
 
 function DonjonDisplaySkala() {
   return (
+    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
     <div style={{ background: '#0F0E1A', borderRadius: 4, border: '1px solid #1E1C30', padding: '0 24px' }}>
       {[
         { size: '3.5rem',  weight: 700, sample: 'Vítězí',           role: 'Výsledek hry',   note: 'Výsledková obrazovka' },
@@ -265,8 +275,10 @@ function DonjonDisplaySkala() {
             {r.sample}
           </p>
           <div style={{ textAlign: 'right', flexShrink: 0 }}>
-            <p style={{ margin: 0, fontSize: '0.6875rem', color: '#6B6A82', fontFamily: inter }}>{r.role}</p>
+            <p style={{ margin: 0, fontSize: '0.6875rem', color: textDisabled, fontFamily: inter }}>{r.role}</p>
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: '#3A3A52', fontFamily: inter }}>{r.note}</p>
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: '#3A3A52', fontFamily: inter, fontStyle: 'italic' }}>{r.size} / {r.weight}</p>
           </div>
         </div>
@@ -277,6 +289,7 @@ function DonjonDisplaySkala() {
 
 function DonjonUISkala() {
   return (
+    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
     <div style={{ background: '#0F0E1A', borderRadius: 4, border: '1px solid #1E1C30', padding: '0 24px' }}>
       {[
         { size: '0.6875rem', weight: 700, tracking: '0.14em', transform: 'uppercase', sample: 'Extra Small Button',                   role: 'Tlačítka, labely',   note: '11px uppercase' },
@@ -287,11 +300,13 @@ function DonjonUISkala() {
         { size: '1.25rem',   weight: 700, tracking: '-0.01em',transform: 'none',      sample: 'Nadpis sekce',                          role: 'Section heading',    note: '20px bold' },
       ].map(r => (
         <div key={r.size + r.weight} style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 16, alignItems: 'end', padding: '14px 0', borderBottom: '1px solid #1E1C30' }}>
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
           <p style={{ margin: 0, fontFamily: inter, fontSize: r.size, fontWeight: r.weight, letterSpacing: r.tracking, textTransform: r.transform, color: '#E8DDD0', lineHeight: 1.2 }}>
             {r.sample}
           </p>
           <div style={{ textAlign: 'right', flexShrink: 0 }}>
-            <p style={{ margin: 0, fontSize: '0.6875rem', color: '#6B6A82', fontFamily: inter }}>{r.role}</p>
+            <p style={{ margin: 0, fontSize: '0.6875rem', color: textDisabled, fontFamily: inter }}>{r.role}</p>
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: '#3A3A52', fontFamily: inter, fontStyle: 'italic' }}>{r.size} / {r.weight}</p>
           </div>
         </div>
@@ -304,12 +319,15 @@ function DonjonKontext() {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 12 }}>
 
+      {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
       <div style={{ background: `linear-gradient(150deg,#252340 0%,${borderSubtle} 100%)`, border: '1px solid #FFC18344', borderRadius: 4, padding: '28px 24px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
         <p style={{ margin: 0, fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#3A3A52' }}>Výsledková obrazovka</p>
         <p style={{ margin: '8px 0 0', fontFamily: cormorant, fontSize: '2.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', lineHeight: 1.1, ...goldGrad }}>Červený vítězí</p>
-        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.8125rem', color: '#6B6A82' }}>5 vítězných bodů · 8 min 34 s</p>
+        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.8125rem', color: textDisabled }}>5 vítězných bodů · 8 min 34 s</p>
       </div>
 
+      {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
       <div style={{ background: `linear-gradient(150deg,#353751 0%,${bg4} 70%)`, border: `1px solid ${goldDim}`, borderRadius: 4, overflow: 'hidden' }}>
         <div style={{ background: 'linear-gradient(150deg,#3D3A5C 0%,#2E2B50 70%)', borderBottom: '1px solid #8F745844', padding: '12px 20px' }}>
           <p style={{ margin: 0, fontFamily: cormorant, fontSize: '0.9375rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', ...goldGrad }}>Souboj na poli D4</p>
@@ -318,14 +336,16 @@ function DonjonKontext() {
         <div style={{ padding: '14px 20px', display: 'flex', flexDirection: 'column', gap: 8 }}>
           {[['Útočník', 'Síla 3'], ['Obránce', 'Síla 2']].map(([k, v]) => (
             <div key={k} style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: '#6B6A82' }}>{k}</p>
+              <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: textDisabled }}>{k}</p>
               <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', fontWeight: 600, color: textActive }}>{v}</p>
             </div>
           ))}
         </div>
       </div>
 
+      {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
       <div style={{ background: '#1A1928', border: `1px solid ${goldDim}`, borderRadius: 4, padding: '24px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
         <p style={{ margin: 0, fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#3A3A52' }}>Herní dialog</p>
         <p style={{ margin: 0, fontFamily: cormorant, fontSize: '1.5rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', lineHeight: 1.2, ...goldGrad }}>Přehodit kostku?</p>
         <p style={{ margin: 0, fontFamily: inter, fontSize: '0.8125rem', color: goldDim, lineHeight: 1.5 }}>

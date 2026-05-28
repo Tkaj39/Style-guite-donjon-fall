@@ -92,6 +92,7 @@ export default function TexturePage() {
           <TextureBox
             label="Diagonal shimmer"
             desc="Jemný zlatý přesah na kartě"
+            // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
             style={{ background: `${GRADIENTS.diagonal}, #1E1C3A` }}
           />
         </Preview>

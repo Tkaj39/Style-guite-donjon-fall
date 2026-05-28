@@ -1,15 +1,25 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textDeep, textCool, goldMid, goldDim, bg0, bg4, successColor, textActive, borderSubtle } from '../lib/donjon/tokens'
+import {
+  bg0, bg3, bg4, borderDefault, borderSubtle, goldDim, goldMid, successColor, textActive, textCool, textDeep,
+} from '../lib/donjon/tokens'
 
 const LAYERS = [
   { name: 'base',         z: 0,    color: bg4, label: 'Základní obsah', desc: 'Herní plán, text, statické elementy stránky.' },
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   { name: 'raised',       z: 10,   color: '#2E2B50', label: 'Vyvýšené karty', desc: 'Hover karta, aktivní hex tile, přepnutý panel.' },
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   { name: 'sticky',       z: 100,  color: '#353358', label: 'Sticky prvky', desc: 'Sticky header, fixní HUD, turn indicator.' },
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   { name: 'dropdown',     z: 200,  color: '#3A3860', label: 'Dropdown / Select', desc: 'Otevřený Select, kontextové menu, auto-complete.' },
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   { name: 'sidebar',      z: 300,  color: '#3E3D68', label: 'Sidebar / Drawer', desc: 'Mobilní sidebar, vysuvné panely.' },
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   { name: 'modal-bg',     z: 900,  color: '#252240', label: 'Modal backdrop', desc: 'Tmavé pozadí za modálem.' },
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   { name: 'modal',        z: 1000, color: '#4A4878', label: 'Modal / Dialog', desc: 'Modální dialog, potvrzovací overlay.' },
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   { name: 'toast',        z: 2000, color: '#504E80', label: 'Toast / Notifikace', desc: 'Plovoucí notifikace — vždy nad vším ostatním kromě tooltipu.' },
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   { name: 'tooltip',      z: 3000, color: '#585688', label: 'Tooltip', desc: 'Kontextová nápověda — nejvyšší z UI vrstev.' },
   { name: 'devtools',     z: 9999, color: borderSubtle, label: 'Dev / Debug', desc: 'Debug overlay, vývojářské panely.' },
 ]
@@ -42,11 +52,15 @@ function LayerBar({ name, z, color, label, desc, highlight }) {
 /* Vizuální stack diagram */
 function StackDiagram() {
   const visible = [
+    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
     { z: 3000, label: 'Tooltip', bg: '#2A3D5A', border: '#4080C0' },
+    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
     { z: 2000, label: 'Toast',   bg: '#2A3520', border: `${successColor}` },
-    { z: 1000, label: 'Modal',   bg: '#353751', border: `${goldDim}` },
+    { z: 1000, label: 'Modal',   bg: borderDefault, border: `${goldDim}` },
+    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
     { z: 900,  label: 'Backdrop',bg: '#0A0820', border: `${goldDim}30`, opacity: 0.8 },
-    { z: 200,  label: 'Select',  bg: '#252340', border: `${goldDim}55` },
+    { z: 200,  label: 'Select',  bg: bg3, border: `${goldDim}55` },
     { z: 0,    label: 'Obsah',   bg: bg0, border: `${goldDim}30` },
   ]
   return (

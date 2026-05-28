@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import DonjonNotificationCenter from '../lib/donjon/DonjonNotificationCenter'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import {
+  bg2, gold, goldDim, infoLight, textDisabled, textFaint, textLow, textMid,
+} from '../lib/donjon/tokens'
 
 /* ── Mock eventy pro showcase ── */
 const SAMPLE_EVENTS = [
@@ -32,7 +35,7 @@ function NotifDemo({ position = 'bottom-right' }) {
 
   return (
     <div style={{ position: 'relative', minHeight: 200, display: 'flex', flexDirection: 'column', gap: 10 }}>
-      <p style={{ margin: 0, fontSize: '0.75rem', color: '#9A9080' }}>
+      <p style={{ margin: 0, fontSize: '0.75rem', color: textLow }}>
         Klikni na tlačítka pro přidání eventů, pak na zvoneček (vpravo dole) pro otevření panelu:
       </p>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -42,8 +45,8 @@ function NotifDemo({ position = 'bottom-right' }) {
             onClick={() => addEvent(type)}
             style={{
               padding: '5px 10px', fontSize: '0.75rem', borderRadius: 3,
-              border: '1px solid #353751', background: '#1E1C30',
-              color: '#C8BFAF', cursor: 'pointer',
+              border: '1px solid #353751', background: bg2,
+              color: textMid, cursor: 'pointer',
             }}
           >
             + {type}
@@ -54,13 +57,13 @@ function NotifDemo({ position = 'bottom-right' }) {
           style={{
             padding: '5px 10px', fontSize: '0.75rem', borderRadius: 3,
             border: '1px solid #353751', background: 'transparent',
-            color: '#6B6A82', cursor: 'pointer',
+            color: textDisabled, cursor: 'pointer',
           }}
         >
           clear all
         </button>
       </div>
-      <p style={{ margin: 0, fontSize: '0.6875rem', color: '#4A4560' }}>
+      <p style={{ margin: 0, fontSize: '0.6875rem', color: textFaint }}>
         {events.length} eventů celkem
       </p>
 
@@ -122,11 +125,11 @@ const [events, setEvents] = useState([])
             ].map(e => (
               <div key={e.type} style={{
                 padding: '7px 12px', borderRadius: 3,
-                background: '#1E1C30', border: '1px solid #353751',
-                fontSize: '0.8125rem', color: '#C8BFAF',
+                background: bg2, border: '1px solid #353751',
+                fontSize: '0.8125rem', color: textMid,
                 display: 'flex', gap: 8, alignItems: 'center',
               }}>
-                <code style={{ fontSize: '0.625rem', color: '#8F7458', minWidth: 50 }}>{e.type}</code>
+                <code style={{ fontSize: '0.625rem', color: goldDim, minWidth: 50 }}>{e.type}</code>
                 {e.text}
               </div>
             ))}
@@ -153,8 +156,8 @@ const [events, setEvents] = useState([])
             {['bottom-right', 'bottom-left', 'top-right', 'top-left'].map(pos => (
               <div key={pos} style={{
                 padding: '6px 12px', borderRadius: 3,
-                background: '#1E1C30', border: '1px solid #353751',
-                fontSize: '0.75rem', color: '#FFC183',
+                background: bg2, border: '1px solid #353751',
+                fontSize: '0.75rem', color: gold,
                 fontFamily: 'monospace',
               }}>
                 position="{pos}"
@@ -187,13 +190,13 @@ const [events, setEvents] = useState([])
               <div key={name} style={{
                 display: 'grid', gridTemplateColumns: '120px 200px 100px 1fr',
                 gap: 8, padding: '6px 10px', borderRadius: 3,
-                background: '#1E1C30', border: '1px solid #353751',
+                background: bg2, border: '1px solid #353751',
                 fontSize: '0.75rem',
               }}>
-                <code style={{ color: '#FFC183' }}>{name}</code>
-                <code style={{ color: '#7AAEF5' }}>{type}</code>
-                <span style={{ color: '#9A9080' }}>{req}</span>
-                <span style={{ color: '#C8BFAF' }}>{desc}</span>
+                <code style={{ color: gold }}>{name}</code>
+                <code style={{ color: infoLight }}>{type}</code>
+                <span style={{ color: textLow }}>{req}</span>
+                <span style={{ color: textMid }}>{desc}</span>
               </div>
             ))}
           </div>

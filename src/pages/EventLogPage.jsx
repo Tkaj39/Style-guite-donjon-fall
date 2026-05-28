@@ -4,9 +4,7 @@ import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonSelect from '../lib/donjon/DonjonSelect'
 import { CodeBlock } from '../styleguide/ShowcasePage'
 import {
-  gold, bg2, bgDeep, borderDefault,
-  textMid, textFaint, textParchment,
-  gainColor, dangerColor, warningColor,
+  bg2, bgDeep, borderDefault, dangerColor, gainColor, gold, goldMid, textFaint, textMid, textParchment, warningColor,
 } from '../lib/donjon/tokens'
 
 const PAGE    = { padding: '40px 32px', maxWidth: 860, margin: '0 auto' }
@@ -243,7 +241,7 @@ export default function EventLogPage() {
               maxHeight={160}
               renderEvent={(event) => (
                 <div style={{ padding: '6px 10px', fontSize: '0.75rem', color: textFaint }}>
-                  <strong style={{ color: '#B8956A' }}>[{event.type}]</strong> {event.text}
+                  <strong style={{ color: goldMid }}>[{event.type}]</strong> {event.text}
                 </div>
               )}
             />

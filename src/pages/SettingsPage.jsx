@@ -42,7 +42,9 @@ function MiniToggle({ on, label, fs = '0.4375rem', labelW = 80 }) {
       <span style={{ fontSize: fs, color: goldDim, width: labelW, flexShrink: 0 }}>{label}</span>
       <div style={{
         width: 26, height: 13, borderRadius: 7, flexShrink: 0,
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
         background: on ? '#FFC18330' : bgDeep,
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         border: `1px solid ${on ? '#FFC18366' : '#3A3858'}`,
         position: 'relative',
       }}>
@@ -105,7 +107,9 @@ function TabJazyk({ fs = '0.4375rem' }) {
         <div key={l.code} style={{
           display: 'flex', alignItems: 'center', gap: 8,
           padding: '4px 8px', borderRadius: 3,
+          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
           background: l.active ? '#252342' : 'transparent',
+          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
           border: `1px solid ${l.active ? '#5A5878' : 'transparent'}`,
         }}>
           <div style={{
@@ -115,6 +119,7 @@ function TabJazyk({ fs = '0.4375rem' }) {
           <span style={{ fontSize: fs, color: l.active ? textParchment : textFaint, fontWeight: l.active ? 700 : 400 }}>
             {l.label}
           </span>
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
           <span style={{ fontSize: '0.375rem', color: '#3A3858', marginLeft: 'auto' }}>{l.code}</span>
         </div>
       ))}
@@ -167,7 +172,9 @@ function TabGrafika({ fs = '0.4375rem', labelW = 64 }) {
           {['Nízká', 'Střední', 'Vysoká'].map((q, i) => (
             <div key={q} style={{
               padding: '2px 6px', borderRadius: 2, fontSize: '0.375rem',
+              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
               background: i === 2 ? '#252342' : bgDeep,
+              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
               border: `1px solid ${i === 2 ? '#5A5878' : bg4}`,
               color: i === 2 ? textParchment : textFaint,
               fontWeight: i === 2 ? 700 : 400,
@@ -211,6 +218,7 @@ function SettingsModal({ activeTab = 'zvuk', size = 'desktop' }) {
   return (
     <div style={{
       width: modalW,
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       background: '#1C1A2E',
       border: '1px solid #3A3858',
       borderRadius: 6,
@@ -222,6 +230,7 @@ function SettingsModal({ activeTab = 'zvuk', size = 'desktop' }) {
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: isDesktop ? '10px 16px' : '7px 12px',
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         borderBottom: `1px solid ${bg4}`, background: '#14132A',
       }}>
         <span style={{
@@ -235,6 +244,7 @@ function SettingsModal({ activeTab = 'zvuk', size = 'desktop' }) {
       <div style={{
         display: 'flex',
         borderBottom: `1px solid ${bg4}`,
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         padding: '0 12px', gap: 2, background: '#14132A',
       }}>
         {tabs.map(t => (
@@ -255,6 +265,7 @@ function SettingsModal({ activeTab = 'zvuk', size = 'desktop' }) {
       <div style={{
         display: 'flex', justifyContent: 'flex-end', gap: 8,
         padding: isDesktop ? '10px 16px' : '7px 12px',
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         borderTop: `1px solid ${bg4}`, background: '#14132A',
       }}>
         <div style={{
@@ -269,6 +280,7 @@ function SettingsModal({ activeTab = 'zvuk', size = 'desktop' }) {
           fontSize: tabFs, color: gold, fontWeight: 700,
           letterSpacing: '0.08em', textTransform: 'uppercase',
           border: '1px solid #FFC18355', borderRadius: 3,
+          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
           background: '#2A2020', boxShadow: '0 0 6px #FFC18322',
         }}>Uložit →</div>
       </div>
@@ -289,6 +301,7 @@ function BackdropHUD({ hudH = 34 }) {
       <span style={{ fontSize: '0.4375rem', color: textParchment, fontWeight: 700, letterSpacing: '0.06em' }}>HRÁČ 1</span>
       <div style={{
         marginLeft: 'auto',
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         background: '#252342', borderRadius: 2,
         padding: '1px 6px', fontSize: '0.375rem',
         color: gold, fontWeight: 700,
@@ -315,6 +328,7 @@ function SettingsLayout({ activeTab = 'zvuk', size = 'desktop' }) {
       {/* Overlay */}
       <div style={{
         position: 'absolute', inset: 0,
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         background: '#00000066',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
@@ -330,6 +344,7 @@ function TabPreview({ tab, title, description }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       <DonjonCard title={title} description={description}>
         <div style={{
+          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
           background: '#12111F', borderRadius: 4, padding: '12px 14px',
           border: '1px solid #1E1D30',
         }}>

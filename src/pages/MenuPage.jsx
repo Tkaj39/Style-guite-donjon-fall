@@ -35,8 +35,12 @@ function MiniMenuBtn({ label, primary = false, disabled = false, fs = '0.5rem', 
   return (
     <div style={{
       padding: `${py}px ${px}px`,
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       border: `1px solid ${primary ? '#FFC18388' : disabled ? '#1E1D30' : '#3A3858'}`,
       borderRadius: 4,
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       background: primary ? '#2A2020' : disabled ? '#12111F' : bgDeep,
       color: primary ? gold : disabled ? bg4 : goldDim,
       fontSize: fs,
@@ -57,6 +61,7 @@ function MenuDesktopLayout() {
       {/* Levý dekorativní panel */}
       <div style={{
         flex: 1,
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         background: `radial-gradient(ellipse at 60% 50%, ${borderSubtle} 0%, #0A0917 100%)`,
         borderRight: `1px solid ${bg4}`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -77,6 +82,7 @@ function MenuDesktopLayout() {
 
       {/* Pravý menu panel */}
       <div style={{
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         width: 260, background: '#14132A',
         borderLeft: '1px solid #1E1D30',
         display: 'flex', flexDirection: 'column',
@@ -121,6 +127,7 @@ function MenuTabletLayout() {
     <div style={{
       flex: 1, display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       background: `radial-gradient(ellipse at 50% 40%, ${borderSubtle} 0%, #0A0917 100%)`,
       padding: '0 48px', gap: 8,
     }}>
@@ -155,6 +162,7 @@ function MenuMobileLayout() {
     <div style={{
       flex: 1, display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       background: `radial-gradient(ellipse at 50% 40%, ${borderSubtle} 0%, #0A0917 100%)`,
       padding: '0 20px', gap: 6,
     }}>

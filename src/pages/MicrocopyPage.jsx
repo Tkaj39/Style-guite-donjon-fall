@@ -9,10 +9,12 @@ function CompRow({ bad, good, context }) {
         <p style={{ margin: 0, fontSize: '0.625rem', color: textDeep, letterSpacing: '0.06em', textTransform: 'uppercase', paddingLeft: 2 }}>{context}</p>
       )}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1 }}>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
         <div style={{ padding: '8px 12px', background: '#3D181820', border: '1px solid #C0404030' }}>
           <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: failColor, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✗ Špatně</p>
           <p style={{ margin: 0, fontSize: '0.8125rem', color: textCool }}>{bad}</p>
         </div>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
         <div style={{ padding: '8px 12px', background: '#183D2020', border: '1px solid #40A05530' }}>
           <p style={{ margin: '0 0 2px', fontSize: '0.5625rem', color: successColor, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>✓ Dobře</p>
           <p style={{ margin: 0, fontSize: '0.8125rem', color: textActive }}>{good}</p>
@@ -48,10 +50,15 @@ export default function MicrocopyPage() {
       >
         <Preview>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, width: '100%' }}>
-            <ToneChip label="Herní"     example="Zahaj bitvu — výber protivníka."    color="goldMid" bg="#2E2B50" />
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
+            <ToneChip label="Herní"     example="Zahaj bitvu — výber protivníka."    color={goldMid} bg="#2E2B50" />
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             <ToneChip label="Neutrální" example="Hra se ukládá automaticky."         color="#4080C0" bg="#182A3D" />
-            <ToneChip label="Úspěch"    example="Hra uložena. Můžeš pokračovat."    color="successColor" bg="#183D20" />
-            <ToneChip label="Chyba"     example="Tah se nepodařilo dokončit. Zkus to znovu." color="failColor" bg="#3D1818" />
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
+            <ToneChip label="Úspěch"    example="Hra uložena. Můžeš pokračovat."    color={successColor} bg="#183D20" />
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
+            <ToneChip label="Chyba"     example="Tah se nepodařilo dokončit. Zkus to znovu." color={failColor} bg="#3D1818" />
           </div>
         </Preview>
         <div className="flex flex-col gap-2 text-sm text-neutral-400 mt-2">
@@ -118,6 +125,7 @@ export default function MicrocopyPage() {
         <Preview>
           <div style={{ maxWidth: 360, width: '100%' }}>
             {/* Správný dialog */}
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             <div style={{ padding: '20px', background: '#1E1C3A', border: '1px solid #C0404040', borderRadius: 4 }}>
               <p style={{ margin: '0 0 4px', fontSize: '0.9375rem', fontWeight: 700, color: textActive }}>Smazat rozehranou hru?</p>
               <p style={{ margin: '0 0 16px', fontSize: '0.8125rem', color: textCool, lineHeight: 1.5 }}>
@@ -128,6 +136,7 @@ export default function MicrocopyPage() {
                 <div style={{ padding: '6px 14px', background: borderSubtle, border: `1px solid ${goldDim}40`, borderRadius: 2, fontSize: '0.8125rem', color: goldMid, cursor: 'pointer' }}>
                   Ponechat hru
                 </div>
+                {/* eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal) */}
                 <div style={{ padding: '6px 14px', background: '#C0404020', border: `1px solid ${failColor}`, borderRadius: 2, fontSize: '0.8125rem', color: failColor, cursor: 'pointer', fontWeight: 700 }}>
                   Smazat hru
                 </div>

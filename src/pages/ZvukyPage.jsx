@@ -1,14 +1,19 @@
 import DonjonCard from '../lib/donjon/DonjonCard'
-import { textFaint, textParchment, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
+import {
+  bg4, bgDeep, bgInactive, dangerColor, goldDim, textFaint, textParchment,
+} from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 
 /* ── Badge variant → accent color ── */
 const variantColor = {
   default: goldDim,
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   success: '#6EAB78',
-  danger:  '#E05C5C',
+  danger:  dangerColor,
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   warning: '#C89A3C',
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   info:    '#5B8FD4',
 }
 
@@ -21,7 +26,7 @@ function SoundSpec({ label, trigger, variant = 'default', loop = false, descript
     }}>
       <div style={{
         width: 32, height: 32, borderRadius: 3, flexShrink: 0,
-        background: '#232238', border: '1px solid #3A3858',
+        background: bgInactive, border: '1px solid #3A3858',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         color: textFaint, fontSize: '1rem',
       }}>
@@ -59,7 +64,7 @@ function ChainStep({ label, ms, color = textFaint, note }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
       <div style={{
-        background: '#232238', border: `1px solid ${color}`,
+        background: bgInactive, border: `1px solid ${color}`,
         borderRadius: 4, padding: '6px 12px',
         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
         minWidth: 88,
@@ -76,6 +81,7 @@ function ChainStep({ label, ms, color = textFaint, note }) {
 
 function ChainArrow() {
   return (
+    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
     <div style={{ color: '#3A3858', fontSize: '0.75rem', flexShrink: 0, alignSelf: 'flex-start', marginTop: 10, padding: '0 2px' }}>
       →
     </div>
@@ -118,7 +124,7 @@ function SharedBase({ label, ms, description }) {
       <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
         <div style={{
           width: 28, height: 28, borderRadius: 3, flexShrink: 0,
-          background: '#232238', border: '1px solid #3A3858',
+          background: bgInactive, border: '1px solid #3A3858',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           color: textFaint, fontSize: '0.875rem',
         }}>▶</div>
@@ -136,6 +142,7 @@ function VariantTail({ label, ms, variant = 'default', description }) {
   return (
     <div style={{
       display: 'flex', gap: 10, alignItems: 'flex-start',
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       background: '#15141F', borderRadius: 4,
       border: `1px solid ${color}44`,
       padding: '8px 12px', marginLeft: 20,
@@ -289,9 +296,13 @@ export default function ZvukyPage() {
               <SoundChain
                 label="Sekvenční průběh Push"
                 steps={[
+                  // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
                   { label: 'Impakt', ms: 180, color: '#E05C5C44', note: 'kovový úder' },
+                  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                   { label: 'Def. reroll', ms: 220, color: '#C89A3C44', note: 'chrastění' },
+                  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                   { label: 'Posun formace', ms: 320, color: '#5B8FD444', note: 'whoosh' },
+                  // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
                   { label: 'Settle / tail', ms: 180, color: '#4A456044', note: 'dopad / prasknutí' },
                 ]}
                 description="Čtyři za sebou jdoucí zvuky tvoří jeden push event. Settle a Destruction tail jsou vzájemně výlučné — závisí na výsledku."

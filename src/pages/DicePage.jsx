@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import DieFace from '../lib/donjon/DieFace'
-import { textFaint, gold, goldDim, textActive, bgDeep, bg2, borderDefault, textMid } from '../lib/donjon/tokens'
+import {
+  bg2, bgDeep, borderDefault, dangerColor, gold, goldDim, textActive, textFaint, textMid,
+} from '../lib/donjon/tokens'
 import HexTile from '../lib/donjon/HexTile'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
@@ -46,6 +48,7 @@ function StatPill({ label, value, color }) {
     <div style={{
       display: 'flex', alignItems: 'center', gap: 6,
       background: bgDeep, borderRadius: 4, padding: '4px 10px',
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       border: `1px solid ${color ?? '#3A3858'}33`,
     }}>
       <span style={{ fontSize: '0.5625rem', color: textFaint, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{label}</span>
@@ -138,12 +141,12 @@ function PushChainDemo({ variant }) {
           <DieFace value={2} playerColor={p2.color} size="md" />
           <div style={{
             position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '1.2rem', color: '#E05C5C', fontWeight: 900,
+            fontSize: '1.2rem', color: dangerColor, fontWeight: 900,
           }}>×</div>
         </div>
       ),
       resultLabel: 'Zničeno',
-      resultColor: '#E05C5C',
+      resultColor: dangerColor,
     },
     encircle: {
       label: 'Vlastní kostka za formací (obklíčení)',
@@ -152,7 +155,7 @@ function PushChainDemo({ variant }) {
           <DieFace value={2} playerColor={p2.color} size="md" />
           <div style={{
             position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '1.2rem', color: '#E05C5C', fontWeight: 900,
+            fontSize: '1.2rem', color: dangerColor, fontWeight: 900,
           }}>×</div>
         </div>
       ),
@@ -263,6 +266,7 @@ function RerollDemo() {
                 style={{
                   width: 24, height: 24, borderRadius: '50%',
                   background: p.color,
+                  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                   border: `2px solid ${player.id === p.id ? '#fff' : 'transparent'}`,
                   cursor: 'pointer',
                   boxShadow: player.id === p.id ? `0 0 0 1px ${p.color}` : 'none',
@@ -367,6 +371,7 @@ export default function DicePage() {
           </div>
         </Preview>
 
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
         <CodeBlock code={`<DieFace value={6} playerColor="#E05C5C" size="md" />
 <DieFace value={4} playerColor="#4D8FE0" size="sm" state="selected" />`} />
       </Section>
@@ -383,7 +388,8 @@ export default function DicePage() {
               <TowerStack dice={cleanTower} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <StatPill label="Combat Power" value={`${calcCombatPower(cleanTower)} (${cleanTower[cleanTower.length-1].value}+${cleanTower.slice(0,-1).filter(d=>d.owner===cleanTower[cleanTower.length-1].owner).length}−0)`} color={players[0].color} />
-                <StatPill label="Pohyb věže" value={calcMovementRange(cleanTower)} color="goldDim" />
+                <StatPill label="Pohyb věže" value={calcMovementRange(cleanTower)} color={goldDim} />
+                {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
                 <StatPill label="Pohyb vrcholu (skok)" value={cleanTower[cleanTower.length-1].value} color="#4D8FE0" />
                 <StatPill label="Kontroler" value={players[0].label} color={players[0].color} />
               </div>
@@ -427,7 +433,7 @@ export default function DicePage() {
                     <DieFace value={5} playerColor={players[0].color} size="md" />
                     <span style={{ fontSize: '0.5625rem', color: textFaint, textTransform: 'uppercase' }}>Před</span>
                   </div>
-                  <span style={{ color: '#E05C5C', fontWeight: 700, fontSize: '1rem' }}>−1</span>
+                  <span style={{ color: dangerColor, fontWeight: 700, fontSize: '1rem' }}>−1</span>
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
                     <DieFace value={4} playerColor={players[0].color} size="md" />
                     <span style={{ fontSize: '0.5625rem', color: textFaint, textTransform: 'uppercase' }}>Po</span>
@@ -460,7 +466,8 @@ export default function DicePage() {
               <TowerStack dice={mixedTower} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <StatPill label="Combat Power" value={`${calcCombatPower(mixedTower)} (${mixedTower[mixedTower.length-1].value}+${mixedTower.slice(0,-1).filter(d=>d.owner===mixedTower[mixedTower.length-1].owner).length}−${mixedTower.slice(0,-1).filter(d=>d.owner!==mixedTower[mixedTower.length-1].owner).length})`} color={players[0].color} />
-                <StatPill label="Pohyb věže" value={calcMovementRange(mixedTower)} color="goldDim" />
+                <StatPill label="Pohyb věže" value={calcMovementRange(mixedTower)} color={goldDim} />
+                {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
                 <StatPill label="Pohyb vrcholu (skok)" value={mixedTower[mixedTower.length-1].value} color="#4D8FE0" />
                 <StatPill label="Kontroler" value={players[0].label} color={players[0].color} />
               </div>

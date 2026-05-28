@@ -53,7 +53,7 @@ function BreakpointIndicator() {
 
   const TIERS = [
     { id: 'mobile',  label: 'Mobile',  px: `< ${bpTablet}px`,   color: dangerColor,  active: isMobile  },
-    { id: 'tablet',  label: 'Tablet',  px: `${bpTablet}–${bpDesktop-1}px`, color: '#C08040', active: isTablet  },
+    { id: 'tablet',  label: 'Tablet',  px: `${bpTablet}–${bpDesktop-1}px`, color: warningColor, active: isTablet  },
     { id: 'desktop', label: 'Desktop', px: `${bpDesktop}–${bpWide-1}px`,   color: gainColor,  active: isDesktop && !isWide },
     { id: 'wide',    label: 'Wide',    px: `≥ ${bpWide}px`,     color: gold,         active: isWide    },
   ]

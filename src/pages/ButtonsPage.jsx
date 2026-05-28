@@ -134,6 +134,7 @@ function ButtonContent() {
             ))}
           </div>
         </Preview>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal) */}
         <CodeBlock code={`// hover  → filter: brightness(1.1)
 // active → filter: brightness(0.9)
 // focus  → filter: drop-shadow(0 0 8px #FFC183AA)

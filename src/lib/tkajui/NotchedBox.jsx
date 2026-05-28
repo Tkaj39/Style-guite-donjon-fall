@@ -139,7 +139,7 @@ function NotchedBox({
     }))
     const warnings = clampedAll.map(c => c.warning).filter(Boolean)
     if (warnings.length && typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production') {
-      // eslint-disable-next-line no-console
+       
       console.warn('[NotchedBox] ' + warnings.join('; '))
     }
     const finalNotches = notches.map((n, i) => ({
@@ -159,7 +159,7 @@ function NotchedBox({
   } else {
     const clamped = notchClamp({ cx, nw, nh, side, offset: notchOffset, width, height })
     if (clamped.warning && typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production') {
-      // eslint-disable-next-line no-console
+       
       console.warn(`[NotchedBox] ${clamped.warning}`)
     }
     clipPath = octagonWithNotch(cx, clamped.nw, clamped.nh, side, clamped.offset, notchShape)

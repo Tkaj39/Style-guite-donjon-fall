@@ -17,6 +17,7 @@ function SelectionDemo({ label, bg, color, children, note }) {
         {children}
       </p>
       {note && <p style={{ margin: 0, fontSize: '0.625rem', color: textDeep, lineHeight: 1.3 }}>{note}</p>}
+      {/* eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal) */}
       <style>{`
         ::selection {
           background: #B8956A55;
@@ -44,8 +45,9 @@ export default function TextSelectionPage() {
           <div style={{ maxWidth: 440, width: '100%' }}>
             <SelectionDemo
               label="Výchozí Donjon selection"
+              // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
               bg="#B8956A55"
-              color="textActive"
+              color={textActive}
               note="Označ tento text pro zobrazení výběru →"
             >
               Zahaj strategický souboj věží v Donjon Fall. Každý tah rozhoduje o osudu pevnosti — pohybuj kostkami, obsazuj ohniska a dosáhni vítězných bodů dřív než soupeř.
@@ -146,6 +148,7 @@ className="select-all"    /* kliknutí = vybere vše (pro kód) */`} />
         <Preview>
           <div style={{
             position: 'relative',
+            // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
             background: '#0E0C22',
             border: `1px solid ${goldDim}30`,
             borderRadius: 4,

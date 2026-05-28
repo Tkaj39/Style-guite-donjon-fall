@@ -14,6 +14,7 @@ import {
 const labelStyle = {
   fontSize: '0.5625rem', fontWeight: 600,
   letterSpacing: '0.1em', textTransform: 'uppercase',
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   color: '#4a4860', marginBottom: 6,
 }
 const nano = { fontSize: '0.5rem', color: textFaint, fontFamily: 'monospace', textAlign: 'center', marginTop: 4 }
@@ -28,8 +29,11 @@ function PickerBtn({ active, onClick, children, disabled }) {
       style={{
         padding: '3px 10px',
         borderRadius: 3,
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         border: `1px solid ${active ? gold : '#2a2838'}`,
         background: active ? `${gold}18` : 'transparent',
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         color: active ? gold : disabled ? '#3a3848' : '#8a8899',
         fontSize: '0.6875rem',
         fontFamily: 'monospace',
@@ -131,6 +135,7 @@ function InteractiveDemo() {
 
         {/* r slider */}
         <div style={{ minWidth: 200 }}>
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
           <p style={labelStyle}>r = {r.toFixed(2)} <span style={{ color: '#3a3848', fontSize: '0.5rem' }}>(hloubka vydlabání)</span></p>
           <input
             type="range"
@@ -139,6 +144,7 @@ function InteractiveDemo() {
             onChange={e => setR(parseFloat(e.target.value))}
             style={{ width: '100%', accentColor: gold, cursor: 'pointer' }}
           />
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.5rem', color: '#3a3848', marginTop: 2 }}>
             <span>0.05 (mělký)</span><span>0.45 (hluboký)</span>
           </div>
@@ -167,6 +173,7 @@ function InteractiveDemo() {
                 style={{
                   width: 20, height: 20,
                   borderRadius: 3,
+                  // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
                   border: `2px solid ${colorIdx === i ? '#ffffff44' : 'transparent'}`,
                   background: c.value,
                   cursor: 'pointer',
@@ -176,6 +183,7 @@ function InteractiveDemo() {
               />
             ))}
           </div>
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
           <p style={{ fontSize: '0.5rem', color: '#4a4860', marginTop: 4, fontFamily: 'monospace' }}>{col.label}</p>
         </div>
       </div>
@@ -184,6 +192,7 @@ function InteractiveDemo() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {[140, 220, 320].map(w => (
           <div key={w} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             <span style={{ fontSize: '0.5rem', color: '#3a3848', fontFamily: 'monospace', width: 36, textAlign: 'right', flexShrink: 0 }}>{w}px</span>
             <ScoopClip
               r={r}
@@ -204,6 +213,7 @@ function InteractiveDemo() {
             </ScoopClip>
           </div>
         ))}
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
         <p style={{ fontSize: '0.5625rem', color: '#3a3848', marginTop: 4 }}>
           Stejný r při různých šířkách — vidíš jak se prohnutí přizpůsobuje.
         </p>
@@ -662,6 +672,8 @@ clipPath: octagon(16)                    // octagon utility
         description="ScoopClip renderuje inline SVG s clipPath v DOM těsně před clipped div. Bez external dep, funguje v každém moderním prohlížeči."
       >
         <div className="flex flex-col gap-4">
+          // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal) */}
           <CodeBlock code={`import ScoopClip from 'donjon-fall-ui/ScoopClip'
 
 // ── Základní použití ──

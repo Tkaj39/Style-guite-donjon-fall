@@ -39,13 +39,16 @@ function MapCard({ map, cardW = 100, compact = false }) {
   const metaFs   = compact ? '0.375rem'  : '0.4375rem'
   const thumbH   = compact ? 36 : 44
   const dotSize  = compact ? 4  : 5
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
   const dotColor = selected ? '#FFC18366' : 'bg4'
 
   return (
     <div style={{
       width: cardW,
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
       border: `1px solid ${selected ? '#FFC18388' : bg4}`,
       borderRadius: 4,
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       background: selected ? '#1C1A2E' : bgDeep,
       boxShadow: selected ? '0 0 14px #FFC18322' : 'none',
       padding: compact ? '6px' : '8px',
@@ -54,9 +57,12 @@ function MapCard({ map, cardW = 100, compact = false }) {
     }}>
       {/* Thumbnail — hex dots */}
       <div style={{
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         background: '#12111F', borderRadius: 3,
         height: thumbH,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         border: `1px solid ${selected ? '#FFC18833' : '#1E1D30'}`,
       }}>
         <HexDots count={dots} dotSize={dotSize} color={dotColor} />
@@ -91,8 +97,10 @@ function NavBtn({ label, primary = false, fs = '0.4375rem', py = 5, px = 10 }) {
   return (
     <div style={{
       padding: `${py}px ${px}px`,
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       border: `1px solid ${primary ? '#FFC18388' : '#3A3858'}`,
       borderRadius: 4,
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       background: primary ? '#2A2020' : bgDeep,
       color: primary ? gold : goldDim,
       fontSize: fs, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
@@ -109,10 +117,12 @@ function MapSelectDesktopLayout() {
   return (
     <div style={{
       flex: 1, display: 'flex', flexDirection: 'column',
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       background: '#0F0E1E',
     }}>
       {/* Header */}
       <div style={{
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         height: 38, background: '#14132A',
         borderBottom: `1px solid ${bg4}`,
         display: 'flex', alignItems: 'center',
@@ -136,6 +146,7 @@ function MapSelectDesktopLayout() {
 
       {/* Footer */}
       <div style={{
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         height: 42, background: '#14132A',
         borderTop: `1px solid ${bg4}`,
         display: 'flex', alignItems: 'center',
@@ -151,10 +162,12 @@ function MapSelectDesktopLayout() {
 function MapSelectTabletLayout() {
   return (
     <div style={{
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       flex: 1, display: 'flex', flexDirection: 'column', background: '#0F0E1E',
     }}>
       {/* Header */}
       <div style={{
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         height: 36, background: '#14132A',
         borderBottom: `1px solid ${bg4}`,
         display: 'flex', alignItems: 'center',
@@ -180,6 +193,7 @@ function MapSelectTabletLayout() {
 
       {/* Footer */}
       <div style={{
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         height: 36, background: '#14132A', borderTop: `1px solid ${bg4}`,
         display: 'flex', alignItems: 'center',
         justifyContent: 'flex-end', padding: '0 16px', flexShrink: 0,
@@ -196,10 +210,12 @@ function MapSelectMobileLayout() {
 
   return (
     <div style={{
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       flex: 1, display: 'flex', flexDirection: 'column', background: '#0F0E1E',
     }}>
       {/* Header */}
       <div style={{
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         height: 30, background: '#14132A',
         borderBottom: `1px solid ${bg4}`,
         display: 'flex', alignItems: 'center',
@@ -233,6 +249,7 @@ function MapSelectMobileLayout() {
 
       {/* Footer */}
       <div style={{
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         height: 32, background: '#14132A', borderTop: `1px solid ${bg4}`,
         display: 'flex', alignItems: 'center',
         justifyContent: 'flex-end', padding: '0 12px', flexShrink: 0,

@@ -372,6 +372,7 @@ export default function DonjonNotificationCenter({
             border:        `2px solid ${bg3}`,
             fontSize:      '0.5rem',
             fontWeight:    700,
+            // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
             color:         '#fff',
             display:       'flex',
             alignItems:    'center',

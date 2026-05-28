@@ -7,6 +7,8 @@ import DonjonBadge from '../lib/donjon/DonjonBadge'
 function EmptyState({ icon, title, description, cta, ctaLabel = 'Začít', variant = 'default' }) {
   const colors = {
     default: { border: `${goldDim}30`, icon: goldDim },
+    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
     info:    { border: '#4080C040', icon: '#4080C0' },
     game:    { border: `${goldDim}40`, icon: goldMid },
   }
@@ -183,11 +185,13 @@ export default function EmptyStatesPage() {
       >
         <Preview dark={false}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, maxWidth: 560 }}>
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             <div style={{ padding: '14px', border: '1px solid #40A05540', borderRadius: 4, background: '#183D2018' }}>
               <p style={{ margin: '0 0 8px', fontSize: '0.625rem', fontWeight: 700, color: successColor, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Prázdný stav</p>
               <p style={{ margin: '0 0 4px', fontSize: '0.8125rem', color: textActive, fontWeight: 600 }}>Data přišla, seznam je prázdný</p>
               <p style={{ margin: 0, fontSize: '0.75rem', color: textCool }}>HTTP 200, pole data: [] — normální stav, navodni uživatele.</p>
             </div>
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             <div style={{ padding: '14px', border: '1px solid #C0404040', borderRadius: 4, background: '#3D181818' }}>
               <p style={{ margin: '0 0 8px', fontSize: '0.625rem', fontWeight: 700, color: failColor, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Error stav</p>
               <p style={{ margin: '0 0 4px', fontSize: '0.8125rem', color: textActive, fontWeight: 600 }}>Data nepřišla, nastala chyba</p>

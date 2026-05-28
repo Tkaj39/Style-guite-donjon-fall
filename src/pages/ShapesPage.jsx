@@ -3,11 +3,14 @@ import { octagon, clipLeft, clipRight, octagonWithNotch, octagonWithNotches, rou
 import { buttonSizes } from '../utils/sizes'
 import ScoopClip from '../lib/tkajui/ScoopClip'
 import NotchedBox from '../lib/tkajui/NotchedBox'
-import { gold, goldMid, goldDim, bg0, bg4, bgDeep, textMid, textFaint, textDeep, textCool, textActive, borderSubtle, failColor, successColor } from '../lib/donjon/tokens'
+import {
+  bg0, bg4, bgDeep, borderDefault, borderSubtle, failColor, gold, goldDim, goldMid, successColor, textActive, textCool, textDeep, textFaint, textMid, warningColor,
+} from '../lib/donjon/tokens'
 
 /* ── sdílené styly ── */
 const inter = '"Inter", sans-serif'
 
+// eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul)
 const chip = (clip, h, w, bg = `linear-gradient(150deg,#353751 0%,${bg4} 70%)`) => ({
   clipPath: clip,
   background: bg,
@@ -16,6 +19,7 @@ const chip = (clip, h, w, bg = `linear-gradient(150deg,#353751 0%,${bg4} 70%)`) 
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
   outline: `1px solid #8F745833`,
 })
 
@@ -137,6 +141,7 @@ function OrnamentedCard({ variant = 'bracket', size = 16, color = goldDim, title
     <div style={{
       position: 'relative',
       clipPath: octagon(15),
+      // eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul)
       background: `linear-gradient(150deg,#353751 0%,${bg4} 70%)`,
       width: 220, minHeight: 100,
       padding: '16px 20px',
@@ -245,12 +250,16 @@ style={{ clipPath: octagon(15.62) }}`} />
       >
         <Preview>
           <div style={{ clipPath: octagon(16), background: goldDim, padding: 1, display: 'inline-block' }}>
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
             <div style={{ clipPath: octagon(15), background: `linear-gradient(150deg,#353751 0%,${bg4} 70%)`, width: 260, height: 110, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span style={{ fontSize: '0.6875rem', color: goldDim, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, fontFamily: inter }}>outer cx=16 / inner cx=15</span>
             </div>
           </div>
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
           <div style={{ clipPath: octagon(16), background: '#4080C0', padding: 1, display: 'inline-block' }}>
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             <div style={{ clipPath: octagon(15), background: `linear-gradient(150deg,#182A3D 0%,${bg0} 100%)`, width: 260, height: 110, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
               <span style={{ fontSize: '0.6875rem', color: '#4080C0', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, fontFamily: inter }}>player color border</span>
             </div>
           </div>
@@ -578,6 +587,8 @@ const clipPath = clipFn?.(cx)`} />
                 Obsah panelu
                 <NotchedBox.Slot>
                   <div style={{
+                    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+                    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                     background: '#4080C0', color: '#fff', borderRadius: 3,
                     fontSize: '0.625rem', fontWeight: 700, padding: '2px 7px',
                     letterSpacing: '0.08em', fontFamily: inter,
@@ -609,6 +620,7 @@ const clipPath = clipFn?.(cx)`} />
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
             <div style={{ marginBottom: -1 }}>
               <NotchedBox cx={10} nw={28} nh={12} side="bottom" borderColor={`${goldDim}44`}
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                 style={{ background: '#1E1C3A', padding: '10px 18px', fontSize: '0.8125rem', color: textActive, fontFamily: inter, letterSpacing: '0.04em' }}
               >
                 Hex D4 · Obsazeno
@@ -617,9 +629,11 @@ const clipPath = clipFn?.(cx)`} />
             <div style={{
               width: 40, height: 40,
               clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
               background: '#4080C040',
               border: '1px solid #4080C0',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
+              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
               fontSize: '0.625rem', color: '#4080C0', fontFamily: inter,
             }}>
               D4
@@ -670,7 +684,7 @@ octagonWithNotch(
           ].map(({ variant, label, desc }) => (
             <div key={variant} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
               <div style={{ padding: 12, background: borderSubtle, border: `1px solid ${goldDim}20`, borderRadius: 4 }}>
-                <CornerOrnament size={24} color="goldMid" variant={variant} />
+                <CornerOrnament size={24} color={goldMid} variant={variant} />
               </div>
               <div style={{ textAlign: 'center' }}>
                 <code style={{ fontSize: '0.75rem', color: goldMid, display: 'block' }}>{label}</code>
@@ -682,12 +696,13 @@ octagonWithNotch(
 
         {/* Ornament na kartě — všechny čtyři rohy */}
         <Preview>
-          <OrnamentedCard variant="bracket" size={16} color="goldDim" title="Bracket corners">
+          <OrnamentedCard variant="bracket" size={16} color={goldDim} title="Bracket corners">
             <p style={{ margin: 0, fontSize: '0.75rem', color: textCool, textAlign: 'center', fontFamily: inter }}>výchozí ornament</p>
           </OrnamentedCard>
-          <OrnamentedCard variant="dot" size={18} color="goldMid" title="Dot corners">
+          <OrnamentedCard variant="dot" size={18} color={goldMid} title="Dot corners">
             <p style={{ margin: 0, fontSize: '0.75rem', color: textCool, textAlign: 'center', fontFamily: inter }}>zlatý akcent</p>
           </OrnamentedCard>
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
           <OrnamentedCard variant="diamond" size={14} color="#4080C0" title="Diamond corners">
             <p style={{ margin: 0, fontSize: '0.75rem', color: textCool, textAlign: 'center', fontFamily: inter }}>hráčská barva</p>
           </OrnamentedCard>
@@ -698,10 +713,10 @@ octagonWithNotch(
           {[12, 16, 20, 28].map(size => (
             <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
               <div style={{ padding: 12, background: borderSubtle, border: `1px solid ${goldDim}20`, borderRadius: 4, position: 'relative', width: 60, height: 60 }}>
-                <CornerOrnament size={size} color="goldDim" variant="bracket" style={{ position: 'absolute', top: 6, left: 6 }} />
-                <CornerOrnament size={size} color="goldDim" variant="bracket" style={{ position: 'absolute', top: 6, right: 6, transform: 'scaleX(-1)' }} />
-                <CornerOrnament size={size} color="goldDim" variant="bracket" style={{ position: 'absolute', bottom: 6, left: 6, transform: 'scaleY(-1)' }} />
-                <CornerOrnament size={size} color="goldDim" variant="bracket" style={{ position: 'absolute', bottom: 6, right: 6, transform: 'scale(-1)' }} />
+                <CornerOrnament size={size} color={goldDim} variant="bracket" style={{ position: 'absolute', top: 6, left: 6 }} />
+                <CornerOrnament size={size} color={goldDim} variant="bracket" style={{ position: 'absolute', top: 6, right: 6, transform: 'scaleX(-1)' }} />
+                <CornerOrnament size={size} color={goldDim} variant="bracket" style={{ position: 'absolute', bottom: 6, left: 6, transform: 'scaleY(-1)' }} />
+                <CornerOrnament size={size} color={goldDim} variant="bracket" style={{ position: 'absolute', bottom: 6, right: 6, transform: 'scale(-1)' }} />
               </div>
               <p style={lbl}>{size}px</p>
             </div>
@@ -722,7 +737,7 @@ octagonWithNotch(
 {/* Props */}
 <CornerOrnament
   size={16}          // px — výchozí 16
-  color="goldDim"    // výchozí gold-dark
+  color={goldDim}    // výchozí gold-dark
   variant="bracket"  // 'bracket' | 'dot' | 'diamond' | 'cross'
 />`} />
       </Section>
@@ -775,9 +790,10 @@ octagonWithNotch(
 
           const variants = [
             { key: 'cut',   label: 'Cut',         color: goldMid },
+            // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
             { key: 'round', label: 'Round',        color: '#4080C0' },
             { key: 'scoop', label: 'Scoop',        color: successColor },
-            { key: 'pill',  label: 'Curve / Pill', color: '#C08040' },
+            { key: 'pill',  label: 'Curve / Pill', color: warningColor },
           ]
 
           return (
@@ -810,7 +826,9 @@ octagonWithNotch(
                   <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end', marginTop: 8, flexWrap: 'wrap' }}>
                     {Object.entries(SHAPE_SIZES).map(([key, s]) => (
                       <div key={key} style={{ position: 'relative' }}>
+                        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal) */}
                         <div style={{ clipPath: octagon(s.cut), background: '#B8956A55', padding: bw, display: 'inline-flex', width: s.w, height: s.h, boxSizing: 'border-box' }}>
+                          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
                           <div style={{ clipPath: octagon(Math.max(0, s.cut - bw)), background: '#1E1C3A', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <span style={{ fontSize: '0.5625rem', color: goldMid, fontFamily: inter }}>cx={s.cut}</span>
                           </div>
@@ -824,11 +842,14 @@ octagonWithNotch(
               {/* Detail Round */}
               <Preview>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
                   <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: '#4080C0', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: inter }}>Round — konvexní zaoblení (responsive ✓)</p>
                   <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end', marginTop: 8, flexWrap: 'wrap' }}>
                     {Object.entries(SHAPE_SIZES).map(([key, s]) => (
+                      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                       <div key={key} style={{ clipPath: roundRect(s.round), background: '#4080C055', padding: bw, display: 'inline-flex', width: s.w, height: s.h, boxSizing: 'border-box' }}>
                         <div style={{ clipPath: roundRect(Math.max(0, s.round - bw)), background: bg0, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
                           <span style={{ fontSize: '0.5625rem', color: '#4080C0', fontFamily: inter }}>r={s.round}</span>
                         </div>
                       </div>
@@ -847,6 +868,7 @@ octagonWithNotch(
                       const d = `M ${r},0 H ${w-r} Q ${w-r},${r} ${w},${r} V ${h-r} Q ${w-r},${h-r} ${w-r},${h} H ${r} Q ${r},${h-r} 0,${h-r} V ${r} Q ${r},${r} ${r},0 Z`
                       return (
                         <svg key={key} width={w} height={h} style={{ display: 'block', flexShrink: 0 }}>
+                          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
                           <path d={d} fill="#101C14" stroke="#40A05555" strokeWidth="1.5" />
                           <text x={w/2} y={h/2} textAnchor="middle" dominantBaseline="central" fill={successColor} fontSize="9" fontFamily="Inter, sans-serif">r={s.scoop}</text>
                         </svg>
@@ -859,12 +881,13 @@ octagonWithNotch(
               {/* Detail Pill */}
               <Preview>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                  <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: '#C08040', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: inter }}>Curve / Pill — stadium tvar (responsive ✓)</p>
+                  <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 700, color: warningColor, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: inter }}>Curve / Pill — stadium tvar (responsive ✓)</p>
                   <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end', marginTop: 8, flexWrap: 'wrap' }}>
                     {Object.entries(SHAPE_SIZES).map(([key, s]) => (
+                      // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
                       <div key={key} style={{ clipPath: pill(), background: '#C0804055', padding: bw, display: 'inline-flex', width: s.w, height: s.h, boxSizing: 'border-box' }}>
                         <div style={{ clipPath: pill(), background: bg0, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <span style={{ fontSize: '0.5625rem', color: '#C08040', fontFamily: inter }}>pill</span>
+                          <span style={{ fontSize: '0.5625rem', color: warningColor, fontFamily: inter }}>pill</span>
                         </div>
                       </div>
                     ))}
@@ -875,6 +898,7 @@ octagonWithNotch(
           )
         })()}
 
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
         <CodeBlock code={`import { octagon, roundRect, scoopPath, pill, SHAPE_SIZES } from '../utils/octagon'
 import ScoopClip from '../lib/tkajui/ScoopClip'
 
@@ -916,9 +940,11 @@ import ScoopClip from '../lib/tkajui/ScoopClip'
               <ScoopClip
                 key={w}
                 r={0.25}
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
                 borderColor="#40A05540"
                 style={{
                   width: w, height: 48,
+                  // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
                   background: `linear-gradient(150deg, #40A05518 0%, ${bg0} 100%)`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}
@@ -928,6 +954,7 @@ import ScoopClip from '../lib/tkajui/ScoopClip'
             ))}
           </div>
         </Preview>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
         <CodeBlock code={`// ScoopClip — responzivní scoop přes SVG clipPathUnits="objectBoundingBox"
 import ScoopClip from '../lib/tkajui/ScoopClip'
 
@@ -959,9 +986,10 @@ import ScoopClip from '../lib/tkajui/ScoopClip'
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 600 }}>
             {[
               { variant: 'Cut',         color: goldMid, use: 'Výchozí — všechna tlačítka, karty, HUD. Geometrický, středověký charakter.', avoid: 'Kontexty vyžadující soft/organický vzhled' },
+              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
               { variant: 'Round',       color: '#4080C0', use: 'Informační panely, tooltips, modaly ve světlém kontextu. Přátelský, moderní.', avoid: 'Herní akce — příliš soft pro bojový kontext' },
               { variant: 'Scoop',       color: successColor, use: 'Speciální herní prvky, výsledkové karty, dekorativní rámce. Neobvyklý akcent.', avoid: 'Běžné UI komponenty — scoop je nápadný, šetři ho' },
-              { variant: 'Curve / Pill', color: '#C08040', use: 'Badgy, toggle trackery, search pole. Organický, hravý.', avoid: 'Tlačítka v herním kontextu — příliš mírné' },
+              { variant: 'Curve / Pill', color: warningColor, use: 'Badgy, toggle trackery, search pole. Organický, hravý.', avoid: 'Tlačítka v herním kontextu — příliš mírné' },
             ].map(({ variant, color, use, avoid }) => (
               <div key={variant} style={{ display: 'grid', gridTemplateColumns: '80px 1fr 1fr', gap: 10, padding: '10px 12px', background: bg0, border: `1px solid ${color}22`, borderLeft: `3px solid ${color}`, borderRadius: 3 }}>
                 <code style={{ fontSize: '0.8125rem', fontWeight: 700, color }}>{variant}</code>

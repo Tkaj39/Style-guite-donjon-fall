@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { textFaint, goldMid, goldDim, successColor } from '../lib/donjon/tokens'
+import {
+  dangerText, goldDim, goldMid, successColor, successText, textFaint, textHighest,
+} from '../lib/donjon/tokens'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
@@ -131,7 +133,7 @@ export default function DialogyPage() {
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
                   {pushOutcomes.map(o => (
                     <DonjonCard key={o.title} title={o.title} description={o.description} variant={o.variant}>
-                      <p style={{ margin: 0, fontSize: '0.8125rem', color: o.variant === 'danger' ? '#F9C0C0' : goldDim, lineHeight: 1.6 }}>
+                      <p style={{ margin: 0, fontSize: '0.8125rem', color: o.variant === 'danger' ? dangerText : goldDim, lineHeight: 1.6 }}>
                         {o.body}
                       </p>
                     </DonjonCard>
@@ -195,7 +197,7 @@ export default function DialogyPage() {
             <DonjonCard title="+1 vítězný bod" description="Za zničení nepřátelské kostky" variant="danger">
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <DonjonBadge variant="danger" icon={<SkullIcon />}>+1 VP</DonjonBadge>
-                <p style={{ margin: 0, fontSize: '0.8125rem', color: '#F9C0C0', lineHeight: 1.5 }}>
+                <p style={{ margin: 0, fontSize: '0.8125rem', color: dangerText, lineHeight: 1.5 }}>
                   Kostka zničena vytlačením z mapy, obklíčením nebo kolapsem věže.
                 </p>
               </div>
@@ -234,6 +236,7 @@ export default function DialogyPage() {
                     <p style={{
                       margin: 0, fontSize: '0.8125rem', fontWeight: 700,
                       letterSpacing: '0.14em', textTransform: 'uppercase',
+                      // eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul)
                       background: `linear-gradient(180deg,#F9F9F9 0%,${goldMid} 100%)`,
                       WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
                       lineHeight: 1.2,
@@ -271,12 +274,13 @@ export default function DialogyPage() {
                 }} />
                 <p style={{
                   margin: 0, fontSize: '1rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
+                  // eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul)
                   background: `linear-gradient(180deg,#C0F0C8 0%,${successColor} 100%)`,
                   WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
                 }}>{players[0].label}</p>
                 <DonjonBadge variant="success" icon={<TrophyIcon />}>5 VP</DonjonBadge>
               </div>
-              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#C0F0C8', lineHeight: 1.6 }}>
+              <p style={{ margin: 0, fontSize: '0.8125rem', color: successText, lineHeight: 1.6 }}>
                 Hráč dosáhl 5 vítězných bodů a vyhrál hru. Body nelze ztratit — vítěz je první kdo cíle dosáhne.
               </p>
             </div>
@@ -305,11 +309,11 @@ export default function DialogyPage() {
                 }} />
                 <p style={{
                   margin: 0, fontSize: '0.8125rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
-                  color: '#F9C0C0',
+                  color: dangerText,
                 }}>{players[1].label}</p>
                 <DonjonBadge variant="danger">Prohrál</DonjonBadge>
               </div>
-              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#F9C0C0', lineHeight: 1.6 }}>
+              <p style={{ margin: 0, fontSize: '0.8125rem', color: dangerText, lineHeight: 1.6 }}>
                 Hráč nemá k dispozici žádnou legální akci. Prohrává okamžitě bez ohledu na počet VP.
                 Tato podmínka je nezávislá na VP — nastane kdykoli v průběhu hry.
               </p>

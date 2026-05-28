@@ -5,6 +5,7 @@ import { textDeep, textCool, goldMid, bg0, successColor, textActive, failColor, 
    Sdílené primitiva
    ══════════════════════════════════════════════════════════════════════════ */
 
+// eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
 function ShadowBox({ label, shadow, desc, bg = '#1E1C3A', border = `${goldDim}30` }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center', minWidth: 130 }}>
@@ -20,9 +21,12 @@ function ShadowBox({ label, shadow, desc, bg = '#1E1C3A', border = `${goldDim}30
 function ShadowBoxTkaj({ label, shadow, desc }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center', minWidth: 130 }}>
+      {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
       <div style={{ width: 80, height: 50, background: '#1b1b27', border: '1px solid #35354a', borderRadius: 4, boxShadow: shadow }} />
       <div style={{ textAlign: 'center' }}>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
         <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 700, color: '#6576ff' }}>{label}</p>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
         <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: '#4c4c68', lineHeight: 1.4 }}>{desc}</p>
       </div>
     </div>
@@ -67,10 +71,12 @@ function TkajAppExample({ label, style }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'center' }}>
       <div style={{
         padding: '10px 20px',
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul)
         background: '#1b1b27',
         border: '1px solid #35354a',
         borderRadius: 3,
         fontSize: '0.875rem',
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul)
         color: '#eeeef8',
         ...style,
       }}>
@@ -120,11 +126,15 @@ function TkajuiGlowContent() {
         description="TkajUI používá záři střídmě — jen pro focus stav a sémantické signály (success/danger). Záře není dekorativní — komunikuje stav."
       >
         <Preview>
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
           <GlowBox label="Accent"  color="#6576ff" glow={TKAJ_GLOWS.accent}  desc="Focus, aktivní výběr" />
-          <GlowBox label="Success" color="#34d364" glow={TKAJ_GLOWS.success} desc="Validní, ok stav" />
+          <GlowBox label="Success" color={successColor} glow={TKAJ_GLOWS.success} desc="Validní, ok stav" />
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
           <GlowBox label="Danger"  color="#f05555" glow={TKAJ_GLOWS.danger}  desc="Chyba, varování" />
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
           <GlowBox label="Info"    color="#4fa3f5" glow={TKAJ_GLOWS.info}    desc="Informace" />
         </Preview>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
         <CodeBlock code={`/* Glow — TkajUI (střídmé, sémantické) */
 :root {
   --glow-accent:  0 0 10px rgba(101,118,255,0.35);
@@ -150,7 +160,10 @@ input:focus-visible {
         <Preview>
           <TkajAppExample label="Karta — výchozí"    style={{ boxShadow: SHADOWS.sm }} />
           <TkajAppExample label="Input — focus"      style={{ border: '1px solid #6576ff', boxShadow: `${TKAJ_GLOWS.accent}` }} />
-          <TkajAppExample label="Toast — success"    style={{ background: '#34d36415', border: '1px solid #34d36440', boxShadow: TKAJ_GLOWS.success, color: '#34d364' }} />
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal) */}
+          <TkajAppExample label="Toast — success"    style={{ background: '#34d36415', border: '1px solid #34d36440', boxShadow: TKAJ_GLOWS.success, color: successColor }} />
+          // eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul)
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal) */}
           <TkajAppExample label="Toast — danger"     style={{ background: '#f0555515', border: '1px solid #f0555540', boxShadow: TKAJ_GLOWS.danger,  color: '#f05555' }} />
         </Preview>
         <Preview dark={false}>
@@ -164,10 +177,15 @@ input:focus-visible {
               { component: 'Toast — success',    shadow: '--shadow-md',    glow: '--glow-success',   note: 'Sémantická záře' },
               { component: 'Toast — danger',     shadow: '--shadow-md',    glow: '--glow-danger',    note: 'Červená záře pro chybu' },
             ].map(({ component, shadow, glow, note }) => (
+              // eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul)
               <div key={component} style={{ display: 'grid', gridTemplateColumns: '180px 100px 120px 1fr', gap: 10, padding: '8px 12px', background: '#1b1b27', border: '1px solid #35354a18', borderRadius: 3 }}>
+                {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
                 <span style={{ fontSize: '0.8125rem', color: '#8888a8' }}>{component}</span>
+                {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
                 <code style={{ fontSize: '0.6875rem', color: '#6576ff', lineHeight: 1.4 }}>{shadow}</code>
+                {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
                 <code style={{ fontSize: '0.6875rem', color: '#8888a8', lineHeight: 1.4 }}>{glow}</code>
+                {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
                 <span style={{ fontSize: '0.6875rem', color: '#4c4c68', lineHeight: 1.4 }}>{note}</span>
               </div>
             ))}
@@ -207,6 +225,7 @@ function DonjonAppExample({ label, style }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'center' }}>
       <div style={{
         padding: '10px 20px',
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         background: '#1E1C3A',
         border: `1px solid ${goldDim}40`,
         borderRadius: 3,
@@ -260,11 +279,12 @@ function DonjonGlowContent() {
         description="Záře komunikuje aktivitu, výběr a herní akcenty. Na tmavém pozadí je výrazně efektivnější než stín."
       >
         <Preview>
-          <GlowBox label="Gold"    color="goldMid" glow={DONJON_GLOWS.gold}    desc="Aktivní výběr, hover" />
-          <GlowBox label="Success" color="successColor" glow={DONJON_GLOWS.success} desc="Správná akce, VP" />
-          <GlowBox label="Danger"  color="failColor" glow={DONJON_GLOWS.danger}  desc="Chyba, destruktivní" />
+          <GlowBox label="Gold"    color={goldMid} glow={DONJON_GLOWS.gold}    desc="Aktivní výběr, hover" />
+          <GlowBox label="Success" color={successColor} glow={DONJON_GLOWS.success} desc="Správná akce, VP" />
+          <GlowBox label="Danger"  color={failColor} glow={DONJON_GLOWS.danger}  desc="Chyba, destruktivní" />
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
           <GlowBox label="Info"    color="#4080C0" glow={DONJON_GLOWS.info}    desc="Info, vysvětlení" />
-          <GlowBox label="Strong"  color="goldMid" glow={DONJON_GLOWS.strong}  desc="Zvýraznění, pulse" />
+          <GlowBox label="Strong"  color={goldMid} glow={DONJON_GLOWS.strong}  desc="Zvýraznění, pulse" />
         </Preview>
         <CodeBlock code={`/* Glow škála */
 :root {
@@ -292,7 +312,9 @@ function DonjonGlowContent() {
         <Preview>
           <DonjonAppExample label="Karta — výchozí"    style={{ boxShadow: SHADOWS.sm }} />
           <DonjonAppExample label="Karta — hover gold" style={{ boxShadow: `${SHADOWS.sm}, ${DONJON_GLOWS.gold}`, border: '1px solid #B8956A66' }} />
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal) */}
           <DonjonAppExample label="Success glow"       style={{ background: '#40A05520', border: `1px solid ${successColor}`, boxShadow: DONJON_GLOWS.success, color: successColor }} />
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal) */}
           <DonjonAppExample label="Error stav"         style={{ background: '#C0404018', border: `1px solid ${failColor}`, boxShadow: DONJON_GLOWS.danger,  color: failColor }} />
         </Preview>
         <Preview dark={false}>
@@ -310,6 +332,7 @@ function DonjonGlowContent() {
             ].map(({ component, shadow, glow, note }) => (
               <div key={component} style={{ display: 'grid', gridTemplateColumns: '180px 100px 120px 1fr', gap: 10, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3 }}>
                 <span style={{ fontSize: '0.8125rem', color: textCool }}>{component}</span>
+                {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
                 <code style={{ fontSize: '0.6875rem', color: '#4080C0', lineHeight: 1.4 }}>{shadow}</code>
                 <code style={{ fontSize: '0.6875rem', color: goldMid, lineHeight: 1.4 }}>{glow}</code>
                 <span style={{ fontSize: '0.6875rem', color: textDeep, lineHeight: 1.4 }}>{note}</span>
@@ -329,6 +352,7 @@ function DonjonGlowContent() {
           <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
             <div style={{
               width: 60, height: 60,
+              // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
               background: '#B8956A22',
               border: `2px solid ${goldMid}`,
               borderRadius: 4,
@@ -340,6 +364,7 @@ function DonjonGlowContent() {
             </div>
             <div style={{
               width: 60, height: 60,
+              // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
               background: '#40A05522',
               border: `2px solid ${successColor}`,
               borderRadius: 4,

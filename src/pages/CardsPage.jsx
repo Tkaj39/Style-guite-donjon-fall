@@ -1,5 +1,7 @@
 import Card from '../lib/tkajui/Card'
-import { goldMid, goldDim, bg4, textActive } from '../lib/donjon/tokens'
+import {
+  bg4, dangerText, goldDim, goldMid, successText, textActive,
+} from '../lib/donjon/tokens'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
@@ -95,7 +97,7 @@ function CardContent() {
                 </div>
                 <div style={statStyle}>
                   <span style={labelStyle}>Penalty</span>
-                  <span style={{ color: '#F9C0C0', fontWeight: 600, fontSize: '0.8125rem' }}>−500 XP</span>
+                  <span style={{ color: dangerText, fontWeight: 600, fontSize: '0.8125rem' }}>−500 XP</span>
                 </div>
               </C>
             </div>
@@ -107,7 +109,7 @@ function CardContent() {
                 </div>
                 <div style={statStyle}>
                   <span style={labelStyle}>Reward</span>
-                  <span style={{ color: '#C0F0C8', fontWeight: 600, fontSize: '0.8125rem' }}>+1200 XP</span>
+                  <span style={{ color: successText, fontWeight: 600, fontSize: '0.8125rem' }}>+1200 XP</span>
                 </div>
               </C>
             </div>
@@ -190,7 +192,7 @@ function CardContent() {
                   </div>
                 }
               >
-                <p style={{ color: '#F9C0C0', fontSize: '0.8125rem', lineHeight: 1.6, margin: 0 }}>
+                <p style={{ color: dangerText, fontSize: '0.8125rem', lineHeight: 1.6, margin: 0 }}>
                   Last seen near the Ashwood Hollow. Armed and extremely dangerous.
                 </p>
               </C>
@@ -249,7 +251,7 @@ function CardContent() {
                 variant="success"
                 footer={
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ color: '#C0F0C8', fontSize: '0.75rem' }}>3 items found</span>
+                    <span style={{ color: successText, fontSize: '0.75rem' }}>3 items found</span>
                     <Btn size="sm" variant="success">Collect All</Btn>
                   </div>
                 }
@@ -260,7 +262,7 @@ function CardContent() {
                   { name: 'Ancient Gold Coin ×12', rarity: 'Common' },
                 ].map(({ name, rarity }) => (
                   <div key={name} style={{ ...statStyle, borderBottom: '1px solid #183D20' }}>
-                    <span style={{ color: '#C0F0C8', fontSize: '0.8125rem' }}>{name}</span>
+                    <span style={{ color: successText, fontSize: '0.8125rem' }}>{name}</span>
                     <Bdg
                       size="sm"
                       variant={rarity === 'Rare' ? 'warning' : rarity === 'Uncommon' ? 'info' : 'default'}

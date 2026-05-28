@@ -647,7 +647,7 @@ const corners = { tl: 20, tr: 10, br: 14, bl: 16 }
 
         <div className="mt-4">
           <CodeBlock code={`<CornerOrnament variant="bracket" size={16} />
-      <CornerOrnament variant="dot"     size={24} color="gold" />
+      <CornerOrnament variant="dot"     size={24} color={gold} />
 
       {/* Rohy pomocí transform */}
       <CornerOrnament style={{ position: 'absolute', top: 0, left: 0 }} />
@@ -779,17 +779,18 @@ const corners = { tl: 20, tr: 10, br: 14, bl: 16 }
           </div>
         </div>
 
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal) */}
         <CodeBlock code={`import { HrotErbu } from 'donjon-fall-ui'
 
 {/* Standalone — gold default */}
 <HrotErbu width={36} />
 
 {/* Custom barva (např. dle hráče) */}
-<HrotErbu width={36} color="#4A80E2" colorDim="#4A80E255" />
+<HrotErbu width={36} color={infoColor} colorDim="#4A80E255" />
 
 {/* Použití v Erb — sám se renderuje když ornament="decorated" */}
-<Shield playerColor="#4A80E2" size="md" ornament="decorated" />
-<Shield playerColor="#4A80E2" size="md" ornament="decorated" ornamentColor="player" />`} />
+<Shield playerColor={infoColor} size="md" ornament="decorated" />
+<Shield playerColor={infoColor} size="md" ornament="decorated" ornamentColor="player" />`} />
       </Section>
 
       {/* ── Pravidla použití ── */}

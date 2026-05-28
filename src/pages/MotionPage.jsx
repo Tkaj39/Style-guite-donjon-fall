@@ -387,7 +387,7 @@ onClick={() => shake()              // neúspěch
 onHit={() => knockback(0, -8)      // fyzický zásah
 onSpawn={() => pop()               // spawn / appear
 onTurn={() => pulse()              // "na tahu"
-onVpGain={() => flash('#50B86C')   // zisk VP / resource
+onVpGain={() => flash(gainColor)   // zisk VP / resource
 onGameEnd={() => victory()         // výsledek`}</Code>
       </Section>
 
@@ -469,6 +469,7 @@ onGameEnd={() => victory()         // výsledek`}</Code>
         <Demo>
           <PlayerPanel
             name="Hráč 1"
+            // eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token)
             color="#4A90E2"
             symbol="sword"
             vp={7}

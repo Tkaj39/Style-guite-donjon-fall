@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import HexTile from '../lib/donjon/HexTile'
-import { textFaint, textActive, gold, bg2, borderDefault, textMid } from '../lib/donjon/tokens'
+import {
+  bg2, borderDefault, dangerColor, gainColor, gold, textActive, textFaint, textMid,
+} from '../lib/donjon/tokens'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { players } from '../data/gameUiMockData'
 
@@ -95,6 +97,7 @@ function HexInteractiveDemo() {
                 style={{
                   width: 24, height: 24, borderRadius: '50%',
                   background: p.color,
+                  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                   border: `2px solid ${demoPlayer.id === p.id ? '#fff' : 'transparent'}`,
                   cursor: 'pointer',
                   boxShadow: demoPlayer.id === p.id ? `0 0 0 1px ${p.color}` : 'none',
@@ -185,6 +188,7 @@ export default function HexagonPage() {
             ))}
           </div>
         </Preview>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
         <CodeBlock code={`<HexTile state="base" owner="#E05C5C" size="md" />`} />
       </Section>
 
@@ -250,14 +254,14 @@ export default function HexagonPage() {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
               <HexTile state="move" size="md" />
               <div style={{ textAlign: 'center' }}>
-                <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 600, color: '#50B86C', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Pohyb</p>
+                <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 600, color: gainColor, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Pohyb</p>
                 <p style={{ margin: '2px 0 0', fontSize: '0.5625rem', color: textFaint, maxWidth: 90 }}>Dostupný cíl pohybu</p>
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
               <HexTile state="attack" size="md" />
               <div style={{ textAlign: 'center' }}>
-                <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 600, color: '#E05C5C', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Útok</p>
+                <p style={{ margin: 0, fontSize: '0.625rem', fontWeight: 600, color: dangerColor, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Útok</p>
                 <p style={{ margin: '2px 0 0', fontSize: '0.5625rem', color: textFaint, maxWidth: 90 }}>Nepřátelský cíl útoku</p>
               </div>
             </div>

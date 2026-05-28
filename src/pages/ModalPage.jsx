@@ -5,6 +5,7 @@ import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 import { gold, goldMid, textActive } from '../lib/donjon/tokens'
+import { textHigh } from '../lib/tkajui/tokens'
 
 /* ══════════════════════════════════════════════════════════════════════════
    Demo komponenty — MUSÍ být mimo render funkci, jinak React
@@ -85,6 +86,8 @@ function InertDemo({ ModalCmp, Btn }) {
         inert={open}
         style={{
           padding: '14px 18px',
+          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
           border: `1px solid ${open ? '#2a2a40' : '#4C4C6A'}`,
           borderRadius: 6,
           background: 'rgba(20,20,32,0.8)',
@@ -95,6 +98,7 @@ function InertDemo({ ModalCmp, Btn }) {
           gap: 10,
         }}
       >
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
         <p style={{ margin: 0, fontSize: '0.75rem', color: '#6868a0', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
           Obsah na pozadí — inert=&#123;open&#125;
         </p>
@@ -107,13 +111,14 @@ function InertDemo({ ModalCmp, Btn }) {
               border: '1px solid #4C4C6A',
               borderRadius: 4,
               padding: '5px 10px',
-              color: '#eeeef8',
+              color: textHigh,
               fontSize: '0.8125rem',
               outline: 'none',
               width: 120,
             }}
           />
         </div>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
         <p style={{ margin: 0, fontSize: '0.75rem', color: '#6868a0' }}>
           Když je modál otevřený, tento blok nelze focusnout ani kliknout.
         </p>

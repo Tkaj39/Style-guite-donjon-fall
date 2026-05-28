@@ -1,5 +1,7 @@
 import { useState, Fragment } from 'react'
-import { textFaint, gold, goldMid, goldDim, bg4, textActive, bgDeep } from '../lib/donjon/tokens'
+import {
+  bg4, bgDeep, dangerText, gold, goldDim, goldMid, textActive, textFaint, textHighest,
+} from '../lib/donjon/tokens'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
@@ -18,9 +20,11 @@ function TurnPhaseTimeline({ activeStep = 0 }) {
               <div style={{
                 width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
                 background: active ? 'linear-gradient(150deg,#3D3A5C 0%,#2E2B50 70%)' : bgDeep,
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                 border: `2px solid ${active ? gold : past ? '#8F745866' : '#3A3858'}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: '0.75rem', fontWeight: 700,
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                 color: active ? gold : past ? goldDim : '#3A3858',
                 boxShadow: active ? '0 0 12px #FFC18330' : 'none',
               }}>
@@ -34,12 +38,15 @@ function TurnPhaseTimeline({ activeStep = 0 }) {
                 }}>{step.label}</p>
                 <p style={{
                   margin: '4px 0 0', fontSize: '0.5625rem', lineHeight: 1.4,
+                  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                   color: active ? goldDim : '#3A3858',
                 }}>{step.sub}</p>
                 {step.optional && (
                   <span style={{
                     display: 'inline-block', marginTop: 4,
                     fontSize: '0.5rem', letterSpacing: '0.08em', textTransform: 'uppercase',
+                    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+                    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                     color: active ? '#5A5880' : '#3A3858',
                     background: bgDeep, padding: '1px 5px', borderRadius: 2,
                   }}>volitelné</span>
@@ -49,6 +56,7 @@ function TurnPhaseTimeline({ activeStep = 0 }) {
             {i < turnPhases.length - 1 && (
               <div style={{
                 marginTop: 16, height: 2, width: 20, flexShrink: 0,
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
                 background: past ? '#8F745866' : bg4,
               }} />
             )}
@@ -80,6 +88,7 @@ function TurnCard({ player, turn }) {
           <p style={{
             margin: 0, fontSize: '0.8125rem', fontWeight: 700,
             letterSpacing: '0.14em', textTransform: 'uppercase',
+            // eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul)
             background: `linear-gradient(180deg,#F9F9F9 0%,${goldMid} 100%)`,
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
             lineHeight: 1.2,
@@ -206,12 +215,14 @@ export default function TahPage() {
 
             {/* Scénář B */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {/* eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal) */}
               <p style={{ margin: 0, fontSize: '0.625rem', color: '#FFC18388', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 Scénář B — tah s ohniskem
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-start' }}>
                   <DonjonBadge variant="warning">Ohnisko → +1 VP</DonjonBadge>
+                  {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
                   <span style={{ fontSize: '0.5625rem', color: '#6A6040' }}>kostka přehozena</span>
                 </div>
                 <span style={{ color: bg4, fontSize: '1rem' }}>→</span>
@@ -228,6 +239,7 @@ export default function TahPage() {
 
             {/* Scénář C */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {/* eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal) */}
               <p style={{ margin: 0, fontSize: '0.625rem', color: '#E05C5C88', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 Scénář C — akce spustí souboj
               </p>
@@ -241,6 +253,7 @@ export default function TahPage() {
                 <span style={{ color: bg4, fontSize: '1rem' }}>→</span>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-start' }}>
                   <DonjonBadge variant="danger">Souboj — automaticky</DonjonBadge>
+                  {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
                   <span style={{ fontSize: '0.5625rem', color: '#803030' }}>Push nebo Occupy</span>
                 </div>
               </div>
@@ -304,7 +317,7 @@ export default function TahPage() {
               </p>
             </DonjonCard>
             <DonjonCard title="Pohyb → souboj" description="Cílové pole obsazeno nepřítelem" variant="danger">
-              <p style={{ margin: 0, fontSize: '0.8125rem', color: '#F9C0C0', lineHeight: 1.6 }}>
+              <p style={{ margin: 0, fontSize: '0.8125rem', color: dangerText, lineHeight: 1.6 }}>
                 Pokud bojová síla útočníka převyšuje obranu, pohyb automaticky spustí souboj. Hráč následně volí Push nebo Occupy.
               </p>
             </DonjonCard>

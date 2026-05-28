@@ -1,5 +1,7 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textFaint, textDeep, textCool, gold, goldMid, goldDim, bg0, successColor, textActive, borderSubtle, failColor } from '../lib/donjon/tokens'
+import {
+  bg0, borderSubtle, dangerColor, failColor, gold, goldDim, goldMid, successColor, textActive, textCool, textDeep, textFaint,
+} from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { Shield, PlayerIdentityBadge } from '../lib/donjon/Erb'
 import { players } from '../data/gameUiMockData'
@@ -57,7 +59,9 @@ function TurnTracker({ current, total, phase }) {
           <div key={p} style={{
             padding: '2px 6px', borderRadius: 2,
             fontSize: '0.625rem', fontWeight: i === phase ? 700 : 400,
+            // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
             background: i === phase ? '#B8956A20' : 'transparent',
+            // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
             border: `1px solid ${i === phase ? '#B8956A50' : 'transparent'}`,
             color: i === phase ? goldMid : textDeep,
           }}>{p}</div>
@@ -104,6 +108,7 @@ function ActionBar({ actions, activePlayer }) {
       {actions.map(({ label, key, available }) => (
         <div key={label} style={{
           padding: '6px 12px',
+          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
           background: available ? '#1E1C3A' : bg0,
           border: `1px solid ${available ? `${goldDim}40` : `${goldDim}20`}`,
           borderRadius: 2,
@@ -113,6 +118,7 @@ function ActionBar({ actions, activePlayer }) {
           minWidth: 60,
         }}>
           <span style={{ fontSize: '0.8125rem', color: available ? textActive : textDeep }}>{label}</span>
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
           <code style={{ fontSize: '0.5625rem', color: textDeep, background: '#0E0C22', padding: '1px 4px', borderRadius: 2 }}>{key}</code>
         </div>
       ))}
@@ -121,6 +127,7 @@ function ActionBar({ actions, activePlayer }) {
 }
 
 const PLAYERS = [
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   { name: 'Hráč 1', color: '#4080C0', vp: 3 },
   { name: 'Hráč 2', color: failColor, vp: 1 },
 ]
@@ -148,6 +155,7 @@ export default function HudPage() {
       >
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             <PlayerIndicator name="Hráč 1 (aktivní)" color="#4080C0" vp={3} diceCount={4} isActive />
             <PlayerIndicator name="Hráč 2"            color={failColor} vp={1} diceCount={2} isActive={false} />
           </div>
@@ -262,6 +270,7 @@ useEffect(() => {
         description="Textové animace nad hexem při herní události — VP získáno, kostka ztracena, akce blokována."
       >
         <Preview>
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
           <div style={{ position: 'relative', height: 100, width: 240, background: '#0E0C22', borderRadius: 4, border: `1px solid ${goldDim}20`, overflow: 'hidden' }}>
             {/* Simulace float feedbacku */}
             <div style={{
@@ -364,7 +373,7 @@ function FloatFeedback({ text, color, x, y, onDone }) {
         <CodeBlock code={`import { Shield } from 'src/lib/donjon/Erb'
 
 // Standardní štít s symbolem
-<Shield player={{ id: 1, color: '#E05C5C', label: 'Hráč 1' }} size="sm" />
+<Shield player={{ id: 1, color: dangerColor, label: 'Hráč 1' }} size="sm" />
 
 // Bez symbolu — kompaktní HUD varianta
 <Shield player={player} size="xs" showSymbol={false} />`} />
@@ -394,20 +403,23 @@ function FloatFeedback({ text, color, x, y, onDone }) {
               </p>
               <div style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                 background: '#0E0C22', border: '1px solid #1E1D30',
                 borderRadius: 4, padding: '8px 16px', maxWidth: 400,
               }}>
                 <PlayerIdentityBadge player={players[0]} />
+                {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
                 <span style={{ fontSize: '0.625rem', color: '#3A3858', fontWeight: 700, padding: '0 12px' }}>vs</span>
                 <PlayerIdentityBadge player={players[1]} />
               </div>
             </div>
           </div>
         </Preview>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
         <CodeBlock code={`import { PlayerIdentityBadge } from 'src/lib/donjon/Erb'
 
 // Kompaktní badge — štít xs + jméno s gradientem
-<PlayerIdentityBadge player={{ id: 1, color: '#E05C5C', label: 'Hráč 1' }} />
+<PlayerIdentityBadge player={{ id: 1, color: dangerColor, label: 'Hráč 1' }} />
 
 // HUD horní lišta — 2 hráči vs
 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -434,6 +446,7 @@ function FloatFeedback({ text, color, x, y, onDone }) {
                 <div style={{
                   display: 'inline-flex', alignItems: 'center', gap: 6,
                   padding: '5px 10px', borderRadius: 3,
+                  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                   background: '#3D181815', border: '1px solid #C0404030',
                   fontSize: '0.75rem', color: failColor,
                 }}>
@@ -445,6 +458,7 @@ function FloatFeedback({ text, color, x, y, onDone }) {
                 <div style={{
                   display: 'inline-flex', alignItems: 'center', gap: 6,
                   padding: '5px 10px', borderRadius: 3,
+                  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                   background: '#3D181815', border: '1px solid #C0404030',
                   fontSize: '0.75rem', color: failColor,
                 }}>
@@ -463,6 +477,7 @@ function FloatFeedback({ text, color, x, y, onDone }) {
               <div style={{
                 display: 'inline-flex', alignItems: 'center', gap: 10,
                 padding: '8px 14px', borderRadius: 4,
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                 background: '#3D181820', border: `1px solid ${failColor}`,
                 boxShadow: '0 0 12px #C0404035',
               }}>
@@ -497,6 +512,7 @@ function FloatFeedback({ text, color, x, y, onDone }) {
                   opacity: 0.6,
                 }}>
                   <Shield player={players[1]} size="xs" showSymbol={false} />
+                  {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
                   <span style={{ fontSize: '0.75rem', color: '#6A6880' }}>Hráč 2</span>
                   <DonjonBadge variant="default" size="sm">Čeká</DonjonBadge>
                 </div>
@@ -504,6 +520,8 @@ function FloatFeedback({ text, color, x, y, onDone }) {
             </div>
           </div>
         </Preview>
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
         <CodeBlock code={`/* Blokovaná akce */
 <div style={{ color: failColor, border: '1px solid #C0404030', background: '#3D181815' }}>
   <BlockIcon />
@@ -548,6 +566,8 @@ function FloatFeedback({ text, color, x, y, onDone }) {
               ['Blokovat herní plochu HUD prvky — max 20 % viewportu', false],
               ['Animovat HUD neustále bez herní události — rušivé', false],
             ].map(([rule, good]) => (
+              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
               <div key={rule} style={{ padding: '10px 12px', background: good ? '#183D2018' : '#3D181818', border: `1px solid ${good ? '#40A05530' : '#C0404030'}`, borderRadius: 3 }}>
                 <p style={{ margin: 0, fontSize: '0.8125rem', color: good ? successColor : failColor, lineHeight: 1.4 }}>
                   {good ? '✓' : '✗'} {rule}

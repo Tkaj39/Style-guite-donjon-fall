@@ -38,6 +38,15 @@ export const successColor = '#40A055'
 export const warningColor = '#C08040'
 export const failColor    = '#C04040'  // fail / error state (darker than dangerColor)
 
+// ── Semantic text — světlé tinty pro text na variant pozadí ───────────────
+// Parita s TkajUI tokens (dangerText/successText/warningText/infoText).
+// Použití: text uvnitř variant card/badge/banner kde main color je moc temný.
+// Kontrast na variant bg ~5:1 (AA pro text).
+export const dangerText  = '#F9C0C0'   // světlý tint pro text na danger bg
+export const successText = '#C0F0C8'   // světlý tint pro text na success bg
+export const warningText = '#FFD580'   // světlý tint pro text na warning bg
+export const infoText    = '#93C5FD'   // světlý tint pro text na info bg
+
 // ── Herní barvy zdrojů ─────────────────────────────────────────────────────
 // Tyto barvy mají sémantický herní význam (mana, magie, XP) a nepatří do
 // standardní UI palety (danger/success/warning). Pojmenované pro konzistenci

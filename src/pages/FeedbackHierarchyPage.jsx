@@ -1,12 +1,19 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textDeep, textCool, goldMid, goldDim, bg0, successColor, textActive, failColor } from '../lib/donjon/tokens'
+import {
+  bg0, failColor, goldDim, goldMid, successColor, textActive, textCool, textDeep, warningColor,
+} from '../lib/donjon/tokens'
 
 /* ── Priority stack diagram ── */
 const LEVELS = [
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   { label: 'Modal / Dialog',  z: 1000, color: goldDim, bg: '#2E2B50', desc: 'Blokuje veškerou interakci. Vyžaduje přímou odpověď uživatele.', examples: 'Potvrzení smazání, výhra hry, kritická chyba' },
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   { label: 'Toast / Notifikace', z: 2000, color: successColor, bg: '#183D20', desc: 'Nezablokuje UI. Automaticky zmizí nebo vyžaduje × kliknutí.', examples: 'Uložení proběhlo, chyba sítě, výsledek akce' },
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   { label: 'Inline feedback', z: 0,    color: '#4080C0', bg: '#182A3D', desc: 'Přímo u prvku — error u inputu, helper text, stavový badge.', examples: 'Validační chyba formuláře, disabled hint, stav hexu' },
-  { label: 'Tooltip',         z: 3000, color: '#C08040', bg: '#3D2E10', desc: 'Kontextová nápověda na hover/focus. Nepřerušuje flow.', examples: 'Vysvětlení ikony, herní termín, pravidlo akce' },
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+  { label: 'Tooltip',         z: 3000, color: warningColor, bg: '#3D2E10', desc: 'Kontextová nápověda na hover/focus. Nepřerušuje flow.', examples: 'Vysvětlení ikony, herní termín, pravidlo akce' },
 ]
 
 function LevelCard({ label, z, color, bg, desc, examples, rank }) {
@@ -83,8 +90,9 @@ export default function FeedbackHierarchyPage() {
               { q: 'Je akce nevratná (smazat, opustit hru)?',       a: '→ Modal danger',    color: failColor },
               { q: 'Výsledek akce se má potvrdit bez přerušení?',   a: '→ Toast success',   color: successColor },
               { q: 'Chyba sítě nebo systémová chyba?',              a: '→ Toast danger (duration=0)', color: failColor },
+              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
               { q: 'Neplatná hodnota ve formuláři?',                 a: '→ Inline error',    color: '#4080C0' },
-              { q: 'Ikona nebo zkratka potřebuje vysvětlení?',      a: '→ Tooltip',         color: '#C08040' },
+              { q: 'Ikona nebo zkratka potřebuje vysvětlení?',      a: '→ Tooltip',         color: warningColor },
               { q: 'Herní event (VP, pohyb, souboj)?',              a: '→ FloatFeedback',   color: goldMid },
             ].map(({ q, a, color }) => (
               <div key={q} style={{ display: 'flex', alignItems: 'baseline', gap: 12, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3 }}>
@@ -149,10 +157,11 @@ export default function FeedbackHierarchyPage() {
             {[
               { severity: 'Kritická',    channel: 'Modal danger',           variant: failColor, example: 'Ztráta dat, neplatná hra, systémová chyba' },
               { severity: 'Vysoká',      channel: 'Toast danger (trvalý)',   variant: failColor, example: 'Chyba sítě, uložení selhalo' },
-              { severity: 'Střední',     channel: 'Toast warning / danger',  variant: '#C08040', example: 'Akce se nepodařila, limit dosažen' },
+              { severity: 'Střední',     channel: 'Toast warning / danger',  variant: warningColor, example: 'Akce se nepodařila, limit dosažen' },
               { severity: 'Nízká',       channel: 'Toast default / success', variant: goldDim, example: 'Uloženo, tah dokončen, připojení OK' },
+              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
               { severity: 'Informační',  channel: 'Toast info / inline',     variant: '#4080C0', example: 'Tip, nápověda, stav bez akce' },
-              { severity: 'Kontextová',  channel: 'Tooltip',                 variant: '#C08040', example: 'Vysvětlení ikony, herní termín' },
+              { severity: 'Kontextová',  channel: 'Tooltip',                 variant: warningColor, example: 'Vysvětlení ikony, herní termín' },
             ].map(({ severity, channel, variant, example }) => (
               <div key={severity} style={{ display: 'grid', gridTemplateColumns: '100px 180px 1fr', gap: 10, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3, alignItems: 'center' }}>
                 <span style={{ fontSize: '0.75rem', fontWeight: 700, color: variant }}>{severity}</span>

@@ -53,8 +53,11 @@ function PickerBtn({ active, onClick, children, disabled }) {
       style={{
         padding: '3px 10px',
         borderRadius: 3,
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         border: `1px solid ${active ? gold : '#2a2838'}`,
         background: active ? `${gold}18` : 'transparent',
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         color: active ? gold : disabled ? '#3a3848' : '#8a8899',
         fontSize: '0.6875rem',
         fontFamily: 'monospace',
@@ -105,6 +108,7 @@ function InteractiveDemo() {
   const labelStyle = {
     fontSize: '0.5625rem', fontWeight: 600,
     letterSpacing: '0.1em', textTransform: 'uppercase',
+    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
     color: '#4a4860', marginBottom: 6,
   }
 
@@ -125,7 +129,10 @@ function InteractiveDemo() {
 
         {/* cornerType — disabled for non-bracket */}
         <div>
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
           <p style={{ ...labelStyle, color: isBracket ? '#4a4860' : '#2a2838' }}>
+            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             cornerType {!isBracket && <span style={{ fontSize: '0.5rem', textTransform: 'none', letterSpacing: 0, color: '#3a3848' }}>(jen bracket)</span>}
           </p>
           <div style={{ display: 'flex', gap: 4 }}>
@@ -165,6 +172,7 @@ function InteractiveDemo() {
                 style={{
                   width: 20, height: 20,
                   borderRadius: 3,
+                  // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
                   border: `2px solid ${colorIdx === i ? '#ffffff44' : 'transparent'}`,
                   background: c.value,
                   cursor: 'pointer',
@@ -174,6 +182,7 @@ function InteractiveDemo() {
               />
             ))}
           </div>
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
           <p style={{ fontSize: '0.5rem', color: '#4a4860', marginTop: 4, fontFamily: 'monospace' }}>{col.label}</p>
         </div>
       </div>
@@ -197,6 +206,7 @@ function InteractiveDemo() {
             style={o.style}
           />
         ))}
+        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
         <span style={{ fontSize: '0.625rem', color: '#3a3848', fontFamily: 'monospace', pointerEvents: 'none' }}>
           {variant}{isBracket ? ` / ${cornerType}` : ''} · {size}px
         </span>

@@ -4,11 +4,7 @@
    ─────────────────────────────────────────────────────────────────────── */
 import { useState } from 'react'
 import {
-  gold, goldDim, goldMid,
-  bg2, bg3, bg4, bgDeep,
-  borderDefault,
-  textHigh, textMid, textLow, textFaint, textParchment,
-  gainColor, dangerColor, warningColor,
+  bg2, bg3, bg4, bgDeep, borderDefault, dangerColor, gainColor, gold, goldDim, goldMid, infoLight, textFaint, textHigh, textLow, textMid, textParchment, warningColor,
 } from '../lib/donjon/tokens'
 import DonjonButton     from '../lib/donjon/DonjonButton'
 import DonjonCard       from '../lib/donjon/DonjonCard'
@@ -147,8 +143,11 @@ export default function SnippetsPage() {
           preview={
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 360 }}>
               {[
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token)
                 { label: 'Hráč 1', value: 80, color: '#4A90E2' },
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token)
                 { label: 'Hráč 2', value: 32, color: '#C84A4A' },
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                 { label: 'Hráč 3', value: 18, color: '#4AB870' },
               ].map(p => (
                 <div key={p.label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -306,7 +305,9 @@ const [sfx, setSfx]       = useState(true)
           preview={
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 320 }}>
               {[
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token)
                 { name: 'Hráč 1', color: '#4A90E2', vp: 7, hp: 72 },
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token)
                 { name: 'Hráč 2', color: '#C84A4A', vp: 4, hp: 31 },
               ].map(p => (
                 <div key={p.name} style={{
@@ -341,8 +342,11 @@ import DonjonProgressBar from './src/lib/donjon/DonjonProgressBar'
           preview={
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxWidth: 200 }}>
               {[
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token)
                 { name: 'Hráč 1', color: '#4A90E2', vp: 7,  active: true  },
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token)
                 { name: 'Hráč 2', color: '#C84A4A', vp: 4,  active: false },
+                // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                 { name: 'Hráč 3', color: '#4AB870', vp: 11, active: false },
               ].map(p => (
                 <div key={p.name} style={{
@@ -509,7 +513,7 @@ import { bg3, borderDefault, goldDim } from './src/lib/donjon/tokens'
                 { v: 'warning', title: 'Mana nízká', msg: 'Zbývá méně než 25 %.' },
                 { v: 'event',   title: 'Nový tah', msg: 'Hráč 2 začíná kolo 4.' },
               ].map(t => {
-                const COLORS = { gain: gainColor, loss: dangerColor, warning: warningColor, event: '#7AAEF5' }
+                const COLORS = { gain: gainColor, loss: dangerColor, warning: warningColor, event: infoLight }
                 const c = COLORS[t.v]
                 return (
                   <div key={t.v} style={{
