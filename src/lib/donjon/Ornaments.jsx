@@ -420,10 +420,12 @@ export function ScoopOrnament({
 
   const transform = SCOOP_TRANSFORMS[corner] ?? ''
 
-  // Pozice SVG v parentu (parent musí mít position: relative)
+  // Pozice SVG v parentu — odsazení 3px od hrany (parent musí mít position: relative).
+  // 3px ladí s tloušťkou scoop ornament curvy a vytváří jemnou mezeru mezi
+  // ornamentem a okrajem shape pro vizuální dýchání.
   const posStyle = {
-    [corner.startsWith('t') ? 'top'  : 'bottom']: 0,
-    [corner.endsWith('l')   ? 'left' : 'right' ]: 0,
+    [corner.startsWith('t') ? 'top'  : 'bottom']: 3,
+    [corner.endsWith('l')   ? 'left' : 'right' ]: 3,
   }
 
   // 4 unikátní IDs pro 4 gradient defy
