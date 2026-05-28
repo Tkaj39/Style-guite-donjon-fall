@@ -132,6 +132,10 @@ export function Shield({
   const hrotHeight = hrotWidth * 14 / 48
   // HexOrnament edgePadL proportional — vejde se i pro úzký prapor
   const hexPad = Math.max(4, Math.round(s.w * 0.15))
+  // Odsazení ornamentů od hran erbu (vizuální dýchání) — proporcionální
+  // s velikostí, min 2px aby bylo viditelné i u menších štítů.
+  const hexEdgeInset  = Math.max(2, Math.round(s.w * 0.06))
+  const hrotEdgeInset = Math.max(2, Math.round(s.w * 0.06))
 
   return (
     <div style={{
@@ -150,11 +154,15 @@ export function Shield({
         justifyContent: 'center',
         position: 'relative',  // pro HexOrnament uvnitř
       }}>
-        {/* HexOrnament — horní hrana (uvnitř outer borderu, nad inner fill) */}
+        {/* HexOrnament — horní hrana (uvnitř outer borderu, nad inner fill)
+            Odsazení od hran erbu pro vizuální dýchání — ladí s vnitřním
+            border-trickem (outer 3px border) a s celkovou kompozicí. */}
         {isDecorated && (
           <div style={{
             position: 'absolute',
-            top: 0, left: 0, right: 0,
+            top: hexEdgeInset,
+            left: hexEdgeInset,
+            right: hexEdgeInset,
             zIndex: 1,
             pointerEvents: 'none',
           }}>
@@ -194,14 +202,14 @@ export function Shield({
         </div>
       </div>
 
-      {/* HrotErbu — pod spodním tipem (mimo outer, aby nebyl ořezán clip-pathem) */}
+      {/* HrotErbu — pod spodním tipem (mimo outer, aby nebyl ořezán clip-pathem)
+          Posun nahoru o (hrotHeight + edgeInset) — chevron sedí nad tip s
+          odsazením od skutečného bottom-pointu. */}
       {isDecorated && (
         <div style={{
           position: 'absolute',
           left: '50%',
-          // Pozice nad tipem — výška hrotu nahrazuje "spodní hranu" ozdoby.
-          // Posunujeme nahoru o ~30 % výšky hrotu, aby chevron seděl přes tip.
-          bottom: -hrotHeight * 0.3,
+          bottom: hrotEdgeInset,
           transform: 'translateX(-50%)',
           pointerEvents: 'none',
           lineHeight: 0,  // odstraní baseline gap kolem inline-svg
