@@ -405,6 +405,18 @@ const SCOOP_TRANSFORMS = {
   br: 'translate(11 11) scale(-1 -1)',  // both = 180° rotation
 }
 
+/**
+ * Maximální velikost SVG ornamentu v pixelech.
+ *
+ * Ornament je dekorativní akcent — nemá růst lineárně s r. Pro r=10
+ * je `r` (= 10 px) ideální, ale při r=40 by ornament byl 4× větší a
+ * vizuálně dominoval rohu. Cap udrží ornament v subtle range.
+ *
+ * Pro r ≤ MAX_SIZE se použije r (ornament „sedí" v rohu).
+ * Pro r > MAX_SIZE se použije MAX_SIZE (ornament je drobný akcent).
+ */
+const SCOOP_ORNAMENT_MAX_SIZE = 14
+
 export function ScoopOrnament({
   r,
   corner = 'tl',
@@ -414,6 +426,8 @@ export function ScoopOrnament({
   // `inset` deprecated — hand-designed paths mají vlastní inset
   // eslint-disable-next-line no-unused-vars
   inset,
+  /** Override pro maximální velikost ornamentu (default 14px) */
+  maxSize = SCOOP_ORNAMENT_MAX_SIZE,
   uid: uidProp,
   style: styleProp,
 }) {
@@ -423,6 +437,10 @@ export function ScoopOrnament({
   const hexFill  = bgFill   ?? '#2A2948'  // borderMid — originál SVG default
 
   const transform = SCOOP_TRANSFORMS[corner] ?? ''
+
+  // Velikost SVG cappnutá maxSize — ornament zůstane drobný akcent
+  // pro velké r místo aby rostl proporcionálně s rohem.
+  const svgSize  = Math.min(r, maxSize)
 
   // Pozice SVG v parentu — odsazení 3px od hrany (parent musí mít position: relative).
   // 3px ladí s tloušťkou scoop ornament curvy a vytváří jemnou mezeru mezi
@@ -438,8 +456,8 @@ export function ScoopOrnament({
 
   return (
     <svg
-      width={r}
-      height={r}
+      width={svgSize}
+      height={svgSize}
       viewBox="0 0 11 11"
       fill="none"
       aria-hidden="true"
