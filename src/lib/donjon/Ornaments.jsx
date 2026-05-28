@@ -386,71 +386,19 @@ export function HexOrnament({
      style     - merge styling pro absolute pozici
    ─────────────────────────────────────────────────────────────────────── */
 /**
- * Geometrie per roh.
+ * Hand-designed SVG paths (originál: /public/ScoopClip-ornament.svg, 15×15 viewBox).
  *
- * Scoop výřez vytváří čtvrtkruhový oblouk poloměru `r` na rohu shape.
- * Střed oblouku leží UVNITŘ shape, ve vzdálenosti `r` od skutečného
- * rohu. Viditelná část SVG (umístěného `r × r` do rohu) je oblast
- * ve vzdálenosti ≤ `r` od scoop centra.
+ * Originální orientace: corner='br' — scoop center v (0,0) SVG, parent corner
+ * v (15,15). Curve bracket trace scoop boundary uvnitř shape (~radius 10 od
+ * scoop centra), diamond sedí v rohu pozemku směrem k carved corner.
  *
- * Pro každý roh vypočítáme:
- *   - `arc`   — SVG path pro hlavní oblouk uvnitř shape (radius arcR=r-inset)
- *   - `arc2`  — sekundární jemnější oblouk (radius arcR-3)
- *   - `apex`  — souřadnice diamondu na vrcholu oblouku (směrem k rohu)
- *   - `t1/t2` — tick čáry spojující koncové body oblouku s hranou shape
- *
- * Sweep flagy zvoleny tak, aby krátký oblouk procházel vrcholem směrem
- * k rohu parentu (tedy do viditelné oblasti).
+ * Pro ostatní rohy: scaleX/Y flip přes inner <g>. Není potřeba měnit paths.
  */
-function getScoopGeometry(r, inset, corner) {
-  const arcR  = Math.max(2, r - inset)
-  const arcR2 = Math.max(2, arcR - 3)
-  const p     = arcR * Math.SQRT1_2     // apex offset z centra (45°)
-  const p2    = arcR2 * Math.SQRT1_2
-
-  switch (corner) {
-    case 'tl':
-      // Scoop center v SVG (r, r). Apex směrem k (0,0).
-      return {
-        arc:   `M ${r},${inset} A ${arcR} ${arcR} 0 0 0 ${inset},${r}`,
-        arc2:  `M ${r},${inset + 3} A ${arcR2} ${arcR2} 0 0 0 ${inset + 3},${r}`,
-        apexX: r - p,  apexY: r - p,
-        apex2X: r - p2, apex2Y: r - p2,
-        t1: { x1: r,      y1: inset,  x2: r, y2: 0 },
-        t2: { x1: inset,  y1: r,      x2: 0, y2: r },
-      }
-    case 'tr':
-      // Scoop center v SVG (0, r). Apex směrem k (r, 0).
-      return {
-        arc:   `M 0,${inset} A ${arcR} ${arcR} 0 0 1 ${arcR},${r}`,
-        arc2:  `M 0,${inset + 3} A ${arcR2} ${arcR2} 0 0 1 ${arcR2},${r}`,
-        apexX: p,      apexY: r - p,
-        apex2X: p2,    apex2Y: r - p2,
-        t1: { x1: 0,    y1: inset, x2: 0, y2: 0 },
-        t2: { x1: arcR, y1: r,     x2: r, y2: r },
-      }
-    case 'bl':
-      // Scoop center v SVG (r, 0). Apex směrem k (0, r).
-      return {
-        arc:   `M ${inset},0 A ${arcR} ${arcR} 0 0 1 ${r},${arcR}`,
-        arc2:  `M ${inset + 3},0 A ${arcR2} ${arcR2} 0 0 1 ${r},${arcR2}`,
-        apexX: r - p,  apexY: p,
-        apex2X: r - p2, apex2Y: p2,
-        t1: { x1: inset, y1: 0,    x2: 0, y2: 0 },
-        t2: { x1: r,     y1: arcR, x2: r, y2: r },
-      }
-    case 'br':
-    default:
-      // Scoop center v SVG (0, 0). Apex směrem k (r, r).
-      return {
-        arc:   `M 0,${arcR} A ${arcR} ${arcR} 0 0 0 ${arcR},0`,
-        arc2:  `M 0,${arcR2} A ${arcR2} ${arcR2} 0 0 0 ${arcR2},0`,
-        apexX: p,      apexY: p,
-        apex2X: p2,    apex2Y: p2,
-        t1: { x1: 0,    y1: arcR, x2: 0, y2: r },
-        t2: { x1: arcR, y1: 0,    x2: r, y2: 0 },
-      }
-  }
+const SCOOP_TRANSFORMS = {
+  br: '',                               // originál
+  bl: 'translate(15 0) scale(-1 1)',    // horizontal flip
+  tr: 'translate(0 15) scale(1 -1)',    // vertical flip
+  tl: 'translate(15 15) scale(-1 -1)',  // both = 180° rotation
 }
 
 export function ScoopOrnament({
@@ -459,20 +407,18 @@ export function ScoopOrnament({
   color,
   colorDim,
   bgFill,
-  inset = 4,
+  // `inset` deprecated — hand-designed paths mají vlastní inset
+  // eslint-disable-next-line no-unused-vars
+  inset,
   uid: uidProp,
   style: styleProp,
 }) {
   const uid      = useOrnamentUid(uidProp)
-  const stopMain = color    ?? gold
-  const stopDim  = colorDim ?? (color ?? goldDim)
-  const hexFill  = bgFill   ?? bg4
+  const stopMain = color    ?? gold       // #FFC183 default
+  const stopDim  = colorDim ?? (color ?? goldDim)  // #8F7458 default
+  const hexFill  = bgFill   ?? '#2A2948'  // borderMid — originál SVG default
 
-  const arcR  = Math.max(2, r - inset)
-  // Diamond half-size škáluje s r (clamp pro rozumný interval)
-  const dHalf = Math.max(2, Math.min(4, r * 0.18))
-
-  const g = getScoopGeometry(r, inset, corner)
+  const transform = SCOOP_TRANSFORMS[corner] ?? ''
 
   // Pozice SVG v parentu (parent musí mít position: relative)
   const posStyle = {
@@ -480,13 +426,17 @@ export function ScoopOrnament({
     [corner.endsWith('l')   ? 'left' : 'right' ]: 0,
   }
 
-  const grad = `url(#${uid}-sg)`
+  // 4 unikátní IDs pro 4 gradient defy
+  const g0 = `${uid}-g0`
+  const g1 = `${uid}-g1`
+  const g2 = `${uid}-g2`
+  const g3 = `${uid}-g3`
 
   return (
     <svg
       width={r}
       height={r}
-      viewBox={`0 0 ${r} ${r}`}
+      viewBox="0 0 15 15"
       fill="none"
       aria-hidden="true"
       style={{
@@ -497,64 +447,47 @@ export function ScoopOrnament({
       }}
     >
       <defs>
-        {/* Gradient diagonálně — sytější zlatá k apexu oblouku */}
-        <linearGradient
-          id={`${uid}-sg`}
-          x1={corner.endsWith('r') ? 1 : 0}
-          y1={corner.startsWith('b') ? 1 : 0}
-          x2={corner.endsWith('r') ? 0 : 1}
-          y2={corner.startsWith('b') ? 0 : 1}
-          gradientUnits="objectBoundingBox"
-        >
+        <linearGradient id={g0} x1="5.345" y1="0.345" x2="5.345" y2="9.345" gradientUnits="userSpaceOnUse">
           <stop stopColor={stopDim} />
           <stop offset="1" stopColor={stopMain} />
         </linearGradient>
+        <linearGradient id={g1} x1="13.458" y1="4.541" x2="9.932" y2="8.067" gradientUnits="userSpaceOnUse">
+          <stop stopColor={stopMain} />
+          <stop offset="1" stopColor={stopDim} />
+        </linearGradient>
+        <linearGradient id={g2} x1="4.791" y1="13.208" x2="8.364" y2="9.635" gradientUnits="userSpaceOnUse">
+          <stop stopColor={stopMain} />
+          <stop offset="1" stopColor={stopDim} />
+        </linearGradient>
+        <linearGradient id={g3} x1="11.449" y1="11.199" x2="5.546" y2="5.296" gradientUnits="userSpaceOnUse">
+          <stop stopColor={stopMain} />
+          <stop offset="1" stopColor={stopDim} />
+        </linearGradient>
       </defs>
 
-      {/* Hlavní zlatý oblouk — paralelní se scoop hranou, uvnitř shape */}
-      <path
-        d={g.arc}
-        stroke={grad}
-        strokeWidth="1.2"
-        strokeLinecap="round"
-      />
-
-      {/* Sekundární jemnější oblouk — double-bracket feel */}
-      {arcR > 8 && (
+      <g transform={transform}>
+        {/* Hlavní bracket curve — paralelní se scoop hranou */}
         <path
-          d={g.arc2}
-          stroke={stopDim}
-          strokeWidth="0.8"
-          opacity="0.7"
-          strokeLinecap="round"
+          d="M10.72 0.34491C10.7045 0.253431 10.6626 0.165698 10.5939 0.101013C10.5253 0.0363275 10.4366 -1.24574e-05 10.345 -1.24574e-05C10.2534 -1.24574e-05 10.1646 0.0363275 10.096 0.101013C10.0273 0.165698 9.98542 0.253431 9.96997 0.34491C9.92828 0.583968 9.87799 0.816198 9.81938 1.04631C9.28999 3.11577 8.10258 4.80917 6.57885 6.11309C5.04895 7.41643 3.17185 8.34728 1.05911 8.82752C0.82281 8.88077 0.58745 8.92821 0.344971 8.96991C0.253492 8.98536 0.165759 9.02723 0.101074 9.09594C0.0363886 9.16459 4.87566e-05 9.25329 4.87566e-05 9.34491C4.87566e-05 9.43652 0.0363886 9.52523 0.101074 9.59387C0.165759 9.66259 0.253492 9.70446 0.344971 9.71991C0.604024 9.76154 0.861255 9.79273 1.12458 9.81285C3.47841 10.0046 5.99787 9.24895 7.87795 7.63373C9.76831 6.04805 10.946 3.54754 10.8028 1.13599C10.7895 0.869043 10.7616 0.606662 10.72 0.34491Z"
+          fill={`url(#${g0})`}
         />
-      )}
-
-      {/* Diamond na apexu (45° směrem k rohu) */}
-      <path
-        d={`M ${g.apexX},${g.apexY - dHalf} L ${g.apexX + dHalf},${g.apexY} L ${g.apexX},${g.apexY + dHalf} L ${g.apexX - dHalf},${g.apexY} Z`}
-        fill={hexFill}
-        stroke={grad}
-        strokeWidth="0.9"
-      />
-
-      {/* Ticky — od koncových bodů oblouku k hraně shape */}
-      {arcR > 6 && (
-        <>
-          <line
-            x1={g.t1.x1} y1={g.t1.y1} x2={g.t1.x2} y2={g.t1.y2}
-            stroke={stopMain}
-            strokeWidth="1"
-            strokeLinecap="round"
-          />
-          <line
-            x1={g.t2.x1} y1={g.t2.y1} x2={g.t2.x2} y2={g.t2.y2}
-            stroke={stopMain}
-            strokeWidth="1"
-            strokeLinecap="round"
-          />
-        </>
-      )}
+        {/* Pravá caret/arrow detail */}
+        <path
+          d="M12.9971 4.07973C13.067 4.02491 13.1615 3.99964 13.2552 4.00511C13.3492 4.01084 13.4348 4.04686 13.4975 4.1096C13.5603 4.17235 13.5963 4.25794 13.602 4.35192C13.6075 4.44565 13.5822 4.54008 13.5274 4.61006C13.5274 4.61006 13.5274 4.61006 13.5274 4.61006C13.4733 4.67891 13.4192 4.74775 13.365 4.8166C12.4995 5.91781 11.6339 7.01903 10.7683 8.12025L11.0337 7.47953C11.0546 7.6538 11.0755 7.82808 11.0963 8.00235C11.1068 8.0893 11.1172 8.17624 11.1276 8.26319C11.1598 8.5284 11.0827 8.78276 10.8946 8.97029C10.7076 9.15783 10.425 9.26319 10.1276 9.26319C9.83016 9.26319 9.54758 9.15783 9.36058 8.9703C9.1725 8.78276 9.09537 8.52841 9.12759 8.26319C9.12759 8.26319 9.12759 8.26319 9.12759 8.26319C9.13801 8.17624 9.14842 8.0893 9.15884 8.00235C9.17972 7.82808 9.2006 7.6538 9.22148 7.47953C9.24281 7.30148 9.34588 6.94963 9.48687 6.83881C10.5881 5.97323 11.6893 5.10765 12.7905 4.24207C12.8594 4.18796 12.9282 4.13384 12.9971 4.07973Z"
+          fill={`url(#${g1})`}
+        />
+        {/* Dolní caret/arrow detail */}
+        <path
+          d="M4.32983 12.7471C4.27483 12.8171 4.24939 12.9115 4.2548 13.0053C4.26046 13.0993 4.29652 13.185 4.35935 13.2479C4.42218 13.3107 4.50788 13.3468 4.60193 13.3524C4.69572 13.3578 4.79016 13.3324 4.86016 13.2774C4.86016 13.2774 4.86016 13.2774 4.86016 13.2774C4.92979 13.2225 4.99942 13.1676 5.06905 13.1127C6.18544 12.2325 7.30184 11.3523 8.41824 10.4721L7.77669 10.7378C7.94985 10.7583 8.12302 10.7788 8.29618 10.7993C8.38424 10.8097 8.47229 10.8201 8.56035 10.8305C8.82556 10.8623 9.07992 10.7848 9.26745 10.5968C9.45499 10.4098 9.56035 10.1275 9.56035 9.83052C9.56035 9.5335 9.45499 9.25127 9.26745 9.06427C9.07992 8.8762 8.82556 8.79871 8.56035 8.83052C8.56035 8.83052 8.56035 8.83052 8.56035 8.83052C8.47229 8.84094 8.38424 8.85136 8.29618 8.86177C8.12302 8.88226 7.94985 8.90274 7.77669 8.92323C7.59837 8.94432 7.24631 9.04796 7.13513 9.18897C6.25493 10.3054 5.37472 11.4218 4.49452 12.5382C4.43962 12.6078 4.38472 12.6774 4.32983 12.7471Z"
+          fill={`url(#${g2})`}
+        />
+        {/* Diamond/octagon v rohu */}
+        <path
+          d="M11.1158 10.5119C11.0695 10.6845 10.9347 10.8192 10.7622 10.8655L7.8454 11.6472C7.67306 11.6932 7.48891 11.6441 7.36271 11.518L5.22758 9.38292C5.10145 9.25674 5.05247 9.07259 5.09845 8.90024L5.88014 5.98342C5.92637 5.81087 6.06114 5.6761 6.23369 5.62987L9.14981 4.84887C9.32233 4.80265 9.50619 4.85174 9.6325 4.978L11.7676 7.11313C11.8938 7.23944 11.943 7.42335 11.8968 7.59582L11.1158 10.5119Z"
+          fill={hexFill}
+          stroke={`url(#${g3})`}
+        />
+      </g>
     </svg>
   )
 }
