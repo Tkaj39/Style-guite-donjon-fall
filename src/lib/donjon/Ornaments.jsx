@@ -405,18 +405,6 @@ const SCOOP_TRANSFORMS = {
   br: 'translate(11 11) scale(-1 -1)',  // both = 180° rotation
 }
 
-/**
- * Maximální velikost SVG ornamentu v pixelech.
- *
- * Ornament je dekorativní akcent — nemá růst lineárně s r. Pro r=10
- * je `r` (= 10 px) ideální, ale při r=40 by ornament byl 4× větší a
- * vizuálně dominoval rohu. Cap udrží ornament v subtle range.
- *
- * Pro r ≤ MAX_SIZE se použije r (ornament „sedí" v rohu).
- * Pro r > MAX_SIZE se použije MAX_SIZE (ornament je drobný akcent).
- */
-const SCOOP_ORNAMENT_MAX_SIZE = 14
-
 export function ScoopOrnament({
   r,
   corner = 'tl',
@@ -426,8 +414,9 @@ export function ScoopOrnament({
   // `inset` deprecated — hand-designed paths mají vlastní inset
   // eslint-disable-next-line no-unused-vars
   inset,
-  /** Override pro maximální velikost ornamentu (default 14px) */
-  maxSize = SCOOP_ORNAMENT_MAX_SIZE,
+  /** Deprecated — nedostatečné cappnutí dělalo ornament neviditelný při r≥16 */
+  // eslint-disable-next-line no-unused-vars
+  maxSize,
   uid: uidProp,
   style: styleProp,
 }) {
@@ -438,16 +427,16 @@ export function ScoopOrnament({
 
   const transform = SCOOP_TRANSFORMS[corner] ?? ''
 
-  // Velikost SVG cappnutá maxSize — ornament zůstane drobný akcent
-  // pro velké r místo aby rostl proporcionálně s rohem.
-  const svgSize  = Math.min(r, maxSize)
+  // Velikost SVG = r (ornament proporcionálně škáluje se scoop curvou).
+  // Kdyby svgSize < r, bracket curve by netrasovala skutečnou scoop hranu
+  // a ornament by ležel v carved region (= mimo viditelnou plochu).
+  const svgSize = r
 
   // Pozice SVG v parentu — odsazení škáluje s r aby ornament zůstal
   // v carved region pro velké r (parent musí mít position: relative).
-  //   r=10 → 3px (30% — uživatel chce zachovat)
+  //   r=10 → 3px (30 % — uživatel chce zachovat)
   //   r=16 → 5px, r=22 → 7px, r=30 → 9px, r=40 → 12px
-  // Bez tohoto škálování byl ornament při r ≥ 16 částečně oříznut scoop
-  // curvou (3px ze 16/22/40 = jen 19/14/8 % rohu → ornament v carved zóně).
+  // Práh viditelnosti je r * (1 - 1/√2) ≈ r * 0.293; 0.3 dává ~0.4px safety margin.
   const edgeInset = Math.max(3, Math.round(r * 0.3))
   const posStyle = {
     [corner.startsWith('t') ? 'top'  : 'bottom']: edgeInset,
