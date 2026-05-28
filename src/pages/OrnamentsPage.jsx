@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament, ornamentHForCx, ORNAMENT_BASE_WIDTH } from '../lib/donjon/Ornaments'
+import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament, HrotErbu, ornamentHForCx, ORNAMENT_BASE_WIDTH } from '../lib/donjon/Ornaments'
 import CornerOrnament from '../lib/donjon/CornerOrnament'
+import { Shield } from '../lib/donjon/Erb'
 import { buttonSizes, CARD_ORN_H } from '../utils/sizes'
-import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { octagon, octagonInner, octagonPerCorner, octagonInnerPerCorner } from '../utils/octagon'
-import { gold, goldMid, goldDim, bg2, bg3, borderDefault, borderMid, textHigh, textMid, textLow } from '../lib/donjon/tokens'
+import { gold, goldMid, goldDim, infoColor, bg2, bg3, borderDefault, borderMid, textHigh, textMid, textLow } from '../lib/donjon/tokens'
 
 /* ── Doporučené hodnoty cx pro různé komponenty ── */
 const CX_REFERENCE = [
@@ -337,18 +338,7 @@ export default function OrnamentsPage() {
           </div>
         </Preview>
 
-        <pre style={{
-          background: bg2,
-          border: `1px solid ${borderDefault}`,
-          borderRadius: 6,
-          padding: '12px 16px',
-          fontSize: '0.75rem',
-          color: textHigh,
-          fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-          lineHeight: 1.5,
-          overflow: 'auto',
-        }}>
-{`import { RohOrnament, ZkosenOrnament, SideOrnament, ornamentHForCx } from './Ornaments'
+        <CodeBlock code={`import { RohOrnament, ZkosenOrnament, SideOrnament, ornamentHForCx } from './Ornaments'
 
 const cx = 14   // corner-cut komponenty
 const h = ornamentHForCx(cx, 'roh')
@@ -367,8 +357,7 @@ const h = ornamentHForCx(cx, 'roh')
 <RohOrnament h={38} uid="..." />   // ručně dopočítané, nepřenosné
 
 // Pro DonjonCard, DonjonModal s 'roh' i 'zkosen' variantou:
-const ornH = ornamentHForCx(cx, ornament === 'roh' ? 'roh' : 'zkosen')`}
-        </pre>
+const ornH = ornamentHForCx(cx, ornament === 'roh' ? 'roh' : 'zkosen')`} />
       </Section>
 
       {/* ── Mixed cx — asymetrický octagon ── */}
@@ -379,18 +368,7 @@ const ornH = ornamentHForCx(cx, ornament === 'roh' ? 'roh' : 'zkosen')`}
       >
         <MixedCornerDemo />
 
-        <pre style={{
-          background: bg2,
-          border: `1px solid ${borderDefault}`,
-          borderRadius: 6,
-          padding: '12px 16px',
-          fontSize: '0.75rem',
-          color: textHigh,
-          fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-          lineHeight: 1.5,
-          overflow: 'auto',
-        }}>
-{`import { octagonPerCorner } from '../utils/octagon'
+        <CodeBlock code={`import { octagonPerCorner } from '../utils/octagon'
 import { RohOrnament, ornamentHForCx } from './Ornaments'
 
 const corners = { tl: 20, tr: 10, br: 14, bl: 16 }
@@ -407,8 +385,7 @@ const corners = { tl: 20, tr: 10, br: 14, bl: 16 }
     <RohOrnament h={ornamentHForCx(corners.bl, 'roh')} uid="bl" bottom />
     <RohOrnament h={ornamentHForCx(corners.br, 'roh')} uid="br" flip bottom />
   </div>
-</div>`}
-        </pre>
+</div>`} />
       </Section>
 
       {/* ── SideOrnament ── */}
@@ -465,8 +442,10 @@ const corners = { tl: 20, tr: 10, br: 14, bl: 16 }
           </table>
         </div>
 
-        <pre className="mt-4 p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-[11px] font-mono text-brand-400 overflow-x-auto leading-relaxed">{`<SideOrnament h={52} uid="unique-id" />
-<SideOrnament h={52} uid="unique-id" flip />`}</pre>
+        <div className="mt-4">
+          <CodeBlock code={`<SideOrnament h={52} uid="unique-id" />
+      <SideOrnament h={52} uid="unique-id" flip />`} />
+        </div>
       </Section>
 
       {/* ── HexOrnament ── */}
@@ -530,11 +509,13 @@ const corners = { tl: 20, tr: 10, br: 14, bl: 16 }
           </table>
         </div>
 
-        <pre className="mt-4 p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-[11px] font-mono text-brand-400 overflow-x-auto leading-relaxed">{`<HexOrnament uid="..." edgePadL={16} />
-<HexOrnament uid="..." edgePadL={16} flip />
+        <div className="mt-4">
+          <CodeBlock code={`<HexOrnament uid="..." edgePadL={16} />
+      <HexOrnament uid="..." edgePadL={16} flip />
 
-{/* ButtonGroup první item (clipLeft) */}
-<HexOrnament uid="..." edgePadL={17.61} edgePadR={0} textPadL={27} textPadR={10} hexOffsetX={8.5} />`}</pre>
+      {/* ButtonGroup první item (clipLeft) */}
+      <HexOrnament uid="..." edgePadL={17.61} edgePadR={0} textPadL={27} textPadR={10} hexOffsetX={8.5} />`} />
+        </div>
       </Section>
 
       {/* ── ZkosenOrnament ── */}
@@ -565,11 +546,13 @@ const corners = { tl: 20, tr: 10, br: 14, bl: 16 }
           </div>
         </Preview>
 
-        <pre className="mt-4 p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-[11px] font-mono text-brand-400 overflow-x-auto leading-relaxed">{`<ZkosenOrnament h={52} uid="unique-id" />
-<ZkosenOrnament h={52} uid="unique-id" flip />
+        <div className="mt-4">
+          <CodeBlock code={`<ZkosenOrnament h={52} uid="unique-id" />
+      <ZkosenOrnament h={52} uid="unique-id" flip />
 
-{/* V komponentě: */}
-<DonjonButton ornament="zkosen">Tlačítko</DonjonButton>`}</pre>
+      {/* V komponentě: */}
+      <DonjonButton ornament="zkosen">Tlačítko</DonjonButton>`} />
+        </div>
       </Section>
 
       {/* ── RohOrnament ── */}
@@ -600,11 +583,13 @@ const corners = { tl: 20, tr: 10, br: 14, bl: 16 }
           </div>
         </Preview>
 
-        <pre className="mt-4 p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-[11px] font-mono text-brand-400 overflow-x-auto leading-relaxed">{`<RohOrnament h={52} uid="unique-id" />
-<RohOrnament h={52} uid="unique-id" flip />
+        <div className="mt-4">
+          <CodeBlock code={`<RohOrnament h={52} uid="unique-id" />
+      <RohOrnament h={52} uid="unique-id" flip />
 
-{/* V komponentě: */}
-<DonjonButton ornament="roh">Tlačítko</DonjonButton>`}</pre>
+      {/* V komponentě: */}
+      <DonjonButton ornament="roh">Tlačítko</DonjonButton>`} />
+        </div>
       </Section>
 
       {/* ── CornerOrnament ── */}
@@ -660,14 +645,16 @@ const corners = { tl: 20, tr: 10, br: 14, bl: 16 }
           </table>
         </div>
 
-        <pre className="mt-4 p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-[11px] font-mono text-brand-400 overflow-x-auto leading-relaxed">{`<CornerOrnament variant="bracket" size={16} />
-<CornerOrnament variant="dot"     size={24} color="gold" />
+        <div className="mt-4">
+          <CodeBlock code={`<CornerOrnament variant="bracket" size={16} />
+      <CornerOrnament variant="dot"     size={24} color="gold" />
 
-{/* Rohy pomocí transform */}
-<CornerOrnament style={{ position: 'absolute', top: 0, left: 0 }} />
-<CornerOrnament style={{ position: 'absolute', top: 0, right: 0, transform: 'scaleX(-1)' }} />
-<CornerOrnament style={{ position: 'absolute', bottom: 0, left: 0, transform: 'scaleY(-1)' }} />
-<CornerOrnament style={{ position: 'absolute', bottom: 0, right: 0, transform: 'scale(-1)' }} />`}</pre>
+      {/* Rohy pomocí transform */}
+      <CornerOrnament style={{ position: 'absolute', top: 0, left: 0 }} />
+      <CornerOrnament style={{ position: 'absolute', top: 0, right: 0, transform: 'scaleX(-1)' }} />
+      <CornerOrnament style={{ position: 'absolute', bottom: 0, left: 0, transform: 'scaleY(-1)' }} />
+      <CornerOrnament style={{ position: 'absolute', bottom: 0, right: 0, transform: 'scale(-1)' }} />`} />
+        </div>
       </Section>
 
       {/* ── CornerOrnament — cornerType ── */}
@@ -730,18 +717,79 @@ const corners = { tl: 20, tr: 10, br: 14, bl: 16 }
           </div>
         </Preview>
 
-        <pre className="mt-4 p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-[11px] font-mono text-brand-400 overflow-x-auto leading-relaxed">{`{/* Komponenta s octagonem (cut rohy) */}
-<CornerOrnament cornerType="cut"   style={{ position: 'absolute', top: 6, left: 6 }} />
+        <div className="mt-4">
+          <CodeBlock code={`{/* Komponenta s octagonem (cut rohy) */}
+      <CornerOrnament cornerType="cut"   style={{ position: 'absolute', top: 6, left: 6 }} />
 
-{/* Komponenta s border-radius (round rohy) */}
-<CornerOrnament cornerType="round" style={{ position: 'absolute', top: 6, left: 6 }} />
+      {/* Komponenta s border-radius (round rohy) */}
+      <CornerOrnament cornerType="round" style={{ position: 'absolute', top: 6, left: 6 }} />
 
-{/* Komponenta se scoop tvarem (concave rohy) */}
-<CornerOrnament cornerType="scoop" style={{ position: 'absolute', top: 6, left: 6 }} />
+      {/* Komponenta se scoop tvarem (concave rohy) */}
+      <CornerOrnament cornerType="scoop" style={{ position: 'absolute', top: 6, left: 6 }} />
 
-{/* cornerSize override — přizpůsobí cornerType geometrii dle paneluže */}
-<CornerOrnament cornerType="scoop" cornerSize={8} style={{ position: 'absolute', top: 6, left: 6 }} />
-<CornerOrnament cornerType="round" cornerSize={4} style={{ position: 'absolute', top: 6, left: 6 }} />`}</pre>
+      {/* cornerSize override — přizpůsobí cornerType geometrii dle paneluže */}
+      <CornerOrnament cornerType="scoop" cornerSize={8} style={{ position: 'absolute', top: 6, left: 6 }} />
+      <CornerOrnament cornerType="round" cornerSize={4} style={{ position: 'absolute', top: 6, left: 6 }} />`} />
+        </div>
+      </Section>
+
+      {/* ── HrotErbu — dekorativní hrot pro Erb ── */}
+      <Section id="hrot-erbu">
+        <h2 className="text-base font-semibold text-neutral-100 mb-2">HrotErbu</h2>
+        <p className="text-sm text-neutral-400 mb-4 max-w-2xl">
+          Dekorativní chevron pro spodní vrchol erbu nebo prapor. Inline SVG
+          z <code className="text-brand-300">/src/hrot-erbu.svg</code>, native
+          viewBox 48×14. Renderuje se s libovolnou šířkou, výška se dopočítá
+          z aspect ratio (~3.4:1).
+        </p>
+
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+          {/* Standalone — různé šířky */}
+          <div className="flex flex-col gap-3">
+            <p style={{ fontSize: '0.625rem', color: textLow, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Standalone (gold)
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '20px', background: bg2, borderRadius: 4 }}>
+              <HrotErbu width={24} />
+              <HrotErbu width={36} />
+              <HrotErbu width={48} />
+            </div>
+          </div>
+
+          {/* Custom color */}
+          <div className="flex flex-col gap-3">
+            <p style={{ fontSize: '0.625rem', color: textLow, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Custom color (player blue)
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '20px', background: bg2, borderRadius: 4 }}>
+              <HrotErbu width={36} color={infoColor} />
+              <HrotErbu width={36} color={infoColor} colorDim={`${infoColor}55`} />
+            </div>
+          </div>
+
+          {/* Použití v Erb */}
+          <div className="flex flex-col gap-3">
+            <p style={{ fontSize: '0.625rem', color: textLow, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Použití v Shield (default modrý erb)
+            </p>
+            <div style={{ display: 'flex', alignItems: 'flex-end', gap: 16, padding: '20px', background: bg2, borderRadius: 4 }}>
+              <Shield playerColor={infoColor} size="md" ornament="decorated" />
+              <Shield playerColor={infoColor} size="md" ornament="decorated" ornamentColor="player" />
+            </div>
+          </div>
+        </div>
+
+        <CodeBlock code={`import { HrotErbu } from 'donjon-fall-ui'
+
+{/* Standalone — gold default */}
+<HrotErbu width={36} />
+
+{/* Custom barva (např. dle hráče) */}
+<HrotErbu width={36} color="#4A80E2" colorDim="#4A80E255" />
+
+{/* Použití v Erb — sám se renderuje když ornament="decorated" */}
+<Shield playerColor="#4A80E2" size="md" ornament="decorated" />
+<Shield playerColor="#4A80E2" size="md" ornament="decorated" ornamentColor="player" />`} />
       </Section>
 
       {/* ── Pravidla použití ── */}
