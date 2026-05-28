@@ -418,15 +418,18 @@ export const componentMeta = {
   /* ── Game Assets ───────────────────────────────────────────────────── */
 
   'erb': {
-    description: 'Heraldická identita hráče — hexagonální štít s barvou a volitelným symbolem (I–VI). Komponenta Shield pro herní UI, PlayerIdentityBadge pro scoreboard a HUD.',
+    description: 'Heraldická identita hráče — štít s barvou a volitelným symbolem (I–VI). Dva tvary: erb (fixní proporce, čtvercový top + tapered tip) a prapor (banner s fixním tipem a variabilní délkou). Komponenta Shield pro herní UI, PlayerIdentityBadge pro scoreboard a HUD.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/erb',
     props: [
       { name: 'player',      type: '{ color: string, label: string, id?: number }', required: false, description: 'Hráčský objekt — barva, popisek, ID (1–6). Alternativa k playerColor.' },
       { name: 'playerColor', type: 'string',                                         required: false, description: 'Přímá barva hráče (#hex) — má přednost před player.color.' },
-      { name: 'size',        type: "'xs'|'sm'|'md'|'lg'|number",                    required: false, default: "'md'",  description: 'Pojmenovaná velikost nebo pixel šířka (24–96 px).' },
-      { name: 'showSymbol',  type: 'boolean',                                         required: false, default: 'true', description: 'Zobrazí římskou číslici uvnitř štítu (I–VI dle player.id).' },
+      { name: 'shape',       type: "'erb'|'prapor'",                                required: false, default: "'erb'",  description: 'Tvar: erb = klasický štít s fixními proporcemi. prapor = banner s fixním tipem a variabilní délkou (přes width + height).' },
+      { name: 'size',        type: "'xs'|'sm'|'md'|'lg'|number",                    required: false, default: "'md'",  description: 'Pojmenovaná velikost nebo pixel šířka (24–96 px). Použito pouze pro shape="erb".' },
+      { name: 'width',       type: 'number',                                         required: false, default: '32',   description: 'Šířka v px pro shape="prapor". Tip škáluje s width (28.9 %).' },
+      { name: 'height',      type: 'number',                                         required: false, default: '120',  description: 'Délka v px pro shape="prapor". Tip má fixní velikost relativně k width, zbytek tělo škáluje libovolně.' },
+      { name: 'showSymbol',  type: 'boolean',                                         required: false, default: 'true', description: 'Zobrazí římskou číslici uvnitř štítu (I–VI dle player.id). U prapor zarovnán nahoru.' },
     ],
     relatedSlugs: ['hex-tile', 'die-face', 'donjon-badge'],
   },

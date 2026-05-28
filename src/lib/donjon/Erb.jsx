@@ -1,10 +1,36 @@
 /* ── Erb — heraldická identita hráče ────────────────────────────────────
-   Shield:              hexagonální štít s barvou a symbolem hráče
+   Shield:              heraldický štít/prapor s barvou a symbolem hráče
    PlayerIdentityBadge: kompaktní badge pro scoreboard / HUD
+
+   Tvary:
+     • shape="erb"    — square top, tapered bottom (default, ze src/erb.svg)
+                        Fixní proporce: aspect ratio ~1:1, tip = 28.9 % šířky.
+     • shape="prapor" — banner s fixní špičkou, variabilní délka.
+                        Tip = 28.9 % šířky (fixní). Tělo libovolně dlouhé.
    ─────────────────────────────────────────────────────────────────────── */
 import { bg2, neutralColor, textHighest } from './tokens'
 
-const SHIELD_CLIP = 'polygon(50% 0%, 100% 20%, 100% 60%, 50% 100%, 0% 60%, 0% 20%)'
+// Erb — fixní proporce, polygon z src/erb.svg:
+// 116.22×116.21 viewBox, body 116.22,0 → 116.22,82.66 → 58.11,116.21 → 0,82.66 → 0,0
+// V procentech: 0% 0% → 100% 0% → 100% 71.13% → 50% 100% → 0% 71.13%
+// Tip height = 116.21 - 82.66 = 33.55 = 28.87 % šířky.
+const ERB_CLIP = 'polygon(0% 0%, 100% 0%, 100% 71.13%, 50% 100%, 0% 71.13%)'
+
+// Poměr výšky tipu vůči šířce (z erb.svg i prapor.svg — obě 28.9 %).
+const TIP_RATIO = 0.289
+
+/**
+ * Clip-path pro prapor — tip má fixní velikost relativně k width,
+ * straight section flexibilní podle height.
+ *
+ * Pro prapor o width=w, height=h: tip protruz = w * TIP_RATIO px,
+ * straight section od 0 do (h - tip) px = (h-tip)/h % v polygon.
+ */
+function getPraporClip(width, height) {
+  const tipPx = width * TIP_RATIO
+  const straightPct = ((height - tipPx) / height) * 100
+  return `polygon(0% 0%, 100% 0%, 100% ${straightPct.toFixed(2)}%, 50% 100%, 0% ${straightPct.toFixed(2)}%)`
+}
 
 const sizeMap = {
   xs: { w: 24,  h: 28  },
@@ -17,33 +43,66 @@ const sizeMap = {
 const symbols = ['I', 'II', 'III', 'IV', 'V', 'VI']
 
 /**
- * Heraldický štít s barvou a (volitelným) symbolem hráče.
+ * Heraldický štít nebo prapor s barvou a (volitelným) symbolem hráče.
  *
- * Podporuje dvě API:
- *   - Starší: player={{ color, label, id }} size="xs|sm|md|lg"
- *   - Flat:   playerColor="#E05C5C" size={28} (pixel číslo)
+ * Tvary:
+ *   - shape="erb"    (default) — fixní proporce 1:1 + tapered tip dole.
+ *                                Velikost přes `size` ('xs|sm|md|lg' / px).
+ *   - shape="prapor" — banner s fixním tipem, libovolně dlouhý.
+ *                      Velikost přes `width` (default 32) + `height` (default 120).
+ *
+ * Podporuje dvě API pro barvu:
+ *   - Starší: player={{ color, label, id }}
+ *   - Flat:   playerColor="#E05C5C"
  *
  * @param {{ color: string, label: string, id?: number }} [player]
  * @param {string} [playerColor] - Přímá barva (alternativa k player.color)
- * @param {'xs'|'sm'|'md'|'lg'|number} [size='md'] - Název nebo pixel šířka
+ * @param {'erb'|'prapor'} [shape='erb']
+ * @param {'xs'|'sm'|'md'|'lg'|number} [size='md'] - Velikost pro shape='erb'
+ * @param {number} [width=32]  - Šířka pro shape='prapor'
+ * @param {number} [height=120] - Délka pro shape='prapor'
  * @param {boolean} [showSymbol=true]
  * @example
- * // Starší API (ErbPage, HudPage):
- * <Shield player={{ id: 1, color: '#E05C5C', label: 'Hráč 1' }} size="sm" />
- * // Flat API (PlayerPanel, vlastní layouty):
+ * // Erb (klasický štít):
+ * <Shield player={{ id: 1, color: '#E05C5C' }} size="sm" />
  * <Shield playerColor="#4A90E2" size={32} showSymbol={false} />
+ * // Prapor (banner):
+ * <Shield shape="prapor" playerColor="#E05C5C" width={32} height={120} />
+ * <Shield shape="prapor" playerColor="#4A90E2" width={40} height={200} />
  */
-export function Shield({ player, playerColor, size = 'md', showSymbol = true }) {
+export function Shield({
+  player,
+  playerColor,
+  shape = 'erb',
+  size = 'md',
+  width,
+  height,
+  showSymbol = true,
+}) {
   // Barva: flat prop má přednost před player objektem
   const color = playerColor ?? player?.color ?? neutralColor
+  const isPrapor = shape === 'prapor'
 
-  // Size: buď string klíč (xs/sm/md/lg) nebo pixel číslo
-  const s = typeof size === 'number'
-    ? { w: size, h: Math.round(size * 1.17) }
-    : (sizeMap[size] ?? sizeMap.md)
+  // Dimenze podle tvaru
+  let s
+  if (isPrapor) {
+    s = { w: width ?? 32, h: height ?? 120 }
+  } else if (typeof size === 'number') {
+    s = { w: size, h: Math.round(size * 1.17) }
+  } else {
+    s = sizeMap[size] ?? sizeMap.md
+  }
+
+  // Clip-path: erb = fixní, prapor = vypočítaný z dimenzí
+  const clip = isPrapor ? getPraporClip(s.w, s.h) : ERB_CLIP
 
   // Symbol: Římská číslice podle player.id (pokud existuje)
   const sym = player?.id != null ? symbols[(player.id - 1) % symbols.length] : null
+
+  // Velikost a pozice symbolu: u prapor menší + zarovnaný k vrchu
+  const symFontSize = isPrapor ? s.w * 0.42 : s.w * 0.28
+  const symAlign = isPrapor ? 'flex-start' : 'center'
+  const symPadTop = isPrapor ? Math.max(4, s.w * 0.18) : 0
 
   return (
     <div style={{
@@ -54,22 +113,28 @@ export function Shield({ player, playerColor, size = 'md', showSymbol = true }) 
       {/* Outer border */}
       <div style={{
         width: s.w, height: s.h,
-        clipPath: SHIELD_CLIP,
+        clipPath: clip,
         background: color,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        display: 'flex',
+        alignItems: symAlign,
+        justifyContent: 'center',
       }}>
         {/* Inner fill */}
         <div style={{
           width: s.w - 3, height: s.h - 3,
-          clipPath: SHIELD_CLIP,
+          // Pro prapor přepočítáme clip pro vnitřní dimenze, aby tip splynul s outer.
+          clipPath: isPrapor ? getPraporClip(s.w - 3, s.h - 3) : clip,
           background: color + '22',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          display: 'flex',
+          alignItems: symAlign,
+          justifyContent: 'center',
+          paddingTop: symPadTop,
         }}>
           {showSymbol && sym && (
             <span style={{
               color: color,
               fontWeight: 900,
-              fontSize: s.w * 0.28,
+              fontSize: symFontSize,
               letterSpacing: '-0.04em',
               lineHeight: 1,
               userSelect: 'none',

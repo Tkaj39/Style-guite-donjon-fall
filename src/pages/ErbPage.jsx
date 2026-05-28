@@ -69,6 +69,49 @@ export default function ErbPage() {
         </Preview>
       </Section>
 
+      <Section
+        id="prapor"
+        title="Prapor — banner s variabilní délkou"
+        description="Stejný komponent Shield, jiný tvar. Tip má fixní velikost relativně k šířce (28.9 %), tělo libovolně dlouhé. Vhodné pro side-panel dekorace, herní rangy, vlastnické značky."
+      >
+        <Preview>
+          <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+            {/* Stejná šířka, různé délky */}
+            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+              {[80, 120, 160, 200].map(h => (
+                <div key={h} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <Shield shape="prapor" player={players[0]} width={32} height={h} />
+                  <span style={{ fontSize: '0.6875rem', color: '#9A9080', fontFamily: 'ui-monospace, monospace' }}>
+                    h={h}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Různé šířky, stejná délka */}
+            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+              {[24, 32, 48, 64].map(w => (
+                <div key={w} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <Shield shape="prapor" player={players[1]} width={w} height={140} showSymbol={false} />
+                  <span style={{ fontSize: '0.6875rem', color: '#9A9080', fontFamily: 'ui-monospace, monospace' }}>
+                    w={w}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Preview>
+        <CodeBlock code={`{/* Prapor s symbolem hráče u vrchu (showSymbol implicit true) */}
+<Shield shape="prapor" player={{ id: 1, color: '#E05C5C' }} width={32} height={120} />
+
+{/* Prapor bez symbolu (čistá dekorace) */}
+<Shield shape="prapor" playerColor="#4A90E2" width={40} height={200} showSymbol={false} />
+
+{/* Variabilní délka — tip má vždy stejnou proporci k šířce */}
+<Shield shape="prapor" playerColor="#C84A4A" width={32} height={80} />
+<Shield shape="prapor" playerColor="#C84A4A" width={32} height={200} />`} />
+      </Section>
+
       <Section id="pravidla" title="Pravidla použití">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">
           <p>✓ Barva erbu je jedinečná pro každého hráče — nikdy nepřiděluj dvěma hráčům stejnou barvu.</p>
