@@ -448,10 +448,10 @@ export function ScoopOrnament({
   //   r=16 → 5px, r=22 → 7px, r=30 → 9px, r=40 → 12px
   // Bez tohoto škálování byl ornament při r ≥ 16 částečně oříznut scoop
   // curvou (3px ze 16/22/40 = jen 19/14/8 % rohu → ornament v carved zóně).
-  const inset = Math.max(3, Math.round(r * 0.3))
+  const edgeInset = Math.max(3, Math.round(r * 0.3))
   const posStyle = {
-    [corner.startsWith('t') ? 'top'  : 'bottom']: inset,
-    [corner.endsWith('l')   ? 'left' : 'right' ]: inset,
+    [corner.startsWith('t') ? 'top'  : 'bottom']: edgeInset,
+    [corner.endsWith('l')   ? 'left' : 'right' ]: edgeInset,
   }
 
   // 2 unikátní IDs pro 2 gradient defy
