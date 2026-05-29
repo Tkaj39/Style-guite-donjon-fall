@@ -32,6 +32,7 @@ src/
   data/
     componentMeta.js    ← ruční metadata komponent (popis, props, relatedSlugs)
     componentRegistry.js ← auto-discovery z lib/ + merge s componentMeta
+    __tests__/architectureContract.test.js ← enforced naming + dep direction
   utils/
     octagon.js    ← clip-path funkce: octagon(), hex(), scoopPath()...
     tooltipUtils.jsx    ← sdílený getPosition() + Arrow pro Tooltip/DonjonTooltip
@@ -39,9 +40,17 @@ src/
   hooks/
     useModalPageInert.js ← ref-counted inert pro #root při otevřeném modalu
   styleguide/
-    ShowcasePage.jsx ← Layout, Section, Preview, CodeBlock, useLibVariant
+    ShowcasePage.jsx ← Layout, Section, Preview, CodeBlock (+ copy button), useLibVariant
+    ArchDiagram.jsx ← sdílený shared→tkajui→donjon diagram (HomePage + /architecture)
   App.jsx         ← lazy imports + Routes
   index.css       ← Tailwind + @keyframes animace + dialog styles
+design-sources/   ← raw SVG ze kterých byly odvozeny inline JSX paths (nebudované, jen referenční)
+scripts/
+  eslint-rules/no-hardcoded-hex.js ← donjon/no-hardcoded-hex (suggest token + autofix)
+  fix-hardcoded-hex.mjs  ← mass replace `'#XXX'` → token + add import
+  fix-jsx-attrs.mjs       ← `color="#XXX"` → `color={token}`
+  disable-remaining-hex.mjs ← bulk eslint-disable s kategorizovaným důvodem
+  fix-disable-comments.mjs ← `//` → `{/* */}` v JSX child contextu
 ```
 
 ---
@@ -122,6 +131,18 @@ dangerColor  = '#E05C5C'  // červená — loss / damage
 warningColor = '#C08040'  // oranžová — varování
 infoColor    = '#4A80E2'  // modrá — mana / info
 magicColor   = '#9A60C8'  // fialová — magie / XP
+
+// Semantic text tints (parita s tkajui) — pro text na variant pozadí, AA kontrast
+dangerText   = '#F9C0C0'
+successText  = '#C0F0C8'
+warningText  = '#FFD580'
+infoText     = '#93C5FD'
+
+// Pre-computed solid tinted bg pro ornament fills (žádný alpha blend)
+selBgInfo    = '#242948'  // ≈ infoColor@13% na bg2
+selBgDanger  = '#382536'
+selBgGain    = '#253138'
+selBgMagic   = '#2F2544'
 ```
 
 ---
@@ -131,6 +152,13 @@ magicColor   = '#9A60C8'  // fialová — magie / XP
 ### Barvy
 - **Vždy importuj z `./tokens`** — nikdy hardcoded hex hodnoty v komponentách
 - Výjimka: průhlednosti jako `${gold}30` nebo `${dangerColor}88` jsou OK inline
+- **ESLint pravidlo `donjon/no-hardcoded-hex`** scope: `src/lib/**` + `src/pages/**`
+  - Rule sám navrhne konkrétní token *(„použij `dangerColor` z donjon/tokens")*
+  - Autofix když token už importován v souboru
+  - Pro legitimní výjimky *(ColorsPage demo, player color demo data, code snippet
+    text v CodeBlock)* použij `// eslint-disable-next-line donjon/no-hardcoded-hex -- důvod`
+    nebo v JSX child contextu `{/* eslint-disable-next-line donjon/no-hardcoded-hex -- důvod */}`
+- **Scripts pro mass fix** v `/scripts/` — pusť pokud po větším refactoru je hodně violations
 
 ### Inline `<style>` tagy
 - `@keyframes` patří do `src/index.css` — **ne do komponent**
@@ -259,7 +287,58 @@ const lib = useLibVariant()  // 'tkajui' | 'donjon'
 | Hardcoded `#FFC183` v komponentě | `import { gold } from './tokens'` |
 | `componentMeta` záznam bez `showcaseRoute` | Vždy přidej showcaseRoute |
 | Nová komponenta bez Route v App.jsx | Viz checklist výše |
-| `dangerText` v donjon komponentě | Token neexistuje, použij `dangerColor` |
+| ~~`dangerText` v donjon komponentě~~ | Token EXISTUJE od commit `cbf149c` (parita s tkajui) |
+| Barrel index.js bez `export * from './tokens'` | Vždy re-exportuj tokeny z barrel (regression test ošetří) |
+| `// eslint-disable` mezi JSX sourozenci | V JSX child contextu MUSÍ být `{/* eslint-disable ... */}` |
+| Auto-replace `'#XXX'` → `tokenName` v JSX attr | JSX: `color="#XXX"` → `color={tokenName}` (potřeba braces) |
+| Node script čte CRLF soubor přes `.+$` regex | `.` nematchuje `\r` — strip CRLF nebo použij `[^\n]+` |
+
+---
+
+## Lessons learned z mass-refactorů (lint cleanup, P5-P13 audit, atd.)
+
+### JSX comment context
+ESLint disable comment funguje DVĚMA způsoby podle contextu:
+- **JS expression context** *(uvnitř `style={...}`, mezi statements, v arrow callback `=> (`):* `// eslint-disable-next-line ...`
+- **JSX child context** *(mezi `<X>` a `</X>` jako text node):* `{/* eslint-disable-next-line ... */}`
+
+Heuristika pro detekci JSX child contextu *(z `scripts/fix-disable-comments.mjs`)*:
+- previous non-empty line ends with `>` or `}`  AND
+- next non-empty line starts with `<` or `{<`
+
+### Mass cross-lib token imports
+TokensPage importuje paletu z OBOU lib *(donjon + tkajui)* — některé tokeny mají **stejné jméno** *(např. `successColor`, `borderSubtle`)*. Auto-fix scripty musí detekovat existující importy přes ESM `ImportDeclaration` AST a vyhnout se duplikátům jinak parsing fail.
+
+### Pre-existing build warnings vs nové errors
+- `process is not defined` v `NotchedBox.jsx` — pre-existing *(dev guard `if (typeof process !== 'undefined')`)*. Nepatří k color fixům.
+- `INEFFECTIVE_DYNAMIC_IMPORT` warnings — produkční build OK, jen Rolldown poznámka že `componentRegistry.js` glob match komponent které jsou taky static-imported. Není to chyba.
+
+### Component variant naming convention
+**Donjon komponenty s `subcategory: 'extends-tkajui'` musí mít** *(vynuceno `architectureContract.test.js`)*:
+- Name s `Donjon` prefix *(DonjonButton, DonjonCard, …)*
+- `extendsSlug` v componentMeta míří na existující TkajUI slug
+- `differencesFromBase` pole strings dokumentuje co donjon přidává
+- 5-variant standard: `'default'|'danger'|'success'|'warning'|'info'` *(parita s tkajui, kde existuje)*
+
+### Design source SVG → JSX paths workflow
+1. Designér exportuje SVG do `/design-sources/` *(NE `src/`)*
+2. Vývojář otevře, zkopíruje `<path d="..." />` do JSX komponenty *(typicky `Ornaments.jsx`, `Erb.jsx`)*
+3. Hardcoded fills *(`#FFC183`, `#8F7458`)* nahradí tokeny z `./tokens` *(typicky přes `color`/`colorDim` props)*
+4. Originál v `/design-sources/` zůstává jako reference pro budoucí úpravy
+5. README v `/design-sources/` má aktualní mapping souborů ↔ komponent
+
+### ESLint scope expansion gotcha
+Když rozšíříš `donjon/no-hardcoded-hex` na nový adresář:
+- Spusť `npx eslint <dir> --format json` a počítej violations PŘED dělat fixy
+- Pre-existing `no-undef` a další pravidla mohou hořet — vyhraď čas
+- Velké counts = potřebuješ batch scripty *(viz `/scripts/`)*, ne manuální fix
+
+### Pull request pro kolegy
+Po `git push origin master`:
+1. Kolega: `git pull` (82+ commitů ahead)
+2. `npm install` (deps mohly se změnit)
+3. `npm run lint` (ověř že jeho kód projde nová pravidla)
+4. Pokud lint hlásí violations → buď fix podle suggestion *(„použij token X")*, nebo `eslint-disable-next-line donjon/no-hardcoded-hex -- důvod`
 
 ---
 
