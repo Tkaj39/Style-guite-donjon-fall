@@ -415,8 +415,8 @@ export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButto
           </button>
         )}
 
-        {/* Library variant preference — desktop a tablet (md+) */}
-        <div className="hidden md:block">
+        {/* Library variant preference — všechny breakpointy */}
+        <div>
           <LibPreferenceToggle />
         </div>
 
