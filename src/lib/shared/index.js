@@ -5,3 +5,4 @@
  * Shared NIKDY neimportuje z tkajui ani z donjon.
  */
 export * from './tokens'
+export * from './contrast'

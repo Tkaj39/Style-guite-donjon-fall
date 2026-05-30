@@ -1,4 +1,12 @@
-// TkajUI — generické UI komponenty
+/**
+ * TkajUI — generické UI komponenty
+ *
+ * Importuj tokeny zvlášť:
+ *   import { accent, surface2, borderDefault } from 'tkajui/tokens'
+ *
+ * Nebo CSS custom properties:
+ *   @import 'tkajui/tkajui.css';  → var(--tkajui-accent)
+ */
 
 // ─── Základní interaktivní prvky ──────────────────────────────────────────
 export { default as Button }         from './Button'

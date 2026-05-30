@@ -1,0 +1,113 @@
+/**
+ * TkajUI — CSS Custom Properties
+ *
+ * Exportuje všechny design tokeny jako CSS proměnné na :root.
+ * Použití: @import './src/lib/tkajui/tkajui.css';
+ *
+ * Pak v CSS:
+ *   color: var(--tkajui-accent);
+ *   background: var(--tkajui-surface2);
+ *   border: 1px solid var(--tkajui-border-default);
+ *
+ * Mirror exportů z `./tokens.js`. Změna v jednom musí být i ve druhém —
+ * paritu chrání test `architectureContract.test.js`.
+ */
+
+:root {
+  /* ── Surfaces ─────────────────────────────────────────────────────────── */
+  --tkajui-surface0: #0d0d14;   /* nejhlubší pozadí */
+  --tkajui-surface1: #13131c;   /* base dark */
+  --tkajui-surface2: #1b1b27;   /* input / card bg */
+  --tkajui-surface3: #232332;   /* elevated panel */
+  --tkajui-surface4: #2c2c3e;   /* hover state */
+
+  /* ── Background aliases (sjednocené naming s donjon) ─────────────────── */
+  --tkajui-bg0: var(--tkajui-surface0);
+  --tkajui-bg1: var(--tkajui-surface1);
+  --tkajui-bg2: var(--tkajui-surface2);
+  --tkajui-bg3: var(--tkajui-surface3);
+  --tkajui-bg4: var(--tkajui-surface4);
+
+  /* ── Borders ──────────────────────────────────────────────────────────── */
+  --tkajui-border-subtle:  #22222e;
+  --tkajui-border-default: #35354a;
+  --tkajui-border-mid:     #484860;
+  --tkajui-border-strong:  #626280;
+
+  /* ── Text ─────────────────────────────────────────────────────────────── */
+  --tkajui-text-high:     #eeeef8;   /* near-white, cool tint */
+  --tkajui-text-mid:      #8888a8;   /* labels, hints */
+  --tkajui-text-low:      #4c4c68;   /* placeholder, disabled */
+  --tkajui-text-disabled: #333348;
+
+  /* ── Accent (interactive blue) ────────────────────────────────────────── */
+  --tkajui-accent:        #6576ff;
+  --tkajui-accent-light:  #8591ff;   /* hover */
+  --tkajui-accent-dim:    #4455ee;   /* pressed */
+  --tkajui-accent-bg:     #6576ff18;
+  --tkajui-accent-border: #6576ff55;
+
+  /* ── Semantic — Success ───────────────────────────────────────────────── */
+  --tkajui-success:            #34d364;
+  --tkajui-success-bg:         #071c10;
+  --tkajui-success-bg-hover:   #0a2e16;
+  --tkajui-success-header-bg:  #0a2e16;
+  --tkajui-success-border:     #34d36444;
+  --tkajui-success-text:       #86efac;
+  --tkajui-success-desc:       #4a9a6a;
+  --tkajui-success-dim:        #18a850;
+
+  /* ── Semantic — Danger ────────────────────────────────────────────────── */
+  --tkajui-danger:            #f05555;
+  --tkajui-danger-bg:         #200808;
+  --tkajui-danger-bg-hover:   #2d0a0a;
+  --tkajui-danger-header-bg:  #2a0606;
+  --tkajui-danger-border:     #f0555544;
+  --tkajui-danger-text:       #fca5a5;
+  --tkajui-danger-desc:       #c07070;
+  --tkajui-danger-dim:        #cc2222;
+
+  /* ── Semantic — Warning ───────────────────────────────────────────────── */
+  --tkajui-warning:            #f0a030;
+  --tkajui-warning-bg:         #1e1003;
+  --tkajui-warning-bg-hover:   #2a1604;
+  --tkajui-warning-header-bg:  #271402;
+  --tkajui-warning-border:     #f0a03044;
+  --tkajui-warning-text:       #fcd34d;
+  --tkajui-warning-desc:       #906040;
+  --tkajui-warning-dim:        #cc7010;
+
+  /* ── Semantic — Info ──────────────────────────────────────────────────── */
+  --tkajui-info:        #4fa3f5;
+  --tkajui-info-bg:     #071424;
+  --tkajui-info-border: #4fa3f544;
+  --tkajui-info-text:   #93c5fd;
+  --tkajui-info-dim:    #2070d0;
+
+  /* ── Primary (white-on-accent) ────────────────────────────────────────── */
+  --tkajui-primary-text: #ffffff;
+  --tkajui-primary-icon: #ffffffcc;
+
+  /* ── Animační timing (sdílené se donjon přes shared/tokens) ──────────── */
+  --tkajui-anim-fast:     80ms;
+  --tkajui-anim-normal:   160ms;
+  --tkajui-anim-slow:     300ms;
+  --tkajui-anim-dramatic: 600ms;
+
+  --tkajui-ease-sharp:  cubic-bezier(0.4, 0, 0.6, 1);
+  --tkajui-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --tkajui-ease-enter:  cubic-bezier(0, 0, 0.2, 1);
+  --tkajui-ease-exit:   cubic-bezier(0.4, 0, 1, 1);
+
+  /* ── Breakpointy (sdílené) ────────────────────────────────────────────── */
+  --tkajui-bp-mobile:  480px;
+  --tkajui-bp-tablet:  768px;
+  --tkajui-bp-desktop: 1024px;
+  --tkajui-bp-wide:    1280px;
+
+  /* ── Z-index ──────────────────────────────────────────────────────────── */
+  --tkajui-z-dropdown:    900;
+  --tkajui-z-notification: 1900;
+  --tkajui-z-toast:       2000;
+  --tkajui-z-tooltip:     2100;
+}
