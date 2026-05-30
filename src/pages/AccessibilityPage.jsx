@@ -53,6 +53,7 @@ export default function AccessibilityPage() {
     <ShowcasePage
       title="Accessibility"
       description="Pravidla přístupnosti pro Donjon Fall UI. Cíl je WCAG 2.1 AA — kontrast, keyboard navigace, správná sémantika a podpora screen readerů."
+      library="both"
     >
 
       {/* Kontrast */}

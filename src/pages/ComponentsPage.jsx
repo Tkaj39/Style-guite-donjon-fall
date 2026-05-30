@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { registry, CATEGORIES, getCategoryCounts } from '../data/componentRegistry'
 import { ShowcasePage, Section } from '../styleguide/ShowcasePage'
+import LibraryLogo from '../styleguide/LibraryLogo'
+import { blue } from '../lib/donjon/playerColors'
 import {
   accent, borderMid,
 } from '../lib/tkajui/tokens'
@@ -353,8 +355,7 @@ const MINI_PREVIEWS = {
   'phase-indicator': <PhaseIndicator phases={[{ id: 'move', label: 'Pohyb' }, { id: 'fight', label: 'Souboj' }, { id: 'end', label: 'Konec' }]} currentPhase="fight" size="sm" />,
   'resource-bar': <ResourceBar value={68} max={100} variant="hp" size="sm" label="HP" showValue zones />,
   'numeric-display': <NumericDisplay value={12} label="VP" variant="vp" size="sm" />,
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token)
-  'player-panel': <PlayerPanel name="Hráč 1" color="#4A90E2" symbol="shield" vp={7} hp={72} size="sm" isActive />,
+  'player-panel': <PlayerPanel name="Hráč 1" color={blue} symbol="shield" vp={7} hp={72} size="sm" isActive />,
   'game-transition': <GameTransition show preset="slideUp"><div className="rounded border border-amber-700/40 bg-neutral-900 px-3 py-2 text-xs text-neutral-200">Enter / exit</div></GameTransition>,
   'error-boundary': <StaticErrorPreview />,
 }
@@ -588,7 +589,7 @@ export default function ComponentsPage() {
         )}
         {activeLib === 'donjon-fall-ui' && (
           <div className="mt-4 flex items-start gap-2 px-3 py-2.5 rounded-lg bg-amber-950/30 border border-amber-900/40 text-xs text-amber-300/80">
-            <span className="shrink-0 mt-0.5">⚔</span>
+            <span className="shrink-0 mt-1"><LibraryLogo brand="tkajui" size={13} color="currentColor" /></span>
             <span>donjon-fall-ui rozšiřuje TkajUI o herní Ornaments (SideOrnament, HexOrnament, CornerOrnament). Závislost jde vždy <strong>donjon → tkajui</strong>, nikdy naopak. Přepni na <button onClick={() => setActiveLib('TkajUI')} className="underline hover:text-amber-200">TkajUI</button> pro čistý základ.</span>
           </div>
         )}

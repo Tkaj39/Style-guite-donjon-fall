@@ -9,6 +9,7 @@ import pkg from '../../package.json'
 import { sections } from './Sidebar'
 import { useLibPreference } from './LibPreferenceProvider'
 import { LIBRARY_CFG } from './ShowcasePage'
+import LibraryLogo from './LibraryLogo'
 import {
   gold, goldMid, goldDim,
   bgDeep, borderDefault, textHigh, textMid, textLow,
@@ -306,8 +307,8 @@ export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButto
           aria-label={`donjon-fall-ui style guide v${pkg.version} — domovská stránka (knihovna se připravuje k publikaci)`}
           title={`donjon-fall-ui v${pkg.version}\nHerní UI knihovna — style guide\n\n⚠ Knihovna se připravuje k publikaci`}
         >
-          <span aria-hidden="true" style={{ fontSize: 22, lineHeight: 1, filter: `drop-shadow(0 0 6px ${gold}33)` }}>
-            🏰
+          <span aria-hidden="true" style={{ display: 'inline-flex', filter: `drop-shadow(0 0 6px ${gold}33)` }}>
+            <LibraryLogo brand="donjon" size={22} color={gold} />
           </span>
           <span
             style={{

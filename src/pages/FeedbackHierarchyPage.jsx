@@ -60,6 +60,7 @@ export default function FeedbackHierarchyPage() {
     <ShowcasePage
       title="Feedback Hierarchy"
       description="Pravidla priorit mezi různými typy zpětné vazby — modal, toast, tooltip a inline feedback. Zabraňuje konfliktům mezi overlaye a zajišťuje čitelnost herní zpětné vazby."
+      library="both"
     >
 
       {/* Priority stack */}

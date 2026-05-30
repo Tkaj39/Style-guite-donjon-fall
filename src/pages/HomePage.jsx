@@ -23,6 +23,7 @@ import {
 } from '../lib/donjon/tokens'
 import { octagon, octagonInner } from '../utils/octagon'
 import ArchDiagram from '../styleguide/ArchDiagram'
+import LibraryLogo from '../styleguide/LibraryLogo'
 
 const NPM_PACKAGE = 'donjon-fall-ui'
 
@@ -337,7 +338,7 @@ function HeroInstall() {
 }
 
 /* ── Brand chip pro hero ── */
-function BrandChip({ brand, emoji, withLink }) {
+function BrandChip({ brand, withLink }) {
   const cfg = BRAND[brand]
   const content = (
     <span style={{
@@ -350,7 +351,7 @@ function BrandChip({ brand, emoji, withLink }) {
       fontSize: '0.75rem', fontWeight: 600,
       letterSpacing: '0.02em',
     }}>
-      <span aria-hidden="true">{emoji}</span>
+      <LibraryLogo brand={brand} size={14} color={cfg.color} />
       {cfg.label}
     </span>
   )
@@ -358,7 +359,7 @@ function BrandChip({ brand, emoji, withLink }) {
 }
 
 /* ── Library hero card — paralelní brand block (TkajUI / donjon) ── */
-function LibraryCard({ brand, emoji, role, tagline, bullets, ctaTo, ctaLabel }) {
+function LibraryCard({ brand, role, tagline, bullets, ctaTo, ctaLabel }) {
   const cfg = BRAND[brand]
   const [hover, setHover] = useState(false)
   return (
@@ -376,7 +377,9 @@ function LibraryCard({ brand, emoji, role, tagline, bullets, ctaTo, ctaLabel }) 
       }}
     >
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-        <span aria-hidden="true" style={{ fontSize: 28, filter: `drop-shadow(0 0 10px ${cfg.color}55)` }}>{emoji}</span>
+        <span aria-hidden="true" style={{ display: 'inline-flex', filter: `drop-shadow(0 0 10px ${cfg.color}55)` }}>
+          <LibraryLogo brand={brand} size={28} color={cfg.color} />
+        </span>
         <h2 style={{
           margin: 0,
           fontSize: '1.5rem', fontWeight: 700,
@@ -505,7 +508,9 @@ export default function HomePage() {
             flexWrap: 'wrap', marginBottom: 16,
           }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
-              <span aria-hidden="true" style={{ fontSize: 40, filter: `drop-shadow(0 0 12px ${gold}55)` }}>🏰</span>
+              <span aria-hidden="true" style={{ display: 'inline-flex', filter: `drop-shadow(0 0 12px ${gold}55)` }}>
+                <LibraryLogo brand="donjon" size={40} color={gold} />
+              </span>
               <h1 style={{
                 margin: 0,
                 fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
@@ -517,7 +522,9 @@ export default function HomePage() {
             </div>
             <span aria-hidden="true" style={{ color: textLow, fontSize: '1.5rem', fontWeight: 300 }}>×</span>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-              <span aria-hidden="true" style={{ fontSize: 32, filter: `drop-shadow(0 0 10px ${BRAND.tkajui.color}55)` }}>⚔</span>
+              <span aria-hidden="true" style={{ display: 'inline-flex', filter: `drop-shadow(0 0 10px ${BRAND.tkajui.color}55)` }}>
+                <LibraryLogo brand="tkajui" size={32} color={BRAND.tkajui.color} />
+              </span>
               <h1 style={{
                 margin: 0,
                 fontSize: 'clamp(1.5rem, 3.5vw, 2.15rem)',
@@ -574,7 +581,7 @@ export default function HomePage() {
               onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = `0 6px 20px ${gold}44` }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}
             >
-              <span aria-hidden="true">🏰</span>
+              <LibraryLogo brand="donjon" size={16} color={bg0} />
               Začít s donjon
               <span style={{ fontSize: '1rem' }}>→</span>
             </Link>
@@ -595,7 +602,7 @@ export default function HomePage() {
               onMouseEnter={e => { e.currentTarget.style.background = `${BRAND.tkajui.color}22`; e.currentTarget.style.borderColor = `${BRAND.tkajui.color}99` }}
               onMouseLeave={e => { e.currentTarget.style.background = `${BRAND.tkajui.color}11`; e.currentTarget.style.borderColor = `${BRAND.tkajui.color}55` }}
             >
-              <span aria-hidden="true">⚔</span>
+              <LibraryLogo brand="tkajui" size={16} color={BRAND.tkajui.color} />
               Začít s TkajUI
               <span style={{ fontSize: '1rem' }}>→</span>
             </Link>
@@ -655,7 +662,6 @@ export default function HomePage() {
           }}>
             <LibraryCard
               brand="tkajui"
-              emoji="⚔"
               role="Base library"
               tagline={`Chladná paleta · accent blue · oktagonální tvary · ${stats.tkajui} komponent`}
               bullets={[
@@ -668,7 +674,6 @@ export default function HomePage() {
             />
             <LibraryCard
               brand="donjon"
-              emoji="🏰"
               role="Game layer"
               tagline={`Teplá zlatá paleta · středověký feel · ${stats.donjon} komponent (${stats.extending} extends TkajUI)`}
               bullets={[
@@ -721,7 +726,7 @@ export default function HomePage() {
         {/* ── TKAJUI FOUNDATIONS ───────────────────────────────── */}
         <section style={{ marginBottom: 48 }}>
           <SectionHeader
-            kicker={<span><span style={{ color: BRAND.tkajui.color }}>⚔</span> UI Foundations · TkajUI</span>}
+            kicker={<span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><LibraryLogo brand="tkajui" size={14} color={BRAND.tkajui.color} /> UI Foundations · TkajUI</span>}
             title="Obecná UI primitiva"
             description="Base komponenty použitelné v jakékoli React aplikaci. Stejné API jako donjon protějšky, ale s chladnou modrou paletou a střídmou estetikou."
           />
@@ -778,7 +783,7 @@ export default function HomePage() {
         {/* ── HERNÍ PRIMITIVA ──────────────────────────────────── */}
         <section style={{ marginBottom: 48 }}>
           <SectionHeader
-            kicker={<span><span style={{ color: gold }}>🏰</span> Herní primitiva · donjon-fall-ui</span>}
+            kicker={<span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><LibraryLogo brand="donjon" size={14} color={gold} /> Herní primitiva · donjon-fall-ui</span>}
             title="Co donjon přidává navíc"
             description="Specializované UI bloky pro deskové a tahové hry — to, co TkajUI neumí a generické knihovny neumí. Plus 13 rozšíření TkajUI komponent ve zlaté paletě s ornamenty."
           />
@@ -852,28 +857,32 @@ export default function HomePage() {
               display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap',
             }}>
               📜 Nejnovější změny
-              <BrandChip brand="tkajui" emoji="⚔" />
-              <BrandChip brand="donjon" emoji="🏰" />
+              <BrandChip brand="tkajui" />
+              <BrandChip brand="donjon" />
             </div>
             <ul style={{
               margin: 0, padding: 0, listStyle: 'none',
               display: 'flex', flexDirection: 'column', gap: 5,
               fontSize: '0.8125rem', color: textMid, lineHeight: 1.5,
             }}>
-              <li>
-                <span style={{ color: BRAND.tkajui.color, marginRight: 6 }}>⚔ shared</span>
+              <li style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                <LibraryLogo brand="tkajui" size={11} color={BRAND.tkajui.color} />
+                <span style={{ color: BRAND.tkajui.color, marginRight: 2 }}>shared</span>
                 lib/shared/tokens.js — sdílené motion, breakpointy a z-index pro obě knihovny
               </li>
-              <li>
-                <span style={{ color: BRAND.tkajui.color, marginRight: 6 }}>⚔ tkajui</span>
+              <li style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                <LibraryLogo brand="tkajui" size={11} color={BRAND.tkajui.color} />
+                <span style={{ color: BRAND.tkajui.color, marginRight: 2 }}>tkajui</span>
                 přidán borderStrong, surface/bg aliasy pro library-agnostický kód
               </li>
-              <li>
-                <span style={{ color: goldMid, marginRight: 6 }}>🏰 donjon</span>
+              <li style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                <LibraryLogo brand="donjon" size={11} color={goldMid} />
+                <span style={{ color: goldMid, marginRight: 2 }}>donjon</span>
                 ExtendsBanner ve ShowcasePage — link na TkajUI base + diff body
               </li>
-              <li>
-                <span style={{ color: goldMid, marginRight: 6 }}>🏰 donjon</span>
+              <li style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                <LibraryLogo brand="donjon" size={11} color={goldMid} />
+                <span style={{ color: goldMid, marginRight: 2 }}>donjon</span>
                 Centrální ornament sizing · 8 dokumentovaných herních primitiv · WCAG 2.1 AA audit
               </li>
             </ul>

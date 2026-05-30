@@ -103,6 +103,7 @@ export default function ValidationPage() {
     <ShowcasePage
       title="Validation Patterns"
       description="Vzory pro validaci vstupů — kdy validovat, jak zobrazit chybu, jak potvrdit správnost. Validace má vést uživatele, ne trestat ho."
+      library="both"
     >
 
       {/* Strategie validace */}

@@ -39,6 +39,17 @@ export const LIBRARY_CFG = {
 }
 
 function LibraryBadge({ library }) {
+  if (!library) return null
+  // 'both' → vyrenderuj obě pilule vedle sebe (foundation pages společné
+  // pro obě knihovny — Spacing, Motion, Responsive, …)
+  if (library === 'both') {
+    return (
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+        <LibraryBadge library="tkajui" />
+        <LibraryBadge library="donjon" />
+      </span>
+    )
+  }
   const c = LIBRARY_CFG[library]
   if (!c) return null
   return (
@@ -168,7 +179,7 @@ function ApiChip({ slug }) {
 /**
  * @param {string}   title
  * @param {string}   [description]
- * @param {string}   [library]          'tkajui' | 'donjon' — statický badge (pokud není variants)
+ * @param {string}   [library]          'tkajui' | 'donjon' | 'both' — statický badge (pokud není variants)
  * @param {string}   [componentSlug]    zkratka pro jeden API chip
  * @param {string[]} [componentSlugs]   více API chipů
  * @param {Array}    [variants]         [{ id: 'donjon'|'tkajui', label?: string }, ...]

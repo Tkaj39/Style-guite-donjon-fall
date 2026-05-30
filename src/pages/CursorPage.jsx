@@ -35,6 +35,7 @@ export default function CursorPage() {
     <ShowcasePage
       title="Cursor States"
       description="Kurzor myši komunikuje interakci — co se stane při kliknutí, tažení nebo čekání. Správný kurzor snižuje kognitivní zátěž."
+      library="both"
     >
 
       {/* Základní kurzory */}

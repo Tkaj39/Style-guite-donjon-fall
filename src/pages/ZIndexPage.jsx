@@ -100,6 +100,7 @@ export default function ZIndexPage() {
     <ShowcasePage
       title="Z-index škála"
       description="Systém vrstvení překryvných prvků. Definuje pořadí vrstev, prevenci konfliktů a pravidla pro nové overlay komponenty."
+      library="both"
     >
 
       {/* Škála */}

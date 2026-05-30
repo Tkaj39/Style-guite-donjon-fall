@@ -7,6 +7,9 @@ import {
   HeartIcon, DropIcon, BoltIcon,
   MoveIcon, TargetIcon, MagicIcon,
   StarIcon, CrownIcon, DiceIcon, HourglassIcon,
+  HexIcon, BaseIcon, FocalPointIcon, FocalPointActiveIcon, FocalPointPassiveIcon,
+  PushIcon, OccupyIcon, EncirclementIcon, TowerCollapseIcon, SuddenDeathIcon, TurnOrderIcon,
+  DonjonLogoIcon, TkajuiLogoIcon,
 } from '../lib/donjon/icons'
 
 const ICON_GROUPS = [
@@ -36,6 +39,34 @@ const ICON_GROUPS = [
       { icon: DiceIcon,        label: 'DiceIcon',        note: 'Kostka / přehazování' },
       { icon: HourglassIcon,   label: 'HourglassIcon',   note: 'Konec tahu / čas' },
       { icon: TowerIcon,       label: 'TowerIcon',       note: 'Věž / donjon' },
+    ],
+  },
+  {
+    label: 'Mapa (Map)',
+    icons: [
+      { icon: HexIcon,                  label: 'HexIcon',                  note: 'Mapové pole / hex' },
+      { icon: BaseIcon,                 label: 'BaseIcon',                 note: 'Základna hráče / spawn' },
+      { icon: FocalPointIcon,           label: 'FocalPointIcon',           note: 'Ohnisko (generic)' },
+      { icon: FocalPointActiveIcon,     label: 'FocalPointActiveIcon',     note: 'Aktivní ohnisko' },
+      { icon: FocalPointPassiveIcon,    label: 'FocalPointPassiveIcon',    note: 'Pasivní ohnisko' },
+    ],
+  },
+  {
+    label: 'Mechaniky (Game mechanics)',
+    icons: [
+      { icon: PushIcon,           label: 'PushIcon',           note: 'Odtlačení nepřátelské formace' },
+      { icon: OccupyIcon,         label: 'OccupyIcon',         note: 'Naskočení na nepřátelskou věž' },
+      { icon: EncirclementIcon,   label: 'EncirclementIcon',   note: 'Sevření a zničení' },
+      { icon: TowerCollapseIcon,  label: 'TowerCollapseIcon',  note: 'Kolaps věže' },
+      { icon: SuddenDeathIcon,    label: 'SuddenDeathIcon',    note: 'Okamžitá prohra (sudden death)' },
+      { icon: TurnOrderIcon,      label: 'TurnOrderIcon',      note: 'Pořadí hráčů / iniciativa' },
+    ],
+  },
+  {
+    label: 'Brand marks (Library logos)',
+    icons: [
+      { icon: DonjonLogoIcon,     label: 'DonjonLogoIcon',     note: 'Značka donjon-fall-ui (mirror favicon)' },
+      { icon: TkajuiLogoIcon,     label: 'TkajuiLogoIcon',     note: 'Značka TkajUI (mirror favicon)' },
     ],
   },
 ]
@@ -93,7 +124,7 @@ function TkajuiContent() {
             </div>
 
             <div>
-              <p style={subLabel}>Dostupné ikony — 13 herních ikon ve 3 kategoriích</p>
+              <p style={subLabel}>Dostupné ikony — 26 ikon v 6 kategoriích</p>
               {ICON_GROUPS.map(group => (
                 <div key={group.label} style={{ marginBottom: 20 }}>
                   <p style={{ ...nano, color: goldDim, marginBottom: 10, fontSize: '0.5rem' }}>{group.label}</p>
@@ -170,7 +201,7 @@ function DonjonContent() {
             </div>
 
             <div>
-              <p style={subLabel}>Všechny herní ikony — 13 ikon ve 3 kategoriích</p>
+              <p style={subLabel}>Všechny herní ikony — 26 ikon v 6 kategoriích</p>
               {ICON_GROUPS.map(group => (
                 <div key={group.label} style={{ marginBottom: 24 }}>
                   <p style={{ ...nano, color: goldDim, marginBottom: 12, fontSize: '0.5rem' }}>{group.label}</p>

@@ -128,6 +128,7 @@ export default function LoadingSkeletonPage() {
     <ShowcasePage
       title="Loading & Skeleton"
       description="Vizuální vzory pro stavy načítání — skeleton UI, progress indikátory a timeoutová pravidla. Skeleton zobrazuje strukturu obsahu před příchodem dat."
+      library="both"
     >
       {styleTag}
 

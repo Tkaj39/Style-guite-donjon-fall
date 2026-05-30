@@ -71,6 +71,7 @@ export default function ErrorStatesPage() {
     <ShowcasePage
       title="Error States"
       description="Vizuální vzory a pravidla pro chybové stavy — od inline validace po systémovou chybu. Každá chyba má kategorii, kanál a recovery akci."
+      library="both"
     >
 
       {/* Kategorie chyb */}

@@ -1,28 +1,16 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { LIBRARY_CFG } from './ShowcasePage'
+import Pictogram from '../lib/tkajui/Pictogram'
+import { TowerIcon, BoltIcon, StarIcon } from '../lib/donjon/icons'
+import LibraryBadges from './LibraryBadges'
 
-/* ── Library icons (miniaturní verze) ── */
-function LibIcon({ library }) {
-  const cfg = LIBRARY_CFG[library]
-  if (!cfg) return null
-  const color = cfg.color
-
-  if (library === 'tkajui') return (
-    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
-      <rect x="1" y="1"   width="12" height="3" rx="0.8" fill={color} opacity="0.45" />
-      <rect x="1" y="5.5" width="12" height="3" rx="0.8" fill={color} opacity="0.72" />
-      <rect x="1" y="10"  width="12" height="3" rx="0.8" fill={color} />
-    </svg>
+/* ── Pictogram helper — sjednotí velikost & alignment v Sidebaru ── */
+function ItemIcon({ icon }) {
+  if (!icon) return null
+  return (
+    <span style={{ display: 'inline-flex', flexShrink: 0, color: 'currentColor', lineHeight: 0 }}>
+      <Pictogram icon={icon} size="sm" />
+    </span>
   )
-  if (library === 'donjon') return (
-    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
-      <path d="M7 1.5V10.5"   stroke={color} strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M3.5 5H10.5"   stroke={color} strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M5.5 10.5H8.5" stroke={color} strokeWidth="1.1" strokeLinecap="round" />
-      <path d="M7 10.5V12.5"  stroke={color} strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  )
-  return null
 }
 
 // ── Navigační data ────────────────────────────────────────────────────────────
@@ -31,9 +19,9 @@ export const sections = [
   {
     label: 'System',
     items: [
-      { to: '/', label: '🏰 Home' },
+      { to: '/', label: 'Home', library: 'both' },
       {
-        to: '/architecture', label: '🏛️ Architektura',
+        to: '/architecture', label: 'Architektura', icon: TowerIcon,
         children: [
           { to: '/architecture#zavislosti',         label: 'Závislostní směr' },
           { to: '/architecture#naming',             label: 'Naming kontrakt' },
@@ -43,10 +31,10 @@ export const sections = [
           { to: '/architecture#pridat-komponentu',  label: 'Přidat komponentu' },
         ],
       },
-      { to: '/snippets', label: '⚡ Snippety', library: 'donjon' },
-      { to: '/todo', label: '✦ TODO' },
+      { to: '/snippets', label: 'Snippety', icon: BoltIcon, library: 'donjon' },
+      { to: '/todo', label: 'TODO', icon: StarIcon },
       {
-        to: '/components', label: 'Components',
+        to: '/components', label: 'Components', library: 'both',
         children: [
           { to: '/components#tkajui',         label: 'TkajUI' },
           { to: '/components#donjon-fall-ui', label: 'donjon-fall-ui' },
@@ -62,7 +50,7 @@ export const sections = [
     label: 'Foundations',
     items: [
       {
-        to: '/mood', label: 'Mood & Vision',
+        to: '/mood', label: 'Mood & Vision', library: 'both',
         children: [
           { to: '/mood?lib=tkajui#manifesto',         label: 'TkajUI — manifest' },
           { to: '/mood?lib=tkajui#pilire',            label: 'TkajUI — pilíře' },
@@ -73,7 +61,7 @@ export const sections = [
         ],
       },
       {
-        to: '/colors', label: 'Colors',
+        to: '/colors', label: 'Colors', library: 'both',
         children: [
           { to: '/colors?lib=tkajui#tkajui-paleta',    label: 'TkajUI paleta' },
           { to: '/colors?lib=tkajui#tkajui-vs-donjon', label: 'TkajUI vs donjon' },
@@ -84,7 +72,7 @@ export const sections = [
         ],
       },
       {
-        to: '/typography', label: 'Typography',
+        to: '/typography', label: 'Typography', library: 'both',
         children: [
           { to: '/typography?lib=tkajui#tkajui-skala',  label: 'TkajUI — škála' },
           { to: '/typography?lib=tkajui#tkajui-vahy',   label: 'TkajUI — váhy' },
@@ -92,10 +80,10 @@ export const sections = [
           { to: '/typography?lib=donjon#donjon-ui',      label: 'donjon — UI škála' },
         ],
       },
-      { to: '/spacing',    label: 'Spacing',    library: 'donjon' },
-      { to: '/pictograms', label: 'Pictograms' },
+      { to: '/spacing',    label: 'Spacing',    library: 'both' },
+      { to: '/pictograms', label: 'Pictograms', library: 'both' },
       {
-        to: '/ornaments', label: 'Ornaments',
+        to: '/ornaments', label: 'Ornaments', library: 'donjon',
         children: [
           { to: '/ornaments#side-ornament',               label: 'SideOrnament' },
           { to: '/ornaments#hex-ornament',                label: 'HexOrnament' },
@@ -116,7 +104,7 @@ export const sections = [
         ],
       },
       {
-        to: '/shapes', label: 'Shapes',
+        to: '/shapes', label: 'Shapes', library: 'both',
         children: [
           { to: '/scoop-clip', label: '— ScoopClip detail',
             children: [
@@ -130,9 +118,9 @@ export const sections = [
           },
         ],
       },
-      { to: '/texture', label: 'Texture systém' },
+      { to: '/texture', label: 'Texture systém', library: 'donjon' },
       {
-        to: '/glow-shadow', label: 'Glow & Shadow',
+        to: '/glow-shadow', label: 'Glow & Shadow', library: 'both',
         children: [
           { to: '/glow-shadow?lib=tkajui#stiny',          label: 'Stíny' },
           { to: '/glow-shadow?lib=tkajui#glow',           label: 'TkajUI — glow' },
@@ -147,7 +135,7 @@ export const sections = [
     label: 'Principy',
     items: [
       {
-        to: '/motion', label: 'Motion', library: 'donjon',
+        to: '/motion', label: 'Motion', library: 'both',
         children: [
           { to: '/motion#timing',     label: 'Timing tokeny' },
           { to: '/motion#easing',     label: 'Easing křivky' },
@@ -158,7 +146,7 @@ export const sections = [
         ],
       },
       {
-        to: '/interaction-states', label: 'Interaction States',
+        to: '/interaction-states', label: 'Interaction States', library: 'both',
         children: [
           { to: '/interaction-states?lib=tkajui#matrix',  label: 'Matice stavů' },
           { to: '/interaction-states?lib=tkajui#hover',   label: 'TkajUI — Hover' },
@@ -168,7 +156,7 @@ export const sections = [
         ],
       },
       {
-        to: '/responsive', label: 'Responsive Design', library: 'donjon',
+        to: '/responsive', label: 'Responsive Design', library: 'both',
         children: [
           { to: '/responsive#breakpoints', label: 'Breakpointy — live' },
           { to: '/responsive#tokeny',      label: 'BP tokeny' },
@@ -180,7 +168,7 @@ export const sections = [
         ],
       },
       {
-        to: '/focus-ring', label: 'Focus Ring',
+        to: '/focus-ring', label: 'Focus Ring', library: 'both',
         children: [
           { to: '/focus-ring?lib=tkajui#vychozi',  label: 'TkajUI — výchozí ring' },
           { to: '/focus-ring?lib=donjon#vychozi',  label: 'donjon — výchozí ring' },
@@ -189,15 +177,16 @@ export const sections = [
           { to: '/focus-ring#skip-link',           label: 'Skip link' },
         ],
       },
-      { to: '/accessibility',      label: 'Accessibility',       library: 'donjon' },
-      { to: '/feedback-hierarchy', label: 'Feedback Hierarchy',  library: 'donjon' },
-      { to: '/error-states',       label: 'Error States',        library: 'donjon' },
-      { to: '/empty-states',       label: 'Empty States',        library: 'donjon' },
-      { to: '/loading-skeleton',   label: 'Loading & Skeleton',  library: 'donjon' },
-      { to: '/validation',         label: 'Validation',          library: 'donjon' },
-      { to: '/microcopy',          label: 'Content & Microcopy', library: 'donjon' },
+      { to: '/accessibility',      label: 'Accessibility',       library: 'both' },
+      { to: '/contrast-lab',       label: 'Contrast Lab',        library: 'both' },
+      { to: '/feedback-hierarchy', label: 'Feedback Hierarchy',  library: 'both' },
+      { to: '/error-states',       label: 'Error States',        library: 'both' },
+      { to: '/empty-states',       label: 'Empty States',        library: 'both' },
+      { to: '/loading-skeleton',   label: 'Loading & Skeleton',  library: 'both' },
+      { to: '/validation',         label: 'Validation',          library: 'both' },
+      { to: '/microcopy',          label: 'Content & Microcopy', library: 'both' },
       {
-        to: '/tokens', label: 'Design Tokens',
+        to: '/tokens', label: 'Design Tokens', library: 'both',
         children: [
           { to: '/tokens?lib=tkajui#co-jsou',  label: 'Co jsou tokeny' },
           { to: '/tokens?lib=tkajui#surfaces', label: 'TkajUI — surfaces' },
@@ -207,34 +196,34 @@ export const sections = [
           { to: '/tokens?lib=donjon#pravidla', label: 'Pravidla' },
         ],
       },
-      { to: '/z-index',        label: 'Z-index škála',   library: 'donjon' },
-      { to: '/cursor',         label: 'Cursor States',   library: 'donjon' },
-      { to: '/scrollbar',      label: 'Scrollbar' },
-      { to: '/text-selection', label: 'Text Selection',  library: 'donjon' },
+      { to: '/z-index',        label: 'Z-index škála',   library: 'both' },
+      { to: '/cursor',         label: 'Cursor States',   library: 'both' },
+      { to: '/scrollbar',      label: 'Scrollbar',       library: 'both' },
+      { to: '/text-selection', label: 'Text Selection',  library: 'both' },
     ],
   },
   {
     label: 'Komponenty',
     items: [
-      { to: '/tooltip',      label: 'Tooltip',      library: 'tkajui' },
-      { to: '/modal',        label: 'Modal',        library: 'tkajui' },
-      { to: '/toast',        label: 'Toast',        library: 'tkajui' },
-      { to: '/toggle',       label: 'Toggle',       library: 'tkajui' },
-      { to: '/progress-bar', label: 'Progress Bar', library: 'tkajui' },
-      { to: '/select',       label: 'Select',       library: 'tkajui' },
-      { to: '/slider',       label: 'Slider',       library: 'tkajui' },
-      { to: '/tabs',         label: 'Tabs',         library: 'tkajui' },
-      { to: '/buttons',       label: 'Buttons' },
-      { to: '/button-groups', label: 'Button Groups' },
+      { to: '/tooltip',      label: 'Tooltip',      library: 'both' },
+      { to: '/modal',        label: 'Modal',        library: 'both' },
+      { to: '/toast',        label: 'Toast',        library: 'both' },
+      { to: '/toggle',       label: 'Toggle',       library: 'both' },
+      { to: '/progress-bar', label: 'Progress Bar', library: 'both' },
+      { to: '/select',       label: 'Select',       library: 'both' },
+      { to: '/slider',       label: 'Slider',       library: 'both' },
+      { to: '/tabs',         label: 'Tabs',         library: 'both' },
+      { to: '/buttons',       label: 'Buttons',       library: 'both' },
+      { to: '/button-groups', label: 'Button Groups', library: 'both' },
       {
-        to: '/inputs', label: 'Inputs',
+        to: '/inputs', label: 'Inputs', library: 'both',
         children: [
           { to: '/inputs#form-prihlaseni', label: 'Form — Přihlášení' },
           { to: '/inputs#form-nastaveni',  label: 'Form — Nastavení' },
         ],
       },
-      { to: '/badges', label: 'Badges', library: 'donjon' },
-      { to: '/cards',  label: 'Cards',  library: 'donjon' },
+      { to: '/badges', label: 'Badges', library: 'both' },
+      { to: '/cards',  label: 'Cards',  library: 'both' },
     ],
   },
   {
@@ -519,10 +508,14 @@ function SubItem({ item, onClose, depth = 1 }) {
   )
 }
 
-function NavItem({ item, onClose }) {
+function NavItem({ item, onClose, sectionLibrary }) {
   const { pathname } = useLocation()
   // Sub-linky jsou viditelné jen na aktivní route (accordion efekt)
   const isRouteActive = pathname === item.to || pathname.startsWith(item.to + '/')
+
+  // Library badge — explicitní hodnota na položce má přednost, jinak
+  // dědíme ze sekce (např. Herní UI → 'donjon' pro všechny děti).
+  const library = item.library ?? sectionLibrary
 
   return (
     <li>
@@ -537,8 +530,9 @@ function NavItem({ item, onClose }) {
           }`
         }
       >
-        {item.library && <LibIcon library={item.library} />}
-        {item.label}
+        <ItemIcon icon={item.icon} />
+        <span className="flex-1">{item.label}</span>
+        {library && <LibraryBadges library={library} />}
       </NavLink>
       {item.children && isRouteActive && (
         <ul className="flex flex-col gap-0.5 mt-0.5 ml-3 pl-3 border-l border-neutral-800">
@@ -588,12 +582,12 @@ export default function Sidebar({ isOpen, onClose }) {
         {sections.map((section) => (
           <div key={section.label}>
             <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-2 flex items-center gap-1.5">
-              {section.library && <LibIcon library={section.library} />}
-              {section.label}
+              <span className="flex-1">{section.label}</span>
+              {section.library && <LibraryBadges library={section.library} />}
             </p>
             <ul className="flex flex-col gap-0.5">
               {section.items.map((item) => (
-                <NavItem key={item.to} item={item} onClose={onClose} />
+                <NavItem key={item.to} item={item} onClose={onClose} sectionLibrary={section.library} />
               ))}
             </ul>
           </div>

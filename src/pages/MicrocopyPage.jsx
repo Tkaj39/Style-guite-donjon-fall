@@ -39,7 +39,7 @@ export default function MicrocopyPage() {
     <ShowcasePage
       title="Content & Microcopy"
       description="Pravidla pro psaní textů v UI — tlačítka, labely, nápovědy, potvrzení, chyby. Dobrý microcopy mluví jazykem hráče, ne systému."
-      library="donjon"
+      library="both"
     >
 
       {/* Tón a hlas */}

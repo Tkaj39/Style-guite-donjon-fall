@@ -12,6 +12,7 @@
 import { Link } from 'react-router-dom'
 import { ShowcasePage, Section, CodeBlock } from '../styleguide/ShowcasePage'
 import ArchDiagram, { ARCH_BRAND } from '../styleguide/ArchDiagram'
+import LibraryLogo from '../styleguide/LibraryLogo'
 import { componentMeta } from '../data/componentMeta'
 import { registry } from '../data/componentRegistry'
 import {
@@ -110,11 +111,15 @@ function ExtendsPairsTable({ pairs }) {
         <thead>
           <tr style={{ background: bgDeep }}>
             <th style={thStyle}>
-              <span style={{ color: ARCH_BRAND.tkajui }}>⚔ TkajUI base</span>
+              <span style={{ color: ARCH_BRAND.tkajui, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <LibraryLogo brand="tkajui" size={13} color={ARCH_BRAND.tkajui} /> TkajUI base
+              </span>
             </th>
             <th style={thStyle} aria-label="extends" />
             <th style={thStyle}>
-              <span style={{ color: ARCH_BRAND.donjon }}>🏰 donjon rozšíření</span>
+              <span style={{ color: ARCH_BRAND.donjon, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <LibraryLogo brand="donjon" size={13} color={ARCH_BRAND.donjon} /> donjon rozšíření
+              </span>
             </th>
             <th style={thStyle}>Co donjon přidává</th>
           </tr>

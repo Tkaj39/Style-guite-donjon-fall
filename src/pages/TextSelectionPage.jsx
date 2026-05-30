@@ -33,6 +33,7 @@ export default function TextSelectionPage() {
     <ShowcasePage
       title="Text Selection"
       description="Vlastní ::selection styling pro výběr textu. Výběr musí být čitelný na tmavém pozadí a odpovídat zlaté paletě."
+      library="both"
     >
 
       {/* Ukázka */}

@@ -56,6 +56,7 @@ export default function EmptyStatesPage() {
     <ShowcasePage
       title="Empty States"
       description="Vzory pro stavy bez obsahu — prázdné seznamy, první použití, žádné výsledky hledání. Prázdný stav není chyba — je to příležitost navést uživatele."
+      library="both"
     >
 
       {/* Typy prázdných stavů */}
