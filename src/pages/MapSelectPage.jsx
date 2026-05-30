@@ -1,5 +1,5 @@
 import DonjonBadge from '../lib/donjon/DonjonBadge'
-import { textFaint, textParchment, gold, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
+import { textFaint, textParchment, gold, goldDim, bg4, bgDeep, borderMuted } from '../lib/donjon/tokens'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
@@ -97,8 +97,7 @@ function NavBtn({ label, primary = false, fs = '0.4375rem', py = 5, px = 10 }) {
   return (
     <div style={{
       padding: `${py}px ${px}px`,
-      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-      border: `1px solid ${primary ? '#FFC18388' : '#3A3858'}`,
+      border: `1px solid ${primary ? `${gold}88` : borderMuted}`,
       borderRadius: 4,
       // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       background: primary ? '#2A2020' : bgDeep,

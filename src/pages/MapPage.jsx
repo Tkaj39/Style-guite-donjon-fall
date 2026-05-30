@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import {
-  bg4, bgDeep, bgInactive, borderDefault, failColor, goldDim, goldMid, textFaint, textHighest,
+  bg4, bgDeep, bgInactive, borderDefault, borderMuted, failColor, goldDim, goldMid, textFaint, textHighest,
 } from '../lib/donjon/tokens'
 import HexTile from '../lib/donjon/HexTile'
 import DieFace from '../lib/donjon/DieFace'
@@ -62,8 +62,7 @@ function TurnHUD({ player, turn, phase, warning = false }) {
       display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
       // eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul)
       background: `linear-gradient(150deg,#232238 0%,${bgDeep} 70%)`,
-      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-      border: `1px solid ${warning ? failColor : '#3A3858'}`,
+      border: `1px solid ${warning ? failColor : borderMuted}`,
       borderRadius: 4, padding: '10px 16px',
       boxShadow: warning ? '0 0 12px #C0404033' : 'none',
     }}>
@@ -81,8 +80,7 @@ function TurnHUD({ player, turn, phase, warning = false }) {
         WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
       }}>{player.label}</span>
       {/* Divider */}
-      {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-      <div style={{ width: 1, height: 20, background: '#3A3858', flexShrink: 0 }} />
+      <div style={{ width: 1, height: 20, background: borderMuted, flexShrink: 0 }} />
       {/* Turn number */}
       <DonjonBadge size="sm" variant="default">Tah {turn}</DonjonBadge>
       {/* Phase */}
@@ -249,7 +247,7 @@ export default function MapPage() {
               {turnPhases.map((ph, i) => (
                 <button key={i} onClick={() => setHudPhase(i)} style={{
                   background: hudPhase === i ? borderDefault : bgDeep,
-                  border: '1px solid #3A3858', borderRadius: 3,
+                  border: `1px solid ${borderMuted}`, borderRadius: 3,
                   color: goldDim, fontSize: '0.625rem', padding: '4px 10px',
                   cursor: 'pointer', letterSpacing: '0.08em', textTransform: 'uppercase',
                 }}>

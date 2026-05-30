@@ -79,13 +79,13 @@ const symbols = ['I', 'II', 'III', 'IV', 'V', 'VI']
  * @example
  * // Erb (klasický štít):
  * <Shield player={{ id: 1, color: '#E05C5C' }} size="sm" />
- * <Shield playerColor="#4A90E2" size={32} showSymbol={false} />
+ * <Shield playerColor="#4D8FE0" size={32} showSymbol={false} />
  * // Prapor (banner):
  * <Shield shape="prapor" playerColor="#E05C5C" width={32} height={120} />
- * <Shield shape="prapor" playerColor="#4A90E2" width={40} height={200} />
+ * <Shield shape="prapor" playerColor="#4D8FE0" width={40} height={200} />
  * // Dekorovaný:
  * <Shield player={{ id: 1, color: '#E05C5C' }} size="lg" ornament="decorated" />
- * <Shield playerColor="#4A90E2" size="md" ornament="decorated" ornamentColor="player" />
+ * <Shield playerColor="#4D8FE0" size="md" ornament="decorated" ornamentColor="player" />
  */
 export function Shield({
   player,

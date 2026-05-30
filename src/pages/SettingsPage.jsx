@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { textFaint, textParchment, gold, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
+import { textFaint, textParchment, gold, goldDim, bg4, bgDeep, borderMuted } from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
@@ -44,8 +44,7 @@ function MiniToggle({ on, label, fs = '0.4375rem', labelW = 80 }) {
         width: 26, height: 13, borderRadius: 7, flexShrink: 0,
         // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
         background: on ? '#FFC18330' : bgDeep,
-        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-        border: `1px solid ${on ? '#FFC18366' : '#3A3858'}`,
+        border: `1px solid ${on ? `${gold}66` : borderMuted}`,
         position: 'relative',
       }}>
         <div style={{
@@ -119,8 +118,7 @@ function TabJazyk({ fs = '0.4375rem' }) {
           <span style={{ fontSize: fs, color: l.active ? textParchment : textFaint, fontWeight: l.active ? 700 : 400 }}>
             {l.label}
           </span>
-          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-          <span style={{ fontSize: '0.375rem', color: '#3A3858', marginLeft: 'auto' }}>{l.code}</span>
+          <span style={{ fontSize: '0.375rem', color: borderMuted, marginLeft: 'auto' }}>{l.code}</span>
         </div>
       ))}
     </div>
@@ -146,7 +144,7 @@ function TabOvladani({ fs = '0.375rem' }) {
         }}>
           <span style={{ fontSize: fs, color: goldDim }}>{b.action}</span>
           <div style={{
-            background: bgDeep, border: '1px solid #3A3858',
+            background: bgDeep, border: `1px solid ${borderMuted}`,
             borderRadius: 2, padding: '1px 5px',
             fontSize: fs, color: textParchment, fontWeight: 700, letterSpacing: '0.06em',
           }}>
@@ -220,7 +218,7 @@ function SettingsModal({ activeTab = 'zvuk', size = 'desktop' }) {
       width: modalW,
       // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       background: '#1C1A2E',
-      border: '1px solid #3A3858',
+      border: `1px solid ${borderMuted}`,
       borderRadius: 6,
       boxShadow: '0 20px 60px #00000099',
       display: 'flex', flexDirection: 'column',
@@ -272,7 +270,7 @@ function SettingsModal({ activeTab = 'zvuk', size = 'desktop' }) {
           padding: isDesktop ? '4px 12px' : '3px 8px',
           fontSize: tabFs, color: goldDim, fontWeight: 700,
           letterSpacing: '0.08em', textTransform: 'uppercase',
-          border: '1px solid #3A3858', borderRadius: 3,
+          border: `1px solid ${borderMuted}`, borderRadius: 3,
           background: bgDeep,
         }}>Zrušit</div>
         <div style={{

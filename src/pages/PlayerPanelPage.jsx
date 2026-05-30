@@ -5,6 +5,7 @@ import { CodeBlock } from '../styleguide/ShowcasePage'
 import {
   bg2, bgDeep, borderDefault, gold, magicColor, textFaint, textLow, textMid, textParchment,
 } from '../lib/donjon/tokens'
+import { red, blue, green, yellow } from '../lib/donjon/playerColors'
 
 const PAGE    = { padding: '40px 32px', maxWidth: 860, margin: '0 auto' }
 const H1      = { fontSize: '1.5rem', fontWeight: 700, color: gold, letterSpacing: '0.04em', marginBottom: 4 }
@@ -38,14 +39,10 @@ function Code({ children }) {
 }
 
 const PLAYERS = [
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token)
-  { name: 'Hráč 1', color: '#4A90E2', symbol: 'sword',  vp: 7,  hp: 72, maxHp: 100 },
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token)
-  { name: 'Hráč 2', color: '#C84A4A', symbol: 'shield', vp: 4,  hp: 31, maxHp: 100 },
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-  { name: 'Hráč 3', color: '#4AB870', symbol: 'tower',  vp: 11, hp: 88, maxHp: 100 },
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-  { name: 'Hráč 4', color: '#C8A44A', symbol: 'sword',  vp: 2,  hp: 15, maxHp: 100 },
+  { name: 'Hráč 1', color: blue,   symbol: 'sword',  vp: 7,  hp: 72, maxHp: 100 },
+  { name: 'Hráč 2', color: red,    symbol: 'shield', vp: 4,  hp: 31, maxHp: 100 },
+  { name: 'Hráč 3', color: green,  symbol: 'tower',  vp: 11, hp: 88, maxHp: 100 },
+  { name: 'Hráč 4', color: yellow, symbol: 'sword',  vp: 2,  hp: 15, maxHp: 100 },
 ]
 
 export default function PlayerPanelPage() {
@@ -106,9 +103,10 @@ export default function PlayerPanelPage() {
             ))}
           </div>
         </Demo>
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
-        <Code>{`<PlayerPanel
-  name="Hráč 1" color="#4A90E2" symbol="sword"
+        <Code>{`import { PlayerPanel, blue } from 'donjon-fall-ui'
+
+<PlayerPanel
+  name="Hráč 1" color={blue} symbol="sword"
   vp={7} hp={72} maxHp={100} mana={60}
   isActive={turn === 0}
 />`}</Code>
@@ -119,17 +117,13 @@ export default function PlayerPanelPage() {
       {/* ── Stavy ── */}
       <Section id="stavy" title="Stavy" desc="Výchozí, aktivní (na tahu), vyřazený.">
         <Demo style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
-          <PlayerPanel name="Výchozí"    color="#4A90E2" symbol="sword"  vp={5}  hp={80} size="sm" />
-          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
-          <PlayerPanel name="Na tahu"    color="#C84A4A" symbol="shield" vp={3}  hp={55} size="sm" isActive />
-          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-          <PlayerPanel name="Kritické HP" color="#4AB870" symbol="tower"  vp={9}  hp={18} size="sm" />
+          <PlayerPanel name="Výchozí"    color={blue} symbol="sword"  vp={5}  hp={80} size="sm" />
+          <PlayerPanel name="Na tahu"    color={red} symbol="shield" vp={3}  hp={55} size="sm" isActive />
+          <PlayerPanel name="Kritické HP" color={green} symbol="tower"  vp={9}  hp={18} size="sm" />
           <PlayerPanel name="Vyřazen"    color={textLow} symbol="sword"  vp={1}  hp={0}  size="sm" eliminated />
         </Demo>
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
         <Code>{`{/* Aktivní — zlatý border + glow */}
-<PlayerPanel name="Na tahu" color="#C84A4A" isActive />
+<PlayerPanel name="Na tahu" color={red} isActive />
 
 {/* Vyřazený — 45% opacity + VYŘAZEN badge */}
 <PlayerPanel name="Vyřazen" color={textLow} eliminated />`}</Code>
@@ -144,17 +138,14 @@ export default function PlayerPanelPage() {
       >
         <Demo>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
-            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
-            <PlayerPanel name="HUD hráč" color="#4A90E2" symbol="sword" vp={7} hp={72} mana={46} stamina={54} isActive />
-            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
-            <PlayerPanel name="Score přehled" color="#C84A4A" symbol="shield" vp={4} hp={31} mana={58} stamina={40} />
+              <PlayerPanel name="HUD hráč" color={blue} symbol="sword" vp={7} hp={72} mana={46} stamina={54} isActive />
+              <PlayerPanel name="Score přehled" color={red} symbol="shield" vp={4} hp={31} mana={58} stamina={40} />
           </div>
         </Demo>
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
         <Code>{`{/* Záměrně plain shell bez ornament API */}
 <PlayerPanel
   name="HUD hráč"
-  color="#4A90E2"
+  color={blue}
   symbol="sword"
   vp={7}
   hp={72}
@@ -173,15 +164,13 @@ export default function PlayerPanelPage() {
         desc="Místo flat hp/mana/stamina props předej <PlayerPanel.Resource> children. Otevírá panel pro jakékoli herní zdroje (sanity, hunger, faith…) bez modifikace komponenty."
       >
         <Demo style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-start' }}>
-          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
-          <PlayerPanel name="Standard" color="#4A90E2" symbol="sword" vp={7} isActive size="sm">
+          <PlayerPanel name="Standard" color={blue} symbol="sword" vp={7} isActive size="sm">
             <PlayerPanel.Resource variant="hp"      value={72} max={100} label="HP" />
             <PlayerPanel.Resource variant="mana"    value={45} max={100} label="Mana" />
             <PlayerPanel.Resource variant="stamina" value={60} max={100} label="Stam" />
           </PlayerPanel>
 
-          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
-          <PlayerPanel name="Survival" color="#C84A4A" symbol="shield" vp={3} size="sm">
+          <PlayerPanel name="Survival" color={red} symbol="shield" vp={3} size="sm">
             <PlayerPanel.Resource variant="hp"      value={45} max={100} label="HP" />
             <PlayerPanel.Resource variant="stamina" value={80} max={100} label="Hunger" />
             <PlayerPanel.Resource variant="mana"    value={30} max={100} label="Sanity" />
@@ -193,8 +182,7 @@ export default function PlayerPanelPage() {
             <PlayerPanel.Resource variant="mana" value={88} max={100} label="Mana" zones />
           </PlayerPanel>
         </Demo>
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
-        <Code>{`<PlayerPanel name="Survival" color="#C84A4A" symbol="shield" vp={3}>
+        <Code>{`<PlayerPanel name="Survival" color={red} symbol="shield" vp={3}>
   <PlayerPanel.Resource variant="hp"      value={45} max={100} label="HP" />
   <PlayerPanel.Resource variant="stamina" value={80} max={100} label="Hunger" />
   <PlayerPanel.Resource variant="mana"    value={30} max={100} label="Sanity" />
@@ -217,9 +205,8 @@ export default function PlayerPanelPage() {
             <PlayerPanel key={p.name} name={p.name} color={p.color} symbol={p.symbol} vp={p.vp} size="sm" />
           ))}
         </Demo>
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
         <Code>{`{/* Bez hp/mana props — kompaktní verze */}
-<PlayerPanel name="Hráč 1" color="#4A90E2" symbol="sword" vp={7} size="sm" />`}</Code>
+<PlayerPanel name="Hráč 1" color={blue} symbol="sword" vp={7} size="sm" />`}</Code>
       </Section>
 
       <div style={DIVIDER} />
@@ -227,10 +214,8 @@ export default function PlayerPanelPage() {
       {/* ── Velikosti ── */}
       <Section id="velikosti" title="Velikosti">
         <Demo style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-start' }}>
-          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
-          <PlayerPanel name="Hráč 1 (sm)" color="#4A90E2" symbol="sword" vp={7} hp={72} size="sm" />
-          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
-          <PlayerPanel name="Hráč 1 (md)" color="#4A90E2" symbol="sword" vp={7} hp={72} size="md" />
+          <PlayerPanel name="Hráč 1 (sm)" color={blue} symbol="sword" vp={7} hp={72} size="sm" />
+          <PlayerPanel name="Hráč 1 (md)" color={blue} symbol="sword" vp={7} hp={72} size="md" />
         </Demo>
         <Code>{`<PlayerPanel name="Hráč 1" ... size="sm" />
 <PlayerPanel name="Hráč 1" ... size="md" />`}</Code>

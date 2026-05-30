@@ -162,10 +162,25 @@ export { default as DonjonBadge }       from './DonjonBadge'
 export { default as DonjonPictogram }   from './DonjonPictogram'
 
 /**
- * Sada SVG herních ikon: meč, štít, věž.
- * @example import { SwordIcon, ShieldIcon, TowerIcon } from 'donjon-fall-ui'
+ * Sada SVG herních ikon — 26 ikon v 6 kategoriích:
+ *   - Zdroje:    HeartIcon, DropIcon, BoltIcon
+ *   - Akce:      SwordIcon, ShieldIcon, MoveIcon, TargetIcon, MagicIcon
+ *   - Herní stav: StarIcon, CrownIcon, DiceIcon, HourglassIcon, TowerIcon
+ *   - Mapa:      HexIcon, BaseIcon, FocalPointIcon,
+ *                FocalPointActiveIcon, FocalPointPassiveIcon
+ *   - Mechaniky: PushIcon, OccupyIcon, EncirclementIcon,
+ *                TowerCollapseIcon, SuddenDeathIcon, TurnOrderIcon
+ *   - Brand:     DonjonLogoIcon, TkajuiLogoIcon (značky knihoven, mirror favicon)
+ * @example import { SwordIcon, HexIcon, DonjonLogoIcon } from 'donjon-fall-ui'
  */
-export { SwordIcon, ShieldIcon, TowerIcon } from './icons'
+export {
+  HeartIcon, DropIcon, BoltIcon,
+  SwordIcon, ShieldIcon, MoveIcon, TargetIcon, MagicIcon,
+  StarIcon, CrownIcon, DiceIcon, HourglassIcon, TowerIcon,
+  HexIcon, BaseIcon, FocalPointIcon, FocalPointActiveIcon, FocalPointPassiveIcon,
+  PushIcon, OccupyIcon, EncirclementIcon, TowerCollapseIcon, SuddenDeathIcon, TurnOrderIcon,
+  DonjonLogoIcon, TkajuiLogoIcon,
+} from './icons'
 
 // ── Herní primitiva ───────────────────────────────────────────────────────
 
@@ -218,7 +233,7 @@ export { default as NumericDisplay } from './NumericDisplay'
  * @prop {boolean} eliminated - Hráč vyřazen (opacity 0.45)
  * @prop {'sm'|'md'} size - Velikost karty
  * @example
- * <PlayerPanel name="Hráč 1" color="#4A90E2" vp={7} hp={72} isActive />
+ * <PlayerPanel name="Hráč 1" color="#4D8FE0" vp={7} hp={72} isActive />
  */
 export { default as PlayerPanel } from './PlayerPanel'
 
@@ -317,7 +332,7 @@ export { default as GameTransition, gameTransitionPresets } from './GameTransiti
  * @prop {'empty'|'base'|'focal-active'|'focal-passive'|'selected'|'move'|'attack'} state - Vizuální stav
  * @prop {'sm'|'md'|'lg'} size - Velikost dlaždice
  * @prop {string} playerColor - Barva hráče (hex) — zobrazí se v base a focal stavech
- * @example <HexTile state="focal-active" playerColor="#4A90E2" size="md" />
+ * @example <HexTile state="focal-active" playerColor="#4D8FE0" size="md" />
  */
 export { default as HexTile }           from './HexTile'
 
@@ -326,7 +341,7 @@ export { default as HexTile }           from './HexTile'
  * @prop {1|2|3|4|5|6} value - Hodnota kostky
  * @prop {'sm'|'md'|'lg'} size - Velikost
  * @prop {string} playerColor - Barva hráče (tónuje pozadí)
- * @example <DieFace value={6} size="md" playerColor="#C84A4A" />
+ * @example <DieFace value={6} size="md" playerColor="#E05C5C" />
  */
 export { default as DieFace }           from './DieFace'
 
@@ -352,8 +367,8 @@ export { default as FloatFeedback }     from './FloatFeedback'
  * Heraldický štít hráče a PlayerIdentityBadge karta.
  * @example
  * import { Shield, PlayerIdentityBadge } from 'donjon-fall-ui'
- * <Shield playerColor="#4A90E2" symbol="sword" size={48} />
- * <PlayerIdentityBadge name="Hráč 1" color="#4A90E2" vp={7} />
+ * <Shield playerColor="#4D8FE0" symbol="sword" size={48} />
+ * <PlayerIdentityBadge name="Hráč 1" color="#4D8FE0" vp={7} />
  */
 export { Shield, PlayerIdentityBadge }  from './Erb'
 
@@ -392,3 +407,14 @@ export { SideOrnament, HexOrnament, ScoopOrnament, HrotErbu } from './Ornaments'
  * @example import { gold, goldDim, bg2, textHigh, borderDefault } from 'donjon-fall-ui/tokens'
  */
 export * from './tokens'
+
+/**
+ * Player palette — 6 hráčských barev, každá ve 3 variantách (primary/light/dark).
+ * Jediný zdroj pravdy — sdílí ColorsPage demo i game UI komponenty.
+ * @example
+ * import { red, blueDark, playerColors, playerColorsByKey } from 'donjon-fall-ui'
+ * <Shield playerColor={red} />
+ * <HexTile playerColor={playerColors[0].primary} />
+ * <Erb playerColor={playerColorsByKey.blue.primary} />
+ */
+export * from './playerColors'

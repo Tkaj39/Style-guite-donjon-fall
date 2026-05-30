@@ -1,6 +1,6 @@
 import { ShowcasePage, Section } from '../styleguide/ShowcasePage'
 import {
-  borderSubtle, gold, goldDim, textDisabled,
+  bg0, bg1Deep, bg2, gold, goldDim, textCaption, textDisabled,
 } from '../lib/donjon/tokens'
 
 const inter = '"Inter", sans-serif'
@@ -24,16 +24,15 @@ export default function SpacingPage() {
     <ShowcasePage
       title="Spacing"
       description="Škála postavená na základní jednotce 4px. Všechny mezery, padding a gap v komponentách jsou násobky této hodnoty."
-      library="donjon"
+      library="both"
     >
       <Section
         title="Škála"
         description="Token odpovídá Tailwind konvenci (space-1 = 4px). Používej vždy jen hodnoty z této škály."
       >
         <div style={{
-          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-          background: '#0F0E1A',
-          border: '1px solid #1E1C30',
+          background: bg0,
+          border: `1px solid ${bg2}`,
           borderRadius: 2,
           overflow: 'hidden',
         }}>
@@ -43,13 +42,12 @@ export default function SpacingPage() {
             gridTemplateColumns: '48px 56px 1fr 2fr',
             gap: 0,
             padding: '8px 20px',
-            // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-            background: '#141324',
-            borderBottom: '1px solid #1E1C30',
+            background: bg1Deep,
+            borderBottom: `1px solid ${bg2}`,
           }}>
             {['Token', 'px', 'Vizuál', 'Kde se používá'].map(h => (
-              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-              <p key={h} style={{ margin: 0, fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#3A3A52' }}>
+               
+              <p key={h} style={{ margin: 0, fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: textCaption }}>
                 {h}
               </p>
             ))}
@@ -106,9 +104,8 @@ export default function SpacingPage() {
             { label: 'Large',  tokens: ['8', '10', '12', '16'], note: '32–64px — sekce, layout' },
           ].map(group => (
             <div key={group.label} style={{
-              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-              background: '#141324',
-              border: '1px solid #1E1C30',
+              background: bg1Deep,
+              border: `1px solid ${bg2}`,
               borderRadius: 2,
               padding: '16px',
               display: 'flex',
@@ -119,8 +116,8 @@ export default function SpacingPage() {
                 <p style={{ margin: 0, fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: gold }}>
                   {group.label}
                 </p>
-                {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-                <p style={{ margin: '3px 0 0', fontFamily: inter, fontSize: '0.6875rem', color: '#3A3A52' }}>
+                { }
+                <p style={{ margin: '3px 0 0', fontFamily: inter, fontSize: '0.6875rem', color: textCaption }}>
                   {group.note}
                 </p>
               </div>

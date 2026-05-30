@@ -1,5 +1,5 @@
 import HexTile from '../lib/donjon/HexTile'
-import { textFaint, textParchment, gold, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
+import { textFaint, textParchment, gold, goldDim, bg4, bgDeep, borderMuted } from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
@@ -99,8 +99,7 @@ function LoadingGameContent({ size = 'desktop' }) {
       {/* Hráči */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <PlayerPill player={p1} label="Hráč 1" />
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-        <span style={{ fontSize: metaFs, color: '#3A3858', fontWeight: 700 }}>vs</span>
+        <span style={{ fontSize: metaFs, color: borderMuted, fontWeight: 700 }}>vs</span>
         <PlayerPill player={p2} label="Hráč 2" />
       </div>
 

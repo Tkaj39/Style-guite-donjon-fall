@@ -126,8 +126,6 @@ export default function ErbPage() {
             </div>
           </div>
         </Preview>
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
         <CodeBlock code={`{/* Default ornament = 'plain' — žádné dekorace (back-compat) */}
 <Shield player={{ id: 1, color: dangerColor }} size="md" />
 
@@ -135,11 +133,11 @@ export default function ErbPage() {
 <Shield player={{ id: 1, color: dangerColor }} size="lg" ornament="decorated" />
 
 {/* Decorated s barvou hráče */}
-<Shield player={{ id: 2, color: '#4A90E2' }} size="md"
+<Shield player={{ id: 2, color: blue }} size="md"
   ornament="decorated" ornamentColor="player" />
 
 {/* Prapor decorated */}
-<Shield shape="prapor" playerColor="#C84A4A"
+<Shield shape="prapor" playerColor={red}
   width={40} height={160} ornament="decorated" ornamentColor="player" />`} />
       </Section>
 
@@ -175,18 +173,17 @@ export default function ErbPage() {
             </div>
           </div>
         </Preview>
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token) */}
-        <CodeBlock code={`{/* Prapor s symbolem hráče u vrchu (showSymbol implicit true) */}
-<Shield shape="prapor" player={{ id: 1, color: dangerColor }} width={32} height={120} />
+        <CodeBlock code={`import { Shield, red, blue } from 'donjon-fall-ui'
+
+{/* Prapor s symbolem hráče u vrchu (showSymbol implicit true) */}
+<Shield shape="prapor" player={{ id: 1, color: red }} width={32} height={120} />
 
 {/* Prapor bez symbolu (čistá dekorace) */}
-<Shield shape="prapor" playerColor="#4A90E2" width={40} height={200} showSymbol={false} />
+<Shield shape="prapor" playerColor={blue} width={40} height={200} showSymbol={false} />
 
 {/* Variabilní délka — tip má vždy stejnou proporci k šířce */}
-<Shield shape="prapor" playerColor="#C84A4A" width={32} height={80} />
-<Shield shape="prapor" playerColor="#C84A4A" width={32} height={200} />`} />
+<Shield shape="prapor" playerColor={red} width={32} height={80} />
+<Shield shape="prapor" playerColor={red} width={32} height={200} />`} />
       </Section>
 
       <Section id="pravidla" title="Pravidla použití">

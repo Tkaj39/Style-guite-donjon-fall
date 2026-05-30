@@ -40,6 +40,15 @@
   --donjon-text-deep:      #4A4870;   /* ultra-tmavý blue-purple muted */
   --donjon-text-cool:      #8F9CB3;   /* studená modro-šedá, sekundární */
   --donjon-text-parchment: #D4C5A9;   /* teplá krémová, střední warm text */
+  --donjon-text-caption:   #3A3A52;   /* figrový text v demech (dekorativní, ne WCAG) */
+
+  /* ── Speciální surfaces ───────────────────────────────────────────────── */
+  --donjon-header-bg-start: #3D3A5C;  /* gradient start pro VARIANT_HEADER_BG.default */
+  --donjon-header-bg-end:   #2E2B50;  /* gradient end */
+  --donjon-hex-focal-passive: #2E2D4A; /* pasivní ohnisko (mapový stav) */
+  --donjon-bg1-deep: #141324;          /* inset/recessed surface (darker than bg1) */
+  --donjon-border-muted: #3A3858;       /* muted blue-purple UI border (inactive elementy) */
+  --donjon-border-muted-active: #5A5880; /* light variant pro active state */
 
   /* ── Semantic ─────────────────────────────────────────────────────────── */
   --donjon-success: #40A055;
@@ -85,4 +94,30 @@
   --donjon-bp-tablet:  768px;
   --donjon-bp-desktop: 1024px;
   --donjon-bp-wide:    1280px;
+
+  /* ── Player palette — 6 hráčů × 3 varianty ──────────────────────────── */
+  /* Mirror src/lib/donjon/playerColors.js — single source of truth.       */
+  --donjon-player-red:           #E05C5C;
+  --donjon-player-red-light:     #F9C0C0;
+  --donjon-player-red-dark:      #3D1818;
+
+  --donjon-player-blue:          #4D8FE0;
+  --donjon-player-blue-light:    #C8DDF8;
+  --donjon-player-blue-dark:     #122340;
+
+  --donjon-player-green:         #50B86C;
+  --donjon-player-green-light:   #C8F0D5;
+  --donjon-player-green-dark:    #122F1A;
+
+  --donjon-player-yellow:        #D4A830;
+  --donjon-player-yellow-light:  #F4E2A0;
+  --donjon-player-yellow-dark:   #382A08;
+
+  --donjon-player-purple:        #9B6CC8;
+  --donjon-player-purple-light:  #DAC0F0;
+  --donjon-player-purple-dark:   #2A1840;
+
+  --donjon-player-orange:        #E07840;
+  --donjon-player-orange-light:  #F8D0B8;
+  --donjon-player-orange-dark:   #3D1F0A;
 }

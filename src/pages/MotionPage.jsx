@@ -11,6 +11,7 @@ import {
   animFast, animNormal, animSlow, animDramatic,
   easingSharp, easingBounce, easingEnter, easingExit,
 } from '../lib/donjon/tokens'
+import { blue } from '../lib/donjon/playerColors'
 
 const PAGE    = { padding: '40px 32px', maxWidth: 900, margin: '0 auto' }
 const H1      = { fontSize: '1.5rem', fontWeight: 700, color: gold, letterSpacing: '0.04em', marginBottom: 4 }
@@ -469,8 +470,7 @@ onGameEnd={() => victory()         // výsledek`}</Code>
         <Demo>
           <PlayerPanel
             name="Hráč 1"
-            // eslint-disable-next-line donjon/no-hardcoded-hex -- demo player color (demo data, ne styling token)
-            color="#4A90E2"
+            color={blue}
             symbol="sword"
             vp={7}
             hp={72}

@@ -2,7 +2,7 @@ import HexTile from '../lib/donjon/HexTile'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
-import { gold, goldDim, bg4, bgDeep, borderSubtle, textFaint } from '../lib/donjon/tokens'
+import { gold, goldDim, bg2, bg4, bgDeep, borderSubtle, borderMuted, textFaint } from '../lib/donjon/tokens'
 
 /* ── Dekorativní prázdná hex mřížka ── */
 function EmptyHexGrid({ cols = 5, rows = 4 }) {
@@ -35,9 +35,7 @@ function MiniMenuBtn({ label, primary = false, disabled = false, fs = '0.5rem', 
   return (
     <div style={{
       padding: `${py}px ${px}px`,
-      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-      border: `1px solid ${primary ? '#FFC18388' : disabled ? '#1E1D30' : '#3A3858'}`,
+      border: `1px solid ${primary ? `${gold}88` : disabled ? bg2 : borderMuted}`,
       borderRadius: 4,
       // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)

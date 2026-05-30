@@ -1,6 +1,6 @@
 import DonjonCard from '../lib/donjon/DonjonCard'
 import {
-  bg4, bgDeep, bgInactive, dangerColor, goldDim, textFaint, textParchment,
+  bg4, bgDeep, bgInactive, borderMuted, dangerColor, goldDim, textFaint, textParchment,
 } from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
@@ -26,7 +26,7 @@ function SoundSpec({ label, trigger, variant = 'default', loop = false, descript
     }}>
       <div style={{
         width: 32, height: 32, borderRadius: 3, flexShrink: 0,
-        background: bgInactive, border: '1px solid #3A3858',
+        background: bgInactive, border: `1px solid ${borderMuted}`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         color: textFaint, fontSize: '1rem',
       }}>
@@ -81,8 +81,7 @@ function ChainStep({ label, ms, color = textFaint, note }) {
 
 function ChainArrow() {
   return (
-    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-    <div style={{ color: '#3A3858', fontSize: '0.75rem', flexShrink: 0, alignSelf: 'flex-start', marginTop: 10, padding: '0 2px' }}>
+    <div style={{ color: borderMuted, fontSize: '0.75rem', flexShrink: 0, alignSelf: 'flex-start', marginTop: 10, padding: '0 2px' }}>
       →
     </div>
   )
@@ -124,7 +123,7 @@ function SharedBase({ label, ms, description }) {
       <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
         <div style={{
           width: 28, height: 28, borderRadius: 3, flexShrink: 0,
-          background: bgInactive, border: '1px solid #3A3858',
+          background: bgInactive, border: `1px solid ${borderMuted}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           color: textFaint, fontSize: '0.875rem',
         }}>▶</div>

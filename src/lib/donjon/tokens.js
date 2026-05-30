@@ -16,10 +16,28 @@ export const bg3       = '#252340'  // elevated panel
 export const bg4       = '#2A2948'  // hover / raised
 export const bgInactive = '#232238' // inactive button v ButtonGroup
 
+// Header panel — gradient endpoints pro VARIANT_HEADER_BG.default a Tah/Typography demo.
+// Používá se jako `background: linear-gradient(150deg, headerBgStart 0%, headerBgEnd 70%)`.
+export const headerBgStart = '#3D3A5C'  // světlejší fialový start gradientu
+export const headerBgEnd   = '#2E2B50'  // tmavší fialový konec gradientu
+
+// Hex pole — pasivní ohnisko (mapový stav, viz ColorsPage stavy hexů).
+export const hexFocalPassive = '#2E2D4A'
+
+// Hlubší varianta bg1 — pro inset/recessed surfaces (Spacing demo containery,
+// Typography game-context demo). Tmavší než bg1, světlejší než bg0.
+export const bg1Deep = '#141324'
+
 // ── Borders ───────────────────────────────────────────────────────────────
 export const borderSubtle  = '#1A1830'
 export const borderDefault = '#353751'
 export const borderMid     = '#2A2848'
+// Muted blue-purple UI border/text — používá se na inactive elementy:
+// border karet/toggles/inputs, vs-indikátor mezi hráči, chrome ramečky.
+// Sviští napříč ~14 soubory — proto má vlastní token.
+export const borderMuted       = '#3A3858'
+// Light variant pro active state stejné rodiny (rare; pouze TahPage volitelné badge).
+export const borderMutedActive = '#5A5880'
 
 // ── Text ──────────────────────────────────────────────────────────────────
 export const textHigh     = '#E8DDD0'  // near-white, warm tint
@@ -27,6 +45,7 @@ export const textMid      = '#C8BFAF'  // labels, popis
 export const textActive   = '#F0E6D3'  // aktivní tab, highlighted text
 export const textLow      = '#9A9080'  // muted / hints
 export const textDisabled = '#6B6A82'  // disabled / inactive tabs
+export const textCaption  = '#3A3A52'  // figrový text v demech (Typography/Spacing labels, nesplňuje WCAG — pouze dekorativní)
 export const textFaint    = '#4A4560'  // pouze dekorativní (2:1 — nesplňuje WCAG) — pro informační text použij textLow
 export const textDeep     = '#4A4870'  // ultra-tmavý blue-purple muted variant
 export const textCool     = '#8F9CB3'  // studená modro-šedá, sekundární/kódový text
@@ -87,7 +106,7 @@ export const VARIANT_BG = {
 }
 
 export const VARIANT_HEADER_BG = {
-  default: 'linear-gradient(150deg,#3D3A5C 0%,#2E2B50 70%)',
+  default: `linear-gradient(150deg,${headerBgStart} 0%,${headerBgEnd} 70%)`,
   danger:  'linear-gradient(150deg,#4A1A1A 0%,#2E0C0C 70%)',
   success: 'linear-gradient(150deg,#1E4A28 0%,#0D2E12 70%)',
   warning: 'linear-gradient(150deg,#4A3412 0%,#2E1006 70%)',

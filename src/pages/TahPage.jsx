@@ -1,6 +1,7 @@
 import { useState, Fragment } from 'react'
 import {
-  bg4, bgDeep, dangerText, gold, goldDim, goldMid, textActive, textFaint, textHighest,
+  bg4, bgDeep, borderMuted, borderMutedActive, dangerText, gold, goldDim, goldMid,
+  textActive, textFaint, textHighest, VARIANT_HEADER_BG,
 } from '../lib/donjon/tokens'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
@@ -19,13 +20,11 @@ function TurnPhaseTimeline({ activeStep = 0 }) {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, flex: 1, minWidth: 0 }}>
               <div style={{
                 width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
-                background: active ? 'linear-gradient(150deg,#3D3A5C 0%,#2E2B50 70%)' : bgDeep,
-                // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-                border: `2px solid ${active ? gold : past ? '#8F745866' : '#3A3858'}`,
+                background: active ? VARIANT_HEADER_BG.default : bgDeep,
+                border: `2px solid ${active ? gold : past ? `${goldDim}66` : bg4}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: '0.75rem', fontWeight: 700,
-                // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-                color: active ? gold : past ? goldDim : '#3A3858',
+                color: active ? gold : past ? goldDim : borderMuted,
                 boxShadow: active ? '0 0 12px #FFC18330' : 'none',
               }}>
                 {i + 1}
@@ -38,16 +37,14 @@ function TurnPhaseTimeline({ activeStep = 0 }) {
                 }}>{step.label}</p>
                 <p style={{
                   margin: '4px 0 0', fontSize: '0.5625rem', lineHeight: 1.4,
-                  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-                  color: active ? goldDim : '#3A3858',
+                  color: active ? goldDim : borderMuted,
                 }}>{step.sub}</p>
                 {step.optional && (
                   <span style={{
                     display: 'inline-block', marginTop: 4,
                     fontSize: '0.5rem', letterSpacing: '0.08em', textTransform: 'uppercase',
-                    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-                    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-                    color: active ? '#5A5880' : '#3A3858',
+                     
+                    color: active ? borderMutedActive : borderMuted,
                     background: bgDeep, padding: '1px 5px', borderRadius: 2,
                   }}>volitelné</span>
                 )}

@@ -1,6 +1,10 @@
-import { useLibVariant, ShowcasePage, Section, CodeBlock } from '../styleguide/ShowcasePage'
+import { useLibVariant, ShowcasePage, Section } from '../styleguide/ShowcasePage'
 import {
-  bg3, bg4, borderSubtle, gold, goldDim, goldMid, infoText, textActive, textDisabled,
+  bg0, bg1Deep, bg2, bg4, borderSubtle, gold, goldDim, goldMid, infoText,
+  textActive, textCaption, textDisabled,
+  borderDefault as donjonBorderDefault,
+  textHigh as donjonTextHigh,
+  VARIANT_HEADER_BG,
 } from '../lib/donjon/tokens'
 import {
   accent, borderDefault, infoBg, infoColor, surface0, surface1, surface2, surface3, textHigh, textLow, textMid,
@@ -217,11 +221,10 @@ const goldGrad = {
 function DonjonRodiny() {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-      <div style={{ background: 'linear-gradient(150deg,#1E1C30 0%,#141324 100%)', border: '1px solid #353751', borderRadius: 4, padding: '24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ background: `linear-gradient(150deg,${bg2} 0%,${bg1Deep} 100%)`, border: `1px solid ${donjonBorderDefault}`, borderRadius: 4, padding: '24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
         <div>
           <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: gold }}>Display</p>
-          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
-          <p style={{ margin: 0, fontFamily: cormorant, fontSize: '1.5rem', fontWeight: 700, color: '#E8DDD0', letterSpacing: '0.04em' }}>Cormorant Garamond</p>
+          <p style={{ margin: 0, fontFamily: cormorant, fontSize: '1.5rem', fontWeight: 700, color: donjonTextHigh, letterSpacing: '0.04em' }}>Cormorant Garamond</p>
         </div>
         <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: textDisabled, lineHeight: 1.6 }}>
           Jednoslovné nadpisy, výsledkové obrazovky, titulky dialogů. Vždy uppercase, vždy gold gradient. Nikdy pro tělo ani labely.
@@ -229,19 +232,18 @@ function DonjonRodiny() {
         <div style={{ display: 'flex', gap: 12 }}>
           {[400, 600, 700].map(w => (
             <div key={w}>
-              {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-              <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.5625rem', color: '#3A3A52' }}>{w}</p>
+              { }
+              <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.5625rem', color: textCaption }}>{w}</p>
               <p style={{ margin: 0, fontFamily: cormorant, fontWeight: w, fontSize: '1.125rem', letterSpacing: '0.04em', textTransform: 'uppercase', ...goldGrad }}>Donjon</p>
             </div>
           ))}
         </div>
       </div>
 
-      <div style={{ background: 'linear-gradient(150deg,#1E1C30 0%,#141324 100%)', border: '1px solid #353751', borderRadius: 4, padding: '24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ background: `linear-gradient(150deg,${bg2} 0%,${bg1Deep} 100%)`, border: `1px solid ${donjonBorderDefault}`, borderRadius: 4, padding: '24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
         <div>
           <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: textDisabled }}>UI & Tělo</p>
-          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
-          <p style={{ margin: 0, fontFamily: inter, fontSize: '1.5rem', fontWeight: 700, color: '#E8DDD0', letterSpacing: '-0.01em' }}>Inter</p>
+          <p style={{ margin: 0, fontFamily: inter, fontSize: '1.5rem', fontWeight: 700, color: donjonTextHigh, letterSpacing: '-0.01em' }}>Inter</p>
         </div>
         <p style={{ margin: 0, fontFamily: inter, fontSize: '0.75rem', color: textDisabled, lineHeight: 1.6 }}>
           Vše ostatní — labely, tlačítka, popisky, tělo textu, herní informace. Uppercase + letter-spacing vytváří herní charakter.
@@ -249,8 +251,8 @@ function DonjonRodiny() {
         <div style={{ display: 'flex', gap: 12 }}>
           {[400, 500, 600, 700].map(w => (
             <div key={w}>
-              {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-              <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.5625rem', color: '#3A3A52' }}>{w}</p>
+              { }
+              <p style={{ margin: '0 0 2px', fontFamily: inter, fontSize: '0.5625rem', color: textCaption }}>{w}</p>
               <p style={{ margin: 0, fontFamily: inter, fontWeight: w, fontSize: '1rem', color: goldMid }}>Aa</p>
             </div>
           ))}
@@ -262,8 +264,8 @@ function DonjonRodiny() {
 
 function DonjonDisplaySkala() {
   return (
-    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-    <div style={{ background: '#0F0E1A', borderRadius: 4, border: '1px solid #1E1C30', padding: '0 24px' }}>
+     
+    <div style={{ background: bg0, borderRadius: 4, border: `1px solid ${bg2}`, padding: '0 24px' }}>
       {[
         { size: '3.5rem',  weight: 700, sample: 'Vítězí',           role: 'Výsledek hry',   note: 'Výsledková obrazovka' },
         { size: '2.5rem',  weight: 700, sample: 'Donjon Fall',      role: 'Název hry',      note: 'Titulní obrazovka' },
@@ -276,10 +278,10 @@ function DonjonDisplaySkala() {
           </p>
           <div style={{ textAlign: 'right', flexShrink: 0 }}>
             <p style={{ margin: 0, fontSize: '0.6875rem', color: textDisabled, fontFamily: inter }}>{r.role}</p>
-            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-            <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: '#3A3A52', fontFamily: inter }}>{r.note}</p>
-            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-            <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: '#3A3A52', fontFamily: inter, fontStyle: 'italic' }}>{r.size} / {r.weight}</p>
+            { }
+            <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: textCaption, fontFamily: inter }}>{r.note}</p>
+            { }
+            <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: textCaption, fontFamily: inter, fontStyle: 'italic' }}>{r.size} / {r.weight}</p>
           </div>
         </div>
       ))}
@@ -289,8 +291,8 @@ function DonjonDisplaySkala() {
 
 function DonjonUISkala() {
   return (
-    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-    <div style={{ background: '#0F0E1A', borderRadius: 4, border: '1px solid #1E1C30', padding: '0 24px' }}>
+     
+    <div style={{ background: bg0, borderRadius: 4, border: `1px solid ${bg2}`, padding: '0 24px' }}>
       {[
         { size: '0.6875rem', weight: 700, tracking: '0.14em', transform: 'uppercase', sample: 'Extra Small Button',                   role: 'Tlačítka, labely',   note: '11px uppercase' },
         { size: '0.75rem',   weight: 400, tracking: '0',      transform: 'none',      sample: 'Popis karty a nápověda k poli',         role: 'Popisky, hints',     note: '12px regular' },
@@ -306,8 +308,8 @@ function DonjonUISkala() {
           </p>
           <div style={{ textAlign: 'right', flexShrink: 0 }}>
             <p style={{ margin: 0, fontSize: '0.6875rem', color: textDisabled, fontFamily: inter }}>{r.role}</p>
-            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-            <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: '#3A3A52', fontFamily: inter, fontStyle: 'italic' }}>{r.size} / {r.weight}</p>
+            { }
+            <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: textCaption, fontFamily: inter, fontStyle: 'italic' }}>{r.size} / {r.weight}</p>
           </div>
         </div>
       ))}
@@ -321,15 +323,15 @@ function DonjonKontext() {
 
       {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
       <div style={{ background: `linear-gradient(150deg,#252340 0%,${borderSubtle} 100%)`, border: '1px solid #FFC18344', borderRadius: 4, padding: '28px 24px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#3A3A52' }}>Výsledková obrazovka</p>
+        { }
+        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: textCaption }}>Výsledková obrazovka</p>
         <p style={{ margin: '8px 0 0', fontFamily: cormorant, fontSize: '2.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', lineHeight: 1.1, ...goldGrad }}>Červený vítězí</p>
         <p style={{ margin: 0, fontFamily: inter, fontSize: '0.8125rem', color: textDisabled }}>5 vítězných bodů · 8 min 34 s</p>
       </div>
 
       {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
       <div style={{ background: `linear-gradient(150deg,#353751 0%,${bg4} 70%)`, border: `1px solid ${goldDim}`, borderRadius: 4, overflow: 'hidden' }}>
-        <div style={{ background: 'linear-gradient(150deg,#3D3A5C 0%,#2E2B50 70%)', borderBottom: '1px solid #8F745844', padding: '12px 20px' }}>
+        <div style={{ background: VARIANT_HEADER_BG.default, borderBottom: `1px solid ${goldDim}44`, padding: '12px 20px' }}>
           <p style={{ margin: 0, fontFamily: cormorant, fontSize: '0.9375rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', ...goldGrad }}>Souboj na poli D4</p>
           <p style={{ margin: '4px 0 0', fontFamily: inter, fontSize: '0.6875rem', color: goldDim }}>Červený útočí · Modrý brání</p>
         </div>
@@ -343,10 +345,10 @@ function DonjonKontext() {
         </div>
       </div>
 
-      {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-      <div style={{ background: '#1A1928', border: `1px solid ${goldDim}`, borderRadius: 4, padding: '24px', display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#3A3A52' }}>Herní dialog</p>
+      { }
+      <div style={{ background: bg2, border: `1px solid ${goldDim}`, borderRadius: 4, padding: '24px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+        { }
+        <p style={{ margin: 0, fontFamily: inter, fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: textCaption }}>Herní dialog</p>
         <p style={{ margin: 0, fontFamily: cormorant, fontSize: '1.5rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', lineHeight: 1.2, ...goldGrad }}>Přehodit kostku?</p>
         <p style={{ margin: 0, fontFamily: inter, fontSize: '0.8125rem', color: goldDim, lineHeight: 1.5 }}>
           Vzdáš se aktuální pozice a přehodíš kostku.

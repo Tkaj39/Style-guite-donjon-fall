@@ -1,11 +1,12 @@
-export const players = [
-  { id: 1, color: '#E05C5C', label: 'Hráč 1' },
-  { id: 2, color: '#4D8FE0', label: 'Hráč 2' },
-  { id: 3, color: '#50B86C', label: 'Hráč 3' },
-  { id: 4, color: '#D4A830', label: 'Hráč 4' },
-  { id: 5, color: '#9B6CC8', label: 'Hráč 5' },
-  { id: 6, color: '#E07840', label: 'Hráč 6' },
-]
+// Mock data pro demo komponenty — barva čerpaná z kanonické palette.
+// Single source of truth: src/lib/donjon/playerColors.js
+import { playerColors } from '../lib/donjon/playerColors'
+
+export const players = playerColors.map(p => ({
+  id: p.id,
+  color: p.primary,
+  label: p.label,
+}))
 
 export const turnPhases = [
   { id: 'focal',  label: 'Ohniska', sub: 'Vyhodnocení aktivních ohnisek' },

@@ -188,8 +188,9 @@ export default function HexagonPage() {
             ))}
           </div>
         </Preview>
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
-        <CodeBlock code={`<HexTile state="base" owner="#E05C5C" size="md" />`} />
+        <CodeBlock code={`import { HexTile, red } from 'donjon-fall-ui'
+
+<HexTile state="base" owner={red} size="md" />`} />
       </Section>
 
       {/* Focal points */}

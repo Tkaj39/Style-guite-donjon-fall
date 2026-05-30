@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import DieFace from '../lib/donjon/DieFace'
 import {
-  bg2, bgDeep, borderDefault, dangerColor, gold, goldDim, textActive, textFaint, textMid,
+  bg2, bgDeep, borderDefault, borderMuted, dangerColor, gold, goldDim, textActive, textFaint, textMid,
 } from '../lib/donjon/tokens'
 import HexTile from '../lib/donjon/HexTile'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { players } from '../data/gameUiMockData'
+import { blue } from '../lib/donjon/playerColors'
 import { useBreakpoint } from '../hooks/useBreakpoint'
 
 function statLabel(s) {
@@ -48,8 +49,7 @@ function StatPill({ label, value, color }) {
     <div style={{
       display: 'flex', alignItems: 'center', gap: 6,
       background: bgDeep, borderRadius: 4, padding: '4px 10px',
-      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-      border: `1px solid ${color ?? '#3A3858'}33`,
+      border: `1px solid ${color ?? borderMuted}33`,
     }}>
       <span style={{ fontSize: '0.5625rem', color: textFaint, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{label}</span>
       <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: color ?? textActive }}>{value}</span>
@@ -389,8 +389,7 @@ export default function DicePage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <StatPill label="Combat Power" value={`${calcCombatPower(cleanTower)} (${cleanTower[cleanTower.length-1].value}+${cleanTower.slice(0,-1).filter(d=>d.owner===cleanTower[cleanTower.length-1].owner).length}−0)`} color={players[0].color} />
                 <StatPill label="Pohyb věže" value={calcMovementRange(cleanTower)} color={goldDim} />
-                {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-                <StatPill label="Pohyb vrcholu (skok)" value={cleanTower[cleanTower.length-1].value} color="#4D8FE0" />
+                <StatPill label="Pohyb vrcholu (skok)" value={cleanTower[cleanTower.length-1].value} color={blue} />
                 <StatPill label="Kontroler" value={players[0].label} color={players[0].color} />
               </div>
             </div>
@@ -467,8 +466,7 @@ export default function DicePage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <StatPill label="Combat Power" value={`${calcCombatPower(mixedTower)} (${mixedTower[mixedTower.length-1].value}+${mixedTower.slice(0,-1).filter(d=>d.owner===mixedTower[mixedTower.length-1].owner).length}−${mixedTower.slice(0,-1).filter(d=>d.owner!==mixedTower[mixedTower.length-1].owner).length})`} color={players[0].color} />
                 <StatPill label="Pohyb věže" value={calcMovementRange(mixedTower)} color={goldDim} />
-                {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-                <StatPill label="Pohyb vrcholu (skok)" value={mixedTower[mixedTower.length-1].value} color="#4D8FE0" />
+                <StatPill label="Pohyb vrcholu (skok)" value={mixedTower[mixedTower.length-1].value} color={blue} />
                 <StatPill label="Kontroler" value={players[0].label} color={players[0].color} />
               </div>
             </div>

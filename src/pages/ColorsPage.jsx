@@ -1,10 +1,17 @@
-import { useLibVariant, ShowcasePage, Section } from '../styleguide/ShowcasePage'
+import { useLibVariant, ShowcasePage, Section, CodeBlock } from '../styleguide/ShowcasePage'
 import * as T from '../lib/tkajui/tokens'
 import * as D from '../lib/donjon/tokens'
-import { failColor } from '../lib/donjon/tokens'
+import { playerColors } from '../lib/donjon/playerColors'
+import { pickContrastText } from '../lib/shared/contrast'
 
 /* ── Swatch ── */
 function Swatch({ name, hex, note, large = false, textPreview }) {
+  // Kontrastní text preview ('Aa') přes WCAG luma — knihovní textHigh
+  // jako tmavá/světlá varianta podle pozadí swatche.
+  const previewColor = pickContrastText(hex, {
+    onDark:  T.textHigh,    // světlý text na tmavém swatchi
+    onLight: D.bg0,         // tmavý text na světlém swatchi (textHigh, parchment)
+  })
   return (
     <div className="flex flex-col gap-1.5">
       <div
@@ -12,7 +19,7 @@ function Swatch({ name, hex, note, large = false, textPreview }) {
         style={{ background: hex }}
       >
         {textPreview && (
-          <span style={{ fontSize: '0.625rem', fontWeight: 600, color: '#ffffff88' }}>
+          <span style={{ fontSize: '0.625rem', fontWeight: 600, color: previewColor }}>
             {textPreview}
           </span>
         )}
@@ -42,14 +49,9 @@ function Divider() {
   return <div className="border-t border-neutral-800" />
 }
 
-const players = [
-  { label: 'Hráč 1', name: 'Červená',   primary: failColor, light: '#F9C0C0', dark: '#3D1818' },
-  { label: 'Hráč 2', name: 'Modrá',     primary: '#4070C8', light: '#C0D0F9', dark: '#182040' },
-  { label: 'Hráč 3', name: 'Zelená',    primary: '#2A8040', light: '#B0F0C8', dark: '#0F2818' },
-  { label: 'Hráč 4', name: 'Fialová',   primary: '#7040C0', light: '#D0B0F9', dark: '#281040' },
-  { label: 'Hráč 5', name: 'Žlutá',     primary: '#A09020', light: '#F0E890', dark: '#302800' },
-  { label: 'Hráč 6', name: 'Ocelová',   primary: '#5080A0', light: '#B8D8F0', dark: '#142030' },
-]
+// Hráčské barvy — čerpáno z kanonického zdroje (src/lib/donjon/playerColors.js).
+// Žádné lokální duplikáty — když chceš změnit barvu, edituj playerColors.js.
+const players = playerColors
 
 /* ── TkajUI ── */
 function TkajuiPaleta() {
@@ -170,12 +172,12 @@ function DonjonPaleta() {
         description="Teplé fialové — atmosféra hlubokého dungeonu. Komponenty používají gradienty mezi kroky."
         cols="grid-cols-3 sm:grid-cols-6"
         swatches={[
-          { name: 'Background', hex: '#0F0E1A',      note: 'Stránka'        },
-          { name: 'Surface',    hex: '#1A1928',      note: 'Základní'       },
-          { name: 'Surface +1', hex: D.bgInactive,   note: 'Komponenty'     },
-          { name: 'Surface +2', hex: D.bg4,          note: 'Zvýšené'        },
-          { name: 'Surface +3', hex: D.borderDefault,note: 'Aktivní/border' },
-          { name: 'Surface +4', hex: '#3D3A5C',      note: 'Header panely'  },
+          { name: 'bg0',           hex: D.bg0,           note: 'Stránka'        },
+          { name: 'bg2',           hex: D.bg2,           note: 'Karta'          },
+          { name: 'bg3',           hex: D.bg3,           note: 'Elevated panel' },
+          { name: 'bg4',           hex: D.bg4,           note: 'Hover / raised' },
+          { name: 'borderDefault', hex: D.borderDefault, note: 'Hranice panelu' },
+          { name: 'headerBgStart', hex: D.headerBgStart, note: 'Header gradient (start)' },
         ]}
       />
       <Divider />
@@ -195,10 +197,14 @@ function DonjonPaleta() {
         description="Teplá bílá — atmosférické, ne klinicky čisté."
         cols="grid-cols-2 sm:grid-cols-4"
         swatches={[
-          { name: 'Primární',  hex: '#F9F9F9',       note: 'Nadpisy',          textPreview: 'Aa' },
-          { name: 'Teplá',     hex: D.textActive,    note: 'Tělo, inputy',     textPreview: 'Aa' },
-          { name: 'Ztlumená',  hex: D.textDisabled,  note: 'Popisy, nápověda', textPreview: 'Aa' },
-          { name: 'Disabled',  hex: '#3A3A52',       note: 'Neaktivní',        textPreview: 'Aa' },
+          { name: 'textHighest',  hex: D.textHighest,  note: 'Nadpisy, max kontrast', textPreview: 'Aa' },
+          { name: 'textActive',   hex: D.textActive,   note: 'Aktivní tab',           textPreview: 'Aa' },
+          { name: 'textHigh',     hex: D.textHigh,     note: 'Tělo, inputy',          textPreview: 'Aa' },
+          { name: 'textMid',      hex: D.textMid,      note: 'Labely, popisy',        textPreview: 'Aa' },
+          { name: 'textLow',      hex: D.textLow,      note: 'Hints, muted',          textPreview: 'Aa' },
+          { name: 'textDisabled', hex: D.textDisabled, note: 'Disabled, inactive',    textPreview: 'Aa' },
+          { name: 'textCaption',  hex: D.textCaption,  note: 'Dekorativní (demo)',    textPreview: 'Aa' },
+          { name: 'textFaint',    hex: D.textFaint,    note: 'Ultra-muted',           textPreview: 'Aa' },
         ]}
       />
     </div>
@@ -260,7 +266,7 @@ function DonjonHexy() {
         cols="grid-cols-2 sm:grid-cols-4"
         swatches={[
           { name: 'Prázdný',         hex: D.bg4          },
-          { name: 'Ohnisko pasivní', hex: '#2E2D4A'      },
+          { name: 'Ohnisko pasivní', hex: D.hexFocalPassive },
           { name: 'Ohnisko aktivní', hex: D.gold         },
           { name: 'Okraj hexu',      hex: D.borderDefault},
         ]}
@@ -292,7 +298,7 @@ function DonjonPlanovani() {
       {[
         { name: 'Vybraný hex',   note: 'UI gold při 31% opacity',              hex: D.gold,          alpha: 0.31, fixed: true  },
         { name: 'Mimo dosah',    note: 'Černá při 55% opacity',                hex: '#000000',       alpha: 0.55, fixed: true  },
-        { name: 'Souboj možný',  note: 'Primární barva hráče při 31%',         hex: failColor,       alpha: 0.31, fixed: false },
+        { name: 'Souboj možný',  note: 'Primární barva hráče při 31%',         hex: D.dangerColor,   alpha: 0.31, fixed: false },
         { name: 'Posílení',      note: 'Zelená při 31% opacity',               hex: D.successColor,  alpha: 0.31, fixed: true  },
         { name: 'Hover',         note: 'Bílá při 8% opacity',                  hex: '#FFFFFF',       alpha: 0.08, fixed: true  },
       ].map((row, i, arr) => (
@@ -337,6 +343,35 @@ function ColorsContent() {
         >
           <TkajuiVsDonjon />
         </Section>
+
+        <Section
+          id="tkajui-pouziti"
+          title="Použití v kódu"
+          description="Dvě cesty: JS import konstant pro inline style/JSX, nebo CSS custom properties pro stylesheets."
+        >
+          <CodeBlock code={`// 1. JS import — pro inline style, JSX, styled-components
+import { accent, surface2, borderDefault, textHigh, dangerColor } from 'tkajui/tokens'
+
+<button style={{
+  background: accent,
+  color: textHigh,
+  border: \`1px solid \${borderDefault}\`,
+  padding: '8px 14px',
+}}>
+  Potvrdit
+</button>
+
+// 2. CSS custom properties — pro .css soubory
+@import 'tkajui/tkajui.css';
+
+.my-card {
+  background: var(--tkajui-surface2);
+  border: 1px solid var(--tkajui-border-default);
+  color: var(--tkajui-text-high);
+}
+.my-card:hover { background: var(--tkajui-surface3); }
+.my-card.error { border-color: var(--tkajui-danger); }`} />
+        </Section>
       </>
     )
   }
@@ -373,6 +408,39 @@ function ColorsContent() {
         description="Překryvy políček při výběru akce — fixní barvy jsou vždy stejné, dynamické se odvíjí od primární barvy aktivního hráče."
       >
         <DonjonPlanovani />
+      </Section>
+
+      <Section
+        id="donjon-pouziti"
+        title="Použití v kódu"
+        description="Dvě cesty: JS import konstant pro inline style/JSX, nebo CSS custom properties pro stylesheets."
+      >
+        <CodeBlock code={`// 1. JS import — pro inline style, JSX, styled-components
+import { gold, goldDim, bg2, borderDefault, textHigh, dangerColor } from 'donjon-fall-ui/tokens'
+// Player palette — barvy hráčů (red/blue/green/yellow/purple/orange + Light/Dark varianty)
+import { red, blueDark, playerColors, playerColorsByKey } from 'donjon-fall-ui'
+
+<div style={{
+  background: bg2,
+  border: \`1px solid \${borderDefault}\`,
+  color: textHigh,
+  boxShadow: \`0 0 12px \${gold}55\`,
+}}>
+  <h3 style={{ color: gold }}>Souboj</h3>
+  <p style={{ color: goldDim }}>Hoď kostkou pro útok</p>
+</div>
+
+// 2. CSS custom properties — pro .css soubory
+@import 'donjon-fall-ui/donjon.css';
+
+.donjon-panel {
+  background: var(--donjon-bg2);
+  border: 1px solid var(--donjon-border-default);
+  color: var(--donjon-text-high);
+  box-shadow: var(--donjon-glow-gold);
+}
+.donjon-panel.danger { border-color: var(--donjon-danger); }
+.donjon-panel h3     { color: var(--donjon-gold); }`} />
       </Section>
     </>
   )

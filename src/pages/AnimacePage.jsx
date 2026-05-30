@@ -7,7 +7,7 @@ import HexTile from '../lib/donjon/HexTile'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import { players } from '../data/gameUiMockData'
 import {
-  bg4, bgDeep, dangerColor, gold, goldDim, textFaint, textParchment,
+  bg4, bgDeep, borderMid, borderMuted, dangerColor, gold, goldDim, textFaint, textParchment,
 } from '../lib/donjon/tokens'
 
 /* ── Static spec helpers ── */
@@ -91,9 +91,7 @@ function PlayButton({ onClick, playing }) {
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 6,
         background: playing ? bgDeep : bg4,
-        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-        border: `1px solid ${playing ? '#3A3858' : '#5A5878'}`,
+        border: `1px solid ${playing ? borderMuted : borderMid}`,
         borderRadius: 4, padding: '5px 14px',
         fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em',
         color: playing ? textFaint : textParchment,
@@ -1422,10 +1420,8 @@ function SuddenDeathDemo() {
         onClick={() => setActive(a => !a)}
         style={{
           display: 'inline-flex', alignItems: 'center', gap: 6,
-          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-          background: active ? '#2A1A1A' : bg4,
-          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-          border: `1px solid ${active ? '#E05C5C66' : '#5A5878'}`,
+          background: active ? `${dangerColor}33` : bg4,
+          border: `1px solid ${active ? `${dangerColor}66` : borderMid}`,
           borderRadius: 4, padding: '5px 14px',
           fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em',
           color: active ? dangerColor : textParchment,

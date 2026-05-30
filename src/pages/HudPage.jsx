@@ -1,6 +1,6 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import {
-  bg0, borderSubtle, dangerColor, failColor, gold, goldDim, goldMid, successColor, textActive, textCool, textDeep, textFaint,
+  bg0, borderMuted, borderSubtle, dangerColor, failColor, gold, goldDim, goldMid, successColor, textActive, textCool, textDeep, textFaint,
 } from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { Shield, PlayerIdentityBadge } from '../lib/donjon/Erb'
@@ -408,8 +408,7 @@ function FloatFeedback({ text, color, x, y, onDone }) {
                 borderRadius: 4, padding: '8px 16px', maxWidth: 400,
               }}>
                 <PlayerIdentityBadge player={players[0]} />
-                {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-                <span style={{ fontSize: '0.625rem', color: '#3A3858', fontWeight: 700, padding: '0 12px' }}>vs</span>
+                <span style={{ fontSize: '0.625rem', color: borderMuted, fontWeight: 700, padding: '0 12px' }}>vs</span>
                 <PlayerIdentityBadge player={players[1]} />
               </div>
             </div>
@@ -424,7 +423,7 @@ function FloatFeedback({ text, color, x, y, onDone }) {
 // HUD horní lišta — 2 hráči vs
 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
   <PlayerIdentityBadge player={player1} />
-  <span style={{ color: '#3A3858' }}>vs</span>
+  <span style={{ color: borderMuted }}>vs</span>
   <PlayerIdentityBadge player={player2} />
 </div>`} />
       </Section>

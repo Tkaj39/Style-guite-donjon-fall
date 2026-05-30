@@ -1,4 +1,4 @@
-import { gold, textActive, textFaint, bgDeep, gainColor, dangerColor, borderMid } from './tokens'
+import { gold, textActive, textFaint, bgDeep, gainColor, dangerColor, borderMid, borderMuted } from './tokens'
 import { hexPointyTop } from '../../utils/polygon'
 
 const HEX_CLIP = hexPointyTop()
@@ -10,8 +10,7 @@ const sizeMap = {
 }
 
 const stateMap = {
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- #3A3858: unikátní border prázdného hexu (tmavší než bg3, neutrální blue-purple)
-  empty:          { border: '#3A3858', fill: bgDeep,      glow: null },
+  empty:          { border: borderMuted, fill: bgDeep,    glow: null },
   base:           { border: null,      fill: null,        glow: null },
   // eslint-disable-next-line donjon/no-hardcoded-hex -- #201D0E: unikátní teplá tmavá výplň focal hexu (jantarová tónovaná)
   'focal-active': { border: gold,      fill: '#201D0E',   glow: `0 0 14px ${gold}66` },
@@ -48,8 +47,7 @@ export default function HexTile({ state = 'empty', owner = null, size = 'md', la
   const s = sizeMap[size] ?? sizeMap.md
   const cfg = stateMap[state] ?? stateMap.empty
 
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- #3A3858: fallback border prázdného hexu bez vlastníka
-  const borderColor = state === 'base' && owner ? owner : cfg.border ?? '#3A3858'
+  const borderColor = state === 'base' && owner ? owner : cfg.border ?? borderMuted
   const fillColor   = state === 'base' && owner ? owner + '33' : cfg.fill ?? bgDeep
 
   return (

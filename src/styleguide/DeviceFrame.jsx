@@ -1,6 +1,7 @@
 /* ── Sdílená DeviceFrame komponenta + ComparisonRow ──
    Exportuje FRAME config, DeviceFrame a ComparisonRow.
    Původně definováno v ScreensPage.jsx, přesunuto sem pro sdílení. */
+import { borderMuted, goldDim } from '../lib/donjon/tokens'
 
 export const FRAME = {
   desktop: { w: 840, h: 500, rx: 8,  chromeH: 28, label: 'PC / Desktop — 1280px+' },
@@ -14,14 +15,14 @@ export default function DeviceFrame({ type, children }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>
       <p style={{
-        margin: 0, fontSize: '0.625rem', color: '#8F7458',
+        margin: 0, fontSize: '0.625rem', color: goldDim,
         fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase',
       }}>
         {c.label}
       </p>
       <div style={{
         width: c.w, height: c.h,
-        border: '2px solid #3A3858',
+        border: `2px solid ${borderMuted}`,
         borderRadius: c.rx,
         background: '#12111F',
         boxShadow: '0 12px 48px #00000077, inset 0 0 0 1px #2A2948',
@@ -38,9 +39,9 @@ export default function DeviceFrame({ type, children }) {
         }}>
           {type === 'desktop' ? (
             <>
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#3A3858' }} />
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#3A3858' }} />
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#3A3858' }} />
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: borderMuted }} />
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: borderMuted }} />
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: borderMuted }} />
               <div style={{ flex: 1, height: 14, background: '#1B1A30', borderRadius: 3, marginLeft: 8 }} />
             </>
           ) : (

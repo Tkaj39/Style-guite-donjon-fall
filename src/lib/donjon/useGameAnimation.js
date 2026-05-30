@@ -88,7 +88,7 @@ export default function useGameAnimation() {
 
   /**
    * Flash — zisk (zelená) nebo ztráta (červená) barvy.
-   * @param {string} [color='#50B86C'] - Hex barva flash glow
+   * @param {string} [color=gainColor] - Hex barva flash glow (default = gainColor token)
    * @param {number} [duration] - Délka v ms
    */
   const flash = useCallback((color = gainColor, duration = animNormal * 3) => {
