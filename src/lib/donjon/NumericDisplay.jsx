@@ -1,6 +1,6 @@
 /* ── NumericDisplay ────────────────────────────────────────────────────────
-   Animované číslo pro herní countery — VP, HP, zdroje.
-   Při změně hodnoty: floating delta badge (+N / -N) + krátký flash pozadí.
+   Animated number for game counters — VP, HP, resources.
+   On value change: floating delta badge (+N / -N) + brief background flash.
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useEffect, useRef } from 'react'
 import {
@@ -62,7 +62,7 @@ export default function NumericDisplay({
 
   const valueEl = (
     <div style={{ position: 'relative', display: 'inline-block' }}>
-      {/* Číslo */}
+      {/* Number */}
       <div style={{
         minWidth: s.minW,
         textAlign: 'center',
@@ -86,7 +86,7 @@ export default function NumericDisplay({
         {suffix && <span style={{ fontSize: '0.7em', color: textLow, marginLeft: 2 }}>{suffix}</span>}
       </div>
 
-      {/* Delta badge — floatuje nahoru a mizí */}
+      {/* Delta badge — floats upward and fades */}
       {flashing && delta !== 0 && (
         <span
           key={`${value}-${Date.now()}`}

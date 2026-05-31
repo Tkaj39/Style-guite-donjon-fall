@@ -1,17 +1,17 @@
 /**
- * FloatFeedback — plovoucí text změny hodnoty nebo VP.
+ * FloatFeedback — floating text for a value change or VP.
  *
- * Používá se vždy jako `position: absolute` child uvnitř
- * `position: relative` containeru (hex wrapper nebo podobné).
- * Stoupá nahoru a mizí (keyframe float-feedback, 700 ms).
+ * Always used as a `position: absolute` child inside a
+ * `position: relative` container (a hex wrapper or similar).
+ * Rises upward and fades out (keyframe float-feedback, 700 ms).
  *
  * Props:
- *   text     — zobrazovaný text, např. "+1", "−1", "+1 VP"
+ *   text     — displayed text, e.g. "+1", "−1", "+1 VP"
  *   variant  — "gain" | "loss" | "vp" | "neutral"
- *   visible  — boolean; pokud false, element není v DOM
- *   animKey  — změna hodnoty vynutí remount a restartuje animaci
- *   onDone   — volitelný callback po konci animace
- *   style    — volitelný override pozicování (default: centred above)
+ *   visible  — boolean; when false, the element is not in the DOM
+ *   animKey  — a value change forces remount and restarts the animation
+ *   onDone   — optional callback when the animation ends
+ *   style    — optional positioning override (default: centred above)
  */
 
 import { gold, goldDim, dangerColor, gainColor } from './tokens'

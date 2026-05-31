@@ -1,20 +1,20 @@
 import { SHAPE_SIZES } from '../../utils/octagon'
 
 /**
- * CornerOrnament — dekorativní rohová ozdoba
+ * CornerOrnament — decorative corner ornament
  *
- * Vždy se umisťuje do rohu absolutně pozicovaného kontejneru.
- * Pro ostatní rohy použij CSS transform: scaleX(-1), scaleY(-1), scale(-1).
+ * Always placed in the corner of an absolutely positioned container.
+ * For the other corners use CSS transform: scaleX(-1), scaleY(-1), scale(-1).
  *
  * Props:
- *   cornerSize {number|'xs'|'sm'|'md'|'lg'}    velikost ornamentu — px nebo size preset
- *                                              (sjednocená terminologie s octagon a ScoopClip).
- *                                              Preset mapuje na SHAPE_SIZES[preset].cut.
- *   size       {number}                        DEPRECATED alias pro cornerSize (px, default 16)
- *   color      {string}                        barva fill — výchozí 'currentColor' (dědí z rodiče)
- *   variant    {'bracket'|'dot'|'diamond'|'cross'}  tvar ornamentu
- *   cornerType {'cut'|'round'|'scoop'}         geometrie rohu, na kterém ornament sedí (výchozí 'cut')
- *   style      {object}                        extra inline styly (position, top, left…)
+ *   cornerSize {number|'xs'|'sm'|'md'|'lg'}    ornament size — px or size preset
+ *                                              (unified terminology with octagon and ScoopClip).
+ *                                              The preset maps to SHAPE_SIZES[preset].cut.
+ *   size       {number}                        DEPRECATED alias for cornerSize (px, default 16)
+ *   color      {string}                        fill color — default 'currentColor' (inherits from parent)
+ *   variant    {'bracket'|'dot'|'diamond'|'cross'}  ornament shape
+ *   cornerType {'cut'|'round'|'scoop'}         geometry of the corner the ornament sits on (default 'cut')
+ *   style      {object}                        extra inline styles (position, top, left…)
  */
 export default function CornerOrnament({
   cornerSize,
@@ -24,7 +24,7 @@ export default function CornerOrnament({
   cornerType = 'cut',
   style      = {},
 }) {
-  // Resolve: cornerSize (preset string nebo px number) > size (px number)
+  // Resolve: cornerSize (preset string or px number) > size (px number)
   const resolved = cornerSize ?? size
   const s = typeof resolved === 'string'
     ? (SHAPE_SIZES[resolved]?.cut ?? 16)
@@ -32,11 +32,11 @@ export default function CornerOrnament({
 
   // ── bracket ────────────────────────────────────────────────────────────────
   if (variant === 'bracket') {
-    const t   = Math.max(1, Math.round(s * 0.15))   // tloušťka čáry
-    const len = Math.round(s * 0.55)                  // délka ramene
-    const r   = Math.round(s * 0.22)                  // poloměr oblouku (round / scoop)
+    const t   = Math.max(1, Math.round(s * 0.15))   // line thickness
+    const len = Math.round(s * 0.55)                  // arm length
+    const r   = Math.round(s * 0.22)                  // arc radius (round / scoop)
 
-    // round — hladký konvexní oblouk v lokti (odpovídá zaoblenému rohu)
+    // round — smooth convex arc at the elbow (matches a rounded corner)
     if (cornerType === 'round') {
       return (
         <svg width={s} height={s} viewBox={`0 0 ${s} ${s}`} fill="none" style={style} aria-hidden="true">
@@ -50,7 +50,7 @@ export default function CornerOrnament({
       )
     }
 
-    // scoop — konkávní oblouk v lokti (odpovídá konkávně zaoblenému rohu)
+    // scoop — concave arc at the elbow (matches a scoop-rounded corner)
     if (cornerType === 'scoop') {
       return (
         <svg width={s} height={s} viewBox={`0 0 ${s} ${s}`} fill="none" style={style} aria-hidden="true">
@@ -64,7 +64,7 @@ export default function CornerOrnament({
       )
     }
 
-    // cut (výchozí) — ostrý L-bracket (dva obdélníky)
+    // cut (default) — sharp L-bracket (two rectangles)
     return (
       <svg width={s} height={s} viewBox={`0 0 ${s} ${s}`} fill="none" style={style} aria-hidden="true">
         <rect x={0} y={0} width={t}   height={len} fill={color} />

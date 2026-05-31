@@ -2,17 +2,17 @@ import { useState, useEffect } from 'react'
 import { BREAKPOINTS } from './tokens'
 
 /**
- * Hook pro responzivní chování — vrací aktuální šířku viewportu a breakpoint příznaky.
+ * Hook for responsive behavior — returns the current viewport width and breakpoint flags.
  *
  * @returns {{ width: number, isMobile: boolean, isTablet: boolean, isDesktop: boolean, isWide: boolean, isTouch: boolean }}
  *
  * @example
  * const { isMobile, isDesktop } = useBreakpoint()
- * // Responzivní layout:
+ * // Responsive layout:
  * <div style={{ flexDirection: isMobile ? 'column' : 'row' }}>...</div>
  *
  * @example
- * // Podmíněné renderování:
+ * // Conditional rendering:
  * const { isTouch } = useBreakpoint()
  * <ActionTile size={isTouch ? 'lg' : 'md'} />
  */
@@ -34,7 +34,7 @@ export default function useBreakpoint() {
   const isDesktop = width >= BREAKPOINTS.desktop
   /** ≥ 1280 px */
   const isWide    = width >= BREAKPOINTS.wide
-  /** mobil nebo tablet (touch-first, menší hit targets) */
+  /** mobile or tablet (touch-first, smaller hit targets) */
   const isTouch   = width < BREAKPOINTS.desktop
 
   return { width, isMobile, isTablet, isDesktop, isWide, isTouch }

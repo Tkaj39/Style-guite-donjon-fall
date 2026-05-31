@@ -31,9 +31,9 @@ export default function DieFace({ value = 1, playerColor = goldDim, size = 'md',
   const dots = dotPositions[value] ?? dotPositions[1]
 
   const borderGrad  = `linear-gradient(145deg, ${playerColor} 0%, ${playerColor}99 100%)`
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- #0D0C1A: unikátní tmavý gradient die face (hlubší než bg0)
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- #0D0C1A: unique dark gradient for the die face (deeper than bg0)
   const bgGrad      = `linear-gradient(145deg, ${playerColor}${cfg.bgMod} 0%, #0D0C1A 100%)`
-  const dotColor    = textHigh  // teplá near-white pro puntíky kostky
+  const dotColor    = textHigh  // warm near-white for the die dots
 
   const innerPad = Math.round(s.box * 0.12)
   const gridSize = s.box - innerPad * 2 - 4 // area for dots

@@ -1,11 +1,11 @@
 /* ── PlayerPanel ───────────────────────────────────────────────────────────
-   Mini karta hráče — erb, jméno, VP, resource bary.
-   Aktivní stav: zlatý border + glow (signalizuje: na tahu).
+   Mini player card — crest, name, VP, resource bars.
+   Active state: gold border + glow (signals: on turn).
 
-   Dvě API:
+   Two APIs:
      1) Flat props (backward compat) — hp, maxHp, mana, maxMana, stamina, maxStamina
-     2) Composition (preferované) — <PlayerPanel><PlayerPanel.Resource ... /></PlayerPanel>
-        Otevřené pro libovolné herní zdroje (sanity, hunger, ...).
+     2) Composition (preferred) — <PlayerPanel><PlayerPanel.Resource ... /></PlayerPanel>
+        Open to arbitrary game resources (sanity, hunger, ...).
    ─────────────────────────────────────────────────────────────────────── */
 import { Children, isValidElement, useId } from 'react'
 import { Shield } from './Erb'
@@ -20,8 +20,8 @@ import {
   textHigh, textMid, textLow, dangerColor, infoColor,
 } from './tokens'
 
-/* ── PlayerPanel.Resource — composition slot pro herní zdroj ── */
-function Resource() { return null }  // Marker komponenta, render obstará PlayerPanel
+/* ── PlayerPanel.Resource — composition slot for a game resource ── */
+function Resource() { return null }  // Marker component, PlayerPanel handles the rendering
 Resource.displayName = 'PlayerPanel.Resource'
 
 const SIZES = {
@@ -64,7 +64,7 @@ function PlayerPanel({
   const hasOrnaments = ornament === 'decorated'
   const borderColor  = isActive ? goldDim : borderDefault
 
-  // Resource sběr: composition children mají přednost; flat props jsou fallback
+  // Resource collection: composition children win; flat props are the fallback
   const resourcesFromChildren = Children.toArray(children)
     .filter(c => isValidElement(c) && c.type === Resource)
     .map(c => c.props)
@@ -95,11 +95,11 @@ function PlayerPanel({
       }}
       className={!hasOrnaments ? className : undefined}
     >
-      {/* Rohové ornamentální závorky — výška škálovaná dle CX (šířka ≈ CX) */}
+      {/* Corner ornamental brackets — height scaled by CX (width ≈ CX) */}
       {hasOrnaments && <RohOrnament h={ornamentHForCx(CX, 'roh')} uid={`${uid}l`} />}
       {hasOrnaments && <RohOrnament h={ornamentHForCx(CX, 'roh')} uid={`${uid}r`} flip />}
 
-      {/* Aktivní indikátor — zlatá tečka vlevo nahoře */}
+      {/* Active indicator — gold dot top-left */}
       {isActive && (
         <div style={{
           position: 'absolute', top: 8, left: 8,
@@ -109,7 +109,7 @@ function PlayerPanel({
         }} />
       )}
 
-      {/* Hlavní řádek: erb + info */}
+      {/* Main row: crest + info */}
       <div style={{ display: 'flex', alignItems: 'center', gap: s.gap, marginBottom: resources.length > 0 ? 10 : 0 }}>
         <Shield playerColor={color} symbol={symbol} size={s.shieldSize} />
 
@@ -131,7 +131,7 @@ function PlayerPanel({
 
           {eliminated && (
             <span style={{ fontSize: '0.6875rem', color: dangerColor, letterSpacing: '0.08em', fontWeight: 600 }}>
-              VYŘAZEN
+              ELIMINATED
             </span>
           )}
         </div>
