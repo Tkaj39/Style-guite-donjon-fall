@@ -2,45 +2,46 @@ import { useId } from 'react'
 import { scoopBBPath, scoopCirclePath, SHAPE_SIZES } from '../../utils/octagon'
 
 /**
- * ScoopClip — obal pro elementy s konkávně vyřezanými rohy.
+ * ScoopClip — wrapper for elements with concave scooped corners.
  *
- * Dva režimy přes `shape` prop:
+ * Two modes via the `shape` prop:
  *
- *  **shape="bezier"** (default) — RESPONZIVNÍ
- *    SVG clipPath s objectBoundingBox a Q bezier křivkou. Tvar se
- *    automaticky přizpůsobí libovolným rozměrům elementu (0–1 souřadnice).
- *    Při výrazné změně poměru stran se prohnutí mírně deformuje.
- *    `cornerSize` je v rozsahu 0–1 (podíl).
+ *  **shape="bezier"** (default) — RESPONSIVE
+ *    SVG clipPath with objectBoundingBox and a Q bezier curve. The shape
+ *    automatically adapts to arbitrary element dimensions (0–1 coords).
+ *    Under extreme aspect-ratio changes the curve deforms slightly.
+ *    `cornerSize` is in the 0–1 range (fraction).
  *
- *  **shape="circle"** — PEVNÝ VÝŘEZ KRUHU
- *    SVG clipPath s absolutními px a A arc command (matematicky přesný
- *    kruh). Element MUSÍ mít explicitní width/height — ScoopClip je
- *    auto-nastaví podle `size` presetu, pokud není ve style override.
- *    `cornerSize` je v PIXELECH (poloměr kruhu).
+ *  **shape="circle"** — FIXED CIRCULAR CUTOUT
+ *    SVG clipPath with absolute px and an A arc command (mathematically
+ *    precise circle). The element MUST have explicit width/height —
+ *    ScoopClip sets them from the `size` preset if no style override is given.
+ *    `cornerSize` is in PIXELS (circle radius).
  *
- * Velikost — sjednocená terminologie s octagonem:
- *   - `size`       — 'xs' | 'sm' | 'md' | 'lg' (stejný systém jako octagon).
- *                    V bezier módu mapuje na SHAPE_SIZES[size].bb (relativní).
- *                    V circle módu mapuje na SHAPE_SIZES[size].scoop (absolutní px)
- *                    a default container width/height z SHAPE_SIZES[size].w/h.
- *   - `cornerSize` — přímá hodnota (0–1 v bezier, px v circle). Přednost před size.
- *   - `r`          — DEPRECATED alias pro cornerSize (backward compat).
+ * Sizing — unified terminology with the octagon system:
+ *   - `size`       — 'xs' | 'sm' | 'md' | 'lg' (same system as octagon).
+ *                    In bezier mode maps to SHAPE_SIZES[size].bb (relative).
+ *                    In circle mode maps to SHAPE_SIZES[size].scoop (absolute px)
+ *                    and the default container width/height come from
+ *                    SHAPE_SIZES[size].w/h.
+ *   - `cornerSize` — direct value (0–1 in bezier, px in circle). Wins over size.
+ *   - `r`          — DEPRECATED alias for cornerSize (backward compat).
  *
  * @example
- * // Responzivní bezier — přizpůsobí se containeru
+ * // Responsive bezier — adapts to the container
  * <ScoopClip size="md" style={{ width: 200, height: 60 }}>...</ScoopClip>
  *
- * // Pevný kruhový výřez — kruh 13px na všech rozích
+ * // Fixed circular cutout — 13px circle on every corner
  * <ScoopClip shape="circle" size="md">...</ScoopClip>
  *
- * // Vlastní velikost přes cornerSize
+ * // Custom size via cornerSize
  * <ScoopClip shape="circle" cornerSize={20} style={{ width: 250, height: 80 }}>...</ScoopClip>
  */
 export default function ScoopClip({
   shape = 'bezier',
   size,
   cornerSize,
-  r,                 // DEPRECATED — použij cornerSize
+  r,                 // DEPRECATED — use cornerSize
   children,
   style = {},
   className,
@@ -50,22 +51,22 @@ export default function ScoopClip({
   const id     = useId().replace(/:/g, '')
   const clipId = `scoop-${id}`
 
-  // Backward compat: cornerSize má přednost, pak r alias
+  // Backward compat: cornerSize wins, then the r alias
   const explicitSize = cornerSize ?? r
 
   const isCircle = shape === 'circle'
 
   if (isCircle) {
-    /* ── Circle mode: absolutní px, pevný kruhový výřez ────────────── */
+    /* ── Circle mode: absolute px, fixed circular cutout ────────────── */
     const preset = size && SHAPE_SIZES[size]
     const w = pxValue(style.width)  ?? preset?.w ?? 170
     const h = pxValue(style.height) ?? preset?.h ?? 52
     const rPx = explicitSize ?? preset?.scoop ?? 13
 
-    // CSS clip-path: path() — funguje s absolutními px
+    // CSS clip-path: path() — works with absolute px
     const clip = `path('${scoopCirclePath(w, h, rPx)}')`
 
-    // Auto-set width/height pokud nejsou ve style
+    // Auto-set width/height if they aren't in style
     const baseStyle = {
       width: w,
       height: h,
@@ -73,7 +74,7 @@ export default function ScoopClip({
     }
 
     if (borderColor) {
-      // Border trick: outer s clip-path o (r + bw) px (větší kruh, větší arc)
+      // Border trick: outer with clip-path larger by (r + bw) px (bigger circle, bigger arc)
       const outerClip = `path('${scoopCirclePath(w + 2 * borderWidth, h + 2 * borderWidth, rPx + borderWidth)}')`
       return (
         <div style={{ position: 'relative', display: 'inline-block', width: w, height: h }}>

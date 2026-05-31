@@ -3,8 +3,8 @@ import { octagonWithNotch, octagonWithNotches, notchClamp } from '../../utils/oc
 
 // ─── Slot ──────────────────────────────────────────────────────────────────
 /**
- * NotchedBox.Slot — obsah pozicovaný do středu zářezu.
- * Renderuje se VNĚ clip-path (není ořezáván).
+ * NotchedBox.Slot — content positioned over the center of the notch.
+ * Rendered OUTSIDE the clip-path (not clipped).
  */
 function Slot({ children, className, style }) {
   return (
@@ -14,7 +14,7 @@ function Slot({ children, className, style }) {
   )
 }
 
-// ─── Pozice slotu — respektuje notchOffset ─────────────────────────────────
+// ─── Slot position — respects notchOffset ──────────────────────────────────
 function slotPos(side, offset = 0.5) {
   const pct = `${(offset * 100).toFixed(3)}%`
   switch (side) {
@@ -26,7 +26,7 @@ function slotPos(side, offset = 0.5) {
   }
 }
 
-// ─── Helper: extrahuj numerickou hodnotu z CSS shorthand (např. '160px' → 160) ──
+// ─── Helper: extract numeric value from CSS shorthand (e.g. '160px' → 160) ──
 function pxValue(v) {
   if (typeof v === 'number') return v
   if (typeof v === 'string') {
@@ -37,16 +37,16 @@ function pxValue(v) {
 }
 
 /**
- * Border-aware adjustment outer notchů.
+ * Border-aware adjustment of outer notches.
  *
- * V (diagonální stěny):   outer = inner (border viditelný díky úhlu stěny ~0.7·bw)
- * Square (axis-aligned):  outer.nw = inner.nw - 2·bw  → svislé stěny se rozjedou
- * Trapezoid (mix):        outer = inner (plateau vidět z svislého offsetu,
- *                                       diagonály vidět z úhlu)
+ * V (diagonal walls):     outer = inner (border visible due to ~0.7·bw wall angle)
+ * Square (axis-aligned):  outer.nw = inner.nw - 2·bw  → vertical walls separate
+ * Trapezoid (mix):        outer = inner (plateau visible via vertical offset,
+ *                                        diagonals visible via angle)
  *
- * Bez tohoto adjustu má square neviditelné svislé stěny — outer & inner
- * stěny jsou na stejné axis-aligned souřadnici, takže border layer
- * žádný gap neudělá.
+ * Without this adjustment, a square notch would have invisible vertical walls —
+ * outer & inner walls share the same axis-aligned coordinate, so the border
+ * layer leaves no gap.
  */
 function adjustNotchForBorder(notch, borderWidth) {
   if (notch.shape === 'square') {
@@ -57,38 +57,38 @@ function adjustNotchForBorder(notch, borderWidth) {
 
 // ─── NotchedBox ────────────────────────────────────────────────────────────
 /**
- * NotchedBox — kontejner s V-zářezem na jedné straně.
+ * NotchedBox — a container with a V-notch on one side.
  *
- * Aplikuje `octagonWithNotch` clip-path. Volitelný `<NotchedBox.Slot>` umístí
- * obsah do středu zářezu — slot se renderuje vně clip-path a není ořezáván
- * a sleduje `notchOffset` (pokud je nastaven mimo střed).
+ * Applies an `octagonWithNotch` clip-path. The optional `<NotchedBox.Slot>`
+ * places content over the center of the notch — the slot is rendered outside
+ * the clip-path (not clipped) and follows `notchOffset` (when positioned off-center).
  *
- * ⚠ CSS `border` na clip-path elementu je ořezán pravoúhle — nesleduje
- *   zkosené rohy ani zářez. Místo toho předej `borderColor` prop, který
- *   vykreslí border přes podkladovou vrstvu se správným tvarem.
+ * ⚠ A CSS `border` on a clip-path element is clipped rectangularly — it does
+ *   not follow the beveled corners or the notch. Pass `borderColor` instead;
+ *   it renders an underlay layer with the correct shape.
  *
- * Auto-clamp: pokud předáš `style.width` / `style.height` v px, NotchedBox
- * automaticky validuje a clampuje `nw`/`nh` aby zářez nepřesáhl rozměry
- * (přes notchClamp helper). V dev modu vypíše warning.
+ * Auto-clamp: if you pass `style.width` / `style.height` in px, NotchedBox
+ * automatically validates and clamps `nw`/`nh` so the notch does not exceed
+ * the box (via the notchClamp helper). It logs a warning in dev mode.
  *
  * Props:
- *   cx           {number}                          rohové zkosení v px (výchozí 15)
- *   nw           {number}                          šířka zářezu v px (výchozí 28)
- *   nh           {number}                          hloubka zářezu v px (výchozí 12)
- *   side         {'top'|'bottom'|'left'|'right'}  strana zářezu (výchozí 'bottom')
- *   notchOffset  {number}                          pozice zářezu podél strany 0–1 (výchozí 0.5 = střed)
- *   borderColor  {string}                          barva borderu — renderuje podkladovou vrstvu
- *   borderWidth  {number}                          šířka borderu v px (výchozí 1)
- *   children     {ReactNode}                       obsah + volitelný NotchedBox.Slot
- *   style        {object}                          styly aplikované na clipped div
+ *   cx           {number}                          corner bevel in px (default 15)
+ *   nw           {number}                          notch width in px (default 28)
+ *   nh           {number}                          notch depth in px (default 12)
+ *   side         {'top'|'bottom'|'left'|'right'}  notch side (default 'bottom')
+ *   notchOffset  {number}                          notch position along the side, 0–1 (default 0.5 = center)
+ *   borderColor  {string}                          border color — renders the underlay layer
+ *   borderWidth  {number}                          border width in px (default 1)
+ *   children     {ReactNode}                       content + optional NotchedBox.Slot
+ *   style        {object}                          styles applied to the clipped div
  *   className    {string}
  *
- * Příklad:
+ * Example:
  *   <NotchedBox cx={12} nw={28} nh={12} side="bottom" notchOffset={0.25}
  *     borderColor="#8F745844"
  *     style={{ width: 160, height: 80, background: '#1E1C3A' }}
  *   >
- *     Obsah
+ *     Content
  *     <NotchedBox.Slot>
  *       <Badge>5 VP</Badge>
  *     </NotchedBox.Slot>
@@ -96,14 +96,14 @@ function adjustNotchForBorder(notch, borderWidth) {
  */
 function NotchedBox({
   ref,
-  cornerSize,        // preferovaný název (sjednocená terminologie s octagon/ScoopClip)
-  cx,                // DEPRECATED alias pro cornerSize
+  cornerSize,        // preferred name (unified terminology with octagon/ScoopClip)
+  cx,                // DEPRECATED alias for cornerSize
   nw = 28,
   nh = 12,
   side = 'bottom',
   notchOffset = 0.5,
   notchShape = 'v',
-  notches,           // advanced API — pole zářezů, přepisuje single-notch propsy
+  notches,           // advanced API — array of notches, overrides single-notch props
   children,
   style,
   className,
@@ -111,7 +111,7 @@ function NotchedBox({
   borderWidth = 1,
   ...props
 }) {
-  // Sjednocená terminologie — cornerSize má přednost, cx je alias, default 15
+  // Unified terminology — cornerSize takes precedence, cx is an alias, default 15
   cx = cornerSize ?? cx ?? 15
   const slots = []
   const content = []
@@ -124,22 +124,22 @@ function NotchedBox({
     }
   })
 
-  // Auto-clamp pro single-notch režim
+  // Auto-clamp for single-notch mode
   const width  = pxValue(style?.width)
   const height = pxValue(style?.height)
 
-  // Multi-notch režim: pole notches má přednost, single-notch propsy se ignorují
+  // Multi-notch mode: the notches array wins, single-notch props are ignored
   const isMulti = Array.isArray(notches) && notches.length > 0
   let clipPath, outerClipPath, slotInfos
 
   if (isMulti) {
-    // Clamp každý notch zvlášť proti rozměrům
+    // Clamp each notch independently against the box dimensions
     const clampedAll = notches.map(n => notchClamp({
       cx, nw: n.nw, nh: n.nh, side: n.side, offset: n.offset, width, height,
     }))
     const warnings = clampedAll.map(c => c.warning).filter(Boolean)
     if (warnings.length && typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production') {
-       
+
       console.warn('[NotchedBox] ' + warnings.join('; '))
     }
     const finalNotches = notches.map((n, i) => ({
@@ -151,7 +151,7 @@ function NotchedBox({
     }))
     clipPath = octagonWithNotches(cx, finalNotches)
     if (borderColor) {
-      // Border-aware: square notch potřebuje outer.nw - 2·bw aby svislé stěny dostaly gap
+      // Border-aware: a square notch needs outer.nw - 2·bw so vertical walls get a gap
       const outerNotches = finalNotches.map(n => adjustNotchForBorder(n, borderWidth))
       outerClipPath = octagonWithNotches(cx + borderWidth, outerNotches)
     }
@@ -159,12 +159,12 @@ function NotchedBox({
   } else {
     const clamped = notchClamp({ cx, nw, nh, side, offset: notchOffset, width, height })
     if (clamped.warning && typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production') {
-       
+
       console.warn(`[NotchedBox] ${clamped.warning}`)
     }
     clipPath = octagonWithNotch(cx, clamped.nw, clamped.nh, side, clamped.offset, notchShape)
     if (borderColor) {
-      // Border-aware: square shape vyžaduje outer.nw - 2·bw pro viditelné svislé stěny
+      // Border-aware: a square shape requires outer.nw - 2·bw for the vertical walls to be visible
       const outer = adjustNotchForBorder(
         { side, offset: clamped.offset, nw: clamped.nw, nh: clamped.nh, shape: notchShape },
         borderWidth,
@@ -176,7 +176,7 @@ function NotchedBox({
 
   return (
     <div style={{ position: 'relative', display: 'inline-block' }}>
-      {/* Podkladová vrstva — border trick: stejný tvar, o borderWidth větší, barva borderu. */}
+      {/* Underlay — border trick: same shape, larger by borderWidth, painted with the border color. */}
       {borderColor && (
         <div style={{
           position: 'absolute',
@@ -199,8 +199,8 @@ function NotchedBox({
         {content}
       </div>
 
-      {/* Sloty — v multi-notch režimu se Slot bez identifikace pozice umístí na první notch.
-          Pokud má Slot prop 'notchIndex', použije se ten konkrétní zářez. */}
+      {/* Slots — in multi-notch mode a Slot without a position identifier lands on the first notch.
+          If the Slot has a 'notchIndex' prop, that specific notch is used. */}
       {slots.map((slot, i) => {
         const idx = typeof slot.props.notchIndex === 'number'
           ? Math.max(0, Math.min(slotInfos.length - 1, slot.props.notchIndex))

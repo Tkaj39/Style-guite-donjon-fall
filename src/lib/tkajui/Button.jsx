@@ -71,9 +71,9 @@ const variants = {
 const iconSize = { xs: 14, sm: 16, md: 20, lg: 24 }
 
 /**
- * Button — TkajUI základní tlačítko.
- * Oktagonální tvar, čistá UI paleta (bez herních gradientů).
- * Varianty: default | primary | danger | success | warning | link
+ * Button — TkajUI base button.
+ * Octagonal shape, clean UI palette (no game-themed gradients).
+ * Variants: default | primary | danger | success | warning | link
  */
 function Button({
   children,
@@ -124,10 +124,10 @@ function Button({
     )
   }
 
-  /* ── CSS custom property architektura (Tailwind v4 design) ────────────────
-   * Všechny tokeny jsou vystaveny jako --btn-* vlastnosti na elementu.
-   * Výhody: DevTools vidí hodnoty, CSS animace mohou tokeny animovat,
-   *         nadřazený element může přebít variantu: --btn-bg: red.
+  /* ── CSS custom property architecture (Tailwind v4 design) ───────────────
+   * All tokens are exposed as --btn-* properties on the element.
+   * Benefits: DevTools sees values, CSS animations can animate tokens,
+   *           a parent can override the variant: --btn-bg: red.
    * ──────────────────────────────────────────────────────────────────────── */
   const octCx  = `polygon(var(--btn-cx) 0px,calc(100% - var(--btn-cx)) 0px,100% var(--btn-cx),100% calc(100% - var(--btn-cx)),calc(100% - var(--btn-cx)) 100%,var(--btn-cx) 100%,0px calc(100% - var(--btn-cx)),0px var(--btn-cx))`
   const octIn  = `polygon(calc(var(--btn-cx) - 1px) 0px,calc(100% - var(--btn-cx) + 1px) 0px,100% calc(var(--btn-cx) - 1px),100% calc(100% - var(--btn-cx) + 1px),calc(100% - var(--btn-cx) + 1px) 100%,calc(var(--btn-cx) - 1px) 100%,0px calc(100% - var(--btn-cx) + 1px),0px calc(var(--btn-cx) - 1px))`
@@ -137,7 +137,7 @@ function Button({
       ref={ref}
       disabled={disabled || loading}
       style={{
-        /* Tokeny — dostupné v DevTools a CSS */
+        /* Tokens — exposed in DevTools and CSS */
         '--btn-h':      `${s.h}px`,
         '--btn-cx':     `${s.cx}px`,
         '--btn-px':     `${s.px}px`,
@@ -146,7 +146,7 @@ function Button({
         '--btn-border': v.border,
         '--btn-text':   v.text,
         '--btn-icon':   v.icon,
-        /* Layoutové vlastnosti přes var() */
+        /* Layout properties via var() */
         position:    'relative',
         height:      'var(--btn-h)',
         width:       iconOnly ? 'var(--btn-h)' : (fullWidth ? '100%' : undefined),

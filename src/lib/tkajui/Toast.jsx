@@ -96,9 +96,9 @@ function CloseIcon() {
 function ToastItem({ id, title, message, variant = 'default', duration = 4000, onRemove }) {
   const v = VARIANTS[variant] ?? VARIANTS.default
 
-  // Role a aria-live závisí na variantě:
-  //  danger/warning → alert + assertive (přeruší screen reader)
-  //  success/default → status + polite (počká na pauzu)
+  // Role and aria-live depend on the variant:
+  //  danger/warning → alert + assertive (interrupts the screen reader)
+  //  success/default → status + polite (waits for a pause)
   const isAssertive = variant === 'danger' || variant === 'warning'
   const role = isAssertive ? 'alert' : 'status'
   const ariaLive = isAssertive ? 'assertive' : 'polite'
@@ -141,7 +141,7 @@ function ToastItem({ id, title, message, variant = 'default', duration = 4000, o
 
             <button
               onClick={() => onRemove(id)}
-              aria-label="Zavřít"
+              aria-label="Close"
               style={{
                 flexShrink: 0,
                 display: 'flex',
@@ -180,7 +180,7 @@ function ToastItem({ id, title, message, variant = 'default', duration = 4000, o
   )
 }
 
-/* ── Context, Provider a Hook — sdílená logika z toastContext ── */
+/* ── Context, Provider and Hook — shared logic from toastContext ── */
 const { ToastProvider: _Provider, useToast } = createToastContext({
   zIndex:   zToast,
   hookName: 'useToast',

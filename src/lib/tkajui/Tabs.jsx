@@ -1,7 +1,7 @@
 /* ── Tabs ───────────────────────────────────────────────────────────────
-   Horizontální záložková navigace. Dvě varianty vizuálu (underline / pills),
-   dvě velikosti, podpora ikon, disabled záložky, plná klávesnicová přístupnost.
-   Čistá TkajUI paleta.
+   Horizontal tab navigation. Two visual variants (underline / pills),
+   two sizes, icon support, disabled tabs, full keyboard accessibility.
+   Clean TkajUI palette.
    ─────────────────────────────────────────────────────────────────────── */
 
 import {
@@ -40,7 +40,7 @@ export default function Tabs({
   variant = 'underline',
   size = 'md',
   orientation = 'horizontal',   // 'horizontal' | 'vertical'
-  onClose,                       // (itemValue) => void — pokud předáno, items s closable: true zobrazí ×
+  onClose,                       // (itemValue) => void — when provided, items with closable: true show ×
 }) {
   const v = VARIANTS[variant] ?? VARIANTS.underline
   const s = SIZES[size] ?? SIZES.md
@@ -75,7 +75,7 @@ export default function Tabs({
         gap: s.gap,
         alignItems: isVertical ? 'stretch' : undefined,
         ...v.track,
-        // Vertical underline → border na pravé straně místo spodní
+        // Vertical underline → border on the right side instead of the bottom
         ...(isVertical && variant === 'underline' ? {
           borderBottom: 'none',
           borderRight: `1px solid ${borderDefault}`,
@@ -88,7 +88,7 @@ export default function Tabs({
         const tabStyle = isActive ? v.activeTab : v.inactiveTab
         const isClosable = onClose && item.closable
 
-        // V vertikálním underline módu: aktivní border na pravé straně (ne spodní)
+        // In vertical underline mode: the active border is on the right (not the bottom)
         const verticalActiveStyle = isVertical && variant === 'underline' && isActive
           ? { borderBottom: 'none', borderRight: `2px solid ${accent}`, marginRight: -1, marginBottom: 0 }
           : isVertical && variant === 'underline' && !isActive
@@ -146,7 +146,7 @@ export default function Tabs({
             {isClosable && (
               <span
                 role="button"
-                aria-label={`Zavřít ${item.label}`}
+                aria-label={`Close ${item.label}`}
                 tabIndex={-1}
                 onClick={e => { e.stopPropagation(); onClose(item.value) }}
                 style={{

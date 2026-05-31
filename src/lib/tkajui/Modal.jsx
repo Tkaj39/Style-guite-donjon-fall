@@ -91,7 +91,7 @@ export default function Modal({
 
   useModalPageInert(isOpen)
 
-  /* ── Otevření / zavření přes native <dialog> API ── */
+  /* ── Open / close via the native <dialog> API ── */
   useEffect(() => {
     const el = dialogRef.current
     if (!el) return
@@ -99,13 +99,13 @@ export default function Modal({
     else if (el.open) el.close()
   }, [isOpen])
 
-  /* ESC klávesa — cancel event předchází close, lze preventovat */
+  /* ESC key — the cancel event precedes close, can be prevented */
   function handleCancel(e) {
-    e.preventDefault()               // vždy prevnout nativní zavření
-    if (closeOnEscape) onClose?.()   // předat rozhodnutí rodiči
+    e.preventDefault()               // always prevent native close
+    if (closeOnEscape) onClose?.()   // delegate the decision to the parent
   }
 
-  /* Klik na backdrop — dialog element mimo panel obsah */
+  /* Backdrop click — the dialog element outside the panel content */
   function handleBackdropClick(e) {
     if (closeOnBackdrop && e.target === e.currentTarget) onClose?.()
   }
@@ -118,7 +118,7 @@ export default function Modal({
       aria-labelledby={title ? titleId : undefined}
       className="modal-dialog"
     >
-      {/* Panel — direct child, cílený @starting-style animací */}
+      {/* Panel — direct child, targeted by @starting-style animations */}
       <div
         className="modal-panel"
         onClick={(e) => e.stopPropagation()}
@@ -163,7 +163,7 @@ export default function Modal({
                 {showCloseButton && (
                   <button
                     onClick={onClose}
-                    aria-label="Zavřít"
+                    aria-label="Close"
                     style={{
                       position: 'absolute',
                       top: 12,
@@ -194,7 +194,7 @@ export default function Modal({
               {!title && showCloseButton && (
                 <button
                   onClick={onClose}
-                  aria-label="Zavřít"
+                  aria-label="Close"
                   style={{
                     position: 'absolute',
                     top: 12,

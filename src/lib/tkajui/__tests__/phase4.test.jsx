@@ -56,7 +56,7 @@ describe('Modal', () => {
   it('tlačítko Zavřít zavolá onClose', () => {
     const onClose = vi.fn()
     render(<Modal isOpen title="Test" onClose={onClose} />)
-    fireEvent.click(screen.getByLabelText('Zavřít'))
+    fireEvent.click(screen.getByLabelText('Close'))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
@@ -122,7 +122,7 @@ describe('Modal', () => {
 
   it('showCloseButton=false → žádné tlačítko Zavřít', () => {
     render(<Modal isOpen title="T" onClose={() => {}} showCloseButton={false} />)
-    expect(screen.queryByLabelText('Zavřít')).not.toBeInTheDocument()
+    expect(screen.queryByLabelText('Close')).not.toBeInTheDocument()
   })
 
   it('size="sm" → renderuje bez pádu', () => {
@@ -224,7 +224,7 @@ describe('Toast / ToastProvider', () => {
     const { toastApi } = renderWithToast()
     act(() => { toastApi().addToast({ title: 'Klikatelný' }) })
     expect(screen.getByText('Klikatelný')).toBeInTheDocument()
-    fireEvent.click(screen.getByLabelText('Zavřít'))
+    fireEvent.click(screen.getByLabelText('Close'))
     expect(screen.queryByText('Klikatelný')).not.toBeInTheDocument()
   })
 

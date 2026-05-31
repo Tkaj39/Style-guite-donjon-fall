@@ -1,20 +1,20 @@
 /**
- * TkajUI — generické UI komponenty
+ * TkajUI — generic UI components
  *
- * Importuj tokeny zvlášť:
+ * Import tokens separately:
  *   import { accent, surface2, borderDefault } from 'tkajui/tokens'
  *
- * Nebo CSS custom properties:
+ * Or as CSS custom properties:
  *   @import 'tkajui/tkajui.css';  → var(--tkajui-accent)
  */
 
-// ─── Základní interaktivní prvky ──────────────────────────────────────────
+// ─── Basic interactive elements ──────────────────────────────────────────
 export { default as Button }         from './Button'
 export { default as Badge }          from './Badge'
 export { default as Card }           from './Card'
 export { default as Input }          from './Input'
 
-// ─── Složené komponenty ──────────────────────────────────────────────────
+// ─── Composite components ───────────────────────────────────────────────
 export { default as ButtonGroup }    from './ButtonGroup'
 export { default as Modal }          from './Modal'
 export { default as SubmitButton }   from './SubmitButton'
@@ -31,9 +31,9 @@ export { default as Toggle }         from './Toggle'
 export { default as Pictogram }      from './Pictogram'
 
 // ─── Shape primitives ────────────────────────────────────────────────────
-// Základní tvarové elementy se sjednoceným cornerSize systémem.
-// ScoopClip & NotchedBox jsou wrapper komponenty; octagon a další utility
-// vrací CSS clip-path stringy použitelné inline.
+// Base shape elements with a unified cornerSize system.
+// ScoopClip & NotchedBox are wrapper components; octagon and other utilities
+// return CSS clip-path strings usable inline.
 export { default as ScoopClip }      from './ScoopClip'
 export { default as NotchedBox }     from './NotchedBox'
 export {
@@ -60,8 +60,8 @@ export { hexFlatTop, hexPointyTop, regularPolygon } from '../../utils/polygon'
 
 // ─── Design tokens ──────────────────────────────────────────────────────
 /**
- * Re-export palette tokenů ze `./tokens` — paleta je první-class export
- * stejně jako komponenty. Parita s donjon-fall-ui barrel exportem.
+ * Re-export of palette tokens from `./tokens` — the palette is a first-class
+ * export, same as components. Parity with the donjon-fall-ui barrel export.
  *
  * @example
  *   import { Button, accent, surface2 } from 'tkajui'
@@ -69,8 +69,8 @@ export { hexFlatTop, hexPointyTop, regularPolygon } from '../../utils/polygon'
  */
 export * from './tokens'
 
-// Pozn.: Ornamenty (CornerOrnament, SideOrnament, HexOrnament) jsou herní
-// dekorace exkluzivní pro donjon-fall-ui. Importuj přímo:
+// Note: Ornaments (CornerOrnament, SideOrnament, HexOrnament) are game-themed
+// decorations exclusive to donjon-fall-ui. Import them directly:
 //   import { CornerOrnament } from 'donjon-fall-ui'
 //   import { SideOrnament, HexOrnament } from 'donjon-fall-ui'
-// TkajUI je base library — nezávisí na donjon a neměla by je re-exportovat.
+// TkajUI is the base library — it must not depend on donjon nor re-export it.

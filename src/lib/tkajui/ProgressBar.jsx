@@ -1,7 +1,7 @@
 /* ── ProgressBar ────────────────────────────────────────────────────────
-   Lineární ukazatel průběhu. Determinate (value 0–100) nebo indeterminate
-   (animovaný shimmer). Varianty, velikosti, volitelný popisek a hodnota.
-   Čistá TkajUI paleta.
+   Linear progress indicator. Determinate (value 0–100) or indeterminate
+   (animated shimmer). Variants, sizes, optional label and value.
+   Clean TkajUI palette.
    ─────────────────────────────────────────────────────────────────────── */
 
 import {

@@ -23,9 +23,9 @@ const sizeMap = {
 }
 
 /**
- * Badge — TkajUI základní odznak.
- * Oktagonální tvar, čistá UI paleta.
- * Varianty: default | primary | success | danger | warning | info
+ * Badge — TkajUI base badge.
+ * Octagonal shape, clean UI palette.
+ * Variants: default | primary | success | danger | warning | info
  */
 export default function Badge({
   children,

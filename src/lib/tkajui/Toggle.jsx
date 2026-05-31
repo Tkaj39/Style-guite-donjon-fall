@@ -1,7 +1,7 @@
 /* ── Toggle / Switch ────────────────────────────────────────────────────
-   Přepínač on/off s animovaným thumbem. Pill tvar — kontrast k ostatním
-   oktagonálním prvkům. Varianty, velikosti, label vlevo/vpravo, disabled.
-   Čistá TkajUI paleta.
+   On/off switch with an animated thumb. Pill shape — a contrast to the other
+   octagonal elements. Variants, sizes, label left/right, disabled.
+   Clean TkajUI palette.
    ─────────────────────────────────────────────────────────────────────── */
 
 import {

@@ -1,11 +1,11 @@
 /**
  * TkajUI Design Tokens
- * Čistá, obecná UI knihovna — chladné neutrály + modrý akcent.
- * Kontrast skrze odstíny, ne přes herní gradientní paletu.
+ * A clean, generic UI library — cool neutrals + a blue accent.
+ * Contrast is built from tonal steps, not from a game-themed gradient palette.
  */
 
 // ── Surfaces ──────────────────────────────────────────────────────────────
-export const surface0 = '#0d0d14'   // nejhlubší pozadí
+export const surface0 = '#0d0d14'   // deepest background
 export const surface1 = '#13131c'   // base dark
 export const surface2 = '#1b1b27'   // input / card bg
 export const surface3 = '#232332'   // elevated panel
@@ -71,10 +71,10 @@ export const infoDim    = '#2070d0'  // gradient end (ProgressBar, Slider)
 export const primaryText = '#ffffff'
 export const primaryIcon = '#ffffffcc'
 
-// ── Sdílené tokeny (motion, breakpoints, z-index) ─────────────────────────
-// Re-export ze `lib/shared/tokens.js` — strukturálně neutrální tokeny
-// společné pro tkajui i donjon. Změna se projeví v obou knihovnách.
-// Pozn.: Modály nepoužívají z-index — jsou v native <dialog> top-layer.
+// ── Shared tokens (motion, breakpoints, z-index) ──────────────────────────
+// Re-export from `lib/shared/tokens.js` — structurally neutral tokens shared
+// by tkajui and donjon. A change propagates to both libraries.
+// Note: Modals do not use z-index — they live in the native <dialog> top-layer.
 export {
   animFast, animNormal, animSlow, animDramatic,
   easingSharp, easingBounce, easingEnter, easingExit,
@@ -82,9 +82,9 @@ export {
   zDropdown, zNotification, zToast, zTooltip,
 } from '../shared/tokens'
 
-// ── Background aliases (sjednocené naming napříč knihovnami) ──────────────
-// donjon používá `bg0..4`, tkajui historicky `surface0..4`. Aliasy umožňují
-// psát knihovně-agnostické kódy. Pro tkajui-specifický kód preferuj `surface*`.
+// ── Background aliases (unified naming across libraries) ──────────────────
+// donjon uses `bg0..4`, tkajui historically `surface0..4`. The aliases allow
+// library-agnostic code. For tkajui-specific code prefer `surface*`.
 export const bg0 = surface0
 export const bg1 = surface1
 export const bg2 = surface2
