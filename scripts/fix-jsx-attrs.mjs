@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * Post-fix po fix-hardcoded-hex.mjs:
- *   1. JSX attribute syntax: `attr=tokenName` → `attr={tokenName}` nebo
- *      `attr="tokenName"` → `attr={tokenName}` (kdy hodnota je identifier)
- *   2. Duplicitní imports tokenů (z donjon i tkajui najednou) — TokensPage edge.
+ * Post-fix after fix-hardcoded-hex.mjs:
+ *   1. JSX attribute syntax: `attr=tokenName` → `attr={tokenName}` or
+ *      `attr="tokenName"` → `attr={tokenName}` (when the value is an identifier)
+ *   2. Duplicate token imports (from donjon and tkajui at once) — TokensPage edge.
  */
 import fs from 'node:fs'
 import path from 'node:path'
@@ -40,7 +40,7 @@ function fixFile(filePath) {
   const original = content
   let fixes = 0
 
-  // Fix 1: JSX attribute `attr=identifier` (bez braces, bez quotes)
+  // Fix 1: JSX attribute `attr=identifier` (no braces, no quotes)
   //   color=successColor → color={successColor}
   //   border=textMid → border={textMid}
   // Match: word=tokenName(space/>/newline)
@@ -55,7 +55,7 @@ function fixFile(filePath) {
     }
   )
 
-  // Fix 2: JSX attribute `attr="tokenName"` (s quotes ale měl by být identifier)
+  // Fix 2: JSX attribute `attr="tokenName"` (quoted but should be an identifier)
   //   accent="goldMid" → accent={goldMid}
   content = content.replace(
     /\b(\w+)="([a-zA-Z][a-zA-Z0-9]*)"/g,
@@ -69,12 +69,12 @@ function fixFile(filePath) {
   )
 
   // Fix 3: TokensPage — deduplicate cross-lib imports
-  // Specifická logika: pokud má soubor `import { X } from './donjon/tokens'`
-  // a později `import { ..., X, ... } from './tkajui/tokens'` se stejným X,
-  // odeber X z toho druhého (přednost má first-come).
-  // Aplikuje se jen pokud script vytvořil duplicitu — heuristicky.
+  // Specific logic: if a file has `import { X } from './donjon/tokens'` and
+  // later `import { ..., X, ... } from './tkajui/tokens'` with the same X,
+  // remove X from the second one (first-come wins).
+  // Only applied when the script created a duplicate — heuristically.
   if (filePath.endsWith('TokensPage.jsx')) {
-    // Odeber `successColor, ` a `, borderSubtle` z tkajui importu jen na řádku, kde se vyskytuje
+    // Remove `successColor, ` and `, borderSubtle` from the tkajui import only on the line where they appear
     content = content.replace(
       /(import\s*\{[^}]*?)\b(successColor|borderSubtle)\s*,\s*([^}]*\}\s*from\s*['"][^'"]*tkajui\/tokens['"])/g,
       '$1$3'

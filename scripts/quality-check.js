@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
- * quality-check.js — rychlý pre-lint check spouštěný Claude Code PostToolUse hookem.
+ * quality-check.js — quick pre-lint check invoked by the Claude Code PostToolUse hook.
  *
- * Záměrně JEDNODUCHÝ — plná syntaktická analýza je úloha ESLintu (viz eslint.config.js).
- * Tento skript dělá jen kontroly které ESLint neumí (nebo jsou příliš pomalé pro každý save):
+ * Deliberately SIMPLE — full syntactic analysis is ESLint's job (see eslint.config.js).
+ * This script only does checks ESLint can't do (or that are too slow to run per save):
  *
- *   1. Varování pokud soubor v src/lib/ neimportuje z './tokens'
- *      ale obsahuje styly (rychlý reminder, ne blocker)
+ *   1. Warning when a file in src/lib/ does not import from './tokens'
+ *      but contains styles (a quick reminder, not a blocker)
  *
- * Vše ostatní (hex barvy, anti-pattern komponenty) → ESLint:
+ * Everything else (hex colors, anti-pattern components) → ESLint:
  *   npx eslint src/lib/donjon/SomeFile.jsx
  *   npx eslint src/pages/SomePage.jsx
  */
@@ -27,15 +27,15 @@ const rel = relative(ROOT, abs).replace(/\\/g, '/')
 
 if (!existsSync(abs)) process.exit(0)
 
-// Pouze .jsx a .js soubory
+// Only .jsx and .js files
 if (!rel.endsWith('.jsx') && !rel.endsWith('.js')) process.exit(0)
 
-// Ignorovat dist/, node_modules/, testy
+// Ignore dist/, node_modules/, tests
 if (rel.startsWith('dist/') || rel.startsWith('node_modules/') || rel.includes('__tests__')) {
   process.exit(0)
 }
 
-/* ── ESLint — spustí se jen na soubory pokryté configem ──────────────────── */
+/* ── ESLint — runs only on files covered by the config ──────────────────── */
 let eslintOutput = ''
 let eslintExit   = 0
 
@@ -49,9 +49,9 @@ try {
   eslintExit   = err.status ?? 1
 }
 
-// ESLint vrátí výstup jen pokud jsou problémy
+// ESLint returns output only when there are issues
 if (eslintOutput.trim()) {
-  // Zkrátit absolutní cesty na relativní pro čitelnější výstup
+  // Shorten absolute paths to relative for more readable output
   const cleaned = eslintOutput
     .split('\n')
     .map(l => l.replace(abs, rel))

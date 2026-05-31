@@ -2,17 +2,17 @@
 /**
  * Mass-fix hardcoded hex → tokens.
  *
- * 1. Spustí ESLint v JSON režimu
- * 2. Pro každý error s exact token suggestion:
- *    - Pokud token už importován → nahraď literal identifierem
- *    - Pokud token NENÍ importován → přidej do existujícího import statement
- *      (nebo vytvoř nový) + nahraď literal
- * 3. Pro alpha tail errory (`${token}AA`):
- *    - Pokud token importován → nahraď '#XXX...AA' za `${token}AA`
- * 4. Errory bez token suggestion (`neodpovídá žádnému tokenu`) přeskočí —
- *    musí se buď přidat token, nebo eslint-disable s důvodem.
+ * 1. Runs ESLint in JSON mode
+ * 2. For each error with an exact token suggestion:
+ *    - If the token is already imported → replace the literal with the identifier
+ *    - If the token is NOT imported → add it to the existing import statement
+ *      (or create a new one) + replace the literal
+ * 3. For alpha-tail errors (`${token}AA`):
+ *    - If the token is imported → replace '#XXX...AA' with `${token}AA`
+ * 4. Errors without a token suggestion (`does not match any token`) are
+ *    skipped — either add a token to tokens.js, or eslint-disable with a reason.
  *
- * Použití: node scripts/fix-hardcoded-hex.mjs
+ * Usage: node scripts/fix-hardcoded-hex.mjs
  */
 import { execSync } from 'node:child_process'
 import fs from 'node:fs'
@@ -22,7 +22,7 @@ function getLintResults() {
   try {
     execSync(`npx eslint src/lib src/pages --format json -o ${tmpFile}`, { encoding: 'utf-8', stdio: 'pipe' })
   } catch {
-    // ESLint exits 1 when there are errors — JSON file je stejně zapsán
+    // ESLint exits 1 when there are errors — the JSON file is still written
   }
   const data = JSON.parse(fs.readFileSync(tmpFile, 'utf-8'))
   fs.unlinkSync(tmpFile)
@@ -30,24 +30,24 @@ function getLintResults() {
 }
 
 /**
- * Extrahuje token name + alpha suffix z error message.
- * Vrací { token, alpha } nebo null.
+ * Extracts token name + alpha suffix from an error message.
+ * Returns { token, alpha } or null.
  */
 function parseMessage(msg) {
-  // Base: "Hardcoded hex '#XXXXXX' — použij token 'NAME' z LIB/tokens"
-  let m = msg.match(/Hardcoded hex '(#[0-9A-Fa-f]+)' — použij token '(\w+)' z (\w+)\/tokens/)
+  // Base: "Hardcoded hex '#XXXXXX' — use the token 'NAME' from LIB/tokens."
+  let m = msg.match(/Hardcoded hex '(#[0-9A-Fa-f]+)' — use the token '(\w+)' from (\w+)\/tokens/)
   if (m) return { hex: m[1], token: m[2], lib: m[3], alpha: '' }
 
-  // Alpha: "Hardcoded hex '#XXX44' — použij `${ NAME }44`"
-  m = msg.match(/Hardcoded hex '(#[0-9A-Fa-f]+)' — použij `\$\{ (\w+) \}([0-9A-Fa-f]+)` \(alpha tail nad tokenem '(\w+)' z (\w+)\/tokens\)/)
+  // Alpha: "Hardcoded hex '#XXX44' — use `${ NAME }44` (alpha tail on top of token 'NAME' from LIB/tokens)."
+  m = msg.match(/Hardcoded hex '(#[0-9A-Fa-f]+)' — use `\$\{ (\w+) \}([0-9A-Fa-f]+)` \(alpha tail on top of token '(\w+)' from (\w+)\/tokens\)/)
   if (m) return { hex: m[1], token: m[2], lib: m[5], alpha: m[3] }
 
   return null
 }
 
-/** Najdi existující import {…} from 'TOKENS_PATH' a přidej token, nebo vytvoř nový. */
+/** Find an existing `import {…} from 'TOKENS_PATH'` and add the token, or create one. */
 function ensureImport(content, token, lib, filePath) {
-  // Resolve relativní cestu z file → lib/tokens
+  // Resolve the relative path from file → lib/tokens
   const tokenPath = lib === 'donjon'
     ? (filePath.includes('lib/donjon')
         ? './tokens'
@@ -56,7 +56,7 @@ function ensureImport(content, token, lib, filePath) {
         ? './tokens'
         : filePath.includes('lib/donjon') ? '../tkajui/tokens' : '../lib/tkajui/tokens')
 
-  // Existující import z tokens path?
+  // Existing import from the tokens path?
   const importRe = new RegExp(
     `import\\s*\\{([^}]*)\\}\\s*from\\s*['"]` + tokenPath.replace(/\./g, '\\.').replace(/\//g, '\\/') + `['"]`
   )
@@ -64,14 +64,14 @@ function ensureImport(content, token, lib, filePath) {
 
   if (match) {
     const names = match[1].split(',').map(s => s.trim()).filter(Boolean)
-    if (names.includes(token)) return content   // už máme
+    if (names.includes(token)) return content   // already present
     names.push(token)
     names.sort()
     const newImport = `import {\n  ${names.join(', ')},\n} from '${tokenPath}'`
     return content.replace(importRe, newImport)
   }
 
-  // Žádný import — přidej nový po posledním import statementu
+  // No import — add a new one after the last import statement
   const lastImportMatch = content.match(/^import .* from .*$/gm)
   if (lastImportMatch) {
     const lastImport = lastImportMatch[lastImportMatch.length - 1]
@@ -79,13 +79,13 @@ function ensureImport(content, token, lib, filePath) {
     return content.slice(0, insertAfter) + `\nimport { ${token} } from '${tokenPath}'` + content.slice(insertAfter)
   }
 
-  // Žádné importy v souboru — přidej na začátek (asi nikdy nenastane)
+  // No imports in the file — prepend (rarely happens)
   return `import { ${token} } from '${tokenPath}'\n` + content
 }
 
-/** Nahraď '#HEX' nebo '#HEXAA' v souboru za token nebo template literal. */
+/** Replace '#HEX' or '#HEXAA' in the file with a token or template literal. */
 function replaceHex(content, hex, token, alpha) {
-  // Případ 1: exact hex (bez alpha) — nahraď '#HEX' za token (string → identifier)
+  // Case 1: exact hex (no alpha) — replace '#HEX' with the token (string → identifier)
   if (!alpha) {
     const stringForms = [`'${hex}'`, `"${hex}"`, `\`${hex}\``]
     for (const form of stringForms) {
@@ -94,7 +94,7 @@ function replaceHex(content, hex, token, alpha) {
       }
     }
   } else {
-    // Případ 2: alpha tail — nahraď '#HEXAA' nebo `#HEXAA` za `${token}AA`
+    // Case 2: alpha tail — replace '#HEXAA' or `#HEXAA` with `${token}AA`
     const fullHex = hex
     const stringForms = [`'${fullHex}'`, `"${fullHex}"`]
     for (const form of stringForms) {
@@ -102,7 +102,7 @@ function replaceHex(content, hex, token, alpha) {
         return content.split(form).join('`${' + token + '}' + alpha + '`')
       }
     }
-    // Uvnitř existujícího template literal: #HEXAA → ${token}AA
+    // Inside an existing template literal: #HEXAA → ${token}AA
     const inTemplateRe = new RegExp('(\\`[^\\`]*?)' + hex + '([^\\`]*?\\`)', 'g')
     if (inTemplateRe.test(content)) {
       return content.replace(
@@ -114,13 +114,13 @@ function replaceHex(content, hex, token, alpha) {
   return content
 }
 
-/** Hlavní procesor — pro jeden soubor sloučí všechny fixy a zapíše. */
+/** Main processor — merges all fixes for one file and writes it back. */
 function processFile(filePath, errors) {
   let content = fs.readFileSync(filePath, 'utf-8')
   const original = content
   const stats = { fixed: 0, skipped: 0 }
 
-  // Sloučit per token (může být víc instancí stejného hex)
+  // Merge per token (a single hex may appear multiple times)
   const fixesByToken = new Map()
   for (const err of errors) {
     const parsed = parseMessage(err.message)
@@ -133,12 +133,12 @@ function processFile(filePath, errors) {
 
   if (fixesByToken.size === 0) return { ...stats, changed: false }
 
-  // 1. Přidat imports pro všechny potřebné tokeny
+  // 1. Add imports for all required tokens
   for (const { token, lib } of fixesByToken.values()) {
     content = ensureImport(content, token, lib, filePath)
   }
 
-  // 2. Nahradit všechny hex výskyty
+  // 2. Replace all hex occurrences
   for (const { hex, token, alpha, count } of fixesByToken.values()) {
     const newContent = replaceHex(content, hex, token, alpha)
     if (newContent !== content) {
