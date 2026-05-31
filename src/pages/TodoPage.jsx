@@ -112,6 +112,88 @@ const MANUAL_TASKS = [
     ],
   },
   {
+    group: 'Chybějící komponenty — 🔴 kritické (blokátory app buildingu)',
+    items: [
+      // Layout primitives — bez nich kolega píše flex/grid pořád dokola
+      { status: 'todo', text: 'Stack — vertikální flex s gap tokenem (<Stack gap={4}>)' },
+      { status: 'todo', text: 'Inline — horizontální flex s gap + wrap' },
+      { status: 'todo', text: 'Cluster — inline s auto-wrap (tag clouds, badges, chips)' },
+      { status: 'todo', text: 'Grid — CSS Grid wrapper s tokenizovaným gap + responzivní cols' },
+      { status: 'todo', text: 'Container — konzistentní max-width + padding (page wrapper)' },
+      { status: 'todo', text: 'Box — surface primitivum (background/border/padding tokeny)' },
+      { status: 'todo', text: 'Spacer — vyplní available space mezi prvky' },
+      { status: 'todo', text: 'Split — dvousloupcový layout s dividerem' },
+      { status: 'todo', text: 'Center — vertikální + horizontální centrování (loading screens)' },
+      // Image essentials — game UI musí mít portréty
+      { status: 'todo', text: 'Avatar — portrét hráče/NPC, kruhový/oktagonální rám, fallback iniciály' },
+      { status: 'todo', text: 'FramedImage — obrázek s ornamentálním rámem (heraldický)' },
+      { status: 'todo', text: 'AspectBox — container s pevným poměrem stran (16:9, 1:1)' },
+      // Form primitives — gaps blokují reálné formuláře
+      { status: 'todo', text: 'Field — label + input + error + hint composer' },
+      { status: 'todo', text: 'Radio + RadioGroup — single-choice (difficulty, genre)' },
+      { status: 'todo', text: 'Checkbox + CheckboxGroup — multi-choice (options, flags)' },
+      { status: 'todo', text: 'Form — wrapper s submit handlerem + validační state' },
+    ],
+  },
+  {
+    group: 'Chybějící komponenty — 🟡 vysoká priorita (běžné app patterns)',
+    items: [
+      // Loading/feedback
+      { status: 'todo', text: 'Spinner — loading indikátor (kruhový/lineární)' },
+      { status: 'todo', text: 'Skeleton — máme dokumentaci, chybí komponenta' },
+      { status: 'todo', text: 'Banner — top-of-page persistent notice' },
+      { status: 'todo', text: 'Alert — inline banner s ikonou + title + body' },
+      // Media + buttons
+      { status: 'todo', text: 'IconButton — tlačítko jen s ikonou (HUD, toolbar)' },
+      { status: 'todo', text: 'HeroImage / Banner — velká ilustrace s overlay textem (menu, loading)' },
+      { status: 'todo', text: 'Backdrop — full-screen pozadí s content overlay (modální fond hry)' },
+      { status: 'todo', text: 'Thumbnail — klikatelný preview (mapy, save sloty)' },
+      // Inventory pattern (core game)
+      { status: 'todo', text: 'InventorySlot — buňka s rarity border + count badge' },
+      { status: 'todo', text: 'InventoryGrid — mřížka s drag/drop supportem' },
+      // Layout — sticky
+      { status: 'todo', text: 'StickyBar — top/bottom anchor (HUD topbar, actionbar)' },
+      { status: 'todo', text: 'SidebarLayout — left-nav + content (settings, codex)' },
+      // Forms — secondary
+      { status: 'todo', text: 'TextArea — multi-line text input' },
+      { status: 'todo', text: 'NumberInput — s stepper buttons (settings hodnoty)' },
+      // Navigation
+      { status: 'todo', text: 'Drawer — side panel (inventory, character sheet)' },
+      { status: 'todo', text: 'DropdownMenu — generic dropdown s items' },
+      { status: 'todo', text: 'Accordion — collapsible sekce (codex, settings)' },
+    ],
+  },
+  {
+    group: 'Chybějící komponenty — 🟢 střední priorita (specifické use cases)',
+    items: [
+      // Game-specific gameplay
+      { status: 'todo', text: 'Dialogue — NPC speech bublina s portrétem' },
+      { status: 'todo', text: 'ChoicePanel — hráč vybírá z N možností s consequences hints' },
+      { status: 'todo', text: 'RewardPopup — animovaný drop itemu / VP gain' },
+      { status: 'todo', text: 'AchievementToast — speciální toast pro unlocky' },
+      { status: 'todo', text: 'LevelUp — celebrace s animací' },
+      // Game-specific layout
+      { status: 'todo', text: 'HUDLayout — top bar + bottom bar + center action area composition' },
+      { status: 'todo', text: 'Scoreboard — multi-player score grid' },
+      { status: 'todo', text: 'Leaderboard — ranked list s pozicemi' },
+      { status: 'todo', text: 'Cooldown — kruhový/lineární timer' },
+      { status: 'todo', text: 'Minimap — malá mapa s viewport overlay' },
+      { status: 'todo', text: 'Timeline — sekvence událostí (tah history)' },
+      { status: 'todo', text: 'Sprite — animovaná/stateful postava/objekt (animation frames)' },
+      // Data display
+      { status: 'todo', text: 'Table — sortable rows (leaderboard, stats)' },
+      { status: 'todo', text: 'List — itemy s dividers + hover' },
+      { status: 'todo', text: 'DescriptionList — key-value páry (character sheet)' },
+      { status: 'todo', text: 'Stat — label + big number (generic verze NumericDisplay)' },
+      // Forms — niche
+      { status: 'todo', text: 'Combobox — search + select' },
+      // Navigation
+      { status: 'todo', text: 'Breadcrumb — cesta v menu hierarchii' },
+      { status: 'todo', text: 'Pagination — stránkování dlouhých listů' },
+      { status: 'todo', text: 'ContextMenu — right-click menu' },
+    ],
+  },
+  {
     group: 'Lib publish — Fáze 1: decoupling (blocker)',
     items: [
       { status: 'todo', text: 'Audit Tailwind classes v src/lib/** — najít všechny className="..." a převést na inline style (kolega bez Tailwindu se rozbije)' },
