@@ -1,9 +1,9 @@
 /* ── DonjonNotificationCenter ────────────────────────────────────────────────
-   Herní panel notifikací vysouvající se z rohu obrazovky.
-   Kombinuje: EventLog (herní záznamy) + GameTransition (animace panelu) +
-              DonjonBadge (typ záznamu) + useModalPageInert (accessibility).
+   Game notification panel that slides out from a screen corner.
+   Combines: EventLog (game entries) + GameTransition (panel animation) +
+             DonjonBadge (entry type) + useModalPageInert (accessibility).
 
-   Použití:
+   Usage:
      <DonjonNotificationCenter
        events={[{ id, text, type, timestamp }]}
        maxVisible={5}
@@ -11,7 +11,7 @@
        onClear={() => setEvents([])}
      />
 
-   Typy eventů: gain · loss · event · warning · system
+   Event types: gain · loss · event · warning · system
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
@@ -30,7 +30,7 @@ import {
 
 const Z_NOTIF_CENTER = 1800
 
-/* ── Konfigurace typů eventů ── */
+/* ── Event type configuration ── */
 const TYPE_CFG = {
   gain:    { color: gainColor,    bg: `${gainColor}10`,    badge: 'gain'    },
   loss:    { color: dangerColor,  bg: `${dangerColor}10`,  badge: 'loss'    },
@@ -39,7 +39,7 @@ const TYPE_CFG = {
   system:  { color: textLow,      bg: 'transparent',       badge: 'muted'   },
 }
 
-/* ── Konfigurace pozic ── */
+/* ── Position configuration ── */
 const POSITIONS = {
   'bottom-right': { bottom: 20, right: 20, alignItems: 'flex-end',   panelPreset: 'slideUp'   },
   'bottom-left':  { bottom: 20, left: 20,  alignItems: 'flex-start', panelPreset: 'slideUp'   },
@@ -47,7 +47,7 @@ const POSITIONS = {
   'top-left':     { top: 20,    left: 20,  alignItems: 'flex-start', panelPreset: 'slideDown' },
 }
 
-/* ── Ikony ── */
+/* ── Icons ── */
 function BellIcon() {
   return (
     <svg viewBox="0 0 20 20" fill="none" width="17" height="17">
@@ -68,14 +68,14 @@ function XIcon() {
   )
 }
 
-/* ── Formátování času ── */
+/* ── Time formatting ── */
 function formatTime(ts) {
   if (!ts) return ''
   const d = new Date(ts)
-  return d.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' })
+  return d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })
 }
 
-/* ── Řádek eventu ── */
+/* ── Event row ── */
 function EventRow({ event }) {
   const cfg = TYPE_CFG[event.type] ?? TYPE_CFG.system
   return (
@@ -107,7 +107,7 @@ function EventRow({ event }) {
         {event.text}
       </p>
 
-      {/* Čas */}
+      {/* Time */}
       {event.timestamp && (
         <span style={{
           fontSize: '0.625rem',
@@ -125,12 +125,12 @@ function EventRow({ event }) {
 }
 
 /**
- * DonjonNotificationCenter — herní panel notifikací.
+ * DonjonNotificationCenter — game notification panel.
  *
- * @param {Array<{id, text, type, timestamp}>} events - Herní události k zobrazení
- * @param {number} maxVisible - Počet zobrazených nejnovějších záznamů (výchozí: 5)
+ * @param {Array<{id, text, type, timestamp}>} events - Game events to display
+ * @param {number} maxVisible - Number of most-recent entries to show (default: 5)
  * @param {'bottom-right'|'top-right'|'bottom-left'|'top-left'} position
- * @param {() => void} onClear - Callback pro smazání všech událostí
+ * @param {() => void} onClear - Callback to clear all events
  */
 const CX = 14
 
@@ -153,16 +153,16 @@ export default function DonjonNotificationCenter({
   const visible = events.slice(-maxVisible)
   const archived = events.length - maxVisible
 
-  /* Accessibility — inertuj pozadí při otevřeném panelu */
+  /* Accessibility — inert the background while the panel is open */
   useModalPageInert(open)
 
-  /* Auto-scroll na nejnovější záznam */
+  /* Auto-scroll to the newest entry */
   useEffect(() => {
     if (!open || !scrollRef.current) return
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight
   }, [events, open])
 
-  /* Označit jako přečtené při otevření */
+  /* Mark as read on open */
   useEffect(() => {
     if (open) setSeen(events.length)
   }, [open, events.length])
@@ -204,7 +204,7 @@ export default function DonjonNotificationCenter({
           overflow: 'hidden',
         }}>
 
-          {/* Hlavička panelu */}
+          {/* Panel header */}
           <div style={{
             display:        'flex',
             alignItems:     'center',
@@ -220,12 +220,12 @@ export default function DonjonNotificationCenter({
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
             }}>
-              Notifikace
+              Notifications
             </span>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <span style={{ fontSize: '0.625rem', color: textFaint }}>
-                {events.length} záznamů
+                {events.length} entries
               </span>
 
               {onClear && events.length > 0 && (
@@ -246,13 +246,13 @@ export default function DonjonNotificationCenter({
                   onMouseEnter={e => { e.currentTarget.style.color = textMid; e.currentTarget.style.borderColor = goldDim }}
                   onMouseLeave={e => { e.currentTarget.style.color = textFaint; e.currentTarget.style.borderColor = borderDefault }}
                 >
-                  Smazat
+                  Clear
                 </button>
               )}
 
               <button
                 onClick={() => setOpen(false)}
-                aria-label="Zavřít"
+                aria-label="Close"
                 style={{
                   display:         'flex',
                   alignItems:      'center',
@@ -274,7 +274,7 @@ export default function DonjonNotificationCenter({
             </div>
           </div>
 
-          {/* Seznam eventů */}
+          {/* Event list */}
           <div
             ref={scrollRef}
             style={{
@@ -291,7 +291,7 @@ export default function DonjonNotificationCenter({
                 fontSize:  '0.75rem',
                 color:     textFaint,
               }}>
-                Žádné notifikace.
+                No notifications.
               </div>
             ) : (
               <>
@@ -305,7 +305,7 @@ export default function DonjonNotificationCenter({
                     textAlign:     'center',
                     letterSpacing: '0.04em',
                   }}>
-                    + {archived} starších záznamů
+                    + {archived} older entries
                   </div>
                 )}
                 {visible.map(event => (
@@ -315,17 +315,17 @@ export default function DonjonNotificationCenter({
             )}
           </div>
 
-          {/* RohOrnament závorky — pouze v decorated módu */}
+          {/* RohOrnament brackets — only in decorated mode */}
           {hasOrnaments && <RohOrnament h={ornamentHForCx(CX, 'roh')} uid="ncl" />}
           {hasOrnaments && <RohOrnament h={ornamentHForCx(CX, 'roh')} uid="ncr" flip />}
         </div>
         </div>
       </GameTransition>
 
-      {/* ── Toggle tlačítko ── */}
+      {/* ── Toggle button ── */}
       <button
         onClick={() => setOpen(v => !v)}
-        aria-label={open ? 'Zavřít notifikace' : `Otevřít notifikace${unseen > 0 ? ` (${unseen} nových)` : ''}`}
+        aria-label={open ? 'Close notifications' : `Open notifications${unseen > 0 ? ` (${unseen} new)` : ''}`}
         style={{
           position:   'relative',
           display:    'flex',
@@ -359,7 +359,7 @@ export default function DonjonNotificationCenter({
       >
         <BellIcon />
 
-        {/* Badge nepřečtených */}
+        {/* Unread badge */}
         {unseen > 0 && (
           <span style={{
             position:      'absolute',
@@ -372,7 +372,7 @@ export default function DonjonNotificationCenter({
             border:        `2px solid ${bg3}`,
             fontSize:      '0.5rem',
             fontWeight:    700,
-            // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+            // eslint-disable-next-line donjon/no-hardcoded-hex -- pure white badge text on dangerColor background (no contrast token fits)
             color:         '#fff',
             display:       'flex',
             alignItems:    'center',

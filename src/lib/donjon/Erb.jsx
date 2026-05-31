@@ -1,35 +1,35 @@
-/* ── Erb — heraldická identita hráče ────────────────────────────────────
-   Shield:              heraldický štít/prapor s barvou a symbolem hráče
-   PlayerIdentityBadge: kompaktní badge pro scoreboard / HUD
+/* ── Erb — heraldic player identity ─────────────────────────────────────
+   Shield:              heraldic shield/banner with the player's color and symbol
+   PlayerIdentityBadge: compact badge for the scoreboard / HUD
 
-   Tvary:
-     • shape="erb"    — square top, tapered bottom (default, ze /design-sources/erb.svg)
-                        Fixní proporce: aspect ratio ~1:1, tip = 28.9 % šířky.
-     • shape="prapor" — banner s fixní špičkou, variabilní délka.
-                        Tip = 28.9 % šířky (fixní). Tělo libovolně dlouhé.
+   Shapes:
+     • shape="erb"    — square top, tapered bottom (default, from /design-sources/erb.svg)
+                        Fixed proportions: aspect ratio ~1:1, tip = 28.9% of width.
+     • shape="prapor" — banner with a fixed tip, variable length.
+                        Tip = 28.9% of width (fixed). Body of arbitrary length.
    ─────────────────────────────────────────────────────────────────────── */
 import { bg2, gold, goldDim, neutralColor, textHighest } from './tokens'
 import { HexOrnament, HrotErbu } from './Ornaments'
 
-// Minimální šířka pro renderování ornamentů — pod tímto thresholdem se
-// nevykreslí (size='xs' je 24px → moc malé na detail).
+// Minimum width for rendering ornaments — below this threshold they are
+// skipped (size='xs' is 24px → too small for detail).
 const ORNAMENT_MIN_WIDTH = 30
 
-// Erb — fixní proporce, polygon z /design-sources/erb.svg:
-// 116.22×116.21 viewBox, body 116.22,0 → 116.22,82.66 → 58.11,116.21 → 0,82.66 → 0,0
-// V procentech: 0% 0% → 100% 0% → 100% 71.13% → 50% 100% → 0% 71.13%
-// Tip height = 116.21 - 82.66 = 33.55 = 28.87 % šířky.
+// Erb — fixed proportions, polygon from /design-sources/erb.svg:
+// 116.22×116.21 viewBox, points 116.22,0 → 116.22,82.66 → 58.11,116.21 → 0,82.66 → 0,0
+// In percent: 0% 0% → 100% 0% → 100% 71.13% → 50% 100% → 0% 71.13%
+// Tip height = 116.21 - 82.66 = 33.55 = 28.87% of width.
 const ERB_CLIP = 'polygon(0% 0%, 100% 0%, 100% 71.13%, 50% 100%, 0% 71.13%)'
 
-// Poměr výšky tipu vůči šířce (z erb.svg i prapor.svg — obě 28.9 %).
+// Ratio of tip height to width (from erb.svg and prapor.svg — both 28.9%).
 const TIP_RATIO = 0.289
 
 /**
- * Clip-path pro prapor — tip má fixní velikost relativně k width,
- * straight section flexibilní podle height.
+ * Clip-path for the banner — the tip is fixed relative to width, the
+ * straight section scales with height.
  *
- * Pro prapor o width=w, height=h: tip protruz = w * TIP_RATIO px,
- * straight section od 0 do (h - tip) px = (h-tip)/h % v polygon.
+ * For a banner of width=w, height=h: tip protrusion = w * TIP_RATIO px,
+ * straight section from 0 to (h - tip) px = (h-tip)/h % in the polygon.
  */
 function getPraporClip(width, height) {
   const tipPx = width * TIP_RATIO
@@ -48,42 +48,42 @@ const sizeMap = {
 const symbols = ['I', 'II', 'III', 'IV', 'V', 'VI']
 
 /**
- * Heraldický štít nebo prapor s barvou a (volitelným) symbolem hráče.
+ * Heraldic shield or banner with the player's color and (optional) symbol.
  *
- * Tvary:
- *   - shape="erb"    (default) — fixní proporce 1:1 + tapered tip dole.
- *                                Velikost přes `size` ('xs|sm|md|lg' / px).
- *   - shape="prapor" — banner s fixním tipem, libovolně dlouhý.
- *                      Velikost přes `width` (default 32) + `height` (default 120).
+ * Shapes:
+ *   - shape="erb"    (default) — fixed 1:1 proportions + tapered tip at the bottom.
+ *                                Sized via `size` ('xs|sm|md|lg' / px).
+ *   - shape="prapor" — banner with a fixed tip, of arbitrary length.
+ *                      Sized via `width` (default 32) + `height` (default 120).
  *
- * Dekorace (opt-in):
- *   - ornament="plain"     (default) — žádné ornamenty, back-compat
- *   - ornament="decorated"  — HexOrnament nahoře + HrotErbu dole
- *   - ornamentColor="gold" (default) | "player"  — barva ornamentů
+ * Decoration (opt-in):
+ *   - ornament="plain"     (default) — no ornaments, back-compat
+ *   - ornament="decorated"  — HexOrnament on top + HrotErbu at the bottom
+ *   - ornamentColor="gold" (default) | "player"  — ornament color
  *
- * Ornamenty se neukáží u příliš malých velikostí (< 30px šířky).
+ * Ornaments are not rendered on very small shields (< 30px width).
  *
- * Podporuje dvě API pro barvu:
- *   - Starší: player={{ color, label, id }}
+ * Supports two color APIs:
+ *   - Legacy: player={{ color, label, id }}
  *   - Flat:   playerColor="#E05C5C"
  *
  * @param {{ color: string, label: string, id?: number }} [player]
- * @param {string} [playerColor] - Přímá barva (alternativa k player.color)
+ * @param {string} [playerColor] - Direct color (alternative to player.color)
  * @param {'erb'|'prapor'} [shape='erb']
- * @param {'xs'|'sm'|'md'|'lg'|number} [size='md'] - Velikost pro shape='erb'
- * @param {number} [width=32]  - Šířka pro shape='prapor'
- * @param {number} [height=120] - Délka pro shape='prapor'
+ * @param {'xs'|'sm'|'md'|'lg'|number} [size='md'] - Size for shape='erb'
+ * @param {number} [width=32]  - Width for shape='prapor'
+ * @param {number} [height=120] - Length for shape='prapor'
  * @param {boolean} [showSymbol=true]
- * @param {'plain'|'decorated'} [ornament='plain'] - Dekorativní hrot + HexOrnament
- * @param {'gold'|'player'} [ornamentColor='gold'] - Barva ornamentů
+ * @param {'plain'|'decorated'} [ornament='plain'] - Decorative chevron + HexOrnament
+ * @param {'gold'|'player'} [ornamentColor='gold'] - Ornament color
  * @example
- * // Erb (klasický štít):
+ * // Erb (classic shield):
  * <Shield player={{ id: 1, color: '#E05C5C' }} size="sm" />
  * <Shield playerColor="#4D8FE0" size={32} showSymbol={false} />
  * // Prapor (banner):
  * <Shield shape="prapor" playerColor="#E05C5C" width={32} height={120} />
  * <Shield shape="prapor" playerColor="#4D8FE0" width={40} height={200} />
- * // Dekorovaný:
+ * // Decorated:
  * <Shield player={{ id: 1, color: '#E05C5C' }} size="lg" ornament="decorated" />
  * <Shield playerColor="#4D8FE0" size="md" ornament="decorated" ornamentColor="player" />
  */
@@ -98,11 +98,11 @@ export function Shield({
   ornament = 'plain',
   ornamentColor = 'gold',
 }) {
-  // Barva: flat prop má přednost před player objektem
+  // Color: the flat prop wins over the player object
   const color = playerColor ?? player?.color ?? neutralColor
   const isPrapor = shape === 'prapor'
 
-  // Dimenze podle tvaru
+  // Dimensions by shape
   let s
   if (isPrapor) {
     s = { w: width ?? 32, h: height ?? 120 }
@@ -112,35 +112,35 @@ export function Shield({
     s = sizeMap[size] ?? sizeMap.md
   }
 
-  // Clip-path: erb = fixní, prapor = vypočítaný z dimenzí
+  // Clip-path: erb = fixed, prapor = computed from dimensions
   const clip = isPrapor ? getPraporClip(s.w, s.h) : ERB_CLIP
 
-  // Symbol: Římská číslice podle player.id (pokud existuje)
+  // Symbol: Roman numeral based on player.id (when present)
   const sym = player?.id != null ? symbols[(player.id - 1) % symbols.length] : null
 
-  // Velikost a pozice symbolu: u prapor menší + zarovnaný k vrchu
+  // Symbol size and position: on a prapor smaller + aligned to the top
   const symFontSize = isPrapor ? s.w * 0.42 : s.w * 0.28
   const symAlign = isPrapor ? 'flex-start' : 'center'
   const symPadTop = isPrapor ? Math.max(4, s.w * 0.18) : 0
 
-  // Dekorace — viditelné jen u větších štítů (xs/menší se přeskočí)
+  // Decoration — visible only on larger shields (xs/smaller is skipped)
   const isDecorated = ornament === 'decorated' && s.w >= ORNAMENT_MIN_WIDTH
   const ornMain = ornamentColor === 'player' ? color : gold
   const ornDim  = ornamentColor === 'player' ? `${color}88` : goldDim
-  // HrotErbu = 50 % šířky erbu (plán bod 5)
+  // HrotErbu = 50% of erb width (plan item 5)
   const hrotWidth = s.w * 0.5
   const hrotHeight = hrotWidth * 14 / 48
-  // HexOrnament edgePadL proportional — vejde se i pro úzký prapor
+  // HexOrnament edgePadL proportional — also fits inside a narrow prapor
   const hexPad = Math.max(4, Math.round(s.w * 0.15))
-  // Odsazení ornamentů od hran erbu (vizuální dýchání) — proporcionální
-  // s velikostí, min 2px aby bylo viditelné i u menších štítů.
+  // Inset of the ornaments from the erb edges (visual breathing room) —
+  // proportional to size, min 2px to stay visible on smaller shields too.
   const hexEdgeInset  = Math.max(2, Math.round(s.w * 0.06))
   const hrotEdgeInset = Math.max(2, Math.round(s.w * 0.06))
 
   return (
     <div style={{
       display: 'inline-block',
-      position: 'relative',  // pro absolute pozici ornamentů
+      position: 'relative',  // for absolute ornament positioning
       filter: `drop-shadow(0 0 8px ${color}55)`,
       flexShrink: 0,
     }}>
@@ -152,11 +152,11 @@ export function Shield({
         display: 'flex',
         alignItems: symAlign,
         justifyContent: 'center',
-        position: 'relative',  // pro HexOrnament uvnitř
+        position: 'relative',  // for the HexOrnament inside
       }}>
-        {/* HexOrnament — horní hrana (uvnitř outer borderu, nad inner fill)
-            Odsazení od hran erbu pro vizuální dýchání — ladí s vnitřním
-            border-trickem (outer 3px border) a s celkovou kompozicí. */}
+        {/* HexOrnament — top edge (inside the outer border, above the inner fill).
+            Inset from the erb edges for visual breathing — aligns with the inner
+            border trick (outer 3px border) and the overall composition. */}
         {isDecorated && (
           <div style={{
             position: 'absolute',
@@ -178,7 +178,7 @@ export function Shield({
         {/* Inner fill */}
         <div style={{
           width: s.w - 3, height: s.h - 3,
-          // Pro prapor přepočítáme clip pro vnitřní dimenze, aby tip splynul s outer.
+          // For the prapor we recompute the clip for the inner dimensions so the tip aligns with outer.
           clipPath: isPrapor ? getPraporClip(s.w - 3, s.h - 3) : clip,
           background: color + '22',
           display: 'flex',
@@ -202,9 +202,9 @@ export function Shield({
         </div>
       </div>
 
-      {/* HrotErbu — pod spodním tipem (mimo outer, aby nebyl ořezán clip-pathem)
-          Posun nahoru o (hrotHeight + edgeInset) — chevron sedí nad tip s
-          odsazením od skutečného bottom-pointu. */}
+      {/* HrotErbu — under the bottom tip (outside the outer, so it isn't clipped
+          by clip-path). Shifted up by (hrotHeight + edgeInset) — the chevron
+          sits above the tip with an inset from the actual bottom point. */}
       {isDecorated && (
         <div style={{
           position: 'absolute',
@@ -212,7 +212,7 @@ export function Shield({
           bottom: hrotEdgeInset,
           transform: 'translateX(-50%)',
           pointerEvents: 'none',
-          lineHeight: 0,  // odstraní baseline gap kolem inline-svg
+          lineHeight: 0,  // removes the baseline gap around the inline-svg
         }}>
           <HrotErbu width={hrotWidth} color={ornMain} colorDim={ornDim} />
         </div>
@@ -222,16 +222,16 @@ export function Shield({
 }
 
 /**
- * Kompaktní identitní badge — malý štít + jméno hráče.
- * Určen pro scoreboard, HUD a win dialog.
+ * Compact identity badge — small shield + player name.
+ * Intended for scoreboards, the HUD and the win dialog.
  *
- * Podporuje dvě API:
- *   - Starší: player={{ color, label, id }}
+ * Supports two APIs:
+ *   - Legacy: player={{ color, label, id }}
  *   - Flat:   name="Hráč 1" color="#E05C5C" vp={7}
  *
  * @param {{ color: string, label: string, id?: number }} [player]
- * @param {string} [name] - Jméno hráče (flat API)
- * @param {string} [color] - Barva hráče (flat API)
+ * @param {string} [name] - Player name (flat API)
+ * @param {string} [color] - Player color (flat API)
  */
 export function PlayerIdentityBadge({ player, name, color: colorProp }) {
   const color = colorProp ?? player?.color ?? neutralColor
