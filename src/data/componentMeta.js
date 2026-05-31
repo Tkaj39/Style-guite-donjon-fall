@@ -48,7 +48,7 @@ export const componentMeta = {
   },
 
   'card': {
-    description: 'Kontejnerová karta s oktagonálním rámem. Volitelná hlavička (title + description), tělo a patička. DonjonCard rozšiřuje o SideOrnament a HexOrnament.',
+    description: 'Container card with an octagonal frame. Optional header (title + description), body, and footer. DonjonCard extends with SideOrnament and HexOrnament.',
     status: 'documented',
     showcaseRoute: '/cards',
     props: [
@@ -74,14 +74,14 @@ export const componentMeta = {
       { name: 'leadingIcon',  type: 'ReactNode',                            required: false, default: 'undefined', description: 'Icon on the left inside the field.' },
       { name: 'trailingIcon', type: 'ReactNode',                            required: false, default: 'undefined', description: 'Icon on the right inside the field.' },
       { name: 'error',        type: 'string',                               required: false, default: 'undefined', description: 'Error message — paints the frame red.' },
-      { name: 'hint',         type: 'string',                               required: false, default: 'undefined', description: 'Nápověda pod polem (šedá, bez error stavu).' },
+      { name: 'hint',         type: 'string',                               required: false, default: 'undefined', description: 'Hint below the field (grey, no error state).' },
       { name: 'disabled',     type: 'boolean',                              required: false, default: 'false',     description: 'Deaktivuje pole.' },
     ],
     relatedSlugs: ['donjon-input', 'select', 'button'],
   },
 
   'tabs': {
-    description: 'Horizontální záložková navigace. Varianta underline pro hlavní navigaci, pills pro in-panel navigaci. Podporuje ikony, badge počty, disabled záložky a klávesnicové šipky.',
+    description: 'Horizontal tab navigation. The underline variant suits main navigation, pills suits in-panel navigation. Supports icons, badge counts, disabled tabs and keyboard arrows.',
     status: 'documented',
     showcaseRoute: '/tabs',
     props: [
@@ -134,7 +134,7 @@ export const componentMeta = {
   },
 
   'progress-bar': {
-    description: 'Lineární ukazatel průběhu. Determinate (value 0–100) nebo indeterminate (animovaný shimmer). Pět variant, tři velikosti, volitelný popisek a procenta.',
+    description: 'Linear progress indicator. Determinate (value 0–100) or indeterminate (animated shimmer). Five variants, three sizes, optional label and percentage.',
     status: 'documented',
     showcaseRoute: '/progress-bar',
     props: [
@@ -182,17 +182,17 @@ export const componentMeta = {
   },
 
   'modal': {
-    description: 'Modální dialog s fokusovým uzamčením, Escape zavřením a zamčeným scrollem. Sdílí vizuální styl s DonjonCard — oktagonální border, ornamenti, barevné varianty.',
+    description: 'Modal dialog with focus trap, Escape close, and locked scroll. Shares the visual style with DonjonCard — octagonal border, ornaments, color variants.',
     status: 'documented',
     showcaseRoute: '/modal',
     props: [
       { name: 'isOpen',          type: 'boolean',                                           required: true,  description: 'Controls the modal visibility.' },
       { name: 'onClose',         type: '() => void',                                        required: true,  description: 'Close callback — invoked by Escape, the backdrop, and the close button.' },
-      { name: 'title',           type: 'string',                                            required: false, description: 'Nadpis v hlavičce. Pokud není, hlavička se nezobrazí.' },
+      { name: 'title',           type: 'string',                                            required: false, description: 'Header title. When omitted, the header is not rendered.' },
       { name: 'description',     type: 'string',                                            required: false, description: 'Podnadpis pod title.' },
       { name: 'children',        type: 'ReactNode',                                         required: false, description: 'Modal body content.' },
       { name: 'footer',          type: 'ReactNode',                                         required: false, description: 'Footer content — typically buttons.' },
-      { name: 'size',            type: "'sm'|'md'|'lg'",                                   required: false, default: "'md'",      description: 'Maximální šířka panelu (sm=360, md=480, lg=640).' },
+      { name: 'size',            type: "'sm'|'md'|'lg'",                                   required: false, default: "'md'",      description: 'Maximum panel width (sm=360, md=480, lg=640).' },
       { name: 'variant',         type: "'default'|'danger'|'success'|'warning'",           required: false, default: "'default'", description: 'Color variant — border, header, title.' },
       { name: 'closeOnBackdrop', type: 'boolean',                                           required: false, default: 'true',      description: 'Backdrop click closes the modal.' },
       { name: 'closeOnEscape',   type: 'boolean',                                           required: false, default: 'true',      description: 'The Escape key closes the modal.' },
@@ -202,13 +202,13 @@ export const componentMeta = {
   },
 
   'donjon-modal': {
-    description: 'Herní varianta Modal — rozšiřuje TkajUI Modal o SideOrnament a HexOrnament dekoraci v hlavičce, těle a patičce. Nově umí i plain gold-frame režim bez ornamentů.',
+    description: 'Game variant of Modal — extends the TkajUI Modal with SideOrnament and HexOrnament decoration in the header, body and footer. Now also supports a plain gold-frame mode without ornaments.',
     subcategory: 'extends-tkajui',
     extendsSlug: 'modal',
     differencesFromBase: [
       'Ornamentální shell — SideOrnament po stranách, HexOrnament v hlavičce a patičce',
       'Plain režim (`ornament="plain"`) — gold-frame bez ornamentů pro hustší layouty',
-      'Donjon paleta — zlatý border, teplý warm pergamen bg2 místo cool surface2',
+      'Donjon palette — gold border, warm parchment bg2 instead of cool surface2',
     ],
     status: 'documented',
     showcaseRoute: '/modal',
@@ -218,8 +218,8 @@ export const componentMeta = {
       { name: 'title',           type: 'string',                                            required: false, description: 'Header title.' },
       { name: 'description',     type: 'string',                                            required: false, description: 'Podnadpis pod title.' },
       { name: 'children',        type: 'ReactNode',                                         required: false, description: 'Modal body content.' },
-      { name: 'footer',          type: 'ReactNode',                                         required: false, description: 'Obsah patičky.' },
-      { name: 'size',            type: "'sm'|'md'|'lg'",                                   required: false, default: "'md'",      description: 'Maximální šířka panelu.' },
+      { name: 'footer',          type: 'ReactNode',                                         required: false, description: 'Footer content.' },
+      { name: 'size',            type: "'sm'|'md'|'lg'",                                   required: false, default: "'md'",      description: 'Maximum panel width.' },
       { name: 'variant',         type: "'default'|'danger'|'success'|'warning'",           required: false, default: "'default'", description: 'Color variant.' },
       { name: 'ornament',        type: "'decorated'|'plain'",                              required: false, default: "'decorated'", description: 'Visual mode of the donjon shell — with or without ornaments.' },
       { name: 'closeOnBackdrop', type: 'boolean',                                           required: false, default: 'true',      description: 'Backdrop click closes the modal.' },
@@ -230,7 +230,7 @@ export const componentMeta = {
   },
 
   'tooltip': {
-    description: 'Kontextová nápověda zobrazená při najetí myší nebo focusu. Podporuje 4 směry umístění, 5 barevných variant a volitelný titulek.',
+    description: 'Contextual hint shown on hover or focus. Supports 4 placement directions, 5 color variants, and an optional title.',
     status: 'documented',
     showcaseRoute: '/tooltip',
     props: [
@@ -252,9 +252,9 @@ export const componentMeta = {
     extendsSlug: 'button',
     differencesFromBase: [
       'Větší octagon cornerSize (12 vs 8) — výraznější herní siluetu',
-      '4 ornamenty (SideOrnament + ZkosenOrnament + RohOrnament + HexOrnament) v decorated módu',
+      '4 ornaments (SideOrnament + ZkosenOrnament + RohOrnament + HexOrnament) in decorated mode',
       'Plain režim (`ornament="plain"`) — outer-wrapper octagon border trick místo CSS borderu',
-      'Donjon paleta — zlatý gradient místo accent blue',
+      'Donjon palette — gold gradient instead of accent blue',
       '`primary` variant — solid gold fill (vyšší vizuální váha než default gradient)',
       '`link` variant — textový button bez shellu/ornamentů, underline na hover',
       '`warning` variant — parita s TkajUI Button.warning',
@@ -262,7 +262,7 @@ export const componentMeta = {
     status: 'documented',
     showcaseRoute: '/buttons',
     props: [
-      { name: 'children',     type: 'ReactNode',                                                          required: false, description: 'Obsah tlačítka — text nebo ReactNode.' },
+      { name: 'children',     type: 'ReactNode',                                                          required: false, description: 'Button content — text or ReactNode.' },
       { name: 'variant',      type: "'default'|'primary'|'danger'|'success'|'warning'|'link'",            required: false, default: "'default'", description: 'Color variant. `primary` = solid gold fill, `link` = text-only button without a shell. Parity with TkajUI Button.' },
       { name: 'size',         type: "'xs'|'sm'|'md'|'lg'",                     required: false, default: "'md'",      description: 'Button size.' },
       { name: 'ornament',     type: "'decorated'|'plain'",                     required: false, default: "'decorated'", description: 'Visual mode of the donjon shell — with or without ornaments.' },
@@ -294,7 +294,7 @@ export const componentMeta = {
   },
 
   'donjon-button-group': {
-    description: 'Herní varianta ButtonGroup — rozšiřuje TkajUI ButtonGroup o SideOrnament a HexOrnament dekoraci. Nově umí i plain gold-frame režim bez ornamentů.',
+    description: 'Game variant of ButtonGroup — extends the TkajUI ButtonGroup with SideOrnament and HexOrnament decoration. Now also supports a plain gold-frame mode without ornaments.',
     subcategory: 'extends-tkajui',
     extendsSlug: 'button-group',
     differencesFromBase: [
@@ -321,7 +321,7 @@ export const componentMeta = {
     subcategory: 'extends-tkajui',
     extendsSlug: 'input',
     differencesFromBase: [
-      'Oktagonový tvar s vyšším cornerSize — herní vizuální podpis',
+      'Octagon shape with a larger cornerSize — the game visual signature',
       'Zlatý focus ring + warm placeholder color (`textLow` z donjon palety)',
       'Variant gradient hlavička pro `danger`/`success` stavy',
     ],
@@ -344,13 +344,13 @@ export const componentMeta = {
   },
 
   'donjon-badge': {
-    description: 'Herní odznak s hexagonálním tvarem a glow efektem. Vizuálně odlišný od TkajUI Badge — nativní herní varianty (gain/loss/event/warning/magic), diamantový indikátor místo kruhu.',
+    description: 'Game badge with a hexagonal shape and glow effect. Visually different from TkajUI Badge — native game variants (gain/loss/event/warning/magic), diamond indicator instead of a circle.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/badges',
     props: [
       { name: 'children', type: 'ReactNode',                                                                              required: false, description: 'Text nebo obsah odznaku.' },
-      { name: 'variant',  type: "'default'|'gain'|'loss'|'event'|'warning'|'magic'|'muted'|'success'|'danger'|'info'|'primary'", required: false, default: "'default'", description: 'Herní varianta. Backward-compat: success=gain, danger=loss, info=infoColor, primary=event.' },
+      { name: 'variant',  type: "'default'|'gain'|'loss'|'event'|'warning'|'magic'|'muted'|'success'|'danger'|'info'|'primary'", required: false, default: "'default'", description: 'Game variant. Backward-compat: success=gain, danger=loss, info=infoColor, primary=event.' },
       { name: 'size',     type: "'sm'|'md'",                                                                              required: false, default: "'md'",      description: 'Velikost odznaku.' },
       { name: 'dot',      type: 'boolean',                                                                                required: false, default: 'false',     description: 'Zobrazí heraldický diamant vlevo.' },
       { name: 'icon',     type: 'ReactNode',                                                                              required: false, description: 'SVG ikona vlevo od textu — alternativa k dot.' },
@@ -359,7 +359,7 @@ export const componentMeta = {
   },
 
   'donjon-card': {
-    description: 'Kontejner pro seskupený obsah. Má pevnou strukturu hlavička–tělo–patička a barevné varianty pro různé kontexty. Nově umí i plain gold-frame režim bez ornamentů.',
+    description: 'Container for grouped content. Fixed header–body–footer structure and color variants for different contexts. Now also supports a plain gold-frame mode without ornaments.',
     subcategory: 'extends-tkajui',
     extendsSlug: 'card',
     differencesFromBase: [
@@ -371,7 +371,7 @@ export const componentMeta = {
     showcaseRoute: '/cards',
     props: [
       { name: 'children',    type: 'ReactNode',                              required: false, description: 'Card body content.' },
-      { name: 'title',       type: 'string',                                 required: false, description: 'Nadpis v hlavičce karty.' },
+      { name: 'title',       type: 'string',                                 required: false, description: 'Card header title.' },
       { name: 'description', type: 'string',                                 required: false, description: 'Podnadpis v hlavičce karty.' },
       { name: 'footer',      type: 'ReactNode',                              required: false, description: 'Footer content — typically buttons.' },
       { name: 'ornament',    type: "'decorated'|'plain'",                    required: false, default: "'decorated'", description: 'Visual mode of the donjon shell — with or without ornaments.' },
@@ -381,7 +381,7 @@ export const componentMeta = {
   },
 
   'ornaments': {
-    description: 'Interní sada sdílených dekorativních prvků — postranní ornament a hexagonální rámeček. Používané uvnitř jiných komponent, ne jako standalone API.',
+    description: 'Internal set of shared decorative elements — side ornament and hex frame. Used inside other components, not as a standalone API.',
     status: 'documented',
     showcaseRoute: '/ornaments',
     props: [
@@ -400,7 +400,7 @@ export const componentMeta = {
   },
 
   'submit-button': {
-    description: 'Form submit wrapper nad Button komponentou. Automaticky čte pending stav z nadřazeného formuláře přes React 19 useFormStatus a přepíná tlačítko do loading režimu bez ručního state managementu.',
+    description: 'Form submit wrapper around the Button component. Automatically reads the pending state of the parent form via React 19 useFormStatus and switches the button into loading mode without manual state management.',
     status: 'documented',
     showcaseRoute: '/inputs',
     props: [
@@ -421,7 +421,7 @@ export const componentMeta = {
   /* ── Game Assets ───────────────────────────────────────────────────── */
 
   'erb': {
-    description: 'Heraldická identita hráče — štít s barvou a volitelným symbolem (I–VI). Dva tvary: erb (fixní proporce, čtvercový top + tapered tip) a prapor (banner s fixním tipem a variabilní délkou). Komponenta Shield pro herní UI, PlayerIdentityBadge pro scoreboard a HUD.',
+    description: 'Heraldic player identity — a shield with color and an optional symbol (I–VI). Two shapes: erb (fixed proportions, square top + tapered tip) and prapor (banner with a fixed tip and variable length). The Shield component is for the game UI, PlayerIdentityBadge for scoreboards and the HUD.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/erb',
@@ -431,16 +431,16 @@ export const componentMeta = {
       { name: 'shape',       type: "'erb'|'prapor'",                                required: false, default: "'erb'",  description: 'Tvar: erb = klasický štít s fixními proporcemi. prapor = banner s fixním tipem a variabilní délkou (přes width + height).' },
       { name: 'size',        type: "'xs'|'sm'|'md'|'lg'|number",                    required: false, default: "'md'",  description: 'Pojmenovaná velikost nebo pixel šířka (24–96 px). Použito pouze pro shape="erb".' },
       { name: 'width',       type: 'number',                                         required: false, default: '32',   description: 'Šířka v px pro shape="prapor". Tip škáluje s width (28.9 %).' },
-      { name: 'height',      type: 'number',                                         required: false, default: '120',  description: 'Délka v px pro shape="prapor". Tip má fixní velikost relativně k width, zbytek tělo škáluje libovolně.' },
+      { name: 'height',      type: 'number',                                         required: false, default: '120',  description: 'Length in px for shape="prapor". The tip has a fixed size relative to width; the rest of the body scales freely.' },
       { name: 'showSymbol',  type: 'boolean',                                         required: false, default: 'true', description: 'Zobrazí římskou číslici uvnitř štítu (I–VI dle player.id). U prapor zarovnán nahoru.' },
-      { name: 'ornament',      type: "'plain'|'decorated'",                          required: false, default: "'plain'", description: 'Dekorativní režim — zapne HexOrnament na horní hraně a HrotErbu pod spodním vrcholem. Skryto pro size < 30 px.' },
+      { name: 'ornament',      type: "'plain'|'decorated'",                          required: false, default: "'plain'", description: 'Decorative mode — turns on HexOrnament on the top edge and HrotErbu below the bottom tip. Hidden for size < 30 px.' },
       { name: 'ornamentColor', type: "'gold'|'player'",                              required: false, default: "'gold'",  description: 'Ornament color — gold (classic heraldic gold) or player (derived from player.color with alpha fade).' },
     ],
     relatedSlugs: ['hex-tile', 'die-face', 'donjon-badge', 'ornaments'],
   },
 
   'hex-tile': {
-    description: 'Hexagonální políčko herní mapy. Zobrazuje různé stavy hexu (prázdný, základna, ohnisko) a vlastnictví hráče.',
+    description: 'Hexagonal tile of the game map. Shows the various hex states (empty, base, focal point) and player ownership.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/hexagon',
@@ -469,7 +469,7 @@ export const componentMeta = {
   },
 
   'float-feedback': {
-    description: 'Krátká plovoucí zpětná vazba zobrazující herní event (zisk VP, zničení, souboj). Animuje se a poté zmizí.',
+    description: 'Short floating feedback showing a game event (VP gain, destruction, combat). Animates in and then disappears.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/float-feedback',
@@ -485,13 +485,13 @@ export const componentMeta = {
   },
 
   'action-tile': {
-    description: 'Klikatelná akční dlaždice pro herní nabídky a tahové volby. Kombinuje ikonu, název, volitelný popis a cost badge v jednom kompaktním tile prvku. V donjon konzistenci slouží jako referenční plain tile bez ornamentální vrstvy.',
+    description: 'Clickable action tile for game menus and turn choices. Combines an icon, title, optional description and cost badge in a single compact tile. Within the donjon system it acts as the reference plain tile without an ornamental layer.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/action-tile',
     props: [
       { name: 'icon',        type: 'ReactNode',                                        required: true,  description: 'Action icon at the top of the tile.' },
-      { name: 'title',       type: 'string',                                           required: true,  description: 'Název akce použitý i jako aria-label.' },
+      { name: 'title',       type: 'string',                                           required: true,  description: 'Action title (also used as the aria-label).' },
       { name: 'description', type: 'string',                                           required: false, description: 'Short supporting text under the title.' },
       { name: 'cost',        type: 'number',                                           required: false, description: 'Action cost displayed in the bottom-right corner.' },
       { name: 'selected',    type: 'boolean',                                          required: false, default: 'false',     description: 'Zvýrazní dlaždici jako aktivně vybranou.' },
@@ -500,7 +500,7 @@ export const componentMeta = {
       { name: 'onClick',     type: '() => void',                                       required: false, description: 'Callback when an unlocked tile is clicked.' },
       { name: 'size',        type: "'sm'|'md'|'lg'",                                  required: false, default: "'md'",    description: 'Velikost dlaždice.' },
       { name: 'variant',     type: "'default'|'attack'|'move'|'special'",             required: false, default: "'default'", description: 'Action color and semantic type.' },
-      { name: 'ornament',    type: "'plain'|'decorated'",                              required: false, default: "'decorated'", description: 'Decorated přidá SideOrnament závorky a octagon shell (default), plain je baseline tile.' },
+      { name: 'ornament',    type: "'plain'|'decorated'",                              required: false, default: "'decorated'", description: 'Decorated adds SideOrnament brackets and an octagon shell (default), plain is the baseline tile.' },
       { name: 'style',       type: 'CSSProperties',                                    required: false, description: 'Inline styles for layout fine-tuning.' },
       { name: 'className',   type: 'string',                                           required: false, description: 'Additional CSS classes.' },
     ],
@@ -514,7 +514,7 @@ export const componentMeta = {
     showcaseRoute: '/event-log',
     props: [
       { name: 'events',       type: 'Array<{ id?, type?, text, detail?, round? }>',    required: false, default: '[]',                 description: 'Seznam logovaných událostí v pořadí od nejstarší po nejnovější.' },
-      { name: 'maxHeight',    type: 'number',                                           required: false, default: '280',                description: 'Maximální výška scroll oblasti v px.' },
+      { name: 'maxHeight',    type: 'number',                                           required: false, default: '280',                description: 'Maximum scroll area height in px.' },
       { name: 'title',        type: 'string',                                           required: false, default: "'Game log'",      description: 'Titulek hlavičky komponenty.' },
       { name: 'showTitle',    type: 'boolean',                                          required: false, default: 'true',               description: 'Zobrazí nebo skryje hlavičku s titulkem a počtem záznamů.' },
       { name: 'showRound',    type: 'boolean',                                          required: false, default: 'true',               description: 'Zobrazí číslo kola u jednotlivých záznamů.' },
@@ -551,7 +551,7 @@ export const componentMeta = {
   },
 
   'game-transition': {
-    description: 'Lehký wrapper pro enter a exit animace s automatickým mount a unmount chováním. V donjon konzistenci slouží jako referenční plain motion wrapper bez ornamentální vrstvy; hodí se pro panely, dialogy, HUD bloky i přechody obrazovek bez externí animační knihovny.',
+    description: 'Lightweight wrapper for enter and exit animations with automatic mount and unmount behavior. Within the donjon system it serves as the reference plain motion wrapper without an ornamental layer; suitable for panels, dialogs, HUD blocks and screen transitions without an external animation library.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/motion',
@@ -559,7 +559,7 @@ export const componentMeta = {
       { name: 'show',      type: 'boolean',                                                                 required: true,  description: 'Řídí mount stav a spuštění enter nebo exit animace.' },
       { name: 'preset',    type: "'fadeScale'|'slideUp'|'slideDown'|'pop'|'fade'|'slideLeft'",            required: false, default: "'fadeScale'", description: 'Předdefinovaný typ přechodu.' },
       { name: 'duration',  type: 'number',                                                                  required: false, description: 'Vlastní délka animace v ms; výchozí je animSlow token.' },
-      { name: 'children',  type: 'ReactNode',                                                               required: true,  description: 'Obsah obalený přechodem.' },
+      { name: 'children',  type: 'ReactNode',                                                               required: true,  description: 'Content wrapped by the transition.' },
       { name: 'style',     type: 'CSSProperties',                                                           required: false, description: 'Additional inline styles merged with the computed transition style.' },
       { name: 'className', type: 'string',                                                                  required: false, description: 'Additional CSS classes for the wrapper.' },
       { name: 'as',        type: 'string | React.ElementType',                                              required: false, default: "'div'",       description: 'HTML tag or component used as the wrapper.' },
@@ -586,7 +586,7 @@ export const componentMeta = {
   },
 
   'player-panel': {
-    description: 'Kompaktní panel hráče pro HUD a score přehled. Kombinuje erb, jméno, VP badge a volitelné resource bary v jednom herním bloku. V donjon konzistenci slouží jako referenční plain shell bez ornamentální vrstvy.',
+    description: 'Compact player panel for the HUD and score overview. Combines the crest, name, VP badge and optional resource bars in a single game block. Within the donjon system it acts as the reference plain shell without an ornamental layer.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/player-panel',
@@ -596,16 +596,16 @@ export const componentMeta = {
       { name: 'symbol',     type: "'sword'|'shield'|'tower'",            required: false, default: "'sword'",  description: 'Symbol zobrazený v erbu.' },
       { name: 'vp',         type: 'number',                               required: false, default: '0',          description: 'Počet vítězných bodů v badge.' },
       { name: 'hp',         type: 'number',                               required: false, description: 'Current HP; when set, renders the HP bar.' },
-      { name: 'maxHp',      type: 'number',                               required: false, default: '100',        description: 'Maximální HP pro výpočet baru.' },
+      { name: 'maxHp',      type: 'number',                               required: false, default: '100',        description: 'Maximum HP used to compute the bar.' },
       { name: 'mana',       type: 'number',                               required: false, description: 'Current mana; when set, renders the mana bar.' },
-      { name: 'maxMana',    type: 'number',                               required: false, default: '100',        description: 'Maximální mana pro výpočet baru.' },
+      { name: 'maxMana',    type: 'number',                               required: false, default: '100',        description: 'Maximum mana used to compute the bar.' },
       { name: 'stamina',    type: 'number',                               required: false, description: 'Current stamina; when set, renders the stamina bar.' },
-      { name: 'maxStamina', type: 'number',                               required: false, default: '100',        description: 'Maximální stamina pro výpočet baru.' },
+      { name: 'maxStamina', type: 'number',                               required: false, default: '100',        description: 'Maximum stamina used to compute the bar.' },
       { name: 'children',   type: '<PlayerPanel.Resource>[]',             required: false, description: 'Composition API — an array of resources (hp/mana/stamina/sanity/...). When provided, flat props are ignored.' },
       { name: 'isActive',   type: 'boolean',                              required: false, default: 'false',      description: 'Zvýrazní panel jako hráče na tahu.' },
       { name: 'eliminated', type: 'boolean',                              required: false, default: 'false',      description: 'Oslabí panel a zobrazí stav vyřazení.' },
       { name: 'size',       type: "'sm'|'md'",                           required: false, default: "'md'",     description: 'Velikost panelu.' },
-      { name: 'ornament',   type: "'plain'|'decorated'",                required: false, default: "'decorated'", description: 'Decorated přidá RohOrnament závorky v rozích a octagon shell (default), plain je baseline panel.' },
+      { name: 'ornament',   type: "'plain'|'decorated'",                required: false, default: "'decorated'", description: 'Decorated adds RohOrnament brackets in the corners and an octagon shell (default), plain is the baseline panel.' },
       { name: 'style',      type: 'CSSProperties',                        required: false, description: 'Inline styles on the wrapping panel.' },
       { name: 'className',  type: 'string',                               required: false, description: 'Additional CSS classes on the wrapping panel.' },
     ],
@@ -613,13 +613,13 @@ export const componentMeta = {
   },
 
   'resource-bar': {
-    description: 'Herní resource bar pro HP, manu, staminu nebo štít. Je záměrně vedený jako referenční plain baseline bez ornamentální vrstvy; proti generickému progress baru přidává nebezpečné zóny a damage flash overlay.',
+    description: 'Game resource bar for HP, mana, stamina or shield. Intentionally a reference plain baseline with no ornamental layer; on top of a generic progress bar it adds danger zones and a damage flash overlay.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/resource-bar',
     props: [
       { name: 'value',     type: 'number',                                                           required: false, default: '100',       description: 'Current resource value.' },
-      { name: 'max',       type: 'number',                                                           required: false, default: '100',       description: 'Maximální hodnota zdroje.' },
+      { name: 'max',       type: 'number',                                                           required: false, default: '100',       description: 'Maximum resource value.' },
       { name: 'size',      type: "'sm'|'md'|'lg'",                                                  required: false, default: "'md'",    description: 'Výška a typografie baru.' },
       { name: 'variant',   type: "'hp'|'mana'|'stamina'|'xp'|'shield'|'default'",                  required: false, default: "'hp'",    description: 'Typ resource baru a jeho barevné chování.' },
       { name: 'label',     type: 'string',                                                           required: false, description: 'Popisek nad barem.' },
@@ -635,11 +635,11 @@ export const componentMeta = {
   /* ── donjon-fall-ui rozšíření TkajUI (re-exporty) ─────────────────── */
 
   'donjon-tabs': {
-    description: 'Herní varianta Tabs. Pro underline a topline používá ornamentové linky s hex motivem, pro pills rámovaný track. Plain režim bez ornamentových linek. Plná API parita s TkajUI Tabs včetně horizontální i vertikální orientace.',
+    description: 'Game variant of Tabs. underline and topline use ornament lines with a hex motif, pills uses a framed track. Plain mode without ornament lines. Full API parity with TkajUI Tabs, including horizontal and vertical orientations.',
     subcategory: 'extends-tkajui',
     extendsSlug: 'tabs',
     differencesFromBase: [
-      'Ornamentální shell s HexOrnament akcentem (decorated mode)',
+      'Ornamental shell with a HexOrnament accent (decorated mode)',
       'Zlatý aktivní stav + ornamentální indikátor',
       'Variants `underline` a `pills` mapované na herní estetiku',
       'Ve vertikální orientaci se gapped-lines ornamenty vypnou (designované pro horizontální layout)',
@@ -652,7 +652,7 @@ export const componentMeta = {
       { name: 'onChange',    type: '(value: string) => void',                                 required: true,  description: 'Callback when the tab changes.' },
       { name: 'variant',     type: "'underline'|'pills'",                                    required: false, default: "'underline'", description: 'Visual style.' },
       { name: 'ornament',    type: "'decorated'|'plain'",                                    required: false, default: "'decorated'", description: 'Vizuální režim donjon linek a shellu — s ornamenty nebo bez nich.' },
-      { name: 'orientation', type: "'horizontal'|'vertical'",                                required: false, default: "'horizontal'", description: 'Orientace tablistu. Vertical = sloupec, klávesnice ArrowUp/Down. Parita s TkajUI Tabs.' },
+      { name: 'orientation', type: "'horizontal'|'vertical'",                                required: false, default: "'horizontal'", description: 'Tablist orientation. Vertical = column, keyboard ArrowUp/Down. Parity with TkajUI Tabs.' },
       { name: 'size',        type: "'xs'|'sm'|'md'|'lg'",                                         required: false, default: "'md'",        description: 'Tab size.' },
       { name: 'onClose',     type: '(value: string) => void',                                 required: false, description: 'Callback to close a tab. Activates the × icon on items with closable: true.' },
     ],
@@ -660,11 +660,11 @@ export const componentMeta = {
   },
 
   'donjon-select': {
-    description: 'Herní varianta Select. Oktagonální trigger a herní barevná paleta. Variant prop podporuje 5 stavů (default/danger/success/warning/info) v paritě s TkajUI Select.',
+    description: 'Game variant of Select. Octagonal trigger and a game color palette. The variant prop supports 5 states (default/danger/success/warning/info) in parity with TkajUI Select.',
     subcategory: 'extends-tkajui',
     extendsSlug: 'select',
     differencesFromBase: [
-      'Oktagonový tvar trigger + dropdown panel',
+      'Octagon trigger + dropdown panel',
       'Zlatý dropdown arrow + warm dark dropdown background',
       'Donjon paleta — gold border, bg2 dropdown surface',
       '`variant` prop (5 stavů) — parita s TkajUI Select pro success/danger/warning/info kontextové stavy',
@@ -685,13 +685,13 @@ export const componentMeta = {
   },
 
   'donjon-slider': {
-    description: 'Herní varianta Slider. Vizuálně identická s TkajUI — herní gradients a glow jsou zabudované v základní komponentě. Stejné API jako Slider.',
+    description: 'Game variant of Slider. Visually identical to TkajUI — game gradients and glow are built into the base component. Same API as Slider.',
     subcategory: 'extends-tkajui',
     extendsSlug: 'slider',
     differencesFromBase: [
       'Zlatý thumb s diamantovým tvarem (octagon clip) místo round',
       'Tmavá drážka — bg1 trough místo surface2',
-      'Donjon paleta — gold fill místo accent blue',
+      'Donjon palette — gold fill instead of accent blue',
       '`variant` prop (5 stavů) — parita s TkajUI Slider pro kontextové bary',
     ],
     status: 'documented',
@@ -715,13 +715,13 @@ export const componentMeta = {
   },
 
   'donjon-toggle': {
-    description: 'Herní varianta Toggle. Vizuálně identická s TkajUI — herní barevná schémata jsou zabudovaná v základní komponentě. Stejné API jako Toggle.',
+    description: 'Game variant of Toggle. Visually identical to TkajUI — game color schemes are built into the base component. Same API as Toggle.',
     subcategory: 'extends-tkajui',
     extendsSlug: 'toggle',
     differencesFromBase: [
-      'Magická switch estetika — zlatý track při ON, tmavý při OFF',
-      'Octagon clip-path thumb místo round',
-      'Donjon paleta — gold ON state místo accent blue',
+      'Magical switch aesthetic — gold track when ON, dark when OFF',
+      'Octagon clip-path thumb instead of a round one',
+      'Donjon palette — gold ON state instead of accent blue',
       '`variant` prop (5 stavů) + `id` prop — parita s TkajUI Toggle (success/danger/warning/info + label-binding)',
     ],
     status: 'documented',
@@ -740,11 +740,11 @@ export const componentMeta = {
   },
 
   'donjon-progress-bar': {
-     description: 'Herní varianta ProgressBar. Drop-in replacement za TkajUI ProgressBar — default variant je `default`, herní (HP/mana/stamina/xp) jsou opt-in. Sjednocené výšky se shape parity (md=8). Stejné API jako ProgressBar s herními extras.',
+     description: 'Game variant of ProgressBar. Drop-in replacement for the TkajUI ProgressBar — the default variant is `default`, game ones (HP/mana/stamina/xp) are opt-in. Unified heights for shape parity (md=8). Same API as ProgressBar with game extras.',
     subcategory: 'extends-tkajui',
     extendsSlug: 'progress-bar',
     differencesFromBase: [
-      'HP/mana/stamina/xp varianty s automatickými barevnými prahy (opt-in přes `variant`)',
+      'HP/mana/stamina/xp variants with automatic color thresholds (opt-in via `variant`)',
       '`ticks` prop — počítatelné resourcy (např. 10 dílků pro HP)',
       '`flash` prop — damage flash animace pro herní feedback',
       'Výšky sjednocené s TkajUI (md=8) — drop-in replacement bez layout posunu',
@@ -755,7 +755,7 @@ export const componentMeta = {
       { name: 'value',         type: 'number',                                                                              required: false, default: '0',         description: 'Current value (0 – max).' },
       { name: 'max',           type: 'number',                                                                              required: false, default: '100',       description: 'Maximum value.' },
       { name: 'size',          type: "'xs'|'sm'|'md'|'lg'",                                                                 required: false, default: "'md'",      description: 'Track height.' },
-      { name: 'variant',       type: "'default'|'hp'|'mana'|'stamina'|'xp'",                                              required: false, default: "'default'", description: 'Default = univerzální (gold/threshold). HP/mana/stamina/xp = herní presety s pevnou barvou.' },
+      { name: 'variant',       type: "'default'|'hp'|'mana'|'stamina'|'xp'",                                              required: false, default: "'default'", description: 'Default = universal (gold/threshold). HP/mana/stamina/xp = game presets with a fixed color.' },
       { name: 'label',         type: 'string',                                                                              required: false, description: 'Popisek nad barem.' },
       { name: 'showValue',     type: 'boolean',                                                                             required: false, default: 'false',     description: 'Zobrazí procenta vpravo.' },
       { name: 'ticks',         type: 'number',                                                                              required: false, default: '0',         description: 'Počet dělicích čar (0 = žádné). Herní extra.' },
@@ -766,12 +766,12 @@ export const componentMeta = {
   },
 
   'donjon-tooltip': {
-    description: 'Herní varianta Tooltip. Vizuálně identická s TkajUI — herní barevná schémata jsou zabudovaná v základní komponentě. Stejné API jako Tooltip.',
+    description: 'Game variant of Tooltip. Visually identical to TkajUI — game color schemes are built into the base component. Same API as Tooltip.',
     subcategory: 'extends-tkajui',
     extendsSlug: 'tooltip',
     differencesFromBase: [
       'Pergamen-feel — zlatý border + warm dark bg2',
-      'Octagon arrow místo triangle',
+      'Octagon arrow instead of a triangle',
       'Volitelný titulek (gold gradient) nad obsahem',
       '`variant` prop (5 stavů) — parita s TkajUI Tooltip pro kontextové bubliny',
     ],
@@ -791,14 +791,14 @@ export const componentMeta = {
   },
 
   'donjon-toast': {
-    description: 'Herní varianta Toast. Oktagonální shell a herní varianty. Použití: ToastProvider + useToast hook. Stejné API jako Toast.',
+    description: 'Game variant of Toast. Octagonal shell and game variants. Usage: ToastProvider + useToast hook. Same API as Toast.',
     subcategory: 'extends-tkajui',
     extendsSlug: 'toast',
     differencesFromBase: [
-      'Herní varianty: `gain` (zelená), `loss` (červená), `event` (modrá), `warning` (jantarová) — záměrně jiná sada než TkajUI default/danger/success/warning',
+      'Game variants: `gain` (green), `loss` (red), `event` (blue), `warning` (amber) — intentionally a different set than TkajUI default/danger/success/warning',
       'Pergamen-feel — zlatý border + warm dark bg',
-      'Octagon clip-path místo rounded card',
-      'A11y: role="alert" + aria-live="assertive" pro loss/warning (přeruší screen reader), role="status" + polite pro gain/event/default',
+      'Octagon clip-path instead of a rounded card',
+      'A11y: role="alert" + aria-live="assertive" for loss/warning (interrupts the screen reader), role="status" + polite for gain/event/default',
     ],
     status: 'documented',
     showcaseRoute: '/toast',
@@ -814,7 +814,7 @@ export const componentMeta = {
   /* ── Utility / Clip components ────────────────────────────────────── */
 
   'donjon-pictogram': {
-    description: 'Herní varianta Pictogram — ikona s tmavým oktagonálním pozadím a zlatou/fantasy barevnou paletou. Pět variant (active, passive, disabled, danger, success), čtyři velikosti, volitelný bare mód bez pozadí. Drop-in compat s TkajUI Pictogram přes `color` prop.',
+    description: 'Game variant of Pictogram — icon with a dark octagonal background and a gold / fantasy color palette. Five variants (active, passive, disabled, danger, success), four sizes, optional bare mode without a background. Drop-in compat with TkajUI Pictogram via the `color` prop.',
     subcategory: 'extends-tkajui',
     extendsSlug: 'pictogram',
     differencesFromBase: [
@@ -837,7 +837,7 @@ export const componentMeta = {
   },
 
   'pictogram': {
-    description: 'Generický SVG icon wrapper (TkajUI). Přijme libovolnou SVG komponentu jako `icon` prop a vykreslí ji ve správné velikosti a barvě. Bez pozadí, bez dekorace — čistá ikona.',
+    description: 'Generic SVG icon wrapper (TkajUI). Accepts any SVG component as the `icon` prop and renders it at the correct size and color. No background, no decoration — pure icon.',
     status: 'documented',
     showcaseRoute: '/pictograms',
     props: [
@@ -851,17 +851,17 @@ export const componentMeta = {
   },
 
   'scoop-clip': {
-    description: 'Obal s konkávně zaoblenými rohy (scoop tvar) via SVG clipPath s objectBoundingBox — přizpůsobí se libovolným rozměrům elementu. Interní utilita pro tvarování panelů a tlačítek.',
+    description: 'Wrapper with concave-rounded corners (scoop shape) via SVG clipPath with objectBoundingBox — adapts to arbitrary element dimensions. Internal utility for shaping panels and buttons.',
     status: 'documented',
     showcaseRoute: '/scoop-clip',
     props: [
-      { name: 'shape',       type: "'bezier'|'circle'", required: false, default: "'bezier'", description: 'Geometrie oblouku. bezier = responzivní Q křivka v objectBoundingBox, circle = pevný kruhový výřez s absolutním px poloměrem.' },
+      { name: 'shape',       type: "'bezier'|'circle'", required: false, default: "'bezier'", description: 'Arc geometry. bezier = responsive Q curve in objectBoundingBox, circle = fixed circular cutout with an absolute px radius.' },
       { name: 'size',        type: "'xs'|'sm'|'md'|'lg'", required: false, description: 'Velikostní preset — sjednocený s octagonem. V bezier módu mapuje na SHAPE_SIZES[size].bb, v circle módu na SHAPE_SIZES[size].scoop + default w/h z SHAPE_SIZES.' },
       { name: 'cornerSize',  type: 'number',      required: false, default: '0.25 (bezier) / preset.scoop (circle)',  description: 'Velikost rohového zkosení (sjednocená terminologie s octagonem). V bezier módu 0–0.5 (relativní podíl), v circle módu absolutní px. Má přednost před size.' },
       { name: 'r',           type: 'number',      required: false, description: '⚠ DEPRECATED — alias pro cornerSize, zachováno pro backward compat. V novém kódu používej cornerSize.' },
       { name: 'borderColor', type: 'string',      required: false, description: 'Border color — renders an outer layer with the same clipPath.' },
       { name: 'borderWidth', type: 'number',      required: false, default: '1', description: 'Border thickness in px.' },
-      { name: 'children',    type: 'ReactNode',   required: false, description: 'Obsah obalený clipPath tvarem.' },
+      { name: 'children',    type: 'ReactNode',   required: false, description: 'Content wrapped by the clipPath shape.' },
       { name: 'style',       type: 'CSSProperties', required: false, description: 'Inline styles. In circle mode, width/height are auto-filled from SHAPE_SIZES[size] if not set.' },
       { name: 'className',   type: 'string',      required: false, description: 'Tailwind třídy na obalový div.' },
     ],
@@ -869,7 +869,7 @@ export const componentMeta = {
   },
 
   'corner-ornament': {
-    description: 'Dekorativní rohová ozdoba. Umisťuje se absolutně do rohu panelu nebo rámečku. Čtyři varianty tvaru a tři typy geometrie rohu (cut/round/scoop).',
+    description: 'Decorative corner ornament. Positioned absolutely into a panel or frame corner. Four shape variants and three corner geometries (cut/round/scoop).',
     status: 'documented',
     showcaseRoute: '/ornaments',
     props: [
@@ -877,14 +877,14 @@ export const componentMeta = {
       { name: 'size',       type: 'number',                                     required: false, default: '16',       description: '⚠ DEPRECATED — alias pro cornerSize (px).' },
       { name: 'color',      type: 'string',                                     required: false, default: "'#8F7458'", description: 'CSS fill color.' },
       { name: 'variant',    type: "'bracket'|'dot'|'diamond'|'cross'",         required: false, default: "'bracket'", description: 'Decorative ornament shape.' },
-      { name: 'cornerType', type: "'cut'|'round'|'scoop'",                     required: false, default: "'cut'",     description: 'Geometrie rohu komponenty — přizpůsobí tvar elbow (bracket variant).' },
+      { name: 'cornerType', type: "'cut'|'round'|'scoop'",                     required: false, default: "'cut'",     description: 'Component corner geometry — adapts the elbow shape (bracket variant).' },
       { name: 'style',      type: 'CSSProperties',                             required: false, description: 'Inline styles for positioning (position, top, left…).' },
     ],
     relatedSlugs: ['ornaments', 'scoop-clip', 'notched-box'],
   },
 
   'notched-box': {
-    description: 'Kontejner s V-zářezem na jedné straně (octagonWithNotch). Volitelný NotchedBox.Slot pozicuje obsah do středu zářezu vně clip-path — typicky badge nebo indikátor.',
+    description: 'Container with a V-notch on one side (octagonWithNotch). The optional NotchedBox.Slot positions content into the center of the notch outside the clip-path — typically a badge or indicator.',
     status: 'documented',
     showcaseRoute: '/shapes',
     props: [
@@ -896,7 +896,7 @@ export const componentMeta = {
       { name: 'notchOffset', type: 'number',                            required: false, default: '0.5',      description: 'Pozice zářezu podél strany (0 = start, 0.5 = střed, 1 = konec). Slot ho automaticky sleduje.' },
       { name: 'borderColor', type: 'string',                            required: false, description: 'Border color — renders an underlay layer with the same shape.' },
       { name: 'borderWidth', type: 'number',                            required: false, default: '1', description: 'Border thickness in px.' },
-      { name: 'children', type: 'ReactNode',                             required: false, description: 'Obsah panelu + volitelný NotchedBox.Slot.' },
+      { name: 'children', type: 'ReactNode',                             required: false, description: 'Panel content + optional NotchedBox.Slot.' },
       { name: 'style',    type: 'CSSProperties',                        required: false, description: 'Inline styly na clipped div (width, height, background…).' },
       { name: 'className', type: 'string',                              required: false, description: 'Tailwind třídy na clipped div.' },
     ],
@@ -917,7 +917,7 @@ export const componentMeta = {
   /* ── Layout (internal) ─────────────────────────────────────────────── */
 
   'layout': {
-    description: 'Hlavní obal aplikace — kombinuje sidebar, mobilní hlavičku a routovaný obsah stránek. Interní komponenta, není určena pro přímé použití.',
+    description: 'Main app wrapper — combines the sidebar, mobile header and the routed page content. Internal component, not intended for direct use.',
     status: 'documented',
     props: [
       // Layout nemá veřejné props — interní state: sidebarOpen
@@ -926,7 +926,7 @@ export const componentMeta = {
   },
 
   'sidebar': {
-    description: 'Navigační strom style guidu — zobrazuje sekce, položky a podsekce. Zvýrazňuje aktivní route. Interní prezentační komponenta.',
+    description: 'Style guide navigation tree — renders sections, items and sub-sections. Highlights the active route. Internal presentation component.',
     status: 'documented',
     props: [
       { name: 'isOpen',  type: 'boolean',      required: true, description: 'Otevřenost sidebaru na mobilním zařízení.' },
@@ -951,25 +951,25 @@ export const componentMeta = {
   },
 
   'error-boundary': {
-    description: 'Interní ochranný wrapper pro lazy-renderované stránky. Zachytí chybu při renderu, vypíše ji do konzole a místo prázdné obrazovky zobrazí čitelný fallback s možností resetu.',
+    description: 'Internal safety wrapper for lazy-rendered pages. Catches render errors, logs them to the console, and shows a readable fallback with a reset option instead of a blank screen.',
     status: 'documented',
     props: [
-      { name: 'children', type: 'ReactNode', required: true, description: 'Obsah aplikace nebo stránky chráněný error boundary wrapperem.' },
+      { name: 'children', type: 'ReactNode', required: true, description: 'App or page content protected by the error boundary wrapper.' },
     ],
     relatedSlugs: ['layout', 'showcase-page'],
   },
 
   'donjon-notification-center': {
-    description: 'Herní panel notifikací vysouvající se z rohu obrazovky. Agreguje herní události (gain/loss/event/warning/system) s barevným kódováním, DonjonBadge typem a HH:MM časovým razítkem. Kombinuje GameTransition (animace panelu) + DonjonBadge (typ eventu) + createPortal. Counter nepřečtených zpráv na toggle tlačítku.',
+    description: 'Game notification panel that slides out from a screen corner. Aggregates game events (gain/loss/event/warning/system) with color coding, DonjonBadge type and an HH:MM timestamp. Combines GameTransition (panel animation) + DonjonBadge (event type) + createPortal. Unread counter on the toggle button.',
     subcategory: 'exclusive',
     status: 'stable',
     showcaseRoute: '/notification-center',
     props: [
       { name: 'events',     type: "Array<{id, text, type, timestamp}>",                              required: true,  description: "Pole herních událostí. Typy: 'gain' | 'loss' | 'event' | 'warning' | 'system'." },
-      { name: 'maxVisible', type: 'number',                                                           required: false, default: '5',             description: 'Maximální počet zobrazených nejnovějších záznamů. Starší jsou archivovány.' },
+      { name: 'maxVisible', type: 'number',                                                           required: false, default: '5',             description: 'Maximum number of most-recent entries shown. Older ones are archived.' },
       { name: 'position',   type: "'bottom-right'|'bottom-left'|'top-right'|'top-left'",             required: false, default: "'bottom-right'", description: 'Roh obrazovky kde se panel zobrazí.' },
       { name: 'onClear',    type: '() => void',                                                       required: false, description: 'Callback for the Clear button in the panel header.' },
-      { name: 'ornament',   type: "'plain'|'decorated'",                                                  required: false, default: "'decorated'", description: 'Decorated přidá RohOrnament závorky v octagon shellu (default), plain je baseline panel.' },
+      { name: 'ornament',   type: "'plain'|'decorated'",                                                  required: false, default: "'decorated'", description: 'Decorated adds RohOrnament brackets inside an octagon shell (default), plain is the baseline panel.' },
     ],
     relatedSlugs: ['event-log', 'donjon-toast', 'game-transition', 'donjon-badge'],
   },
