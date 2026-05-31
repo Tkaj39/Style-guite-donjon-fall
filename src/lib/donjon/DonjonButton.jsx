@@ -26,8 +26,8 @@ const variants = {
     border:  VARIANT_BORDER.default,
     text:    VARIANT_TITLE_GRAD.default,
   },
-  /* Primary — solid gold fill, tmavý text. Vyšší vizuální váha než default
-     (gradient). Parita s TkajUI Button.primary (solid accent). */
+  /* Primary — solid gold fill, dark text. Higher visual weight than default
+     (gradient). Parity with TkajUI Button.primary (solid accent). */
   primary: {
     bg:      `linear-gradient(150deg,${gold} 0%,${goldMid} 100%)`,
     plainBg: `linear-gradient(150deg,${gold} 0%,${goldMid} 100%)`,
@@ -69,7 +69,7 @@ function DonjonButton({
   fullWidth = false,
   loading = false,
   disabled,
-  style: propStyle,   // extrahujeme style zvlášť, aby nepřepsal position:relative
+  style: propStyle,   // extracted separately so it doesn't overwrite position:relative
   className = '',
   ...props
 }) {
@@ -77,15 +77,15 @@ function DonjonButton({
   const uid   = rawId.replace(/:/g, '')
   const s     = sizes[size] ?? sizes.md
   const v     = variants[variant] ?? variants.default
-  /* ornW = šířka side ornametu pro výpočet paddingu (base / 66 * h)
+  /* ornW = width of the side ornament for padding calculation (base / 66 * h)
      decorated=24, zkosen=22, roh=25 */
   const ORN_BASES = { decorated: 24, zkosen: 22, roh: 25 }
   const ornW  = Math.round((ORN_BASES[ornament] ?? 24) * (s.h / 66) * 10) / 10
   const iSize = iconSize[size] ?? iconSize.md
   const hasOrnaments = ornament !== 'plain'
 
-  /* Link variant — early return, žádný shell ani ornamenty.
-     Parita s TkajUI Button.link (text-only s underline na hover). */
+  /* Link variant — early return, no shell or ornaments.
+     Parity with TkajUI Button.link (text-only with underline on hover). */
   if (variant === 'link') {
     return (
       <button
@@ -122,7 +122,7 @@ function DonjonButton({
       </button>
     )
   }
-  /* Výběr side ornamentu podle prop */
+  /* Side ornament selection by prop */
   const SideOrn = ornament === 'zkosen' ? ZkosenOrnament
                 : ornament === 'roh'    ? RohOrnament
                 : SideOrnament
