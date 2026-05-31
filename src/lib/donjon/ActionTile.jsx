@@ -1,6 +1,7 @@
 /* ── ActionTile ────────────────────────────────────────────────────────────
-   Klikatelná akční dlaždice — ikona, název, popis, cena.
-   Jiná než Button: tile tvar, ikona-forward, cost badge v rohu, lock stav.
+   Clickable action tile — icon, title, description, cost.
+   Different from Button: tile shape, icon-forward, cost badge in the corner,
+   lock state.
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useId } from 'react'
 import { octagon, octagonInner } from '../../utils/octagon'
@@ -22,17 +23,17 @@ const SIZES = {
 }
 
 /* VARIANTS:
- *  - border, activeBorder, selBorder: barva 1px rámečku v daném stavu
- *  - selBg: jemné tinted pozadí ve vybraném stavu
- *  - selOrn: barva ornamentů ve vybraném stavu (jasnější než selBorder
- *    pro vizuální pop — default goldDim → gold, special magicDark → magicColor)
+ *  - border, activeBorder, selBorder: 1px frame color in the given state
+ *  - selBg: subtle tinted background in the selected state
+ *  - selOrn: ornament color in the selected state (brighter than selBorder
+ *    for visual pop — default goldDim → gold, special magicDark → magicColor)
  */
-/* Selected stav unified pattern napříč variantami:
- *   selBg      = `${variantColor}22` — alpha tinted bg (vizuálně příjemný, ale alpha)
- *   selBgSolid = pre-computed SOLID ekvivalent tinted bg na bg2 (#1E1C30)
- *                — používá se jako bgFill na hex SVG, matchne button surface
- *                  bez double-blend issues.
- *   selBorder  = variant color (full bright 1px rámeček)
+/* Selected-state pattern unified across variants:
+ *   selBg      = `${variantColor}22` — alpha tinted bg (visually pleasant, but alpha)
+ *   selBgSolid = pre-computed SOLID equivalent of the tinted bg on bg2 (#1E1C30)
+ *                — used as bgFill on hex SVG; matches the button surface
+ *                  without double-blend issues.
+ *   selBorder  = variant color (full bright 1px frame)
  *   selOrn     = infoDark UNIVERSAL (#1E3A6B navy accent)
  */
 const VARIANTS = {
@@ -42,7 +43,7 @@ const VARIANTS = {
   special: { border: borderDefault, activeBorder: magicColor,   selBg: `${magicColor}22`,   selBgSolid: selBgMagic,  selBorder: magicColor,   selOrn: infoDark },
 }
 
-/* ── Lock ikona ── */
+/* ── Lock icon ── */
 function LockIcon() {
   return (
     <svg viewBox="0 0 16 16" fill="none" width="14" height="14">
@@ -74,26 +75,26 @@ export default function ActionTile({
 
   const isBlocked     = disabled || locked
   const hasOrnaments  = ornament === 'decorated'
-  // Corner ornament výška škálovaná z cx (ne z výšky tile — to byla magic formule)
+  // Corner ornament height scaled from cx (not from tile height — that was a magic formula)
   const ornH          = hasOrnaments ? ornamentHForCx(s.cx, 'roh') : 0
-  // Šířka ornamentu pro výpočet horizontálního paddingu (≈ cx pro roh)
+  // Ornament width for the horizontal padding calc (≈ cx for roh)
   const ornW          = hasOrnaments ? Math.round(ORNAMENT_BASE_WIDTH.roh * ornH / 66 * 10) / 10 : 0
   const padH          = 6 + ornW
 
-  /* Barvy závislé na stavu — border (rámeček) je tmavý v idle, ornament je vždy viditelný */
+  /* State-dependent colors — border (frame) is dark when idle, the ornament is always visible */
   const effectiveBorder = isBlocked ? borderMid
                         : hovered   ? v.activeBorder
                         : selected  ? v.selBorder
                         : v.border
-  /* Ornament barva: idle = goldDim (viditelná na bg), selected = v.selOrn
-     (jasnější varianta — gold/dangerColor/gainColor/magicColor pro pop) */
+  /* Ornament color: idle = goldDim (visible on the bg), selected = v.selOrn
+     (a brighter variant — gold/dangerColor/gainColor/magicColor for pop) */
   const ornamentColor   = isBlocked ? borderMid
                         : hovered   ? v.activeBorder
                         : selected  ? v.selOrn
                         : goldDim
-  /* Hex výplň uvnitř ornamentů: matchne aktuální button bg → hex splývá
-     s povrchem tlačítka. Solid hodnoty (žádné alpha) aby nedošlo k
-     double-blend (alpha overlay na alpha overlay → saturovanější dot). */
+  /* Hex fill inside the ornaments: matches the current button bg → the hex
+     blends with the button surface. Solid values (no alpha) to avoid a
+     double-blend (alpha overlay on alpha overlay → an oversaturated dot). */
   const ornamentBgFill  = isBlocked ? undefined        // default bg4
                         : hovered   ? bg3              // solid bg3 (= effective hover bg)
                         : selected  ? v.selBgSolid     // solid pre-computed tinted bg
@@ -138,12 +139,12 @@ export default function ActionTile({
       }}
       className={['focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFC183]/60', className].filter(Boolean).join(' ')}
     >
-      {/* Ornamenty: 4 rohové RohOrnament závorky + HexOrnament nahoře a dole.
-          Variant-aware: barva ornamentů sleduje stav. bgFill = aktuální button
-          bg → hexagon výplň ladí s pozadím tlačítka:
+      {/* Ornaments: 4 corner RohOrnament brackets + HexOrnament on top and bottom.
+          Variant-aware: ornament color tracks state. bgFill = current button
+          bg → the hexagon fill blends with the button background:
             selected → v.selBg (variant tint)
-            hover    → bg3 (stejné jako effective hover bg)
-            idle     → undefined (default bg4 v ornamentu) */}
+            hover    → bg3 (same as the effective hover bg)
+            idle     → undefined (default bg4 inside the ornament) */}
       {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tl`} color={ornamentColor} bgFill={ornamentBgFill} />}
       {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tr`} flip color={ornamentColor} bgFill={ornamentBgFill} />}
       {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}bl`} bottom color={ornamentColor} bgFill={ornamentBgFill} />}
@@ -151,7 +152,7 @@ export default function ActionTile({
       {hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={s.cx + 4} color={ornamentColor} bgFill={ornamentBgFill} />}
       {hasOrnaments && <HexOrnament uid={`${uid}hb`} flip edgePadL={s.cx + 4} color={ornamentColor} bgFill={ornamentBgFill} />}
 
-      {/* Ikona */}
+      {/* Icon */}
       <div style={{
         width: s.iconArea, height: s.iconArea,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -162,7 +163,7 @@ export default function ActionTile({
         {icon}
       </div>
 
-      {/* Název */}
+      {/* Title */}
       <span style={{
         fontSize: s.titleSize,
         fontWeight: 600,
@@ -175,7 +176,7 @@ export default function ActionTile({
         {title}
       </span>
 
-      {/* Popis — volitelný */}
+      {/* Description — optional */}
       {description && (
         <span style={{
           fontSize: s.descSize,
@@ -187,8 +188,8 @@ export default function ActionTile({
         </span>
       )}
 
-      {/* Cost badge — v decorated módu BOTTOM-CENTER (mimo corner ornamenty),
-          v plain módu klasický pravý dolní roh. */}
+      {/* Cost badge — in decorated mode BOTTOM-CENTER (outside the corner
+          ornaments), in plain mode the classic bottom-right corner. */}
       {cost != null && !locked && (
         <span style={{
           position: 'absolute',
@@ -209,8 +210,9 @@ export default function ActionTile({
         </span>
       )}
 
-      {/* Lock overlay — v decorated módu CENTER overlay (sémanticky: zámek
-          blokuje akci → kryje obsah), v plain módu pravý horní roh. */}
+      {/* Lock overlay — in decorated mode a CENTER overlay (semantically: the
+          lock blocks the action → covers the content), in plain mode the
+          top-right corner. */}
       {locked && (
         <div style={{
           position: 'absolute',
@@ -227,9 +229,9 @@ export default function ActionTile({
         </div>
       )}
 
-      {/* Selected checkmark — pouze v plain módu (v decorated módu je
-          'selected' signál redundantní: border + bg tint + ornament color
-          už ho dostatečně jasně komunikují). */}
+      {/* Selected checkmark — plain mode only (in decorated mode the
+          'selected' signal is redundant: border + bg tint + ornament color
+          already communicate it clearly enough). */}
       {selected && !hasOrnaments && (
         <div style={{
           position: 'absolute',
