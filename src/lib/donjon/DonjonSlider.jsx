@@ -1,8 +1,8 @@
 /* ── DonjonSlider ─────────────────────────────────────────────────────────
-   Herní slider — zlatý thumb, tmavá drážka, donjon paleta.
+   Game slider — gold thumb, dark groove, donjon palette.
 
-   Rozšíření:
-     - ticks: počet nebo pole hodnot (vizuální markery na trati)
+   Extensions:
+     - ticks: count or array of values (visual markers on the track)
      - thumbShape: 'diamond' (default) | 'circle' | 'octagon'
    ─────────────────────────────────────────────────────────────────────── */
 import {
@@ -97,7 +97,7 @@ export default function DonjonSlider({
   showValue    = false,
   disabled     = false,
   formatValue,
-  ticks,                       // number nebo pole — vizuální markery na trati
+  ticks,                       // number or array — visual markers on the track
   thumbShape   = 'diamond',    // 'diamond' | 'circle' | 'octagon'
 }) {
   const v    = VARIANTS[variant] ?? VARIANTS.default
@@ -146,7 +146,7 @@ export default function DonjonSlider({
           }} />
         </div>
 
-        {/* Tick marks — pozicované nad trackem podél délky */}
+        {/* Tick marks — positioned above the track along its length */}
         {tickValues.length > 0 && tickValues.map((tv, i) => {
           const tickPct = ((tv - min) / (max - min)) * 100
           const isFilled = tickPct <= pct

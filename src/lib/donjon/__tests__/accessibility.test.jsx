@@ -194,13 +194,13 @@ describe('donjon — ARIA atributy', () => {
     expect(dialog).toHaveAttribute('aria-label', 'Herní nabídka')
   })
 
-  it('DonjonModal close button má aria-label="Zavřít"', () => {
+  it('DonjonModal close button has aria-label="Close"', () => {
     render(
       <DonjonModal isOpen title="Test" onClose={() => {}}>
-        <p>Obsah</p>
+        <p>Content</p>
       </DonjonModal>
     )
-    expect(screen.getByRole('button', { name: 'Zavřít' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
   })
 
   it('DonjonTabs má role="tablist"', () => {

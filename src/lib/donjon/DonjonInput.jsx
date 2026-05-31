@@ -1,9 +1,9 @@
 /* ── DonjonInput ─────────────────────────────────────────────────────────────
-   Herní varianta textového pole.
+   Game-themed text input.
 
-   Vizuálně odlišné od TkajUI Input:
-     TkajUI Input    → cx=8, modrá/fialová focus, surface2 bg, accent caret
-     DonjonInput     → cx=12, zlatá focus glow, bg2 tmavé pozadí, gold caret
+   Visually different from TkajUI Input:
+     TkajUI Input    → cx=8, blue/purple focus, surface2 bg, accent caret
+     DonjonInput     → cx=12, gold focus glow, bg2 dark background, gold caret
    ─────────────────────────────────────────────────────────────────────────── */
 import { useState, useId } from 'react'
 import { octagon, octagonInner } from '../../utils/octagon'
@@ -22,16 +22,16 @@ const sizes = {
 }
 
 /**
- * DonjonInput — herní textové pole se zlatou focus paletou.
+ * DonjonInput — game-themed text input with a gold focus palette.
  *
  * @param {'sm'|'md'|'lg'} size
  * @param {string} label
- * @param {string} error   — chybový text (přepíše hint)
- * @param {string} hint    — pomocný text pod polem
+ * @param {string} error   — error text (overrides hint)
+ * @param {string} hint    — helper text below the field
  * @param {ReactNode} leadingIcon
  * @param {ReactNode} trailingIcon
- * @param {boolean} multiline — přepne na <textarea> s field-sizing:content
- * @param {number}  rows      — minimální počet řádků u multiline (výchozí 3)
+ * @param {boolean} multiline — switches to <textarea> with field-sizing:content
+ * @param {number}  rows      — minimum number of rows when multiline (default 3)
  */
 export default function DonjonInput({
   label,
@@ -41,7 +41,7 @@ export default function DonjonInput({
   leadingIcon,
   trailingIcon,
   size       = 'md',
-  cornerSize,                 // override pro custom cx (jinak z size presetu)
+  cornerSize,                 // override for custom cx (otherwise from the size preset)
   error,
   disabled,
   hint,
@@ -52,7 +52,7 @@ export default function DonjonInput({
   const [isFocused, setIsFocused] = useState(false)
   const id = useId()
   const s  = sizes[size] ?? sizes.md
-  const cx = cornerSize ?? s.cx   // explicit cornerSize má přednost
+  const cx = cornerSize ?? s.cx   // explicit cornerSize wins
 
   const borderColor = error
     ? dangerColor
