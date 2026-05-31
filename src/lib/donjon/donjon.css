@@ -1,29 +1,29 @@
 /**
  * donjon-fall-ui — CSS Custom Properties
  *
- * Exportuje všechny design tokeny jako CSS proměnné na :root.
- * Použití: @import './src/lib/donjon/donjon.css';
+ * Exports all design tokens as CSS variables on :root.
+ * Usage: @import './src/lib/donjon/donjon.css';
  *
- * Pak v CSS:
+ * Then in CSS:
  *   color: var(--donjon-gold);
  *   background: var(--donjon-bg2);
  *   border: 1px solid var(--donjon-border-default);
  */
 
 :root {
-  /* ── Zlato — primární akcent ──────────────────────────────────────────── */
-  --donjon-gold:     #FFC183;   /* hlavní zlatá — text, ikony, aktivní prvky */
-  --donjon-gold-mid: #B8956A;   /* labels, subtitles, gradient konce */
+  /* ── Gold — primary accent ──────────────────────────────────────────────── */
+  --donjon-gold:     #FFC183;   /* main gold — text, icons, active elements */
+  --donjon-gold-mid: #B8956A;   /* labels, subtitles, gradient ends */
   --donjon-gold-dim: #8F7458;   /* borders, muted text, dividers */
 
   /* ── Surfaces ─────────────────────────────────────────────────────────── */
-  --donjon-bg0:      #12102A;   /* nejhlubší pozadí (page bg) */
+  --donjon-bg0:      #12102A;   /* deepest background (page bg) */
   --donjon-bg1:      #171626;   /* base dark */
   --donjon-bg2:      #1E1C30;   /* card bg */
   --donjon-bg3:      #252340;   /* elevated panel */
   --donjon-bg4:      #2A2948;   /* hover / raised */
   --donjon-bg-deep:  #1B1A30;   /* deep background variant */
-  --donjon-bg-inactive: #232238; /* inactive button v ButtonGroup */
+  --donjon-bg-inactive: #232238; /* inactive button inside ButtonGroup */
 
   /* ── Borders ──────────────────────────────────────────────────────────── */
   --donjon-border-subtle:  #1A1830;
@@ -32,36 +32,36 @@
 
   /* ── Text ─────────────────────────────────────────────────────────────── */
   --donjon-text-high:      #E8DDD0;   /* near-white, warm tint */
-  --donjon-text-mid:       #C8BFAF;   /* labels, popis */
-  --donjon-text-active:    #F0E6D3;   /* aktivní tab, highlighted */
+  --donjon-text-mid:       #C8BFAF;   /* labels, descriptions */
+  --donjon-text-active:    #F0E6D3;   /* active tab, highlighted */
   --donjon-text-low:       #9A9080;   /* muted / hints */
   --donjon-text-disabled:  #6B6A82;   /* disabled / inactive tabs */
-  --donjon-text-faint:     #4A4560;   /* ultra-tmavý muted, dekorativní */
-  --donjon-text-deep:      #4A4870;   /* ultra-tmavý blue-purple muted */
-  --donjon-text-cool:      #8F9CB3;   /* studená modro-šedá, sekundární */
-  --donjon-text-parchment: #D4C5A9;   /* teplá krémová, střední warm text */
-  --donjon-text-caption:   #3A3A52;   /* figrový text v demech (dekorativní, ne WCAG) */
+  --donjon-text-faint:     #4A4560;   /* ultra-dark muted, decorative */
+  --donjon-text-deep:      #4A4870;   /* ultra-dark blue-purple muted */
+  --donjon-text-cool:      #8F9CB3;   /* cool blue-grey, secondary */
+  --donjon-text-parchment: #D4C5A9;   /* warm cream, mid warm text */
+  --donjon-text-caption:   #3A3A52;   /* ornamental text in demos (decorative, not WCAG) */
 
-  /* ── Speciální surfaces ───────────────────────────────────────────────── */
-  --donjon-header-bg-start: #3D3A5C;  /* gradient start pro VARIANT_HEADER_BG.default */
+  /* ── Special surfaces ─────────────────────────────────────────────────── */
+  --donjon-header-bg-start: #3D3A5C;  /* gradient start for VARIANT_HEADER_BG.default */
   --donjon-header-bg-end:   #2E2B50;  /* gradient end */
-  --donjon-hex-focal-passive: #2E2D4A; /* pasivní ohnisko (mapový stav) */
+  --donjon-hex-focal-passive: #2E2D4A; /* passive focal point (board state) */
   --donjon-bg1-deep: #141324;          /* inset/recessed surface (darker than bg1) */
-  --donjon-border-muted: #3A3858;       /* muted blue-purple UI border (inactive elementy) */
-  --donjon-border-muted-active: #5A5880; /* light variant pro active state */
+  --donjon-border-muted: #3A3858;       /* muted blue-purple UI border (inactive elements) */
+  --donjon-border-muted-active: #5A5880; /* light variant for the active state */
 
   /* ── Semantic ─────────────────────────────────────────────────────────── */
   --donjon-success: #40A055;
   --donjon-danger:  #E05C5C;
   --donjon-warning: #C08040;
   --donjon-fail:    #C04040;   /* darker than danger, error states */
-  --donjon-gain:    #50B86C;   /* herní gain feedback (jiný než success) */
+  --donjon-gain:    #50B86C;   /* game gain feedback (different from success) */
 
   /* ── Focus ring ──────────────────────────────────────────────────────── */
   --donjon-focus-ring-color: #FFC18399;        /* gold @ 60% — keyboard focus */
-  --donjon-focus-ring: 0 0 0 2px #FFC18399;   /* box-shadow forma ring */
+  --donjon-focus-ring: 0 0 0 2px #FFC18399;   /* box-shadow form of the ring */
 
-  /* ── Herní feedback ───────────────────────────────────────────────────── */
+  /* ── Game feedback ────────────────────────────────────────────────────── */
   --donjon-hp-high:   #50B86C;   /* HP > 50% */
   --donjon-hp-mid:    #C08040;   /* HP 25–50% */
   --donjon-hp-low:    #E05C5C;   /* HP < 25% */
@@ -78,7 +78,7 @@
   --donjon-z-tooltip: 2100;
   --donjon-z-modal:   2200;
 
-  /* ── Animační timing ──────────────────────────────────────────────────── */
+  /* ── Animation timing ─────────────────────────────────────────────────── */
   --donjon-anim-fast:     80ms;
   --donjon-anim-normal:   160ms;
   --donjon-anim-slow:     300ms;
@@ -89,14 +89,14 @@
   --donjon-ease-enter:  cubic-bezier(0, 0, 0.2, 1);
   --donjon-ease-exit:   cubic-bezier(0.4, 0, 1, 1);
 
-  /* ── Breakpointy ──────────────────────────────────────────────────────── */
+  /* ── Breakpoints ──────────────────────────────────────────────────────── */
   --donjon-bp-mobile:  480px;
   --donjon-bp-tablet:  768px;
   --donjon-bp-desktop: 1024px;
   --donjon-bp-wide:    1280px;
 
-  /* ── Player palette — 6 hráčů × 3 varianty ──────────────────────────── */
-  /* Mirror src/lib/donjon/playerColors.js — single source of truth.       */
+  /* ── Player palette — 6 players × 3 variants ──────────────────────────── */
+  /* Mirror of src/lib/donjon/playerColors.js — single source of truth.      */
   --donjon-player-red:           #E05C5C;
   --donjon-player-red-light:     #F9C0C0;
   --donjon-player-red-dark:      #3D1818;
