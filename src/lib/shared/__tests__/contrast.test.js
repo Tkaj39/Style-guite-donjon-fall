@@ -10,19 +10,19 @@ import {
 } from '../contrast'
 
 describe('parseHex', () => {
-  it('parsuje 6-znakový hex', () => {
+  it('parses 6-character hex', () => {
     expect(parseHex('#FF8040')).toEqual({ r: 255, g: 128, b: 64 })
   })
-  it('parsuje 3-znakový zkrácený hex', () => {
+  it('parses shorthand 3-character hex', () => {
     expect(parseHex('#F84')).toEqual({ r: 255, g: 136, b: 68 })
   })
-  it('parsuje 8-znakový hex (ignoruje alpha)', () => {
+  it('parses 8-character hex (ignores alpha)', () => {
     expect(parseHex('#FF8040AA')).toEqual({ r: 255, g: 128, b: 64 })
   })
-  it('parsuje bez # prefixu', () => {
+  it('parses without # prefix', () => {
     expect(parseHex('FF8040')).toEqual({ r: 255, g: 128, b: 64 })
   })
-  it('vrátí null pro neplatný vstup', () => {
+  it('returns null for invalid input', () => {
     expect(parseHex('xyz')).toBeNull()
     expect(parseHex(null)).toBeNull()
     expect(parseHex(undefined)).toBeNull()
@@ -31,13 +31,13 @@ describe('parseHex', () => {
 })
 
 describe('relativeLuminance', () => {
-  it('černá má luminance 0', () => {
+  it('black has luminance 0', () => {
     expect(relativeLuminance('#000000')).toBe(0)
   })
-  it('bílá má luminance 1', () => {
+  it('white has luminance 1', () => {
     expect(relativeLuminance('#FFFFFF')).toBeCloseTo(1, 5)
   })
-  it('luminance roste s jasem', () => {
+  it('luminance increases with brightness', () => {
     const dark  = relativeLuminance('#222222')
     const mid   = relativeLuminance('#808080')
     const light = relativeLuminance('#DDDDDD')
@@ -47,45 +47,45 @@ describe('relativeLuminance', () => {
 })
 
 describe('contrastRatio', () => {
-  it('bílá na černé = 21:1 (max)', () => {
+  it('white on black = 21:1 (max)', () => {
     expect(contrastRatio('#FFFFFF', '#000000')).toBeCloseTo(21, 0)
   })
-  it('shodné barvy = 1:1 (min)', () => {
+  it('identical colors = 1:1 (min)', () => {
     expect(contrastRatio('#888888', '#888888')).toBe(1)
   })
-  it('symetrický (poměr nezávisí na pořadí)', () => {
+  it('is symmetric (ratio does not depend on order)', () => {
     expect(contrastRatio('#AAAAAA', '#333333'))
       .toBe(contrastRatio('#333333', '#AAAAAA'))
   })
 })
 
 describe('isLightBg', () => {
-  it('bílá je světlá', () => {
+  it('white is light', () => {
     expect(isLightBg('#FFFFFF')).toBe(true)
   })
-  it('černá není světlá', () => {
+  it('black is not light', () => {
     expect(isLightBg('#000000')).toBe(false)
   })
-  it('textHigh tkajui (#eeeef8) je světlé', () => {
+  it('tkajui textHigh (#eeeef8) is light', () => {
     expect(isLightBg('#eeeef8')).toBe(true)
   })
-  it('surface0 tkajui (#0d0d14) je tmavé', () => {
+  it('tkajui surface0 (#0d0d14) is dark', () => {
     expect(isLightBg('#0d0d14')).toBe(false)
   })
-  it('donjon textHigh (#E8DDD0) je světlé', () => {
+  it('donjon textHigh (#E8DDD0) is light', () => {
     expect(isLightBg('#E8DDD0')).toBe(true)
   })
 })
 
 describe('meetsContrast', () => {
-  it('bílá na černé splňuje AAA', () => {
+  it('white on black meets AAA', () => {
     expect(meetsContrast('#FFFFFF', '#000000', 'AAA')).toBe(true)
   })
-  it('shodné barvy nesplňují AA', () => {
+  it('identical colors do not meet AA', () => {
     expect(meetsContrast('#888', '#888', 'AA')).toBe(false)
   })
-  it('large text má nižší práh', () => {
-    // light grey na bílé — nesplní normal, splní large
+  it('large text has a lower threshold', () => {
+    // light grey on white — fails normal, passes large
     const fg = '#7A7A7A', bg = '#FFFFFF'
     const ratio = contrastRatio(fg, bg)
     expect(ratio).toBeGreaterThan(3.0)
@@ -96,20 +96,20 @@ describe('meetsContrast', () => {
 })
 
 describe('pickContrastText', () => {
-  it('vrátí onDark pro tmavé pozadí', () => {
+  it('returns onDark for a dark background', () => {
     expect(pickContrastText('#111111', { onLight: '#000', onDark: '#FFF' }))
       .toBe('#FFF')
   })
-  it('vrátí onLight pro světlé pozadí', () => {
+  it('returns onLight for a light background', () => {
     expect(pickContrastText('#EEEEEE', { onLight: '#000', onDark: '#FFF' }))
       .toBe('#000')
   })
-  it('default fallback funguje bez options', () => {
+  it('default fallback works without options', () => {
     const onDark  = pickContrastText('#000000')
     const onLight = pickContrastText('#FFFFFF')
     expect(onDark).not.toBe(onLight)
   })
-  it('textHigh tkajui jako pozadí → vrátí onLight (tmavý text)', () => {
+  it('tkajui textHigh as background → returns onLight (dark text)', () => {
     const res = pickContrastText('#eeeef8', {
       onDark: '#FFF', onLight: '#111',
     })
@@ -118,8 +118,8 @@ describe('pickContrastText', () => {
 })
 
 describe('bestContrast', () => {
-  it('vybere barvu s vyšším kontrastem', () => {
-    // Na bílém pozadí: bílá vs. černá → černá vyhraje
+  it('picks the color with the higher contrast', () => {
+    // On a white background: white vs. black → black wins
     expect(bestContrast('#FFFFFF', '#FFFFFF', '#000000')).toBe('#000000')
     expect(bestContrast('#000000', '#FFFFFF', '#000000')).toBe('#FFFFFF')
   })
