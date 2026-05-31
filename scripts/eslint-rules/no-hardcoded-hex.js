@@ -1,28 +1,28 @@
 /**
  * donjon/no-hardcoded-hex
  *
- * Zakazuje hardcoded hex barvy v src/lib/ a src/pages/ JSX.
- * Všechny barvy musí pocházet z tokens.js (donjon nebo tkajui).
+ * Forbids hardcoded hex colors in src/lib/ and src/pages/ JSX.
+ * All colors must come from tokens.js (donjon or tkajui).
  *
- * Při nálezu zkusí navrhnout konkrétní token jméno na základě
- * statického scanu donjon/tokens.js a tkajui/tokens.js.
+ * On a hit, it tries to suggest a concrete token name based on a static
+ * scan of donjon/tokens.js and tkajui/tokens.js.
  *
  * Autofix:
- *   • Když soubor JIŽ importuje doporučený token → string literal
- *     se nahradí přímo identifikátorem.
- *   • Když import chybí → jen warning, manuální oprava (auto by mohl
- *     vytvořit cross-lib import — radši explicitní).
+ *   • When the file ALREADY imports the recommended token → the string
+ *     literal is replaced directly by the identifier.
+ *   • If the import is missing → only a warning, manual fix (an autofix
+ *     might create a cross-lib import — better to keep it explicit).
  *
  * OK:  import { gold } from './tokens'  →  style={{ color: gold }}
- * OK:  `${gold}66`                      →  template literal s tokenem
+ * OK:  `${gold}66`                      →  template literal with token
  * ERR: style={{ color: '#FFC183' }}     →  hardcoded hex (auto-suggest 'gold')
  */
 import fs from 'node:fs'
 import path from 'node:path'
 import url from 'node:url'
 
-/* ── Načtení hex→token map ze statického scanu tokens.js ──────────────────
-   Jednou při startu ESLint procesu — výsledek se cachuje. */
+/* ── Load the hex→token map from a static scan of tokens.js ────────────────
+   Done once at ESLint process start — the result is cached. */
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 const PROJECT_ROOT = path.resolve(__dirname, '..', '..')
 
@@ -36,13 +36,13 @@ function loadTokensFromFile(filePath, libName) {
     while ((m = RE.exec(content)) !== null) {
       const name = m[1]
       const hex  = m[2].toUpperCase()
-      // První záznam má přednost (deterministické pořadí v souboru)
+      // First entry wins (deterministic in-file order)
       if (!map.has(hex)) {
         map.set(hex, { name, lib: libName })
       }
     }
   } catch {
-    /* Soubor neexistuje — ignoruj (test prostředí) */
+    /* File doesn't exist — ignore (test environment) */
   }
   return map
 }
@@ -56,18 +56,18 @@ const TKAJUI_TOKENS = loadTokensFromFile(
   'tkajui'
 )
 
-/* Pro daný hex string vrať doporučený token (preferuj soulad s lib).
-   Pokud hex obsahuje alpha suffix (#FFC18366), zkus matchnout base #FFC183. */
+/* For a given hex string, return the recommended token (prefer the matching lib).
+   If the hex has an alpha suffix (#FFC18366), try to match the base #FFC183. */
 function suggestToken(hexValue, fileLib) {
   const upper = hexValue.toUpperCase()
-  // Base hex (bez alpha)
+  // Base hex (no alpha)
   const base = upper.length === 9 ? upper.slice(0, 7)
              : upper.length === 5 ? upper.slice(0, 4)
              : upper
 
   const sources = fileLib === 'tkajui'
-    ? [TKAJUI_TOKENS, DONJON_TOKENS]   // preferuj tkajui v tkajui souborech
-    : [DONJON_TOKENS, TKAJUI_TOKENS]   // jinak preferuj donjon
+    ? [TKAJUI_TOKENS, DONJON_TOKENS]   // prefer tkajui in tkajui files
+    : [DONJON_TOKENS, TKAJUI_TOKENS]   // otherwise prefer donjon
 
   for (const map of sources) {
     if (map.has(upper))  return { ...map.get(upper),  exact: true }
@@ -76,14 +76,14 @@ function suggestToken(hexValue, fileLib) {
   return null
 }
 
-/* Detekuj knihovnu kontextu podle cesty souboru */
+/* Detect the context library from the file path */
 function detectLib(filename) {
   if (filename.includes('/tkajui/') || filename.includes('\\tkajui\\')) return 'tkajui'
   if (filename.includes('/donjon/') || filename.includes('\\donjon\\')) return 'donjon'
-  return null  // pages — neutrální, preferuje donjon (větší paleta)
+  return null  // pages — neutral, prefers donjon (larger palette)
 }
 
-/* Zjisti zda daný identifier je už importován v souboru */
+/* Check whether the given identifier is already imported in the file */
 function hasImport(context, identifierName) {
   const sourceCode = context.sourceCode ?? context.getSourceCode()
   const program = sourceCode.ast
@@ -103,15 +103,15 @@ export default {
     type: 'problem',
     fixable: 'code',
     docs: {
-      description: 'Zakazuje hardcoded hex barvy — použij token z tokens.js',
+      description: 'Forbids hardcoded hex colors — use a token from tokens.js',
     },
     messages: {
       hardcodedHexBase:
-        "Hardcoded hex '{{ hex }}' — použij token '{{ token }}' z {{ lib }}/tokens.",
+        "Hardcoded hex '{{ hex }}' — use the token '{{ token }}' from {{ lib }}/tokens.",
       hardcodedHexAlpha:
-        "Hardcoded hex '{{ hex }}' — použij `${'$'}{ {{ token }} }{{ alpha }}` (alpha tail nad tokenem '{{ token }}' z {{ lib }}/tokens).",
+        "Hardcoded hex '{{ hex }}' — use `${'$'}{ {{ token }} }{{ alpha }}` (alpha tail on top of token '{{ token }}' from {{ lib }}/tokens).",
       hardcodedHexUnknown:
-        "Hardcoded hex '{{ hex }}' — neodpovídá žádnému tokenu. Buď přidej do tokens.js, nebo označ `eslint-disable-next-line donjon/no-hardcoded-hex -- důvod`.",
+        "Hardcoded hex '{{ hex }}' — does not match any token. Either add it to tokens.js, or mark it `eslint-disable-next-line donjon/no-hardcoded-hex -- reason`.",
     },
     schema: [],
   },
@@ -120,7 +120,7 @@ export default {
     const filename = context.filename ?? context.getFilename()
     const fileLib = detectLib(filename)
 
-    /* Společná logika reportu pro string literál i template element */
+    /* Shared report logic for both string literals and template elements */
     function report(node, hex, replaceRange = null) {
       const suggestion = suggestToken(hex, fileLib)
 
@@ -143,10 +143,10 @@ export default {
         },
       }
 
-      // Autofix jen když:
-      //   - token už je importován (jinak by autofix vytvořil nedefinovaný symbol)
-      //   - máme replaceRange (specifické pro Literal — TemplateLiteral příliš křehký)
-      //   - jde o exact match (alpha tail by vyžadoval složitější restrukturalizaci)
+      // Autofix only when:
+      //   - the token is already imported (otherwise the autofix would create an undefined symbol)
+      //   - we have a replaceRange (Literal-specific — TemplateLiteral is too fragile)
+      //   - it's an exact match (an alpha tail would require more complex restructuring)
       if (importExists && replaceRange && suggestion.exact) {
         reportObj.fix = (fixer) => fixer.replaceTextRange(replaceRange, suggestion.name)
       }
@@ -155,20 +155,20 @@ export default {
     }
 
     return {
-      /* String literály jako '#FFC183' nebo '#E05C5C88' */
+      /* String literals like '#FFC183' or '#E05C5C88' */
       Literal(node) {
         if (typeof node.value !== 'string') return
         if (!/^#[0-9A-Fa-f]{3,8}$/.test(node.value)) return
         report(node, node.value, node.range)
       },
 
-      /* Template literals s hex uvnitř — `0 0 10px #FFC18366` */
+      /* Template literals with a hex inside — `0 0 10px #FFC18366` */
       TemplateElement(node) {
         const val = node.value.raw
         const HEX_RE = /#[0-9A-Fa-f]{3,8}\b/g
         let m
         while ((m = HEX_RE.exec(val)) !== null) {
-          report(node.parent, m[0])  // bez range → bez autofixu (křehké)
+          report(node.parent, m[0])  // no range → no autofix (fragile)
         }
       },
     }
