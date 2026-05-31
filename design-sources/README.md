@@ -1,27 +1,27 @@
 # Design Sources
 
-Originální SVG soubory, ze kterých byly odvozeny inline SVG paths v komponentách.
+Original SVG files from which the inline SVG paths in the components were derived.
 
-## Soubory
+## Files
 
-| Soubor | Použito v | viewBox |
+| File | Used in | viewBox |
 |---|---|---|
-| `erb.svg` | `Shield` v `src/lib/donjon/Erb.jsx` (clip-path) | 116.22 × 116.21 |
-| `prapor.svg` | `Shield` shape="prapor" v `Erb.jsx` (clip-path) | 29.05 × 116.21 |
-| `hrot-erbu.svg` | `HrotErbu` v `src/lib/donjon/Ornaments.jsx` (inline paths) | 48 × 14 |
-| `roh.svg` | `RohOrnament` v `Ornaments.jsx` (inline paths) | 25 × 46 |
-| `zkosen.svg` | `ZkosenOrnament` v `Ornaments.jsx` (inline paths) | 22 × 22 |
+| `erb.svg` | `Shield` in `src/lib/donjon/Erb.jsx` (clip-path) | 116.22 × 116.21 |
+| `prapor.svg` | `Shield` shape="prapor" in `Erb.jsx` (clip-path) | 29.05 × 116.21 |
+| `hrot-erbu.svg` | `HrotErbu` in `src/lib/donjon/Ornaments.jsx` (inline paths) | 48 × 14 |
+| `roh.svg` | `RohOrnament` in `Ornaments.jsx` (inline paths) | 25 × 46 |
+| `zkosen.svg` | `ZkosenOrnament` in `Ornaments.jsx` (inline paths) | 22 × 22 |
 
 ## Workflow
 
-1. Designér nakreslí SVG ve Figmě/Illustratoru, exportuje do této složky.
-2. Vývojář otevře soubor, zkopíruje `<path d="..." />` do JSX komponenty.
-3. Hardcoded barvy (`#FFC183`, `#8F7458`, …) nahradí tokeny z `tokens.js`
-   (typicky `color`/`colorDim` props pro variant-aware ornamenty).
-4. Originální soubor zůstává jako reference pro budoucí úpravy.
+1. The designer draws the SVG in Figma/Illustrator and exports it into this folder.
+2. The developer opens the file and copies `<path d="..." />` into the JSX component.
+3. Hardcoded colors (`#FFC183`, `#8F7458`, …) are replaced with tokens from
+   `tokens.js` (typically via `color`/`colorDim` props for variant-aware ornaments).
+4. The original file stays as a reference for future tweaks.
 
-## Proč ne `src/`?
+## Why not `src/`?
 
-`src/` je pro app code. Tyto SVG nejsou importované ani buildované — jsou
-to design artefakty. Drží se mimo `src/` aby nezmátly `import.meta.glob`
-nebo bundler.
+`src/` is for app code. These SVGs are not imported or bundled — they are
+design artifacts. They live outside `src/` so they don't confuse
+`import.meta.glob` or the bundler.

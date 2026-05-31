@@ -1,145 +1,146 @@
 # CLAUDE.md — donjon-fall-ui Style Guide
 
-Tento soubor je automaticky načten Claudem při každé session. Obsahuje project-specific kontext, konvence a workflow pravidla.
+This file is auto-loaded by Claude at the start of every session. It holds
+project-specific context, conventions, and workflow rules.
 
 ---
 
 ## Stack
 
 - **React 19** + **Vite 8** (Rolldown bundler) + **Tailwind CSS 4**
-- **@vitejs/plugin-react 6** s aktivním React Compiler (`reactCompilerPreset`)
-- **Vitest 4** pro testy, **react-router-dom 6** pro routing
+- **@vitejs/plugin-react 6** with the React Compiler enabled (`reactCompilerPreset`)
+- **Vitest 4** for tests, **react-router-dom 6** for routing
 - Node ≥ 22.12.0
 
 ```bash
 npm run dev        # dev server (port 5173)
-npm run build      # produkční build — vždy ověř po větší změně
-npm run test:run   # Vitest jednorázově
-npm run lint:lib   # ESLint pouze src/lib/
+npm run build      # production build — always verify after a larger change
+npm run test:run   # Vitest one-shot
+npm run lint:lib   # ESLint, src/lib/ only
 ```
 
 ---
 
-## Struktura projektu
+## Project structure
 
 ```
 src/
   lib/
-    shared/       ← motion, breakpoints, z-index — sdílené strukturální tokeny
-    tkajui/       ← TkajUI — obecná UI knihovna (chladná modrá paleta)
-    donjon/       ← donjon-fall-ui — herní UI (zlatá středověká paleta)
-  pages/          ← showcase stránky (jedna per komponenta nebo téma)
+    shared/       ← motion, breakpoints, z-index — shared structural tokens
+    tkajui/       ← TkajUI — generic UI library (cool blue palette)
+    donjon/       ← donjon-fall-ui — game UI (warm medieval gold palette)
+  pages/          ← showcase pages (one per component or topic)
   data/
-    componentMeta.js    ← ruční metadata komponent (popis, props, relatedSlugs)
-    componentRegistry.js ← auto-discovery z lib/ + merge s componentMeta
+    componentMeta.js    ← hand-written component metadata (description, props, relatedSlugs)
+    componentRegistry.js ← auto-discovery from lib/ + merge with componentMeta
     __tests__/architectureContract.test.js ← enforced naming + dep direction
   utils/
-    octagon.js    ← clip-path funkce: octagon(), hex(), scoopPath()...
-    tooltipUtils.jsx    ← sdílený getPosition() + Arrow pro Tooltip/DonjonTooltip
-    toastContext.jsx    ← sdílená createToastContext() factory pro Toast/DonjonToast
+    octagon.js    ← clip-path functions: octagon(), hex(), scoopPath()...
+    tooltipUtils.jsx    ← shared getPosition() + Arrow for Tooltip/DonjonTooltip
+    toastContext.jsx    ← shared createToastContext() factory for Toast/DonjonToast
   hooks/
-    useModalPageInert.js ← ref-counted inert pro #root při otevřeném modalu
+    useModalPageInert.js ← ref-counted inert for #root while a modal is open
   styleguide/
     ShowcasePage.jsx ← Layout, Section, Preview, CodeBlock (+ copy button), useLibVariant
-    ArchDiagram.jsx ← sdílený shared→tkajui→donjon diagram (HomePage + /architecture)
+    ArchDiagram.jsx ← shared shared→tkajui→donjon diagram (HomePage + /architecture)
   App.jsx         ← lazy imports + Routes
-  index.css       ← Tailwind + @keyframes animace + dialog styles
-design-sources/   ← raw SVG ze kterých byly odvozeny inline JSX paths (nebudované, jen referenční)
+  index.css       ← Tailwind + @keyframes animations + dialog styles
+design-sources/   ← raw SVGs the inline JSX paths were derived from (not built, reference only)
 scripts/
   eslint-rules/no-hardcoded-hex.js ← donjon/no-hardcoded-hex (suggest token + autofix)
   fix-hardcoded-hex.mjs  ← mass replace `'#XXX'` → token + add import
   fix-jsx-attrs.mjs       ← `color="#XXX"` → `color={token}`
-  disable-remaining-hex.mjs ← bulk eslint-disable s kategorizovaným důvodem
-  fix-disable-comments.mjs ← `//` → `{/* */}` v JSX child contextu
+  disable-remaining-hex.mjs ← bulk eslint-disable with categorized reasons
+  fix-disable-comments.mjs ← `//` → `{/* */}` in JSX child context
 ```
 
 ---
 
-## Dva oddělené design systémy — provázané architekturou
+## Two separate design systems — tied together by architecture
 
-**Závislostní směr** (NIKDY naopak):
+**Dependency direction** (NEVER the other way):
 ```
 shared  ← tkajui     (base library)
-shared  ← donjon  ← tkajui  (game layer — staví na base)
+shared  ← donjon  ← tkajui  (game layer — built on the base)
 ```
 
-- `src/lib/shared/tokens.js` — motion, breakpoints, z-index (strukturálně neutrální)
-- `tkajui` smí importovat ze `shared` — NIKDY ne z donjon
-- `donjon` smí importovat ze `shared` (a teoreticky z tkajui) — NIKDY naopak
+- `src/lib/shared/tokens.js` — motion, breakpoints, z-index (structurally neutral)
+- `tkajui` may import from `shared` — NEVER from donjon
+- `donjon` may import from `shared` (and in theory from tkajui) — NEVER the reverse
 
 ### TkajUI (`src/lib/tkajui/`) — base library
-- Chladná paleta: `surface0–4`, `accent=#6576ff`, `textHigh=#eeeef8`
+- Cool palette: `surface0–4`, `accent=#6576ff`, `textHigh=#eeeef8`
 - Import: `import { surface2, accent } from './tokens'`
-- Tvar tlačítek: **oktagon** přes `octagon(cx)` z `../../utils/octagon`
-- Placeholder barva: `textLow = '#4c4c68'`
+- Button shape: **octagon** via `octagon(cx)` from `../../utils/octagon`
+- Placeholder color: `textLow = '#4c4c68'`
 
 ### donjon-fall-ui (`src/lib/donjon/`) — game layer
-- Teplá zlatá paleta: `bg0–4`, `gold=#FFC183`, `textHigh=#E8DDD0`
+- Warm gold palette: `bg0–4`, `gold=#FFC183`, `textHigh=#E8DDD0`
 - Import: `import { gold, bg2, borderDefault } from './tokens'`
-- Tvar tlačítek: **oktagon s větším cx** (donjon má cx=12 vs tkajui cx=8)
-- DonjonBadge: **hex polygon** (ne oktagon) — vlastní `hex(i)` funkce inline
-- Placeholder barva: `textLow = '#9A9080'`
+- Button shape: **octagon with a larger cx** (donjon uses cx=12 vs tkajui cx=8)
+- DonjonBadge: **hex polygon** (not octagon) — uses an inline `hex(i)` function
+- Placeholder color: `textLow = '#9A9080'`
 
-### Naming konvence
+### Naming convention
 
-- `Donjon*` prefix ↔ `subcategory: 'extends-tkajui'` (rozšiřuje TkajUI protějšek)
-  Příklady: DonjonButton, DonjonCard, DonjonModal, DonjonInput, DonjonTabs
-- bez prefixu ↔ `subcategory: 'exclusive'` (herní primitivum bez analogie v TkajUI)
-  Příklady: ActionTile, ResourceBar, PlayerPanel, EventLog, HexTile
+- `Donjon*` prefix ↔ `subcategory: 'extends-tkajui'` (extends the TkajUI counterpart)
+  Examples: DonjonButton, DonjonCard, DonjonModal, DonjonInput, DonjonTabs
+- no prefix ↔ `subcategory: 'exclusive'` (game primitive with no TkajUI analog)
+  Examples: ActionTile, ResourceBar, PlayerPanel, EventLog, HexTile
 
-Pro extends-tkajui komponenty MUSÍ `componentMeta` obsahovat:
-- `extendsSlug: 'button'` — slug TkajUI protějšku
-- `differencesFromBase: ['...', ...]` — co donjon přidává/mění (zobrazí se v showcase)
+For extends-tkajui components, `componentMeta` MUST contain:
+- `extendsSlug: 'button'` — slug of the TkajUI counterpart
+- `differencesFromBase: ['...', ...]` — what donjon adds/changes (shown in the showcase)
 
-> ⚠ Tokeny barev/povrchů/textu si každá knihovna definuje vlastní. Sdíleno přes
-> `lib/shared/tokens.js` je jen motion, breakpoints a z-index — strukturální
-> hodnoty bez vizuální barvy. Test `architectureContract.test.js` to vynucuje.
+> ⚠ Color/surface/text tokens are defined per library. Only motion, breakpoints
+> and z-index are shared via `lib/shared/tokens.js` — structural values without
+> visual color. The `architectureContract.test.js` test enforces this.
 
-**Aliasy:** donjon exportuje `surface0..4` (= `bg0..4`) a tkajui exportuje `bg0..4`
-(= `surface0..4`) — pro knihovně-agnostické kódy (utils, hooks). Idiomatický
-název pro každou knihovnu je její nativní (donjon: `bg*`, tkajui: `surface*`).
+**Aliases:** donjon exports `surface0..4` (= `bg0..4`) and tkajui exports `bg0..4`
+(= `surface0..4`) — for library-agnostic code (utils, hooks). The idiomatic name
+for each library is its native one (donjon: `bg*`, tkajui: `surface*`).
 
 ---
 
-## Klíčové tokeny — donjon (nejpoužívanější)
+## Key tokens — donjon (most-used)
 
 ```js
-// Zlato
-gold = '#FFC183'     // primární akcent — text, ikony, aktivní prvky
+// Gold
+gold = '#FFC183'     // primary accent — text, icons, active elements
 goldMid = '#B8956A'  // labels, subtitles
 goldDim = '#8F7458'  // borders, muted text
 
-// Pozadí
+// Backgrounds
 bg0 = '#12102A'      // page background
 bg2 = '#1E1C30'      // card background
 bg3 = '#252340'      // elevated panel
-bgDeep = '#1B1A30'   // hlavičky panelů
+bgDeep = '#1B1A30'   // panel headers
 
 // Borders
 borderDefault = '#353751'
 borderMid     = '#2A2848'
 
 // Text
-textHigh = '#E8DDD0'   // hlavní text
+textHigh = '#E8DDD0'   // primary text
 textMid  = '#C8BFAF'   // labels
 textLow  = '#9A9080'   // muted / hints
 textFaint = '#4A4560'  // ultra-muted
 
-// Herní barvy
-gainColor    = '#50B86C'  // zelená — gain / zisk
-dangerColor  = '#E05C5C'  // červená — loss / damage
-warningColor = '#C08040'  // oranžová — varování
-infoColor    = '#4A80E2'  // modrá — mana / info
-magicColor   = '#9A60C8'  // fialová — magie / XP
+// Game colors
+gainColor    = '#50B86C'  // green — gain
+dangerColor  = '#E05C5C'  // red — loss / damage
+warningColor = '#C08040'  // orange — warning
+infoColor    = '#4A80E2'  // blue — mana / info
+magicColor   = '#9A60C8'  // purple — magic / XP
 
-// Semantic text tints (parita s tkajui) — pro text na variant pozadí, AA kontrast
+// Semantic text tints (parity with tkajui) — text on variant backgrounds, AA contrast
 dangerText   = '#F9C0C0'
 successText  = '#C0F0C8'
 warningText  = '#FFD580'
 infoText     = '#93C5FD'
 
-// Pre-computed solid tinted bg pro ornament fills (žádný alpha blend)
-selBgInfo    = '#242948'  // ≈ infoColor@13% na bg2
+// Pre-computed solid tinted bg for ornament fills (no alpha blending)
+selBgInfo    = '#242948'  // ≈ infoColor@13% on bg2
 selBgDanger  = '#382536'
 selBgGain    = '#253138'
 selBgMagic   = '#2F2544'
@@ -147,78 +148,80 @@ selBgMagic   = '#2F2544'
 
 ---
 
-## Pravidla kódování
+## Coding rules
 
-### Barvy
-- **Vždy importuj z `./tokens`** — nikdy hardcoded hex hodnoty v komponentách
-- Výjimka: průhlednosti jako `${gold}30` nebo `${dangerColor}88` jsou OK inline
-- **ESLint pravidlo `donjon/no-hardcoded-hex`** scope: `src/lib/**` + `src/pages/**`
-  - Rule sám navrhne konkrétní token *(„použij `dangerColor` z donjon/tokens")*
-  - Autofix když token už importován v souboru
-  - Pro legitimní výjimky *(ColorsPage demo, player color demo data, code snippet
-    text v CodeBlock)* použij `// eslint-disable-next-line donjon/no-hardcoded-hex -- důvod`
-    nebo v JSX child contextu `{/* eslint-disable-next-line donjon/no-hardcoded-hex -- důvod */}`
-- **Scripts pro mass fix** v `/scripts/` — pusť pokud po větším refactoru je hodně violations
+### Colors
+- **Always import from `./tokens`** — never hardcoded hex values in components
+- Exception: transparencies like `${gold}30` or `${dangerColor}88` are OK inline
+- **ESLint rule `donjon/no-hardcoded-hex`** scope: `src/lib/**` + `src/pages/**`
+  - The rule suggests a concrete token *("use `dangerColor` from donjon/tokens")*
+  - Autofix when the token is already imported in the file
+  - For legitimate exceptions *(ColorsPage demo, player color demo data, code
+    snippet text in CodeBlock)* use `// eslint-disable-next-line donjon/no-hardcoded-hex -- reason`
+    or in JSX child context `{/* eslint-disable-next-line donjon/no-hardcoded-hex -- reason */}`
+- **Mass-fix scripts** under `/scripts/` — run them after a larger refactor if
+  there are many violations
 
-### Inline `<style>` tagy
-- `@keyframes` patří do `src/index.css` — **ne do komponent**
-- Placeholder barvy: použij `<style href="unique-id" precedence="low">{...}</style>` (React 19 deduplikace)
-- Viz: `DonjonInput.jsx`, `Input.jsx` jako vzor
+### Inline `<style>` tags
+- `@keyframes` belong in `src/index.css` — **not in components**
+- Placeholder colors: use `<style href="unique-id" precedence="low">{...}</style>` (React 19 dedup)
+- See `DonjonInput.jsx`, `Input.jsx` as references
 
-### Tvar komponent (clip-path)
-- TkajUI: `octagon(cx)` z `../../utils/octagon` — cx=8 (md)
-- Donjon: `octagon(cx)` s cx=10–14 podle velikosti, DonjonBadge má vlastní `hex()`
-- Border trick: outer wrapper = border barva, inner wrapper = fill barva, `padding: bord`
+### Component shape (clip-path)
+- TkajUI: `octagon(cx)` from `../../utils/octagon` — cx=8 (md)
+- Donjon: `octagon(cx)` with cx=10–14 depending on size; DonjonBadge has its own `hex()`
+- Border trick: outer wrapper = border color, inner wrapper = fill color, `padding: bord`
 
-### Animace
-- Tokeny: `animFast=80ms`, `animNormal=160ms`, `animSlow=300ms`
-- `GameTransition` pro mount/unmount animace — 6 presetů (fadeScale, slideUp, slideDown, pop, fade, slideLeft)
-- `useGameAnimation` hook pro imperatívní Web Animations API
+### Animation
+- Tokens: `animFast=80ms`, `animNormal=160ms`, `animSlow=300ms`
+- `GameTransition` for mount/unmount animations — 6 presets (fadeScale, slideUp, slideDown, pop, fade, slideLeft)
+- `useGameAnimation` hook for imperative Web Animations API
 
-### Sdílené utility
-- `getPosition()` + `Arrow` z `../../utils/tooltipUtils` — pro obě Tooltip varianty
-- `createToastContext()` z `../../utils/toastContext` — pro obě Toast varianty
-- `useModalPageInert(isOpen)` z `../../hooks/useModalPageInert` — při otevřených dialozích
+### Shared utilities
+- `getPosition()` + `Arrow` from `../../utils/tooltipUtils` — used by both Tooltip variants
+- `createToastContext()` from `../../utils/toastContext` — used by both Toast variants
+- `useModalPageInert(isOpen)` from `../../hooks/useModalPageInert` — for open dialogs
 
 ---
 
-## Přidání nové komponenty — checklist
+## Adding a new component — checklist
 
-Každá nová veřejná komponenta vyžaduje **4 změny**:
+Every new public component requires **4 changes**:
 
-### 1. Soubor komponenty
+### 1. Component file
 ```
-src/lib/donjon/MojeKomponenta.jsx     ← pro donjon-fall-ui
-src/lib/tkajui/MojeKomponenta.jsx     ← pro TkajUI
+src/lib/donjon/MyComponent.jsx     ← for donjon-fall-ui
+src/lib/tkajui/MyComponent.jsx     ← for TkajUI
 ```
-- Importuj barvy výhradně z `./tokens`
-- Bez inline `@keyframes` — přidej do `src/index.css`
-- JSDoc komentář s popisem props
+- Import colors exclusively from `./tokens`
+- No inline `@keyframes` — add to `src/index.css`
+- JSDoc with prop descriptions
 
-### 2. Showcase stránka
+### 2. Showcase page
 ```
-src/pages/MojeKomponentaPage.jsx
+src/pages/MyComponentPage.jsx
 ```
-- Používá `ShowcasePage`, `Section`, `Preview`, `CodeBlock` z `../styleguide/ShowcasePage`
-- Každá sekce: interaktivní preview + kopírovatelný CodeBlock
-- Pokud má obě varianty (tkajui + donjon): přidej do existující stránky se `useLibVariant()`
+- Uses `ShowcasePage`, `Section`, `Preview`, `CodeBlock` from `../styleguide/ShowcasePage`
+- Each section: interactive preview + copy-able CodeBlock
+- If the component has both variants (tkajui + donjon): add into the existing
+  page and use `useLibVariant()`
 
-### 3. Route v App.jsx
+### 3. Route in App.jsx
 ```jsx
 // Lazy import:
-const MojeKomponentaPage = lazy(() => import('./pages/MojeKomponentaPage'))
+const MyComponentPage = lazy(() => import('./pages/MyComponentPage'))
 
 // Route:
-<Route path="moje-komponenta" element={<S><MojeKomponentaPage /></S>} />
+<Route path="my-component" element={<S><MyComponentPage /></S>} />
 ```
 
 ### 4. componentMeta.js
 ```js
-'moje-komponenta': {
-  description: 'Popis co komponenta dělá a proč existuje.',
-  subcategory: 'exclusive',        // nebo 'extends-tkajui'
-  status: 'stable',                // nebo 'draft'
-  showcaseRoute: '/moje-komponenta',
+'my-component': {
+  description: 'What the component does and why it exists.',
+  subcategory: 'exclusive',        // or 'extends-tkajui'
+  status: 'stable',                // or 'draft'
+  showcaseRoute: '/my-component',
   props: [
     { name: 'value',    type: 'number',  required: true,  description: '...' },
     { name: 'onChange', type: 'function',required: true,  description: '...' },
@@ -228,15 +231,15 @@ const MojeKomponentaPage = lazy(() => import('./pages/MojeKomponentaPage'))
 },
 ```
 
-> ✅ Vždy ověř: `npm run build` musí projít bez chyb po všech 4 změnách.
+> ✅ Always verify: `npm run build` must pass without errors after all 4 changes.
 
 ---
 
-## componentMeta.js — slug konvence
+## componentMeta.js — slug convention
 
-- Slug = kebab-case z názvu souboru: `DonjonProgressBar.jsx` → `donjon-progress-bar`
-- Slug generuje `componentRegistry.js` automaticky — v componentMeta musí klíč přesně odpovídat
-- `status: 'stable'` = kompletní, `'draft'` = WIP, `'generated'` = jen auto-data
+- Slug = kebab-case of the filename: `DonjonProgressBar.jsx` → `donjon-progress-bar`
+- The slug is generated by `componentRegistry.js`; the key in componentMeta must match exactly
+- `status: 'stable'` = complete, `'draft'` = WIP, `'generated'` = auto-data only
 
 ---
 
@@ -245,110 +248,122 @@ const MojeKomponentaPage = lazy(() => import('./pages/MojeKomponentaPage'))
 ```jsx
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
-export default function MojeStránka() {
+export default function MyPage() {
   return (
     <ShowcasePage
-      title="Název komponenty"
-      description="Jednořádkový popis."
-      componentSlugs={['moje-komponenta']}     // zobrazí metadata z componentMeta
-      variants={[                               // volitelné — pro komponenty s tkajui+donjon variantou
+      title="Component name"
+      description="One-line description."
+      componentSlugs={['my-component']}     // renders metadata from componentMeta
+      variants={[                            // optional — for components with tkajui+donjon variants
         { id: 'tkajui', label: 'TkajUI' },
         { id: 'donjon', label: 'donjon-fall-ui' },
       ]}
     >
-      <Section id="zakladni" title="Základní použití" description="...">
+      <Section id="basic" title="Basic usage" description="...">
         <Preview>...</Preview>
-        <CodeBlock code={`<MojeKomponenta value={42} />`} />
+        <CodeBlock code={`<MyComponent value={42} />`} />
       </Section>
     </ShowcasePage>
   )
 }
 
-// Čtení aktivní varianty (tkajui vs donjon) uvnitř stránky:
+// Read the active variant (tkajui vs donjon) inside a page:
 const lib = useLibVariant()  // 'tkajui' | 'donjon'
 ```
 
 ---
 
-## Modaly a portaly
+## Modals and portals
 
-- Modaly renderují přes `createPortal(content, document.body)` — mimo `#root`
-- Vždy volej `useModalPageInert(isOpen)` — inertuje `#root` při otevřeném dialogu
-- Z-index hierarchie: tooltips=2100, toasts=2000, notification center=1800, modals=1500
+- Modals render via `createPortal(content, document.body)` — outside `#root`
+- Always call `useModalPageInert(isOpen)` — it inerts `#root` while a dialog is open
+- Z-index hierarchy: tooltips=2100, toasts=2000, notification center=1800, modals=1500
 
 ---
 
-## Časté chyby — vyhnout se
+## Common mistakes — avoid
 
-| Chyba | Správně |
+| Mistake | Correct |
 |---|---|
-| `import { gold } from '../donjon/tokens'` v tkajui komponentě | Každá lib má vlastní `./tokens` |
-| `@keyframes` inline v `<style>` tagu | Do `src/index.css` |
-| Hardcoded `#FFC183` v komponentě | `import { gold } from './tokens'` |
-| `componentMeta` záznam bez `showcaseRoute` | Vždy přidej showcaseRoute |
-| Nová komponenta bez Route v App.jsx | Viz checklist výše |
-| ~~`dangerText` v donjon komponentě~~ | Token EXISTUJE od commit `cbf149c` (parita s tkajui) |
-| Barrel index.js bez `export * from './tokens'` | Vždy re-exportuj tokeny z barrel (regression test ošetří) |
-| `// eslint-disable` mezi JSX sourozenci | V JSX child contextu MUSÍ být `{/* eslint-disable ... */}` |
-| Auto-replace `'#XXX'` → `tokenName` v JSX attr | JSX: `color="#XXX"` → `color={tokenName}` (potřeba braces) |
-| Node script čte CRLF soubor přes `.+$` regex | `.` nematchuje `\r` — strip CRLF nebo použij `[^\n]+` |
+| `import { gold } from '../donjon/tokens'` in a tkajui component | Each lib has its own `./tokens` |
+| `@keyframes` inline in a `<style>` tag | Put them in `src/index.css` |
+| Hardcoded `#FFC183` in a component | `import { gold } from './tokens'` |
+| `componentMeta` entry without `showcaseRoute` | Always add showcaseRoute |
+| A new component without a Route in App.jsx | See the checklist above |
+| ~~`dangerText` in a donjon component~~ | The token EXISTS as of commit `cbf149c` (parity with tkajui) |
+| Barrel index.js without `export * from './tokens'` | Always re-export tokens from the barrel (regression test enforces this) |
+| `// eslint-disable` between JSX siblings | In a JSX child context you MUST use `{/* eslint-disable ... */}` |
+| Auto-replace `'#XXX'` → `tokenName` in a JSX attr | JSX: `color="#XXX"` → `color={tokenName}` (braces required) |
+| Node script reads a CRLF file with a `.+$` regex | `.` doesn't match `\r` — strip CRLF or use `[^\n]+` |
 
 ---
 
-## Lessons learned z mass-refactorů (lint cleanup, P5-P13 audit, atd.)
+## Lessons learned from mass refactors (lint cleanup, P5-P13 audit, etc.)
 
 ### JSX comment context
-ESLint disable comment funguje DVĚMA způsoby podle contextu:
-- **JS expression context** *(uvnitř `style={...}`, mezi statements, v arrow callback `=> (`):* `// eslint-disable-next-line ...`
-- **JSX child context** *(mezi `<X>` a `</X>` jako text node):* `{/* eslint-disable-next-line ... */}`
+ESLint disable comments work TWO ways depending on context:
+- **JS expression context** *(inside `style={...}`, between statements, in an arrow callback `=> (`):* `// eslint-disable-next-line ...`
+- **JSX child context** *(between `<X>` and `</X>` as a text node):* `{/* eslint-disable-next-line ... */}`
 
-Heuristika pro detekci JSX child contextu *(z `scripts/fix-disable-comments.mjs`)*:
+Heuristic for detecting JSX child context *(from `scripts/fix-disable-comments.mjs`)*:
 - previous non-empty line ends with `>` or `}`  AND
 - next non-empty line starts with `<` or `{<`
 
 ### Mass cross-lib token imports
-TokensPage importuje paletu z OBOU lib *(donjon + tkajui)* — některé tokeny mají **stejné jméno** *(např. `successColor`, `borderSubtle`)*. Auto-fix scripty musí detekovat existující importy přes ESM `ImportDeclaration` AST a vyhnout se duplikátům jinak parsing fail.
+TokensPage imports the palette from BOTH libs *(donjon + tkajui)* — some tokens
+share the **same name** *(e.g. `successColor`, `borderSubtle`)*. Auto-fix scripts
+must detect existing imports via the ESM `ImportDeclaration` AST and avoid
+duplicates, otherwise parsing fails.
 
-### Pre-existing build warnings vs nové errors
-- `process is not defined` v `NotchedBox.jsx` — pre-existing *(dev guard `if (typeof process !== 'undefined')`)*. Nepatří k color fixům.
-- `INEFFECTIVE_DYNAMIC_IMPORT` warnings — produkční build OK, jen Rolldown poznámka že `componentRegistry.js` glob match komponent které jsou taky static-imported. Není to chyba.
+### Pre-existing build warnings vs. new errors
+- `process is not defined` in `NotchedBox.jsx` — pre-existing *(dev guard
+  `if (typeof process !== 'undefined')`)*. Unrelated to color fixes.
+- `INEFFECTIVE_DYNAMIC_IMPORT` warnings — production build is OK, just a
+  Rolldown note that `componentRegistry.js` glob matches components that are
+  also static-imported. Not an error.
 
 ### Component variant naming convention
-**Donjon komponenty s `subcategory: 'extends-tkajui'` musí mít** *(vynuceno `architectureContract.test.js`)*:
-- Name s `Donjon` prefix *(DonjonButton, DonjonCard, …)*
-- `extendsSlug` v componentMeta míří na existující TkajUI slug
-- `differencesFromBase` pole strings dokumentuje co donjon přidává
-- 5-variant standard: `'default'|'danger'|'success'|'warning'|'info'` *(parita s tkajui, kde existuje)*
+**Donjon components with `subcategory: 'extends-tkajui'` must have** *(enforced
+by `architectureContract.test.js`)*:
+- A name with the `Donjon` prefix *(DonjonButton, DonjonCard, …)*
+- `extendsSlug` in componentMeta pointing to an existing TkajUI slug
+- `differencesFromBase` array of strings documenting what donjon adds
+- 5-variant standard: `'default'|'danger'|'success'|'warning'|'info'` *(parity
+  with tkajui where it exists)*
 
 ### Design source SVG → JSX paths workflow
-1. Designér exportuje SVG do `/design-sources/` *(NE `src/`)*
-2. Vývojář otevře, zkopíruje `<path d="..." />` do JSX komponenty *(typicky `Ornaments.jsx`, `Erb.jsx`)*
-3. Hardcoded fills *(`#FFC183`, `#8F7458`)* nahradí tokeny z `./tokens` *(typicky přes `color`/`colorDim` props)*
-4. Originál v `/design-sources/` zůstává jako reference pro budoucí úpravy
-5. README v `/design-sources/` má aktualní mapping souborů ↔ komponent
+1. The designer exports an SVG into `/design-sources/` *(NOT `src/`)*
+2. The developer opens it, copies `<path d="..." />` into the JSX component
+   *(typically `Ornaments.jsx`, `Erb.jsx`)*
+3. Hardcoded fills *(`#FFC183`, `#8F7458`)* are replaced by tokens from
+   `./tokens` *(typically via `color`/`colorDim` props)*
+4. The original in `/design-sources/` stays as a reference for future tweaks
+5. The README in `/design-sources/` keeps the up-to-date mapping of files ↔ components
 
 ### ESLint scope expansion gotcha
-Když rozšíříš `donjon/no-hardcoded-hex` na nový adresář:
-- Spusť `npx eslint <dir> --format json` a počítej violations PŘED dělat fixy
-- Pre-existing `no-undef` a další pravidla mohou hořet — vyhraď čas
-- Velké counts = potřebuješ batch scripty *(viz `/scripts/`)*, ne manuální fix
+When you expand `donjon/no-hardcoded-hex` to a new directory:
+- Run `npx eslint <dir> --format json` and count violations BEFORE doing fixes
+- Pre-existing `no-undef` and other rules may light up — budget time for it
+- Large counts = use batch scripts *(see `/scripts/`)*, not manual fixes
 
-### Pull request pro kolegy
-Po `git push origin master`:
-1. Kolega: `git pull` (82+ commitů ahead)
-2. `npm install` (deps mohly se změnit)
-3. `npm run lint` (ověř že jeho kód projde nová pravidla)
-4. Pokud lint hlásí violations → buď fix podle suggestion *(„použij token X")*, nebo `eslint-disable-next-line donjon/no-hardcoded-hex -- důvod`
+### Pull request for colleagues
+After `git push origin master`:
+1. Colleague: `git pull` (80+ commits ahead)
+2. `npm install` (deps may have changed)
+3. `npm run lint` (verify their code passes the new rules)
+4. If lint reports violations → either fix per the suggestion *("use token X")*
+   or `eslint-disable-next-line donjon/no-hardcoded-hex -- reason`
 
 ---
 
-## Testování
+## Testing
 
-Testy jsou v `src/lib/tkajui/__tests__/` a `src/lib/donjon/__tests__/`.
+Tests live in `src/lib/tkajui/__tests__/` and `src/lib/donjon/__tests__/`.
 
 ```bash
-npm run test:run          # všechny testy
-npm run test:run -- Input # filtr podle názvu
+npm run test:run          # all tests
+npm run test:run -- Input # filter by name
 ```
 
-Pokud přidáš novou komponentu s netriviální logikou (hooks, animace, state), přidej základní test do `__tests__/`.
+If you add a new component with non-trivial logic (hooks, animations, state),
+add a basic test to `__tests__/`.

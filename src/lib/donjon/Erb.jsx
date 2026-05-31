@@ -227,7 +227,7 @@ export function Shield({
  *
  * Supports two APIs:
  *   - Legacy: player={{ color, label, id }}
- *   - Flat:   name="Hráč 1" color="#E05C5C" vp={7}
+ *   - Flat:   name="Player 1" color="#E05C5C" vp={7}
  *
  * @param {{ color: string, label: string, id?: number }} [player]
  * @param {string} [name] - Player name (flat API)

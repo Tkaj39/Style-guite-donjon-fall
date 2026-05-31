@@ -16,47 +16,47 @@ const TABS_ALL_ENABLED = [
 // ─── Render ────────────────────────────────────────────────────────────────
 
 describe('DonjonTabs — render', () => {
-  it('renderuje role="tablist"', () => {
+  it('renders role="tablist"', () => {
     render(<DonjonTabs items={TABS} value="a" onChange={() => {}} />)
     expect(screen.getByRole('tablist')).toBeInTheDocument()
   })
 
-  it('renderuje správný počet tabů', () => {
+  it('renders the correct number of tabs', () => {
     render(<DonjonTabs items={TABS} value="a" onChange={() => {}} />)
     expect(screen.getAllByRole('tab')).toHaveLength(TABS.length)
   })
 
-  it('aktivní tab má aria-selected="true"', () => {
+  it('active tab has aria-selected="true"', () => {
     render(<DonjonTabs items={TABS} value="b" onChange={() => {}} />)
     const tabs = screen.getAllByRole('tab')
     const betaTab = tabs.find(t => t.textContent.includes('Beta'))
     expect(betaTab).toHaveAttribute('aria-selected', 'true')
   })
 
-  it('neaktivní tab má aria-selected="false"', () => {
+  it('inactive tab has aria-selected="false"', () => {
     render(<DonjonTabs items={TABS} value="a" onChange={() => {}} />)
     const tabs = screen.getAllByRole('tab')
     const betaTab = tabs.find(t => t.textContent.includes('Beta'))
     expect(betaTab).toHaveAttribute('aria-selected', 'false')
   })
 
-  it('disabled tab má aria-disabled="true"', () => {
+  it('disabled tab has aria-disabled="true"', () => {
     render(<DonjonTabs items={TABS} value="a" onChange={() => {}} />)
     const gammaTab = screen.getAllByRole('tab').find(t => t.textContent.includes('Gamma'))
     expect(gammaTab).toHaveAttribute('aria-disabled', 'true')
   })
 
-  it('tab badge se zobrazí', () => {
+  it('tab badge is shown', () => {
     const itemsWithBadge = [{ value: 'a', label: 'Alpha', badge: 5 }]
     render(<DonjonTabs items={itemsWithBadge} value="a" onChange={() => {}} />)
     expect(screen.getByText('5')).toBeInTheDocument()
   })
 })
 
-// ─── Klikání ───────────────────────────────────────────────────────────────
+// ─── Clicking ──────────────────────────────────────────────────────────────
 
-describe('DonjonTabs — klikání', () => {
-  it('kliknutí zavolá onChange se string hodnotou', () => {
+describe('DonjonTabs — clicking', () => {
+  it('click calls onChange with a string value', () => {
     const onChange = vi.fn()
     render(<DonjonTabs items={TABS} value="a" onChange={onChange} />)
     fireEvent.click(screen.getAllByRole('tab')[1]) // Beta
@@ -64,7 +64,7 @@ describe('DonjonTabs — klikání', () => {
     expect(typeof onChange.mock.calls[0][0]).toBe('string')
   })
 
-  it('disabled tab nezavolá onChange', () => {
+  it('disabled tab does not call onChange', () => {
     const onChange = vi.fn()
     render(<DonjonTabs items={TABS} value="a" onChange={onChange} />)
     const gammaTab = screen.getAllByRole('tab').find(t => t.textContent.includes('Gamma'))
@@ -72,7 +72,7 @@ describe('DonjonTabs — klikání', () => {
     expect(onChange).not.toHaveBeenCalled()
   })
 
-  it('onChange={undefined} → kliknutí necrashne', () => {
+  it('onChange={undefined} → click does not crash', () => {
     expect(() => {
       render(<DonjonTabs items={TABS} value="a" />)
       fireEvent.click(screen.getAllByRole('tab')[0])
@@ -80,10 +80,10 @@ describe('DonjonTabs — klikání', () => {
   })
 })
 
-// ─── Klávesnice ────────────────────────────────────────────────────────────
+// ─── Keyboard ──────────────────────────────────────────────────────────────
 
-describe('DonjonTabs — klávesnice', () => {
-  it('Enter na aktivním tabu zavolá onChange', () => {
+describe('DonjonTabs — keyboard', () => {
+  it('Enter on the active tab calls onChange', () => {
     const onChange = vi.fn()
     render(<DonjonTabs items={TABS} value="a" onChange={onChange} />)
     const alphaTab = screen.getAllByRole('tab').find(t => t.textContent.includes('Alpha'))
@@ -91,7 +91,7 @@ describe('DonjonTabs — klávesnice', () => {
     expect(onChange).toHaveBeenCalledWith('a')
   })
 
-  it('Space na aktivním tabu zavolá onChange', () => {
+  it('Space on the active tab calls onChange', () => {
     const onChange = vi.fn()
     render(<DonjonTabs items={TABS} value="a" onChange={onChange} />)
     const alphaTab = screen.getAllByRole('tab').find(t => t.textContent.includes('Alpha'))
@@ -99,7 +99,7 @@ describe('DonjonTabs — klávesnice', () => {
     expect(onChange).toHaveBeenCalledWith('a')
   })
 
-  it('ArrowRight přepne na další povolený tab', () => {
+  it('ArrowRight moves to the next enabled tab', () => {
     const onChange = vi.fn()
     render(<DonjonTabs items={TABS} value="a" onChange={onChange} />)
     const alphaTab = screen.getAllByRole('tab').find(t => t.textContent.includes('Alpha'))
@@ -107,7 +107,7 @@ describe('DonjonTabs — klávesnice', () => {
     expect(onChange).toHaveBeenCalledWith('b')
   })
 
-  it('ArrowLeft přepne na předchozí povolený tab', () => {
+  it('ArrowLeft moves to the previous enabled tab', () => {
     const onChange = vi.fn()
     render(<DonjonTabs items={TABS} value="a" onChange={onChange} />)
     const betaTab = screen.getAllByRole('tab').find(t => t.textContent.includes('Beta'))
@@ -115,9 +115,9 @@ describe('DonjonTabs — klávesnice', () => {
     expect(onChange).toHaveBeenCalledWith('a')
   })
 
-  it('ArrowRight přeskočí disabled tab', () => {
+  it('ArrowRight skips a disabled tab', () => {
     const onChange = vi.fn()
-    // a, b, c(disabled), d — ArrowRight z b přeskočí c a jde na d
+    // a, b, c(disabled), d — ArrowRight from b skips c and goes to d
     const items = [
       { value: 'a', label: 'Alpha' },
       { value: 'b', label: 'Beta' },
@@ -130,7 +130,7 @@ describe('DonjonTabs — klávesnice', () => {
     expect(onChange).toHaveBeenCalledWith('d')
   })
 
-  it('ArrowRight z posledního tabu se wraparound na první', () => {
+  it('ArrowRight from the last tab wraps around to the first', () => {
     const onChange = vi.fn()
     render(<DonjonTabs items={TABS_ALL_ENABLED} value="a" onChange={onChange} />)
     const gammaTab = screen.getAllByRole('tab').find(t => t.textContent.includes('Gamma'))
@@ -138,7 +138,7 @@ describe('DonjonTabs — klávesnice', () => {
     expect(onChange).toHaveBeenCalledWith('a')
   })
 
-  it('ArrowLeft z prvního tabu se wraparound na poslední', () => {
+  it('ArrowLeft from the first tab wraps around to the last', () => {
     const onChange = vi.fn()
     render(<DonjonTabs items={TABS_ALL_ENABLED} value="a" onChange={onChange} />)
     const alphaTab = screen.getAllByRole('tab').find(t => t.textContent.includes('Alpha'))
@@ -146,7 +146,7 @@ describe('DonjonTabs — klávesnice', () => {
     expect(onChange).toHaveBeenCalledWith('c')
   })
 
-  it('keyDown na disabled tabu nezavolá onChange', () => {
+  it('keyDown on a disabled tab does not call onChange', () => {
     const onChange = vi.fn()
     render(<DonjonTabs items={TABS} value="a" onChange={onChange} />)
     const gammaTab = screen.getAllByRole('tab').find(t => t.textContent.includes('Gamma'))
@@ -155,36 +155,36 @@ describe('DonjonTabs — klávesnice', () => {
   })
 })
 
-// ─── Varianty a velikosti ──────────────────────────────────────────────────
+// ─── Variants and sizes ────────────────────────────────────────────────────
 
-describe('DonjonTabs — varianty a velikosti', () => {
-  it('variant="pills" → renderuje bez pádu', () => {
+describe('DonjonTabs — variants and sizes', () => {
+  it('variant="pills" → renders without crashing', () => {
     expect(() => render(<DonjonTabs items={TABS} value="a" onChange={() => {}} variant="pills" />)).not.toThrow()
   })
 
-  it('ornament="plain" → renderuje bez dekorativních overlay uzlů a zachová tablist', () => {
+  it('ornament="plain" → renders without decorative overlay nodes and keeps the tablist', () => {
     const { container } = render(<DonjonTabs items={TABS} value="a" onChange={() => {}} ornament="plain" />)
     expect(screen.getByRole('tablist')).toBeInTheDocument()
     expect(container.querySelectorAll('[aria-hidden="true"]').length).toBe(0)
   })
 
-  it('variant="underline" → renderuje bez pádu', () => {
+  it('variant="underline" → renders without crashing', () => {
     expect(() => render(<DonjonTabs items={TABS} value="a" onChange={() => {}} variant="underline" />)).not.toThrow()
   })
 
-  it('neznámý variant → renderuje bez pádu (fallback)', () => {
+  it('unknown variant → renders without crashing (fallback)', () => {
     expect(() => render(<DonjonTabs items={TABS} value="a" onChange={() => {}} variant="unknown" />)).not.toThrow()
   })
 
-  it('size="sm" → renderuje bez pádu', () => {
+  it('size="sm" → renders without crashing', () => {
     expect(() => render(<DonjonTabs items={TABS} value="a" onChange={() => {}} size="sm" />)).not.toThrow()
   })
 
-  it('size="lg" → renderuje bez pádu', () => {
+  it('size="lg" → renders without crashing', () => {
     expect(() => render(<DonjonTabs items={TABS} value="a" onChange={() => {}} size="lg" />)).not.toThrow()
   })
 
-  it('neznámý size → renderuje bez pádu (fallback)', () => {
+  it('unknown size → renders without crashing (fallback)', () => {
     expect(() => render(<DonjonTabs items={TABS} value="a" onChange={() => {}} size="xl" />)).not.toThrow()
   })
 })
@@ -192,15 +192,15 @@ describe('DonjonTabs — varianty a velikosti', () => {
 // ─── Null / undefined safety ───────────────────────────────────────────────
 
 describe('DonjonTabs — null/undefined safety', () => {
-  it('items={null} → renderuje bez pádu', () => {
+  it('items={null} → renders without crashing', () => {
     expect(() => render(<DonjonTabs items={null} value="" onChange={() => {}} />)).not.toThrow()
   })
 
-  it('items={undefined} → renderuje bez pádu', () => {
+  it('items={undefined} → renders without crashing', () => {
     expect(() => render(<DonjonTabs items={undefined} value="" onChange={() => {}} />)).not.toThrow()
   })
 
-  it('items=[] → renderuje prázdný tablist bez pádu', () => {
+  it('items=[] → renders an empty tablist without crashing', () => {
     expect(() => render(<DonjonTabs items={[]} value="" onChange={() => {}} />)).not.toThrow()
   })
 })

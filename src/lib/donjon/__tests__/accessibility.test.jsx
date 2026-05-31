@@ -1,13 +1,13 @@
 /**
- * Accessibility tests — donjon-fall-ui vlastní implementace
+ * Accessibility tests — donjon-fall-ui native implementations
  *
- * Pokrývá 6 komponent s vlastním kódem (ostatní jsou re-exporty z TkajUI):
+ * Covers 6 components with their own code (the rest are re-exports from TkajUI):
  *   DonjonButton, DonjonCard, DonjonModal, DonjonTabs,
  *   DonjonButtonGroup, DonjonPictogram
  *
- * Každá komponenta:
- *   1. axe audit (žádné porušení WCAG)
- *   2. ARIA atributy (role, aria-*, labeling)
+ * Per component:
+ *   1. axe audit (no WCAG violations)
+ *   2. ARIA attributes (role, aria-*, labeling)
  */
 
 import { render, screen } from '@testing-library/react'
@@ -33,106 +33,106 @@ const TABS = [
 ]
 
 const GROUP_ITEMS = [
-  { value: 'x', label: 'Meč' },
-  { value: 'y', label: 'Štít' },
+  { value: 'x', label: 'Sword' },
+  { value: 'y', label: 'Shield' },
 ]
 
 // ── axe audit ────────────────────────────────────────────────────────────────
 
 describe('donjon — axe audit', () => {
-  it('DonjonButton projde axe audit', async () => {
+  it('DonjonButton passes axe audit', async () => {
     const { container } = render(
-      <DonjonButton>Zaútočit</DonjonButton>
+      <DonjonButton>Attack</DonjonButton>
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('DonjonButton loading projde axe audit', async () => {
+  it('DonjonButton loading passes axe audit', async () => {
     const { container } = render(
-      <DonjonButton loading>Zaútočit</DonjonButton>
+      <DonjonButton loading>Attack</DonjonButton>
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('DonjonButton disabled projde axe audit', async () => {
+  it('DonjonButton disabled passes axe audit', async () => {
     const { container } = render(
-      <DonjonButton disabled>Zaútočit</DonjonButton>
+      <DonjonButton disabled>Attack</DonjonButton>
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('DonjonButton variant="danger" projde axe audit', async () => {
+  it('DonjonButton variant="danger" passes axe audit', async () => {
     const { container } = render(
-      <DonjonButton variant="danger">Zrušit</DonjonButton>
+      <DonjonButton variant="danger">Cancel</DonjonButton>
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('DonjonCard bez hlavičky projde axe audit', async () => {
+  it('DonjonCard without a header passes axe audit', async () => {
     const { container } = render(
       <DonjonCard>
-        <p>Obsah karty</p>
+        <p>Card content</p>
       </DonjonCard>
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('DonjonCard s title a description projde axe audit', async () => {
+  it('DonjonCard with title and description passes axe audit', async () => {
     const { container } = render(
-      <DonjonCard title="Inventář" description="Předměty hráče">
-        <p>Obsah</p>
+      <DonjonCard title="Inventory" description="Player items">
+        <p>Content</p>
       </DonjonCard>
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('DonjonModal isOpen s title projde axe audit', async () => {
+  it('DonjonModal isOpen with title passes axe audit', async () => {
     const { container } = render(
-      <DonjonModal isOpen title="Potvrzení" onClose={() => {}}>
-        <p>Opravdu chcete opustit hru?</p>
+      <DonjonModal isOpen title="Confirmation" onClose={() => {}}>
+        <p>Are you sure you want to leave the game?</p>
       </DonjonModal>
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('DonjonModal isOpen bez title + aria-label projde axe audit', async () => {
+  it('DonjonModal isOpen without title + aria-label passes axe audit', async () => {
     const { container } = render(
-      <DonjonModal isOpen aria-label="Herní nabídka" onClose={() => {}}>
-        <p>Obsah modalu bez nadpisu</p>
+      <DonjonModal isOpen aria-label="Game menu" onClose={() => {}}>
+        <p>Modal content without a heading</p>
       </DonjonModal>
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('DonjonTabs variant="underline" projde axe audit', async () => {
+  it('DonjonTabs variant="underline" passes axe audit', async () => {
     const { container } = render(
       <DonjonTabs items={TABS} value="a" onChange={() => {}} variant="underline" />
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('DonjonTabs variant="pills" projde axe audit', async () => {
+  it('DonjonTabs variant="pills" passes axe audit', async () => {
     const { container } = render(
       <DonjonTabs items={TABS} value="a" onChange={() => {}} variant="pills" />
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('DonjonButtonGroup projde axe audit', async () => {
+  it('DonjonButtonGroup passes axe audit', async () => {
     const { container } = render(
       <DonjonButtonGroup items={GROUP_ITEMS} value="x" onChange={() => {}} />
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('DonjonPictogram s ikonou projde axe audit', async () => {
+  it('DonjonPictogram with an icon passes axe audit', async () => {
     const { container } = render(
       <DonjonPictogram icon={MockIcon} size="md" variant="active" />
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('DonjonPictogram bare projde axe audit', async () => {
+  it('DonjonPictogram bare passes axe audit', async () => {
     const { container } = render(
       <DonjonPictogram icon={MockIcon} size="md" bare />
     )
@@ -140,39 +140,39 @@ describe('donjon — axe audit', () => {
   })
 })
 
-// ── ARIA atributy ─────────────────────────────────────────────────────────────
+// ── ARIA attributes ──────────────────────────────────────────────────────────
 
-describe('donjon — ARIA atributy', () => {
-  it('DonjonButton je type="button"', () => {
-    render(<DonjonButton>Zaútočit</DonjonButton>)
-    expect(screen.getByRole('button', { name: 'Zaútočit' })).toBeInTheDocument()
+describe('donjon — ARIA attributes', () => {
+  it('DonjonButton is type="button"', () => {
+    render(<DonjonButton>Attack</DonjonButton>)
+    expect(screen.getByRole('button', { name: 'Attack' })).toBeInTheDocument()
   })
 
-  it('DonjonButton disabled má atribut disabled', () => {
-    render(<DonjonButton disabled>Zaútočit</DonjonButton>)
-    expect(screen.getByRole('button', { name: 'Zaútočit' })).toBeDisabled()
+  it('DonjonButton disabled has the disabled attribute', () => {
+    render(<DonjonButton disabled>Attack</DonjonButton>)
+    expect(screen.getByRole('button', { name: 'Attack' })).toBeDisabled()
   })
 
-  it('DonjonButton loading má atribut disabled (loading blokuje interakci)', () => {
-    render(<DonjonButton loading>Zaútočit</DonjonButton>)
+  it('DonjonButton loading has the disabled attribute (loading blocks interaction)', () => {
+    render(<DonjonButton loading>Attack</DonjonButton>)
     expect(screen.getByRole('button')).toBeDisabled()
   })
 
-  it('DonjonModal má role="dialog" a je dostupný přes getByRole', () => {
+  it('DonjonModal has role="dialog" and is reachable via getByRole', () => {
     render(
       <DonjonModal isOpen title="Test" onClose={() => {}}>
-        <p>Obsah</p>
+        <p>Content</p>
       </DonjonModal>
     )
-    // Native <dialog> má implicitní role=dialog; aria-modal je implicit. u showModal()
+    // The native <dialog> has implicit role=dialog; aria-modal is implicit with showModal()
     const dialog = screen.getByRole('dialog')
     expect(dialog).toBeInTheDocument()
   })
 
-  it('DonjonModal s title má aria-labelledby odkazující na h2', () => {
+  it('DonjonModal with title sets aria-labelledby pointing to the h2', () => {
     render(
-      <DonjonModal isOpen title="Název modalu" onClose={() => {}}>
-        <p>Obsah</p>
+      <DonjonModal isOpen title="Modal title" onClose={() => {}}>
+        <p>Content</p>
       </DonjonModal>
     )
     const dialog = screen.getByRole('dialog')
@@ -183,15 +183,15 @@ describe('donjon — ARIA atributy', () => {
     expect(heading.tagName).toBe('H2')
   })
 
-  it('DonjonModal bez title nemá aria-labelledby, ale má aria-label', () => {
+  it('DonjonModal without title has no aria-labelledby, but has aria-label', () => {
     render(
-      <DonjonModal isOpen aria-label="Herní nabídka" onClose={() => {}}>
-        <p>Obsah</p>
+      <DonjonModal isOpen aria-label="Game menu" onClose={() => {}}>
+        <p>Content</p>
       </DonjonModal>
     )
     const dialog = screen.getByRole('dialog')
     expect(dialog).not.toHaveAttribute('aria-labelledby')
-    expect(dialog).toHaveAttribute('aria-label', 'Herní nabídka')
+    expect(dialog).toHaveAttribute('aria-label', 'Game menu')
   })
 
   it('DonjonModal close button has aria-label="Close"', () => {
@@ -203,59 +203,59 @@ describe('donjon — ARIA atributy', () => {
     expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
   })
 
-  it('DonjonTabs má role="tablist"', () => {
+  it('DonjonTabs has role="tablist"', () => {
     render(<DonjonTabs items={TABS} value="a" onChange={() => {}} />)
     expect(screen.getByRole('tablist')).toBeInTheDocument()
   })
 
-  it('DonjonTabs — každý tab má role="tab" s aria-selected', () => {
+  it('DonjonTabs — each tab has role="tab" with aria-selected', () => {
     render(<DonjonTabs items={TABS} value="a" onChange={() => {}} />)
     screen.getAllByRole('tab').forEach(tab => {
       expect(tab).toHaveAttribute('aria-selected')
     })
   })
 
-  it('DonjonTabs — aktivní tab má aria-selected="true"', () => {
+  it('DonjonTabs — active tab has aria-selected="true"', () => {
     render(<DonjonTabs items={TABS} value="b" onChange={() => {}} />)
     const betaTab = screen.getAllByRole('tab').find(t => t.textContent.includes('Beta'))
     expect(betaTab).toHaveAttribute('aria-selected', 'true')
   })
 
-  it('DonjonTabs — disabled tab má aria-disabled="true"', () => {
+  it('DonjonTabs — disabled tab has aria-disabled="true"', () => {
     render(<DonjonTabs items={TABS} value="a" onChange={() => {}} />)
     const gammaTab = screen.getAllByRole('tab').find(t => t.textContent.includes('Gamma'))
     expect(gammaTab).toHaveAttribute('aria-disabled', 'true')
   })
 
-  it('DonjonButtonGroup má role="group"', () => {
+  it('DonjonButtonGroup has role="group"', () => {
     const { container } = render(
       <DonjonButtonGroup items={GROUP_ITEMS} value="x" onChange={() => {}} />
     )
     expect(container.querySelector('[role="group"]')).toBeInTheDocument()
   })
 
-  it('DonjonButtonGroup — aktivní tlačítko má aria-pressed="true"', () => {
+  it('DonjonButtonGroup — active button has aria-pressed="true"', () => {
     render(<DonjonButtonGroup items={GROUP_ITEMS} value="x" onChange={() => {}} />)
     const buttons = screen.getAllByRole('button')
-    const active = buttons.find(b => b.textContent.includes('Meč'))
+    const active = buttons.find(b => b.textContent.includes('Sword'))
     expect(active).toHaveAttribute('aria-pressed', 'true')
   })
 
-  it('DonjonButtonGroup — neaktivní tlačítko má aria-pressed="false"', () => {
+  it('DonjonButtonGroup — inactive button has aria-pressed="false"', () => {
     render(<DonjonButtonGroup items={GROUP_ITEMS} value="x" onChange={() => {}} />)
     const buttons = screen.getAllByRole('button')
-    const inactive = buttons.find(b => b.textContent.includes('Štít'))
+    const inactive = buttons.find(b => b.textContent.includes('Shield'))
     expect(inactive).toHaveAttribute('aria-pressed', 'false')
   })
 })
 
-// ── isOpen=false — modal se nevyrenderuje ─────────────────────────────────────
+// ── isOpen=false — modal does not render ─────────────────────────────────────
 
 describe('DonjonModal — closed state', () => {
-  it('isOpen=false → dialog není v DOMu', () => {
+  it('isOpen=false → dialog is not in the DOM', () => {
     const { container } = render(
       <DonjonModal isOpen={false} title="Test" onClose={() => {}}>
-        <p>Obsah</p>
+        <p>Content</p>
       </DonjonModal>
     )
     expect(container.querySelector('[role="dialog"]')).toBeNull()

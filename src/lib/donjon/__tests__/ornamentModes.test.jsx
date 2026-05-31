@@ -6,35 +6,35 @@ import DonjonCard from '../DonjonCard'
 import DonjonModal from '../DonjonModal'
 
 const GROUP_ITEMS = [
-  { value: 'x', label: 'Meč' },
-  { value: 'y', label: 'Štít' },
+  { value: 'x', label: 'Sword' },
+  { value: 'y', label: 'Shield' },
 ]
 
 describe('donjon ornament modes', () => {
   it('DonjonButton plain mode removes decorative nodes', () => {
     const { container, rerender } = render(
-      <DonjonButton>Zaútočit</DonjonButton>
+      <DonjonButton>Attack</DonjonButton>
     )
 
     expect(container.querySelectorAll('[aria-hidden="true"]').length).toBeGreaterThan(0)
 
     rerender(
-      <DonjonButton ornament="plain">Zaútočit</DonjonButton>
+      <DonjonButton ornament="plain">Attack</DonjonButton>
     )
 
     expect(container.querySelectorAll('[aria-hidden="true"]').length).toBe(0)
 
-    // Plain mode používá outer-wrapper octagon trick místo CSS border:
-    // .dj-clip-focus div s padding:1 a background v border barvě obklopuje button.
-    // CSS border by byl ořezán clip-pathem na diagonálních hranách oktagonu.
+    // Plain mode uses the outer-wrapper octagon trick instead of a CSS border:
+    // a .dj-clip-focus div with padding:1 and a background in the border color wraps the button.
+    // A CSS border would be clipped by clip-path on the diagonal edges of the octagon.
     const wrapper = container.querySelector('.dj-clip-focus')
     expect(wrapper).toBeTruthy()
     expect(wrapper.style.padding).toBe('1px')
     expect(wrapper.style.background).toBe('rgb(143, 116, 88)')  // goldDim
     expect(wrapper.style.boxSizing).toBe('border-box')
 
-    // Inner button by neměl mít vlastní border (clip-path by ho ořezal).
-    // jsdom: border: 'none' nastaví borderStyle: 'none' (borderWidth zůstane default 'medium').
+    // The inner button must not carry its own border (clip-path would clip it).
+    // jsdom: border: 'none' sets borderStyle: 'none' (borderWidth stays default 'medium').
     const button = container.querySelector('button')
     expect(button.style.borderStyle).toBe('none')
   })
@@ -55,16 +55,16 @@ describe('donjon ornament modes', () => {
 
   it('DonjonCard plain mode removes decorative nodes', () => {
     const { container, rerender } = render(
-      <DonjonCard title="Inventář" description="Předměty hráče" footer={<button type="button">Zavřít</button>}>
-        <p>Obsah</p>
+      <DonjonCard title="Inventory" description="Player items" footer={<button type="button">Close</button>}>
+        <p>Content</p>
       </DonjonCard>
     )
 
     expect(container.querySelectorAll('[aria-hidden="true"]').length).toBeGreaterThan(0)
 
     rerender(
-      <DonjonCard ornament="plain" title="Inventář" description="Předměty hráče" footer={<button type="button">Zavřít</button>}>
-        <p>Obsah</p>
+      <DonjonCard ornament="plain" title="Inventory" description="Player items" footer={<button type="button">Close</button>}>
+        <p>Content</p>
       </DonjonCard>
     )
 
@@ -76,11 +76,11 @@ describe('donjon ornament modes', () => {
       <DonjonModal
         isOpen
         onClose={() => {}}
-        title="Potvrzení"
-        description="Opravdu chcete opustit hru?"
-        footer={<button type="button">Zavřít</button>}
+        title="Confirmation"
+        description="Are you sure you want to leave the game?"
+        footer={<button type="button">Close</button>}
       >
-        <p>Obsah</p>
+        <p>Content</p>
       </DonjonModal>
     )
 
@@ -91,11 +91,11 @@ describe('donjon ornament modes', () => {
         isOpen
         onClose={() => {}}
         ornament="plain"
-        title="Potvrzení"
-        description="Opravdu chcete opustit hru?"
-        footer={<button type="button">Zavřít</button>}
+        title="Confirmation"
+        description="Are you sure you want to leave the game?"
+        footer={<button type="button">Close</button>}
       >
-        <p>Obsah</p>
+        <p>Content</p>
       </DonjonModal>
     )
 
