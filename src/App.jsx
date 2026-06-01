@@ -52,6 +52,7 @@ const ProgressBarPage      = lazy(() => import('./pages/ProgressBarPage'))
 const SelectPage           = lazy(() => import('./pages/SelectPage'))
 const SliderPage           = lazy(() => import('./pages/SliderPage'))
 const TabsPage             = lazy(() => import('./pages/TabsPage'))
+const NotchMenuPage        = lazy(() => import('./pages/NotchMenuPage'))
 const MotionPage           = lazy(() => import('./pages/MotionPage'))
 const InteractionStatesPage = lazy(() => import('./pages/InteractionStatesPage'))
 const ZIndexPage           = lazy(() => import('./pages/ZIndexPage'))
@@ -138,6 +139,7 @@ export default function App() {
         <Route path="select"       element={<S><SelectPage /></S>} />
         <Route path="slider"       element={<S><SliderPage /></S>} />
         <Route path="tabs"               element={<S><TabsPage /></S>} />
+        <Route path="notch-menu"         element={<S><NotchMenuPage /></S>} />
         <Route path="motion"             element={<S><MotionPage /></S>} />
         <Route path="interaction-states" element={<S><InteractionStatesPage /></S>} />
         <Route path="z-index"            element={<S><ZIndexPage /></S>} />

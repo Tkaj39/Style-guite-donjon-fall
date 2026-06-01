@@ -96,6 +96,45 @@ export const componentMeta = {
     relatedSlugs: ['button-group', 'donjon-card', 'modal'],
   },
 
+  'notch-menu': {
+    description: 'Panel with V-shaped notched cutouts along the top edge. Each notch holds an Item — either a tab (controlled via parent value/onChange) or a standalone action (onClick). Compound API: `<NotchMenu><NotchMenu.Item>...</NotchMenu.Item><NotchMenu.Body>...</NotchMenu.Body></NotchMenu>`. Items with a `value` prop behave as tabs; items without it are actions.',
+    subcategory: 'extends-tkajui',
+    extendsSlug: 'tabs',
+    differencesFromBase: [
+      'Visual: trapezoid tabs with V-notches between items, integrated body panel below',
+      'Compound API (NotchMenu.Item + NotchMenu.Body) instead of items prop array',
+      'Mixed tabs + standalone actions in one row — driven by presence of `value`',
+    ],
+    status: 'documented',
+    showcaseRoute: '/notch-menu',
+    props: [
+      { name: 'value',    type: 'string | null',                       required: false, default: 'null', description: 'Active tab value. Required only when at least one Item has a `value` (tab mode).' },
+      { name: 'onChange', type: '(value: string) => void',             required: false, description: 'Callback fired when the user clicks a tab Item. Required for tab mode.' },
+      { name: 'children', type: 'NotchMenu.Item[] + NotchMenu.Body?',  required: true,  description: 'Compound API. Items render in the notched row; a single Body renders the content panel below.' },
+    ],
+    relatedSlugs: ['tabs', 'donjon-notch-menu', 'button-group'],
+  },
+
+  'donjon-notch-menu': {
+    description: 'Game variant of NotchMenu — warm gold palette, uppercase item labels, gold border on the active tab. Same compound API as NotchMenu.',
+    subcategory: 'extends-tkajui',
+    extendsSlug: 'notch-menu',
+    differencesFromBase: [
+      'Warm gold + dark warm bg palette',
+      'Uppercase item labels with wider letter-spacing',
+      'Gold border + soft glow on the active tab',
+      'Sharper V-notches between items (slope 14 vs 10)',
+    ],
+    status: 'documented',
+    showcaseRoute: '/notch-menu',
+    props: [
+      { name: 'value',    type: 'string | null',                              required: false, default: 'null', description: 'Active tab value.' },
+      { name: 'onChange', type: '(value: string) => void',                    required: false, description: 'Tab-change callback.' },
+      { name: 'children', type: 'DonjonNotchMenu.Item[] + DonjonNotchMenu.Body?', required: true,  description: 'Items + optional Body.' },
+    ],
+    relatedSlugs: ['notch-menu', 'donjon-tabs', 'donjon-button-group'],
+  },
+
   'select': {
     description: 'Custom dropdown for picking a single value from a list. Octagonal trigger, arrow-key and Escape keyboard navigation, support for disabled items.',
     status: 'documented',

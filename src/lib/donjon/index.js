@@ -120,6 +120,15 @@ export { default as DonjonModal }       from './DonjonModal'
 export { default as DonjonTabs }        from './DonjonTabs'
 
 /**
+ * Game-themed notched menu — panel with V-notched cutouts along the top
+ * edge, each holding a tab or action item. Compound API:
+ * `<DonjonNotchMenu><DonjonNotchMenu.Item>...</DonjonNotchMenu.Item><DonjonNotchMenu.Body>...</DonjonNotchMenu.Body></DonjonNotchMenu>`
+ * @prop {string|null} value - Active tab value
+ * @prop {(value: string) => void} onChange - Tab-change callback
+ */
+export { default as DonjonNotchMenu }    from './DonjonNotchMenu'
+
+/**
  * Game-themed tooltip with a parchment style and gold border.
  * @prop {React.ReactNode} children - Trigger element
  * @prop {string|React.ReactNode} content - Tooltip content

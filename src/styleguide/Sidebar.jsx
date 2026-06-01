@@ -213,6 +213,7 @@ export const sections = [
       { to: '/select',       label: 'Select',       library: 'both' },
       { to: '/slider',       label: 'Slider',       library: 'both' },
       { to: '/tabs',         label: 'Tabs',         library: 'both' },
+      { to: '/notch-menu',   label: 'Notch Menu',   library: 'both' },
       { to: '/buttons',       label: 'Buttons',       library: 'both' },
       { to: '/button-groups', label: 'Button Groups', library: 'both' },
       {
