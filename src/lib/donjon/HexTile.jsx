@@ -1,13 +1,10 @@
-import { gold, textActive, textFaint, bgDeep, gainColor, dangerColor, borderMid, borderMuted } from './tokens'
+import {
+  gold, textActive, textFaint, bgDeep, gainColor, dangerColor, borderMid, borderMuted,
+  HEX_TILE_SIZES, HEX_TILE_BORDER_WIDTH, HEX_TILE_ICON_SIZES, HEX_TILE_DOT_SIZES,
+} from './tokens'
 import { hexPointyTop } from '../../utils/polygon'
 
 const HEX_CLIP = hexPointyTop()
-
-const sizeMap = {
-  sm: { w: 42,  h: 48  },
-  md: { w: 62,  h: 72  },
-  lg: { w: 83,  h: 96  },
-}
 
 const stateMap = {
   empty:          { border: borderMuted, fill: bgDeep,    glow: null },
@@ -44,7 +41,7 @@ function DiamondDot({ size = 6 }) {
 }
 
 export default function HexTile({ state = 'empty', owner = null, size = 'md', label, showLabel = false }) {
-  const s = sizeMap[size] ?? sizeMap.md
+  const s = HEX_TILE_SIZES[size] ?? HEX_TILE_SIZES.md
   const cfg = stateMap[state] ?? stateMap.empty
 
   const borderColor = state === 'base' && owner ? owner : cfg.border ?? borderMuted
@@ -58,18 +55,19 @@ export default function HexTile({ state = 'empty', owner = null, size = 'md', la
       }}>
         {/* Outer border layer */}
         <div style={{ position: 'relative', width: s.w, height: s.h, clipPath: HEX_CLIP, background: borderColor }}>
-          {/* Inner fill layer — 2px inset via absolute positioning */}
+          {/* Inner fill layer — HEX_TILE_BORDER_WIDTH inset via absolute positioning */}
           <div style={{
             position: 'absolute',
-            top: 2, left: 2, right: 2, bottom: 2,
+            top: HEX_TILE_BORDER_WIDTH, left: HEX_TILE_BORDER_WIDTH,
+            right: HEX_TILE_BORDER_WIDTH, bottom: HEX_TILE_BORDER_WIDTH,
             clipPath: HEX_CLIP,
             background: fillColor,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-            {state === 'focal-active'  && <FlameIcon size={size === 'sm' ? 8 : size === 'lg' ? 14 : 10} />}
-            {state === 'focal-passive' && <DiamondDot size={size === 'sm' ? 5 : size === 'lg' ? 9 : 6} />}
+            {state === 'focal-active'  && <FlameIcon size={HEX_TILE_ICON_SIZES[size] ?? HEX_TILE_ICON_SIZES.md} />}
+            {state === 'focal-passive' && <DiamondDot size={HEX_TILE_DOT_SIZES[size] ?? HEX_TILE_DOT_SIZES.md} />}
           </div>
         </div>
       </div>
