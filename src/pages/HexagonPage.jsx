@@ -6,18 +6,14 @@ import {
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { players } from '../data/gameUiMockData'
 
-/* ── Property × state matrix ─────────────────────────────────────────────
-   HexTile má dvě nezávislé osy:
-     • property — co políčko JE     (empty / focal / base)
-     • state    — jak se s ním zachází (default / selected / move / attack / blocked)
+/* ── Property × focal × state — tři nezávislé osy ────────────────────────
+   HexTile rozlišuje:
+     • property — co políčko JE        (empty / focal / base)
+     • focal    — game-state ohniska    (active / passive)  — jen pro property=focal
+     • state    — interakce s hráčem   (default / selected / move / attack / blocked)
 
-   Tabulka níže pokrývá všechny smysluplné kombinace. */
-
-const PROPERTY_LABELS = {
-  empty: 'Prázdné',
-  focal: 'Ohnisko',
-  base:  'Základna',
-}
+   Tabulka níže rozkládá focal property do dvou řádků (aktivní + pasivní),
+   takže pokrývá všechny smysluplné kombinace na 4 řádcích × 5 sloupcích. */
 
 const STATE_LABELS = {
   default:  'Výchozí',
@@ -29,6 +25,15 @@ const STATE_LABELS = {
 
 const PROPERTIES = ['empty', 'focal', 'base']
 const STATES     = ['default', 'selected', 'move', 'attack', 'blocked']
+
+// Logické řádky matice — focal property je rozdělena na aktivní + pasivní,
+// protože „aktivní vs pasivní ohnisko" je nezávislá game-state osa.
+const MATRIX_ROWS = [
+  { key: 'empty',          label: 'Prázdné',          property: 'empty' },
+  { key: 'focal-passive',  label: 'Pasivní ohnisko',  property: 'focal', focal: 'passive' },
+  { key: 'focal-active',   label: 'Aktivní ohnisko',  property: 'focal', focal: 'active'  },
+  { key: 'base',           label: 'Základna',         property: 'base' },
+]
 
 /* ── Tlačítko pro výběr volby v interaktivním demu ── */
 function PickerBtn({ active, color, onClick, children }) {
@@ -55,22 +60,39 @@ function PickerBtn({ active, color, onClick, children }) {
   )
 }
 
+const PROPERTY_LABELS = {
+  empty: 'Prázdné',
+  focal: 'Ohnisko',
+  base:  'Základna',
+}
+const FOCAL_LABELS = {
+  active:  'Aktivní',
+  passive: 'Pasivní',
+}
+
 function HexInteractiveDemo() {
   const [demoProperty, setDemoProperty] = useState('empty')
+  const [demoFocal,    setDemoFocal]    = useState('passive')
   const [demoState,    setDemoState]    = useState('default')
   const [demoPlayer,   setDemoPlayer]   = useState(players[0])
   const [demoSize,     setDemoSize]     = useState('md')
 
   const needsPlayer = demoProperty === 'base'
+  const isFocal     = demoProperty === 'focal'
   const owner       = needsPlayer ? demoPlayer.color : null
 
   // Build the code snippet from the active props
   const propsBits = []
-  if (demoProperty !== 'empty')  propsBits.push(`property="${demoProperty}"`)
-  if (demoState    !== 'default') propsBits.push(`state="${demoState}"`)
-  if (needsPlayer)                propsBits.push(`owner="${demoPlayer.color}"`)
+  if (demoProperty !== 'empty')                 propsBits.push(`property="${demoProperty}"`)
+  if (isFocal && demoFocal !== 'passive')       propsBits.push(`focal="${demoFocal}"`)
+  if (demoState    !== 'default')               propsBits.push(`state="${demoState}"`)
+  if (needsPlayer)                              propsBits.push(`owner="${demoPlayer.color}"`)
   propsBits.push(`size="${demoSize}"`)
   const codeStr = `<HexTile ${propsBits.join(' ')} />`
+
+  const labelParts = [PROPERTY_LABELS[demoProperty]]
+  if (isFocal) labelParts.push(FOCAL_LABELS[demoFocal])
+  labelParts.push(STATE_LABELS[demoState])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -83,11 +105,12 @@ function HexInteractiveDemo() {
       }}>
         <HexTile
           property={demoProperty}
+          focal={isFocal ? demoFocal : undefined}
           state={demoState}
           owner={owner}
           size={demoSize}
           showLabel
-          label={`${PROPERTY_LABELS[demoProperty]} · ${STATE_LABELS[demoState]}`}
+          label={labelParts.join(' · ')}
         />
       </div>
 
@@ -103,6 +126,20 @@ function HexInteractiveDemo() {
             {PROPERTIES.map(p => (
               <PickerBtn key={p} active={demoProperty === p} onClick={() => setDemoProperty(p)}>
                 {PROPERTY_LABELS[p]}
+              </PickerBtn>
+            ))}
+          </div>
+        </div>
+
+        {/* Focal kind — jen pro focal */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 7, opacity: isFocal ? 1 : 0.3, pointerEvents: isFocal ? 'auto' : 'none', transition: 'opacity 0.2s' }}>
+          <span style={{ fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            Ohnisko (focal) — jen pro property=„focal"
+          </span>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            {['active', 'passive'].map(f => (
+              <PickerBtn key={f} active={demoFocal === f} onClick={() => setDemoFocal(f)}>
+                {FOCAL_LABELS[f]}
               </PickerBtn>
             ))}
           </div>
@@ -169,14 +206,7 @@ function HexInteractiveDemo() {
   )
 }
 
-/* ── Matrix view: property × state ───────────────────────────────────── */
-
-// Buňky, které mají v herním kontextu vlastní jméno — zobrazí se pod hexem
-// jako menší popisek (semantic name navíc k abstraktní property × state dvojici).
-const CELL_LABELS = {
-  'focal:default':  'pasivní ohnisko',
-  'focal:selected': 'aktivní ohnisko',
-}
+/* ── Matrix view: 4 logické řádky × 5 stavů ─────────────────────────── */
 
 function PropertyStateMatrix() {
   const cellSize = 56
@@ -185,12 +215,7 @@ function PropertyStateMatrix() {
     letterSpacing: '0.1em', textTransform: 'uppercase',
     padding: '6px 8px', textAlign: 'center',
   }
-  const rowHeaderStyle = { ...headerStyle, textAlign: 'right', minWidth: 96 }
-  const cellLabelStyle = {
-    fontSize: '0.5625rem', color: gold, fontWeight: 600,
-    letterSpacing: '0.06em', textTransform: 'lowercase',
-    marginTop: 6, lineHeight: 1.2,
-  }
+  const rowHeaderStyle = { ...headerStyle, textAlign: 'right', minWidth: 130 }
 
   return (
     <div style={{ overflowX: 'auto' }}>
@@ -204,27 +229,20 @@ function PropertyStateMatrix() {
           </tr>
         </thead>
         <tbody>
-          {PROPERTIES.map(p => (
-            <tr key={p}>
-              <th style={rowHeaderStyle}>{PROPERTY_LABELS[p]}</th>
-              {STATES.map(st => {
-                const semanticName = CELL_LABELS[`${p}:${st}`]
-                return (
-                  <td key={st} style={{ padding: 8, textAlign: 'center', verticalAlign: 'top' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <HexTile
-                        property={p}
-                        state={st}
-                        owner={p === 'base' ? players[0].color : null}
-                        size="sm"
-                      />
-                      {semanticName && (
-                        <span style={cellLabelStyle}>{semanticName}</span>
-                      )}
-                    </div>
-                  </td>
-                )
-              })}
+          {MATRIX_ROWS.map(row => (
+            <tr key={row.key}>
+              <th style={rowHeaderStyle}>{row.label}</th>
+              {STATES.map(st => (
+                <td key={st} style={{ padding: 8, textAlign: 'center', verticalAlign: 'middle' }}>
+                  <HexTile
+                    property={row.property}
+                    focal={row.focal}
+                    state={st}
+                    owner={row.property === 'base' ? players[0].color : null}
+                    size="sm"
+                  />
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>
@@ -243,25 +261,26 @@ export default function HexagonPage() {
     >
       {/* API overview */}
       <Section
-        title="Dvě nezávislé osy: property × state"
-        description="HexTile rozlišuje co políčko JE (property: empty / focal / base) od toho, jak se s ním právě zachází (state: default / selected / move / attack / blocked). Tabulka pokrývá všechny kombinace."
+        title="Tři nezávislé osy: property × focal × state"
+        description="HexTile rozlišuje (1) co políčko JE — property: empty / focal / base, (2) game-state ohniska — focal: active / passive (jen pro property=focal), a (3) jak se s ním právě zachází — state: default / selected / move / attack / blocked. Tabulka pokrývá všechny kombinace; focal property je rozdělena na dva řádky (aktivní + pasivní) protože jde o nezávislou osu."
       >
         <Preview>
           <PropertyStateMatrix />
         </Preview>
         <CodeBlock code={`{/* Vlastnost: co políčko JE na mapě */}
 <HexTile property="empty" />
-<HexTile property="focal" />
+<HexTile property="focal" focal="active" />   {/* aktivní ohnisko */}
+<HexTile property="focal" focal="passive" />  {/* pasivní ohnisko */}
 <HexTile property="base"  owner={player.color} />
 
-{/* Stav: jak se s ním právě zachází */}
+{/* Stav: jak se s ním právě zachází (interakce s hráčem) */}
 <HexTile state="selected" />
 <HexTile state="move" />
 <HexTile state="attack" />
 <HexTile state="blocked" />
 
-{/* Kombinace — speciální případ: focal + selected = aktivní ohnisko (zlato + plamen) */}
-<HexTile property="focal" state="selected" />
+{/* Kombinace — aktivní ohnisko, které hráč právě vybral */}
+<HexTile property="focal" focal="active" state="selected" />
 
 {/* Kombinace — základna pod útokem */}
 <HexTile property="base" owner={player.color} state="attack" />`} />
@@ -306,14 +325,14 @@ export default function HexagonPage() {
       <Section
         id="ohniska"
         title="Ohniska (property = focal)"
-        description="Speciální hexe rozdělené do skupin. Aktivní vs pasivní rozdíl není nová property — vyplývá ze stavu `selected` na focal políčku."
+        description="Speciální hexe rozdělené do skupin. Aktivní vs pasivní je nezávislá osa `focal` — určuje ji game logika (rotuje se v průběhu hry), ne hráčova interakce."
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           {/* Active focal point */}
           <div id="ohnisko-aktivni" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <div>
               <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 600, color: textActive }}>
-                Aktivní ohnisko = property=focal + state=selected
+                Aktivní ohnisko — property=&quot;focal&quot; focal=&quot;active&quot;
               </p>
               <p style={{ margin: '2px 0 0', fontSize: '0.75rem', color: textFaint }}>
                 Hráč na tahu získá +1 VP pokud kontroluje kostku/věž na tomto hexu. Kostka se přehodí: nová hodnota = min(hod, původní − 1).
@@ -321,19 +340,19 @@ export default function HexagonPage() {
             </div>
             <Preview>
               <div style={{ display: 'flex', gap: 20, alignItems: 'flex-end' }}>
-                <HexTile property="focal" state="selected" size="sm" showLabel label="sm" />
-                <HexTile property="focal" state="selected" size="md" showLabel label="md" />
-                <HexTile property="focal" state="selected" size="lg" showLabel label="lg" />
+                <HexTile property="focal" focal="active" size="sm" showLabel label="sm" />
+                <HexTile property="focal" focal="active" size="md" showLabel label="md" />
+                <HexTile property="focal" focal="active" size="lg" showLabel label="lg" />
               </div>
             </Preview>
-            <CodeBlock code={`<HexTile property="focal" state="selected" size="md" />`} />
+            <CodeBlock code={`<HexTile property="focal" focal="active" size="md" />`} />
           </div>
 
           {/* Passive focal point */}
           <div id="ohnisko-pasivni" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <div>
               <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: 600, color: textActive }}>
-                Pasivní ohnisko = property=focal (state=default)
+                Pasivní ohnisko — property=&quot;focal&quot; focal=&quot;passive&quot; (default)
               </p>
               <p style={{ margin: '2px 0 0', fontSize: '0.75rem', color: textFaint }}>
                 Funguje jako normální hex. Čeká na aktivaci — stane se aktivním poté, co jiné ohnisko ve skupině přinese VP.
@@ -341,12 +360,13 @@ export default function HexagonPage() {
             </div>
             <Preview>
               <div style={{ display: 'flex', gap: 20, alignItems: 'flex-end' }}>
-                <HexTile property="focal" size="sm" showLabel label="sm" />
-                <HexTile property="focal" size="md" showLabel label="md" />
-                <HexTile property="focal" size="lg" showLabel label="lg" />
+                <HexTile property="focal" focal="passive" size="sm" showLabel label="sm" />
+                <HexTile property="focal" focal="passive" size="md" showLabel label="md" />
+                <HexTile property="focal" focal="passive" size="lg" showLabel label="lg" />
               </div>
             </Preview>
-            <CodeBlock code={`<HexTile property="focal" size="md" />`} />
+            <CodeBlock code={`<HexTile property="focal" focal="passive" size="md" />
+{/* focal="passive" je výchozí — lze i jen <HexTile property="focal" /> */}`} />
           </div>
         </div>
       </Section>
@@ -406,7 +426,7 @@ export default function HexagonPage() {
                 <div style={{ display: 'flex', gap: 6, alignItems: 'flex-end' }}>
                   <HexTile size={sz} />
                   <HexTile property="base" owner={players[0].color} size={sz} />
-                  <HexTile property="focal" state="selected" size={sz} />
+                  <HexTile property="focal" focal="active" size={sz} />
                 </div>
                 <p style={{ margin: 0, fontSize: '0.5625rem', color: textFaint, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{sz}</p>
               </div>
@@ -431,17 +451,19 @@ export default function HexagonPage() {
         description="Starý jednořetězcový `state` (focal-active / focal-passive / empty / base / ...) stále funguje — interně se mapuje na novou dvojici."
       >
         <CodeBlock code={`{/* Starý API — STÁLE FUNGUJE, nedoporučuje se v novém kódu */}
-<HexTile state="focal-active" />     // → property="focal" state="selected"
-<HexTile state="focal-passive" />    // → property="focal"
+<HexTile state="focal-active" />     // → property="focal" focal="active"
+<HexTile state="focal-passive" />    // → property="focal" focal="passive"
 <HexTile state="base" owner={red} /> // → property="base" owner={red}
-<HexTile state="move" />             // → state="move" (beze změny)`} />
+<HexTile state="move" />             // → state="move" (beze změny)
+<HexTile state="selected" />         // → state="selected" (beze změny)`} />
       </Section>
 
       <Section id="pravidla" title="Pravidla použití">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">
           <p>✓ Vlastnost (property) a stav (state) jsou nezávislé — kombinuj je libovolně dle herní logiky.</p>
           <p>✓ Barva owner prop je hráčova identitní barva — použij ji konzistentně ve všech prvcích UI pro daného hráče.</p>
-          <p>✓ Aktivní ohnisko = property=&quot;focal&quot; state=&quot;selected&quot;. Pasivní = property=&quot;focal&quot;.</p>
+          <p>✓ Aktivní ohnisko = property=&quot;focal&quot; focal=&quot;active&quot;. Pasivní = property=&quot;focal&quot; (focal=&quot;passive&quot; je default).</p>
+          <p>✓ Aktivní/pasivní (focal) je game-state — určuje ho herní logika. Vybraný (state=&quot;selected&quot;) je hráčská interakce. Jsou nezávislé.</p>
           <p>✓ Pro mini-mapu (overview) použij size=&quot;sm&quot; — zbytečně velké hexy v mini-mapě narušují přehlednost.</p>
           <p>✗ Nepoužívej state=&quot;selected&quot; pro permanentní stav — je to jen vizuální highlight, ne vlastnictví.</p>
           <p>✗ Nepřidávej interaktivitu přímo do HexTile — ovládání patří do nadřazeného herního gridu.</p>
