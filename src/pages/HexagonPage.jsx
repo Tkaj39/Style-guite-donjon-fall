@@ -170,6 +170,14 @@ function HexInteractiveDemo() {
 }
 
 /* ── Matrix view: property × state ───────────────────────────────────── */
+
+// Buňky, které mají v herním kontextu vlastní jméno — zobrazí se pod hexem
+// jako menší popisek (semantic name navíc k abstraktní property × state dvojici).
+const CELL_LABELS = {
+  'focal:default':  'pasivní ohnisko',
+  'focal:selected': 'aktivní ohnisko',
+}
+
 function PropertyStateMatrix() {
   const cellSize = 56
   const headerStyle = {
@@ -178,6 +186,11 @@ function PropertyStateMatrix() {
     padding: '6px 8px', textAlign: 'center',
   }
   const rowHeaderStyle = { ...headerStyle, textAlign: 'right', minWidth: 96 }
+  const cellLabelStyle = {
+    fontSize: '0.5625rem', color: gold, fontWeight: 600,
+    letterSpacing: '0.06em', textTransform: 'lowercase',
+    marginTop: 6, lineHeight: 1.2,
+  }
 
   return (
     <div style={{ overflowX: 'auto' }}>
@@ -194,16 +207,24 @@ function PropertyStateMatrix() {
           {PROPERTIES.map(p => (
             <tr key={p}>
               <th style={rowHeaderStyle}>{PROPERTY_LABELS[p]}</th>
-              {STATES.map(st => (
-                <td key={st} style={{ padding: 8, textAlign: 'center' }}>
-                  <HexTile
-                    property={p}
-                    state={st}
-                    owner={p === 'base' ? players[0].color : null}
-                    size="sm"
-                  />
-                </td>
-              ))}
+              {STATES.map(st => {
+                const semanticName = CELL_LABELS[`${p}:${st}`]
+                return (
+                  <td key={st} style={{ padding: 8, textAlign: 'center', verticalAlign: 'top' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <HexTile
+                        property={p}
+                        state={st}
+                        owner={p === 'base' ? players[0].color : null}
+                        size="sm"
+                      />
+                      {semanticName && (
+                        <span style={cellLabelStyle}>{semanticName}</span>
+                      )}
+                    </div>
+                  </td>
+                )
+              })}
             </tr>
           ))}
         </tbody>
