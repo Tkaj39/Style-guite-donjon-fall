@@ -1,10 +1,9 @@
 /* ── DonjonNotchMenu (donjon-fall-ui) ───────────────────────────────────
-   Game variant of NotchMenu — chevron-ended banner with DonjonButtonGroup-
-   styled items inside. Active item gets the gold gradient + gradient text
-   that matches DonjonButtonGroup; inactive items use the bgInactive→bg2
-   gradient + uppercase goldDim text.
+   Game variant of NotchMenu — chevron-tipped outermost items with
+   DonjonButtonGroup styling (gold gradient on active, gradient-text
+   uppercase labels, gold border).
    ─────────────────────────────────────────────────────────────────────── */
-import { Children, createContext, Fragment, isValidElement, useContext } from 'react'
+import { Children, cloneElement, createContext, Fragment, isValidElement, useContext } from 'react'
 import {
   bg2, bgInactive, bgDeep,
   gold, goldDim,
@@ -22,7 +21,6 @@ function useDonjonNotchMenu() {
   return ctx
 }
 
-/* ── Sizes — match DonjonButtonGroup exactly ──────────────────────────── */
 const SIZE_MAP = {
   xs: { h: 32, px: 10, fontSize: '0.6875rem', iconSize: 12 },
   sm: { h: 40, px: 14, fontSize: '0.75rem',   iconSize: 14 },
@@ -31,10 +29,6 @@ const SIZE_MAP = {
 }
 
 const BORDER_W = 1
-
-// Plain string (not template literal) so the focus-ring hex inside the
-// Tailwind arbitrary value doesn't fool the donjon/no-hardcoded-hex rule.
-const ITEM_TW_CLASSES = "hover:brightness-110 active:brightness-90 focus:outline-hidden focus-visible:drop-shadow-[0_0_8px_#FFC183AA]"
 
 function chevronWidth(h) {
   return Math.round(h * 0.5)
@@ -51,6 +45,28 @@ function bannerClip(chevW) {
   )`
 }
 
+function leftChevronClip(chevW) {
+  return `polygon(
+    0 50%,
+    ${chevW}px 0,
+    100% 0,
+    100% 100%,
+    ${chevW}px 100%
+  )`
+}
+
+function rightChevronClip(chevW) {
+  return `polygon(
+    0 0,
+    calc(100% - ${chevW}px) 0,
+    100% 50%,
+    calc(100% - ${chevW}px) 100%,
+    0 100%
+  )`
+}
+
+const ITEM_TW_CLASSES = "hover:brightness-110 active:brightness-90 focus:outline-hidden focus-visible:drop-shadow-[0_0_8px_#FFC183AA]"
+
 /* ── Item ─────────────────────────────────────────────────────────────── */
 function Item({
   value,
@@ -61,12 +77,26 @@ function Item({
   className,
   style: _style,
   'aria-label': ariaLabel,
+  _position,
   ...rest
 }) {
   const ctx = useDonjonNotchMenu()
   const isTab = value !== undefined
   const isActive = isTab && ctx.value === value
   const s = SIZE_MAP[ctx.size] ?? SIZE_MAP.md
+  const chevW = chevronWidth(s.h)
+
+  const isFirst = _position === 'first' || _position === 'only'
+  const isLast  = _position === 'last'  || _position === 'only'
+  const isOnly  = _position === 'only'
+
+  const clipPath = isOnly  ? bannerClip(chevW)
+                 : isFirst ? leftChevronClip(chevW)
+                 : isLast  ? rightChevronClip(chevW)
+                 : undefined
+
+  const extraPadL = isFirst ? chevW : 0
+  const extraPadR = isLast  ? chevW : 0
 
   const handleClick = (e) => {
     if (disabled) return
@@ -89,13 +119,13 @@ function Item({
       style={{
         position: 'relative',
         height: s.h,
-        paddingLeft: s.px,
-        paddingRight: s.px,
+        paddingLeft: s.px + extraPadL,
+        paddingRight: s.px + extraPadR,
+        clipPath,
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
         gap: 6,
-        // DonjonButtonGroup-style: gold gradient on active, dark inactive gradient.
         background: isActive
           ? VARIANT_BG.default
           : `linear-gradient(150deg,${bgInactive} 0%,${bg2} 70%)`,
@@ -109,44 +139,35 @@ function Item({
       {...rest}
     >
       {icon && (
-        <span
-          style={{
-            width: s.iconSize,
-            height: s.iconSize,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-            color: isActive ? gold : goldDim,
-            filter: isActive ? `drop-shadow(0 0 3px ${gold}66)` : undefined,
-            position: 'relative',
-          }}
-        >
+        <span style={{
+          width: s.iconSize, height: s.iconSize,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          flexShrink: 0,
+          color: isActive ? gold : goldDim,
+          filter: isActive ? `drop-shadow(0 0 3px ${gold}66)` : undefined,
+          position: 'relative',
+        }}>
           {icon}
         </span>
       )}
       {children && (
-        <span
-          style={{
-            fontWeight: 600,
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            lineHeight: 1,
-            position: 'relative',
-            fontSize: s.fontSize,
-            transition: 'font-size 200ms',
-            ...(isActive
-              ? {
-                  backgroundImage: VARIANT_TITLE_GRAD.default,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }
-              : {
-                  color: goldDim,
-                }),
-          }}
-        >
+        <span style={{
+          fontWeight: 600,
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+          lineHeight: 1,
+          position: 'relative',
+          fontSize: s.fontSize,
+          transition: 'font-size 200ms',
+          ...(isActive ? {
+            backgroundImage: VARIANT_TITLE_GRAD.default,
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          } : {
+            color: goldDim,
+          }),
+        }}>
           {children}
         </span>
       )}
@@ -175,15 +196,8 @@ function Body({ children, className, style }) {
 
 /* ── Root ─────────────────────────────────────────────────────────────── */
 /**
- * DonjonNotchMenu — game variant of NotchMenu. Gold-bordered chevron
- * banner over a parchment-colored body. Items match DonjonButtonGroup
- * styling: gold gradient on active, gradient-text labels, uppercase.
- *
- * @param {string|null} [value]
- * @param {(value: string) => void} [onChange]
- * @param {'xs'|'sm'|'md'|'lg'} [size='md']
- * @param {boolean} [dividers=true]
- * @param {ReactNode} children
+ * DonjonNotchMenu — game variant of NotchMenu. First/last items own their
+ * chevron tip (active gold gradient fills all the way into the tip).
  */
 export default function DonjonNotchMenu({
   value = null,
@@ -206,6 +220,15 @@ export default function DonjonNotchMenu({
     else if (child.type === Body) body = child
   })
 
+  const last = items.length - 1
+  const positionedItems = items.map((it, i) => {
+    const position = items.length === 1 ? 'only'
+                   : i === 0 ? 'first'
+                   : i === last ? 'last'
+                   : 'middle'
+    return cloneElement(it, { _position: position, key: it.props.value ?? `action-${i}` })
+  })
+
   const ctx = { value, onChange, size }
 
   return (
@@ -214,7 +237,6 @@ export default function DonjonNotchMenu({
         className={className}
         style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', ...style }}
       >
-        {/* Banner — gold-bordered chevron strip containing the items. */}
         <div
           style={{
             background: goldDim,
@@ -231,15 +253,12 @@ export default function DonjonNotchMenu({
             style={{
               height: '100%',
               clipPath: clip,
-              background: bg2,
               display: 'inline-flex',
               alignItems: 'stretch',
-              paddingLeft: chevW,
-              paddingRight: chevW,
             }}
           >
-            {items.map((it, idx) => (
-              <Fragment key={it.props.value ?? `action-${idx}`}>
+            {positionedItems.map((it, idx) => (
+              <Fragment key={it.key ?? `frag-${idx}`}>
                 {idx > 0 && dividers && (
                   <span
                     aria-hidden="true"
