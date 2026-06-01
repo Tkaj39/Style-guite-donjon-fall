@@ -330,13 +330,16 @@ export { default as GameTransition, gameTransitionPresets } from './GameTransiti
 // ── Game assets ─────────────────────────────────────────────────────────
 
 /**
- * Hexagonal tile for the game board.
- * @prop {'empty'|'base'|'focal-active'|'focal-passive'|'selected'|'move'|'attack'} state - Visual state
+ * Hexagonal tile for the game board. Two orthogonal axes:
+ * `property` = what the cell is, `state` = how the player interacts with it.
+ * @prop {'empty'|'focal'|'base'} property - Cell role
+ * @prop {'default'|'selected'|'move'|'attack'|'blocked'} state - Interaction state
  * @prop {'sm'|'md'|'lg'} size - Tile size
- * @prop {string} playerColor - Player color (hex) — shown in base and focal states
- * @example <HexTile state="focal-active" playerColor="#4D8FE0" size="md" />
+ * @prop {string} owner - Player color (hex) — used when property="base"
+ * @example <HexTile property="focal" state="selected" size="md" />
+ * @example <HexTile property="base" owner={player.color} />
  */
-export { default as HexTile }           from './HexTile'
+export { default as HexTile, HEX_TILE_PROPERTIES, HEX_TILE_STATES } from './HexTile'
 
 /**
  * Die face — SVG rendering for values 1–6.
