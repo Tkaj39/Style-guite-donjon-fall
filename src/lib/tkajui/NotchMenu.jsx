@@ -141,7 +141,12 @@ function Item({
 
 /* ── Body ─────────────────────────────────────────────────────────────── */
 function Body({ children, className, style }) {
-  useNotchMenu()
+  const ctx = useNotchMenu()
+  const s = SIZE_MAP[ctx.size] ?? SIZE_MAP.md
+  // Items are pulled down so their vertical center sits on the body's top
+  // edge — bump paddingTop so body content stays clear of the overlapping
+  // items.
+  const itemOverlap = Math.round(s.h / 2)
   return (
     <div
       className={className}
@@ -149,6 +154,7 @@ function Body({ children, className, style }) {
         background: surface2,
         border: `${BORDER_W}px solid ${borderDefault}`,
         padding: 16,
+        paddingTop: 16 + itemOverlap,
         color: textHigh,
         ...style,
       }}
@@ -216,7 +222,9 @@ export default function NotchMenu({
             clipPath: outerClip,
             padding: BORDER_W,
             height: s.h,
-            marginBottom: -BORDER_W,
+            // Pull the banner halfway down so the items' vertical center
+            // sits on the body's top edge.
+            marginBottom: -Math.round(s.h / 2),
             zIndex: 1,
           }}
         >
