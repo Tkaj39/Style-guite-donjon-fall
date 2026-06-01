@@ -440,16 +440,17 @@ export const componentMeta = {
   },
 
   'hex-tile': {
-    description: 'Hexagonal tile of the game map. Shows the various hex states (empty, base, focal point) and player ownership.',
+    description: 'Hexagonal tile of the game map. Two orthogonal props: `property` describes what the cell IS on the board (empty / focal / base), `state` describes how the player is interacting with it (default / selected / move / attack / blocked). Composing them covers every visual; legacy combined `state` strings (focal-active / focal-passive / etc.) still work for backward compat.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/hexagon',
     props: [
-      { name: 'state',     type: "'empty'|'base'|'focal-active'|'focal-passive'|'selected'|'move'|'attack'|'blocked'", required: true,  description: 'Hex state — drives the visual style.' },
-      { name: 'owner',     type: 'string',            required: false, description: 'Player color (#hex) — drives the base color.' },
-      { name: 'size',      type: "'xs'|'sm'|'md'|'lg'", required: false, default: "'md'", description: 'Hex size.' },
-      { name: 'label',     type: 'string',            required: false, description: 'Label rendered inside the hex.' },
-      { name: 'showLabel', type: 'boolean',           required: false, default: 'false', description: 'Shows the label even without hovering.' },
+      { name: 'property',  type: "'empty'|'focal'|'base'",                             required: false, default: "'empty'",   description: 'Cell role on the board.' },
+      { name: 'state',     type: "'default'|'selected'|'move'|'attack'|'blocked'",      required: false, default: "'default'", description: 'Interaction state. Also accepts legacy values: `empty`/`base`/`focal-active`/`focal-passive` — they imply both property and state.' },
+      { name: 'owner',     type: 'string',                                              required: false, description: 'Player color (#hex) — required when property="base".' },
+      { name: 'size',      type: "'sm'|'md'|'lg'",                                      required: false, default: "'md'",      description: 'Hex size.' },
+      { name: 'label',     type: 'string',                                              required: false, description: 'Label rendered inside the hex.' },
+      { name: 'showLabel', type: 'boolean',                                             required: false, default: 'false',     description: 'Shows the label even without hovering.' },
     ],
     relatedSlugs: ['die-face', 'float-feedback'],
   },
