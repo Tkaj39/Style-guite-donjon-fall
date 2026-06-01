@@ -210,6 +210,11 @@ export const HEX_TILE_ICON_SIZES = { sm: 8, md: 10, lg: 14 }
 /** Inner diamond-dot size (px) per HexTile size — used on focal-passive. */
 export const HEX_TILE_DOT_SIZES = { sm: 5, md: 6, lg: 9 }
 
+/** Public enums for HexTile axes — useful for iteration / validation. */
+export const HEX_TILE_PROPERTIES  = ['empty', 'focal', 'base']
+export const HEX_TILE_FOCAL_KINDS = ['active', 'passive']
+export const HEX_TILE_STATES      = ['default', 'selected', 'move', 'attack', 'blocked']
+
 // ── Hex badge sizing (chip hex — flat-top) ────────────────────────────────
 // Pixel dimensions for `<DonjonBadge>` (DonjonBadge.jsx). The badge hex is
 // flat-top with side indents (matches hexFlatTop(indent)).

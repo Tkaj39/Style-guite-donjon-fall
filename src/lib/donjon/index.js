@@ -343,7 +343,8 @@ export { default as GameTransition, gameTransitionPresets } from './GameTransiti
  * @example <HexTile property="focal" focal="active" state="selected" />
  * @example <HexTile property="base" owner={player.color} />
  */
-export { default as HexTile, HEX_TILE_PROPERTIES, HEX_TILE_FOCAL_KINDS, HEX_TILE_STATES } from './HexTile'
+export { default as HexTile } from './HexTile'
+// Enums live in ./tokens (already re-exported below via `export * from './tokens'`).
 
 /**
  * Die face — SVG rendering for values 1–6.
