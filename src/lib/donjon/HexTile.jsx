@@ -1,5 +1,6 @@
 import {
   gold, textActive, textFaint, bgDeep, gainColor, dangerColor, borderMid, borderMuted,
+  focalActiveBg, focalPassiveBg, focalPassiveBorder,
   HEX_TILE_SIZES, HEX_TILE_BORDER_WIDTH, HEX_TILE_ICON_SIZES, HEX_TILE_DOT_SIZES,
 } from './tokens'
 import { hexPointyTop } from '../../utils/polygon'
@@ -41,11 +42,8 @@ const LEGACY_STATE_TO_TRIPLE = {
 // `marker` values: null (none) | 'dot' (passive focal) | 'flame' (active focal).
 const EMPTY_LOOK = { border: borderMuted, fill: bgDeep, marker: null,  glow: null, opacity: 1 }
 
-// eslint-disable-next-line donjon/no-hardcoded-hex -- #6A6040/#1C1A0E: passive focal marker (olive border, warm-dark fill)
-const FOCAL_PASSIVE_LOOK = { border: '#6A6040', fill: '#1C1A0E', marker: 'dot',   glow: null, opacity: 1 }
-
-// eslint-disable-next-line donjon/no-hardcoded-hex -- #201D0E: unique warm-dark fill for the active focal hex (amber-tinted)
-const FOCAL_ACTIVE_LOOK  = { border: gold,      fill: '#201D0E', marker: 'flame', glow: `0 0 14px ${gold}66`, opacity: 1 }
+const FOCAL_PASSIVE_LOOK = { border: focalPassiveBorder, fill: focalPassiveBg, marker: 'dot',   glow: null, opacity: 1 }
+const FOCAL_ACTIVE_LOOK  = { border: gold,               fill: focalActiveBg,  marker: 'flame', glow: `0 0 14px ${gold}66`, opacity: 1 }
 
 // `base` derives border + fill from the `owner` color (see resolveLook).
 const BASE_LOOK = { border: null, fill: null, marker: null, glow: null, opacity: 1 }
@@ -119,10 +117,8 @@ function FlameIcon({ size = 10 }) {
 }
 
 function DiamondDot({ size = 6 }) {
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- #6A6040: unique olive color for the passive focal marker (olive-dark, no palette equivalent)
-  const dotColor = '#6A6040'
   return (
-    <svg viewBox="0 0 10 10" width={size} height={size} style={{ color: dotColor }}>
+    <svg viewBox="0 0 10 10" width={size} height={size} style={{ color: focalPassiveBorder }}>
       <polygon points="5,0 10,5 5,10 0,5" fill="currentColor" opacity={0.7} />
     </svg>
   )

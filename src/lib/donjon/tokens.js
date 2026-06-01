@@ -21,7 +21,25 @@ export const bgInactive = '#232238' // inactive button inside ButtonGroup
 export const headerBgStart = '#3D3A5C'  // lighter purple gradient start
 export const headerBgEnd   = '#2E2B50'  // darker purple gradient end
 
-// Hex tile — passive focal point (board state, see ColorsPage hex states).
+// Hex tile — focal cell colors (see HexTile.jsx). Warm amber-olive palette
+// so the focal markers (gold flame, olive diamond) read as game-context
+// objectives instead of generic UI panels.
+//
+// Active focal: gold border + flame icon on a warm-amber dark fill.
+// Passive focal: olive border + diamond dot on a warm dark fill.
+
+/** Warm amber-tinted dark fill behind the gold flame marker (active focal). */
+export const focalActiveBg = '#201D0E'
+
+/** Warm-dark olive-tinted fill behind the diamond marker (passive focal). */
+export const focalPassiveBg = '#1C1A0E'
+
+/** Olive border + diamond-dot marker color for the passive focal cell. */
+export const focalPassiveBorder = '#6A6040'
+
+/** @deprecated — use `focalPassiveBg` instead. Kept for back-compat with the
+ *  ColorsPage palette demo and existing showcase pages. Value left unchanged
+ *  to avoid breaking visuals where it's still referenced. */
 export const hexFocalPassive = '#2E2D4A'
 
 // Deeper variant of bg1 — for inset/recessed surfaces (Spacing demo containers,

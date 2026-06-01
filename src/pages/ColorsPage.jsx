@@ -265,10 +265,12 @@ function DonjonHexy() {
         label="Stav políčka"
         cols="grid-cols-2 sm:grid-cols-4"
         swatches={[
-          { name: 'Prázdný',         hex: D.bg4          },
-          { name: 'Ohnisko pasivní', hex: D.hexFocalPassive },
-          { name: 'Ohnisko aktivní', hex: D.gold         },
-          { name: 'Okraj hexu',      hex: D.borderDefault},
+          { name: 'Prázdný (fill)',           hex: D.bgDeep              },
+          { name: 'Ohnisko aktivní (fill)',   hex: D.focalActiveBg       },
+          { name: 'Ohnisko pasivní (fill)',   hex: D.focalPassiveBg      },
+          { name: 'Ohnisko pasivní (border)', hex: D.focalPassiveBorder  },
+          { name: 'Ohnisko aktivní (border)', hex: D.gold                },
+          { name: 'Okraj prázdného hexu',     hex: D.borderMuted         },
         ]}
       />
       <div>
