@@ -50,17 +50,17 @@ const FOCAL_ACTIVE_LOOK  = { border: gold,      fill: '#201D0E', marker: 'flame'
 // `base` derives border + fill from the `owner` color (see resolveLook).
 const BASE_LOOK = { border: null, fill: null, marker: null, glow: null, opacity: 1 }
 
-// State overlay applied on top of the (property, focal) base. Undefined keys
-// keep the base's value; an explicit value overrides it.
+// State overlay applied ON TOP of the (property, focal) base. By design the
+// overlay touches only the border + glow (and opacity for `blocked`) so that
+// property visuals (fill, marker icon, owner color) remain VISIBLE underneath
+// — you can tell a focal cell from a base cell from an empty cell at a glance
+// regardless of the current interaction state.
 const STATE_OVERLAY = {
   default:  {},
   selected: { border: textActive,  glow: `0 0 12px ${textActive}66` },
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- #0E231A: unique fill for the move state (dark green)
-  move:     { border: gainColor,   fill: '#0E231A', glow: `0 0 10px ${gainColor}55`,   marker: null },
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- #230E0E: unique fill for the attack state (dark red)
-  attack:   { border: dangerColor, fill: '#230E0E', glow: `0 0 10px ${dangerColor}55`, marker: null },
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- #141320: unique fill for the blocked state (ultra-dark)
-  blocked:  { border: borderMid,   fill: '#141320', glow: null, opacity: 0.45, marker: null },
+  move:     { border: gainColor,   glow: `0 0 10px ${gainColor}55`   },
+  attack:   { border: dangerColor, glow: `0 0 10px ${dangerColor}55` },
+  blocked:  { border: borderMid,   glow: null, opacity: 0.45 },
 }
 
 function getBaseLook(property, focal) {

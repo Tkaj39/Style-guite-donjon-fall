@@ -262,7 +262,7 @@ export default function HexagonPage() {
       {/* API overview */}
       <Section
         title="Tři nezávislé osy: property × focal × state"
-        description="HexTile rozlišuje (1) co políčko JE — property: empty / focal / base, (2) game-state ohniska — focal: active / passive (jen pro property=focal), a (3) jak se s ním právě zachází — state: default / selected / move / attack / blocked. Tabulka pokrývá všechny kombinace; focal property je rozdělena na dva řádky (aktivní + pasivní) protože jde o nezávislou osu."
+        description="HexTile rozlišuje (1) co políčko JE — property: empty / focal / base, (2) game-state ohniska — focal: active / passive (jen pro property=focal), a (3) jak se s ním právě zachází — state: default / selected / move / attack / blocked. State overlay aplikuje pouze border + glow (a opacity u blocked) — property si zachovává vlastní fill a marker, takže rozlišení mezi prázdným / ohniskem / základnou je viditelné i pod state overlayi."
       >
         <Preview>
           <PropertyStateMatrix />
@@ -374,7 +374,7 @@ export default function HexagonPage() {
       {/* Interaction states */}
       <Section
         title="Stavy interakce"
-        description="Vizuální stavy pro výběr a plánování pohybu — zobrazeny při výběru kostky nebo věže. Aplikované na property=empty, ale fungují i v kombinaci s focal/base."
+        description="Vizuální stavy pro výběr a plánování pohybu — barevný border + glow (a opacity u blocked). Aplikují se jako overlay nad property: focal si tedy zachová svůj marker, base barvu hráče."
       >
         <Preview>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'flex-end' }}>
