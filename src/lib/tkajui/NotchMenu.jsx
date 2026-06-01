@@ -259,14 +259,16 @@ export default function NotchMenu({
     <NotchMenuContext.Provider value={ctx}>
       <div
         className={className}
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', ...style }}
+        style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', ...style }}
       >
         {/* Border-trick: outer = border color, padded 1px, with chevron clip.
             Inner = same chevron clip + items in a flex row (no horizontal
             padding — items extend to the chevron edges and their backgrounds
-            fill the tips). */}
+            fill the tips). Use inline-flex so the element sizes to its
+            content (otherwise clip-path with 100% can collapse to 0). */}
         <div
           style={{
+            display: 'inline-flex',
             background: borderDefault,
             clipPath: clip,
             padding: BORDER_W,
