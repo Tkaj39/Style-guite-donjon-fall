@@ -1,18 +1,19 @@
 /* ── NotchMenu (tkajui) ─────────────────────────────────────────────────
-   Banner with chevron-pointed ends (◁ … ▷) sitting on top of a body
-   panel. Items inside the banner use the SAME visual language as
-   ButtonGroup (size system, active surface, dividers, hover brightness)
-   — so a NotchMenu reads as "ButtonGroup wrapped in a chevron banner".
+   ButtonGroup-shaped row of items, but with CHEVRON tips on the outermost
+   ends (instead of ButtonGroup's octagon corners). The first item owns the
+   left chevron tip (its background fills the tip area when active); the
+   last item owns the right chevron tip the same way. Middle items are
+   plain rectangles, dividers between items.
 
    Compound API:
      <NotchMenu value={tab} onChange={setTab}>
        <NotchMenu.Item value="info">Info</NotchMenu.Item>      // tab
        <NotchMenu.Item value="stats" icon={<Icon />}>Stats</NotchMenu.Item>
        <NotchMenu.Item onClick={close} aria-label="Close">✕</NotchMenu.Item> // action
-       <NotchMenu.Body>...content of the active tab...</NotchMenu.Body>
+       <NotchMenu.Body>...</NotchMenu.Body>
      </NotchMenu>
    ─────────────────────────────────────────────────────────────────────── */
-import { Children, createContext, Fragment, isValidElement, useContext } from 'react'
+import { Children, cloneElement, createContext, Fragment, isValidElement, useContext } from 'react'
 import {
   surface2, surface3,
   borderDefault,
@@ -30,7 +31,7 @@ function useNotchMenu() {
   return ctx
 }
 
-/* ── Sizes — mirrors ButtonGroup so the two compose visually ──────────── */
+/* ── Sizes — mirror ButtonGroup exactly ──────────────────────────────── */
 const SIZE_MAP = {
   xs: { h: 32, px: 10, fontSize: '0.6875rem', iconSize: 12 },
   sm: { h: 40, px: 14, fontSize: '0.75rem',   iconSize: 14 },
@@ -40,17 +41,13 @@ const SIZE_MAP = {
 
 const BORDER_W = 1
 
-// Tailwind utility classes for the focus/hover effects. Kept as a plain string
-// (not a template literal) so the focus-ring hex inside the arbitrary value
-// doesn't fool the donjon/no-hardcoded-hex rule.
-const ITEM_TW_CLASSES = "hover:brightness-110 active:brightness-90 focus:outline-hidden focus-visible:drop-shadow-[0_0_8px_#6576ffAA]"
-
 /** Chevron tip width as a function of banner height — 0.5 ≈ 45° point. */
 function chevronWidth(h) {
   return Math.round(h * 0.5)
 }
 
-/** Outer banner silhouette (◁ … ▷). */
+/** Full banner silhouette (◁…▷) — chevron tips on both ends.
+ *  Used on the outer border-trick wrapper + inner bg layer. */
 function bannerClip(chevW) {
   return `polygon(
     0 50%,
@@ -62,6 +59,30 @@ function bannerClip(chevW) {
   )`
 }
 
+/** Single-item clip-path with a chevron tip on the LEFT side only. */
+function leftChevronClip(chevW) {
+  return `polygon(
+    0 50%,
+    ${chevW}px 0,
+    100% 0,
+    100% 100%,
+    ${chevW}px 100%
+  )`
+}
+
+/** Single-item clip-path with a chevron tip on the RIGHT side only. */
+function rightChevronClip(chevW) {
+  return `polygon(
+    0 0,
+    calc(100% - ${chevW}px) 0,
+    100% 50%,
+    calc(100% - ${chevW}px) 100%,
+    0 100%
+  )`
+}
+
+const ITEM_TW_CLASSES = "hover:brightness-110 active:brightness-90 focus:outline-hidden focus-visible:drop-shadow-[0_0_8px_#6576ffAA]"
+
 /* ── Item ─────────────────────────────────────────────────────────────── */
 function Item({
   value,
@@ -72,12 +93,29 @@ function Item({
   className,
   style: _style,
   'aria-label': ariaLabel,
+  // Injected by NotchMenu parent via cloneElement:
+  _position,
   ...rest
 }) {
   const ctx = useNotchMenu()
   const isTab = value !== undefined
   const isActive = isTab && ctx.value === value
   const s = SIZE_MAP[ctx.size] ?? SIZE_MAP.md
+  const chevW = chevronWidth(s.h)
+
+  const isFirst = _position === 'first' || _position === 'only'
+  const isLast  = _position === 'last'  || _position === 'only'
+  const isOnly  = _position === 'only'
+
+  // Clip-path: outermost items carry the chevron tip on their outer side.
+  const clipPath = isOnly  ? bannerClip(chevW)
+                 : isFirst ? leftChevronClip(chevW)
+                 : isLast  ? rightChevronClip(chevW)
+                 : undefined
+
+  // Extra horizontal padding so content stays clear of the chevron tip area.
+  const extraPadL = isFirst ? chevW : 0
+  const extraPadR = isLast  ? chevW : 0
 
   const handleClick = (e) => {
     if (disabled) return
@@ -93,7 +131,6 @@ function Item({
       type="button"
       role={isTab ? 'tab' : undefined}
       aria-selected={isTab ? isActive : undefined}
-      aria-pressed={!isTab ? undefined : undefined}
       aria-label={ariaLabel}
       disabled={disabled}
       onClick={handleClick}
@@ -101,13 +138,13 @@ function Item({
       style={{
         position: 'relative',
         height: s.h,
-        paddingLeft: s.px,
-        paddingRight: s.px,
+        paddingLeft: s.px + extraPadL,
+        paddingRight: s.px + extraPadR,
+        clipPath,
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
         gap: 6,
-        // ButtonGroup-style active/inactive surfaces.
         background: isActive ? surface3 : surface2,
         border: 'none',
         cursor: disabled ? 'not-allowed' : 'pointer',
@@ -119,32 +156,25 @@ function Item({
       {...rest}
     >
       {icon && (
-        <span
-          style={{
-            width: s.iconSize,
-            height: s.iconSize,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-            color: isActive ? accent : textMid,
-            position: 'relative',
-          }}
-        >
+        <span style={{
+          width: s.iconSize, height: s.iconSize,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          flexShrink: 0,
+          color: isActive ? accent : textMid,
+          position: 'relative',
+        }}>
           {icon}
         </span>
       )}
       {children && (
-        <span
-          style={{
-            fontWeight: isActive ? 600 : 400,
-            letterSpacing: '0.04em',
-            lineHeight: 1,
-            fontSize: s.fontSize,
-            color: isActive ? textHigh : textMid,
-            transition: 'color 150ms',
-          }}
-        >
+        <span style={{
+          fontWeight: isActive ? 600 : 400,
+          letterSpacing: '0.04em',
+          lineHeight: 1,
+          fontSize: s.fontSize,
+          color: isActive ? textHigh : textMid,
+          transition: 'color 150ms',
+        }}>
           {children}
         </span>
       )}
@@ -173,14 +203,15 @@ function Body({ children, className, style }) {
 
 /* ── Root ─────────────────────────────────────────────────────────────── */
 /**
- * NotchMenu — chevron-ended banner of ButtonGroup-styled items on top of
- * a Body panel. Items with `value` are tabs (controlled via parent
- * value/onChange); items without `value` are standalone actions (onClick).
+ * NotchMenu — ButtonGroup-styled items where the outermost items have
+ * chevron-pointed outer ends (◁ first … last ▷). The first/last items'
+ * active backgrounds fill all the way into their chevron tips, just like
+ * ButtonGroup's octagon corners.
  *
- * @param {string|null} [value] - Active tab value (controlled mode).
- * @param {(value: string) => void} [onChange] - Tab-change callback.
- * @param {'xs'|'sm'|'md'|'lg'} [size='md'] - Item height + padding (mirrors ButtonGroup).
- * @param {boolean} [dividers=true] - Show 1px dividers between adjacent items.
+ * @param {string|null} [value]
+ * @param {(value: string) => void} [onChange]
+ * @param {'xs'|'sm'|'md'|'lg'} [size='md']
+ * @param {boolean} [dividers=true]
  * @param {ReactNode} children - Mix of NotchMenu.Item and NotchMenu.Body.
  *
  * @example
@@ -204,13 +235,22 @@ export default function NotchMenu({
   const chevW = chevronWidth(s.h)
   const clip = bannerClip(chevW)
 
-  // Split children: items live in the banner; one Body sits below.
   const items = []
   let body = null
   Children.forEach(children, (child) => {
     if (!isValidElement(child)) return
     if (child.type === Item) items.push(child)
     else if (child.type === Body) body = child
+  })
+
+  // Inject _position into each item so it can pick the correct clip + padding.
+  const last = items.length - 1
+  const positionedItems = items.map((it, i) => {
+    const position = items.length === 1 ? 'only'
+                   : i === 0  ? 'first'
+                   : i === last ? 'last'
+                   : 'middle'
+    return cloneElement(it, { _position: position, key: it.props.value ?? `action-${i}` })
   })
 
   const ctx = { value, onChange, size }
@@ -221,8 +261,10 @@ export default function NotchMenu({
         className={className}
         style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', ...style }}
       >
-        {/* Banner — chevron-ended strip containing the items.
-            Border trick: outer = border color, inner = bg color with same clip. */}
+        {/* Border-trick: outer = border color, padded 1px, with chevron clip.
+            Inner = same chevron clip + items in a flex row (no horizontal
+            padding — items extend to the chevron edges and their backgrounds
+            fill the tips). */}
         <div
           style={{
             background: borderDefault,
@@ -238,16 +280,12 @@ export default function NotchMenu({
             style={{
               height: '100%',
               clipPath: clip,
-              background: surface2,
               display: 'inline-flex',
               alignItems: 'stretch',
-              // Reserve room for the chevron tips so items stay in the flat middle.
-              paddingLeft: chevW,
-              paddingRight: chevW,
             }}
           >
-            {items.map((it, idx) => (
-              <Fragment key={it.props.value ?? `action-${idx}`}>
+            {positionedItems.map((it, idx) => (
+              <Fragment key={it.key ?? `frag-${idx}`}>
                 {idx > 0 && dividers && (
                   <span
                     aria-hidden="true"
