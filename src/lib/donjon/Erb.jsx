@@ -8,21 +8,18 @@
      • shape="prapor" — banner with a fixed tip, variable length.
                         Tip = 28.9% of width (fixed). Body of arbitrary length.
    ─────────────────────────────────────────────────────────────────────── */
-import { bg2, gold, goldDim, neutralColor, textHighest } from './tokens'
+import {
+  bg2, gold, goldDim, neutralColor, textHighest,
+  SHIELD_SIZES, SHIELD_ASPECT_RATIO, SHIELD_ORNAMENT_MIN_WIDTH,
+  PRAPOR_DEFAULT_WIDTH, PRAPOR_DEFAULT_HEIGHT, PRAPOR_TIP_RATIO,
+} from './tokens'
 import { HexOrnament, HrotErbu } from './Ornaments'
-
-// Minimum width for rendering ornaments — below this threshold they are
-// skipped (size='xs' is 24px → too small for detail).
-const ORNAMENT_MIN_WIDTH = 30
 
 // Erb — fixed proportions, polygon from /design-sources/erb.svg:
 // 116.22×116.21 viewBox, points 116.22,0 → 116.22,82.66 → 58.11,116.21 → 0,82.66 → 0,0
 // In percent: 0% 0% → 100% 0% → 100% 71.13% → 50% 100% → 0% 71.13%
 // Tip height = 116.21 - 82.66 = 33.55 = 28.87% of width.
 const ERB_CLIP = 'polygon(0% 0%, 100% 0%, 100% 71.13%, 50% 100%, 0% 71.13%)'
-
-// Ratio of tip height to width (from erb.svg and prapor.svg — both 28.9%).
-const TIP_RATIO = 0.289
 
 /**
  * Clip-path for the banner — the tip is fixed relative to width, the
@@ -32,16 +29,9 @@ const TIP_RATIO = 0.289
  * straight section from 0 to (h - tip) px = (h-tip)/h % in the polygon.
  */
 function getPraporClip(width, height) {
-  const tipPx = width * TIP_RATIO
+  const tipPx = width * PRAPOR_TIP_RATIO
   const straightPct = ((height - tipPx) / height) * 100
   return `polygon(0% 0%, 100% 0%, 100% ${straightPct.toFixed(2)}%, 50% 100%, 0% ${straightPct.toFixed(2)}%)`
-}
-
-const sizeMap = {
-  xs: { w: 24,  h: 28  },
-  sm: { w: 40,  h: 47  },
-  md: { w: 64,  h: 75  },
-  lg: { w: 96,  h: 112 },
 }
 
 // Roman numeral symbol per player index (1-based id)
@@ -54,7 +44,9 @@ const symbols = ['I', 'II', 'III', 'IV', 'V', 'VI']
  *   - shape="erb"    (default) — fixed 1:1 proportions + tapered tip at the bottom.
  *                                Sized via `size` ('xs|sm|md|lg' / px).
  *   - shape="prapor" — banner with a fixed tip, of arbitrary length.
- *                      Sized via `width` (default 32) + `height` (default 120).
+ *                      Sized via `width` (defaults to PRAPOR_DEFAULT_WIDTH)
+ *                      + `height` (defaults to PRAPOR_DEFAULT_HEIGHT).
+ *                      Use `PRAPOR_WIDTHS.sm|md|lg` from tokens for consistent widths.
  *
  * Decoration (opt-in):
  *   - ornament="plain"     (default) — no ornaments, back-compat
@@ -71,8 +63,8 @@ const symbols = ['I', 'II', 'III', 'IV', 'V', 'VI']
  * @param {string} [playerColor] - Direct color (alternative to player.color)
  * @param {'erb'|'prapor'} [shape='erb']
  * @param {'xs'|'sm'|'md'|'lg'|number} [size='md'] - Size for shape='erb'
- * @param {number} [width=32]  - Width for shape='prapor'
- * @param {number} [height=120] - Length for shape='prapor'
+ * @param {number} [width=PRAPOR_DEFAULT_WIDTH]  - Width for shape='prapor'
+ * @param {number} [height=PRAPOR_DEFAULT_HEIGHT] - Length for shape='prapor'
  * @param {boolean} [showSymbol=true]
  * @param {'plain'|'decorated'} [ornament='plain'] - Decorative chevron + HexOrnament
  * @param {'gold'|'player'} [ornamentColor='gold'] - Ornament color
@@ -105,11 +97,11 @@ export function Shield({
   // Dimensions by shape
   let s
   if (isPrapor) {
-    s = { w: width ?? 32, h: height ?? 120 }
+    s = { w: width ?? PRAPOR_DEFAULT_WIDTH, h: height ?? PRAPOR_DEFAULT_HEIGHT }
   } else if (typeof size === 'number') {
-    s = { w: size, h: Math.round(size * 1.17) }
+    s = { w: size, h: Math.round(size * SHIELD_ASPECT_RATIO) }
   } else {
-    s = sizeMap[size] ?? sizeMap.md
+    s = SHIELD_SIZES[size] ?? SHIELD_SIZES.md
   }
 
   // Clip-path: erb = fixed, prapor = computed from dimensions
@@ -124,7 +116,7 @@ export function Shield({
   const symPadTop = isPrapor ? Math.max(4, s.w * 0.18) : 0
 
   // Decoration — visible only on larger shields (xs/smaller is skipped)
-  const isDecorated = ornament === 'decorated' && s.w >= ORNAMENT_MIN_WIDTH
+  const isDecorated = ornament === 'decorated' && s.w >= SHIELD_ORNAMENT_MIN_WIDTH
   const ornMain = ornamentColor === 'player' ? color : gold
   const ornDim  = ornamentColor === 'player' ? `${color}88` : goldDim
   // HrotErbu = 50% of erb width (plan item 5)

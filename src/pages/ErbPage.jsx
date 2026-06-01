@@ -1,6 +1,7 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import {
   dangerColor, textFaint, textLow,
+  PRAPOR_WIDTHS,
 } from '../lib/donjon/tokens'
 import { players } from '../data/gameUiMockData'
 import { Shield, PlayerIdentityBadge } from '../lib/donjon/Erb'
@@ -118,10 +119,10 @@ export default function ErbPage() {
                 Prapor · decorated (gold + player)
               </div>
               <div style={{ display: 'flex', gap: 20, alignItems: 'flex-end' }}>
-                <Shield shape="prapor" player={players[0]} width={40} height={140} ornament="decorated" />
-                <Shield shape="prapor" player={players[1]} width={40} height={160} ornament="decorated" />
-                <Shield shape="prapor" player={players[2]} width={40} height={180} ornament="decorated" ornamentColor="player" />
-                <Shield shape="prapor" player={players[3]} width={48} height={200} ornament="decorated" ornamentColor="player" />
+                <Shield shape="prapor" player={players[0]} width={PRAPOR_WIDTHS.md} height={140} ornament="decorated" />
+                <Shield shape="prapor" player={players[1]} width={PRAPOR_WIDTHS.md} height={160} ornament="decorated" />
+                <Shield shape="prapor" player={players[2]} width={PRAPOR_WIDTHS.md} height={180} ornament="decorated" ornamentColor="player" />
+                <Shield shape="prapor" player={players[3]} width={PRAPOR_WIDTHS.lg} height={200} ornament="decorated" ornamentColor="player" />
               </div>
             </div>
           </div>
@@ -152,7 +153,7 @@ export default function ErbPage() {
             <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
               {[80, 120, 160, 200].map(h => (
                 <div key={h} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                  <Shield shape="prapor" player={players[0]} width={32} height={h} />
+                  <Shield shape="prapor" player={players[0]} width={PRAPOR_WIDTHS.sm} height={h} />
                   <span style={{ fontSize: '0.6875rem', color: textLow, fontFamily: 'ui-monospace, monospace' }}>
                     h={h}
                   </span>

@@ -150,6 +150,45 @@ export const surface4 = bg4
 // a visible accent without full saturation.
 export const borderStrong  = '#4F4D6E'
 
+// ── Shield / prapor sizing ────────────────────────────────────────────────
+// Pixel dimensions for `<Shield>` (Erb.jsx). Single source of truth — used
+// inside the component AND by showcase pages so demos don't drift from the
+// library defaults.
+
+/** Erb (shield) preset sizes — width × height in px.
+ *  Aspect ratio ≈ 1:1.17 (matches design-sources/erb.svg). */
+export const SHIELD_SIZES = {
+  xs: { w: 24,  h: 28  },
+  sm: { w: 40,  h: 47  },
+  md: { w: 64,  h: 75  },
+  lg: { w: 96,  h: 112 },
+}
+
+/** Aspect ratio applied when `<Shield size>` is a raw number:
+ *  `h = round(w * SHIELD_ASPECT_RATIO)`. Derived from design-sources/erb.svg. */
+export const SHIELD_ASPECT_RATIO = 1.17
+
+/** Banner (prapor) preset widths in px. Heights are intentionally NOT
+ *  tokenized — the prapor body is, by definition, of variable length. */
+export const PRAPOR_WIDTHS = {
+  sm: 32,
+  md: 40,
+  lg: 48,
+}
+
+/** Default `<Shield shape="prapor">` width (`width` prop fallback). */
+export const PRAPOR_DEFAULT_WIDTH = PRAPOR_WIDTHS.sm
+/** Default `<Shield shape="prapor">` height (`height` prop fallback). */
+export const PRAPOR_DEFAULT_HEIGHT = 120
+
+/** Tip height as a fraction of shield/prapor width — fixed across both
+ *  shapes (derived from /design-sources/erb.svg and /design-sources/prapor.svg). */
+export const PRAPOR_TIP_RATIO = 0.289
+
+/** Min width (px) at which decorative ornaments are rendered on a shield.
+ *  Below this the detail is too small — ornaments are skipped. */
+export const SHIELD_ORNAMENT_MIN_WIDTH = 30
+
 // ── Shared tokens (motion, breakpoints, z-index) ──────────────────────────
 // Re-export from `lib/shared/tokens.js` — structurally neutral tokens shared
 // by tkajui and donjon. A change propagates to both libraries.
