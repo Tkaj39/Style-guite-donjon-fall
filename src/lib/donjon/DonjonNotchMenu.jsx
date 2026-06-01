@@ -235,10 +235,11 @@ export default function DonjonNotchMenu({
     <DonjonNotchMenuContext.Provider value={ctx}>
       <div
         className={className}
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', ...style }}
+        style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', ...style }}
       >
         <div
           style={{
+            display: 'inline-flex',
             background: goldDim,
             clipPath: clip,
             padding: BORDER_W,
