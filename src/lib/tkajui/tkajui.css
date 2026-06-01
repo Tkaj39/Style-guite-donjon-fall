@@ -1,27 +1,27 @@
 /**
  * TkajUI — CSS Custom Properties
  *
- * Exportuje všechny design tokeny jako CSS proměnné na :root.
- * Použití: @import './src/lib/tkajui/tkajui.css';
+ * Exports all design tokens as CSS variables on :root.
+ * Usage: @import './src/lib/tkajui/tkajui.css';
  *
  * Pak v CSS:
  *   color: var(--tkajui-accent);
  *   background: var(--tkajui-surface2);
  *   border: 1px solid var(--tkajui-border-default);
  *
- * Mirror exportů z `./tokens.js`. Změna v jednom musí být i ve druhém —
- * paritu chrání test `architectureContract.test.js`.
+ * Mirror of the exports from `./tokens.js`. A change in one must mirror in the
+ * other — parity is enforced by the `architectureContract.test.js` test.
  */
 
 :root {
   /* ── Surfaces ─────────────────────────────────────────────────────────── */
-  --tkajui-surface0: #0d0d14;   /* nejhlubší pozadí */
+  --tkajui-surface0: #0d0d14;   /* deepest background */
   --tkajui-surface1: #13131c;   /* base dark */
   --tkajui-surface2: #1b1b27;   /* input / card bg */
   --tkajui-surface3: #232332;   /* elevated panel */
   --tkajui-surface4: #2c2c3e;   /* hover state */
 
-  /* ── Background aliases (sjednocené naming s donjon) ─────────────────── */
+  /* ── Background aliases (unified naming with donjon) ─────────────────── */
   --tkajui-bg0: var(--tkajui-surface0);
   --tkajui-bg1: var(--tkajui-surface1);
   --tkajui-bg2: var(--tkajui-surface2);
@@ -88,7 +88,7 @@
   --tkajui-primary-text: #ffffff;
   --tkajui-primary-icon: #ffffffcc;
 
-  /* ── Animační timing (sdílené se donjon přes shared/tokens) ──────────── */
+  /* ── Animation timing (shared with donjon via shared/tokens) ──────────── */
   --tkajui-anim-fast:     80ms;
   --tkajui-anim-normal:   160ms;
   --tkajui-anim-slow:     300ms;
@@ -99,7 +99,7 @@
   --tkajui-ease-enter:  cubic-bezier(0, 0, 0.2, 1);
   --tkajui-ease-exit:   cubic-bezier(0.4, 0, 1, 1);
 
-  /* ── Breakpointy (sdílené) ────────────────────────────────────────────── */
+  /* ── Breakpoints (shared) ────────────────────────────────────────────── */
   --tkajui-bp-mobile:  480px;
   --tkajui-bp-tablet:  768px;
   --tkajui-bp-desktop: 1024px;

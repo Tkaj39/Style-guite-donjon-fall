@@ -1,7 +1,7 @@
 /* ── Select / Dropdown ──────────────────────────────────────────────────
-   Vlastní dropdown (ne nativní <select>). Oktagonální trigger.
-   Klávesnicová navigace, Escape zavírání, click-outside.
-   Čistá TkajUI paleta.
+   Custom dropdown (not the native <select>). Octagonal trigger.
+   Keyboard navigation, Escape closes, click-outside closes.
+   Clean TkajUI palette.
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useRef, useEffect, useId } from 'react'
 import { octagon } from '../../utils/octagon'
@@ -56,7 +56,7 @@ export default function Select({
   value,
   onChange,
   options = [],
-  placeholder = 'Vyber možnost…',
+  placeholder = 'Select an option…',
   label,
   size = 'md',
   variant = 'default',

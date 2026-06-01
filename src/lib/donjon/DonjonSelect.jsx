@@ -1,7 +1,7 @@
 /* ── DonjonSelect ──────────────────────────────────────────────────────────
-   Herní dropdown — zlatý border, tmavé pozadí, zlatá šipka.
-   Oktagonální tvar triggeru (outer/inner clip-path trick jako DonjonInput).
-   Klávesnicová navigace, click-outside, Escape.
+   Game dropdown — gold border, dark background, gold arrow.
+   Octagonal trigger (outer/inner clip-path trick like DonjonInput).
+   Keyboard navigation, click-outside, Escape.
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useRef, useEffect, useId } from 'react'
 import { octagon } from '../../utils/octagon'
@@ -12,8 +12,8 @@ import {
   dangerColor, successColor, warningColor, infoColor,
 } from './tokens'
 
-/* Variant lookup — parita s TkajUI Select.
-   Pro každou variantu: active border (focus/open), idle border, label. */
+/* Variant lookup — parity with TkajUI Select.
+   For each variant: active border (focus/open), idle border, label. */
 const VARIANTS = {
   default: { active: gold,         idle: goldDim,            label: goldMid      },
   danger:  { active: dangerColor,  idle: `${dangerColor}88`, label: dangerColor  },
@@ -73,7 +73,7 @@ export default function DonjonSelect({
   value,
   onChange,
   options     = [],
-  placeholder = 'Vyber možnost…',
+  placeholder = 'Select an option…',
   label,
   size        = 'md',
   variant     = 'default',   // 'default'|'danger'|'success'|'warning'|'info' — parita s TkajUI Select

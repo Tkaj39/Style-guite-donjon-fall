@@ -11,151 +11,151 @@ describe('Modal', () => {
     HTMLDialogElement.prototype.close.mockClear()
   })
 
-  it('isOpen=false → dialog není otevřený', () => {
+  it('isOpen=false → dialog is not open', () => {
     render(<Modal isOpen={false} onClose={() => {}} title="Test" />)
-    // Native <dialog> zůstane v DOM, ale showModal() nebylo voláno → open=false
+    // Native <dialog> stays in the DOM, but showModal() was not called → open=false
     const dialog = document.querySelector('dialog')
     expect(dialog).toBeInTheDocument()
     expect(dialog.open).toBe(false)
   })
 
-  it('isOpen=true → renderuje role="dialog"', () => {
-    render(<Modal isOpen title="Potvrzení" onClose={() => {}} />)
+  it('isOpen=true → renders role="dialog"', () => {
+    render(<Modal isOpen title="Confirmation" onClose={() => {}} />)
     expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
-  it('isOpen=true → dialog.open je true', () => {
-    render(<Modal isOpen title="Potvrzení" onClose={() => {}} />)
-    // aria-modal je implicitní u native showModal() — testujeme open state
+  it('isOpen=true → dialog.open is true', () => {
+    render(<Modal isOpen title="Confirmation" onClose={() => {}} />)
+    // aria-modal is implicit with native showModal() — we test the open state
     expect(screen.getByRole('dialog').open).toBe(true)
   })
 
-  it('title prop → text je viditelný', () => {
-    render(<Modal isOpen title="Potvrzení" onClose={() => {}} />)
-    expect(screen.getByText('Potvrzení')).toBeInTheDocument()
+  it('title prop → text is visible', () => {
+    render(<Modal isOpen title="Confirmation" onClose={() => {}} />)
+    expect(screen.getByText('Confirmation')).toBeInTheDocument()
   })
 
-  it('aria-labelledby odkazuje na title element', () => {
-    render(<Modal isOpen title="Potvrzení" onClose={() => {}} />)
+  it('aria-labelledby points to the title element', () => {
+    render(<Modal isOpen title="Confirmation" onClose={() => {}} />)
     const dialog = screen.getByRole('dialog')
     const labelId = dialog.getAttribute('aria-labelledby')
     const titleEl = document.getElementById(labelId)
     expect(titleEl).toBeInTheDocument()
-    expect(titleEl.textContent).toBe('Potvrzení')
+    expect(titleEl.textContent).toBe('Confirmation')
   })
 
-  it('children se renderují uvnitř', () => {
+  it('children render inside', () => {
     render(
       <Modal isOpen title="T" onClose={() => {}}>
-        <p data-testid="body">Obsah modalu</p>
+        <p data-testid="body">Modal body</p>
       </Modal>
     )
     expect(screen.getByTestId('body')).toBeInTheDocument()
   })
 
-  it('tlačítko Zavřít zavolá onClose', () => {
+  it('Close button calls onClose', () => {
     const onClose = vi.fn()
     render(<Modal isOpen title="Test" onClose={onClose} />)
-    fireEvent.click(screen.getByLabelText('Zavřít'))
+    fireEvent.click(screen.getByLabelText('Close'))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
-  it('Escape klávesa zavolá onClose', () => {
+  it('Escape key calls onClose', () => {
     const onClose = vi.fn()
     render(<Modal isOpen title="Test" onClose={onClose} />)
-    // Native dialog: ESC spouští cancel event na <dialog>, ne keyDown na document
+    // Native dialog: ESC fires the cancel event on <dialog>, not keyDown on document
     fireEvent(screen.getByRole('dialog'), new Event('cancel', { bubbles: false, cancelable: true }))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
-  it('closeOnEscape=false → Escape nezavolá onClose', () => {
+  it('closeOnEscape=false → Escape does not call onClose', () => {
     const onClose = vi.fn()
     render(<Modal isOpen title="Test" onClose={onClose} closeOnEscape={false} />)
     fireEvent(screen.getByRole('dialog'), new Event('cancel', { bubbles: false, cancelable: true }))
     expect(onClose).not.toHaveBeenCalled()
   })
 
-  it('kliknutí na backdrop zavolá onClose', () => {
+  it('clicking the backdrop calls onClose', () => {
     const onClose = vi.fn()
     render(<Modal isOpen title="Test" onClose={onClose} />)
     fireEvent.click(screen.getByRole('dialog'))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
-  it('kliknutí uvnitř panelu nezavolá onClose', () => {
+  it('clicking inside the panel does not call onClose', () => {
     const onClose = vi.fn()
     render(<Modal isOpen title="Test" onClose={onClose} />)
-    // Panel má stopPropagation — klik na obsah nedojde k backdrop handleru
+    // The panel calls stopPropagation — a click on the content does not reach the backdrop handler
     fireEvent.click(screen.getByRole('heading', { level: 2 }))
     expect(onClose).not.toHaveBeenCalled()
   })
 
-  it('closeOnBackdrop=false → kliknutí na backdrop nezavolá onClose', () => {
+  it('closeOnBackdrop=false → clicking the backdrop does not call onClose', () => {
     const onClose = vi.fn()
     render(<Modal isOpen title="Test" onClose={onClose} closeOnBackdrop={false} />)
     fireEvent.click(screen.getByRole('dialog'))
     expect(onClose).not.toHaveBeenCalled()
   })
 
-  it('isOpen=true → scroll lock zajišťuje prohlížeč přes top-layer', () => {
+  it('isOpen=true → scroll lock is provided by the browser via the top layer', () => {
     render(<Modal isOpen title="Test" onClose={() => {}} />)
-    // Native <dialog> showModal() uzamkne scroll na úrovni prohlížeče (top-layer),
-    // nikoli přes document.body.style.overflow — verifikujeme přes open state
+    // Native <dialog> showModal() locks scroll at the browser level (top-layer),
+    // not via document.body.style.overflow — we verify the open state
     expect(screen.getByRole('dialog').open).toBe(true)
   })
 
-  it('isOpen true→false → dialog se uzavře', () => {
+  it('isOpen true→false → dialog closes', () => {
     const { rerender } = render(<Modal isOpen title="Test" onClose={() => {}} />)
     rerender(<Modal isOpen={false} title="Test" onClose={() => {}} />)
     expect(HTMLDialogElement.prototype.close).toHaveBeenCalledTimes(1)
   })
 
-  it('description prop → text je viditelný', () => {
-    render(<Modal isOpen title="T" description="Popis akce" onClose={() => {}} />)
-    expect(screen.getByText('Popis akce')).toBeInTheDocument()
+  it('description prop → text is visible', () => {
+    render(<Modal isOpen title="T" description="Action description" onClose={() => {}} />)
+    expect(screen.getByText('Action description')).toBeInTheDocument()
   })
 
-  it('footer prop → renderuje se', () => {
+  it('footer prop → is rendered', () => {
     render(<Modal isOpen title="T" onClose={() => {}} footer={<button>OK</button>} />)
     expect(screen.getByText('OK')).toBeInTheDocument()
   })
 
-  it('showCloseButton=false → žádné tlačítko Zavřít', () => {
+  it('showCloseButton=false → no Close button', () => {
     render(<Modal isOpen title="T" onClose={() => {}} showCloseButton={false} />)
-    expect(screen.queryByLabelText('Zavřít')).not.toBeInTheDocument()
+    expect(screen.queryByLabelText('Close')).not.toBeInTheDocument()
   })
 
-  it('size="sm" → renderuje bez pádu', () => {
+  it('size="sm" → renders without crashing', () => {
     expect(() => render(<Modal isOpen title="T" onClose={() => {}} size="sm" />)).not.toThrow()
   })
 
-  it('size="lg" → renderuje bez pádu', () => {
+  it('size="lg" → renders without crashing', () => {
     expect(() => render(<Modal isOpen title="T" onClose={() => {}} size="lg" />)).not.toThrow()
   })
 
-  it('variant="danger" → renderuje bez pádu', () => {
+  it('variant="danger" → renders without crashing', () => {
     expect(() => render(<Modal isOpen title="T" onClose={() => {}} variant="danger" />)).not.toThrow()
   })
 
-  it('neznámý variant → renderuje bez pádu (fallback)', () => {
+  it('unknown variant → renders without crashing (fallback)', () => {
     expect(() => render(<Modal isOpen title="T" onClose={() => {}} variant="unknown" />)).not.toThrow()
   })
 
-  it('title=null, isOpen, onClose → renderuje bez pádu', () => {
+  it('title=null, isOpen, onClose → renders without crashing', () => {
     expect(() => render(<Modal isOpen title={null} onClose={() => {}} />)).not.toThrow()
   })
 
-  it('children=null, isOpen, onClose → renderuje bez pádu', () => {
+  it('children=null, isOpen, onClose → renders without crashing', () => {
     expect(() => render(<Modal isOpen title="T" onClose={() => {}}>{null}</Modal>)).not.toThrow()
   })
 })
 
 // ─── Toast ─────────────────────────────────────────────────────────────────
 
-// Pomocná komponenta pro volání useToast
+// Helper component for calling useToast
 function ToastTrigger({ onReady }) {
   const { addToast, removeToast } = useToast()
-  // Předáme funkce rodiči přes callback
+  // Pass functions up to the parent via callback
   if (onReady) onReady({ addToast, removeToast })
   return null
 }
@@ -179,11 +179,11 @@ describe('Toast / ToastProvider', () => {
     vi.useRealTimers()
   })
 
-  it('ToastProvider renderuje children bez pádu', () => {
+  it('ToastProvider renders children without crashing', () => {
     expect(() => render(<ToastProvider><div>ok</div></ToastProvider>)).not.toThrow()
   })
 
-  it('useToast mimo provider → vyhodí chybu', () => {
+  it('useToast outside the provider → throws an error', () => {
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {})
     expect(() => {
       render(<ToastTrigger onReady={() => {}} />)
@@ -191,19 +191,19 @@ describe('Toast / ToastProvider', () => {
     spy.mockRestore()
   })
 
-  it('addToast zobrazí toast s title', () => {
+  it('addToast shows a toast with a title', () => {
     const { toastApi } = renderWithToast()
-    act(() => { toastApi().addToast({ title: 'Hotovo!', variant: 'success' }) })
-    expect(screen.getByText('Hotovo!')).toBeInTheDocument()
+    act(() => { toastApi().addToast({ title: 'Done!', variant: 'success' }) })
+    expect(screen.getByText('Done!')).toBeInTheDocument()
   })
 
-  it('addToast zobrazí toast s message', () => {
+  it('addToast shows a toast with a message', () => {
     const { toastApi } = renderWithToast()
-    act(() => { toastApi().addToast({ message: 'Zpráva toastu', variant: 'default' }) })
-    expect(screen.getByText('Zpráva toastu')).toBeInTheDocument()
+    act(() => { toastApi().addToast({ message: 'Toast message', variant: 'default' }) })
+    expect(screen.getByText('Toast message')).toBeInTheDocument()
   })
 
-  it('addToast vrátí id (string)', () => {
+  it('addToast returns an id (string)', () => {
     const { toastApi } = renderWithToast()
     let id
     act(() => { id = toastApi().addToast({ title: 'Test' }) })
@@ -211,67 +211,67 @@ describe('Toast / ToastProvider', () => {
     expect(id.length).toBeGreaterThan(0)
   })
 
-  it('removeToast odstraní toast', () => {
+  it('removeToast removes a toast', () => {
     const { toastApi } = renderWithToast()
     let id
-    act(() => { id = toastApi().addToast({ title: 'Zmizím' }) })
-    expect(screen.getByText('Zmizím')).toBeInTheDocument()
+    act(() => { id = toastApi().addToast({ title: 'Vanish' }) })
+    expect(screen.getByText('Vanish')).toBeInTheDocument()
     act(() => { toastApi().removeToast(id) })
-    expect(screen.queryByText('Zmizím')).not.toBeInTheDocument()
+    expect(screen.queryByText('Vanish')).not.toBeInTheDocument()
   })
 
-  it('kliknutí na ✕ odstraní toast', () => {
+  it('clicking ✕ removes the toast', () => {
     const { toastApi } = renderWithToast()
-    act(() => { toastApi().addToast({ title: 'Klikatelný' }) })
-    expect(screen.getByText('Klikatelný')).toBeInTheDocument()
-    fireEvent.click(screen.getByLabelText('Zavřít'))
-    expect(screen.queryByText('Klikatelný')).not.toBeInTheDocument()
+    act(() => { toastApi().addToast({ title: 'Clickable' }) })
+    expect(screen.getByText('Clickable')).toBeInTheDocument()
+    fireEvent.click(screen.getByLabelText('Close'))
+    expect(screen.queryByText('Clickable')).not.toBeInTheDocument()
   })
 
-  it('po duration ms se toast automaticky odstraní', () => {
+  it('after duration ms the toast is auto-removed', () => {
     const { toastApi } = renderWithToast()
-    act(() => { toastApi().addToast({ title: 'Dočasný', duration: 3000 }) })
-    expect(screen.getByText('Dočasný')).toBeInTheDocument()
+    act(() => { toastApi().addToast({ title: 'Temporary', duration: 3000 }) })
+    expect(screen.getByText('Temporary')).toBeInTheDocument()
     act(() => { vi.advanceTimersByTime(3000) })
-    expect(screen.queryByText('Dočasný')).not.toBeInTheDocument()
+    expect(screen.queryByText('Temporary')).not.toBeInTheDocument()
   })
 
-  it('duration=0 → toast se neodstraní automaticky', () => {
+  it('duration=0 → toast is not auto-removed', () => {
     const { toastApi } = renderWithToast()
-    act(() => { toastApi().addToast({ title: 'Trvalý', duration: 0 }) })
+    act(() => { toastApi().addToast({ title: 'Persistent', duration: 0 }) })
     act(() => { vi.advanceTimersByTime(10000) })
-    expect(screen.getByText('Trvalý')).toBeInTheDocument()
+    expect(screen.getByText('Persistent')).toBeInTheDocument()
   })
 
-  it('variant="danger" → toast renderuje bez pádu', () => {
+  it('variant="danger" → toast renders without crashing', () => {
     const { toastApi } = renderWithToast()
     expect(() => {
-      act(() => { toastApi().addToast({ title: 'Chyba', variant: 'danger' }) })
+      act(() => { toastApi().addToast({ title: 'Error', variant: 'danger' }) })
     }).not.toThrow()
   })
 
-  it('variant="warning" → toast renderuje bez pádu', () => {
+  it('variant="warning" → toast renders without crashing', () => {
     const { toastApi } = renderWithToast()
     expect(() => {
-      act(() => { toastApi().addToast({ title: 'Varování', variant: 'warning' }) })
+      act(() => { toastApi().addToast({ title: 'Warning', variant: 'warning' }) })
     }).not.toThrow()
   })
 
-  it('variant="info" → toast renderuje bez pádu', () => {
+  it('variant="info" → toast renders without crashing', () => {
     const { toastApi } = renderWithToast()
     expect(() => {
       act(() => { toastApi().addToast({ title: 'Info', variant: 'info' }) })
     }).not.toThrow()
   })
 
-  it('neznámý variant → toast renderuje bez pádu (fallback)', () => {
+  it('unknown variant → toast renders without crashing (fallback)', () => {
     const { toastApi } = renderWithToast()
     expect(() => {
       act(() => { toastApi().addToast({ title: 'X', variant: 'unknown' }) })
     }).not.toThrow()
   })
 
-  it('více toastů najednou → všechny se renderují', () => {
+  it('multiple toasts at once → all are rendered', () => {
     const { toastApi } = renderWithToast()
     act(() => {
       toastApi().addToast({ title: 'Toast 1' })
@@ -295,32 +295,32 @@ describe('Tooltip', () => {
     vi.useRealTimers()
   })
 
-  it('renderuje children bez pádu', () => {
-    render(<Tooltip content="Nápověda"><button>Trigger</button></Tooltip>)
+  it('renders children without crashing', () => {
+    render(<Tooltip content="Hint"><button>Trigger</button></Tooltip>)
     expect(screen.getByRole('button')).toBeInTheDocument()
   })
 
-  it('tooltip není viditelný před hover', () => {
-    render(<Tooltip content="Nápověda"><button>Trigger</button></Tooltip>)
+  it('tooltip is not visible before hover', () => {
+    render(<Tooltip content="Hint"><button>Trigger</button></Tooltip>)
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
   })
 
-  it('mouseenter → po delay se zobrazí tooltip', () => {
-    render(<Tooltip content="Nápověda" delay={120}><button>Trigger</button></Tooltip>)
+  it('mouseenter → tooltip appears after the delay', () => {
+    render(<Tooltip content="Hint" delay={120}><button>Trigger</button></Tooltip>)
     fireEvent.mouseEnter(screen.getByRole('button'))
     act(() => { vi.advanceTimersByTime(120) })
     expect(screen.getByRole('tooltip')).toBeInTheDocument()
   })
 
-  it('tooltip obsahuje content text', () => {
-    render(<Tooltip content="Nápověda" delay={120}><button>Trigger</button></Tooltip>)
+  it('tooltip contains the content text', () => {
+    render(<Tooltip content="Hint" delay={120}><button>Trigger</button></Tooltip>)
     fireEvent.mouseEnter(screen.getByRole('button'))
     act(() => { vi.advanceTimersByTime(120) })
-    expect(screen.getByRole('tooltip')).toHaveTextContent('Nápověda')
+    expect(screen.getByRole('tooltip')).toHaveTextContent('Hint')
   })
 
-  it('mouseleave → tooltip zmizí', () => {
-    render(<Tooltip content="Nápověda" delay={120}><button>Trigger</button></Tooltip>)
+  it('mouseleave → tooltip disappears', () => {
+    render(<Tooltip content="Hint" delay={120}><button>Trigger</button></Tooltip>)
     fireEvent.mouseEnter(screen.getByRole('button'))
     act(() => { vi.advanceTimersByTime(120) })
     expect(screen.getByRole('tooltip')).toBeInTheDocument()
@@ -328,24 +328,24 @@ describe('Tooltip', () => {
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
   })
 
-  it('mouseleave před delay → tooltip se neobjeví', () => {
-    render(<Tooltip content="Nápověda" delay={120}><button>Trigger</button></Tooltip>)
+  it('mouseleave before delay → tooltip does not appear', () => {
+    render(<Tooltip content="Hint" delay={120}><button>Trigger</button></Tooltip>)
     fireEvent.mouseEnter(screen.getByRole('button'))
     fireEvent.mouseLeave(screen.getByRole('button'))
     act(() => { vi.advanceTimersByTime(120) })
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
   })
 
-  it('focus → po delay se zobrazí tooltip', () => {
-    render(<Tooltip content="Nápověda" delay={120}><button>Trigger</button></Tooltip>)
+  it('focus → tooltip appears after the delay', () => {
+    render(<Tooltip content="Hint" delay={120}><button>Trigger</button></Tooltip>)
     const span = screen.getByRole('button').parentElement
     fireEvent.focus(span)
     act(() => { vi.advanceTimersByTime(120) })
     expect(screen.getByRole('tooltip')).toBeInTheDocument()
   })
 
-  it('blur-sm → tooltip zmizí', () => {
-    render(<Tooltip content="Nápověda" delay={120}><button>Trigger</button></Tooltip>)
+  it('blur → tooltip disappears', () => {
+    render(<Tooltip content="Hint" delay={120}><button>Trigger</button></Tooltip>)
     const span = screen.getByRole('button').parentElement
     fireEvent.focus(span)
     act(() => { vi.advanceTimersByTime(120) })
@@ -353,55 +353,55 @@ describe('Tooltip', () => {
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
   })
 
-  it('disabled=true → mouseenter nezobrazí tooltip', () => {
-    render(<Tooltip content="Nápověda" delay={120} disabled><button>Trigger</button></Tooltip>)
+  it('disabled=true → mouseenter does not show tooltip', () => {
+    render(<Tooltip content="Hint" delay={120} disabled><button>Trigger</button></Tooltip>)
     fireEvent.mouseEnter(screen.getByRole('button'))
     act(() => { vi.advanceTimersByTime(120) })
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
   })
 
-  it('content="" → mouseenter nezobrazí tooltip', () => {
+  it('content="" → mouseenter does not show tooltip', () => {
     render(<Tooltip content="" delay={120}><button>Trigger</button></Tooltip>)
     fireEvent.mouseEnter(screen.getByRole('button'))
     act(() => { vi.advanceTimersByTime(120) })
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
   })
 
-  it('content=null → renderuje bez pádu', () => {
+  it('content=null → renders without crashing', () => {
     expect(() => render(<Tooltip content={null}><button>Trigger</button></Tooltip>)).not.toThrow()
   })
 
-  it('title prop → zobrazí se v tooltipu', () => {
-    render(<Tooltip content="Obsah" title="Nadpis" delay={120}><button>T</button></Tooltip>)
+  it('title prop → is shown in the tooltip', () => {
+    render(<Tooltip content="Body" title="Heading" delay={120}><button>T</button></Tooltip>)
     fireEvent.mouseEnter(screen.getByRole('button'))
     act(() => { vi.advanceTimersByTime(120) })
-    expect(screen.getByRole('tooltip')).toHaveTextContent('Nadpis')
-    expect(screen.getByRole('tooltip')).toHaveTextContent('Obsah')
+    expect(screen.getByRole('tooltip')).toHaveTextContent('Heading')
+    expect(screen.getByRole('tooltip')).toHaveTextContent('Body')
   })
 
-  it('variant="danger" → renderuje bez pádu', () => {
+  it('variant="danger" → renders without crashing', () => {
     expect(() => render(<Tooltip content="X" variant="danger"><button>T</button></Tooltip>)).not.toThrow()
   })
 
-  it('neznámý variant → renderuje bez pádu (fallback)', () => {
+  it('unknown variant → renders without crashing (fallback)', () => {
     expect(() => render(<Tooltip content="X" variant="unknown"><button>T</button></Tooltip>)).not.toThrow()
   })
 
-  it('placement="bottom" → renderuje bez pádu', () => {
+  it('placement="bottom" → renders without crashing', () => {
     render(<Tooltip content="X" placement="bottom" delay={120}><button>T</button></Tooltip>)
     fireEvent.mouseEnter(screen.getByRole('button'))
     act(() => { vi.advanceTimersByTime(120) })
     expect(screen.getByRole('tooltip')).toBeInTheDocument()
   })
 
-  it('placement="left" → renderuje bez pádu', () => {
+  it('placement="left" → renders without crashing', () => {
     render(<Tooltip content="X" placement="left" delay={120}><button>T</button></Tooltip>)
     fireEvent.mouseEnter(screen.getByRole('button'))
     act(() => { vi.advanceTimersByTime(120) })
     expect(screen.getByRole('tooltip')).toBeInTheDocument()
   })
 
-  it('placement="right" → renderuje bez pádu', () => {
+  it('placement="right" → renders without crashing', () => {
     render(<Tooltip content="X" placement="right" delay={120}><button>T</button></Tooltip>)
     fireEvent.mouseEnter(screen.getByRole('button'))
     act(() => { vi.advanceTimersByTime(120) })

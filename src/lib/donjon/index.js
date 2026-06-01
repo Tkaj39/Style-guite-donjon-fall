@@ -1,176 +1,176 @@
 /**
- * donjon-fall-ui — Herní UI knihovna
+ * donjon-fall-ui — Game UI library
  *
- * Importuj tokeny zvlášť:
+ * Import tokens separately:
  *   import { gold, bg2, borderDefault } from './tokens'
  *
- * Nebo CSS custom properties:
+ * Or as CSS custom properties:
  *   @import './donjon.css';  → var(--donjon-gold)
  */
 
-// ── Tlačítka & formuláře ──────────────────────────────────────────────────
+// ── Buttons & form controls ──────────────────────────────────────────────
 
 /**
- * Primární herní tlačítko s oktagonálním tvarem a zlatým gradientem.
- * @prop {'sm'|'md'|'lg'} size - Velikost (default: 'md')
- * @prop {'default'|'danger'|'success'|'warning'} variant - Barevná varianta
- * @prop {boolean} disabled - Deaktivuje tlačítko
- * @example <DonjonButton variant="default">Nová hra</DonjonButton>
+ * Primary game button with an octagonal shape and a gold gradient.
+ * @prop {'sm'|'md'|'lg'} size - Size (default: 'md')
+ * @prop {'default'|'danger'|'success'|'warning'} variant - Color variant
+ * @prop {boolean} disabled - Disables the button
+ * @example <DonjonButton variant="default">New Game</DonjonButton>
  */
 export { default as DonjonButton }      from './DonjonButton'
 
 /**
- * Skupina sousedních herních tlačítek sdílejících okraje.
- * @prop {React.ReactNode} children - Položky musí být DonjonButton
+ * A group of adjacent game buttons sharing borders.
+ * @prop {React.ReactNode} children - Items must be DonjonButton
  * @example <DonjonButtonGroup><DonjonButton>A</DonjonButton><DonjonButton>B</DonjonButton></DonjonButtonGroup>
  */
 export { default as DonjonButtonGroup } from './DonjonButtonGroup'
 
 /**
- * Herní textový vstup s donjon estetikouou.
- * @prop {string} value - Aktuální hodnota
- * @prop {(v: string) => void} onChange - Callback při změně
- * @prop {string} label - Popisek nad inputem
+ * Game-themed text input with the donjon aesthetic.
+ * @prop {string} value - Current value
+ * @prop {(v: string) => void} onChange - Change callback
+ * @prop {string} label - Label above the input
  * @prop {string} placeholder - Placeholder text
- * @prop {'default'|'danger'|'success'} variant - Stav/barva
+ * @prop {'default'|'danger'|'success'} variant - State/color
  */
 export { default as DonjonInput }       from './DonjonInput'
 
 /**
- * Herní HP bar s automatickými barevnými prahy a volitelnými ticky.
- * Barva se automaticky mění: >50% zelená → 25–50% zlatá → <25% červená.
- * @prop {number} value - Aktuální hodnota (0–max)
+ * Game HP bar with automatic color thresholds and optional ticks.
+ * The color changes automatically: >50% green → 25–50% gold → <25% red.
+ * @prop {number} value - Current value (0–max)
  * @prop {number} max - Maximum (default: 100)
- * @prop {'sm'|'md'|'lg'} size - Výška baru
- * @prop {string} label - Popisek (např. "HP", "Mana")
- * @prop {boolean} showValue - Zobrazí číselnou hodnotu
- * @prop {number} ticks - Počet dělicích čar (0 = žádné)
- * @prop {boolean} flash - Aktivuje damage flash animaci
- * @prop {'hp'|'mana'|'stamina'|'xp'} variant - Barevný preset (přepisuje threshold logiku)
+ * @prop {'sm'|'md'|'lg'} size - Bar height
+ * @prop {string} label - Label (e.g. "HP", "Mana")
+ * @prop {boolean} showValue - Render the numeric value
+ * @prop {number} ticks - Tick count (0 = none)
+ * @prop {boolean} flash - Triggers a damage flash animation
+ * @prop {'hp'|'mana'|'stamina'|'xp'} variant - Color preset (overrides threshold logic)
  * @example <DonjonProgressBar value={72} max={100} label="HP" ticks={10} />
  */
 export { default as DonjonProgressBar } from './DonjonProgressBar'
 
 /**
- * Herní slider se zlatým thumbem a tmavou drážkou.
- * @prop {number} value - Aktuální hodnota
- * @prop {(v: number) => void} onChange - Callback při posunu
+ * Game-themed slider with a gold thumb and dark groove.
+ * @prop {number} value - Current value
+ * @prop {(v: number) => void} onChange - Change callback
  * @prop {number} min - Minimum (default: 0)
  * @prop {number} max - Maximum (default: 100)
- * @prop {number} step - Krok (default: 1)
- * @prop {string} label - Popisek
- * @prop {boolean} showValue - Zobrazí aktuální hodnotu
- * @prop {(v: number) => string} formatValue - Formátovací funkce hodnoty
- * @example <DonjonSlider value={volume} onChange={setVolume} label="Hudba" showValue />
+ * @prop {number} step - Step (default: 1)
+ * @prop {string} label - Label
+ * @prop {boolean} showValue - Render the current value
+ * @prop {(v: number) => string} formatValue - Value formatter
+ * @example <DonjonSlider value={volume} onChange={setVolume} label="Music" showValue />
  */
 export { default as DonjonSlider }      from './DonjonSlider'
 
 /**
- * Herní přepínač on/off se zlatým stavem a tmavou základnou.
- * @prop {boolean} checked - Aktuální stav
- * @prop {(v: boolean) => void} onChange - Callback při přepnutí
- * @prop {string} label - Popisek vedle přepínače
- * @prop {'left'|'right'} labelPosition - Pozice popisku (default: 'right')
- * @prop {'sm'|'md'} size - Velikost
- * @prop {boolean} disabled - Deaktivuje přepínač
- * @example <DonjonToggle checked={sfxOn} onChange={setSfxOn} label="Zvukové efekty" />
+ * Game-themed on/off switch with a gold state and dark base.
+ * @prop {boolean} checked - Current state
+ * @prop {(v: boolean) => void} onChange - Toggle callback
+ * @prop {string} label - Label next to the switch
+ * @prop {'left'|'right'} labelPosition - Label position (default: 'right')
+ * @prop {'sm'|'md'} size - Size
+ * @prop {boolean} disabled - Disables the switch
+ * @example <DonjonToggle checked={sfxOn} onChange={setSfxOn} label="Sound effects" />
  */
 export { default as DonjonToggle }      from './DonjonToggle'
 
 /**
- * Herní dropdown s zlatým borderem a tmavým pozadím.
- * @prop {string|number} value - Vybraná hodnota
- * @prop {(v: string|number) => void} onChange - Callback při výběru
- * @prop {Array<{value, label, disabled?}>} options - Možnosti výběru
- * @prop {string} placeholder - Text když nic není vybráno
- * @prop {string} label - Popisek nad dropdownem
- * @prop {'sm'|'md'|'lg'} size - Velikost
- * @example <DonjonSelect value={lang} onChange={setLang} options={[{value:'cs', label:'Čeština'}]} />
+ * Game-themed dropdown with a gold border and dark background.
+ * @prop {string|number} value - Selected value
+ * @prop {(v: string|number) => void} onChange - Selection callback
+ * @prop {Array<{value, label, disabled?}>} options - Options
+ * @prop {string} placeholder - Text shown when nothing is selected
+ * @prop {string} label - Label above the dropdown
+ * @prop {'sm'|'md'|'lg'} size - Size
+ * @example <DonjonSelect value={lang} onChange={setLang} options={[{value:'cs', label:'Czech'}]} />
  */
 export { default as DonjonSelect }      from './DonjonSelect'
 
-// ── Karty & overlaye ─────────────────────────────────────────────────────
+// ── Cards & overlays ────────────────────────────────────────────────────
 
 /**
- * Herní panel/karta s ornamentálním rámcem a zlatým nadpisem.
- * @prop {string} title - Nadpis karty
- * @prop {'default'|'danger'|'success'|'warning'} variant - Barevná varianta
- * @prop {React.ReactNode} children - Obsah karty
- * @example <DonjonCard title="Výběr akce">obsah</DonjonCard>
+ * Game-themed panel/card with an ornamental frame and gold title.
+ * @prop {string} title - Card title
+ * @prop {'default'|'danger'|'success'|'warning'} variant - Color variant
+ * @prop {React.ReactNode} children - Card content
+ * @example <DonjonCard title="Choose action">content</DonjonCard>
  */
 export { default as DonjonCard }        from './DonjonCard'
 
 /**
- * Herní modální dialog — přes tmavý overlay s pergamenovým stylem.
- * @prop {boolean} open - Viditelnost modálu
- * @prop {() => void} onClose - Callback při zavření
- * @prop {string} title - Nadpis modálu
- * @prop {React.ReactNode} children - Obsah
- * @prop {React.ReactNode} footer - Tlačítka dole (optional)
+ * Game-themed modal dialog — atop a dark overlay with a parchment style.
+ * @prop {boolean} open - Modal visibility
+ * @prop {() => void} onClose - Close callback
+ * @prop {string} title - Modal title
+ * @prop {React.ReactNode} children - Content
+ * @prop {React.ReactNode} footer - Buttons at the bottom (optional)
  */
 export { default as DonjonModal }       from './DonjonModal'
 
 /**
- * Herní tab navigace s ornamentálním shell rámem.
- * @prop {Array<{value, label, icon?, badge?, disabled?}>} items - Definice záložek
- * @prop {string} value - Aktivní hodnota
- * @prop {(value: string) => void} onChange - Callback při změně aktivní záložky
- * @prop {'underline'|'pills'} variant - Vizuální styl tabů
+ * Game-themed tab navigation inside an ornamental shell frame.
+ * @prop {Array<{value, label, icon?, badge?, disabled?}>} items - Tab definitions
+ * @prop {string} value - Active value
+ * @prop {(value: string) => void} onChange - Callback when the active tab changes
+ * @prop {'underline'|'pills'} variant - Visual tab style
  */
 export { default as DonjonTabs }        from './DonjonTabs'
 
 /**
- * Herní tooltip s pergamenovým stylem a zlatým borderem.
+ * Game-themed tooltip with a parchment style and gold border.
  * @prop {React.ReactNode} children - Trigger element
- * @prop {string|React.ReactNode} content - Obsah tooltipu
- * @prop {string} title - Nadpis tooltipu (optional)
- * @prop {'top'|'bottom'|'left'|'right'} placement - Pozice
- * @prop {number} delay - Prodleva zobrazení v ms (default: 120)
- * @example <DonjonTooltip content="Způsobí 3 poškození" title="Útok mečem">...</DonjonTooltip>
+ * @prop {string|React.ReactNode} content - Tooltip content
+ * @prop {string} title - Tooltip title (optional)
+ * @prop {'top'|'bottom'|'left'|'right'} placement - Position
+ * @prop {number} delay - Show delay in ms (default: 120)
+ * @example <DonjonTooltip content="Deals 3 damage" title="Sword attack">...</DonjonTooltip>
  */
 export { default as DonjonTooltip }     from './DonjonTooltip'
 
 /**
- * Herní toast notifikace — Provider + hook.
- * Varianty: 'default'(zlatá) | 'gain'(zelená) | 'loss'(červená) | 'warning'(amber) | 'event'(modrá)
+ * Game-themed toast notifications — Provider + hook.
+ * Variants: 'default'(gold) | 'gain'(green) | 'loss'(red) | 'warning'(amber) | 'event'(blue)
  * @example
- * // 1. Wrap aplikace:
+ * // 1. Wrap the app:
  * <DonjonToastProvider><App /></DonjonToastProvider>
  *
- * // 2. V komponentě:
+ * // 2. In a component:
  * const { addToast } = useDonjonToast()
- * addToast({ title: '+5 VP', message: 'Obsadil jsi základnu', variant: 'gain' })
+ * addToast({ title: '+5 VP', message: 'You captured a base', variant: 'gain' })
  */
 export { ToastProvider as DonjonToastProvider, useToast as useDonjonToast } from './DonjonToast'
 
-// ── Odznaky & ikony ───────────────────────────────────────────────────────
+// ── Badges & icons ───────────────────────────────────────────────────────
 
 /**
- * Herní odznak/chip s barevnými variantami a ikonou.
+ * Game-themed badge/chip with color variants and an icon slot.
  * @prop {'default'|'warning'|'danger'|'success'|'muted'} variant
- * @prop {React.ReactNode} children - Text odznaku
+ * @prop {React.ReactNode} children - Badge text
  * @example <DonjonBadge variant="warning">Disabled</DonjonBadge>
  */
 export { default as DonjonBadge }       from './DonjonBadge'
 
 /**
- * Herní piktogram — ikona z herní sady s volitelnou barvou.
- * @prop {string} name - Název piktogramu
- * @prop {number} size - Velikost v px (default: 24)
- * @prop {string} color - CSS barva (default: 'currentColor')
+ * Game-themed pictogram — an icon from the game set with an optional color.
+ * @prop {string} name - Pictogram name
+ * @prop {number} size - Size in px (default: 24)
+ * @prop {string} color - CSS color (default: 'currentColor')
  */
 export { default as DonjonPictogram }   from './DonjonPictogram'
 
 /**
- * Sada SVG herních ikon — 26 ikon v 6 kategoriích:
- *   - Zdroje:    HeartIcon, DropIcon, BoltIcon
- *   - Akce:      SwordIcon, ShieldIcon, MoveIcon, TargetIcon, MagicIcon
- *   - Herní stav: StarIcon, CrownIcon, DiceIcon, HourglassIcon, TowerIcon
- *   - Mapa:      HexIcon, BaseIcon, FocalPointIcon,
+ * The SVG game icon set — 26 icons across 6 categories:
+ *   - Resources: HeartIcon, DropIcon, BoltIcon
+ *   - Actions:   SwordIcon, ShieldIcon, MoveIcon, TargetIcon, MagicIcon
+ *   - State:     StarIcon, CrownIcon, DiceIcon, HourglassIcon, TowerIcon
+ *   - Map:       HexIcon, BaseIcon, FocalPointIcon,
  *                FocalPointActiveIcon, FocalPointPassiveIcon
- *   - Mechaniky: PushIcon, OccupyIcon, EncirclementIcon,
+ *   - Mechanics: PushIcon, OccupyIcon, EncirclementIcon,
  *                TowerCollapseIcon, SuddenDeathIcon, TurnOrderIcon
- *   - Brand:     DonjonLogoIcon, TkajuiLogoIcon (značky knihoven, mirror favicon)
+ *   - Brand:     DonjonLogoIcon, TkajuiLogoIcon (library marks, mirror favicon)
  * @example import { SwordIcon, HexIcon, DonjonLogoIcon } from 'donjon-fall-ui'
  */
 export {
@@ -182,20 +182,21 @@ export {
   DonjonLogoIcon, TkajuiLogoIcon,
 } from './icons'
 
-// ── Herní primitiva ───────────────────────────────────────────────────────
+// ── Game primitives ─────────────────────────────────────────────────────
 
 /**
- * HP/mana/stamina bar s vizuálními zónami v pozadí traku.
- * Klíčový rozdíl od DonjonProgressBar: hranice danger/warning zón jsou vždy viditelné
- * — i při plném HP hráč vidí, kam zóny začínají. Hranice na zIndex 2 (viditelné přes fill).
- * @prop {number} value - Aktuální hodnota (0–max)
+ * HP/mana/stamina bar with visual zones painted into the track.
+ * Key difference from DonjonProgressBar: the danger/warning zone boundaries
+ * are always visible — even at full HP the player sees where the zones start.
+ * Boundaries are at zIndex 2 (visible over the fill).
+ * @prop {number} value - Current value (0–max)
  * @prop {number} max - Maximum (default: 100)
- * @prop {'hp'|'mana'|'stamina'|'xp'|'shield'|'default'} variant - Typ zdroje
- * @prop {'sm'|'md'|'lg'} size - Výška baru
- * @prop {string} label - Popisek
- * @prop {boolean} showValue - Zobrazí hodnotu/max
- * @prop {boolean} zones - Zobrazí barevná pásma a hranice (default: true)
- * @prop {any} flashKey - Změna hodnoty spustí damage flash animaci (key-change pattern)
+ * @prop {'hp'|'mana'|'stamina'|'xp'|'shield'|'default'} variant - Resource type
+ * @prop {'sm'|'md'|'lg'} size - Bar height
+ * @prop {string} label - Label
+ * @prop {boolean} showValue - Render value/max
+ * @prop {boolean} zones - Render colored bands and boundaries (default: true)
+ * @prop {any} flashKey - A change in value triggers the damage flash animation (key-change pattern)
  * @example
  * <ResourceBar value={hp} max={100} variant="hp" label="HP" showValue zones />
  * // Damage flash:
@@ -204,104 +205,105 @@ export {
 export { default as ResourceBar } from './ResourceBar'
 
 /**
- * Animované číslo pro herní countery — VP, HP, zdroje.
- * Při změně hodnoty: floating delta badge (+N/−N) + krátký flash pozadí.
- * @prop {number} value - Zobrazovaná hodnota
- * @prop {string} label - Popisek
- * @prop {string} prefix - Text před číslem (např. '⚔')
- * @prop {string} suffix - Text za číslem (např. ' VP')
- * @prop {'sm'|'md'|'lg'} size - Velikost
- * @prop {'default'|'vp'|'resource'|'mana'} variant - Barevná varianta
- * @prop {'top'|'bottom'|'left'|'right'} labelPosition - Pozice popisku (default: 'top')
+ * Animated number for game counters — VP, HP, resources.
+ * When the value changes: a floating delta badge (+N/−N) + a brief background flash.
+ * @prop {number} value - Displayed value
+ * @prop {string} label - Label
+ * @prop {string} prefix - Text before the number (e.g. '⚔')
+ * @prop {string} suffix - Text after the number (e.g. ' VP')
+ * @prop {'sm'|'md'|'lg'} size - Size
+ * @prop {'default'|'vp'|'resource'|'mana'} variant - Color variant
+ * @prop {'top'|'bottom'|'left'|'right'} labelPosition - Label position (default: 'top')
  * @example
- * <NumericDisplay value={vp} label="VP" variant="vp" size="lg" suffix=" bodů" />
+ * <NumericDisplay value={vp} label="VP" variant="vp" size="lg" suffix=" pts" />
  */
 export { default as NumericDisplay } from './NumericDisplay'
 
 /**
- * Mini karta hráče — erb, jméno, VP badge, resource bary (HP/mana/stamina).
- * Aktivní stav (isActive): zlatý border + glow — signalizuje "na tahu".
- * @prop {string} name - Jméno hráče
- * @prop {string} color - Barva hráče (hex)
- * @prop {'sword'|'shield'|'tower'} symbol - Symbol erbu (default: 'sword')
- * @prop {number} vp - Vítězné body
- * @prop {number} hp - Aktuální HP (zobrazí HP bar)
+ * Mini player card — coat of arms, name, VP badge, resource bars (HP/mana/stamina).
+ * Active state (isActive): gold border + glow — signals "on turn".
+ * @prop {string} name - Player name
+ * @prop {string} color - Player color (hex)
+ * @prop {'sword'|'shield'|'tower'} symbol - Crest symbol (default: 'sword')
+ * @prop {number} vp - Victory points
+ * @prop {number} hp - Current HP (renders the HP bar)
  * @prop {number} maxHp - Maximum HP (default: 100)
- * @prop {number} mana - Aktuální mana (zobrazí Mana bar)
- * @prop {number} stamina - Aktuální stamina (zobrazí Stamina bar)
- * @prop {boolean} isActive - Je na tahu (zlatý border)
- * @prop {boolean} eliminated - Hráč vyřazen (opacity 0.45)
- * @prop {'sm'|'md'} size - Velikost karty
+ * @prop {number} mana - Current mana (renders the Mana bar)
+ * @prop {number} stamina - Current stamina (renders the Stamina bar)
+ * @prop {boolean} isActive - On turn (gold border)
+ * @prop {boolean} eliminated - Player eliminated (opacity 0.45)
+ * @prop {'sm'|'md'} size - Card size
  * @example
- * <PlayerPanel name="Hráč 1" color="#4D8FE0" vp={7} hp={72} isActive />
+ * <PlayerPanel name="Player 1" color="#4D8FE0" vp={7} hp={72} isActive />
  */
 export { default as PlayerPanel } from './PlayerPanel'
 
 /**
- * Klikatelná akční dlaždice — ikona, název, popis, cena akce.
- * Jiná než Button: tile tvar (ne strip), ikona-forward, cost badge v rohu, lock stav.
- * @prop {React.ReactNode} icon - Ikona (SVG nebo komponenta)
- * @prop {string} title - Název akce
- * @prop {string} description - Krátký popis (volitelný)
- * @prop {string|number} cost - Cena akce v rohu (volitelná)
- * @prop {boolean} selected - Vybraná dlaždice
- * @prop {boolean} disabled - Neaktivní (nelze použít)
- * @prop {boolean} locked - Zamčená (zobrazí lock ikonu)
- * @prop {'sm'|'md'|'lg'} size - Velikost dlaždice
- * @prop {'default'|'attack'|'move'|'special'} variant - Barevná varianta
+ * Clickable action tile — icon, title, description, action cost.
+ * Different from Button: tile shape (not strip), icon-forward, cost badge in the corner, lock state.
+ * @prop {React.ReactNode} icon - Icon (SVG or component)
+ * @prop {string} title - Action title
+ * @prop {string} description - Short description (optional)
+ * @prop {string|number} cost - Action cost shown in the corner (optional)
+ * @prop {boolean} selected - Selected tile
+ * @prop {boolean} disabled - Inactive (cannot be used)
+ * @prop {boolean} locked - Locked (renders a lock icon)
+ * @prop {'sm'|'md'|'lg'} size - Tile size
+ * @prop {'default'|'attack'|'move'|'special'} variant - Color variant
  * @example
- * <ActionTile icon={<SwordIcon />} title="Útok" cost="2" selected={sel === 'attack'} onClick={() => setSel('attack')} />
+ * <ActionTile icon={<SwordIcon />} title="Attack" cost="2" selected={sel === 'attack'} onClick={() => setSel('attack')} />
  */
 export { default as ActionTile } from './ActionTile'
 
 /**
- * Seznam herních eventů s automatickým scrollem na nejnovější.
- * Typy: gain(zelená) · loss(červená) · event(zlatá) · warning(jantarová) · system(šedá)
- * @prop {Array<{id?, type, text, detail?, round?}>} events - Záznamy logu
- * @prop {number} maxHeight - Max výška scroll kontejneru v px (default: 280)
- * @prop {string} title - Nadpis logu (default: 'Herní log')
- * @prop {boolean} showTitle - Zobrazí hlavičku (default: true)
- * @prop {boolean} showRound - Zobrazí číslo kola (default: true)
- * @prop {boolean} autoScroll - Auto-scroll na nejnovější (default: true)
+ * List of game events with auto-scroll to the most recent.
+ * Types: gain(green) · loss(red) · event(gold) · warning(amber) · system(grey)
+ * @prop {Array<{id?, type, text, detail?, round?}>} events - Log entries
+ * @prop {number} maxHeight - Max scroll container height in px (default: 280)
+ * @prop {string} title - Log title (default: 'Game log')
+ * @prop {boolean} showTitle - Render the header (default: true)
+ * @prop {boolean} showRound - Render the round number (default: true)
+ * @prop {boolean} autoScroll - Auto-scroll to newest (default: true)
  * @example
  * <EventLog events={gameLog} maxHeight={320} />
- * // Záznam: { id: '1', type: 'gain', text: '+5 VP', detail: 'Obsadil základnu', round: 3 }
+ * // Entry: { id: '1', type: 'gain', text: '+5 VP', detail: 'Captured base', round: 3 }
  */
 export { default as EventLog } from './EventLog'
 
 /**
- * Ukazatel fáze hry — kroky tahu nebo globální fáze.
- * Splněné fáze: checkmark. Aktuální: zlatá + glow. Budoucí: faint.
- * Spojovací linky vizualizují progress. Lepší než generický Tabs pro herní kontext.
- * @prop {Array<{id, label, icon?, description?}>} phases - Definice fází
- * @prop {string|number} currentPhase - ID aktuální fáze
- * @prop {'horizontal'|'vertical'} orientation - Rozvržení (default: 'horizontal')
- * @prop {'sm'|'md'} size - Velikost
- * @prop {(id) => void} onPhaseClick - Callback při kliknutí (jen splněné fáze)
+ * Game phase indicator — turn steps or global phases.
+ * Completed phases: checkmark. Current: gold + glow. Future: faint.
+ * Connecting lines visualize progress. Better than a generic Tabs for game context.
+ * @prop {Array<{id, label, icon?, description?}>} phases - Phase definitions
+ * @prop {string|number} currentPhase - ID of the current phase
+ * @prop {'horizontal'|'vertical'} orientation - Layout (default: 'horizontal')
+ * @prop {'sm'|'md'} size - Size
+ * @prop {(id) => void} onPhaseClick - Click callback (only for completed phases)
  * @example
- * <PhaseIndicator phases={FAZE_TAHU} currentPhase="pohyb" />
- * // Fáze: { id: 'pohyb', label: 'Pohyb', icon: <SwordIcon /> }
+ * <PhaseIndicator phases={TURN_PHASES} currentPhase="move" />
+ * // Phase: { id: 'move', label: 'Move', icon: <SwordIcon /> }
  */
 export { default as PhaseIndicator } from './PhaseIndicator'
 
-// ── Animace & responzivita ────────────────────────────────────────────────
+// ── Animation & responsive ──────────────────────────────────────────────
 
 /**
- * Hook pro Web Animations API herní animace.
- * Připoj `ref` na element, pak volej funkce: shake, knockback, pop, pulse, flash, tilt, fadeIn, fadeOut, victory.
+ * Hook for Web Animations API game animations.
+ * Attach `ref` to an element, then call: shake, knockback, pop, pulse, flash, tilt, fadeIn, fadeOut, victory.
  * @returns {{ ref, shake, knockback, pop, pulse, flash, tilt, fadeIn, fadeOut, victory }}
  * @example
  * const { ref, shake, pop } = useGameAnimation()
  * <div ref={ref}>...</div>
- * // Při neúspěchu:
+ * // On failure:
  * onClick={() => shake()}
- * // Při spawnu:
+ * // On spawn:
  * useEffect(() => pop(), [])
  */
 export { default as useGameAnimation } from './useGameAnimation'
 
 /**
- * Hook pro responzivní breakpointy — vrací aktuální šířku a příznaky isMobile/isTablet/isDesktop.
+ * Hook for responsive breakpoints — returns current width plus
+ * isMobile/isTablet/isDesktop flags.
  * @returns {{ width, isMobile, isTablet, isDesktop, isWide, isTouch }}
  * @example
  * const { isMobile, isTouch } = useBreakpoint()
@@ -312,47 +314,47 @@ export { default as useGameAnimation } from './useGameAnimation'
 export { default as useBreakpoint } from './useBreakpoint'
 
 /**
- * Wrapper pro enter/exit animace — montuje/demontuje children s animací.
- * Presety: 'fadeScale' | 'slideUp' | 'slideDown' | 'pop' | 'fade' | 'slideLeft'
- * @prop {boolean} show - Viditelný stav
- * @prop {'fadeScale'|'slideUp'|'slideDown'|'pop'|'fade'|'slideLeft'} preset - Animace
- * @prop {number} [duration=300] - Délka v ms
- * @prop {() => void} [onExited] - Callback po odstranění z DOM
+ * Wrapper for enter/exit animations — mounts/unmounts children with an animation.
+ * Presets: 'fadeScale' | 'slideUp' | 'slideDown' | 'pop' | 'fade' | 'slideLeft'
+ * @prop {boolean} show - Visible state
+ * @prop {'fadeScale'|'slideUp'|'slideDown'|'pop'|'fade'|'slideLeft'} preset - Animation
+ * @prop {number} [duration=300] - Duration in ms
+ * @prop {() => void} [onExited] - Callback after removal from the DOM
  * @example
  * <GameTransition show={isOpen} preset="slideUp">
- *   <PlayerPanel name="Hráč 1" />
+ *   <PlayerPanel name="Player 1" />
  * </GameTransition>
  */
 export { default as GameTransition, gameTransitionPresets } from './GameTransition'
 
-// ── Herní assety ──────────────────────────────────────────────────────────
+// ── Game assets ─────────────────────────────────────────────────────────
 
 /**
- * Hexagonální dlaždice herního plánu.
- * @prop {'empty'|'base'|'focal-active'|'focal-passive'|'selected'|'move'|'attack'} state - Vizuální stav
- * @prop {'sm'|'md'|'lg'} size - Velikost dlaždice
- * @prop {string} playerColor - Barva hráče (hex) — zobrazí se v base a focal stavech
+ * Hexagonal tile for the game board.
+ * @prop {'empty'|'base'|'focal-active'|'focal-passive'|'selected'|'move'|'attack'} state - Visual state
+ * @prop {'sm'|'md'|'lg'} size - Tile size
+ * @prop {string} playerColor - Player color (hex) — shown in base and focal states
  * @example <HexTile state="focal-active" playerColor="#4D8FE0" size="md" />
  */
 export { default as HexTile }           from './HexTile'
 
 /**
- * Plocha kostky — SVG zobrazení hodnoty 1–6.
- * @prop {1|2|3|4|5|6} value - Hodnota kostky
- * @prop {'sm'|'md'|'lg'} size - Velikost
- * @prop {string} playerColor - Barva hráče (tónuje pozadí)
+ * Die face — SVG rendering for values 1–6.
+ * @prop {1|2|3|4|5|6} value - Die value
+ * @prop {'sm'|'md'|'lg'} size - Size
+ * @prop {string} playerColor - Player color (tints the background)
  * @example <DieFace value={6} size="md" playerColor="#E05C5C" />
  */
 export { default as DieFace }           from './DieFace'
 
 /**
- * Plovoucí herní feedback — animuje se nahoru a zmizí za 700 ms.
- * POZOR: Parent musí mít position: relative.
- * @prop {string} text - Zobrazovaný text ("+1", "−1 HP", "+1 VP")
- * @prop {'gain'|'loss'|'vp'|'neutral'} variant - Barevná varianta
- * @prop {boolean} visible - Pokud false, element není v DOM
- * @prop {string|number} animKey - Změna restartuje animaci
- * @prop {() => void} onDone - Callback po skončení animace
+ * Floating game feedback — animates upward and disappears after 700 ms.
+ * NOTE: The parent must have position: relative.
+ * @prop {string} text - Displayed text ("+1", "−1 HP", "+1 VP")
+ * @prop {'gain'|'loss'|'vp'|'neutral'} variant - Color variant
+ * @prop {boolean} visible - When false, the element is not in the DOM
+ * @prop {string|number} animKey - A change restarts the animation
+ * @prop {() => void} onDone - Callback when the animation ends
  * @example
  * <div style={{ position: 'relative' }}>
  *   <HexTile />
@@ -361,56 +363,56 @@ export { default as DieFace }           from './DieFace'
  */
 export { default as FloatFeedback }     from './FloatFeedback'
 
-// ── Heraldika ─────────────────────────────────────────────────────────────
+// ── Heraldry ────────────────────────────────────────────────────────────
 
 /**
- * Heraldický štít hráče a PlayerIdentityBadge karta.
+ * Heraldic player shield (Erb) and the PlayerIdentityBadge card.
  * @example
  * import { Shield, PlayerIdentityBadge } from 'donjon-fall-ui'
  * <Shield playerColor="#4D8FE0" symbol="sword" size={48} />
- * <PlayerIdentityBadge name="Hráč 1" color="#4D8FE0" vp={7} />
+ * <PlayerIdentityBadge name="Player 1" color="#4D8FE0" vp={7} />
  */
 export { Shield, PlayerIdentityBadge }  from './Erb'
 
-// ── Dekorace ─────────────────────────────────────────────────────────────
+// ── Decorations ─────────────────────────────────────────────────────────
 
 /**
- * Dekorativní rohová ozdoba — L-bracket, dot, diamond nebo cross.
- * Umisťuje se absolutně; ostatní rohy přes CSS transform: scaleX(-1), scaleY(-1), scale(-1).
- * @prop {number} size - Rozměr v px (default: 16)
- * @prop {string} color - CSS barva (default: 'currentColor')
- * @prop {'bracket'|'dot'|'diamond'|'cross'} variant - Tvar
- * @prop {'cut'|'round'|'scoop'} cornerType - Geometrie lokte (jen bracket)
+ * Decorative corner ornament — L-bracket, dot, diamond or cross.
+ * Positioned absolutely; other corners via CSS transform: scaleX(-1), scaleY(-1), scale(-1).
+ * @prop {number} size - Size in px (default: 16)
+ * @prop {string} color - CSS color (default: 'currentColor')
+ * @prop {'bracket'|'dot'|'diamond'|'cross'} variant - Shape
+ * @prop {'cut'|'round'|'scoop'} cornerType - Elbow geometry (bracket only)
  * @example
  * <CornerOrnament size={14} color={goldDim} style={{ position: 'absolute', top: 5, left: 5 }} />
  */
 export { default as CornerOrnament }    from './CornerOrnament'
 
 /**
- * Vertikální dekorativní lišta — umístí se na levý/pravý okraj panelu.
- * Parent musí mít position: relative. Vždy předej unikátní uid (useId()).
- * @prop {number} h - Výška v px
- * @prop {string} uid - Unikátní ID prefix (pro SVG gradienty)
- * @prop {boolean} flip - Zrcadlí pro pravou stranu
+ * Vertical decorative side ornament — placed on the left/right edge of a panel.
+ * The parent must have position: relative. Always pass a unique uid (useId()).
+ * @prop {number} h - Height in px
+ * @prop {string} uid - Unique ID prefix (for SVG gradients)
+ * @prop {boolean} flip - Mirrors for the right side
  *
- * Horizontální dekorativní lišta — umístí se na horní/dolní okraj.
- * @prop {string} uid - Unikátní ID prefix
- * @prop {boolean} flip - Otočí pro spodní okraj
- * @prop {number} edgePadL - Odsazení vnější čáry zleva (default: 16)
+ * Horizontal decorative ornament — placed on the top/bottom edge.
+ * @prop {string} uid - Unique ID prefix
+ * @prop {boolean} flip - Flips for the bottom edge
+ * @prop {number} edgePadL - Offset of the outer line from the left (default: 16)
  */
 export { SideOrnament, HexOrnament, ScoopOrnament, HrotErbu } from './Ornaments'
 
-// ── Tokeny ────────────────────────────────────────────────────────────────
+// ── Tokens ──────────────────────────────────────────────────────────────
 
 /**
- * Design tokeny jako JS konstanty.
+ * Design tokens exposed as JS constants.
  * @example import { gold, goldDim, bg2, textHigh, borderDefault } from 'donjon-fall-ui/tokens'
  */
 export * from './tokens'
 
 /**
- * Player palette — 6 hráčských barev, každá ve 3 variantách (primary/light/dark).
- * Jediný zdroj pravdy — sdílí ColorsPage demo i game UI komponenty.
+ * Player palette — 6 player colors, each in 3 variants (primary/light/dark).
+ * Single source of truth — shared by the ColorsPage demo and the game UI components.
  * @example
  * import { red, blueDark, playerColors, playerColorsByKey } from 'donjon-fall-ui'
  * <Shield playerColor={red} />

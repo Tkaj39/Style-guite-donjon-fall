@@ -1,7 +1,7 @@
 /* ── DonjonToggle ──────────────────────────────────────────────────────────
-   Herní přepínač on/off — zlatý stav, tmavá základna, glow efekt.
-   shape='round'  — kulatý track + kulatý thumb (výchozí)
-   shape='sharp'  — oktagon track + diamond thumb (ukosené rohy)
+   Game on/off switch — gold state, dark base, glow effect.
+   shape='round'  — round track + round thumb (default)
+   shape='sharp'  — octagon track + diamond thumb (beveled corners)
    ─────────────────────────────────────────────────────────────────────── */
 import { octagon } from '../../utils/octagon'
 import {

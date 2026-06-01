@@ -15,8 +15,8 @@ const sizes = {
 }
 
 /**
- * Input — TkajUI základní textové pole.
- * Oktagonální tvar, čistá UI paleta.
+ * Input — TkajUI base text field.
+ * Octagonal shape, clean UI palette.
  */
 export default function Input({
   label,
@@ -31,7 +31,7 @@ export default function Input({
   hint,
   /** multiline=true → <textarea> s field-sizing:content (Tailwind v4 / CSS 2024) */
   multiline = false,
-  /** rows — minimální počet řádků u multiline (výchozí 3) */
+  /** rows — minimum number of rows when multiline (default 3) */
   rows = 3,
   ...props
 }) {

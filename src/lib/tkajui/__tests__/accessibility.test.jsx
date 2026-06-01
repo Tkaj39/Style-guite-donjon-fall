@@ -35,74 +35,74 @@ const MockIcon = ({ width, height }) => (
 // ─── axe audit ─────────────────────────────────────────────────────────────
 
 describe('Accessibility (axe audit)', () => {
-  it('Toggle s label projde axe audit', async () => {
+  it('Toggle with label passes axe audit', async () => {
     const { container } = render(
-      <Toggle label="Zvuk" checked={false} onChange={() => {}} />
+      <Toggle label="Sound" checked={false} onChange={() => {}} />
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('Toggle s aria-label (bez label prop) projde axe audit', async () => {
+  it('Toggle with aria-label (no label prop) passes axe audit', async () => {
     const { container } = render(
-      <Toggle aria-label="Přepínač zvuku" checked={false} onChange={() => {}} />
+      <Toggle aria-label="Sound toggle" checked={false} onChange={() => {}} />
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('Slider s label projde axe audit', async () => {
+  it('Slider with label passes axe audit', async () => {
     const { container } = render(
-      <Slider label="Hlasitost" value={50} min={0} max={100} onChange={() => {}} />
+      <Slider label="Volume" value={50} min={0} max={100} onChange={() => {}} />
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('ProgressBar s label projde axe audit', async () => {
+  it('ProgressBar with label passes axe audit', async () => {
     const { container } = render(
-      <ProgressBar label="Načítání" value={50} max={100} />
+      <ProgressBar label="Loading" value={50} max={100} />
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('Select s label projde axe audit', async () => {
+  it('Select with label passes axe audit', async () => {
     const { container } = render(
-      <Select label="Jazyk" options={OPTIONS} value="" onChange={() => {}} />
+      <Select label="Language" options={OPTIONS} value="" onChange={() => {}} />
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('Tabs projde axe audit', async () => {
+  it('Tabs passes axe audit', async () => {
     const { container } = render(
       <Tabs items={TABS} value="a" onChange={() => {}} />
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('ButtonGroup projde axe audit', async () => {
+  it('ButtonGroup passes axe audit', async () => {
     const { container } = render(
       <ButtonGroup items={GROUP_ITEMS} value="x" onChange={() => {}} />
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('Modal isOpen s title projde axe audit', async () => {
+  it('Modal isOpen with title passes axe audit', async () => {
     const { container } = render(
-      <Modal isOpen title="Potvrzení" onClose={() => {}}>
-        <p>Opravdu chcete pokračovat?</p>
+      <Modal isOpen title="Confirmation" onClose={() => {}}>
+        <p>Do you really want to continue?</p>
       </Modal>
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('Tooltip projde axe audit', async () => {
+  it('Tooltip passes axe audit', async () => {
     const { container } = render(
-      <Tooltip content="Nápověda k tlačítku">
+      <Tooltip content="Button hint">
         <button type="button">Trigger</button>
       </Tooltip>
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('Pictogram projde axe audit', async () => {
+  it('Pictogram passes axe audit', async () => {
     const { container } = render(
       <Pictogram icon={MockIcon} size="md" />
     )
@@ -113,7 +113,7 @@ describe('Accessibility (axe audit)', () => {
 // ─── ARIA attribute checks ──────────────────────────────────────────────────
 
 describe('ARIA attribute checks', () => {
-  it('ProgressBar má role="progressbar" s aria-valuenow, aria-valuemin, aria-valuemax', () => {
+  it('ProgressBar has role="progressbar" with aria-valuenow, aria-valuemin, aria-valuemax', () => {
     const { container } = render(<ProgressBar value={40} max={100} label="Progress" />)
     const bar = container.querySelector('[role="progressbar"]')
     expect(bar).toHaveAttribute('aria-valuenow', '40')
@@ -121,14 +121,14 @@ describe('ARIA attribute checks', () => {
     expect(bar).toHaveAttribute('aria-valuemax', '100')
   })
 
-  it('Select trigger má role="combobox" s aria-expanded a aria-haspopup', () => {
+  it('Select trigger has role="combobox" with aria-expanded and aria-haspopup', () => {
     const { container } = render(<Select options={OPTIONS} value="" onChange={() => {}} />)
     const trigger = container.querySelector('[role="combobox"]')
     expect(trigger).toHaveAttribute('aria-expanded')
     expect(trigger).toHaveAttribute('aria-haspopup', 'listbox')
   })
 
-  it('Tabs má role="tablist" a každý tab má role="tab" s aria-selected', () => {
+  it('Tabs has role="tablist" and each tab has role="tab" with aria-selected', () => {
     const { container } = render(<Tabs items={TABS} value="a" onChange={() => {}} />)
     expect(container.querySelector('[role="tablist"]')).toBeInTheDocument()
     container.querySelectorAll('[role="tab"]').forEach(tab => {
@@ -136,14 +136,14 @@ describe('ARIA attribute checks', () => {
     })
   })
 
-  it('Modal má role="dialog" s aria-labelledby', () => {
+  it('Modal has role="dialog" with aria-labelledby', () => {
     render(<Modal isOpen title="Test" onClose={() => {}} />)
     const dialog = screen.getByRole('dialog')
-    // aria-modal je implicitní u native showModal() — netestujeme explicitní atribut
+    // aria-modal is implicit with native showModal() — we don't test the explicit attribute
     expect(dialog).toHaveAttribute('aria-labelledby')
   })
 
-  it('Toggle má role="switch" s aria-checked', () => {
+  it('Toggle has role="switch" with aria-checked', () => {
     const { container } = render(<Toggle checked={true} onChange={() => {}} />)
     const sw = container.querySelector('[role="switch"]')
     expect(sw).toHaveAttribute('aria-checked', 'true')

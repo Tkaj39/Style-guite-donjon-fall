@@ -14,8 +14,8 @@ const sizeMap = {
 }
 
 /**
- * ButtonGroup — TkajUI skupinový přepínač.
- * Varianty: menu | tabs. Čistá UI paleta.
+ * ButtonGroup — TkajUI segmented control.
+ * Variants: menu | tabs. Clean UI palette.
  */
 export default function ButtonGroup({
   variant = 'menu',

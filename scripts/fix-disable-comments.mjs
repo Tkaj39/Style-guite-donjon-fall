@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-// Konvertuje `// eslint-disable-next-line donjon/no-hardcoded-hex` v JSX
-// child contextu na JSX expression comment formu — jediná forma kterou
-// ESLint v JSX child contextu pozná.
+// Converts `// eslint-disable-next-line donjon/no-hardcoded-hex` in JSX
+// child context to the JSX expression-comment form — the only form ESLint
+// recognizes in JSX child context.
 //
-// Heuristika: pokud následující řádek začíná `<` (JSX element), je to
-// JSX child context. Jinak ponecháme `//` (funguje v JS expression contextu).
+// Heuristic: if the next line starts with `<` (a JSX element), it's
+// JSX child context. Otherwise leave `//` (works in JS expression context).
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -16,7 +16,7 @@ let filesChanged = 0
 
 function fixFile(filePath) {
   const content = fs.readFileSync(filePath, 'utf-8')
-  // Detekuj line ending (CRLF na Windows, LF na Unix) a normalizuj na LF
+  // Detect line ending (CRLF on Windows, LF on Unix) and normalize to LF
   const useCRLF = content.includes('\r\n')
   const lines = content.replace(/\r\n/g, '\n').split('\n')
   let conversions = 0
@@ -27,12 +27,12 @@ function fixFile(filePath) {
     const m = line.match(/^(\s*)\/\/ (eslint-disable-next-line donjon\/no-hardcoded-hex -- .+)$/)
     if (!m) continue
 
-    // Look at next non-empty AND non-disable line — preskoč chained disables
+    // Look at next non-empty AND non-disable line — skip chained disables
     let nextIdx = i + 1
     while (nextIdx < lines.length) {
       const t = lines[nextIdx].trim()
       if (t === '') { nextIdx++; continue }
-      // Skip jiný disable comment (chained disables ze stejné dávky)
+      // Skip another disable comment (chained disables from the same batch)
       if (/^(\s*)\/\/ eslint-disable-next-line donjon\/no-hardcoded-hex/.test(lines[nextIdx])) { nextIdx++; continue }
       break
     }
@@ -49,12 +49,12 @@ function fixFile(filePath) {
     }
     const prevLine = prevIdx >= 0 ? lines[prevIdx].trim() : ''
 
-    // JSX child context podle DVOU heuristik:
-    //   1. Previous (non-disable) line ENDS s `>` nebo `}` — jsme mezi JSX sourozenci
-    //   2. Next (non-disable) line starts s `<` — následuje JSX element
-    // Pokud platí obě, jsme určitě v JSX child contextu.
-    // Pokud platí jen #2 (např. arrow function `=> (\n  <Comp/>\n)`), nejsme
-    // v JSX child contextu — `(` před nás je JS expression position.
+    // JSX child context per TWO heuristics:
+    //   1. Previous (non-disable) line ENDS with `>` or `}` — we sit between JSX siblings
+    //   2. Next (non-disable) line starts with `<` — a JSX element follows
+    // If both hold, we are certainly in JSX child context.
+    // If only #2 holds (e.g. arrow function `=> (\n  <Comp/>\n)`), we are NOT
+    // in JSX child context — the `(` before us is a JS expression position.
     const prevEndsWithJsx = /[>}]\s*$/.test(prevLine)
     const nextStartsWithJsx = nextLine.startsWith('<') || nextLine.startsWith('{<')
 
@@ -67,7 +67,7 @@ function fixFile(filePath) {
   }
 
   if (conversions > 0) {
-    // Zachovej původní line ending
+    // Preserve the original line ending
     const eol = useCRLF ? '\r\n' : '\n'
     fs.writeFileSync(filePath, lines.join(eol), 'utf-8')
     totalConverted += conversions

@@ -2,16 +2,16 @@ import { useFormStatus } from 'react-dom'
 import Button from './Button'
 
 /**
- * SubmitButton — tlačítko s automatickým loading stavem.
+ * SubmitButton — button with an automatic loading state.
  *
- * Využívá React 19 `useFormStatus` hook — musí být přímý potomek <form>.
- * Při odeslání formuláře (pending=true) automaticky zobrazí spinner
- * a zabrání opakovanému odeslání bez jakéhokoliv ručního stavu.
+ * Uses the React 19 `useFormStatus` hook — must be a direct descendant
+ * of a <form>. When the form submits (pending=true) it automatically
+ * shows a spinner and prevents repeated submission with no manual state.
  *
- * @param {string}  [loadingLabel]  - Text při pending (výchozí: children)
- * @param {object}  [props]         - Vše co přijímá Button (size, variant, …)
+ * @param {string}  [loadingLabel]  - Text shown while pending (default: children)
+ * @param {object}  [props]         - Everything Button accepts (size, variant, …)
  */
-export default function SubmitButton({ children = 'Odeslat', loadingLabel, ...props }) {
+export default function SubmitButton({ children = 'Submit', loadingLabel, ...props }) {
   const { pending } = useFormStatus()
 
   return (

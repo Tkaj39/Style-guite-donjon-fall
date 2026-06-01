@@ -2,41 +2,41 @@ import { useState, useEffect, useRef } from 'react'
 import { animSlow, easingBounce, easingExit } from './tokens'
 
 /**
- * Animační presety pro GameTransition.
- * Každý preset definuje { from, to, exitTo } styly.
+ * Animation presets for GameTransition.
+ * Each preset defines { from, to, exitTo } styles.
  */
 export const gameTransitionPresets = {
-  /** Fade + scale — výchozí pro panely a dialogy */
+  /** Fade + scale — default for panels and dialogs */
   fadeScale: {
     from:   { opacity: 0, transform: 'scale(0.92)' },
     to:     { opacity: 1, transform: 'scale(1)' },
     exitTo: { opacity: 0, transform: 'scale(0.88)' },
   },
-  /** Slide nahoru — pro dolní panely, inventáře */
+  /** Slide up — for bottom panels, inventories */
   slideUp: {
     from:   { opacity: 0, transform: 'translateY(20px)' },
     to:     { opacity: 1, transform: 'translateY(0)' },
     exitTo: { opacity: 0, transform: 'translateY(12px)' },
   },
-  /** Slide dolů — pro dropdown, submenu */
+  /** Slide down — for dropdowns, submenus */
   slideDown: {
     from:   { opacity: 0, transform: 'translateY(-14px)' },
     to:     { opacity: 1, transform: 'translateY(0)' },
     exitTo: { opacity: 0, transform: 'translateY(-8px)' },
   },
-  /** Pop — pro spawn herních elementů, notifikace */
+  /** Pop — for spawning game elements, notifications */
   pop: {
     from:   { opacity: 0, transform: 'scale(0.65)' },
     to:     { opacity: 1, transform: 'scale(1)' },
     exitTo: { opacity: 0, transform: 'scale(0.82)' },
   },
-  /** Pouze fade — pro overlay/backdrop */
+  /** Fade only — for overlays/backdrops */
   fade: {
     from:   { opacity: 0 },
     to:     { opacity: 1 },
     exitTo: { opacity: 0 },
   },
-  /** Slide zleva — pro sidebar panely */
+  /** Slide from the left — for sidebar panels */
   slideLeft: {
     from:   { opacity: 0, transform: 'translateX(-20px)' },
     to:     { opacity: 1, transform: 'translateX(0)' },
@@ -45,26 +45,26 @@ export const gameTransitionPresets = {
 }
 
 /**
- * Wrapper pro enter/exit animace — automaticky montuje/demontuje children.
- * Při `show=true` → mount + enter animace. Při `show=false` → exit animace → unmount.
- * Žádné závislosti, čisté React + inline styles.
+ * Wrapper for enter/exit animations — auto-mounts/unmounts children.
+ * On `show=true` → mount + enter animation. On `show=false` → exit animation → unmount.
+ * No dependencies, pure React + inline styles.
  *
- * @prop {boolean} show - Viditelný stav
- * @prop {'fadeScale'|'slideUp'|'slideDown'|'pop'|'fade'|'slideLeft'} preset - Typ animace
- * @prop {number} [duration] - Délka v ms (default: animSlow = 300)
- * @prop {() => void} [onExited] - Callback po úplném odstranění z DOM
- * @prop {string|React.ElementType} [as='div'] - HTML tag nebo komponenta
- * @prop {React.CSSProperties} [style] - Extra styly
+ * @prop {boolean} show - Visible state
+ * @prop {'fadeScale'|'slideUp'|'slideDown'|'pop'|'fade'|'slideLeft'} preset - Animation type
+ * @prop {number} [duration] - Duration in ms (default: animSlow = 300)
+ * @prop {() => void} [onExited] - Callback once the element is fully removed from the DOM
+ * @prop {string|React.ElementType} [as='div'] - HTML tag or component
+ * @prop {React.CSSProperties} [style] - Extra styles
  *
  * @example
  * <GameTransition show={isOpen} preset="slideUp">
- *   <PlayerPanel name="Hráč 1" />
+ *   <PlayerPanel name="Player 1" />
  * </GameTransition>
  *
  * @example
- * // Výsledkový dialog:
+ * // End-game dialog:
  * <GameTransition show={gameOver} preset="pop" duration={400}>
- *   <DonjonCard title="Výsledek">...</DonjonCard>
+ *   <DonjonCard title="Result">...</DonjonCard>
  * </GameTransition>
  */
 export default function GameTransition({

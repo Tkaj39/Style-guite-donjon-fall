@@ -1,6 +1,6 @@
 /* ── DonjonTooltip ─────────────────────────────────────────────────────────
-   Herní tooltip s pergamenovým stylem — tmavé pozadí, zlatý border.
-   API identické s TkajUI Tooltip, jiná vizuální estetika.
+   Game tooltip with a parchment style — dark background, gold border.
+   API identical to TkajUI Tooltip, different visual aesthetic.
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useRef, useCallback, useEffect } from 'react'
 import {
@@ -13,8 +13,8 @@ import { getPosition, resolveFlip, Arrow } from '../../utils/tooltipUtils'
 
 const Z_TOOLTIP = 2100
 
-/* Variant lookup — parita s TkajUI Tooltip.
-   Pro každou variantu: border (outer barva), title (titulek tooltipu). */
+/* Variant lookup — parity with TkajUI Tooltip.
+   For each variant: border (outer color), title (tooltip title color). */
 const VARIANTS = {
   default: { border: goldDim,      title: gold         },
   danger:  { border: dangerColor,  title: dangerColor  },
@@ -27,11 +27,11 @@ export default function DonjonTooltip({
   children,
   content,
   title,
-  placement = 'top',     // 12 hodnot — viz TOOLTIP_PLACEMENTS
-  variant   = 'default', // 'default'|'danger'|'success'|'warning'|'info' — parita s TkajUI Tooltip
+  placement = 'top',     // 12 values — see TOOLTIP_PLACEMENTS
+  variant   = 'default', // 'default'|'danger'|'success'|'warning'|'info' — parity with TkajUI Tooltip
   delay     = 120,
   disabled  = false,
-  autoFlip  = true,      // automaticky otoč pokud by tooltip přesahoval viewport
+  autoFlip  = true,      // automatically flip when the tooltip would overflow the viewport
 }) {
   const v = VARIANTS[variant] ?? VARIANTS.default
   const [pos, setPos]               = useState(null)
@@ -45,7 +45,7 @@ export default function DonjonTooltip({
     timerRef.current = setTimeout(() => {
       const rect = triggerRef.current?.getBoundingClientRect()
       if (!rect) return
-      // První render — odhadované rozměry, druhý effect doladí po měření
+      // First render — estimated dimensions, the second effect refines after measuring
       const tooltipBox = tooltipRef.current?.getBoundingClientRect()
       const final = autoFlip ? resolveFlip(rect, tooltipBox, placement) : placement
       setEP(final)
@@ -86,7 +86,7 @@ export default function DonjonTooltip({
             minWidth: 80,
           }}
         >
-          {/* Arrow + bubble ve společném filtru → shadow kruje celý tvar */}
+          {/* Arrow + bubble in a shared filter → shadow wraps the whole shape */}
           <span style={{ display: 'block', position: 'relative', filter: `drop-shadow(0 4px 16px rgba(0,0,0,0.75)) drop-shadow(0 0 8px ${v.border}33)` }}>
             <Arrow placement={effectivePlacement} color={v.border} />
             {/* Outer border — variant-aware */}

@@ -1,7 +1,7 @@
 /* ── PhaseIndicator ────────────────────────────────────────────────────────
-   Ukazatel fáze hry — kroky hráčova tahu nebo globální fáze hry.
-   Lepší než generický Tabs: sekvenciální logika, vizuální progress,
-   splněné fáze → checkmark, budoucí → faint.
+   Game phase indicator — steps of a player's turn or global game phases.
+   Better than a generic Tabs: sequential logic, visual progress,
+   completed phases → checkmark, future ones → faint.
    ─────────────────────────────────────────────────────────────────────── */
 import {
   gold, goldDim, goldMid,
@@ -11,7 +11,7 @@ import {
   gainColor,
 } from './tokens'
 
-/* ── Check ikona pro splněné fáze ── */
+/* ── Check icon for completed phases ── */
 function CheckIcon({ color, size = 9 }) {
   return (
     <svg viewBox="0 0 10 10" fill="none" width={size} height={size}>
@@ -30,7 +30,7 @@ const SIZES = {
   sm: {
     dotD: 20, lineH: 1, gap: 0,
     labelSize: '0.625rem', dotIconSize: 8,
-    connectorH: 24,  // vertikální mód
+    connectorH: 24,  // vertical mode
   },
   md: {
     dotD: 26, lineH: 2, gap: 0,
@@ -77,7 +77,7 @@ export default function PhaseIndicator({
         const labelColor = isDone ? textLow : isCurrent ? gold : textFaint
         const labelW     = isCurrent ? 600 : 400
 
-        /* Connector (linka mezi fázemi) */
+        /* Connector (line between phases) */
         const connectorColor = isDone ? `${gainColor}66` : `${borderDefault}66`
 
         const dotEl = (
@@ -108,7 +108,7 @@ export default function PhaseIndicator({
         if (orientation === 'vertical') {
           return (
             <div key={phase.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, width: '100%' }}>
-              {/* Levý sloupec: dot + connector */}
+              {/* Left column: dot + connector */}
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
                 {dotEl}
                 {!isLast && (
@@ -140,7 +140,7 @@ export default function PhaseIndicator({
           )
         }
 
-        /* Horizontální */
+        /* Horizontal */
         return (
           <div key={phase.id} style={{ display: 'flex', alignItems: 'center', flex: isLast ? 'none' : 1 }}>
             {/* Dot + label */}
@@ -159,13 +159,13 @@ export default function PhaseIndicator({
               </span>
             </div>
 
-            {/* Connector (ne za posledním) */}
+            {/* Connector (not after the last one) */}
             {!isLast && (
               <div style={{
                 flex: 1,
                 height: s.lineH,
                 background: connectorColor,
-                marginBottom: parseFloat(s.labelSize) * 16 * 1.2 + 5,  // zarovnání s dotem
+                marginBottom: parseFloat(s.labelSize) * 16 * 1.2 + 5,  // align with the dot
                 marginLeft: 4, marginRight: 4,
                 transition: 'background 0.3s',
               }} />

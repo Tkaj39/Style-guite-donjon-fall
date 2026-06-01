@@ -35,9 +35,9 @@ const variants = {
 const cx = 16
 
 /**
- * Card — TkajUI základní karta.
- * Oktagonální tvar, bez Ornaments. DonjonCard rozšiřuje tuto komponentu
- * o SideOrnament + HexOrnament pro herní vzhled.
+ * Card — TkajUI base card.
+ * Octagonal shape, no Ornaments. DonjonCard extends this component
+ * with SideOrnament + HexOrnament for a game-themed look.
  */
 export default function Card({
   children,

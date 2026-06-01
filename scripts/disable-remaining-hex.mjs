@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 /**
- * Bulk-add eslint-disable-next-line k každému řádku se „neodpovídá žádnému
- * tokenu" errorem — s kategorizovaným důvodem.
+ * Bulk-adds `eslint-disable-next-line` on every line with a "does not match
+ * any token" error — with a categorized reason.
  *
- * Kategorie:
- *   - DEMO_PLAYER: hex v contextu PlayerPanel/Shield/Erb props (demo data)
- *   - BRAND_TKAJUI: TkajUI brand barvy v HomePage/ArchDiagram (mix paletes)
- *   - DOC_CODE: hex jako TEXT uvnitř CodeBlock snippet (ukázka pro uživatele)
- *   - TECH_DEBT: ostatní — TODO tokenize později
+ * Categories:
+ *   - DEMO_PLAYER: hex in the context of PlayerPanel/Shield/Erb props (demo data)
+ *   - BRAND_TKAJUI: TkajUI brand colors in HomePage/ArchDiagram (mix paletes)
+ *   - DOC_CODE: hex as TEXT inside a CodeBlock snippet (sample for the user)
+ *   - TECH_DEBT: everything else — TODO tokenize later
  *
- * Po script: lint projde clean, každý disable má dokumentovaný důvod.
- * Budoucí PRs nesmí přidat nový hex bez explicitního disable nebo tokenu.
+ * After the script: lint is clean, every disable has a documented reason.
+ * Future PRs must not add a new hex without an explicit disable or token.
  */
 import { execSync } from 'node:child_process'
 import fs from 'node:fs'
@@ -25,46 +25,46 @@ function getLintResults() {
   return data
 }
 
-// Hexy které jsou rozpoznané jako player demo barvy
+// Hex values recognized as player demo colors
 const PLAYER_COLORS = new Set([
-  '#4A90E2',  // Hráč 1 blue
-  '#C84A4A',  // Hráč 2 red
-  '#50B85C',  // Hráč 3 green (taky existuje gainColor)
-  '#B856C8',  // Hráč 4 purple
-  '#C8A050',  // Hráč 5 amber
-  '#50B8B0',  // Hráč 6 teal
+  '#4A90E2',  // Player 1 blue
+  '#C84A4A',  // Player 2 red
+  '#50B85C',  // Player 3 green (gainColor also exists)
+  '#B856C8',  // Player 4 purple
+  '#C8A050',  // Player 5 amber
+  '#50B8B0',  // Player 6 teal
 ])
 
 const BRAND_COLORS = new Set([
   '#7BAED4',  // TkajUI brand (BRAND.tkajui.color)
-  '#B8956A',  // donjon brand (= goldMid token — někde hardcoded jako brand const)
+  '#B8956A',  // donjon brand (= goldMid token — sometimes hardcoded as a brand const)
 ])
 
 function categorize(line, hex, msg) {
-  // Alpha tail s known token — komplexnější transformace v middle stringu
-  if (msg && msg.includes('alpha tail nad tokenem')) {
-    return 'alpha-tail v middle stringu (manuální transformace na template literal)'
+  // Alpha tail with a known token — more complex transformation inside a middle string
+  if (msg && msg.includes('alpha tail on top of token')) {
+    return 'alpha tail inside a middle string (manual transform to template literal)'
   }
-  // Known token suggestion — neproběhl auto-fix (multi-hex per line, atd.)
-  if (msg && msg.includes('použij token')) {
-    return 'multi-hex per line nebo komplex (auto-fix skipnul)'
+  // Known token suggestion — auto-fix didn't apply (multi-hex per line, etc.)
+  if (msg && msg.includes('use the token')) {
+    return 'multi-hex per line or complex (auto-fix skipped)'
   }
-  // 1. Demo player color: kdekoli kde se barva váže k player.color/playerColor
+  // 1. Demo player color: anywhere the color binds to player.color/playerColor
   if (PLAYER_COLORS.has(hex.toUpperCase()) || /(?:player(?:Color)?|player\.color|color:)\s*['"]#/.test(line)) {
     if (/(?:PlayerPanel|Shield|Erb|playerColor|player.color)/i.test(line) || PLAYER_COLORS.has(hex.toUpperCase())) {
-      return 'demo player color (demo data, ne styling token)'
+      return 'demo player color (demo data, not a styling token)'
     }
   }
   // 2. TkajUI brand mix
   if (BRAND_COLORS.has(hex.toUpperCase())) {
-    return 'brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)'
+    return 'brand color in cross-library context (HomePage, ArchDiagram — mix paletes)'
   }
-  // 3. Doc/code snippet — hex je TEXT uvnitř <CodeBlock code={`...`}>
+  // 3. Doc/code snippet — hex is TEXT inside `<CodeBlock code={`...`}>`
   if (/CodeBlock|<pre|code=\{`|code=\{"/.test(line)) {
-    return 'hex v code snippet text (ukázka pro uživatele)'
+    return 'hex in code snippet text (sample for the user)'
   }
   // 4. Default tech debt
-  return 'TODO: tokenize nebo rationalizovat (tech debt)'
+  return 'TODO: tokenize or rationalize (tech debt)'
 }
 
 function addDisableComment(content, lineNo, reason) {
@@ -72,11 +72,11 @@ function addDisableComment(content, lineNo, reason) {
   const targetIdx = lineNo - 1
   if (targetIdx >= lines.length || targetIdx < 0) return content
 
-  // Detekuj indent originálního řádku
+  // Detect the indent of the original line
   const targetLine = lines[targetIdx]
   const indent = targetLine.match(/^\s*/)[0]
 
-  // Pokud již existuje disable na řádku NAD, neduplikuj
+  // If a disable already exists on the line ABOVE, don't duplicate
   if (targetIdx > 0 && lines[targetIdx - 1].includes('eslint-disable-next-line donjon/no-hardcoded-hex')) {
     return content
   }
@@ -95,19 +95,19 @@ let filesChanged = 0
 const stats = {}
 
 for (const result of results) {
-  // Disable VŠECHNY zbývající hex errory (i ty s known token suggestions).
-  // Důvod: ty které šly auto-fixovat už auto-fix vyřešil. To, co zbývá, je:
-  //   • alpha tail v middle stringu — auto-fix neumí (`'1px solid #XXX44'`)
-  //   • multi-hex na řádku — auto-fix nahradil jen jeden výskyt
-  //   • komplexní výrazy — vyžaduje manuální cleanup
-  // Disable s důvodem = explicit tech debt acknowledgment, ne tichá skvrna.
+  // Disable ALL remaining hex errors (including those with known token suggestions).
+  // Reason: the auto-fixable ones have already been auto-fixed. What remains is:
+  //   • alpha tail inside a middle string — auto-fix can't (`'1px solid #XXX44'`)
+  //   • multi-hex on a line — auto-fix only replaced one occurrence
+  //   • complex expressions — require manual cleanup
+  // Disable with a reason = explicit tech-debt acknowledgement, not a silent stain.
   const hexErrors = result.messages.filter(m => m.ruleId === 'donjon/no-hardcoded-hex')
   if (hexErrors.length === 0) continue
 
   let content = fs.readFileSync(result.filePath, 'utf-8')
   const originalLines = content.split('\n')
 
-  // Seřaď errory descending podle řádku (aby insert neměnil line numbers ostatních)
+  // Sort errors descending by line (so an insert doesn't shift the other line numbers)
   hexErrors.sort((a, b) => b.line - a.line)
 
   let fileChanges = 0
@@ -115,14 +115,13 @@ for (const result of results) {
     const hexMatch = err.message.match(/'(#[0-9A-Fa-f]+)'/)
     if (!hexMatch) continue
     const hex = hexMatch[1]
-    const lineContent = originalLines[err.line - 1] ?? ''
-    const reason = categorize(lineContent, hex, err.message)
-
-    const newContent = addDisableComment(content, err.line, reason)
-    if (newContent !== content) {
-      content = newContent
+    const line = originalLines[err.line - 1] || ''
+    const reason = categorize(line, hex, err.message)
+    const before = content
+    content = addDisableComment(content, err.line, reason)
+    if (content !== before) {
       fileChanges++
-      stats[reason] = (stats[reason] ?? 0) + 1
+      stats[reason] = (stats[reason] || 0) + 1
     }
   }
 
@@ -133,8 +132,8 @@ for (const result of results) {
   }
 }
 
-console.log(`\nTotal disabled: ${totalDisabled}, Files changed: ${filesChanged}`)
-console.log('\nKategorie:')
+console.log(`Disabled ${totalDisabled} hex errors across ${filesChanged} files`)
+console.log('Reason breakdown:')
 for (const [reason, count] of Object.entries(stats).sort((a, b) => b[1] - a[1])) {
-  console.log(`  ${count.toString().padStart(4)}× ${reason}`)
+  console.log(`  ${count.toString().padStart(4)}  ${reason}`)
 }

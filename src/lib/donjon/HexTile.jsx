@@ -12,16 +12,16 @@ const sizeMap = {
 const stateMap = {
   empty:          { border: borderMuted, fill: bgDeep,    glow: null },
   base:           { border: null,      fill: null,        glow: null },
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- #201D0E: unikátní teplá tmavá výplň focal hexu (jantarová tónovaná)
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- #201D0E: unique warm-dark fill for the focal hex (amber-tinted)
   'focal-active': { border: gold,      fill: '#201D0E',   glow: `0 0 14px ${gold}66` },
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- #6A6040/#1C1A0E: unikátní barvy pasivního focal hexu (olivová/teplá tmavá)
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- #6A6040/#1C1A0E: unique colors for the passive focal hex (olive / warm-dark)
   'focal-passive':{ border: '#6A6040', fill: '#1C1A0E',   glow: null },
   selected:       { border: textActive,fill: bgDeep,      glow: `0 0 12px ${textActive}66` },
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- #0E231A: unikátní výplň move hexu (tmavá zelená — herní stav pohybu)
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- #0E231A: unique fill for the move hex (dark green — game move state)
   move:           { border: gainColor,   fill: '#0E231A',   glow: `0 0 10px ${gainColor}55`   },
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- #230E0E: unikátní výplň attack hexu (tmavá červená — herní stav útoku)
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- #230E0E: unique fill for the attack hex (dark red — game attack state)
   attack:         { border: dangerColor, fill: '#230E0E',   glow: `0 0 10px ${dangerColor}55` },
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- #141320: unikátní výplň blokovaného hexu (ultratmavá — signalizuje nedostupnost)
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- #141320: unique fill for the blocked hex (ultra-dark — signals unavailability)
   blocked:        { border: borderMid, fill: '#141320',   glow: null, opacity: 0.45 },
 }
 
@@ -34,7 +34,7 @@ function FlameIcon({ size = 10 }) {
 }
 
 function DiamondDot({ size = 6 }) {
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- #6A6040: unikátní olivová barva pasivního focal markeru (olive-dark, bez ekvivalentu v paletě)
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- #6A6040: unique olive color for the passive focal marker (olive-dark, no palette equivalent)
   const dotColor = '#6A6040'
   return (
     <svg viewBox="0 0 10 10" width={size} height={size} style={{ color: dotColor }}>

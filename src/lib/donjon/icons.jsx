@@ -1,21 +1,21 @@
 /**
- * Herní ikony pro donjon-fall-ui
- * Každá ikona je čistá SVG komponenta (přijímá width, height — color přes currentColor).
+ * Game icons for donjon-fall-ui
+ * Each icon is a pure SVG component (accepts width, height — color via currentColor).
  *
- * Kategorie:
- *   Zdroje:      HeartIcon, DropIcon, BoltIcon
- *   Akce:        SwordIcon, ShieldIcon, MoveIcon, TargetIcon, MagicIcon
- *   Herní stav:  StarIcon, CrownIcon, DiceIcon, HourglassIcon, TowerIcon
- *   Mapa:        HexIcon, BaseIcon, FocalPointIcon,
+ * Categories:
+ *   Resources:   HeartIcon, DropIcon, BoltIcon
+ *   Actions:     SwordIcon, ShieldIcon, MoveIcon, TargetIcon, MagicIcon
+ *   Game state:  StarIcon, CrownIcon, DiceIcon, HourglassIcon, TowerIcon
+ *   Map:         HexIcon, BaseIcon, FocalPointIcon,
  *                FocalPointActiveIcon, FocalPointPassiveIcon
- *   Mechaniky:   PushIcon, OccupyIcon, EncirclementIcon,
+ *   Mechanics:   PushIcon, OccupyIcon, EncirclementIcon,
  *                TowerCollapseIcon, SuddenDeathIcon, TurnOrderIcon
- *   Brand:       DonjonLogoIcon, TkajuiLogoIcon (značky knihoven, mirror favicon)
+ *   Brand:       DonjonLogoIcon, TkajuiLogoIcon (library marks, mirror favicon)
  */
 
-/* ── Zdroje (Resources) ─────────────────────────────────────────────────── */
+/* ── Resources ──────────────────────────────────────────────────────────── */
 
-/** HP / zdraví hráče */
+/** HP / player health */
 export function HeartIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
@@ -27,7 +27,7 @@ export function HeartIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Mana / magická energie */
+/** Mana / magical energy */
 export function DropIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
@@ -39,7 +39,7 @@ export function DropIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Stamina / energie akce */
+/** Stamina / action energy */
 export function BoltIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
@@ -51,9 +51,9 @@ export function BoltIcon({ width = 24, height = 24 }) {
   )
 }
 
-/* ── Akce (Actions) ─────────────────────────────────────────────────────── */
+/* ── Actions ────────────────────────────────────────────────────────────── */
 
-/** Útok / souboj */
+/** Attack / combat */
 export function SwordIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
@@ -64,7 +64,7 @@ export function SwordIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Obrana / základna hráče */
+/** Defense / player base */
 export function ShieldIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
@@ -74,7 +74,7 @@ export function ShieldIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Pohyb / přesun kostky */
+/** Move / die movement */
 export function MoveIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
@@ -83,7 +83,7 @@ export function MoveIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Cíl / dosah útoku */
+/** Target / attack range */
 export function TargetIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
@@ -94,7 +94,7 @@ export function TargetIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Magie / speciální schopnost */
+/** Magic / special ability */
 export function MagicIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
@@ -110,9 +110,9 @@ export function MagicIcon({ width = 24, height = 24 }) {
   )
 }
 
-/* ── Herní stav (Game State) ─────────────────────────────────────────────── */
+/* ── Game state ─────────────────────────────────────────────────────────── */
 
-/** Vítězné body (VP) */
+/** Victory points (VP) */
 export function StarIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
@@ -124,7 +124,7 @@ export function StarIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Vítěz / lídr skóre */
+/** Winner / score leader */
 export function CrownIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
@@ -137,7 +137,7 @@ export function CrownIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Kostka / přehazování */
+/** Die / reroll */
 export function DiceIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
@@ -151,7 +151,7 @@ export function DiceIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Konec tahu / časový limit */
+/** End of turn / time limit */
 export function HourglassIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
@@ -161,7 +161,7 @@ export function HourglassIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Věž / donjon (hromada kostek) */
+/** Tower / donjon (stack of dice) */
 export function TowerIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
@@ -172,9 +172,9 @@ export function TowerIcon({ width = 24, height = 24 }) {
   )
 }
 
-/* ── Mapa (Map) ──────────────────────────────────────────────────────────── */
+/* ── Map ────────────────────────────────────────────────────────────────── */
 
-/** Mapové pole / hex — prázdný hexagon (pointy-top) */
+/** Map tile / hex — empty hexagon (pointy-top) */
 export function HexIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
@@ -186,24 +186,24 @@ export function HexIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Základna hráče / spawn hex — hex s vlajkou uvnitř */
+/** Player base / spawn hex — hex with a flag inside */
 export function BaseIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
-      {/* Hex obal */}
+      {/* Hex outline */}
       <path
         d="M12 2.5L20.5 7.25V16.75L12 21.5L3.5 16.75V7.25L12 2.5Z"
         stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"
       />
-      {/* Vlajková tyč */}
+      {/* Flag pole */}
       <path d="M10 8V17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      {/* Praporek */}
+      {/* Pennant */}
       <path d="M10 8H16L14 10.5L16 13H10" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
     </svg>
   )
 }
 
-/** Ohnisko — generický symbol (2 soustředné kružnice + střed) */
+/** Focal point — generic symbol (2 concentric circles + center) */
 export function FocalPointIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
@@ -214,18 +214,18 @@ export function FocalPointIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Aktivní ohnisko — plný střed + vyzařující paprsky */
+/** Active focal point — filled center + radiating rays */
 export function FocalPointActiveIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
       <circle cx="12" cy="12" r="3.25" fill="currentColor"/>
       <circle cx="12" cy="12" r="7"    stroke="currentColor" strokeWidth="1.5"/>
-      {/* 4 paprsky N/E/S/W */}
+      {/* 4 N/E/S/W rays */}
       <path
         d="M12 1.5V4M12 20v2.5M1.5 12H4M20 12h2.5"
         stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
       />
-      {/* 4 paprsky diagonálně (kratší) */}
+      {/* 4 diagonal rays (shorter) */}
       <path
         d="M4.8 4.8l1.4 1.4M17.8 17.8l1.4 1.4M19.2 4.8l-1.4 1.4M6.2 17.8L4.8 19.2"
         stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
@@ -234,7 +234,7 @@ export function FocalPointActiveIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Pasivní ohnisko — dashed prstenec + dutý střed */
+/** Passive focal point — dashed ring + hollow center */
 export function FocalPointPassiveIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
@@ -248,44 +248,44 @@ export function FocalPointPassiveIcon({ width = 24, height = 24 }) {
   )
 }
 
-/* ── Mechaniky (Game mechanics) ──────────────────────────────────────────── */
+/* ── Game mechanics ─────────────────────────────────────────────────────── */
 
-/** Push — odtlačení nepřátelské formace (šipka tlačí stěnu) */
+/** Push — pushing an enemy formation back (arrow pushing a wall) */
 export function PushIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
-      {/* Tlačená stěna */}
+      {/* The wall being pushed */}
       <path d="M17 4V20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
       <path d="M19.5 6.5V17.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      {/* Šipka tlačící doprava */}
+      {/* Arrow pushing to the right */}
       <path d="M3 12H14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
       <path d="M10 8L14 12L10 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   )
 }
 
-/** Occupy — naskočení na nepřátelskou věž (šipka shora do struktury) */
+/** Occupy — jumping onto an enemy tower (arrow from above into the structure) */
 export function OccupyIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
-      {/* Tělo věže */}
+      {/* Tower body */}
       <rect x="7" y="13" width="10" height="8" rx="1" stroke="currentColor" strokeWidth="1.5"/>
-      {/* Cimbuří */}
+      {/* Battlements */}
       <path d="M7 13V11H9V12H11V11H13V12H15V11H17V13" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-      {/* Šipka shora dolů */}
+      {/* Arrow from top down */}
       <path d="M12 2V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
       <path d="M9 5L12 8L15 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   )
 }
 
-/** Encirclement — sevření (4 trojúhelníky míří dovnitř na střed) */
+/** Encirclement — surrounding (4 triangles pointing inward at the center) */
 export function EncirclementIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
-      {/* Cíl uprostřed */}
+      {/* Target in the middle */}
       <circle cx="12" cy="12" r="2.5" stroke="currentColor" strokeWidth="1.5"/>
-      {/* 4 šipky/trojúhelníky kolem (N, E, S, W) — míří dovnitř */}
+      {/* 4 arrows/triangles around (N, E, S, W) — pointing inward */}
       <path d="M9 3h6l-3 4z"    stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
       <path d="M21 9v6l-4-3z"   stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
       <path d="M15 21H9l3-4z"   stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
@@ -294,18 +294,18 @@ export function EncirclementIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Kolaps věže — nakloněná věž s padajícími kameny */
+/** Tower collapse — leaning tower with falling stones */
 export function TowerCollapseIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
-      {/* Nakloněná věž (rotated rect via path) */}
+      {/* Leaning tower (rotated rect via path) */}
       <path
         d="M6 21L9 8L15 9.5L13 21Z"
         stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"
       />
-      {/* Šikmé cimbuří (top edge tilted) */}
+      {/* Tilted battlements (top edge tilted) */}
       <path d="M9 8L9.5 6L11 6.3L11.3 4.5L13 4.8L13.3 6.5L15 7L15 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-      {/* Padající kameny */}
+      {/* Falling stones */}
       <rect x="17" y="6"  width="2.5" height="2.5" stroke="currentColor" strokeWidth="1.2" transform="rotate(20 18.25 7.25)"/>
       <rect x="19" y="11" width="2"   height="2"   stroke="currentColor" strokeWidth="1.2" transform="rotate(-15 20 12)"/>
       <rect x="17" y="16" width="2.5" height="2.5" stroke="currentColor" strokeWidth="1.2" transform="rotate(35 18.25 17.25)"/>
@@ -313,16 +313,16 @@ export function TowerCollapseIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Sudden death — lebka (okamžitá prohra bez legální akce) */
+/** Sudden death — skull (instant loss with no legal action) */
 export function SuddenDeathIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
-      {/* Lebka */}
+      {/* Skull */}
       <path
         d="M5 11C5 6.6 8.1 3.5 12 3.5C15.9 3.5 19 6.6 19 11V14.5L17 16V19H13.5V17H10.5V19H7V16L5 14.5V11Z"
         stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"
       />
-      {/* Oční důlky (X markers — symbol smrti) */}
+      {/* Eye sockets (X markers — symbol of death) */}
       <path d="M8 10L10.5 12.5M10.5 10L8 12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
       <path d="M13.5 10L16 12.5M16 10L13.5 12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
@@ -330,12 +330,12 @@ export function SuddenDeathIcon({ width = 24, height = 24 }) {
 }
 
 /* ── Brand marks (Library logos) ─────────────────────────────────────────
-   Path data převzata z /public/favicon-*.svg (viewBox 145.27 × 145.27).
-   Solidní silueta — fill+stroke `currentColor` pro maximální viditelnost
-   i v malých velikostech (11–16 px).
+   Path data taken from /public/favicon-*.svg (viewBox 145.27 × 145.27).
+   Solid silhouette — fill+stroke `currentColor` for maximum visibility
+   even at small sizes (11–16 px).
    ─────────────────────────────────────────────────────────────────────── */
 
-/** donjon-fall-ui — značka knihovny (mirror favicon-donjon.svg) */
+/** donjon-fall-ui — library mark (mirror of favicon-donjon.svg) */
 export function DonjonLogoIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 145.27 145.27" width={width} height={height} aria-hidden="true">
@@ -351,7 +351,7 @@ export function DonjonLogoIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** TkajUI — značka knihovny (mirror favicon-tkajui.svg) */
+/** TkajUI — library mark (mirror of favicon-tkajui.svg) */
 export function TkajuiLogoIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 145.27 145.27" width={width} height={height} aria-hidden="true">
@@ -367,17 +367,17 @@ export function TkajuiLogoIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Pořadí hráčů / iniciativa — kruhové šipky se třemi tečkami */
+/** Turn order / initiative — circular arrow with three dots */
 export function TurnOrderIcon({ width = 24, height = 24 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
-      {/* Kruhová šipka (cyklus tahů) */}
+      {/* Circular arrow (turn cycle) */}
       <path
         d="M19 12A7 7 0 1 1 12 5"
         stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
       />
       <path d="M12 2L15 5L12 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      {/* 3 tečky uvnitř — hráči v pořadí */}
+      {/* 3 dots inside — players in order */}
       <circle cx="9"  cy="13" r="1.2" fill="currentColor"/>
       <circle cx="13" cy="13" r="1.2" fill="currentColor"/>
       <circle cx="13" cy="17" r="1.2" fill="currentColor"/>

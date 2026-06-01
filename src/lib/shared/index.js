@@ -1,8 +1,8 @@
 /**
- * @donjon-fall/shared — sdílené primitivy
+ * @donjon-fall/shared — shared primitives
  *
- * Závislostní směr:  tkajui → shared  a  donjon → shared
- * Shared NIKDY neimportuje z tkajui ani z donjon.
+ * Dependency direction:  tkajui → shared  and  donjon → shared
+ * Shared NEVER imports from tkajui or donjon.
  */
 export * from './tokens'
 export * from './contrast'

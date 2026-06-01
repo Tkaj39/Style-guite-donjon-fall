@@ -1,8 +1,8 @@
 /* ── DonjonToast ───────────────────────────────────────────────────────────
-   Herní toast notifikace — Provider + hook.
-   Herní varianty: default(zlatá) · gain(zelená) · loss(červená) ·
-                   warning(jantarová) · event(modrá)
-   Tvar: oktagon cx=12, tmavý bgDeep, variant barva v borderu + titulu + glow.
+   Game toast notifications — Provider + hook.
+   Game variants: default(gold) · gain(green) · loss(red) ·
+                  warning(amber) · event(blue)
+   Shape: octagon cx=12, dark bgDeep, variant color in border + title + glow.
    ─────────────────────────────────────────────────────────────────────── */
 import { octagon, octagonInner } from '../../utils/octagon'
 import { createToastContext } from '../../utils/toastContext'
@@ -88,9 +88,9 @@ function CloseIcon() {
 function ToastItem({ id, title, message, variant = 'default', duration = 4000, onRemove }) {
   const v = VARIANTS[variant] ?? VARIANTS.default
 
-  // Role a aria-live podle herní varianty:
-  //  loss/warning → alert + assertive (přeruší screen reader pro důležité info)
-  //  gain/event/default → status + polite (čeká na pauzu — nepřerušuje hru)
+  // Role and aria-live by game variant:
+  //  loss/warning → alert + assertive (interrupts the screen reader for important info)
+  //  gain/event/default → status + polite (waits for a pause — does not interrupt the game)
   const isAssertive = variant === 'loss' || variant === 'warning'
   const role = isAssertive ? 'alert' : 'status'
   const ariaLive = isAssertive ? 'assertive' : 'polite'
@@ -103,7 +103,7 @@ function ToastItem({ id, title, message, variant = 'default', duration = 4000, o
       className="starting:opacity-0 starting:translate-x-5 transition-[opacity,transform] duration-200 ease"
       style={{ width: 310 }}
     >
-      {/* Shadow wrapper — bez clip-path, aby drop-shadow nebyl oříznutý */}
+      {/* Shadow wrapper — no clip-path so drop-shadow isn't clipped */}
       <div style={{ filter: `drop-shadow(0 4px 20px rgba(0,0,0,0.7)) drop-shadow(0 0 14px ${v.bar}25)` }}>
         {/* Outer border layer */}
         <div style={{ clipPath: octagon(CX), background: v.bar, padding: 1 }}>
@@ -139,7 +139,7 @@ function ToastItem({ id, title, message, variant = 'default', duration = 4000, o
               {/* Close */}
               <button
                 onClick={() => onRemove(id)}
-                aria-label="Zavřít"
+                aria-label="Close"
                 style={{
                   flexShrink: 0,
                   display: 'flex',
@@ -181,7 +181,7 @@ function ToastItem({ id, title, message, variant = 'default', duration = 4000, o
   )
 }
 
-/* ── Context, Provider a Hook — sdílená logika z toastContext ── */
+/* ── Context, Provider and Hook — shared logic from toastContext ── */
 const { ToastProvider: _Provider, useToast } = createToastContext({
   zIndex:   2000,
   hookName: 'useToast (DonjonToast)',

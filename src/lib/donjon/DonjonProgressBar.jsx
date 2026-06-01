@@ -1,6 +1,6 @@
 /* ── DonjonProgressBar ────────────────────────────────────────────────────
-   Herní HP / resource bar s barevnými prahy, ticky a damage flash.
-   Automatické barevné prahy: >50% zelená · 25–50% zlatá · <25% červená.
+   Game HP / resource bar with color thresholds, ticks and damage flash.
+   Automatic color thresholds: >50% green · 25–50% gold · <25% red.
    ─────────────────────────────────────────────────────────────────────── */
 import {
   gold, bg2, bg3,
@@ -22,8 +22,8 @@ const VARIANTS = {
   default: { fill: null,         label: ''        },
 }
 
-// Výška md sjednocena s TkajUI ProgressBar (h:8) pro vizuální paritu —
-// drop-in replacement neposune layout. fontSize donjon-specific (extra).
+// md height unified with TkajUI ProgressBar (h:8) for visual parity —
+// drop-in replacement doesn't shift the layout. fontSize is donjon-specific (extra).
 const SIZES = {
   xs: { h: 2,  radius: 1, fontSize: '0.625rem'  },
   sm: { h: 4,  radius: 2, fontSize: '0.6875rem' },
@@ -35,8 +35,8 @@ export default function DonjonProgressBar({
   value        = 0,
   max          = 100,
   size         = 'md',
-  // Default 'default' (z 'hp') — drop-in replacement za TkajUI ProgressBar
-  // bez nutnosti explicitního variant prop. Pro HP bar předej variant="hp".
+  // Default 'default' (was 'hp') — drop-in replacement for TkajUI ProgressBar
+  // without requiring an explicit variant prop. For an HP bar pass variant="hp".
   variant      = 'default',
   label,
   showValue    = false,
@@ -96,7 +96,7 @@ export default function DonjonProgressBar({
           overflow: 'hidden',
         }}
       >
-        {/* Fill — tlumený základ při indeterminate */}
+        {/* Fill — muted baseline when indeterminate */}
         <div style={{
           position: 'absolute', inset: 0, width: `${pct}%`,
           background: indeterminate

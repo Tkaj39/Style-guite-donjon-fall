@@ -2,18 +2,18 @@ import { useRef, useCallback } from 'react'
 import { animNormal, animSlow, animDramatic, easingBounce, easingEnter, easingSharp, gainColor } from './tokens'
 
 /**
- * Hook pro herní Web Animations API animace.
- * Připoj `ref` na DOM element, pak volej animační funkce.
+ * Hook for game-themed Web Animations API animations.
+ * Attach `ref` to a DOM element, then call animation functions.
  *
  * @returns {{ ref, shake, knockback, pop, pulse, flash, tilt, fadeIn, fadeOut }}
  *
  * @example
  * const { ref, shake, pop } = useGameAnimation()
- * // Při neúspěchu:
- * <button ref={ref} onClick={() => shake()}>Akce</button>
+ * // On failure:
+ * <button ref={ref} onClick={() => shake()}>Action</button>
  *
  * @example
- * // PlayerPanel na tahu:
+ * // PlayerPanel on turn:
  * const { ref, pulse } = useGameAnimation()
  * useEffect(() => { if (isActive) pulse() }, [isActive])
  * <PlayerPanel ref={ref} isActive={isActive} />
@@ -22,9 +22,9 @@ export default function useGameAnimation() {
   const ref = useRef(null)
 
   /**
-   * Zamíchání (shake) — neúspěch, odmítnutí, chyba.
-   * @param {number} [intensity=6] - Intenzita v px
-   * @param {number} [duration] - Délka v ms (default: animSlow)
+   * Shake — failure, rejection, error.
+   * @param {number} [intensity=6] - Intensity in px
+   * @param {number} [duration] - Duration in ms (default: animSlow)
    */
   const shake = useCallback((intensity = 6, duration = animSlow) => {
     const el = ref.current
@@ -41,10 +41,10 @@ export default function useGameAnimation() {
   }, [])
 
   /**
-   * Knockback — fyzický zásah, odsunutí.
-   * @param {number} [dx=0] - Horizontální offset v px
-   * @param {number} [dy=-8] - Vertikální offset v px (záporné = nahoru)
-   * @param {number} [duration] - Délka půlky pohybu v ms
+   * Knockback — physical hit, push back.
+   * @param {number} [dx=0] - Horizontal offset in px
+   * @param {number} [dy=-8] - Vertical offset in px (negative = up)
+   * @param {number} [duration] - Duration of one half of the movement, in ms
    */
   const knockback = useCallback((dx = 0, dy = -8, duration = animNormal) => {
     const el = ref.current
@@ -57,9 +57,9 @@ export default function useGameAnimation() {
   }, [])
 
   /**
-   * Pop (spawn/appear) — element se objeví s bounce efektem.
-   * @param {number} [scale=1.12] - Maximální scale overshoot
-   * @param {number} [duration] - Délka v ms
+   * Pop (spawn/appear) — the element appears with a bounce effect.
+   * @param {number} [scale=1.12] - Max scale overshoot
+   * @param {number} [duration] - Duration in ms
    */
   const pop = useCallback((scale = 1.12, duration = animNormal) => {
     const el = ref.current
@@ -72,9 +72,9 @@ export default function useGameAnimation() {
   }, [])
 
   /**
-   * Pulse — pozornost, "na tahu", upozornění.
-   * @param {number} [scale=1.07] - Scale při vrcholu
-   * @param {number} [duration] - Délka v ms
+   * Pulse — attention, "on turn", notice.
+   * @param {number} [scale=1.07] - Scale at the peak
+   * @param {number} [duration] - Duration in ms
    */
   const pulse = useCallback((scale = 1.07, duration = animSlow) => {
     const el = ref.current
@@ -87,9 +87,9 @@ export default function useGameAnimation() {
   }, [])
 
   /**
-   * Flash — zisk (zelená) nebo ztráta (červená) barvy.
-   * @param {string} [color=gainColor] - Hex barva flash glow (default = gainColor token)
-   * @param {number} [duration] - Délka v ms
+   * Flash — gain (green) or loss (red) color flash.
+   * @param {string} [color=gainColor] - Hex color of the flash glow (default = gainColor token)
+   * @param {number} [duration] - Duration in ms
    */
   const flash = useCallback((color = gainColor, duration = animNormal * 3) => {
     const el = ref.current
@@ -102,9 +102,9 @@ export default function useGameAnimation() {
   }, [])
 
   /**
-   * Tilt (náklon) — nerozhodnost, váhání, magický efekt.
-   * @param {number} [deg=5] - Max rotace ve stupních
-   * @param {number} [duration] - Délka v ms
+   * Tilt — hesitation, indecision, magical effect.
+   * @param {number} [deg=5] - Max rotation in degrees
+   * @param {number} [duration] - Duration in ms
    */
   const tilt = useCallback((deg = 5, duration = animSlow) => {
     const el = ref.current
@@ -118,8 +118,8 @@ export default function useGameAnimation() {
   }, [])
 
   /**
-   * FadeIn (entrance) — element přichází.
-   * @param {number} [duration] - Délka v ms
+   * FadeIn (entrance) — the element appears.
+   * @param {number} [duration] - Duration in ms
    * @returns {Animation} Web Animations API instance
    */
   const fadeIn = useCallback((duration = animSlow) => {
@@ -132,8 +132,8 @@ export default function useGameAnimation() {
   }, [])
 
   /**
-   * FadeOut (exit) — element odchází (fill: forwards → zůstane neviditelný).
-   * @param {number} [duration] - Délka v ms
+   * FadeOut (exit) — the element leaves (fill: forwards → stays invisible).
+   * @param {number} [duration] - Duration in ms
    * @returns {Animation} Web Animations API instance
    */
   const fadeOut = useCallback((duration = animSlow) => {
@@ -146,9 +146,9 @@ export default function useGameAnimation() {
   }, [])
 
   /**
-   * Victory — dramatické zvýraznění výhry/splnění cíle.
-   * Kombinuje scale + glow puls.
-   * @param {number} [duration] - Délka v ms
+   * Victory — dramatic highlight for a win / objective completion.
+   * Combines scale + glow pulse.
+   * @param {number} [duration] - Duration in ms
    */
   const victory = useCallback((duration = animDramatic) => {
     const el = ref.current

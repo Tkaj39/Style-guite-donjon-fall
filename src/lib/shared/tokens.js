@@ -1,52 +1,52 @@
 /**
- * Shared design tokens — strukturálně neutrální hodnoty sdílené mezi
- * TkajUI a donjon-fall-ui. Tyto tokeny NEMAJÍ vizuální barevnost:
+ * Shared design tokens — structurally neutral values shared between
+ * TkajUI and donjon-fall-ui. These tokens have NO visual color:
  *   • motion (durations, easings)
  *   • breakpoints
- *   • z-index škála
+ *   • z-index scale
  *
- * Závislostní směr:  tkajui → shared  a  donjon → shared
- * Tokeny barev/povrchů/textu si každá knihovna definuje vlastní v `tokens.js`.
+ * Dependency direction:  tkajui → shared  and  donjon → shared
+ * Color/surface/text tokens are defined per library in its own `tokens.js`.
  *
- * Důvod:
- * — Sdílené animace zaručí, že side-by-side preview (TkajUI vs Donjon)
- *   mají stejný "feel" — komponenty otevírají a zavírají se za stejně dlouho.
- * — Sdílené breakpointy zaručí, že useBreakpoint() vrací stejné hodnoty
- *   bez ohledu na to, kterou knihovnu právě používáš.
- * — Sdílený z-index zabraňuje konfliktům, když app míchá obě knihovny
- *   (např. tkajui Modal + donjon Toast).
+ * Why:
+ * — Shared animations guarantee that side-by-side previews (TkajUI vs Donjon)
+ *   have the same "feel" — components open and close at the same speed.
+ * — Shared breakpoints guarantee that useBreakpoint() returns the same values
+ *   regardless of which library you're using.
+ * — Shared z-index prevents conflicts when an app mixes both libraries
+ *   (e.g. tkajui Modal + donjon Toast).
  */
 
-// ── Animační timing ────────────────────────────────────────────────────────
-/** Rychlé UI reakce: tooltip appear, damage flash (80 ms) */
+// ── Animation timing ───────────────────────────────────────────────────────
+/** Fast UI reactions: tooltip appear, damage flash (80 ms) */
 export const animFast     = 80
-/** Standardní přechody: hover, focus, stav (160 ms) */
+/** Standard transitions: hover, focus, state (160 ms) */
 export const animNormal   = 160
-/** Otevření panelů, expand, slide (300 ms) */
+/** Panel open, expand, slide (300 ms) */
 export const animSlow     = 300
-/** Dramatické herní události: výsledek souboje, výhry (600 ms) */
+/** Dramatic game events: combat result, victory (600 ms) */
 export const animDramatic = 600
 
-/** Čisté in-out pro panely a rozvíjení */
+/** Clean in-out for panels and reveal */
 export const easingSharp  = 'cubic-bezier(0.4, 0, 0.6, 1)'
-/** Overshoot pro pop, bounce, spawn */
+/** Overshoot for pop, bounce, spawn */
 export const easingBounce = 'cubic-bezier(0.34, 1.56, 0.64, 1)'
-/** Ease-out pro příchozí elementy */
+/** Ease-out for incoming elements */
 export const easingEnter  = 'cubic-bezier(0, 0, 0.2, 1)'
-/** Ease-in pro odcházející elementy */
+/** Ease-in for outgoing elements */
 export const easingExit   = 'cubic-bezier(0.4, 0, 1, 1)'
 
-// ── Breakpointy ────────────────────────────────────────────────────────────
-/** Mobilní zařízení — portrait (< 480 px) */
+// ── Breakpoints ────────────────────────────────────────────────────────────
+/** Mobile devices — portrait (< 480 px) */
 export const bpMobile  = 480
-/** Tablet / landscape mobil (≥ 480 px) */
+/** Tablet / landscape mobile (≥ 480 px) */
 export const bpTablet  = 768
 /** Desktop (≥ 768 px) */
 export const bpDesktop = 1024
 /** Wide desktop (≥ 1024 px) */
 export const bpWide    = 1280
 
-/** Breakpoint objekt pro useBreakpoint hook a podmíněné styly */
+/** Breakpoint object for useBreakpoint hook and conditional styles */
 export const BREAKPOINTS = {
   mobile:  bpMobile,
   tablet:  bpTablet,
@@ -54,9 +54,9 @@ export const BREAKPOINTS = {
   wide:    bpWide,
 }
 
-// ── Z-index škála ─────────────────────────────────────────────────────────
-// Modály nepoužívají z-index — jsou v native <dialog> top-layer.
-// Hierarchie pro overlaye:  dropdown < notification < toast < tooltip
+// ── Z-index scale ─────────────────────────────────────────────────────────
+// Modals do not use z-index — they live in the native <dialog> top-layer.
+// Hierarchy for overlays:  dropdown < notification < toast < tooltip
 export const zDropdown     = 900
 export const zNotification = 1800
 export const zToast        = 2000

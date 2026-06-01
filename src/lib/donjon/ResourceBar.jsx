@@ -1,8 +1,9 @@
 /* ── ResourceBar ───────────────────────────────────────────────────────────
-   HP/mana/stamina bar s vizuálními zónami.
-   Klíčový rozdíl od DonjonProgressBar: pozadí traku VŽDY zobrazuje polohu
-   danger/warning zón, i když je bar plný — hráč vidí, kam zóny začínají.
-   Hranice zón jsou viditelné i přes fill (zIndex: 2).
+   HP/mana/stamina bar with visual zones.
+   Key difference from DonjonProgressBar: the track background ALWAYS shows
+   the danger/warning zone positions, even when the bar is full — the player
+   sees where the zones start.
+   Zone boundaries are visible through the fill (zIndex: 2).
    ─────────────────────────────────────────────────────────────────────── */
 import {
   bg2, borderDefault,
@@ -38,11 +39,11 @@ export default function ResourceBar({
   variant   = 'hp',
   label,
   showValue = false,
-  /* zones = true: zobrazí barevná pásma v pozadí traku a hranice zón */
+  /* zones = true: renders colored bands in the track background and zone boundaries */
   zones     = true,
   /*
-   * flashKey: změň hodnotu pro nový damage flash (např. flashKey={Date.now()}).
-   * Použij key-change pattern — element se remountuje a restartuje animaci.
+   * flashKey: change the value to trigger a new damage flash (e.g. flashKey={Date.now()}).
+   * Uses the key-change pattern — the element remounts and restarts the animation.
    */
   flashKey,
   style,
@@ -54,7 +55,7 @@ export default function ResourceBar({
   const baseColor = VARIANT_FILL[variant]
   const fillColor = baseColor ?? thresholdFill(pct)
 
-  /* Pozadí traku — gradientní zóny, nebo tmavé pokud zones=false */
+  /* Track background — gradient zones, or solid dark when zones=false */
   const useZones = zones && (variant === 'hp' || variant === 'default' || !baseColor)
   const trackBg  = useZones
     ? `linear-gradient(90deg,
@@ -111,7 +112,7 @@ export default function ResourceBar({
           zIndex: 1,
         }} />
 
-        {/* Hranice zón — viditelné i přes fill */}
+        {/* Zone boundaries — visible through the fill */}
         {useZones && (
           <>
             <div style={{
@@ -127,7 +128,7 @@ export default function ResourceBar({
           </>
         )}
 
-        {/* Damage flash overlay — restartuje se při změně flashKey */}
+        {/* Damage flash overlay — restarts when flashKey changes */}
         {flashKey !== undefined && (
           <div
             key={flashKey}

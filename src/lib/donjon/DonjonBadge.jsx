@@ -1,13 +1,14 @@
 /* ── DonjonBadge ────────────────────────────────────────────────────────────
-   Herní varianta odznaku — šestihranný tvar (hex polygon), herní barevná
-   paleta, glow efekt na colored variantách, diamantový indikátor místo kruhu.
+   Game-themed badge variant — hexagonal shape (hex polygon), game color
+   palette, glow effect on the colored variants, diamond indicator instead
+   of a circle.
 
-   Vizuálně záměrně odlišný od TkajUI Badge:
-     TkajUI Badge  → octagon, soft muted bg, generické UI varianty
-     DonjonBadge   → hex silhouette, tmavé bg + colored glow, herní varianty
+   Intentionally visually different from TkajUI Badge:
+     TkajUI Badge  → octagon, soft muted bg, generic UI variants
+     DonjonBadge   → hex silhouette, dark bg + colored glow, game variants
 
-   Nativní donjon varianty: default · gain · loss · event · warning · muted
-   Backward-compat aliasy:  success · danger · info · primary
+   Native donjon variants:    default · gain · loss · event · warning · muted
+   Backward-compat aliases:   success · danger · info · primary
    ─────────────────────────────────────────────────────────────────────── */
 import {
   gold, goldDim,
@@ -19,11 +20,11 @@ import {
 
 import { hexFlatTop } from '../../utils/polygon'
 
-/* ── Varianty ──
-   Inner bg musí být tmavé — barevný text na tmavém bg je čitelný.
-   Průhledný bg tint by splynul s border barvou a text by nebyl vidět. */
+/* ── Variants ──
+   Inner bg must be dark — colored text on a dark bg is readable.
+   A transparent bg tint would blend with the border and hide the text. */
 const VARIANTS = {
-  /* Nativní herní varianty */
+  /* Native game variants */
   default: {
     bg:     bg3,
     border: borderDefault,
@@ -74,7 +75,7 @@ const VARIANTS = {
     dot:    textFaint,
   },
 
-  /* Backward-compat aliasy — pro kód používající TkajUI varianty */
+  /* Backward-compat aliases — for code using TkajUI variants */
   success: {
     bg:     bg2,
     border: gainColor,
@@ -105,23 +106,23 @@ const VARIANTS = {
   },
 }
 
-/* ── Velikosti ──
-   h       = celková výška outer wrapperu
-   bord    = border tloušťka (padding outer wrapperu na každé straně)
+/* ── Sizes ──
+   h       = total outer wrapper height
+   bord    = border thickness (outer wrapper padding on each side)
    indent  = hex polygon indent (outer)
-   Vnitřní hex = indent - bord, vnitřní výška = h - 2*bord */
+   Inner hex = indent - bord, inner height = h - 2*bord */
 const SIZES = {
   sm: { h: 20, bord: 2, indent: 6, px: 9,  fontSize: '0.5625rem', gap: 4, dotSize: 4, iconSize: 10 },
   md: { h: 26, bord: 2, indent: 8, px: 12, fontSize: '0.625rem',  gap: 5, dotSize: 5, iconSize: 12 },
 }
 
 /**
- * DonjonBadge — herní odznak se šestihranným tvarem a glow efektem.
+ * DonjonBadge — game-themed badge with a hexagonal shape and glow effect.
  *
  * @param {'default'|'gain'|'loss'|'event'|'warning'|'magic'|'muted'|'success'|'danger'|'info'|'primary'} variant
  * @param {'sm'|'md'} size
- * @param {boolean} dot  — diamantový indikátor vlevo
- * @param {ReactNode} icon — ikona místo diamantu
+ * @param {boolean} dot  — diamond indicator on the left
+ * @param {ReactNode} icon — icon shown instead of the diamond
  */
 export default function DonjonBadge({
   children,
@@ -144,7 +145,7 @@ export default function DonjonBadge({
         filter: v.glow ? `drop-shadow(0 0 4px ${v.glow}55)` : 'none',
       }}
     >
-      {/* Vnější obal — border barva */}
+      {/* Outer wrapper — border color */}
       <span
         style={{
           display:    'inline-flex',
@@ -153,7 +154,7 @@ export default function DonjonBadge({
           padding:    s.bord,
         }}
       >
-        {/* Vnitřní obsah */}
+        {/* Inner content */}
         <span
           style={{
             display:       'inline-flex',
@@ -174,7 +175,7 @@ export default function DonjonBadge({
             userSelect:    'none',
           }}
         >
-          {/* Diamantový indikátor */}
+          {/* Diamond indicator */}
           {dot && !icon && (
             <span
               style={{
@@ -189,7 +190,7 @@ export default function DonjonBadge({
             />
           )}
 
-          {/* Ikona */}
+          {/* Icon */}
           {icon && (
             <span
               style={{

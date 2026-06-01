@@ -1,7 +1,7 @@
 /* ── Slider ─────────────────────────────────────────────────────────────
-   Vlastní range input — nativní <input type="range"> překryje průhlednou
-   vrstvou náš vizuál. Vizuálně navazuje na ProgressBar.
-   Čistá TkajUI paleta.
+   Custom range input — the native <input type="range"> is overlaid by a
+   transparent layer carrying our visuals. Builds on the ProgressBar look.
+   Clean TkajUI palette.
    ─────────────────────────────────────────────────────────────────────── */
 
 import {

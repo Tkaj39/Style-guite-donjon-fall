@@ -1,8 +1,8 @@
 /* ── DonjonTabs ──────────────────────────────────────────────────────────
-   Herní varianta Tabs.
-   - underline: dvě full-width čáry (top + bottom), na hover mezera v horní
-                čáře u dané položky + hexagon v mezeře
-   - pills:     HexOrnament nahoře i dole kolem tracku (nezměněno)
+   Game Tabs variant.
+   - underline: two full-width lines (top + bottom), on hover the top line
+                gets a gap over the active item + a hexagon inside the gap
+   - pills:     HexOrnament above and below the track (unchanged)
    ─────────────────────────────────────────────────────────────────────── */
 import { useId, useState, useRef, useLayoutEffect } from 'react'
 import { HexOrnament } from './Ornaments'
@@ -29,7 +29,7 @@ const INACTIVE_TAB = {
 
 const LINE_GRAD = `linear-gradient(90deg,${goldDim} 0%,${gold} 50%,${goldDim} 100%)`
 
-/* Inline hexagon SVG — stejný tvar jako v HexOrnament */
+/* Inline hexagon SVG — same shape as in HexOrnament */
 function HexSvg({ uid }) {
   const g = `url(#${uid}-hg)`
   return (
@@ -65,11 +65,11 @@ export default function DonjonTabs({
   const safeItems = items ?? []
   const hasOrnaments = ornament !== 'plain'
   const isVertical = orientation === 'vertical'
-  // Hexagonové gapped-lines ornamenty jsou navrhnuty pro horizontální layout
-  // — ve vertikální orientaci je vypneme (decorated → effectively plain).
+  // The hexagon gapped-lines ornaments are designed for the horizontal layout
+  // — in the vertical orientation we disable them (decorated → effectively plain).
   const showHexOrnaments = hasOrnaments && !isVertical
 
-  /* ── Hover tracking pro underline hex ── */
+  /* ── Hover tracking for the underline hex ── */
   const [hoveredValue, setHoveredValue] = useState(null)
   const [activeGap, setActiveGap] = useState(null)
   const [hoverGap,  setHoverGap]  = useState(null)
@@ -101,7 +101,7 @@ export default function DonjonTabs({
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onChange?.(item.value); return }
     const enabled = safeItems.map((it, idx) => ({ it, idx })).filter(x => !x.it.disabled)
     const cur = enabled.findIndex(x => x.idx === i)
-    // Klávesa pro pohyb závisí na orientaci — parita s TkajUI Tabs
+    // The arrow key depends on orientation — parity with TkajUI Tabs
     const nextKey = isVertical ? 'ArrowDown' : 'ArrowRight'
     const prevKey = isVertical ? 'ArrowUp'   : 'ArrowLeft'
     if (e.key === nextKey) {
@@ -218,7 +218,7 @@ export default function DonjonTabs({
             {onClose && item.closable && (
               <span
                 role="button"
-                aria-label={`Zavřít ${item.label}`}
+                aria-label={`Close ${item.label}`}
                 tabIndex={-1}
                 onClick={e => { e.stopPropagation(); onClose(item.value) }}
                 style={{
@@ -254,10 +254,10 @@ export default function DonjonTabs({
     </div>
   )
 
-  /* ── Sdílený ornament: čáry s mezerami a hexagonem ── */
+  /* ── Shared ornament: gapped lines with a hexagon ── */
   const GappedLines = ({ hexUid }) => {
     const sorted = [activeGap, hoverGap].filter(Boolean).sort((a, b) => a.left - b.left)
-    /* Merguj sousední/překrývající se mezery — zabrání drobné čárečce mezi tabu */
+    /* Merge adjacent/overlapping gaps — prevents a sliver of line between tabs */
     const gaps = sorted.reduce((acc, g) => {
       const prev = acc[acc.length - 1]
       if (prev && g.left <= prev.rightEdge + 8) {
@@ -296,7 +296,7 @@ export default function DonjonTabs({
     </>
   }
 
-  /* ── Pills variant — čáry s efekty nahoře i dole ── */
+  /* ── Pills variant — lines with effects above and below ── */
   if (variant === 'pills') {
     if (!showHexOrnaments) {
       return (
@@ -327,14 +327,14 @@ export default function DonjonTabs({
   }
 
   /* ── Underline / Topline variant ──
-     underline: indikátor (mezera + hex) dole
-     topline:   indikátor nahoře
+     underline: indicator (gap + hex) at the bottom
+     topline:   indicator at the top
   ── */
   const indicatorAtBottom = variant === 'underline'
 
   if (!showHexOrnaments) {
-    // Vertical orientation: jednoduchá levá hrana (underline → vlevo) místo
-    // horizontálních čar. Plain mode horizontal: zachovaný original (top/bottom border).
+    // Vertical orientation: a simple left edge (underline → on the left) instead
+    // of horizontal lines. Plain horizontal mode: the original is kept (top/bottom border).
     const verticalEdge = isVertical
       ? indicatorAtBottom
         ? { borderLeft: `1px solid ${goldDim}55` }

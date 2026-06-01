@@ -1,22 +1,22 @@
 /**
  * donjon/no-component-in-render
  *
- * Zakazuje definice React komponent (s hooky) uvnitř jiných funkcí.
- * Tento anti-pattern způsobuje:
- *   - reset state při každém re-renderu rodiče
- *   - rozbité native dialog/ref API (komponenta se remountuje)
- *   - zbytečné výkonnostní problémy
+ * Forbids defining React components (with hooks) inside other functions.
+ * This anti-pattern causes:
+ *   - state reset on every parent re-render
+ *   - broken native dialog/ref APIs (the component remounts)
+ *   - avoidable performance problems
  *
  * ERR:
  *   export default function Page() {
- *     function Demo() {           ← vnořená komponenta
+ *     function Demo() {           ← nested component
  *       const [x, setX] = useState(false)
  *       return <div />
  *     }
  *   }
  *
  * OK:
- *   function Demo({ Cmp }) {      ← na úrovni modulu
+ *   function Demo({ Cmp }) {      ← at module level
  *     const [x, setX] = useState(false)
  *     return <Cmp />
  *   }
@@ -28,20 +28,20 @@ export default {
   meta: {
     type: 'problem',
     docs: {
-      description: 'Zakazuje React komponenty s hooky definované uvnitř jiných funkcí',
+      description: 'Forbids React components with hooks defined inside other functions',
     },
     messages: {
       nestedComponent:
-        "Komponenta '{{ name }}' s hooky je definována uvnitř jiné funkce. " +
-        'Přesuň ji na úroveň modulu a předej komponent jako prop.',
+        "Component '{{ name }}' with hooks is defined inside another function. " +
+        'Move it to the module level and pass the component as a prop.',
     },
     schema: [],
   },
 
   create(context) {
     /**
-     * Stack funkčních rámců.
-     * Každý rámec: { node, name, isComponent, hasHooks, reported }
+     * Stack of function frames.
+     * Each frame: { node, name, isComponent, hasHooks, reported }
      */
     const stack = []
 
@@ -54,7 +54,7 @@ export default {
       const frame = stack.pop()
       if (!frame) return
 
-      // Jsme uvnitř jiné funkce (stack není prázdný) + komponenta s hooky?
+      // Are we inside another function (stack not empty) + component with hooks?
       if (stack.length > 0 && frame.isComponent && frame.hasHooks && !frame.reported) {
         frame.reported = true
         context.report({
@@ -66,7 +66,7 @@ export default {
     }
 
     function markHook(node) {
-      // Hook je volání funkce jejíž název začíná "use" + velké písmeno
+      // A hook is a call to a function whose name starts with "use" + capital
       if (
         node.callee.type === 'Identifier' &&
         /^use[A-Z]/.test(node.callee.name) &&
@@ -77,7 +77,7 @@ export default {
     }
 
     return {
-      // ── Sledujeme vstup/výstup z funkcí ──────────────────────────────────
+      // ── Track entering/leaving functions ─────────────────────────────────
 
       FunctionDeclaration(node) {
         pushFrame(node, node.id?.name)
@@ -87,7 +87,7 @@ export default {
       },
 
       FunctionExpression(node) {
-        // const Foo = function() {} — jméno z VariableDeclarator
+        // const Foo = function() {} — name from VariableDeclarator
         const name =
           node.id?.name ??
           (node.parent?.type === 'VariableDeclarator' ? node.parent.id?.name : undefined)
@@ -98,7 +98,7 @@ export default {
       },
 
       ArrowFunctionExpression(node) {
-        // const Foo = () => {} — jméno z VariableDeclarator
+        // const Foo = () => {} — name from VariableDeclarator
         const name =
           node.parent?.type === 'VariableDeclarator' ? node.parent.id?.name : undefined
         pushFrame(node, name)
@@ -107,7 +107,7 @@ export default {
         popFrame()
       },
 
-      // ── Detekujeme volání hooků ───────────────────────────────────────────
+      // ── Detect hook calls ────────────────────────────────────────────────
       CallExpression: markHook,
     }
   },

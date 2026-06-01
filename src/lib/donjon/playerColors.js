@@ -1,36 +1,36 @@
 /* eslint-disable donjon/no-hardcoded-hex --
- * Soubor JE zdroj pravdy palety. Hex hodnoty jsou tu definovány jako tokeny;
- * importem `{ red, blueDark, … }` se pak používají všude jinde. Pravidlo
- * `donjon/no-hardcoded-hex` zde nedává smysl — jeho smysl je „použij token",
- * a tohle JSOU ty tokeny.
+ * This file IS the source of truth for the palette. Hex values are defined
+ * here as tokens; importing `{ red, blueDark, … }` is how they get used
+ * everywhere else. The `donjon/no-hardcoded-hex` rule does not make sense
+ * here — its purpose is "use a token", and these ARE the tokens.
  */
 /**
- * Player palette — barvy hráčů pro donjon-fall-ui
+ * Player palette — player colors for donjon-fall-ui
  *
- * Jediný zdroj pravdy pro hráčské barvy. Definuje 6 jasných, vzájemně
- * rozlišitelných odstínů — každý ve třech variantách:
+ * The single source of truth for player colors. Defines 6 distinct,
+ * mutually distinguishable shades — each in three variants:
  *
- *   - `<color>`       — primární barva (kostky, štíty, UI akcenty hráče)
- *   - `<color>Light`  — světlá varianta (text na tmavém pozadí, sub-info)
- *   - `<color>Dark`   — tmavá varianta (základna na mapě, vlastněné území)
+ *   - `<color>`       — primary color (dice, shields, player UI accents)
+ *   - `<color>Light`  — light variant (text on dark backgrounds, sub-info)
+ *   - `<color>Dark`   — dark variant (base on the map, owned territory)
  *
- * Konvence: max 6 hráčů (red, blue, green, yellow, purple, orange).
- * Hodnoty se synchronizují s primary z `gameUiMockData.js` (operativně
- * používané v Erb, DieFace, PlayerPanel, HexTile demech).
+ * Convention: up to 6 players (red, blue, green, yellow, purple, orange).
+ * Values are synchronised with the primaries from `gameUiMockData.js`
+ * (used operationally in the Erb, DieFace, PlayerPanel, HexTile demos).
  *
- * Použití:
+ * Usage:
  *   import { red, blueDark, playerColors } from 'donjon-fall-ui'
  *
  *   <Shield playerColor={red} />
  *   <HexTile state="base" playerColor={playerColors[0].primary} />
  *   {playerColors.map(p => <DieFace playerColor={p.primary} />)}
  *
- * Nebo přes CSS:
+ * Or via CSS:
  *   color: var(--donjon-player-red);
  *   background: var(--donjon-player-blue-dark);
  */
 
-/* ── Primárky ────────────────────────────────────────────────────────── */
+/* ── Primaries ───────────────────────────────────────────────────────── */
 export const red    = '#E05C5C'
 export const blue   = '#4D8FE0'
 export const green  = '#50B86C'
@@ -38,7 +38,7 @@ export const yellow = '#D4A830'
 export const purple = '#9B6CC8'
 export const orange = '#E07840'
 
-/* ── Světlé varianty (text na tmavém, sub-info) ─────────────────────── */
+/* ── Light variants (text on dark, sub-info) ────────────────────────── */
 export const redLight    = '#F9C0C0'
 export const blueLight   = '#C8DDF8'
 export const greenLight  = '#C8F0D5'
@@ -46,7 +46,7 @@ export const yellowLight = '#F4E2A0'
 export const purpleLight = '#DAC0F0'
 export const orangeLight = '#F8D0B8'
 
-/* ── Tmavé varianty (base / vlastněná území) ────────────────────────── */
+/* ── Dark variants (base / owned territory) ─────────────────────────── */
 export const redDark     = '#3D1818'
 export const blueDark    = '#122340'
 export const greenDark   = '#122F1A'
@@ -54,23 +54,28 @@ export const yellowDark  = '#382A08'
 export const purpleDark  = '#2A1840'
 export const orangeDark  = '#3D1F0A'
 
-/* ── Strukturovaná data ─────────────────────────────────────────────── */
+/* ── Structured data ────────────────────────────────────────────────── */
 
 /**
- * Hráčský objekt s metadaty.
+ * Player object with metadata.
  * @typedef {Object} PlayerColor
  * @property {number} id - 1..6
  * @property {string} key - 'red' | 'blue' | 'green' | 'yellow' | 'purple' | 'orange'
- * @property {string} name - česká barva ('Červená' apod.)
- * @property {string} primary - primární hex
- * @property {string} light - světlá varianta
- * @property {string} dark - tmavá varianta
- * @property {string} label - lidský label pro UI ('Hráč 1' apod.)
+ * @property {string} name - English color name ('Red' etc.)
+ * @property {string} primary - primary hex
+ * @property {string} light - light variant
+ * @property {string} dark - dark variant
+ * @property {string} label - human-friendly UI label ('Player 1' etc.)
  */
 
 /**
- * Pole hráčů — uspořádané podle ID (1..6). Vhodné pro `.map()` v demech
- * nebo iniciální stav herního stavu.
+ * Players array — ordered by ID (1..6). Suitable for `.map()` in demos
+ * or for the initial game state.
+ *
+ * Note: `name` and `label` are kept in Czech for backwards compatibility
+ * with the existing showcase pages (`Hráč 1`, `Červená`). When you import
+ * this into a fresh application, override them with your own localised
+ * strings. Keeping them here in Czech avoids breaking the in-repo demo.
  * @type {PlayerColor[]}
  */
 export const playerColors = [
@@ -83,7 +88,7 @@ export const playerColors = [
 ]
 
 /**
- * Lookup mapa pro rychlý přístup podle klíče.
+ * Lookup map for quick access by key.
  * @example playerColorsByKey.red.primary  // '#E05C5C'
  */
 export const playerColorsByKey = Object.fromEntries(

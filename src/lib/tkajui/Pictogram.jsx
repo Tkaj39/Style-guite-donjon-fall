@@ -1,12 +1,12 @@
 /**
- * Pictogram — generický SVG icon wrapper (TkajUI)
+ * Pictogram — generic SVG icon wrapper (TkajUI)
  *
- * Přijme libovolnou SVG komponentu jako `icon` prop a vykreslí ji
- * ve správné velikosti a barvě. Bez pozadí, bez dekorace — čistý icon.
+ * Accepts any SVG component as the `icon` prop and renders it at the
+ * correct size and color. No background, no decoration — pure icon.
  *
- * @param {React.ComponentType} icon   - SVG komponenta (přijímá width, height, color)
- * @param {'sm'|'md'|'lg'|'xl'}  size  - výchozí 'md'
- * @param {string}               color - CSS color, výchozí 'currentColor'
+ * @param {React.ComponentType} icon   - SVG component (accepts width, height, color)
+ * @param {'sm'|'md'|'lg'|'xl'}  size  - default 'md'
+ * @param {string}               color - CSS color, default 'currentColor'
  * @param {string}               className
  * @param {object}               style
  *

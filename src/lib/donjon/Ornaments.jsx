@@ -16,47 +16,47 @@
  * All ornaments scale proportionally: reference height = 66px (same as SideOrnament).
  * Ornament widths at 100% scale: SideOrnament≈22, ZkosenOrnament=22, RohOrnament=25.
  *
- * The `uid` prop is OPTIONAL — pokud chybí, useId() vygeneruje unikátní hodnotu.
+ * The `uid` prop is OPTIONAL — if missing, useId() generates a unique value.
  *
- * Variant colors — `color` (a optional `colorDim`) prop překryje výchozí zlatou
- * gradient. Pokud je předáno jen `color`, dim varianta se derivuje jako
- * `${color}88` (přibližně 53% alpha). Pro plnou kontrolu předej oba propu.
+ * Variant colors — the `color` (and optional `colorDim`) prop overrides the
+ * default gold gradient. If only `color` is passed, the dim variant is
+ * derived as `${color}88` (approximately 53% alpha). Pass both for full control.
  *
- *   <RohOrnament color={dangerColor} />            // červené brackety
- *   <HexOrnament color={infoColor} colorDim="#2A4060" />  // modré s explicit dim
+ *   <RohOrnament color={dangerColor} />            // red brackets
+ *   <HexOrnament color={infoColor} colorDim="#2A4060" />  // blue with explicit dim
  */
 import { useId } from 'react'
 import { gold, goldDim, bg4 } from './tokens'
 
 /* ── Auto-uid helper ────────────────────────────────────────────────────────
-   Pokud caller nepředá `uid`, useId() vygeneruje unikátní fallback.
-   `:` z React id se odstraní — invalidní v SVG ID. */
+   If the caller doesn't pass `uid`, useId() generates a unique fallback.
+   The `:` from the React id is stripped — invalid in SVG IDs. */
 function useOrnamentUid(uid) {
   const auto = useId()
   return uid ?? `orn-${auto.replace(/:/g, '')}`
 }
 
-/* ── Centrální mapování typ ornamentu → základní šířka (při h=66) ────────────
-   Jediný zdroj pravdy pro škálování. Pokud upravíš viewBox ornamentu, oprav
-   sem — všechny call sites se přepočítají automaticky. */
+/* ── Central mapping of ornament type → base width (at h=66) ────────────────
+   Single source of truth for scaling. If you tweak an ornament's viewBox,
+   update here — all call sites recompute automatically. */
 export const ORNAMENT_BASE_WIDTH = {
-  side:   22,   // SideOrnament — efektivní šířka po -2 odsazení
+  side:   22,   // SideOrnament — effective width after the -2 inset
   zkosen: 22,   // ZkosenOrnament — viewBox 22×22
   roh:    25,   // RohOrnament — viewBox 25×46
 }
 
 /**
- * Spočítá výšku side-ornament SVG tak, aby jeho vykreslená šířka odpovídala
- * zadanému zkosení rohu (cx z octagon clip-pathu).
+ * Computes the height of a side-ornament SVG so its rendered width matches
+ * the given corner bevel (cx from the octagon clip-path).
  *
- * Použití místo magic čísel `h={66}` ve voláních ornamentů:
+ * Use instead of magic `h={66}` numbers in ornament calls:
  *
  *   <ZkosenOrnament h={ornamentHForCx(cx, 'zkosen')} uid={...} />
  *   <RohOrnament    h={ornamentHForCx(cx, 'roh')}    uid={...} />
  *
- * @param {number} cx   Hodnota corner-cut (px) — typicky 10–22.
+ * @param {number} cx   Corner-cut value (px) — typically 10–22.
  * @param {'side'|'zkosen'|'roh'} type
- * @returns {number} Výška ornamentu v px, zaokrouhlená.
+ * @returns {number} Ornament height in px, rounded.
  */
 export function ornamentHForCx(cx, type = 'zkosen') {
   const baseW = ORNAMENT_BASE_WIDTH[type] ?? ORNAMENT_BASE_WIDTH.zkosen
@@ -65,10 +65,10 @@ export function ornamentHForCx(cx, type = 'zkosen') {
 
 export function SideOrnament({ h, uid: uidProp, flip, color, colorDim, bgFill, style: styleProp }) {
   const stopMain = color ?? gold
-  // Když je předán jen 'color', oba stopy mají stejnou barvu → solid fill.
-  // Alpha-fade by na tmavém bg dělala spodek ornamentu skoro neviditelný
-  // (zejm. u už tmavých barev jako goldDim). Explicit 'colorDim' override
-  // umožňuje vlastní gradient kdyby caller chtěl.
+  // When only `color` is passed, both stops share the same color → solid fill.
+  // An alpha-fade would make the bottom of the ornament nearly invisible on
+  // a dark bg (especially with already-dark colors like goldDim). The explicit
+  // `colorDim` override lets the caller bring their own gradient.
   const stopDim  = colorDim ?? (color ?? goldDim)
   const hexFill  = bgFill ?? bg4
   const uid = useOrnamentUid(uidProp)
@@ -127,15 +127,15 @@ export function SideOrnament({ h, uid: uidProp, flip, color, colorDim, bgFill, s
 }
 
 /* ── ZkosenOrnament ────────────────────────────────────────────────────────
-   Rohový ornament — dvě diagonální závorky + diamant. viewBox 22×22.
+   Corner ornament — two diagonal brackets + diamond. viewBox 22×22.
    Varianta ornament='zkosen' na DonjonButton, DonjonCard, DonjonModal.
    ──────────────────────────────────────────────────────────────────────── */
 export function ZkosenOrnament({ h, uid: uidProp, flip, bottom, color, colorDim, bgFill, style: styleProp }) {
   const stopMain = color ?? gold
-  // Když je předán jen 'color', oba stopy mají stejnou barvu → solid fill.
-  // Alpha-fade by na tmavém bg dělala spodek ornamentu skoro neviditelný
-  // (zejm. u už tmavých barev jako goldDim). Explicit 'colorDim' override
-  // umožňuje vlastní gradient kdyby caller chtěl.
+  // When only `color` is passed, both stops share the same color → solid fill.
+  // An alpha-fade would make the bottom of the ornament nearly invisible on
+  // a dark bg (especially with already-dark colors like goldDim). The explicit
+  // `colorDim` override lets the caller bring their own gradient.
   const stopDim  = colorDim ?? (color ?? goldDim)
   const hexFill  = bgFill ?? bg4
   const uid = useOrnamentUid(uidProp)
@@ -143,7 +143,7 @@ export function ZkosenOrnament({ h, uid: uidProp, flip, bottom, color, colorDim,
   const gv   = `url(#${uid}-v)`
   const gd   = `url(#${uid}-d)`
 
-  /* Transform kombinuje horizontální (flip) a vertikální (bottom) zrcadlení */
+  /* Transform combines horizontal (flip) and vertical (bottom) mirroring */
   const sx = flip ? -1 : 1
   const sy = bottom ? -1 : 1
   const transform = (flip || bottom) ? `scale(${sx}, ${sy})` : undefined
@@ -187,7 +187,7 @@ export function ZkosenOrnament({ h, uid: uidProp, flip, bottom, color, colorDim,
 }
 
 /* ── RohOrnament ────────────────────────────────────────────────────────────
-   Rohový ornament + vertikální sestup — závorka v rohu + část SideOrnamant.
+   Corner ornament + vertical descent — bracket in the corner + part of SideOrnament.
    viewBox 25×46. Varianta ornament='roh' na DonjonButton, DonjonCard, DonjonModal.
    ──────────────────────────────────────────────────────────────────────── */
 export function RohOrnament({ h, uid: uidProp, flip, bottom, color, colorDim, bgFill, style: styleProp }) {
@@ -198,16 +198,16 @@ export function RohOrnament({ h, uid: uidProp, flip, bottom, color, colorDim, bg
   const gh = `url(#${uid}-h)`
   const hexFill = bgFill ?? bg4
 
-  /* Variant-aware barvy: color override default zlaté.
-     colorDim derivuje z color přes alpha pokud není explicit. */
+  /* Variant-aware colors: `color` overrides the default gold.
+     `colorDim` is derived from `color` via alpha when not explicit. */
   const stopMain = color ?? gold
-  // Když je předán jen 'color', oba stopy mají stejnou barvu → solid fill.
-  // Alpha-fade by na tmavém bg dělala spodek ornamentu skoro neviditelný
-  // (zejm. u už tmavých barev jako goldDim). Explicit 'colorDim' override
-  // umožňuje vlastní gradient kdyby caller chtěl.
+  // When only `color` is passed, both stops share the same color → solid fill.
+  // An alpha-fade would make the bottom of the ornament nearly invisible on
+  // a dark bg (especially with already-dark colors like goldDim). The explicit
+  // `colorDim` override lets the caller bring their own gradient.
   const stopDim  = colorDim ?? (color ?? goldDim)
 
-  /* Transform kombinuje horizontální (flip) a vertikální (bottom) zrcadlení */
+  /* Transform combines horizontal (flip) and vertical (bottom) mirroring */
   const sx = flip ? -1 : 1
   const sy = bottom ? -1 : 1
   const baseTransform = (flip || bottom) ? `scale(${sx}, ${sy})` : undefined
@@ -221,8 +221,8 @@ export function RohOrnament({ h, uid: uidProp, flip, bottom, color, colorDim, bg
       aria-hidden="true"
       style={{
         position: 'absolute',
-        /* Offset škáluje s h — větší cx (= větší diagonální řez octagonu)
-           potřebuje větší offset, aby ornament seděl na hraně.
+        /* Offset scales with h — a larger cx (= larger diagonal octagon cut)
+           needs a larger offset for the ornament to sit on the edge.
              cx ≤ 12 (h ≤ 32) → 2
              cx 14–18 (h 37–48) → 3
              cx ≥ 20 (h ≥ 53)  → 4+ */
@@ -285,8 +285,8 @@ export function HexOrnament({
   hexOffsetX = 0,
   color,
   colorDim,
-  bgFill,        // barva výplně hexagonu — default bg4 (tmavá). Pro selected
-                 // stavy s tinted bg by měla odpovídat efektivnímu bg komponenty.
+  bgFill,        // hexagon fill color — default bg4 (dark). For selected
+                 // states with a tinted bg, should match the component's effective bg.
   style: styleProp,
 }) {
   const uid   = useOrnamentUid(uidProp)
@@ -296,10 +296,10 @@ export function HexOrnament({
   const innerR = textPadR != null ? textPadR + 2 : '23%'
   const hexFill  = bgFill ?? bg4
   const stopMain = color ?? gold
-  // Když je předán jen 'color', oba stopy mají stejnou barvu → solid fill.
-  // Alpha-fade by na tmavém bg dělala spodek ornamentu skoro neviditelný
-  // (zejm. u už tmavých barev jako goldDim). Explicit 'colorDim' override
-  // umožňuje vlastní gradient kdyby caller chtěl.
+  // When only `color` is passed, both stops share the same color → solid fill.
+  // An alpha-fade would make the bottom of the ornament nearly invisible on
+  // a dark bg (especially with already-dark colors like goldDim). The explicit
+  // `colorDim` override lets the caller bring their own gradient.
   const stopDim  = colorDim ?? (color ?? goldDim)
 
   return (
@@ -362,44 +362,44 @@ export function HexOrnament({
 }
 
 /* ── ScoopOrnament ──────────────────────────────────────────────────────────
-   Dekorativní ornament pro konkávní (scoop) rohy z ScoopClip.
-   Kopíruje tvar výřezu — paralelní zlatý oblouk uvnitř shape s diamond
-   na vrcholu a krátkými ticky na koncích.
+   Decorative ornament for the concave (scoop) corners produced by ScoopClip.
+   Mirrors the cutout shape — a parallel gold arc inside the shape with a
+   diamond at the top and short ticks at the ends.
 
-   Geometrie: scoop je čtvrtkruh poloměru `r` vystřižený z rohu.
-   Ornament je SVG `r × r` umístěné absolutně do daného rohu shape.
-   Oblouk uvnitř SVG má poloměr `r - inset` (default inset=4) → leží
-   uvnitř viditelné plochy, blízko hrany výřezu.
+   Geometry: the scoop is a quarter-circle of radius `r` cut out of the corner.
+   The ornament is an SVG of `r × r` placed absolutely into the corresponding
+   corner of the shape. The arc inside the SVG has radius `r - inset` (default
+   inset=4) → lies inside the visible area, near the cutout edge.
 
-   Vykreslení je vždy ve „top-left" orientaci v lokálních SVG souřadnicích;
-   rotace pro ostatní rohy se aplikuje přes CSS `transform: rotate()`
-   se středem otáčení na střed SVG (default).
+   Rendering is always in the "top-left" orientation in local SVG coords;
+   rotation for other corners is applied via CSS `transform: rotate()` with
+   the rotation center on the SVG center (default).
 
    Props:
-     r         - poloměr scoop výřezu v px (= cornerSize ScoopClip v circle módu)
+     r         - scoop cutout radius in px (= cornerSize of ScoopClip in circle mode)
      corner    - 'tl' | 'tr' | 'bl' | 'br' (default 'tl')
-     color     - barva ornamentu (override default gold)
-     colorDim  - solidní druhá stop gradientu (default = color ?? goldDim)
-     bgFill    - výplň diamond (default bg4)
-     inset     - vzdálenost oblouku od scoop hrany v px (default 4)
-     uid       - explicitní ID prefix (default useId)
-     style     - merge styling pro absolute pozici
+     color     - ornament color (overrides the default gold)
+     colorDim  - solid second gradient stop (default = color ?? goldDim)
+     bgFill    - diamond fill (default bg4)
+     inset     - arc distance from the scoop edge in px (default 4)
+     uid       - explicit ID prefix (default useId)
+     style     - merged styling for absolute positioning
    ─────────────────────────────────────────────────────────────────────── */
 /**
- * Hand-designed SVG paths (originál: /public/ScoopClip-ornament.svg, 11×11 viewBox).
+ * Hand-designed SVG paths (original: /public/ScoopClip-ornament.svg, 11×11 viewBox).
  *
- * Originální orientace: corner='tl' — carved (parent) corner v SVG (0,0),
- * scoop center v SVG (11,11) (uvnitř shape). Curve bracket trace scoop
- * boundary, diamond sedí blíže k carved rohu.
+ * Original orientation: corner='tl' — carved (parent) corner at SVG (0,0),
+ * scoop center at SVG (11,11) (inside the shape). The curve brackets trace
+ * the scoop boundary; the diamond sits closer to the carved corner.
  *
- * Pro ostatní rohy: scaleX/Y flip přes inner <g>. Design 'tl' se zrcadlí
- * tak, aby carved corner zůstal vůči SVG layoutu na správné straně:
+ * For the other corners: scaleX/Y flip via the inner <g>. The 'tl' design is
+ * mirrored so the carved corner ends up on the correct side of the SVG layout:
  *   tr: horizontal flip — design (0,0) → SVG (11,0)
  *   bl: vertical flip   — design (0,0) → SVG (0,11)
  *   br: both (180° rot) — design (0,0) → SVG (11,11)
  */
 const SCOOP_TRANSFORMS = {
-  tl: '',                               // originál
+  tl: '',                               // original
   tr: 'translate(11 0) scale(-1 1)',    // horizontal flip
   bl: 'translate(0 11) scale(1 -1)',    // vertical flip
   br: 'translate(11 11) scale(-1 -1)',  // both = 180° rotation
@@ -411,10 +411,10 @@ export function ScoopOrnament({
   color,
   colorDim,
   bgFill,
-  // `inset` deprecated — hand-designed paths mají vlastní inset
+  // `inset` deprecated — hand-designed paths carry their own inset
   // eslint-disable-next-line no-unused-vars
   inset,
-  /** Deprecated — nedostatečné cappnutí dělalo ornament neviditelný při r≥16 */
+  /** Deprecated — under-capping made the ornament invisible for r≥16 */
   // eslint-disable-next-line no-unused-vars
   maxSize,
   uid: uidProp,
@@ -423,27 +423,27 @@ export function ScoopOrnament({
   const uid      = useOrnamentUid(uidProp)
   const stopMain = color    ?? gold       // #FFC183 default
   const stopDim  = colorDim ?? (color ?? goldDim)  // #8F7458 default
-  const hexFill  = bgFill   ?? bg4  // borderMid — originál SVG default
+  const hexFill  = bgFill   ?? bg4  // borderMid — original SVG default
 
   const transform = SCOOP_TRANSFORMS[corner] ?? ''
 
-  // Velikost SVG = r (ornament proporcionálně škáluje se scoop curvou).
-  // Kdyby svgSize < r, bracket curve by netrasovala skutečnou scoop hranu
-  // a ornament by ležel v carved region (= mimo viditelnou plochu).
+  // SVG size = r (the ornament scales proportionally with the scoop curve).
+  // If svgSize < r, the bracket curve wouldn't trace the actual scoop edge
+  // and the ornament would land in the carved region (= outside the visible area).
   const svgSize = r
 
-  // Pozice SVG v parentu — odsazení škáluje s r aby ornament zůstal
-  // v carved region pro velké r (parent musí mít position: relative).
-  //   r=10 → 3px (30 % — uživatel chce zachovat)
+  // SVG position inside the parent — inset scales with r so the ornament
+  // stays in the carved region for large r (parent must be position: relative).
+  //   r=10 → 3px (30 % — user wants to preserve this)
   //   r=16 → 5px, r=22 → 7px, r=30 → 9px, r=40 → 12px
-  // Práh viditelnosti je r * (1 - 1/√2) ≈ r * 0.293; 0.3 dává ~0.4px safety margin.
+  // Visibility threshold is r * (1 - 1/√2) ≈ r * 0.293; 0.3 gives ~0.4px safety margin.
   const edgeInset = Math.max(3, Math.round(r * 0.3))
   const posStyle = {
     [corner.startsWith('t') ? 'top'  : 'bottom']: edgeInset,
     [corner.endsWith('l')   ? 'left' : 'right' ]: edgeInset,
   }
 
-  // 2 unikátní IDs pro 2 gradient defy
+  // 2 unique IDs for 2 gradient defs
   const g0 = `${uid}-g0`
   const g1 = `${uid}-g1`
 
@@ -473,12 +473,12 @@ export function ScoopOrnament({
       </defs>
 
       <g transform={transform}>
-        {/* Hlavní bracket curve — paralelní se scoop hranou */}
+        {/* Main bracket curve — parallel to the scoop edge */}
         <path
           d="M10.72 0.34491C10.7045 0.253431 10.6626 0.165698 10.5939 0.101013C10.5253 0.0363275 10.4366 -1.24574e-05 10.345 -1.24574e-05C10.2534 -1.24574e-05 10.1646 0.0363275 10.096 0.101013C10.0273 0.165698 9.98542 0.253431 9.96997 0.34491C9.92828 0.583968 9.87799 0.816198 9.81938 1.04631C9.28999 3.11577 8.10258 4.80917 6.57885 6.11309C5.04895 7.41643 3.17185 8.34728 1.05911 8.82752C0.82281 8.88077 0.58745 8.92821 0.344971 8.96991C0.253492 8.98536 0.165759 9.02723 0.101074 9.09594C0.0363886 9.16459 4.87566e-05 9.25329 4.87566e-05 9.34491C4.87566e-05 9.43652 0.0363886 9.52523 0.101074 9.59387C0.165759 9.66259 0.253492 9.70446 0.344971 9.71991C0.604024 9.76154 0.861255 9.79273 1.12458 9.81285C3.47841 10.0046 5.99787 9.24895 7.87795 7.63373C9.76831 6.04805 10.946 3.54754 10.8028 1.13599C10.7895 0.869043 10.7616 0.606662 10.72 0.34491Z"
           fill={`url(#${g0})`}
         />
-        {/* Diamond/oktagon v rohu — kompaktní verze */}
+        {/* Diamond/octagon in the corner — compact version */}
         <path
           d="M8.5947 7.99041C8.54849 8.16284 8.41353 8.29764 8.24114 8.34396L7.04652 8.66437C6.87415 8.71049 6.6901 8.6613 6.56384 8.53524L5.68962 7.66102C5.56333 7.53473 5.5136 7.35017 5.5598 7.17765L5.88021 5.98302C5.92655 5.81068 6.06136 5.67567 6.23376 5.62947L7.42769 5.30975C7.60024 5.26352 7.78476 5.31326 7.91107 5.43957L8.78528 6.31379C8.91138 6.44009 8.96061 6.62406 8.91441 6.79647L8.5947 7.99041Z"
           fill={hexFill}
@@ -490,17 +490,17 @@ export function ScoopOrnament({
 }
 
 /* ── HrotErbu ───────────────────────────────────────────────────────────────
-   Dekorativní hrot pro spodní vrchol erbu/prapor — dvě zakřivené čáry
-   tvořící stylizovaný chevron. Inline SVG z /design-sources/hrot-erbu.svg.
+   Decorative chevron for the bottom tip of the erb/prapor — two curved lines
+   forming a stylized chevron. Inline SVG from /design-sources/hrot-erbu.svg.
 
-   Originální viewBox 48×14 (aspect ratio ~3.4:1, široký a plochý).
-   Renderuje se ve `width × (width * 14/48)` aby zachoval proporce.
+   Original viewBox 48×14 (aspect ratio ~3.4:1, wide and flat).
+   Renders at `width × (width * 14/48)` to keep its proportions.
 
    Props:
-     width    - šířka v px (height se dopočítá z aspect ratio)
-     color    - hlavní barva gradientu (default gold)
-     colorDim - tmavá strana gradientu (default goldDim nebo color ?? goldDim)
-     style    - merge styling pro pozici (callsite řídí absolute layout)
+     width    - width in px (height is computed from the aspect ratio)
+     color    - main gradient color (default gold)
+     colorDim - darker gradient end (default goldDim or color ?? goldDim)
+     style    - merged styling for positioning (call site drives the absolute layout)
      uid      - ID prefix (default useId)
    ─────────────────────────────────────────────────────────────────────── */
 export function HrotErbu({ width, color, colorDim, style: styleProp, uid: uidProp }) {
@@ -522,7 +522,7 @@ export function HrotErbu({ width, color, colorDim, style: styleProp, uid: uidPro
       style={{ pointerEvents: 'none', ...styleProp }}
     >
       <defs>
-        {/* Horizontální gradient stopDim → stopMain → stopDim */}
+        {/* Horizontal gradient stopDim → stopMain → stopDim */}
         <linearGradient id={g0} x1="0.186" y1="6.686" x2="47.186" y2="6.686" gradientUnits="userSpaceOnUse">
           <stop stopColor={stopDim} />
           <stop offset="0.5" stopColor={stopMain} />
@@ -534,12 +534,12 @@ export function HrotErbu({ width, color, colorDim, style: styleProp, uid: uidPro
           <stop offset="1" stopColor={stopDim} />
         </linearGradient>
       </defs>
-      {/* Vnější (delší) chevron */}
+      {/* Outer (longer) chevron */}
       <path
         d="M47.2763 0.350043C47.3188 0.325243 47.3504 0.285024 47.3638 0.237523C47.3773 0.190029 47.3715 0.139264 47.3477 0.0962623C47.3239 0.0532609 47.284 0.0213986 47.2366 0.00755307C47.1892 -0.00629947 47.1384 -0.000881091 47.0948 0.0219052C47.0948 0.0219052 47.0948 0.0219052 47.0948 0.0219052C46.3014 0.437009 45.5085 0.853024 44.716 1.26995C37.5844 5.02229 30.4935 8.84846 23.4435 12.7485C23.4435 12.7485 23.4435 12.7485 23.4435 12.7485H23.9276C16.8776 8.84846 9.78673 5.02229 2.65505 1.26995C1.86264 0.853025 1.06972 0.437007 0.276308 0.0219052C0.232741 -0.000880867 0.181867 -0.00629902 0.134484 0.00755368C0.0871052 0.0213994 0.0471649 0.0532617 0.023377 0.0962631C-0.000411019 0.139264 -0.00617987 0.19003 0.00726661 0.237524C0.0207092 0.285025 0.0523321 0.325243 0.0947854 0.350043C0.0947854 0.350043 0.0947854 0.350043 0.0947854 0.350043C0.868032 0.801605 1.64179 1.25226 2.41604 1.702C9.38436 5.74966 16.3935 9.72349 23.4435 13.6235L23.6855 13.7574L23.9276 13.6235C23.9276 13.6235 23.9276 13.6235 23.9276 13.6235C30.9776 9.72349 37.9867 5.74966 44.955 1.702C45.7293 1.25226 46.5031 0.801606 47.2763 0.350043Z"
         fill={`url(#${g0})`}
       />
-      {/* Vnitřní (kratší) chevron */}
+      {/* Inner (shorter) chevron */}
       <path
         d="M36.2772 1.34957C36.3186 1.32393 36.3495 1.28367 36.3624 1.23636C36.3754 1.18905 36.3694 1.13878 36.3456 1.09634C36.3218 1.0539 36.2821 1.02251 36.235 1.00882C36.1879 0.995128 36.1374 1.00047 36.0939 1.02238C36.0939 1.02238 36.0939 1.02238 36.0939 1.02238C35.6671 1.23754 35.2408 1.4536 34.8149 1.67057C30.9825 3.62334 27.1912 5.64972 23.4412 7.74972C23.4412 7.74972 23.4412 7.74972 23.4412 7.74972H23.9298C20.1798 5.64972 16.3886 3.62334 12.5562 1.67057C12.1303 1.4536 11.704 1.23754 11.2772 1.02238C11.2337 1.00047 11.1832 0.995128 11.1361 1.00882C11.089 1.02251 11.0492 1.0539 11.0255 1.09634C11.0017 1.13878 10.9957 1.18906 11.0087 1.23636C11.0216 1.28367 11.0525 1.32393 11.0939 1.34957C11.0939 1.34957 11.0939 1.34957 11.0939 1.34957C11.5004 1.60108 11.9074 1.85168 12.3149 2.10137C15.9825 4.34861 19.6912 6.52223 23.4412 8.62223L23.6855 8.75904L23.9298 8.62223C23.9298 8.62223 23.9298 8.62223 23.9298 8.62223C27.6798 6.52223 31.3886 4.34861 35.0562 2.10137C35.4637 1.85168 35.8707 1.60108 36.2772 1.34957Z"
         fill={`url(#${g1})`}

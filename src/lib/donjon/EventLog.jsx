@@ -1,6 +1,6 @@
 /* ── EventLog ──────────────────────────────────────────────────────────────
-   Seznam herních eventů s automatickým scrollem na nejnovější.
-   Typy: gain · loss · event · warning · system
+   List of game events with automatic scroll to the newest entry.
+   Types: gain · loss · event · warning · system
    ─────────────────────────────────────────────────────────────────────── */
 import { useRef, useEffect, useState, useMemo } from 'react'
 import { useId } from 'react'
@@ -14,7 +14,7 @@ import {
   gainColor, dangerColor, warningColor,
 } from './tokens'
 
-/* ── Konfigurace typů ── */
+/* ── Type configuration ── */
 const TYPE_CFG = {
   gain:    { color: gainColor,    dot: gainColor,    bg: `${gainColor}0E`    },
   loss:    { color: dangerColor,  dot: dangerColor,  bg: `${dangerColor}0E`  },
@@ -23,7 +23,7 @@ const TYPE_CFG = {
   system:  { color: textMid,      dot: textFaint,    bg: 'transparent'       },
 }
 
-/* ── Ikony jednotlivých typů ── */
+/* ── Icons for each type ── */
 function TypeIcon({ type, size = 8 }) {
   const c = TYPE_CFG[type]?.color ?? textMid
   if (type === 'gain') return (
@@ -124,7 +124,7 @@ function renderEventList({ events, showRound, groupByRound, renderEvent }) {
     ))
   }
 
-  // Seskupení podle round (null/undefined = "Bez kola")
+  // Group by round (null/undefined = "No round")
   const groups = []
   const groupMap = new Map()
   for (const e of events) {
@@ -192,16 +192,16 @@ function FilterChip({ type, active, count, onClick }) {
 export default function EventLog({
   events       = [],
   maxHeight    = 280,
-  title        = 'Herní log',
+  title        = 'Game log',
   showTitle    = true,
   showRound    = true,
   autoScroll   = true,
   ornament     = 'decorated',
-  emptyMessage = 'Zatím žádné události.',
-  // ── Nové filtrovací / vyhledávací props ───────────────────────────
-  showFilters  = false,   // zobrazí type-filter chipy v hlavičce
-  showSearch   = false,   // zobrazí search input v hlavičce
-  groupByRound = false,   // seskupí události podle round
+  emptyMessage = 'No events yet.',
+  // ── Filter / search props ────────────────────────────────────────
+  showFilters  = false,   // shows type-filter chips in the header
+  showSearch   = false,   // shows the search input in the header
+  groupByRound = false,   // groups events by round
   renderEvent,            // (entry, defaultRender) => ReactNode — custom renderer
   style,
   className,
@@ -211,13 +211,13 @@ export default function EventLog({
   const hasOrnaments = ornament === 'decorated'
   const cx = 14
 
-  // Filter state — null = všechny typy, jinak Set typů k zobrazení
+  // Filter state — null = all types, otherwise a Set of types to render
   const allTypes = useMemo(() => {
     const set = new Set()
     events.forEach(e => e.type && set.add(e.type))
     return Array.from(set)
   }, [events])
-  const [activeTypes, setActiveTypes] = useState(null)  // null = vše
+  const [activeTypes, setActiveTypes] = useState(null)  // null = all
   const [query, setQuery] = useState('')
 
   const filteredEvents = useMemo(() => {
@@ -245,13 +245,13 @@ export default function EventLog({
     })
   }
 
-  /* Auto-scroll na nejnovější záznam */
+  /* Auto-scroll to the newest entry */
   useEffect(() => {
     if (!autoScroll || !scrollRef.current) return
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight
   }, [filteredEvents, autoScroll])
 
-  /* Bar s filter chipy + search inputem — renderuje se pod hlavičkou */
+  /* Bar with filter chips + search input — rendered below the header */
   const filterBar = (showFilters || showSearch) && (
     <div style={{
       display: 'flex',
@@ -317,7 +317,7 @@ export default function EventLog({
           fontSize: '0.75rem',
           color: textLow,
         }}>
-          {query.trim() ? `Žádné výsledky pro „${query}".` : emptyMessage}
+          {query.trim() ? `No results for "${query}".` : emptyMessage}
         </div>
       ) : (
         <div>
@@ -358,7 +358,7 @@ export default function EventLog({
               fontSize: '0.625rem', color: textLow,
               letterSpacing: '0.06em',
             }}>
-              {filteredEvents.length === events.length ? events.length : filteredEvents.length + " z " + events.length} záznamů
+              {filteredEvents.length === events.length ? events.length : filteredEvents.length + " of " + events.length} entries
             </span>
           </div>
         )}
@@ -411,7 +411,7 @@ export default function EventLog({
               fontSize: '0.625rem', color: textLow,
               letterSpacing: '0.06em',
             }}>
-              {filteredEvents.length === events.length ? events.length : filteredEvents.length + " z " + events.length} záznamů
+              {filteredEvents.length === events.length ? events.length : filteredEvents.length + " of " + events.length} entries
             </span>
           </div>
         )}
@@ -421,7 +421,7 @@ export default function EventLog({
 
         <HexOrnament uid={`${uid}hb`} flip edgePadL={cx} />
 
-        {/* RohOrnament — za ostatním obsahem, aby se vykreslil nad hlavičkou */}
+        {/* RohOrnament — placed after other content so it renders above the header */}
         <RohOrnament h={ornamentHForCx(cx, 'roh')} uid={`${uid}l`} />
         <RohOrnament h={ornamentHForCx(cx, 'roh')} uid={`${uid}r`} flip />
       </div>

@@ -1,19 +1,19 @@
 /**
- * Pictogram — donjon-fall-ui varianta
+ * Pictogram — donjon-fall-ui variant
  *
- * Přepisuje vizuální styl TkajUI Pictogram: herní estetika, tmavé pozadí
- * s jemným oktagonálním ořezem, zlatá / fantasy barevná schémata.
+ * Overrides the visual style of the TkajUI Pictogram: game aesthetic, dark
+ * background with a subtle octagonal clip, gold / fantasy color schemes.
  *
- * API parita s TkajUI Pictogram:
- *   `color` prop přepíše paletu z variant — pro drop-in compat s TkajUI,
- *   kde `<Pictogram color="#FFC183" />` přiřadí color ikoně přímo.
- *   Když je `color` předán, ignoruje se `variant`.
+ * API parity with TkajUI Pictogram:
+ *   The `color` prop overrides the variant palette — for drop-in compat with
+ *   TkajUI, where `<Pictogram color="#FFC183" />` assigns the icon color
+ *   directly. When `color` is passed, `variant` is ignored.
  *
- * @param {React.ComponentType} icon      - SVG komponenta z donjon/icons
- * @param {'sm'|'md'|'lg'|'xl'} size      - výchozí 'md'
- * @param {string}              color     - override barvy ikony (parita s TkajUI). Když je předán, přebíjí `variant`.
- * @param {'active'|'passive'|'disabled'|'danger'|'success'} variant - výchozí 'active'
- * @param {boolean}             bare      - false = s oktagonálním rámečkem a pozadím (výchozí: true = jen ikona)
+ * @param {React.ComponentType} icon      - SVG component from donjon/icons
+ * @param {'sm'|'md'|'lg'|'xl'} size      - default 'md'
+ * @param {string}              color     - icon color override (parity with TkajUI). When passed, overrides `variant`.
+ * @param {'active'|'passive'|'disabled'|'danger'|'success'} variant - default 'active'
+ * @param {boolean}             bare      - false = with octagonal frame and background (default: true = icon only)
  * @param {string}              className
  * @param {object}              style
  *
@@ -28,21 +28,21 @@ import { gold, goldDim, bg0, bg1, bg2, borderDefault, borderMid, VARIANT_BORDER 
 
 const SIZES = { sm: 16, md: 24, lg: 32, xl: 48 }
 
-// Donjon barevná paleta variant
+// Donjon variant color palette
 const VARIANTS = {
   active:   { color: gold,            bg: bg2,    border: `${gold}44`,                    glow: `drop-shadow(0 0 6px ${gold}44)` },
   passive:  { color: goldDim,         bg: bg1,    border: `${goldDim}44`,                 glow: 'none' },
   disabled: { color: borderDefault,   bg: bg0,    border: borderMid,                      glow: 'none' },
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- unikátní tmavá plocha pro danger/success pictogram varianty (fialová/zelená tónovaná)
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- unique dark surface for the danger/success pictogram variants (purple/green tinted)
   danger:   { color: VARIANT_BORDER.danger,  bg: '#1C1020', border: `${VARIANT_BORDER.danger}55`,  glow: `drop-shadow(0 0 5px ${VARIANT_BORDER.danger}44)` },
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- unikátní tmavá plocha pro danger/success pictogram varianty (fialová/zelená tónovaná)
+  // eslint-disable-next-line donjon/no-hardcoded-hex -- unique dark surface for the danger/success pictogram variants (purple/green tinted)
   success:  { color: VARIANT_BORDER.success, bg: '#101C14', border: `${VARIANT_BORDER.success}55`, glow: `drop-shadow(0 0 5px ${VARIANT_BORDER.success}44)` },
 }
 
-// Padding obklopující ikonu (proporcionální k velikosti)
+// Padding around the icon (proportional to size)
 const PADDING = { sm: 5, md: 7, lg: 10, xl: 14 }
 
-// cx pro oktagonální clip (30 % paddingu → zaoblení)
+// cx for the octagonal clip (30 % of padding → corner rounding)
 const CX = { sm: 3, md: 4, lg: 5, xl: 7 }
 
 export default function DonjonPictogram({ icon: Icon, size = 'md', color, variant = 'active', bare = true, className, style = {} }) {
@@ -50,12 +50,12 @@ export default function DonjonPictogram({ icon: Icon, size = 'md', color, varian
   const pad = PADDING[size] ?? PADDING.md
   const cx  = CX[size] ?? CX.md
   const v   = VARIANTS[variant] ?? VARIANTS.active
-  // `color` prop (parita s TkajUI Pictogram) přebíjí barvu z variant.
-  // Bg a border zůstávají z variant (estetický herní rámeček zachován).
+  // The `color` prop (parity with TkajUI Pictogram) overrides the variant color.
+  // Bg and border stay from the variant (game frame aesthetic preserved).
   const iconColor = color ?? v.color
 
   if (bare) {
-    // Bez pozadí — jen ikona s herní barvou (nebo `color` override)
+    // No background — just the icon with a game color (or `color` override)
     return (
       <span
         className={className}
@@ -66,8 +66,8 @@ export default function DonjonPictogram({ icon: Icon, size = 'md', color, varian
     )
   }
 
-  // S pozadím — outer/inner wrapper trick (stejně jako DonjonInput/DonjonButton)
-  // outer = border barva + clip, inner = fill barva + clip-1, filter pro glow
+  // With background — outer/inner wrapper trick (same as DonjonInput/DonjonButton)
+  // outer = border color + clip, inner = fill color + clip-1, filter for glow
   const total = px + pad * 2
   return (
     <span

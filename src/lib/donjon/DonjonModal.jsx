@@ -75,8 +75,8 @@ export default function DonjonModal({
   const w        = SIZES[size] ?? SIZES.md
   const dialogRef = useRef(null)
   const hasOrnaments = ornament !== 'plain'
-  /* Modal má HexOrnament nahoře/dole → v rohách stačí ZkosenOrnament (jen závorka).
-     RohOrnament: šířka musí odpovídat cx → h = cx*(66/25). */
+  /* The Modal has a HexOrnament at top/bottom → ZkosenOrnament (just bracket)
+     is enough in the corners. RohOrnament: width must match cx → h = cx*(66/25). */
   const SideOrn = ornament === 'roh' ? RohOrnament : ZkosenOrnament
   const sideOrnH = ornamentHForCx(cx, ornament === 'roh' ? 'roh' : 'zkosen')
   const headerPadding = `14px ${showCloseButton ? 48 : hasOrnaments ? 40 : 28}px 12px ${hasOrnaments ? 40 : 28}px`
@@ -85,7 +85,7 @@ export default function DonjonModal({
 
   useModalPageInert(isOpen)
 
-  /* ── Otevření / zavření přes native <dialog> API ── */
+  /* ── Open / close via the native <dialog> API ── */
   useEffect(() => {
     const el = dialogRef.current
     if (!el) return
@@ -93,7 +93,7 @@ export default function DonjonModal({
     else if (el.open) el.close()
   }, [isOpen])
 
-  /* ESC klávesa */
+  /* ESC key */
   function handleCancel(e) {
     e.preventDefault()
     if (closeOnEscape) onClose?.()
@@ -166,7 +166,7 @@ export default function DonjonModal({
                 {showCloseButton && (
                   <button
                     onClick={onClose}
-                    aria-label="Zavřít"
+                    aria-label="Close"
                     style={{
                       position: 'absolute',
                       top: 12,
@@ -198,7 +198,7 @@ export default function DonjonModal({
               {!title && showCloseButton && (
                 <button
                   onClick={onClose}
-                  aria-label="Zavřít"
+                  aria-label="Close"
                   style={{
                     position: 'absolute',
                     top: 12,
@@ -237,7 +237,7 @@ export default function DonjonModal({
               </div>
             )}
 
-            {/* Side ornaments — za obsahem, aby se vykreslily nad hlavičkou */}
+            {/* Side ornaments — after content, so they render above the header */}
             {title && hasOrnaments && <SideOrn h={sideOrnH} uid={`${uid}l`} />}
             {title && hasOrnaments && <SideOrn h={sideOrnH} uid={`${uid}r`} flip />}
           </div>
