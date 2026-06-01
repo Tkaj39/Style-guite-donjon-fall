@@ -1,7 +1,8 @@
 /* ── NotchMenu (tkajui) ─────────────────────────────────────────────────
-   Panel with a row of notched cutouts along its top edge. Each cutout
-   houses a clickable item — either a tab (with `value`, controlled via
-   parent's value/onChange) or a standalone action (with `onClick`).
+   Banner-shaped menu sitting on top of a content panel. The banner has
+   chevron-pointed ends on both sides (◁ … ▷). Inside the flat middle
+   are rectangular item slots separated by thin vertical dividers — each
+   slot holds a tab or an action.
 
    Compound API:
      <NotchMenu value={tab} onChange={setTab}>
@@ -11,19 +12,19 @@
        <NotchMenu.Body>...content of the active tab...</NotchMenu.Body>
      </NotchMenu>
 
-   Visual:
-     /‾‾‾‾\  /‾‾‾‾\  /‾‾\         ← items (trapezoid tabs)
-    /  Info \/Stats \/ ✕ \
-   |————————————————————————|    ← body panel (rectangle / shaped)
-   |   <NotchMenu.Body>      |
-   |————————————————————————|
+   Silhouette:
+
+       ◁ [Info | Stats | Log | ✕] ▷         ← banner with chevron ends
+      ╔═════════════════════════════╗
+      ║   <NotchMenu.Body>           ║       ← body panel below banner
+      ╚═════════════════════════════╝
    ─────────────────────────────────────────────────────────────────────── */
-import { Children, createContext, isValidElement, useContext } from 'react'
+import { Children, createContext, Fragment, isValidElement, useContext } from 'react'
 import {
   surface2, surface3, surface4,
   borderDefault, borderMid,
   textHigh, textMid,
-  accentBorder,
+  accent,
   animFast,
 } from './tokens'
 
@@ -38,17 +39,22 @@ function useNotchMenu() {
 }
 
 /* ── Geometry ──────────────────────────────────────────────────────────
-   Each item is a trapezoid (narrower top, wider bottom). Adjacent items
-   touch at the bottom; the slanted sides create a V-notch between them.
+   Banner is a horizontal hex polygon: chevron tip → flat middle → chevron tip.
+   CHEVRON_W = horizontal length of each pointed tip in px. */
+const CHEVRON_W   = 22
+const BANNER_H    = 40
+const BORDER_W    = 1
+const ITEM_PAD_X  = 16
 
-   slope = horizontal distance the top edge is inset from the bottom edge
-   on each side. Bigger slope = sharper V between items. */
-const SLOPE_PX = 10
-const ITEM_HEIGHT = 38
-const ITEM_PADDING_X = 18
-
-// Trapezoid: top narrower, bottom wider. SLOPE_PX of inset on each top side.
-const ITEM_CLIP = `polygon(${SLOPE_PX}px 0, calc(100% - ${SLOPE_PX}px) 0, 100% 100%, 0 100%)`
+/** Chevron hex (◁=====▷) — outer banner silhouette. */
+const BANNER_CLIP = `polygon(
+  0 50%,
+  ${CHEVRON_W}px 0,
+  calc(100% - ${CHEVRON_W}px) 0,
+  100% 50%,
+  calc(100% - ${CHEVRON_W}px) 100%,
+  ${CHEVRON_W}px 100%
+)`
 
 /* ── Item ─────────────────────────────────────────────────────────────── */
 function Item({
@@ -65,7 +71,6 @@ function Item({
   const ctx = useNotchMenu()
   const isTab = value !== undefined
   const isActive = isTab && ctx.value === value
-  const isAction = !isTab
 
   const handleClick = (e) => {
     if (disabled) return
@@ -76,9 +81,7 @@ function Item({
     }
   }
 
-  // Color resolution
-  const bg = isActive ? surface4 : isAction ? surface2 : surface3
-  const border = isActive ? accentBorder : borderDefault
+  const bg = isActive ? surface4 : 'transparent'
   const fg = isActive ? textHigh : disabled ? textMid : textHigh
 
   return (
@@ -91,15 +94,9 @@ function Item({
       onClick={handleClick}
       className={className}
       style={{
-        // Layout
-        height: ITEM_HEIGHT,
-        minWidth: ITEM_HEIGHT,
-        padding: `0 ${ITEM_PADDING_X}px`,
-        // Trapezoid silhouette via clip-path on a wrapper (the button itself
-        // can't have both clip-path AND a clean inner border, so we use the
-        // outer-bg-as-border trick: paint border color via outer wrapper,
-        // fill color via inner content).
-        position: 'relative',
+        height: '100%',
+        minWidth: BANNER_H,  // square min for icon-only items
+        padding: `0 ${ITEM_PAD_X}px`,
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -109,23 +106,14 @@ function Item({
         fontWeight: 600,
         letterSpacing: '0.04em',
         color: fg,
-        // Border trick: outer wrapper is border-colored, inner pseudo via
-        // box-shadow inset. Simpler: 2-layer divs would be cleaner. For v1
-        // we use a single button with clip-path + plain background; the
-        // "border" is achieved by a slightly darker outer ring through
-        // a 2nd box-shadow. Acceptable for now.
-        clipPath: ITEM_CLIP,
         background: bg,
         border: 'none',
-        boxShadow: `inset 0 1px 0 ${border}, inset 1px 0 0 ${border}, inset -1px 0 0 ${border}`,
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.45 : 1,
         transition: `background ${animFast}ms, color ${animFast}ms`,
-        // Negative right-margin so the trapezoid bottoms touch (sloped sides
-        // create the V between items).
-        marginRight: -SLOPE_PX,
+        // Active tab gets a top accent line (underline-tab style)
+        boxShadow: isActive ? `inset 0 2px 0 ${accent}` : 'none',
         flexShrink: 0,
-        // userSelect off for cleaner click behavior
         userSelect: 'none',
       }}
       onMouseEnter={(e) => {
@@ -148,18 +136,15 @@ function Item({
 
 /* ── Body ─────────────────────────────────────────────────────────────── */
 function Body({ children, className, style }) {
-  useNotchMenu() // throw if outside <NotchMenu>
+  useNotchMenu()
   return (
     <div
       className={className}
       style={{
         background: surface2,
-        border: `1px solid ${borderDefault}`,
-        borderTop: `1px solid ${borderMid}`,
+        border: `${BORDER_W}px solid ${borderDefault}`,
         padding: 16,
         color: textHigh,
-        // Visually merges with the items above (no top corner radius — items
-        // sit flat on the top edge).
         ...style,
       }}
     >
@@ -170,10 +155,11 @@ function Body({ children, className, style }) {
 
 /* ── Root ─────────────────────────────────────────────────────────────── */
 /**
- * NotchMenu — panel with notched cutouts along the top edge.
- * Each cutout holds an Item (tab or action). The Body holds tab content.
+ * NotchMenu — banner with chevron-pointed ends sitting on top of a body
+ * panel. Items live inside the banner's flat middle; the Body panel below
+ * holds the active tab's content.
  *
- * @param {string|null} [value] - Active tab value (for controlled tab mode).
+ * @param {string|null} [value] - Active tab value (controlled mode).
  * @param {(value: string) => void} [onChange] - Tab-change callback.
  * @param {ReactNode} children - Mix of NotchMenu.Item and NotchMenu.Body.
  *
@@ -186,7 +172,7 @@ function Body({ children, className, style }) {
  * </NotchMenu>
  */
 export default function NotchMenu({ value = null, onChange, children, className, style }) {
-  // Split children into items vs body so we can render the row + panel layout.
+  // Split children: items live in the banner; one Body sits below.
   const items = []
   let body = null
   Children.forEach(children, (child) => {
@@ -201,24 +187,57 @@ export default function NotchMenu({ value = null, onChange, children, className,
     <NotchMenuContext.Provider value={ctx}>
       <div
         className={className}
-        style={{ display: 'flex', flexDirection: 'column', ...style }}
+        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', ...style }}
       >
-        {/* Items row — flat-aligned with the body below */}
+        {/* Banner — chevron-ended strip containing the items */}
         <div
-          role="tablist"
           style={{
-            display: 'flex',
-            alignItems: 'flex-end',
-            // Items use negative right-margin to create V-notches; we add
-            // the slope back here so the rightmost item ends flush.
-            paddingRight: SLOPE_PX,
-            position: 'relative',
+            // Outer wrapper acts as the border layer (border-trick).
+            background: borderDefault,
+            clipPath: BANNER_CLIP,
+            padding: BORDER_W,
+            height: BANNER_H,
+            // Push banner down slightly so it visually sinks into the body's top edge.
+            marginBottom: -BORDER_W,
             zIndex: 1,
+            // Banner width adapts to content; tips overhang.
           }}
         >
-          {items}
+          {/* Inner — same clip-path with banner background. Items are flex children. */}
+          <div
+            role="tablist"
+            style={{
+              height: '100%',
+              clipPath: BANNER_CLIP,
+              background: surface3,
+              display: 'inline-flex',
+              alignItems: 'stretch',
+              // Reserve room for the chevron tips so items stay in the flat middle.
+              paddingLeft: CHEVRON_W,
+              paddingRight: CHEVRON_W,
+            }}
+          >
+            {items.map((it, idx) => (
+              <Fragment key={it.props.value ?? `action-${idx}`}>
+                {idx > 0 && (
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      width: BORDER_W,
+                      alignSelf: 'stretch',
+                      background: borderMid,
+                      flexShrink: 0,
+                    }}
+                  />
+                )}
+                {it}
+              </Fragment>
+            ))}
+          </div>
         </div>
-        {body}
+
+        {/* Body panel below the banner */}
+        {body && <div style={{ alignSelf: 'stretch' }}>{body}</div>}
       </div>
     </NotchMenuContext.Provider>
   )
