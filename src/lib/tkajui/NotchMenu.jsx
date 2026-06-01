@@ -12,7 +12,7 @@
        <NotchMenu.Body>...content of the active tab...</NotchMenu.Body>
      </NotchMenu>
    ─────────────────────────────────────────────────────────────────────── */
-import { Children, cloneElement, createContext, Fragment, isValidElement, useContext } from 'react'
+import { Children, cloneElement, createContext, Fragment, isValidElement, useContext, useLayoutEffect, useRef, useState } from 'react'
 import { octagon, clipLeft, clipRight } from '../../utils/octagon'
 import {
   surface2, surface3,
@@ -139,14 +139,41 @@ function Item({
   )
 }
 
+/** Body cutout buffer — gap (px) between item edges and the cutout shape. */
+const CUTOUT_BUFFER = 8
+
 /* ── Body ─────────────────────────────────────────────────────────────── */
 function Body({ children, className, style }) {
   const ctx = useNotchMenu()
   const s = SIZE_MAP[ctx.size] ?? SIZE_MAP.md
-  // Items are pulled down so their vertical center sits on the body's top
-  // edge — bump paddingTop so body content stays clear of the overlapping
-  // items.
-  const itemOverlap = Math.round(s.h / 2)
+  // Body content sits clear of the cutout: cutout extends s.h/2 + 8 below
+  // the body's top edge, so paddingTop must clear at least that much.
+  const cutoutDepth = Math.round(s.h / 2) + CUTOUT_BUFFER
+
+  // Compute clip-path with an octagon-shaped notch on the top edge matching
+  // the items strip + 8px buffer. The measured banner width is needed for
+  // the horizontal extent; until it's measured (first paint) we render the
+  // body without the cutout to avoid a flash of mis-clipped layout.
+  let clipPath
+  if (ctx.bannerWidth > 0) {
+    const cutoutHalfW = ctx.bannerWidth / 2 + CUTOUT_BUFFER
+    const cx = s.cx
+    const innerHalfW = Math.max(cutoutHalfW - cx, 0)
+    const innerDepth = Math.max(cutoutDepth - cx, 0)
+    clipPath = `polygon(
+      0 0,
+      calc(50% - ${cutoutHalfW}px) 0,
+      calc(50% - ${cutoutHalfW}px) ${innerDepth}px,
+      calc(50% - ${innerHalfW}px) ${cutoutDepth}px,
+      calc(50% + ${innerHalfW}px) ${cutoutDepth}px,
+      calc(50% + ${cutoutHalfW}px) ${innerDepth}px,
+      calc(50% + ${cutoutHalfW}px) 0,
+      100% 0,
+      100% 100%,
+      0 100%
+    )`
+  }
+
   return (
     <div
       className={className}
@@ -154,8 +181,9 @@ function Body({ children, className, style }) {
         background: surface2,
         border: `${BORDER_W}px solid ${borderDefault}`,
         padding: 16,
-        paddingTop: 16 + itemOverlap,
+        paddingTop: 16 + cutoutDepth,
         color: textHigh,
+        clipPath,
         ...style,
       }}
     >
@@ -187,6 +215,20 @@ export default function NotchMenu({
   const s = SIZE_MAP[size] ?? SIZE_MAP.md
   const outerClip = octagon(s.cx)
 
+  // Measure the banner width so the Body can shape its cutout to match.
+  const bannerRef = useRef(null)
+  const [bannerWidth, setBannerWidth] = useState(0)
+  useLayoutEffect(() => {
+    const el = bannerRef.current
+    if (!el) return
+    const measure = () => setBannerWidth(el.offsetWidth)
+    measure()
+    if (typeof ResizeObserver === 'undefined') return
+    const ro = new ResizeObserver(measure)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
   const items = []
   let body = null
   Children.forEach(children, (child) => {
@@ -204,7 +246,7 @@ export default function NotchMenu({
     return cloneElement(it, { _position: position, key: it.props.value ?? `action-${i}` })
   })
 
-  const ctx = { value, onChange, size }
+  const ctx = { value, onChange, size, bannerWidth }
 
   return (
     <NotchMenuContext.Provider value={ctx}>
@@ -216,6 +258,7 @@ export default function NotchMenu({
             the full octagon clip. Inner = items in a flex row; the items'
             own clip-paths (clipLeft / clipRight) shape the outer ends. */}
         <div
+          ref={bannerRef}
           style={{
             display: 'inline-flex',
             background: borderDefault,
