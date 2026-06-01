@@ -6,46 +6,52 @@ import { hexPointyTop } from '../../utils/polygon'
 
 const HEX_CLIP = hexPointyTop()
 
-/* ── Property + state — two orthogonal axes ──────────────────────────────
-   `property` describes what the cell IS on the board (its role / kind).
-   `state`    describes what the player has done with it / its current status.
+/* ── Three orthogonal axes ───────────────────────────────────────────────
+   property : what the cell IS on the board (its role / kind)
+   focal    : sub-state for `property='focal'` — driven by GAME LOGIC,
+              independent of player interaction. Ignored otherwise.
+   state    : how the PLAYER is currently interacting with the cell.
 
    property : 'empty' | 'focal' | 'base'
+   focal    : 'active' | 'passive'  (only relevant when property='focal')
    state    : 'default' | 'selected' | 'move' | 'attack' | 'blocked'
 
-   Special composition: property='focal' + state='selected' → the prominent
-   "active focal" look (gold border, flame icon, glow). Other focal cells
-   render with the muted "passive focal" marker (olive border, diamond dot).
+   The three axes compose: e.g. property='focal' focal='active' state='selected'
+   = the active focal point currently picked by the player.
    ─────────────────────────────────────────────────────────────────────── */
 
-const PROPERTIES = ['empty', 'focal', 'base']
-const STATES     = ['default', 'selected', 'move', 'attack', 'blocked']
+const PROPERTIES   = ['empty', 'focal', 'base']
+const FOCAL_KINDS  = ['active', 'passive']
+const STATES       = ['default', 'selected', 'move', 'attack', 'blocked']
 
-// Legacy single-string API → (property, state) pair. Kept for backward compat
-// so existing showcase pages and consumers don't need to change.
-const LEGACY_STATE_TO_PAIR = {
-  empty:           ['empty', 'default'],
-  base:            ['base',  'default'],
-  'focal-active':  ['focal', 'selected'],
-  'focal-passive': ['focal', 'default'],
-  selected:        ['empty', 'selected'],
-  move:            ['empty', 'move'],
-  attack:          ['empty', 'attack'],
-  blocked:         ['empty', 'blocked'],
+// Legacy single-string API → triple (property, focal, state). Kept for
+// backward compat so existing showcase pages and consumers don't change.
+const LEGACY_STATE_TO_TRIPLE = {
+  empty:           ['empty', 'passive', 'default'],
+  base:            ['base',  'passive', 'default'],
+  'focal-active':  ['focal', 'active',  'default'],
+  'focal-passive': ['focal', 'passive', 'default'],
+  selected:        ['empty', 'passive', 'selected'],
+  move:            ['empty', 'passive', 'move'],
+  attack:          ['empty', 'passive', 'attack'],
+  blocked:         ['empty', 'passive', 'blocked'],
 }
 
-// Base look per property (used when state='default'; provides the marker too).
+// Base look per (property, focal) — applied when state='default'.
 // `marker` values: null (none) | 'dot' (passive focal) | 'flame' (active focal).
-const PROPERTY_BASE = {
-  empty: { border: borderMuted, fill: bgDeep, marker: null,  glow: null, opacity: 1 },
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- #6A6040/#1C1A0E: passive focal marker (olive border, warm-dark fill)
-  focal: { border: '#6A6040',   fill: '#1C1A0E', marker: 'dot', glow: null, opacity: 1 },
-  // `base` derives border + fill from the `owner` color (see resolveLook).
-  base:  { border: null,        fill: null,    marker: null,  glow: null, opacity: 1 },
-}
+const EMPTY_LOOK = { border: borderMuted, fill: bgDeep, marker: null,  glow: null, opacity: 1 }
 
-// State overlay applied on top of the property base. `null`/`undefined` keeps
-// the property's value; an explicit value overrides it.
+// eslint-disable-next-line donjon/no-hardcoded-hex -- #6A6040/#1C1A0E: passive focal marker (olive border, warm-dark fill)
+const FOCAL_PASSIVE_LOOK = { border: '#6A6040', fill: '#1C1A0E', marker: 'dot',   glow: null, opacity: 1 }
+
+// eslint-disable-next-line donjon/no-hardcoded-hex -- #201D0E: unique warm-dark fill for the active focal hex (amber-tinted)
+const FOCAL_ACTIVE_LOOK  = { border: gold,      fill: '#201D0E', marker: 'flame', glow: `0 0 14px ${gold}66`, opacity: 1 }
+
+// `base` derives border + fill from the `owner` color (see resolveLook).
+const BASE_LOOK = { border: null, fill: null, marker: null, glow: null, opacity: 1 }
+
+// State overlay applied on top of the (property, focal) base. Undefined keys
+// keep the base's value; an explicit value overrides it.
 const STATE_OVERLAY = {
   default:  {},
   selected: { border: textActive,  glow: `0 0 12px ${textActive}66` },
@@ -57,35 +63,33 @@ const STATE_OVERLAY = {
   blocked:  { border: borderMid,   fill: '#141320', glow: null, opacity: 0.45, marker: null },
 }
 
-// Special-case look for property='focal' + state='selected' — the "active
-// focal point" highlight (gold + flame + glow), historically `focal-active`.
-// eslint-disable-next-line donjon/no-hardcoded-hex -- #201D0E: unique warm-dark fill for the focal-active hex (amber-tinted)
-const FOCAL_ACTIVE_LOOK = { border: gold, fill: '#201D0E', glow: `0 0 14px ${gold}66`, marker: 'flame', opacity: 1 }
-
-function normalize({ property, state }) {
-  // New API: explicit `property` given (state may be omitted → 'default')
-  if (property !== undefined) {
-    return [property, state ?? 'default']
+function getBaseLook(property, focal) {
+  if (property === 'focal') {
+    return focal === 'active' ? FOCAL_ACTIVE_LOOK : FOCAL_PASSIVE_LOOK
   }
-  // Legacy: `state` carries combined property+state info
-  if (state && LEGACY_STATE_TO_PAIR[state]) {
-    return LEGACY_STATE_TO_PAIR[state]
-  }
-  // New state-only API: implicit property='empty'
-  return ['empty', state ?? 'default']
+  if (property === 'base') return BASE_LOOK
+  return EMPTY_LOOK
 }
 
-function resolveLook(property, state, owner) {
-  // Focal + selected = the prominent "active focal" look
-  if (property === 'focal' && state === 'selected') {
-    return FOCAL_ACTIVE_LOOK
+function normalize({ property, focal, state }) {
+  // New API: explicit `property` given
+  if (property !== undefined) {
+    return [property, focal ?? 'passive', state ?? 'default']
   }
+  // Legacy: `state` carries combined info
+  if (state && LEGACY_STATE_TO_TRIPLE[state]) {
+    return LEGACY_STATE_TO_TRIPLE[state]
+  }
+  // New state-only API: implicit property='empty'
+  return ['empty', focal ?? 'passive', state ?? 'default']
+}
 
-  const base    = PROPERTY_BASE[property] ?? PROPERTY_BASE.empty
-  const overlay = STATE_OVERLAY[state]    ?? STATE_OVERLAY.default
+function resolveLook(property, focal, state, owner) {
+  const base    = getBaseLook(property, focal)
+  const overlay = STATE_OVERLAY[state] ?? STATE_OVERLAY.default
 
   // Resolve border/fill — overlay wins; for property='base', owner provides
-  // a per-player default when overlay does not override.
+  // a per-player default when the overlay does not override.
   let border = overlay.border ?? base.border
   let fill   = overlay.fill   ?? base.fill
   if (property === 'base' && owner) {
@@ -94,7 +98,7 @@ function resolveLook(property, state, owner) {
   }
 
   // Marker: explicit `null` in the overlay (move/attack/blocked) clears the
-  // property's marker; otherwise the property keeps its own marker.
+  // base's marker; otherwise the base keeps its own marker.
   const marker = 'marker' in overlay ? overlay.marker : base.marker
 
   return {
@@ -127,15 +131,17 @@ function DiamondDot({ size = 6 }) {
 /**
  * HexTile — pointy-top hexagonal board cell.
  *
- * Two orthogonal axes describe the cell:
- *   property : what the cell IS  — 'empty' | 'focal' | 'base'
- *   state    : how the cell IS   — 'default' | 'selected' | 'move' | 'attack' | 'blocked'
+ * Three orthogonal axes describe a cell:
+ *   property : what the cell IS — 'empty' | 'focal' | 'base'
+ *   focal    : sub-state for focal cells — 'active' | 'passive'
+ *              (game logic, independent of player interaction)
+ *   state    : current player interaction — 'default' | 'selected' | 'move' | 'attack' | 'blocked'
  *
- * Backward compat: passing the old combined `state` enum
- * ('focal-active' | 'focal-passive' | etc.) still works and is normalized
- * internally to the new (property, state) pair.
+ * Backward compat: passing the legacy combined `state` enum
+ * ('focal-active' | 'focal-passive' | 'empty' | 'base' | ...) still works.
  *
  * @param {'empty'|'focal'|'base'} [property='empty']
+ * @param {'active'|'passive'} [focal='passive']  Only used when property='focal'.
  * @param {'default'|'selected'|'move'|'attack'|'blocked'} [state='default']
  * @param {string} [owner]   Player color (#hex); used when property='base'.
  * @param {'sm'|'md'|'lg'} [size='md']
@@ -143,29 +149,41 @@ function DiamondDot({ size = 6 }) {
  * @param {boolean} [showLabel=false]
  *
  * @example
- * // Active focal point (the prominent objective)
- * <HexTile property="focal" state="selected" />
+ * // Active focal point (game-state: currently scoring VP)
+ * <HexTile property="focal" focal="active" />
  *
  * @example
- * // Passive focal marker on the board
- * <HexTile property="focal" />
+ * // Passive focal point (waiting in the group)
+ * <HexTile property="focal" focal="passive" />
+ *
+ * @example
+ * // Active focal that the player has currently selected
+ * <HexTile property="focal" focal="active" state="selected" />
  *
  * @example
  * // Player's base
  * <HexTile property="base" owner={player.color} />
  *
  * @example
- * // Cell in a move-target highlight
+ * // Cell marked as a move target
  * <HexTile state="move" />
  *
  * @example
  * // Legacy single-enum API still works
  * <HexTile state="focal-active" />
  */
-export default function HexTile({ property, state, owner = null, size = 'md', label, showLabel = false }) {
+export default function HexTile({
+  property,
+  focal,
+  state,
+  owner = null,
+  size = 'md',
+  label,
+  showLabel = false,
+}) {
   const s = HEX_TILE_SIZES[size] ?? HEX_TILE_SIZES.md
-  const [resolvedProperty, resolvedState] = normalize({ property, state })
-  const look = resolveLook(resolvedProperty, resolvedState, owner)
+  const [resolvedProperty, resolvedFocal, resolvedState] = normalize({ property, focal, state })
+  const look = resolveLook(resolvedProperty, resolvedFocal, resolvedState, owner)
 
   const iconSize = HEX_TILE_ICON_SIZES[size] ?? HEX_TILE_ICON_SIZES.md
   const dotSize  = HEX_TILE_DOT_SIZES[size]  ?? HEX_TILE_DOT_SIZES.md
@@ -208,6 +226,7 @@ export default function HexTile({ property, state, owner = null, size = 'md', la
   )
 }
 
-// Public enums for consumers that want to iterate or validate property/state.
-export const HEX_TILE_PROPERTIES = PROPERTIES
-export const HEX_TILE_STATES     = STATES
+// Public enums for consumers that want to iterate or validate.
+export const HEX_TILE_PROPERTIES  = PROPERTIES
+export const HEX_TILE_FOCAL_KINDS = FOCAL_KINDS
+export const HEX_TILE_STATES      = STATES

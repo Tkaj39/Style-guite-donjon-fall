@@ -440,13 +440,14 @@ export const componentMeta = {
   },
 
   'hex-tile': {
-    description: 'Hexagonal tile of the game map. Two orthogonal props: `property` describes what the cell IS on the board (empty / focal / base), `state` describes how the player is interacting with it (default / selected / move / attack / blocked). Composing them covers every visual; legacy combined `state` strings (focal-active / focal-passive / etc.) still work for backward compat.',
+    description: 'Hexagonal tile of the game map. Three orthogonal props: `property` describes what the cell IS on the board (empty / focal / base), `focal` is a game-state sub-axis for focal cells (active / passive — independent of selection), `state` describes how the player is currently interacting with it (default / selected / move / attack / blocked). Legacy combined `state` strings (focal-active / focal-passive / empty / base / selected / move / attack / blocked) still work for backward compat.',
     subcategory: 'exclusive',
     status: 'documented',
     showcaseRoute: '/hexagon',
     props: [
-      { name: 'property',  type: "'empty'|'focal'|'base'",                             required: false, default: "'empty'",   description: 'Cell role on the board.' },
-      { name: 'state',     type: "'default'|'selected'|'move'|'attack'|'blocked'",      required: false, default: "'default'", description: 'Interaction state. Also accepts legacy values: `empty`/`base`/`focal-active`/`focal-passive` — they imply both property and state.' },
+      { name: 'property',  type: "'empty'|'focal'|'base'",                              required: false, default: "'empty'",   description: 'Cell role on the board.' },
+      { name: 'focal',     type: "'active'|'passive'",                                  required: false, default: "'passive'", description: 'Focal sub-state. Only used when property="focal" — driven by game logic, independent of selection.' },
+      { name: 'state',     type: "'default'|'selected'|'move'|'attack'|'blocked'",      required: false, default: "'default'", description: 'Interaction state. Also accepts legacy values: `empty`/`base`/`focal-active`/`focal-passive` — they imply property/focal/state.' },
       { name: 'owner',     type: 'string',                                              required: false, description: 'Player color (#hex) — required when property="base".' },
       { name: 'size',      type: "'sm'|'md'|'lg'",                                      required: false, default: "'md'",      description: 'Hex size.' },
       { name: 'label',     type: 'string',                                              required: false, description: 'Label rendered inside the hex.' },
