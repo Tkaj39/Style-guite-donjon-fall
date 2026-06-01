@@ -1,9 +1,10 @@
 /* ── DonjonNotchMenu (donjon-fall-ui) ───────────────────────────────────
-   Game variant of NotchMenu — chevron-tipped outermost items with
-   DonjonButtonGroup styling (gold gradient on active, gradient-text
-   uppercase labels, gold border).
+   Game variant of NotchMenu — same ButtonGroup-style octagon-cut shape on
+   the outermost items, plus DonjonButtonGroup colors (gold gradient on
+   active, gradient-text uppercase labels, gold border).
    ─────────────────────────────────────────────────────────────────────── */
 import { Children, cloneElement, createContext, Fragment, isValidElement, useContext } from 'react'
+import { octagon, clipLeft, clipRight } from '../../utils/octagon'
 import {
   bg2, bgInactive, bgDeep,
   gold, goldDim,
@@ -22,48 +23,13 @@ function useDonjonNotchMenu() {
 }
 
 const SIZE_MAP = {
-  xs: { h: 32, px: 10, fontSize: '0.6875rem', iconSize: 12 },
-  sm: { h: 40, px: 14, fontSize: '0.75rem',   iconSize: 14 },
-  md: { h: 52, px: 18, fontSize: '0.8125rem', iconSize: 18 },
-  lg: { h: 64, px: 22, fontSize: '0.875rem',  iconSize: 22 },
+  xs: { h: 32, cx: 9.61,  px: 10, fontSize: '0.6875rem', iconSize: 12 },
+  sm: { h: 40, cx: 12.01, px: 14, fontSize: '0.75rem',   iconSize: 14 },
+  md: { h: 52, cx: 15.62, px: 18, fontSize: '0.8125rem', iconSize: 18 },
+  lg: { h: 64, cx: 19.22, px: 22, fontSize: '0.875rem',  iconSize: 22 },
 }
 
 const BORDER_W = 1
-
-function chevronWidth(h) {
-  return Math.round(h * 0.5)
-}
-
-function bannerClip(chevW) {
-  return `polygon(
-    0 50%,
-    ${chevW}px 0,
-    calc(100% - ${chevW}px) 0,
-    100% 50%,
-    calc(100% - ${chevW}px) 100%,
-    ${chevW}px 100%
-  )`
-}
-
-function leftChevronClip(chevW) {
-  return `polygon(
-    0 50%,
-    ${chevW}px 0,
-    100% 0,
-    100% 100%,
-    ${chevW}px 100%
-  )`
-}
-
-function rightChevronClip(chevW) {
-  return `polygon(
-    0 0,
-    calc(100% - ${chevW}px) 0,
-    100% 50%,
-    calc(100% - ${chevW}px) 100%,
-    0 100%
-  )`
-}
 
 const ITEM_TW_CLASSES = "hover:brightness-110 active:brightness-90 focus:outline-hidden focus-visible:drop-shadow-[0_0_8px_#FFC183AA]"
 
@@ -84,19 +50,15 @@ function Item({
   const isTab = value !== undefined
   const isActive = isTab && ctx.value === value
   const s = SIZE_MAP[ctx.size] ?? SIZE_MAP.md
-  const chevW = chevronWidth(s.h)
 
   const isFirst = _position === 'first' || _position === 'only'
   const isLast  = _position === 'last'  || _position === 'only'
   const isOnly  = _position === 'only'
 
-  const clipPath = isOnly  ? bannerClip(chevW)
-                 : isFirst ? leftChevronClip(chevW)
-                 : isLast  ? rightChevronClip(chevW)
+  const clipPath = isOnly  ? octagon(s.cx)
+                 : isFirst ? clipLeft(s.cx)
+                 : isLast  ? clipRight(s.cx)
                  : undefined
-
-  const extraPadL = isFirst ? chevW : 0
-  const extraPadR = isLast  ? chevW : 0
 
   const handleClick = (e) => {
     if (disabled) return
@@ -119,8 +81,8 @@ function Item({
       style={{
         position: 'relative',
         height: s.h,
-        paddingLeft: s.px + extraPadL,
-        paddingRight: s.px + extraPadR,
+        paddingLeft: s.px,
+        paddingRight: s.px,
         clipPath,
         display: 'inline-flex',
         alignItems: 'center',
@@ -195,10 +157,6 @@ function Body({ children, className, style }) {
 }
 
 /* ── Root ─────────────────────────────────────────────────────────────── */
-/**
- * DonjonNotchMenu — game variant of NotchMenu. First/last items own their
- * chevron tip (active gold gradient fills all the way into the tip).
- */
 export default function DonjonNotchMenu({
   value = null,
   onChange,
@@ -209,8 +167,7 @@ export default function DonjonNotchMenu({
   style,
 }) {
   const s = SIZE_MAP[size] ?? SIZE_MAP.md
-  const chevW = chevronWidth(s.h)
-  const clip = bannerClip(chevW)
+  const outerClip = octagon(s.cx)
 
   const items = []
   let body = null
@@ -241,21 +198,20 @@ export default function DonjonNotchMenu({
           style={{
             display: 'inline-flex',
             background: goldDim,
-            clipPath: clip,
+            clipPath: outerClip,
             padding: BORDER_W,
             height: s.h,
             marginBottom: -BORDER_W,
             zIndex: 1,
-            filter: `drop-shadow(0 0 6px ${gold}22)`,
           }}
         >
           <div
             role="tablist"
             style={{
               height: '100%',
-              clipPath: clip,
               display: 'inline-flex',
               alignItems: 'stretch',
+              background: bg2,
             }}
           >
             {positionedItems.map((it, idx) => (
