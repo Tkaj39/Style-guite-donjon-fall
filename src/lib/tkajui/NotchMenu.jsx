@@ -227,6 +227,10 @@ export default function NotchMenu({
               display: 'inline-flex',
               alignItems: 'stretch',
               background: surface2,
+              // Same octagon clip as the outer so the 1px padding gap shows
+              // borderDefault along the diagonal cuts too (not just the
+              // straight sides).
+              clipPath: outerClip,
             }}
           >
             {positionedItems.map((it, idx) => (

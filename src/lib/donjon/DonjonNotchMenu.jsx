@@ -212,6 +212,9 @@ export default function DonjonNotchMenu({
               display: 'inline-flex',
               alignItems: 'stretch',
               background: bg2,
+              // Same octagon clip as the outer so the 1px gold-border gap
+              // is visible along the diagonal corner cuts too.
+              clipPath: outerClip,
             }}
           >
             {positionedItems.map((it, idx) => (
