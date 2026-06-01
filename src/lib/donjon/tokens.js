@@ -189,6 +189,42 @@ export const PRAPOR_TIP_RATIO = 0.289
  *  Below this the detail is too small — ornaments are skipped. */
 export const SHIELD_ORNAMENT_MIN_WIDTH = 30
 
+// ── Hex tile sizing (board hex — pointy-top) ──────────────────────────────
+// Pixel dimensions for `<HexTile>` (HexTile.jsx). The board hex is a regular
+// pointy-top hexagon — width × height ≈ √3:2 ≈ 0.866 (matches hexPointyTop()).
+
+/** Hex tile preset sizes — width × height in px. */
+export const HEX_TILE_SIZES = {
+  sm: { w: 42, h: 48 },
+  md: { w: 62, h: 72 },
+  lg: { w: 83, h: 96 },
+}
+
+/** Border thickness (px) — the visible outer outline of a hex tile.
+ *  Implemented as the inset between the outer border layer and inner fill. */
+export const HEX_TILE_BORDER_WIDTH = 2
+
+/** Inner icon size (px) per HexTile size — used by FlameIcon on focal-active. */
+export const HEX_TILE_ICON_SIZES = { sm: 8, md: 10, lg: 14 }
+
+/** Inner diamond-dot size (px) per HexTile size — used on focal-passive. */
+export const HEX_TILE_DOT_SIZES = { sm: 5, md: 6, lg: 9 }
+
+// ── Hex badge sizing (chip hex — flat-top) ────────────────────────────────
+// Pixel dimensions for `<DonjonBadge>` (DonjonBadge.jsx). The badge hex is
+// flat-top with side indents (matches hexFlatTop(indent)).
+
+/** Hex badge preset sizes — full geometry per size.
+ *  h       = outer wrapper height
+ *  bord    = border thickness (outer padding on each side)
+ *  indent  = hex polygon indent in px (outer); inner indent = indent - bord
+ *  px      = horizontal padding inside the chip
+ *  fontSize / gap / dotSize / iconSize — text + indicator sizing */
+export const HEX_BADGE_SIZES = {
+  sm: { h: 20, bord: 2, indent: 6, px: 9,  fontSize: '0.5625rem', gap: 4, dotSize: 4, iconSize: 10 },
+  md: { h: 26, bord: 2, indent: 8, px: 12, fontSize: '0.625rem',  gap: 5, dotSize: 5, iconSize: 12 },
+}
+
 // ── Shared tokens (motion, breakpoints, z-index) ──────────────────────────
 // Re-export from `lib/shared/tokens.js` — structurally neutral tokens shared
 // by tkajui and donjon. A change propagates to both libraries.

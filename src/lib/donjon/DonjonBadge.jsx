@@ -16,6 +16,7 @@ import {
   borderDefault, borderMid,
   textMid, textFaint,
   gainColor, dangerColor, warningColor, infoColor, magicColor,
+  HEX_BADGE_SIZES,
 } from './tokens'
 
 import { hexFlatTop } from '../../utils/polygon'
@@ -106,15 +107,9 @@ const VARIANTS = {
   },
 }
 
-/* ── Sizes ──
-   h       = total outer wrapper height
-   bord    = border thickness (outer wrapper padding on each side)
-   indent  = hex polygon indent (outer)
-   Inner hex = indent - bord, inner height = h - 2*bord */
-const SIZES = {
-  sm: { h: 20, bord: 2, indent: 6, px: 9,  fontSize: '0.5625rem', gap: 4, dotSize: 4, iconSize: 10 },
-  md: { h: 26, bord: 2, indent: 8, px: 12, fontSize: '0.625rem',  gap: 5, dotSize: 5, iconSize: 12 },
-}
+/* ── Sizes ── Single source of truth lives in `./tokens` (HEX_BADGE_SIZES)
+   so showcase pages and other consumers can mirror the badge geometry. */
+const SIZES = HEX_BADGE_SIZES
 
 /**
  * DonjonBadge — game-themed badge with a hexagonal shape and glow effect.
