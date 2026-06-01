@@ -139,7 +139,9 @@ function Item({
 
 /* ── Body ─────────────────────────────────────────────────────────────── */
 function Body({ children, className, style }) {
-  useDonjonNotchMenu()
+  const ctx = useDonjonNotchMenu()
+  const s = SIZE_MAP[ctx.size] ?? SIZE_MAP.md
+  const itemOverlap = Math.round(s.h / 2)
   return (
     <div
       className={className}
@@ -147,6 +149,7 @@ function Body({ children, className, style }) {
         background: bgDeep,
         border: `${BORDER_W}px solid ${goldDim}`,
         padding: 18,
+        paddingTop: 18 + itemOverlap,
         color: textHigh,
         ...style,
       }}
@@ -201,7 +204,8 @@ export default function DonjonNotchMenu({
             clipPath: outerClip,
             padding: BORDER_W,
             height: s.h,
-            marginBottom: -BORDER_W,
+            // Pull the banner halfway down so items center on body's top edge.
+            marginBottom: -Math.round(s.h / 2),
             zIndex: 1,
           }}
         >
