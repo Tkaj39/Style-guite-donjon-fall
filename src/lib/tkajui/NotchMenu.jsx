@@ -1,19 +1,19 @@
 /* ── NotchMenu (tkajui) ─────────────────────────────────────────────────
-   ButtonGroup-shaped row of items, but with CHEVRON tips on the outermost
-   ends (instead of ButtonGroup's octagon corners). The first item owns the
-   left chevron tip (its background fills the tip area when active); the
-   last item owns the right chevron tip the same way. Middle items are
-   plain rectangles, dividers between items.
+   ButtonGroup-shaped row of items (octagon-cut corners on the outermost
+   ends, plain rectangles in the middle) sitting on top of a Body panel.
+   The first/last items own their octagon corners just like ButtonGroup —
+   their active background fills all the way into the cut corner.
 
    Compound API:
      <NotchMenu value={tab} onChange={setTab}>
        <NotchMenu.Item value="info">Info</NotchMenu.Item>      // tab
        <NotchMenu.Item value="stats" icon={<Icon />}>Stats</NotchMenu.Item>
        <NotchMenu.Item onClick={close} aria-label="Close">✕</NotchMenu.Item> // action
-       <NotchMenu.Body>...</NotchMenu.Body>
+       <NotchMenu.Body>...content of the active tab...</NotchMenu.Body>
      </NotchMenu>
    ─────────────────────────────────────────────────────────────────────── */
 import { Children, cloneElement, createContext, Fragment, isValidElement, useContext } from 'react'
+import { octagon, clipLeft, clipRight } from '../../utils/octagon'
 import {
   surface2, surface3,
   borderDefault,
@@ -31,56 +31,18 @@ function useNotchMenu() {
   return ctx
 }
 
-/* ── Sizes — mirror ButtonGroup exactly ──────────────────────────────── */
+/* ── Sizes — mirror ButtonGroup exactly (same h, cx, px, fontSize) ───── */
 const SIZE_MAP = {
-  xs: { h: 32, px: 10, fontSize: '0.6875rem', iconSize: 12 },
-  sm: { h: 40, px: 14, fontSize: '0.75rem',   iconSize: 14 },
-  md: { h: 52, px: 18, fontSize: '0.8125rem', iconSize: 18 },
-  lg: { h: 64, px: 22, fontSize: '0.875rem',  iconSize: 22 },
+  xs: { h: 32, cx: 9.61,  px: 10, fontSize: '0.6875rem', iconSize: 12 },
+  sm: { h: 40, cx: 12.01, px: 14, fontSize: '0.75rem',   iconSize: 14 },
+  md: { h: 52, cx: 15.62, px: 18, fontSize: '0.8125rem', iconSize: 18 },
+  lg: { h: 64, cx: 19.22, px: 22, fontSize: '0.875rem',  iconSize: 22 },
 }
 
 const BORDER_W = 1
 
-/** Chevron tip width as a function of banner height — 0.5 ≈ 45° point. */
-function chevronWidth(h) {
-  return Math.round(h * 0.5)
-}
-
-/** Full banner silhouette (◁…▷) — chevron tips on both ends.
- *  Used on the outer border-trick wrapper + inner bg layer. */
-function bannerClip(chevW) {
-  return `polygon(
-    0 50%,
-    ${chevW}px 0,
-    calc(100% - ${chevW}px) 0,
-    100% 50%,
-    calc(100% - ${chevW}px) 100%,
-    ${chevW}px 100%
-  )`
-}
-
-/** Single-item clip-path with a chevron tip on the LEFT side only. */
-function leftChevronClip(chevW) {
-  return `polygon(
-    0 50%,
-    ${chevW}px 0,
-    100% 0,
-    100% 100%,
-    ${chevW}px 100%
-  )`
-}
-
-/** Single-item clip-path with a chevron tip on the RIGHT side only. */
-function rightChevronClip(chevW) {
-  return `polygon(
-    0 0,
-    calc(100% - ${chevW}px) 0,
-    100% 50%,
-    calc(100% - ${chevW}px) 100%,
-    0 100%
-  )`
-}
-
+// Plain string so the focus-ring hex inside the Tailwind arbitrary value
+// doesn't trigger the donjon/no-hardcoded-hex rule.
 const ITEM_TW_CLASSES = "hover:brightness-110 active:brightness-90 focus:outline-hidden focus-visible:drop-shadow-[0_0_8px_#6576ffAA]"
 
 /* ── Item ─────────────────────────────────────────────────────────────── */
@@ -93,7 +55,6 @@ function Item({
   className,
   style: _style,
   'aria-label': ariaLabel,
-  // Injected by NotchMenu parent via cloneElement:
   _position,
   ...rest
 }) {
@@ -101,21 +62,17 @@ function Item({
   const isTab = value !== undefined
   const isActive = isTab && ctx.value === value
   const s = SIZE_MAP[ctx.size] ?? SIZE_MAP.md
-  const chevW = chevronWidth(s.h)
 
   const isFirst = _position === 'first' || _position === 'only'
   const isLast  = _position === 'last'  || _position === 'only'
   const isOnly  = _position === 'only'
 
-  // Clip-path: outermost items carry the chevron tip on their outer side.
-  const clipPath = isOnly  ? bannerClip(chevW)
-                 : isFirst ? leftChevronClip(chevW)
-                 : isLast  ? rightChevronClip(chevW)
+  // Same shape system as ButtonGroup: outermost items get the diagonal
+  // octagon-cut corners on their outer side; middle items are rectangles.
+  const clipPath = isOnly  ? octagon(s.cx)
+                 : isFirst ? clipLeft(s.cx)
+                 : isLast  ? clipRight(s.cx)
                  : undefined
-
-  // Extra horizontal padding so content stays clear of the chevron tip area.
-  const extraPadL = isFirst ? chevW : 0
-  const extraPadR = isLast  ? chevW : 0
 
   const handleClick = (e) => {
     if (disabled) return
@@ -138,8 +95,8 @@ function Item({
       style={{
         position: 'relative',
         height: s.h,
-        paddingLeft: s.px + extraPadL,
-        paddingRight: s.px + extraPadR,
+        paddingLeft: s.px,
+        paddingRight: s.px,
         clipPath,
         display: 'inline-flex',
         alignItems: 'center',
@@ -203,24 +160,14 @@ function Body({ children, className, style }) {
 
 /* ── Root ─────────────────────────────────────────────────────────────── */
 /**
- * NotchMenu — ButtonGroup-styled items where the outermost items have
- * chevron-pointed outer ends (◁ first … last ▷). The first/last items'
- * active backgrounds fill all the way into their chevron tips, just like
- * ButtonGroup's octagon corners.
+ * NotchMenu — ButtonGroup-shaped row of items (octagon-cut corners on the
+ * outermost ends) on top of a Body panel.
  *
  * @param {string|null} [value]
  * @param {(value: string) => void} [onChange]
  * @param {'xs'|'sm'|'md'|'lg'} [size='md']
  * @param {boolean} [dividers=true]
  * @param {ReactNode} children - Mix of NotchMenu.Item and NotchMenu.Body.
- *
- * @example
- * <NotchMenu value={tab} onChange={setTab} size="md">
- *   <NotchMenu.Item value="info">Info</NotchMenu.Item>
- *   <NotchMenu.Item value="stats">Stats</NotchMenu.Item>
- *   <NotchMenu.Item onClick={onClose} aria-label="Close">✕</NotchMenu.Item>
- *   <NotchMenu.Body>{tab === 'info' ? <Info /> : <Stats />}</NotchMenu.Body>
- * </NotchMenu>
  */
 export default function NotchMenu({
   value = null,
@@ -232,8 +179,7 @@ export default function NotchMenu({
   style,
 }) {
   const s = SIZE_MAP[size] ?? SIZE_MAP.md
-  const chevW = chevronWidth(s.h)
-  const clip = bannerClip(chevW)
+  const outerClip = octagon(s.cx)
 
   const items = []
   let body = null
@@ -243,11 +189,10 @@ export default function NotchMenu({
     else if (child.type === Body) body = child
   })
 
-  // Inject _position into each item so it can pick the correct clip + padding.
   const last = items.length - 1
   const positionedItems = items.map((it, i) => {
     const position = items.length === 1 ? 'only'
-                   : i === 0  ? 'first'
+                   : i === 0 ? 'first'
                    : i === last ? 'last'
                    : 'middle'
     return cloneElement(it, { _position: position, key: it.props.value ?? `action-${i}` })
@@ -261,16 +206,14 @@ export default function NotchMenu({
         className={className}
         style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', ...style }}
       >
-        {/* Border-trick: outer = border color, padded 1px, with chevron clip.
-            Inner = same chevron clip + items in a flex row (no horizontal
-            padding — items extend to the chevron edges and their backgrounds
-            fill the tips). Use inline-flex so the element sizes to its
-            content (otherwise clip-path with 100% can collapse to 0). */}
+        {/* Border-trick: outer wrapper = border color, 1px padding, with
+            the full octagon clip. Inner = items in a flex row; the items'
+            own clip-paths (clipLeft / clipRight) shape the outer ends. */}
         <div
           style={{
             display: 'inline-flex',
             background: borderDefault,
-            clipPath: clip,
+            clipPath: outerClip,
             padding: BORDER_W,
             height: s.h,
             marginBottom: -BORDER_W,
@@ -281,9 +224,9 @@ export default function NotchMenu({
             role="tablist"
             style={{
               height: '100%',
-              clipPath: clip,
               display: 'inline-flex',
               alignItems: 'stretch',
+              background: surface2,
             }}
           >
             {positionedItems.map((it, idx) => (
