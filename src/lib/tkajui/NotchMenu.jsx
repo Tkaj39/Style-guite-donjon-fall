@@ -142,52 +142,83 @@ function Item({
 /** Body cutout buffer — gap (px) between item edges and the cutout shape. */
 const CUTOUT_BUFFER = 8
 
+/** Build a body clip-path polygon with an octagon-shaped notch on the top.
+ *  `expandHalfW` widens the cutout's horizontal half-width — used by the
+ *  inner (border-trick) layer to leave a 1 px border visible along the
+ *  cutout's vertical edges. */
+function makeBodyClipPath(bannerWidth, s, expandHalfW = 0) {
+  const cutoutHalfW = bannerWidth / 2 + CUTOUT_BUFFER + expandHalfW
+  const cutoutDepth = Math.round(s.h / 2) + CUTOUT_BUFFER
+  const cx = s.cx
+  const innerHalfW = Math.max(cutoutHalfW - cx, 0)
+  const innerDepth = Math.max(cutoutDepth - cx, 0)
+  return `polygon(
+    0 0,
+    calc(50% - ${cutoutHalfW}px) 0,
+    calc(50% - ${cutoutHalfW}px) ${innerDepth}px,
+    calc(50% - ${innerHalfW}px) ${cutoutDepth}px,
+    calc(50% + ${innerHalfW}px) ${cutoutDepth}px,
+    calc(50% + ${cutoutHalfW}px) ${innerDepth}px,
+    calc(50% + ${cutoutHalfW}px) 0,
+    100% 0,
+    100% 100%,
+    0 100%
+  )`
+}
+
 /* ── Body ─────────────────────────────────────────────────────────────── */
 function Body({ children, className, style }) {
   const ctx = useNotchMenu()
   const s = SIZE_MAP[ctx.size] ?? SIZE_MAP.md
-  // Body content sits clear of the cutout: cutout extends s.h/2 + 8 below
-  // the body's top edge, so paddingTop must clear at least that much.
   const cutoutDepth = Math.round(s.h / 2) + CUTOUT_BUFFER
 
-  // Compute clip-path with an octagon-shaped notch on the top edge matching
-  // the items strip + 8px buffer. The measured banner width is needed for
-  // the horizontal extent; until it's measured (first paint) we render the
-  // body without the cutout to avoid a flash of mis-clipped layout.
-  let clipPath
-  if (ctx.bannerWidth > 0) {
-    const cutoutHalfW = ctx.bannerWidth / 2 + CUTOUT_BUFFER
-    const cx = s.cx
-    const innerHalfW = Math.max(cutoutHalfW - cx, 0)
-    const innerDepth = Math.max(cutoutDepth - cx, 0)
-    clipPath = `polygon(
-      0 0,
-      calc(50% - ${cutoutHalfW}px) 0,
-      calc(50% - ${cutoutHalfW}px) ${innerDepth}px,
-      calc(50% - ${innerHalfW}px) ${cutoutDepth}px,
-      calc(50% + ${innerHalfW}px) ${cutoutDepth}px,
-      calc(50% + ${cutoutHalfW}px) ${innerDepth}px,
-      calc(50% + ${cutoutHalfW}px) 0,
-      100% 0,
-      100% 100%,
-      0 100%
-    )`
+  // Before measurement: plain body with a simple CSS border. Avoids a flash
+  // of broken layout on first paint.
+  if (ctx.bannerWidth <= 0) {
+    return (
+      <div
+        className={className}
+        style={{
+          background: surface2,
+          border: `${BORDER_W}px solid ${borderDefault}`,
+          padding: 16,
+          paddingTop: 16 + cutoutDepth,
+          color: textHigh,
+          ...style,
+        }}
+      >
+        {children}
+      </div>
+    )
   }
+
+  // Border-trick on the body: outer layer = border color + outer clip,
+  // inner layer = surface color + inner clip (cutout 1 px wider so the
+  // 1 px gap shows along the cutout's vertical edges too).
+  const outerClip = makeBodyClipPath(ctx.bannerWidth, s, 0)
+  const innerClip = makeBodyClipPath(ctx.bannerWidth, s, BORDER_W)
 
   return (
     <div
       className={className}
       style={{
-        background: surface2,
-        border: `${BORDER_W}px solid ${borderDefault}`,
-        padding: 16,
-        paddingTop: 16 + cutoutDepth,
-        color: textHigh,
-        clipPath,
+        background: borderDefault,
+        clipPath: outerClip,
+        padding: BORDER_W,
         ...style,
       }}
     >
-      {children}
+      <div
+        style={{
+          background: surface2,
+          clipPath: innerClip,
+          padding: 16,
+          paddingTop: 16 + cutoutDepth - BORDER_W,
+          color: textHigh,
+        }}
+      >
+        {children}
+      </div>
     </div>
   )
 }
