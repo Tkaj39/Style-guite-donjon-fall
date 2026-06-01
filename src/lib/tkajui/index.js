@@ -27,6 +27,7 @@ export { default as Select }         from './Select'
 export { default as Slider }         from './Slider'
 export { default as Tabs }           from './Tabs'
 export { default as Toggle }         from './Toggle'
+export { default as NotchMenu }      from './NotchMenu'
 
 export { default as Pictogram }      from './Pictogram'
 
