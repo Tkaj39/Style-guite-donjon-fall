@@ -3,7 +3,7 @@
    the outermost items, plus DonjonButtonGroup colors (gold gradient on
    active, gradient-text uppercase labels, gold border).
    ─────────────────────────────────────────────────────────────────────── */
-import { Children, cloneElement, createContext, Fragment, isValidElement, useContext } from 'react'
+import { Children, cloneElement, createContext, Fragment, isValidElement, useContext, useLayoutEffect, useRef, useState } from 'react'
 import { octagon, clipLeft, clipRight } from '../../utils/octagon'
 import {
   bg2, bgInactive, bgDeep,
@@ -137,11 +137,34 @@ function Item({
   )
 }
 
+const CUTOUT_BUFFER = 8
+
 /* ── Body ─────────────────────────────────────────────────────────────── */
 function Body({ children, className, style }) {
   const ctx = useDonjonNotchMenu()
   const s = SIZE_MAP[ctx.size] ?? SIZE_MAP.md
-  const itemOverlap = Math.round(s.h / 2)
+  const cutoutDepth = Math.round(s.h / 2) + CUTOUT_BUFFER
+
+  let clipPath
+  if (ctx.bannerWidth > 0) {
+    const cutoutHalfW = ctx.bannerWidth / 2 + CUTOUT_BUFFER
+    const cx = s.cx
+    const innerHalfW = Math.max(cutoutHalfW - cx, 0)
+    const innerDepth = Math.max(cutoutDepth - cx, 0)
+    clipPath = `polygon(
+      0 0,
+      calc(50% - ${cutoutHalfW}px) 0,
+      calc(50% - ${cutoutHalfW}px) ${innerDepth}px,
+      calc(50% - ${innerHalfW}px) ${cutoutDepth}px,
+      calc(50% + ${innerHalfW}px) ${cutoutDepth}px,
+      calc(50% + ${cutoutHalfW}px) ${innerDepth}px,
+      calc(50% + ${cutoutHalfW}px) 0,
+      100% 0,
+      100% 100%,
+      0 100%
+    )`
+  }
+
   return (
     <div
       className={className}
@@ -149,8 +172,9 @@ function Body({ children, className, style }) {
         background: bgDeep,
         border: `${BORDER_W}px solid ${goldDim}`,
         padding: 18,
-        paddingTop: 18 + itemOverlap,
+        paddingTop: 18 + cutoutDepth,
         color: textHigh,
+        clipPath,
         ...style,
       }}
     >
@@ -172,6 +196,19 @@ export default function DonjonNotchMenu({
   const s = SIZE_MAP[size] ?? SIZE_MAP.md
   const outerClip = octagon(s.cx)
 
+  const bannerRef = useRef(null)
+  const [bannerWidth, setBannerWidth] = useState(0)
+  useLayoutEffect(() => {
+    const el = bannerRef.current
+    if (!el) return
+    const measure = () => setBannerWidth(el.offsetWidth)
+    measure()
+    if (typeof ResizeObserver === 'undefined') return
+    const ro = new ResizeObserver(measure)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
   const items = []
   let body = null
   Children.forEach(children, (child) => {
@@ -189,7 +226,7 @@ export default function DonjonNotchMenu({
     return cloneElement(it, { _position: position, key: it.props.value ?? `action-${i}` })
   })
 
-  const ctx = { value, onChange, size }
+  const ctx = { value, onChange, size, bannerWidth }
 
   return (
     <DonjonNotchMenuContext.Provider value={ctx}>
@@ -198,6 +235,7 @@ export default function DonjonNotchMenu({
         style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', ...style }}
       >
         <div
+          ref={bannerRef}
           style={{
             display: 'inline-flex',
             background: goldDim,
