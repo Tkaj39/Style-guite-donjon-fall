@@ -13,19 +13,19 @@ const MockIcon = ({ width, height }) => (
 // ─── Pictogram ─────────────────────────────────────────────────────────────
 
 describe('Pictogram', () => {
-  it('renderuje <span> s display inline-flex', () => {
+  it('renders a <span> with display inline-flex', () => {
     const { container } = render(<Pictogram icon={MockIcon} />)
     const span = container.querySelector('span')
     expect(span).toBeInTheDocument()
     expect(span.style.display).toBe('inline-flex')
   })
 
-  it('ikona se renderuje (data-testid="icon" je v DOM)', () => {
+  it('icon is rendered (data-testid="icon" is in the DOM)', () => {
     render(<Pictogram icon={MockIcon} />)
     expect(screen.getByTestId('icon')).toBeInTheDocument()
   })
 
-  it('size="sm" → ikona dostane menší width než size="lg"', () => {
+  it('size="sm" → icon gets a smaller width than size="lg"', () => {
     const { rerender } = render(<Pictogram icon={MockIcon} size="sm" />)
     const wSm = Number(screen.getByTestId('icon').getAttribute('width'))
     rerender(<Pictogram icon={MockIcon} size="lg" />)
@@ -33,7 +33,7 @@ describe('Pictogram', () => {
     expect(wSm).toBeLessThan(wLg)
   })
 
-  it('size="md" → ikona dostane menší width než size="xl"', () => {
+  it('size="md" → icon gets a smaller width than size="xl"', () => {
     const { rerender } = render(<Pictogram icon={MockIcon} size="md" />)
     const wMd = Number(screen.getByTestId('icon').getAttribute('width'))
     rerender(<Pictogram icon={MockIcon} size="xl" />)
@@ -41,34 +41,34 @@ describe('Pictogram', () => {
     expect(wMd).toBeLessThan(wXl)
   })
 
-  it('size chybí → renderuje bez pádu (fallback na md)', () => {
+  it('size missing → renders without crashing (falls back to md)', () => {
     expect(() => render(<Pictogram icon={MockIcon} />)).not.toThrow()
     const w = Number(screen.getByTestId('icon').getAttribute('width'))
     expect(w).toBe(SIZES.md)
   })
 
-  it('neznámý size → renderuje bez pádu (fallback)', () => {
+  it('unknown size → renders without crashing (fallback)', () => {
     expect(() => render(<Pictogram icon={MockIcon} size="xxl" />)).not.toThrow()
-    // fallback na md
+    // falls back to md
     const w = Number(screen.getByTestId('icon').getAttribute('width'))
     expect(w).toBe(SIZES.md)
   })
 
-  it('color="#FFC183" → style.color na span', () => {
+  it('color="#FFC183" → style.color on the span', () => {
     const { container } = render(<Pictogram icon={MockIcon} color="#FFC183" />)
     expect(container.querySelector('span').style.color).toBe('rgb(255, 193, 131)')
   })
 
-  it('color chybí → renderuje bez pádu', () => {
+  it('color missing → renders without crashing', () => {
     expect(() => render(<Pictogram icon={MockIcon} />)).not.toThrow()
   })
 
-  it('className="custom" → span má třídu custom', () => {
+  it('className="custom" → span has the custom class', () => {
     const { container } = render(<Pictogram icon={MockIcon} className="custom" />)
     expect(container.querySelector('span')).toHaveClass('custom')
   })
 
-  it('style={{ marginTop: 8 }} → aplikuje se na span', () => {
+  it('style={{ marginTop: 8 }} → applied on the span', () => {
     const { container } = render(<Pictogram icon={MockIcon} style={{ marginTop: 8 }} />)
     expect(container.querySelector('span').style.marginTop).toBe('8px')
   })
@@ -77,7 +77,7 @@ describe('Pictogram', () => {
 // ─── ProgressBar ───────────────────────────────────────────────────────────
 
 describe('ProgressBar', () => {
-  it('renderuje element s role="progressbar"', () => {
+  it('renders an element with role="progressbar"', () => {
     render(<ProgressBar value={50} />)
     expect(screen.getByRole('progressbar')).toBeInTheDocument()
   })
@@ -94,99 +94,99 @@ describe('ProgressBar', () => {
     expect(bar).toHaveAttribute('aria-valuemax', '100')
   })
 
-  it('value=0 → fill má style.width "0%"', () => {
+  it('value=0 → fill has style.width "0%"', () => {
     const { container } = render(<ProgressBar value={0} max={100} />)
     const fill = container.querySelector('[role="progressbar"] > div')
     expect(fill.style.width).toBe('0%')
   })
 
-  it('value=100 → fill má style.width "100%"', () => {
+  it('value=100 → fill has style.width "100%"', () => {
     const { container } = render(<ProgressBar value={100} max={100} />)
     const fill = container.querySelector('[role="progressbar"] > div')
     expect(fill.style.width).toBe('100%')
   })
 
-  it('value=50 → fill má style.width "50%"', () => {
+  it('value=50 → fill has style.width "50%"', () => {
     const { container } = render(<ProgressBar value={50} max={100} />)
     const fill = container.querySelector('[role="progressbar"] > div')
     expect(fill.style.width).toBe('50%')
   })
 
-  it('value > max → fill nepřekročí 100%', () => {
+  it('value > max → fill does not exceed 100%', () => {
     const { container } = render(<ProgressBar value={150} max={100} />)
     const fill = container.querySelector('[role="progressbar"] > div')
     expect(fill.style.width).toBe('100%')
   })
 
-  it('value < 0 → fill nemá zápornou šířku (0%)', () => {
+  it('value < 0 → fill is not negative (0%)', () => {
     const { container } = render(<ProgressBar value={-10} max={100} />)
     const fill = container.querySelector('[role="progressbar"] > div')
     expect(fill.style.width).toBe('0%')
   })
 
-  it('showValue=true → hodnota je viditelná jako text', () => {
+  it('showValue=true → the value is visible as text', () => {
     render(<ProgressBar value={67} max={100} showValue />)
     expect(screen.getByText(/67/)).toBeInTheDocument()
   })
 
-  it('showValue=false → hodnota se nezobrazuje jako text', () => {
+  it('showValue=false → the value is not shown as text', () => {
     render(<ProgressBar value={67} max={100} showValue={false} />)
     expect(screen.queryByText(/67\s*%/)).not.toBeInTheDocument()
   })
 
-  it('label="Načítání" → text je v dokumentu', () => {
-    render(<ProgressBar value={50} label="Načítání" />)
-    expect(screen.getByText('Načítání')).toBeInTheDocument()
+  it('label="Loading" → text is in the document', () => {
+    render(<ProgressBar value={50} label="Loading" />)
+    expect(screen.getByText('Loading')).toBeInTheDocument()
   })
 
-  it('label chybí → žádný label text', () => {
+  it('label missing → no label text', () => {
     render(<ProgressBar value={50} />)
-    expect(screen.queryByText('Načítání')).not.toBeInTheDocument()
+    expect(screen.queryByText('Loading')).not.toBeInTheDocument()
   })
 
-  it('indeterminate=true → aria-valuenow není přítomno', () => {
+  it('indeterminate=true → aria-valuenow is not present', () => {
     render(<ProgressBar value={50} indeterminate />)
     expect(screen.getByRole('progressbar')).not.toHaveAttribute('aria-valuenow')
   })
 
-  it('size="sm" → renderuje bez pádu', () => {
+  it('size="sm" → renders without crashing', () => {
     expect(() => render(<ProgressBar value={50} size="sm" />)).not.toThrow()
   })
 
-  it('size="md" → renderuje bez pádu', () => {
+  it('size="md" → renders without crashing', () => {
     expect(() => render(<ProgressBar value={50} size="md" />)).not.toThrow()
   })
 
-  it('size="lg" → renderuje bez pádu', () => {
+  it('size="lg" → renders without crashing', () => {
     expect(() => render(<ProgressBar value={50} size="lg" />)).not.toThrow()
   })
 
-  it('variant="danger" → renderuje bez pádu', () => {
+  it('variant="danger" → renders without crashing', () => {
     expect(() => render(<ProgressBar value={50} variant="danger" />)).not.toThrow()
   })
 
-  it('variant="success" → renderuje bez pádu', () => {
+  it('variant="success" → renders without crashing', () => {
     expect(() => render(<ProgressBar value={50} variant="success" />)).not.toThrow()
   })
 
-  it('variant="warning" → renderuje bez pádu', () => {
+  it('variant="warning" → renders without crashing', () => {
     expect(() => render(<ProgressBar value={50} variant="warning" />)).not.toThrow()
   })
 
-  it('variant="info" → renderuje bez pádu', () => {
+  it('variant="info" → renders without crashing', () => {
     expect(() => render(<ProgressBar value={50} variant="info" />)).not.toThrow()
   })
 
-  it('neznámý variant → renderuje bez pádu (fallback)', () => {
+  it('unknown variant → renders without crashing (fallback)', () => {
     expect(() => render(<ProgressBar value={50} variant="unknown" />)).not.toThrow()
   })
 
-  it('className="custom" → aplikuje se na wrapper', () => {
+  it('className="custom" → applied to the wrapper', () => {
     const { container } = render(<ProgressBar value={50} className="custom" />)
     expect(container.firstChild).toHaveClass('custom')
   })
 
-  it('style={{ borderRadius: 4 }} → aplikuje se na wrapper', () => {
+  it('style={{ borderRadius: 4 }} → applied to the wrapper', () => {
     const { container } = render(<ProgressBar value={50} style={{ borderRadius: 4 }} />)
     expect(container.firstChild.style.borderRadius).toBe('4px')
   })
@@ -195,63 +195,63 @@ describe('ProgressBar', () => {
 // ─── ScoopClip ─────────────────────────────────────────────────────────────
 
 describe('ScoopClip', () => {
-  it('renderuje wrapper div', () => {
-    const { container } = render(<ScoopClip><span>obsah</span></ScoopClip>)
+  it('renders a wrapper div', () => {
+    const { container } = render(<ScoopClip><span>content</span></ScoopClip>)
     // ScoopClip renders fragment: svg + div
     const div = container.querySelector('div')
     expect(div).toBeInTheDocument()
   })
 
-  it('children se renderují uvnitř', () => {
-    render(<ScoopClip><span data-testid="child">obsah</span></ScoopClip>)
+  it('children render inside', () => {
+    render(<ScoopClip><span data-testid="child">content</span></ScoopClip>)
     expect(screen.getByTestId('child')).toBeInTheDocument()
   })
 
-  it('SVG clipPath je přítomno v dokumentu', () => {
+  it('SVG clipPath is present in the document', () => {
     const { container } = render(<ScoopClip><span>x</span></ScoopClip>)
     expect(container.querySelector('clipPath')).toBeInTheDocument()
   })
 
-  it('clipPath má clipPathUnits="objectBoundingBox"', () => {
+  it('clipPath has clipPathUnits="objectBoundingBox"', () => {
     const { container } = render(<ScoopClip><span>x</span></ScoopClip>)
     const cp = container.querySelector('clipPath')
     expect(cp).toHaveAttribute('clipPathUnits', 'objectBoundingBox')
   })
 
-  it('r=0.25 → path data obsahují 0.25', () => {
+  it('r=0.25 → path data contains 0.25', () => {
     const { container } = render(<ScoopClip r={0.25}><span>x</span></ScoopClip>)
     const path = container.querySelector('clipPath path')
     expect(path.getAttribute('d')).toContain('0.25')
   })
 
-  it('wrapper má style.clipPath obsahující url( se scoop id', () => {
+  it('wrapper has style.clipPath containing url( with the scoop id', () => {
     const { container } = render(<ScoopClip><span>x</span></ScoopClip>)
     const div = container.querySelector('div')
-    // jsdom serializes url(#id) as url("#id") — obě formy jsou validní
+    // jsdom serializes url(#id) as url("#id") — both forms are valid
     expect(div.style.clipPath).toMatch(/url\(["']?#scoop-/)
   })
 
-  it('skrytý SVG má aria-hidden="true"', () => {
+  it('hidden SVG has aria-hidden="true"', () => {
     const { container } = render(<ScoopClip><span>x</span></ScoopClip>)
     const svg = container.querySelector('svg')
     expect(svg).toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('style={{ height: 48 }} → aplikuje se na wrapper div', () => {
+  it('style={{ height: 48 }} → applied to the wrapper div', () => {
     const { container } = render(<ScoopClip style={{ height: 48 }}><span>x</span></ScoopClip>)
     expect(container.querySelector('div').style.height).toBe('48px')
   })
 
-  it('className="custom" → aplikuje se na wrapper div', () => {
+  it('className="custom" → applied to the wrapper div', () => {
     const { container } = render(<ScoopClip className="custom"><span>x</span></ScoopClip>)
     expect(container.querySelector('div')).toHaveClass('custom')
   })
 
-  it('r=0 → necrashne', () => {
+  it('r=0 → does not crash', () => {
     expect(() => render(<ScoopClip r={0}><span>x</span></ScoopClip>)).not.toThrow()
   })
 
-  it('r=0.5 → necrashne (krajní hodnota)', () => {
+  it('r=0.5 → does not crash (boundary value)', () => {
     expect(() => render(<ScoopClip r={0.5}><span>x</span></ScoopClip>)).not.toThrow()
   })
 })
@@ -259,61 +259,61 @@ describe('ScoopClip', () => {
 // ─── CornerOrnament ────────────────────────────────────────────────────────
 
 describe('CornerOrnament', () => {
-  it('renderuje <svg>', () => {
+  it('renders <svg>', () => {
     const { container } = render(<CornerOrnament />)
     expect(container.querySelector('svg')).toBeInTheDocument()
   })
 
-  it('size=24 → svg má width=24, height=24', () => {
+  it('size=24 → svg has width=24, height=24', () => {
     const { container } = render(<CornerOrnament size={24} />)
     const svg = container.querySelector('svg')
     expect(svg).toHaveAttribute('width', '24')
     expect(svg).toHaveAttribute('height', '24')
   })
 
-  it('size chybí → svg má width=16, height=16 (default)', () => {
+  it('size missing → svg has width=16, height=16 (default)', () => {
     const { container } = render(<CornerOrnament />)
     const svg = container.querySelector('svg')
     expect(svg).toHaveAttribute('width', '16')
     expect(svg).toHaveAttribute('height', '16')
   })
 
-  it('color="#FFC183" → fill obsahuje #FFC183 někde v SVG', () => {
+  it('color="#FFC183" → fill contains #FFC183 somewhere in the SVG', () => {
     const { container } = render(<CornerOrnament color="#FFC183" />)
-    // Hledáme libovolný fill atribut s touto barvou v SVG prvcích
+    // Look for any fill attribute with this color in SVG elements
     const elements = container.querySelectorAll('[fill="#FFC183"]')
     expect(elements.length).toBeGreaterThan(0)
   })
 
-  it('variant="bracket" → renderuje bez pádu', () => {
+  it('variant="bracket" → renders without crashing', () => {
     expect(() => render(<CornerOrnament variant="bracket" />)).not.toThrow()
   })
 
-  it('variant="dot" → renderuje bez pádu a obsahuje <circle>', () => {
+  it('variant="dot" → renders without crashing and contains <circle>', () => {
     const { container } = render(<CornerOrnament variant="dot" />)
     expect(container.querySelector('circle')).toBeInTheDocument()
   })
 
-  it('variant="diamond" → renderuje bez pádu a obsahuje <polygon>', () => {
+  it('variant="diamond" → renders without crashing and contains <polygon>', () => {
     const { container } = render(<CornerOrnament variant="diamond" />)
     expect(container.querySelector('polygon')).toBeInTheDocument()
   })
 
-  it('variant="cross" → renderuje bez pádu', () => {
+  it('variant="cross" → renders without crashing', () => {
     expect(() => render(<CornerOrnament variant="cross" />)).not.toThrow()
   })
 
-  it('neznámý variant → vrátí null (nic v DOM)', () => {
+  it('unknown variant → returns null (nothing in DOM)', () => {
     const { container } = render(<CornerOrnament variant="unknown" />)
     expect(container.firstChild).toBeNull()
   })
 
-  it('svg má aria-hidden="true"', () => {
+  it('svg has aria-hidden="true"', () => {
     const { container } = render(<CornerOrnament />)
     expect(container.querySelector('svg')).toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('style={{ position: "absolute" }} → aplikuje se na svg', () => {
+  it('style={{ position: "absolute" }} → applied to the svg', () => {
     const { container } = render(<CornerOrnament style={{ position: 'absolute' }} />)
     expect(container.querySelector('svg').style.position).toBe('absolute')
   })

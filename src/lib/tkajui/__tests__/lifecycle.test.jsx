@@ -5,8 +5,8 @@ import { ToastProvider, useToast } from '../Toast'
 import Select from '../Select'
 
 // ─── Modal — native <dialog> lifecycle ─────────────────────────────────────
-// Scroll lock je nyní záležitost prohlížeče (top layer), ne našeho kódu.
-// Testujeme volání showModal() / close() přes mock z setup.js.
+// Scroll lock is now the browser's responsibility (top layer), not ours.
+// We test showModal() / close() calls via the mock from setup.js.
 
 describe('Modal lifecycle', () => {
   beforeEach(() => {
@@ -14,19 +14,19 @@ describe('Modal lifecycle', () => {
     HTMLDialogElement.prototype.close.mockClear()
   })
 
-  it('isOpen=true → showModal() zavolán', () => {
+  it('isOpen=true → showModal() is called', () => {
     render(<Modal isOpen title="T" onClose={() => {}} />)
     expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalledTimes(1)
   })
 
-  it('isOpen false→true → showModal() zavolán po změně', () => {
+  it('isOpen false→true → showModal() is called after the change', () => {
     const { rerender } = render(<Modal isOpen={false} title="T" onClose={() => {}} />)
     expect(HTMLDialogElement.prototype.showModal).not.toHaveBeenCalled()
     rerender(<Modal isOpen title="T" onClose={() => {}} />)
     expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalledTimes(1)
   })
 
-  it('isOpen true→false → close() zavolán', () => {
+  it('isOpen true→false → close() is called', () => {
     const { rerender } = render(<Modal isOpen title="T" onClose={() => {}} />)
     rerender(<Modal isOpen={false} title="T" onClose={() => {}} />)
     expect(HTMLDialogElement.prototype.close).toHaveBeenCalledTimes(1)
@@ -39,16 +39,16 @@ describe('Tooltip lifecycle', () => {
   beforeEach(() => { vi.useFakeTimers() })
   afterEach(() => { vi.runOnlyPendingTimers(); vi.useRealTimers() })
 
-  it('Tooltip unmount s aktivním timerem → žádná chyba', () => {
+  it('Tooltip unmount with an active timer → no error', () => {
     const { unmount } = render(
       <Tooltip content="Tip" delay={120}><button>T</button></Tooltip>
     )
     fireEvent.mouseEnter(screen.getByRole('button'))
-    // Timer běží — unmountujeme před vypršením
+    // Timer is running — unmount before it fires
     expect(() => unmount()).not.toThrow()
   })
 
-  it('Tooltip unmount s otevřeným popupem → žádná chyba', () => {
+  it('Tooltip unmount with the popup open → no error', () => {
     const { unmount } = render(
       <Tooltip content="Tip" delay={120}><button>T</button></Tooltip>
     )
@@ -59,7 +59,7 @@ describe('Tooltip lifecycle', () => {
   })
 })
 
-// ─── Toast — timers a cleanup ───────────────────────────────────────────────
+// ─── Toast — timers and cleanup ─────────────────────────────────────────────
 
 function ToastTrigger({ onReady }) {
   const api = useToast()
@@ -81,46 +81,46 @@ describe('Toast lifecycle', () => {
   beforeEach(() => { vi.useFakeTimers() })
   afterEach(() => { vi.runOnlyPendingTimers(); vi.useRealTimers() })
 
-  it('Toast unmount před vypršením duration → žádná chyba', () => {
+  it('Toast unmount before duration elapses → no error', () => {
     const { unmount, api } = renderWithToast()
     act(() => { api().addToast({ title: 'Test', duration: 5000 }) })
     expect(() => unmount()).not.toThrow()
   })
 
-  it('removeToast(id) → toast zmizí ihned bez čekání na timer', () => {
+  it('removeToast(id) → toast disappears immediately without waiting for the timer', () => {
     const { api } = renderWithToast()
     let id
-    act(() => { id = api().addToast({ title: 'Zmizím', duration: 5000 }) })
-    expect(screen.getByText('Zmizím')).toBeInTheDocument()
+    act(() => { id = api().addToast({ title: 'Vanish', duration: 5000 }) })
+    expect(screen.getByText('Vanish')).toBeInTheDocument()
     act(() => { api().removeToast(id) })
-    expect(screen.queryByText('Zmizím')).not.toBeInTheDocument()
-    // Timer stále čeká — ale toast je pryč
+    expect(screen.queryByText('Vanish')).not.toBeInTheDocument()
+    // Timer is still pending — but the toast is gone
     act(() => { vi.advanceTimersByTime(5000) })
-    // Žádná chyba po vypršení timeru na již odstraněný toast
+    // No error after the timer fires on an already-removed toast
   })
 
-  it('dva toasty — různé duration — každý zmizí ve správný čas', () => {
+  it('two toasts — different durations — each disappears at the right time', () => {
     const { api } = renderWithToast()
     act(() => {
-      api().addToast({ title: 'Krátký', duration: 1000 })
-      api().addToast({ title: 'Dlouhý', duration: 3000 })
+      api().addToast({ title: 'Short', duration: 1000 })
+      api().addToast({ title: 'Long', duration: 3000 })
     })
-    expect(screen.getByText('Krátký')).toBeInTheDocument()
-    expect(screen.getByText('Dlouhý')).toBeInTheDocument()
+    expect(screen.getByText('Short')).toBeInTheDocument()
+    expect(screen.getByText('Long')).toBeInTheDocument()
 
     act(() => { vi.advanceTimersByTime(1000) })
-    expect(screen.queryByText('Krátký')).not.toBeInTheDocument()
-    expect(screen.getByText('Dlouhý')).toBeInTheDocument()
+    expect(screen.queryByText('Short')).not.toBeInTheDocument()
+    expect(screen.getByText('Long')).toBeInTheDocument()
 
     act(() => { vi.advanceTimersByTime(2000) })
-    expect(screen.queryByText('Dlouhý')).not.toBeInTheDocument()
+    expect(screen.queryByText('Long')).not.toBeInTheDocument()
   })
 })
 
 // ─── Select — click-outside listener cleanup ────────────────────────────────
 
 describe('Select lifecycle', () => {
-  it('Select unmount s otevřeným dropdownem → žádná chyba', () => {
+  it('Select unmount with the dropdown open → no error', () => {
     const { unmount } = render(
       <Select options={[{ value: 'a', label: 'A' }]} value="" onChange={() => {}} />
     )
@@ -129,11 +129,11 @@ describe('Select lifecycle', () => {
     expect(() => unmount()).not.toThrow()
   })
 
-  it('click mimo Select zavře dropdown', () => {
+  it('clicking outside Select closes the dropdown', () => {
     render(
       <div>
         <Select options={[{ value: 'a', label: 'A' }]} value="" onChange={() => {}} />
-        <div data-testid="outside">Mimo</div>
+        <div data-testid="outside">Outside</div>
       </div>
     )
     fireEvent.click(screen.getByRole('combobox'))
@@ -143,20 +143,20 @@ describe('Select lifecycle', () => {
   })
 })
 
-// ─── Portály — renderování do document.body ─────────────────────────────────
+// ─── Portals — rendering into document.body ─────────────────────────────────
 
 describe('Portal rendering', () => {
-  it('Modal isOpen=true → dialog je v document.body', () => {
-    render(<Modal isOpen title="Portál" onClose={() => {}} />)
+  it('Modal isOpen=true → dialog is in document.body', () => {
+    render(<Modal isOpen title="Portal" onClose={() => {}} />)
     const dialog = screen.getByRole('dialog')
-    // Modal renderuje přímo do stromu (ne přes portal), ale je v DOM
+    // Modal renders directly into the tree (not via portal), but is present in the DOM
     expect(dialog).toBeInTheDocument()
   })
 
-  it('Toast → toast je dostupný v document.body (portal)', () => {
+  it('Toast → toast is available in document.body (portal)', () => {
     const { api } = renderWithToast()
     act(() => { api().addToast({ title: 'Portal toast' }) })
-    // createPortal renderuje do document.body
+    // createPortal renders into document.body
     expect(document.body).toContainElement(screen.getByText('Portal toast'))
   })
 })
