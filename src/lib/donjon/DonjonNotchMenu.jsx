@@ -139,46 +139,74 @@ function Item({
 
 const CUTOUT_BUFFER = 8
 
+function makeBodyClipPath(bannerWidth, s, expandHalfW = 0) {
+  const cutoutHalfW = bannerWidth / 2 + CUTOUT_BUFFER + expandHalfW
+  const cutoutDepth = Math.round(s.h / 2) + CUTOUT_BUFFER
+  const cx = s.cx
+  const innerHalfW = Math.max(cutoutHalfW - cx, 0)
+  const innerDepth = Math.max(cutoutDepth - cx, 0)
+  return `polygon(
+    0 0,
+    calc(50% - ${cutoutHalfW}px) 0,
+    calc(50% - ${cutoutHalfW}px) ${innerDepth}px,
+    calc(50% - ${innerHalfW}px) ${cutoutDepth}px,
+    calc(50% + ${innerHalfW}px) ${cutoutDepth}px,
+    calc(50% + ${cutoutHalfW}px) ${innerDepth}px,
+    calc(50% + ${cutoutHalfW}px) 0,
+    100% 0,
+    100% 100%,
+    0 100%
+  )`
+}
+
 /* ── Body ─────────────────────────────────────────────────────────────── */
 function Body({ children, className, style }) {
   const ctx = useDonjonNotchMenu()
   const s = SIZE_MAP[ctx.size] ?? SIZE_MAP.md
   const cutoutDepth = Math.round(s.h / 2) + CUTOUT_BUFFER
 
-  let clipPath
-  if (ctx.bannerWidth > 0) {
-    const cutoutHalfW = ctx.bannerWidth / 2 + CUTOUT_BUFFER
-    const cx = s.cx
-    const innerHalfW = Math.max(cutoutHalfW - cx, 0)
-    const innerDepth = Math.max(cutoutDepth - cx, 0)
-    clipPath = `polygon(
-      0 0,
-      calc(50% - ${cutoutHalfW}px) 0,
-      calc(50% - ${cutoutHalfW}px) ${innerDepth}px,
-      calc(50% - ${innerHalfW}px) ${cutoutDepth}px,
-      calc(50% + ${innerHalfW}px) ${cutoutDepth}px,
-      calc(50% + ${cutoutHalfW}px) ${innerDepth}px,
-      calc(50% + ${cutoutHalfW}px) 0,
-      100% 0,
-      100% 100%,
-      0 100%
-    )`
+  if (ctx.bannerWidth <= 0) {
+    return (
+      <div
+        className={className}
+        style={{
+          background: bgDeep,
+          border: `${BORDER_W}px solid ${goldDim}`,
+          padding: 18,
+          paddingTop: 18 + cutoutDepth,
+          color: textHigh,
+          ...style,
+        }}
+      >
+        {children}
+      </div>
+    )
   }
+
+  const outerClip = makeBodyClipPath(ctx.bannerWidth, s, 0)
+  const innerClip = makeBodyClipPath(ctx.bannerWidth, s, BORDER_W)
 
   return (
     <div
       className={className}
       style={{
-        background: bgDeep,
-        border: `${BORDER_W}px solid ${goldDim}`,
-        padding: 18,
-        paddingTop: 18 + cutoutDepth,
-        color: textHigh,
-        clipPath,
+        background: goldDim,
+        clipPath: outerClip,
+        padding: BORDER_W,
         ...style,
       }}
     >
-      {children}
+      <div
+        style={{
+          background: bgDeep,
+          clipPath: innerClip,
+          padding: 18,
+          paddingTop: 18 + cutoutDepth - BORDER_W,
+          color: textHigh,
+        }}
+      >
+        {children}
+      </div>
     </div>
   )
 }
