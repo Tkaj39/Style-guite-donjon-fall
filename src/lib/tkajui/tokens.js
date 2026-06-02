@@ -80,6 +80,7 @@ export {
   easingSharp, easingBounce, easingEnter, easingExit,
   bpMobile, bpTablet, bpDesktop, bpWide, BREAKPOINTS,
   zDropdown, zNotification, zToast, zTooltip,
+  SPACE, SPACE_VALUES, resolveSpace,
 } from '../shared/tokens'
 
 // ── Background aliases (unified naming across libraries) ──────────────────

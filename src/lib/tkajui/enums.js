@@ -63,3 +63,18 @@ export const CORNER_ORNAMENT_CORNER_TYPE_VALUES = ['cut', 'round', 'scoop']
 export const NOTCHED_BOX_SIDE_VALUES = ['top', 'bottom', 'left', 'right']
 
 export const DEVICE_FRAME_TYPE_VALUES = ['desktop', 'tablet', 'mobile']
+
+// ── Layout primitives (Stack / Inline / Cluster) ──────────────────────────
+// `gap` also accepts a raw number (px); the *_GAP_VALUES list only enumerates
+// the named token keys for size-style pickers and validators.
+export const STACK_GAP_VALUES     = ['none', 'xs', 'sm', 'md', 'lg', 'xl', 'xxl']
+export const STACK_ALIGN_VALUES   = ['start', 'center', 'end', 'stretch', 'baseline']
+export const STACK_JUSTIFY_VALUES = ['start', 'center', 'end', 'between', 'around', 'evenly']
+
+export const INLINE_GAP_VALUES     = STACK_GAP_VALUES
+export const INLINE_ALIGN_VALUES   = STACK_ALIGN_VALUES
+export const INLINE_JUSTIFY_VALUES = STACK_JUSTIFY_VALUES
+
+export const CLUSTER_GAP_VALUES     = STACK_GAP_VALUES
+export const CLUSTER_ALIGN_VALUES   = STACK_ALIGN_VALUES
+export const CLUSTER_JUSTIFY_VALUES = STACK_JUSTIFY_VALUES

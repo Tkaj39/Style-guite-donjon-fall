@@ -115,9 +115,9 @@ const MANUAL_TASKS = [
     group: 'Chybějící komponenty — 🔴 kritické (blokátory app buildingu)',
     items: [
       // Layout primitives — bez nich kolega píše flex/grid pořád dokola
-      { status: 'todo', text: 'Stack — vertikální flex s gap tokenem (<Stack gap={4}>)' },
-      { status: 'todo', text: 'Inline — horizontální flex s gap + wrap' },
-      { status: 'todo', text: 'Cluster — inline s auto-wrap (tag clouds, badges, chips)' },
+      { status: 'done', text: 'Stack — vertikální flex s gap tokenem (xs–xxl) + align/justify' },
+      { status: 'done', text: 'Inline — horizontální flex s gap + wrap prop' },
+      { status: 'done', text: 'Cluster — inline s auto-wrap (tag clouds, badges, chips)' },
       { status: 'todo', text: 'Grid — CSS Grid wrapper s tokenizovaným gap + responzivní cols' },
       { status: 'todo', text: 'Container — konzistentní max-width + padding (page wrapper)' },
       { status: 'todo', text: 'Box — surface primitivum (background/border/padding tokeny)' },

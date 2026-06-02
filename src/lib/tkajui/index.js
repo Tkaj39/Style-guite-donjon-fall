@@ -29,6 +29,9 @@ export { default as Tabs }           from './Tabs'
 export { default as Toggle }         from './Toggle'
 export { default as NotchMenu }      from './NotchMenu'
 
+// ─── Layout primitives (purely structural — no themed visuals) ──────────
+export { Stack, Inline, Cluster } from './Layout'
+
 export { default as Pictogram }      from './Pictogram'
 
 // ─── Shape primitives ────────────────────────────────────────────────────
