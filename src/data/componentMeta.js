@@ -94,6 +94,7 @@ import {
   BUTTON_SIZE_VALUES,
   BUTTON_VARIANT_VALUES,
   CARD_VARIANT_VALUES,
+  CHECKBOX_GROUP_ORIENTATION_VALUES,
   CLUSTER_ALIGN_VALUES,
   CLUSTER_GAP_VALUES,
   CLUSTER_JUSTIFY_VALUES,
@@ -117,6 +118,7 @@ import {
   PICTOGRAM_SIZE_VALUES,
   PROGRESS_BAR_SIZE_VALUES,
   PROGRESS_BAR_VARIANT_VALUES,
+  RADIO_GROUP_ORIENTATION_VALUES,
   SCOOP_CLIP_SHAPE_VALUES,
   SCOOP_CLIP_SIZE_VALUES,
   SELECT_SIZE_VALUES,
@@ -447,6 +449,102 @@ export const componentMeta = {
       { name: 'bordered', type: 'boolean',                                required: false, default: 'true', description: 'Show a 1px border ring (works on both shapes).' },
     ],
     relatedSlugs: ['framed-image', 'aspect-box', 'erb'],
+  },
+
+  'field': {
+    description: 'Form field composer — label + (single child input) + hint + error. Clones the child to inject `id` + `aria-describedby` so screen readers announce hint/error automatically. Pair with Input, Select, Toggle, etc.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/form',
+    props: [
+      { name: 'label',    type: 'ReactNode',          required: false, description: 'Label above the input.' },
+      { name: 'hint',     type: 'ReactNode',          required: false, description: 'Helper text shown below (only when error is absent).' },
+      { name: 'error',    type: 'string',             required: false, description: 'Error message — when set, overrides hint and applies error styling.' },
+      { name: 'required', type: 'boolean',            required: false, default: 'false', description: 'Shows a red asterisk after the label.' },
+      { name: 'htmlFor',  type: 'string',             required: false, description: 'Override the auto-generated input id.' },
+      { name: 'children', type: 'ReactNode',          required: true,  description: 'The input element (Input / Select / etc.). The first valid element gets id + aria-describedby cloned in.' },
+    ],
+    relatedSlugs: ['form', 'input', 'select'],
+  },
+
+  'form': {
+    description: 'Native <form> wrapper that auto-calls e.preventDefault() before invoking your onSubmit handler. Renders children as a flex column with a sensible default gap.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/form',
+    props: [
+      { name: 'onSubmit', type: '(e: SubmitEvent) => void', required: false, description: 'Submit handler. Called after e.preventDefault().' },
+      { name: 'gap',      type: 'number | string',          required: false, default: '16', description: 'Gap between children in px (or any CSS length).' },
+      { name: 'children', type: 'ReactNode',                required: true,  description: 'Form fields, submit button, etc.' },
+    ],
+    relatedSlugs: ['field', 'submit-button'],
+  },
+
+  'radio': {
+    description: 'Native radio input styled. Use inside a RadioGroup for controlled single-choice selection — the group provides name + value + onChange via context.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/form',
+    props: [
+      { name: 'value',    type: 'string | number',           required: true,  description: 'The value this option represents.' },
+      { name: 'disabled', type: 'boolean',                   required: false, default: 'false', description: 'Disables this option.' },
+      { name: 'children', type: 'ReactNode',                 required: true,  description: 'Label text.' },
+    ],
+    relatedSlugs: ['radio-group', 'checkbox', 'toggle'],
+  },
+
+  'radio-group': {
+    description: 'Controlled single-choice radio picker. Wraps children Radios in a context that provides name + value + onChange. Native <fieldset> + <legend> for screen reader semantics.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/form',
+    props: [
+      { name: 'name',        type: 'string',                                       required: false, description: 'Native radio group name. Auto-generated when omitted.' },
+      { name: 'value',       type: 'string | number | null',                       required: false, default: 'null', description: 'Currently-selected value.' },
+      { name: 'onChange',    type: '(value: string | number) => void',             required: false, description: 'Callback fired with the new value on selection.' },
+      { name: 'disabled',    type: 'boolean',                                       required: false, default: 'false', description: 'Disables every Radio in the group.' },
+      { name: 'label',       type: 'ReactNode',                                    required: false, description: 'Legend above the radios.' },
+      { name: 'hint',        type: 'ReactNode',                                    required: false, description: 'Helper text.' },
+      { name: 'error',       type: 'string',                                       required: false, description: 'Error message + role=alert.' },
+      { name: 'required',    type: 'boolean',                                       required: false, default: 'false', description: 'Shows a red asterisk and sets aria-required.' },
+      { name: 'orientation', type: enumType(RADIO_GROUP_ORIENTATION_VALUES),       required: false, default: "'vertical'", description: 'Layout direction of the radios.' },
+      { name: 'children',    type: 'Radio[]',                                       required: true,  description: 'Radio children.' },
+    ],
+    relatedSlugs: ['radio', 'checkbox-group', 'field'],
+  },
+
+  'checkbox': {
+    description: 'Native checkbox styled. Standalone uses `checked` + `onChange(boolean)`. Inside a CheckboxGroup, provides `value` and the group manages the array of selected values.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/form',
+    props: [
+      { name: 'value',    type: 'string | number',           required: false, description: 'Required when nested in a CheckboxGroup; identifies the option in the array.' },
+      { name: 'checked',  type: 'boolean',                   required: false, description: 'Controlled state — standalone use only.' },
+      { name: 'onChange', type: '(checked: boolean) => void', required: false, description: 'Callback — standalone use only.' },
+      { name: 'disabled', type: 'boolean',                   required: false, default: 'false', description: 'Disables the checkbox.' },
+      { name: 'children', type: 'ReactNode',                 required: true,  description: 'Label text.' },
+    ],
+    relatedSlugs: ['checkbox-group', 'radio', 'toggle'],
+  },
+
+  'checkbox-group': {
+    description: 'Controlled multi-choice checkbox group. Manages an array of selected values via context. Children Checkboxes provide their `value`, and selection automatically toggles the array.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/form',
+    props: [
+      { name: 'value',       type: 'Array<string | number>',                       required: true,  description: 'Currently-selected values.' },
+      { name: 'onChange',    type: '(next: Array) => void',                         required: false, description: 'Callback fired with the next array on toggle.' },
+      { name: 'disabled',    type: 'boolean',                                       required: false, default: 'false', description: 'Disables every Checkbox.' },
+      { name: 'label',       type: 'ReactNode',                                    required: false, description: 'Legend above the group.' },
+      { name: 'hint',        type: 'ReactNode',                                    required: false, description: 'Helper text.' },
+      { name: 'error',       type: 'string',                                       required: false, description: 'Error message.' },
+      { name: 'required',    type: 'boolean',                                       required: false, default: 'false', description: 'Required marker + aria.' },
+      { name: 'orientation', type: enumType(CHECKBOX_GROUP_ORIENTATION_VALUES),    required: false, default: "'vertical'", description: 'Layout direction.' },
+      { name: 'children',    type: 'Checkbox[]',                                    required: true,  description: 'Checkbox children.' },
+    ],
+    relatedSlugs: ['checkbox', 'radio-group', 'field'],
   },
 
   'framed-image': {
