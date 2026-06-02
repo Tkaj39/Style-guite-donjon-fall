@@ -134,7 +134,7 @@ export const componentMeta = {
       { name: 'onChange', type: '(value: string) => void',                             required: false, description: 'Tab-change callback.' },
       { name: 'size',     type: "'xs'|'sm'|'md'|'lg'",                                 required: false, default: "'md'",         description: 'Item height + padding + font size. Mirrors DonjonButtonGroup.' },
       { name: 'dividers', type: 'boolean',                                              required: false, default: 'true',         description: '1px goldDim dividers between adjacent items.' },
-      { name: 'ornament', type: "'decorated'|'plain'|'zkosen'|'roh'",                   required: false, default: "'decorated'",  description: 'Item ornaments. decorated/zkosen/roh swap the side ornament style (SideOrnament/ZkosenOrnament/RohOrnament); plain skips ornaments entirely. Same set as DonjonButtonGroup.' },
+      { name: 'ornament', type: "'decorated'|'plain'",                                  required: false, default: "'decorated'",  description: 'Item ornaments. `decorated` adds SideOrnament on outer ends + HexOrnament line on top/bottom of every item. `plain` skips them.' },
       { name: 'children', type: 'DonjonNotchMenu.Item[] + DonjonNotchMenu.Body?',      required: true,  description: 'Items + optional Body.' },
     ],
     relatedSlugs: ['notch-menu', 'donjon-button-group', 'donjon-tabs'],

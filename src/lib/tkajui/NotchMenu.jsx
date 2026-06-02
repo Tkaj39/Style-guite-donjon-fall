@@ -304,6 +304,11 @@ export default function NotchMenu({
         <div
           ref={bannerRef}
           style={{
+            // content-box so total height = s.h + 2*BORDER_W and the inner
+            // row (height: 100% = s.h) matches the items' explicit height —
+            // otherwise items overflow the row by 2 px and content can be
+            // vertically offset.
+            boxSizing: 'content-box',
             display: 'inline-flex',
             background: borderDefault,
             clipPath: outerClip,

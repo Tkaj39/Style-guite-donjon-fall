@@ -5,7 +5,7 @@
    ─────────────────────────────────────────────────────────────────────── */
 import { Children, cloneElement, createContext, Fragment, isValidElement, useContext, useId, useLayoutEffect, useRef, useState } from 'react'
 import { octagon, clipLeft, clipRight } from '../../utils/octagon'
-import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament } from './Ornaments'
+import { SideOrnament, HexOrnament } from './Ornaments'
 import {
   bg2, bgInactive, bgDeep,
   gold, goldDim,
@@ -61,22 +61,18 @@ function Item({
                  : isLast  ? clipRight(s.cx)
                  : undefined
 
-  // Ornament selection — mirrors DonjonButtonGroup.
-  const ornament      = ctx.ornament ?? 'decorated'
-  const hasOrnaments  = ornament !== 'plain'
-  const SideOrn       = ornament === 'zkosen' ? ZkosenOrnament
-                      : ornament === 'roh'    ? RohOrnament
-                      : SideOrnament
+  // Ornaments: 'decorated' = SideOrnament + HexOrnament on every item;
+  // 'plain' = no ornaments.
+  const ornament     = ctx.ornament ?? 'decorated'
+  const hasOrnaments = ornament !== 'plain'
 
   const rawId = useId()
   const uid   = rawId.replace(/:/g, '')
 
   // Ornaments need extra horizontal room past the diagonal corner (otherwise
-  // the side ornament collides with the label). Same scaling as
-  // DonjonButtonGroup: ornW scales with item height.
-  const ORN_BASES = { decorated: 24, zkosen: 22, roh: 25 }
+  // the side ornament collides with the label). ornW scales with item height.
   const ornW = hasOrnaments
-    ? Math.round((ORN_BASES[ornament] ?? 24) * (s.h / 66) * 10) / 10
+    ? Math.round(24 * (s.h / 66) * 10) / 10
     : 0
   const padL = hasOrnaments && (isFirst || isOnly) ? s.px + ornW : s.px
   const padR = hasOrnaments && (isLast  || isOnly) ? s.px + ornW : s.px
@@ -124,8 +120,8 @@ function Item({
       {...rest}
     >
       {/* Side ornament — only on the leftmost / rightmost item. */}
-      {hasOrnaments && (isFirst || isOnly) && <SideOrn h={s.h} uid={`${uid}l`} />}
-      {hasOrnaments && (isLast  || isOnly) && <SideOrn h={s.h} uid={`${uid}r`} flip />}
+      {hasOrnaments && (isFirst || isOnly) && <SideOrnament h={s.h} uid={`${uid}l`} />}
+      {hasOrnaments && (isLast  || isOnly) && <SideOrnament h={s.h} uid={`${uid}r`} flip />}
 
       {/* Hex ornaments — line decoration on top and bottom of every item. */}
       {hasOrnaments && <HexOrnament uid={`${uid}t`} edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} hexOffsetX={(padL - padR) / 2} />}
@@ -317,6 +313,11 @@ export default function DonjonNotchMenu({
         <div
           ref={bannerRef}
           style={{
+            // content-box so total height = s.h + 2*BORDER_W and the inner
+            // row (height: 100% = s.h) matches the items' explicit height —
+            // otherwise items overflow the row by 2 px and SVG ornaments
+            // appear vertically offset (clipped at bottom, gap at top).
+            boxSizing: 'content-box',
             display: 'inline-flex',
             background: goldDim,
             clipPath: outerClip,

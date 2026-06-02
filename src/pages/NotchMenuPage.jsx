@@ -78,7 +78,7 @@ function ActionsOnlyDemo() {
 
 function OrnamentsDemo() {
   const [tab, setTab] = useState('info')
-  const ornaments = ['decorated', 'zkosen', 'roh', 'plain']
+  const ornaments = ['decorated', 'plain']
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 28, alignItems: 'center' }}>
       {ornaments.map((orn) => (
@@ -186,7 +186,7 @@ export default function NotchMenuPage() {
       <Section
         id="ornamenty"
         title="Ornamenty (jen donjon)"
-        description="DonjonNotchMenu má prop `ornament` (decorated / zkosen / roh / plain). SideOrnament na vnějších koncích nejlevější + nejpravější položky, HexOrnament línka přes top + bottom každé položky — paritní s DonjonButtonGroup. tkajui ornamenty nepoužívá."
+        description="DonjonNotchMenu má prop `ornament` (decorated / plain). Decorated = SideOrnament na vnějších koncích nejlevější + nejpravější položky + HexOrnament linka přes top a bottom každé položky. Plain = bez ornamentů. tkajui ornamenty nepoužívá."
       >
         <Preview>
           <OrnamentsDemo />
@@ -195,9 +195,7 @@ export default function NotchMenuPage() {
   ...
 </DonjonNotchMenu>
 
-<DonjonNotchMenu ornament="zkosen" ...>...</DonjonNotchMenu>
-<DonjonNotchMenu ornament="roh"    ...>...</DonjonNotchMenu>
-<DonjonNotchMenu ornament="plain"  ...>...</DonjonNotchMenu>  // bez ornamentů`} />
+<DonjonNotchMenu ornament="plain" ...>...</DonjonNotchMenu>  // bez ornamentů`} />
       </Section>
 
       <Section
