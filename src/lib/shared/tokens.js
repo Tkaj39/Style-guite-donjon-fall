@@ -61,3 +61,30 @@ export const zDropdown     = 900
 export const zNotification = 1800
 export const zToast        = 2000
 export const zTooltip      = 2100
+
+// ── Spacing scale (named, 4-base) ──────────────────────────────────────────
+// Used by the Stack / Inline / Cluster layout primitives and anywhere else
+// that needs a consistent gap / padding step. Both libraries share these
+// values so a `gap="md"` reads identically in TkajUI and donjon-fall-ui.
+
+/** Spacing scale (px). Each step doubles roughly through the t-shirt range. */
+export const SPACE = {
+  none: 0,
+  xs:  4,
+  sm:  8,
+  md:  16,
+  lg:  24,
+  xl:  32,
+  xxl: 48,
+}
+
+/** Valid keys of SPACE — `<Stack gap="md">` accepts one of these or a raw px number. */
+export const SPACE_VALUES = ['none', 'xs', 'sm', 'md', 'lg', 'xl', 'xxl']
+
+/** Resolve a `gap`/`padding`-shaped prop: 'md' → 16, 12 → 12. */
+export function resolveSpace(value, fallback = 0) {
+  if (value == null) return fallback
+  if (typeof value === 'number') return value
+  if (SPACE[value] != null) return SPACE[value]
+  return fallback
+}

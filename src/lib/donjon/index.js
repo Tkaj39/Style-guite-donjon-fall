@@ -128,6 +128,13 @@ export { default as DonjonTabs }        from './DonjonTabs'
  */
 export { default as DonjonNotchMenu }    from './DonjonNotchMenu'
 
+// ─── Layout primitives (re-export from TkajUI base) ────────────────────
+// Stack / Inline / Cluster are purely structural — no themed visuals — so
+// donjon-fall-ui re-exports them unchanged. Users can write
+// `import { Stack, DonjonButton } from 'donjon-fall-ui'` without juggling
+// two package imports.
+export { Stack, Inline, Cluster } from '../tkajui/Layout'
+
 /**
  * Game-themed tooltip with a parchment style and gold border.
  * @prop {React.ReactNode} children - Trigger element

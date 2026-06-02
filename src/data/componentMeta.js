@@ -89,9 +89,15 @@ import {
   BUTTON_SIZE_VALUES,
   BUTTON_VARIANT_VALUES,
   CARD_VARIANT_VALUES,
+  CLUSTER_ALIGN_VALUES,
+  CLUSTER_GAP_VALUES,
+  CLUSTER_JUSTIFY_VALUES,
   CORNER_ORNAMENT_CORNER_TYPE_VALUES,
   CORNER_ORNAMENT_VARIANT_VALUES,
   DEVICE_FRAME_TYPE_VALUES,
+  INLINE_ALIGN_VALUES,
+  INLINE_GAP_VALUES,
+  INLINE_JUSTIFY_VALUES,
   INPUT_SIZE_VALUES,
   MODAL_SIZE_VALUES,
   MODAL_VARIANT_VALUES,
@@ -108,6 +114,9 @@ import {
   SELECT_VARIANT_VALUES,
   SLIDER_SIZE_VALUES,
   SLIDER_VARIANT_VALUES,
+  STACK_ALIGN_VALUES,
+  STACK_GAP_VALUES,
+  STACK_JUSTIFY_VALUES,
   SUBMIT_BUTTON_SIZE_VALUES,
   SUBMIT_BUTTON_VARIANT_VALUES,
   TABS_ORIENTATION_VALUES,
@@ -257,6 +266,54 @@ export const componentMeta = {
       { name: 'children',      type: 'DonjonNotchMenu.Item[] + DonjonNotchMenu.Body?',  required: true,  description: 'Items + optional Body.' },
     ],
     relatedSlugs: ['notch-menu', 'donjon-button-group', 'donjon-tabs'],
+  },
+
+  /* ── Layout primitives — purely structural, both libraries reuse them ── */
+
+  'stack': {
+    description: 'Vertical column flex wrapper with a consistent gap token. Children stack top-to-bottom. Cross-axis stretches by default. Use this any time you would otherwise write `style={{ display: flex, flexDirection: column, gap: ... }}`.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/layout',
+    props: [
+      { name: 'gap',      type: `${enumType(STACK_GAP_VALUES)} | number`,    required: false, default: "'md'",     description: 'Spacing between children. Named token (xs–xxl) or raw px number.' },
+      { name: 'align',    type: enumType(STACK_ALIGN_VALUES),                required: false, default: "'stretch'", description: 'Cross-axis (horizontal) alignment of children.' },
+      { name: 'justify',  type: enumType(STACK_JUSTIFY_VALUES),              required: false, default: "'start'",   description: 'Main-axis (vertical) distribution.' },
+      { name: 'as',       type: 'string | React.ElementType',                 required: false, default: "'div'",    description: 'HTML tag or React component to render as.' },
+      { name: 'children', type: 'ReactNode',                                  required: false, description: 'Items to stack vertically.' },
+    ],
+    relatedSlugs: ['inline', 'cluster'],
+  },
+
+  'inline': {
+    description: 'Horizontal row flex wrapper with a gap token. Does NOT wrap by default — use Cluster when you need auto-wrap. Standard for icon+text rows, button rows, header layouts.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/layout',
+    props: [
+      { name: 'gap',      type: `${enumType(INLINE_GAP_VALUES)} | number`,   required: false, default: "'md'",    description: 'Spacing between children. Named token (xs–xxl) or raw px number.' },
+      { name: 'align',    type: enumType(INLINE_ALIGN_VALUES),               required: false, default: "'center'", description: 'Cross-axis (vertical) alignment.' },
+      { name: 'justify',  type: enumType(INLINE_JUSTIFY_VALUES),             required: false, default: "'start'",  description: 'Main-axis (horizontal) distribution.' },
+      { name: 'wrap',     type: 'boolean',                                   required: false, default: 'false',    description: 'Allow children to wrap to the next line.' },
+      { name: 'as',       type: 'string | React.ElementType',                required: false, default: "'div'",   description: 'HTML tag or React component to render as.' },
+      { name: 'children', type: 'ReactNode',                                 required: false, description: 'Items to lay out in a row.' },
+    ],
+    relatedSlugs: ['stack', 'cluster'],
+  },
+
+  'cluster': {
+    description: 'Horizontal row that auto-wraps to the next line. Built for collections of variable count: chips, tags, badges, filter pills. Functionally Inline with `wrap=true` and a smaller default gap.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/layout',
+    props: [
+      { name: 'gap',      type: `${enumType(CLUSTER_GAP_VALUES)} | number`,  required: false, default: "'sm'",    description: 'Spacing between items.' },
+      { name: 'align',    type: enumType(CLUSTER_ALIGN_VALUES),              required: false, default: "'center'", description: 'Cross-axis alignment of items across lines.' },
+      { name: 'justify',  type: enumType(CLUSTER_JUSTIFY_VALUES),            required: false, default: "'start'",  description: 'Distribution along the main axis.' },
+      { name: 'as',       type: 'string | React.ElementType',                required: false, default: "'div'",   description: 'HTML tag or React component to render as.' },
+      { name: 'children', type: 'ReactNode',                                 required: false, description: 'Items to cluster.' },
+    ],
+    relatedSlugs: ['inline', 'stack'],
   },
 
   'select': {
