@@ -142,6 +142,11 @@ function Item({
 /** Body cutout buffer — gap (px) between item edges and the cutout shape. */
 const CUTOUT_BUFFER = 8
 
+/** Extra bevel size (px) on the cutout's diagonal corners — on top of the
+ *  items' own `cx`. Slightly larger bevel keeps the cutout's diagonal a
+ *  hair clear of the items' diagonal. */
+const CUTOUT_BEVEL_EXTRA = 1
+
 /** Build a body clip-path polygon with an octagon-shaped notch on the top.
  *  `expandHalfW` widens the cutout's horizontal half-width — used by the
  *  inner (border-trick) layer to leave a 1 px border visible along the
@@ -149,7 +154,7 @@ const CUTOUT_BUFFER = 8
 function makeBodyClipPath(bannerWidth, s, expandHalfW = 0) {
   const cutoutHalfW = bannerWidth / 2 + CUTOUT_BUFFER + expandHalfW
   const cutoutDepth = Math.round(s.h / 2) + CUTOUT_BUFFER
-  const cx = s.cx
+  const cx = s.cx + CUTOUT_BEVEL_EXTRA
   const innerHalfW = Math.max(cutoutHalfW - cx, 0)
   const innerDepth = Math.max(cutoutDepth - cx, 0)
   return `polygon(
