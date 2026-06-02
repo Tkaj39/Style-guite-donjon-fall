@@ -125,9 +125,9 @@ const MANUAL_TASKS = [
       { status: 'done', text: 'Split — 2-column/row layout s dividerem a ratio prop' },
       { status: 'done', text: 'Center — full horizontal+vertical centrování s minHeight' },
       // Image essentials — game UI musí mít portréty
-      { status: 'todo', text: 'Avatar — portrét hráče/NPC, kruhový/oktagonální rám, fallback iniciály' },
-      { status: 'todo', text: 'FramedImage — obrázek s ornamentálním rámem (heraldický)' },
-      { status: 'todo', text: 'AspectBox — container s pevným poměrem stran (16:9, 1:1)' },
+      { status: 'done', text: 'Avatar — circle/octagon + initials fallback + color tint (player identity)' },
+      { status: 'done', text: 'FramedImage — donjon heraldický rám (octagon + gold border + SideOrnament + RohOrnament)' },
+      { status: 'done', text: 'AspectBox — CSS aspect-ratio container (16:9, 1:1, 4:3, 21:9)' },
       // Form primitives — gaps blokují reálné formuláře
       { status: 'todo', text: 'Field — label + input + error + hint composer' },
       { status: 'todo', text: 'Radio + RadioGroup — single-choice (difficulty, genre)' },

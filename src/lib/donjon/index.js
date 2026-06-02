@@ -133,7 +133,17 @@ export { default as DonjonNotchMenu }    from './DonjonNotchMenu'
 // donjon-fall-ui re-exports them unchanged. Users can write
 // `import { Stack, DonjonButton } from 'donjon-fall-ui'` without juggling
 // two package imports.
-export { Stack, Inline, Cluster, Grid, Container, Box, Spacer, Split, Center } from '../tkajui/Layout'
+export { Stack, Inline, Cluster, Grid, Container, Box, Spacer, Split, Center, AspectBox } from '../tkajui/Layout'
+export { default as Avatar } from '../tkajui/Avatar'
+
+/**
+ * FramedImage — image inside a donjon ornamental frame (octagon + gold border
+ * + SideOrnament + RohOrnament accents). Game-themed, donjon-only.
+ * @prop {string} src
+ * @prop {'xs'|'sm'|'md'|'lg'|'xl'|number} size
+ * @prop {'decorated'|'plain'} ornament
+ */
+export { default as FramedImage } from './FramedImage'
 
 /**
  * Game-themed tooltip with a parchment style and gold border.

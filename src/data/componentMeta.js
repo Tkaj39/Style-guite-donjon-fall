@@ -64,6 +64,8 @@ import {
   ERB_SHAPE_VALUES,
   EVENT_LOG_ORNAMENT_VALUES,
   FLOAT_FEEDBACK_VARIANT_VALUES,
+  FRAMED_IMAGE_ORNAMENT_VALUES,
+  FRAMED_IMAGE_SIZE_VALUES,
   GAME_TRANSITION_PRESET_VALUES,
   HEX_TILE_FOCAL_VALUES,
   HEX_TILE_PROPERTY_VALUES,
@@ -82,6 +84,8 @@ import {
 } from '../lib/donjon/enums'
 
 import {
+  AVATAR_SHAPE_VALUES,
+  AVATAR_SIZE_VALUES,
   BADGE_SIZE_VALUES,
   BADGE_VARIANT_VALUES,
   BOX_PADDING_VALUES,
@@ -413,6 +417,51 @@ export const componentMeta = {
       { name: 'children',  type: 'ReactNode',                  required: false, description: 'Content to center.' },
     ],
     relatedSlugs: ['stack', 'inline'],
+  },
+
+  'aspect-box': {
+    description: "Container locked to a fixed aspect ratio via CSS `aspect-ratio`. Single child positioned absolutely to fill — pair with `<img object-fit=cover>` or `<video>` / `<iframe>` for responsive media.",
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/layout',
+    props: [
+      { name: 'ratio',    type: 'number | string',           required: false, default: '16/9',  description: "Aspect ratio — number (16/9) or string ('4/3', '21/9'). CSS resolves the math." },
+      { name: 'as',       type: 'string | React.ElementType', required: false, default: "'div'", description: 'HTML tag or React component to render as.' },
+      { name: 'children', type: 'ReactNode',                  required: false, description: 'Single child — typically an <img>, <video>, or <iframe> that fills the box.' },
+    ],
+    relatedSlugs: ['container', 'box', 'avatar'],
+  },
+
+  'avatar': {
+    description: 'Portrait image with circular or octagonal frame + initials fallback when the image is missing or fails to load. Used for player/NPC portraits in the HUD, scoreboards, dialog headers.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/avatar',
+    props: [
+      { name: 'src',      type: 'string',                                 required: false, description: 'Image URL. When absent (or load fails) → initials fallback.' },
+      { name: 'name',     type: 'string',                                 required: false, description: 'Display name. Used for `alt` text and to derive 1–2 letter initials.' },
+      { name: 'size',     type: `${enumType(AVATAR_SIZE_VALUES)} | number`, required: false, default: "'md'",     description: 'Box size — token (xs=24, sm=32, md=48, lg=64, xl=96) or raw px.' },
+      { name: 'shape',    type: enumType(AVATAR_SHAPE_VALUES),             required: false, default: "'circle'", description: 'Frame silhouette.' },
+      { name: 'color',    type: 'string',                                 required: false, description: 'CSS color — used for octagon border ring and as the initials-fallback bg tint. Useful for player-color identity.' },
+      { name: 'bg',       type: 'string',                                 required: false, description: 'Override the fallback background color (defaults to surface3).' },
+      { name: 'bordered', type: 'boolean',                                required: false, default: 'true', description: 'Show a 1px border ring (works on both shapes).' },
+    ],
+    relatedSlugs: ['framed-image', 'aspect-box', 'erb'],
+  },
+
+  'framed-image': {
+    description: 'Image inside a donjon ornamental frame — octagonal silhouette + gold border + (optional) SideOrnament brackets on left/right + RohOrnament accents in the corners. Game-themed: NPC portraits in dialogue, hero artwork in menus, character sheet portraits.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/avatar',
+    props: [
+      { name: 'src',      type: 'string',                                       required: true,  description: 'Image URL.' },
+      { name: 'alt',      type: 'string',                                       required: false, default: "''",          description: 'Alt text.' },
+      { name: 'size',     type: `${enumType(FRAMED_IMAGE_SIZE_VALUES)} | number`, required: false, default: "'md'",       description: 'Frame box size — token (xs=48, sm=80, md=128, lg=192, xl=256) or raw px.' },
+      { name: 'ornament', type: enumType(FRAMED_IMAGE_ORNAMENT_VALUES),          required: false, default: "'decorated'", description: 'decorated = SideOrnament + RohOrnament accents; plain = just the gold octagon frame.' },
+      { name: 'color',    type: 'string',                                       required: false, description: 'Border color override (defaults to gold).' },
+    ],
+    relatedSlugs: ['avatar', 'erb', 'donjon-card'],
   },
 
   'select': {

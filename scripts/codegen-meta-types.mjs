@@ -154,7 +154,7 @@ for (const match of text.matchAll(/\benumType\(([A-Z_][A-Z_0-9]*)\)/g)) {
   // Heuristic: enum names containing DONJON_ or matching donjon-exclusive
   // components belong to donjon; the rest to tkajui. Match the original
   // `usedDonjonImports` heuristic by prefix-checking against the same slug list.
-  const isDonjonExclusive = /^(ACTION_TILE|DIE_FACE|DONJON_NOTIFICATION_CENTER|ERB|EVENT_LOG|FLOAT_FEEDBACK|GAME_TRANSITION|HEX_TILE|NUMERIC_DISPLAY|PHASE_INDICATOR|PLAYER_PANEL|RESOURCE_BAR)_/.test(name)
+  const isDonjonExclusive = /^(ACTION_TILE|DIE_FACE|DONJON_NOTIFICATION_CENTER|ERB|EVENT_LOG|FLOAT_FEEDBACK|FRAMED_IMAGE|GAME_TRANSITION|HEX_TILE|NUMERIC_DISPLAY|PHASE_INDICATOR|PLAYER_PANEL|RESOURCE_BAR)_/.test(name)
   if (name.startsWith('DONJON_') || isDonjonExclusive) usedDonjonImports.add(name)
   else usedTkajuiImports.add(name)
 }

@@ -91,3 +91,7 @@ export const SPACER_AXIS_VALUES = ['horizontal', 'vertical']
 
 export const SPLIT_DIRECTION_VALUES = ['horizontal', 'vertical']
 export const SPLIT_GAP_VALUES       = STACK_GAP_VALUES
+
+// ── Image essentials ──────────────────────────────────────────────────────
+export const AVATAR_SIZE_VALUES   = ['xs', 'sm', 'md', 'lg', 'xl']
+export const AVATAR_SHAPE_VALUES  = ['circle', 'octagon']

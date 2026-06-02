@@ -416,6 +416,42 @@ export function Split({
   )
 }
 
+/* ── AspectBox ────────────────────────────────────────────────────────
+   Container that locks its child to a fixed aspect ratio. Uses CSS
+   `aspect-ratio` (widely supported in evergreen browsers). The single
+   child is positioned absolutely to fill the box — typical use is an
+   `<img>` with `object-fit: cover` or a `<video>` / `<iframe>`.
+   ─────────────────────────────────────────────────────────────────── */
+
+/**
+ * @param {number|string} [ratio=16/9]  e.g. 16/9, 1, '4/3', '21/9'.
+ *   Numbers and 'a/b' strings both work; CSS resolves the math.
+ * @param {string|React.ElementType} [as='div']
+ */
+export function AspectBox({
+  ratio = 16 / 9,
+  as: Tag = 'div',
+  children,
+  className,
+  style,
+  ...rest
+}) {
+  return (
+    <Tag
+      className={className}
+      style={{
+        position: 'relative',
+        aspectRatio: typeof ratio === 'string' ? ratio : String(ratio),
+        overflow: 'hidden',
+        ...style,
+      }}
+      {...rest}
+    >
+      {children}
+    </Tag>
+  )
+}
+
 /* ── Center ───────────────────────────────────────────────────────────
    Center content both horizontally and vertically. Most common for
    loading screens, empty states, login forms.
