@@ -145,7 +145,7 @@ const CUTOUT_BUFFER = 8
 /** Extra bevel size (px) on the cutout's diagonal corners — on top of the
  *  items' own `cx`. Slightly larger bevel keeps the cutout's diagonal a
  *  hair clear of the items' diagonal. */
-const CUTOUT_BEVEL_EXTRA = 4
+const CUTOUT_BEVEL_EXTRA = 1
 
 /** Build a body clip-path polygon with an octagon-shaped notch on the top.
  *  `expandHalfW` widens the cutout's horizontal half-width — used by the
@@ -349,7 +349,11 @@ export default function NotchMenu({
           </div>
         </div>
 
-        {body && <div style={{ alignSelf: 'stretch' }}>{body}</div>}
+        {/* Body is a direct flex child so its own minWidth (computed from
+            bannerWidth + cutout bevel) can grow the wrapper. With the
+            previous `alignSelf: stretch` wrapper, the body was forced to
+            match the wrapper's cross-axis width and minWidth had no effect. */}
+        {body}
       </div>
     </NotchMenuContext.Provider>
   )
