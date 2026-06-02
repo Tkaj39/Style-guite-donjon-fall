@@ -1,4 +1,4 @@
-import { Stack, Inline, Cluster, Grid, Container, Box, Spacer, Split, Center } from '../lib/tkajui/Layout'
+import { Stack, Inline, Cluster, Grid, Container, Box, Spacer, Split, Center, AspectBox } from '../lib/tkajui/Layout'
 import { surface2, surface3, surface4, borderDefault, borderMid, textHigh, textMid, textLow, accent } from '../lib/tkajui/tokens'
 import { SPACE, SPACE_VALUES } from '../lib/shared/tokens'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
@@ -309,6 +309,33 @@ SPACE_VALUES      // → ['none','xs','sm','md','lg','xl','xxl']`} />
   <Sidebar />
   <MainContent />
 </Split>`} />
+      </Section>
+
+      <Section
+        id="aspect-box"
+        title="AspectBox — fixní aspect ratio"
+        description="CSS aspect-ratio wrapper. Child position absolute fills the box. Ideální pro responzivní obrázky, video, iframe — kde chceš udržet poměr stran nezávisle na šířce."
+      >
+        <Preview>
+          <Inline gap="md" wrap>
+            {[16 / 9, 1, 4 / 3, 21 / 9].map(r => (
+              <div key={r} style={{ width: 200 }}>
+                <p style={{ margin: '0 0 6px', fontSize: '0.625rem', color: textLow, letterSpacing: '0.1em', textTransform: 'uppercase' }}>ratio={`{${r.toFixed(3)}}`}</p>
+                <AspectBox ratio={r} style={{ background: surface2, border: `1px dashed ${borderMid}` }}>
+                  <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: textMid, fontSize: '0.75rem' }}>
+                    {r === 16/9 ? '16:9' : r === 1 ? '1:1' : r === 4/3 ? '4:3' : '21:9'}
+                  </span>
+                </AspectBox>
+              </div>
+            ))}
+          </Inline>
+        </Preview>
+        <CodeBlock code={`<AspectBox ratio={16 / 9}>
+  <img src="/hero.jpg" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+</AspectBox>
+
+{/* String forms also work — CSS native */}
+<AspectBox ratio="4/3">...</AspectBox>`} />
       </Section>
 
       <Section

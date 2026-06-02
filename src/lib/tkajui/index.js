@@ -30,7 +30,8 @@ export { default as Toggle }         from './Toggle'
 export { default as NotchMenu }      from './NotchMenu'
 
 // ─── Layout primitives (purely structural — no themed visuals) ──────────
-export { Stack, Inline, Cluster, Grid, Container, Box, Spacer, Split, Center } from './Layout'
+export { Stack, Inline, Cluster, Grid, Container, Box, Spacer, Split, Center, AspectBox } from './Layout'
+export { default as Avatar } from './Avatar'
 
 export { default as Pictogram }      from './Pictogram'
 

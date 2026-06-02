@@ -214,7 +214,8 @@ export const sections = [
       { to: '/slider',       label: 'Slider',       library: 'both' },
       { to: '/tabs',         label: 'Tabs',         library: 'both' },
       { to: '/notch-menu',   label: 'Notch Menu',   library: 'both' },
-      { to: '/layout',       label: 'Layout (Stack / Inline / Cluster)', library: 'both' },
+      { to: '/layout',       label: 'Layout (Stack / Grid / Box / …)', library: 'both' },
+      { to: '/avatar',       label: 'Avatar / FramedImage', library: 'both' },
       { to: '/buttons',       label: 'Buttons',       library: 'both' },
       { to: '/button-groups', label: 'Button Groups', library: 'both' },
       {
