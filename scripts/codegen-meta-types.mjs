@@ -137,11 +137,27 @@ for (const r of replacements.sort((a, b) => b.start - a.start)) {
 
 // ── Add imports + enumType helper at top of file ─────────────────────────
 
-// Strip any pre-existing auto-generated import block (idempotent re-runs)
+// Strip any pre-existing auto-generated import block(s) — gm flag handles
+// duplicates from broken earlier runs. Match is lazy so we stop at the
+// nearest "END auto-generated" line. Optional trailing whitespace handles
+// LF/CRLF differences.
 text = text.replace(
-  /^\/\/ ── AUTO-GENERATED imports[\s\S]*?\/\/ ── END auto-generated\n\n/m,
+  /\/\/ ── AUTO-GENERATED imports[\s\S]*?\/\/ ── END auto-generated\r?\n(\r?\n)*/g,
   ''
 )
+
+// Re-scan the (already-rewritten) text for usedImports — when there are no
+// string-typed enums left to rewrite, we still need to know which *_VALUES
+// the file imports so the new block lists them all.
+for (const match of text.matchAll(/\benumType\(([A-Z_][A-Z_0-9]*)\)/g)) {
+  const name = match[1]
+  // Heuristic: enum names containing DONJON_ or matching donjon-exclusive
+  // components belong to donjon; the rest to tkajui. Match the original
+  // `usedDonjonImports` heuristic by prefix-checking against the same slug list.
+  const isDonjonExclusive = /^(ACTION_TILE|DIE_FACE|DONJON_NOTIFICATION_CENTER|ERB|EVENT_LOG|FLOAT_FEEDBACK|GAME_TRANSITION|HEX_TILE|NUMERIC_DISPLAY|PHASE_INDICATOR|PLAYER_PANEL|RESOURCE_BAR)_/.test(name)
+  if (name.startsWith('DONJON_') || isDonjonExclusive) usedDonjonImports.add(name)
+  else usedTkajuiImports.add(name)
+}
 
 const donjonImports = [...usedDonjonImports].sort()
 const tkajuiImports = [...usedTkajuiImports].sort()

@@ -126,6 +126,31 @@ function SizesDemo() {
   )
 }
 
+function ItemsPositionDemo() {
+  const [tab, setTab] = useState('info')
+  const lib = useLibVariant()
+  const Menu = lib === 'donjon' ? DonjonNotchMenu : NotchMenu
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 32, alignItems: 'center' }}>
+      {['top', 'bottom'].map((pos) => (
+        <div key={pos} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+          <span style={{ fontSize: '0.625rem', color: textLow, letterSpacing: '0.1em', textTransform: 'uppercase' }}>itemsPosition=&quot;{pos}&quot;</span>
+          <Menu value={tab} onChange={setTab} itemsPosition={pos}>
+            <Menu.Item value="info">Info</Menu.Item>
+            <Menu.Item value="stats">Statistiky</Menu.Item>
+            <Menu.Item value="log">Log</Menu.Item>
+            <Menu.Body>
+              <span style={{ fontSize: '0.75rem', color: lib === 'donjon' ? textMid : tkMid }}>
+                Items {pos === 'top' ? 'nahoře' : 'dole'} · aktivní záložka: {tab}
+              </span>
+            </Menu.Body>
+          </Menu>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function HybridDemo() {
   const [tab, setTab] = useState('quest')
   const lib = useLibVariant()
@@ -210,6 +235,23 @@ export default function NotchMenuPage() {
 <NotchMenu size="sm" value={tab} onChange={setTab}>...</NotchMenu>
 <NotchMenu size="md" value={tab} onChange={setTab}>...</NotchMenu>
 <NotchMenu size="lg" value={tab} onChange={setTab}>...</NotchMenu>`} />
+      </Section>
+
+      <Section
+        id="items-position"
+        title="Items nahoře / dole"
+        description="Prop `itemsPosition` (default 'top') určuje, zda items sedí na horní hraně body (klasika) nebo na spodní hraně. Body cutout se otočí na opačnou stranu, banner přesah z opačného směru."
+      >
+        <Preview>
+          <ItemsPositionDemo />
+        </Preview>
+        <CodeBlock code={`<NotchMenu value={tab} onChange={setTab} itemsPosition="top">
+  ...                                          ← items nahoře (default)
+</NotchMenu>
+
+<NotchMenu value={tab} onChange={setTab} itemsPosition="bottom">
+  ...                                          ← items dole
+</NotchMenu>`} />
       </Section>
 
       <Section
