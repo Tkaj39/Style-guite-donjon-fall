@@ -318,7 +318,7 @@ export default function DonjonNotchMenu({
           </div>
         </div>
 
-        {body && <div style={{ alignSelf: 'stretch' }}>{body}</div>}
+        {body}
       </div>
     </DonjonNotchMenuContext.Provider>
   )
