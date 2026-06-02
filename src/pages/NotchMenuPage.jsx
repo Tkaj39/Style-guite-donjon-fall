@@ -76,6 +76,30 @@ function ActionsOnlyDemo() {
   )
 }
 
+function OrnamentsDemo() {
+  const [tab, setTab] = useState('info')
+  const ornaments = ['decorated', 'zkosen', 'roh', 'plain']
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 28, alignItems: 'center' }}>
+      {ornaments.map((orn) => (
+        <div key={orn} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+          <span style={{ fontSize: '0.625rem', color: textLow, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            ornament=&quot;{orn}&quot;
+          </span>
+          <DonjonNotchMenu value={tab} onChange={setTab} ornament={orn}>
+            <DonjonNotchMenu.Item value="info">Info</DonjonNotchMenu.Item>
+            <DonjonNotchMenu.Item value="stats">Statistiky</DonjonNotchMenu.Item>
+            <DonjonNotchMenu.Item value="log">Log</DonjonNotchMenu.Item>
+            <DonjonNotchMenu.Body>
+              <span style={{ fontSize: '0.75rem', color: textMid }}>Aktivní záložka: {tab}</span>
+            </DonjonNotchMenu.Body>
+          </DonjonNotchMenu>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function SizesDemo() {
   const [tab, setTab] = useState('info')
   const lib = useLibVariant()
@@ -157,6 +181,23 @@ export default function NotchMenuPage() {
     {tab === 'log'   && <Log />}
   </NotchMenu.Body>
 </NotchMenu>`} />
+      </Section>
+
+      <Section
+        id="ornamenty"
+        title="Ornamenty (jen donjon)"
+        description="DonjonNotchMenu má prop `ornament` (decorated / zkosen / roh / plain). SideOrnament na vnějších koncích nejlevější + nejpravější položky, HexOrnament línka přes top + bottom každé položky — paritní s DonjonButtonGroup. tkajui ornamenty nepoužívá."
+      >
+        <Preview>
+          <OrnamentsDemo />
+        </Preview>
+        <CodeBlock code={`<DonjonNotchMenu ornament="decorated" value={tab} onChange={setTab}>
+  ...
+</DonjonNotchMenu>
+
+<DonjonNotchMenu ornament="zkosen" ...>...</DonjonNotchMenu>
+<DonjonNotchMenu ornament="roh"    ...>...</DonjonNotchMenu>
+<DonjonNotchMenu ornament="plain"  ...>...</DonjonNotchMenu>  // bez ornamentů`} />
       </Section>
 
       <Section

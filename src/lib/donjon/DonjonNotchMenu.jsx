@@ -3,8 +3,9 @@
    the outermost items, plus DonjonButtonGroup colors (gold gradient on
    active, gradient-text uppercase labels, gold border).
    ─────────────────────────────────────────────────────────────────────── */
-import { Children, cloneElement, createContext, Fragment, isValidElement, useContext, useLayoutEffect, useRef, useState } from 'react'
+import { Children, cloneElement, createContext, Fragment, isValidElement, useContext, useId, useLayoutEffect, useRef, useState } from 'react'
 import { octagon, clipLeft, clipRight } from '../../utils/octagon'
+import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament } from './Ornaments'
 import {
   bg2, bgInactive, bgDeep,
   gold, goldDim,
@@ -60,6 +61,28 @@ function Item({
                  : isLast  ? clipRight(s.cx)
                  : undefined
 
+  // Ornament selection — mirrors DonjonButtonGroup.
+  const ornament      = ctx.ornament ?? 'decorated'
+  const hasOrnaments  = ornament !== 'plain'
+  const SideOrn       = ornament === 'zkosen' ? ZkosenOrnament
+                      : ornament === 'roh'    ? RohOrnament
+                      : SideOrnament
+
+  const rawId = useId()
+  const uid   = rawId.replace(/:/g, '')
+
+  // Ornaments need extra horizontal room past the diagonal corner (otherwise
+  // the side ornament collides with the label). Same scaling as
+  // DonjonButtonGroup: ornW scales with item height.
+  const ORN_BASES = { decorated: 24, zkosen: 22, roh: 25 }
+  const ornW = hasOrnaments
+    ? Math.round((ORN_BASES[ornament] ?? 24) * (s.h / 66) * 10) / 10
+    : 0
+  const padL = hasOrnaments && (isFirst || isOnly) ? s.px + ornW : s.px
+  const padR = hasOrnaments && (isLast  || isOnly) ? s.px + ornW : s.px
+  const edgePadL = hasOrnaments && (isFirst || isOnly) ? s.cx + 8 : 0
+  const edgePadR = hasOrnaments && (isLast  || isOnly) ? s.cx + 8 : 0
+
   const handleClick = (e) => {
     if (disabled) return
     if (isTab) {
@@ -81,8 +104,8 @@ function Item({
       style={{
         position: 'relative',
         height: s.h,
-        paddingLeft: s.px,
-        paddingRight: s.px,
+        paddingLeft: padL,
+        paddingRight: padR,
         clipPath,
         display: 'inline-flex',
         alignItems: 'center',
@@ -100,6 +123,14 @@ function Item({
       }}
       {...rest}
     >
+      {/* Side ornament — only on the leftmost / rightmost item. */}
+      {hasOrnaments && (isFirst || isOnly) && <SideOrn h={s.h} uid={`${uid}l`} />}
+      {hasOrnaments && (isLast  || isOnly) && <SideOrn h={s.h} uid={`${uid}r`} flip />}
+
+      {/* Hex ornaments — line decoration on top and bottom of every item. */}
+      {hasOrnaments && <HexOrnament uid={`${uid}t`} edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} hexOffsetX={(padL - padR) / 2} />}
+      {hasOrnaments && <HexOrnament uid={`${uid}b`} flip edgePadL={edgePadL} edgePadR={edgePadR} textPadL={padL} textPadR={padR} hexOffsetX={(padL - padR) / 2} />}
+
       {icon && (
         <span style={{
           width: s.iconSize, height: s.iconSize,
@@ -222,11 +253,22 @@ function Body({ children, className, style }) {
 }
 
 /* ── Root ─────────────────────────────────────────────────────────────── */
+/**
+ * DonjonNotchMenu — game variant of NotchMenu with optional decorative
+ * ornaments on the items.
+ *
+ * @param {'decorated'|'plain'|'zkosen'|'roh'} [ornament='decorated']
+ *   'decorated' = SideOrnament on outer ends + HexOrnament line on top/bottom
+ *   'zkosen'    = same with ZkosenOrnament as the side ornament
+ *   'roh'       = same with RohOrnament as the side ornament
+ *   'plain'     = no ornaments (clean variant)
+ */
 export default function DonjonNotchMenu({
   value = null,
   onChange,
   size = 'md',
   dividers = true,
+  ornament = 'decorated',
   children,
   className,
   style,
@@ -264,7 +306,7 @@ export default function DonjonNotchMenu({
     return cloneElement(it, { _position: position, key: it.props.value ?? `action-${i}` })
   })
 
-  const ctx = { value, onChange, size, bannerWidth }
+  const ctx = { value, onChange, size, ornament, bannerWidth }
 
   return (
     <DonjonNotchMenuContext.Provider value={ctx}>
