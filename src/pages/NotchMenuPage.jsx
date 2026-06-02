@@ -126,6 +126,31 @@ function SizesDemo() {
   )
 }
 
+function BodyCornersDemo() {
+  const [tab, setTab] = useState('info')
+  const lib = useLibVariant()
+  const Menu = lib === 'donjon' ? DonjonNotchMenu : NotchMenu
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 28, alignItems: 'center' }}>
+      {['octagon', 'sharp'].map((corners) => (
+        <div key={corners} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+          <span style={{ fontSize: '0.625rem', color: textLow, letterSpacing: '0.1em', textTransform: 'uppercase' }}>bodyCorners=&quot;{corners}&quot;</span>
+          <Menu value={tab} onChange={setTab} bodyCorners={corners}>
+            <Menu.Item value="info">Info</Menu.Item>
+            <Menu.Item value="stats">Statistiky</Menu.Item>
+            <Menu.Item value="log">Log</Menu.Item>
+            <Menu.Body>
+              <span style={{ fontSize: '0.75rem', color: lib === 'donjon' ? textMid : tkMid }}>
+                Aktivní záložka: {tab}
+              </span>
+            </Menu.Body>
+          </Menu>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function ItemsPositionDemo() {
   const [tab, setTab] = useState('info')
   const lib = useLibVariant()
@@ -235,6 +260,23 @@ export default function NotchMenuPage() {
 <NotchMenu size="sm" value={tab} onChange={setTab}>...</NotchMenu>
 <NotchMenu size="md" value={tab} onChange={setTab}>...</NotchMenu>
 <NotchMenu size="lg" value={tab} onChange={setTab}>...</NotchMenu>`} />
+      </Section>
+
+      <Section
+        id="body-corners"
+        title="Zkosené rohy body"
+        description="Prop `bodyCorners` (default 'octagon') určuje, zda body má octagon-cut diagonálně zkosené rohy (stejné cx jako items, takže silueta navazuje na banner) nebo plain rectangle ('sharp')."
+      >
+        <Preview>
+          <BodyCornersDemo />
+        </Preview>
+        <CodeBlock code={`<NotchMenu value={tab} onChange={setTab} bodyCorners="octagon">
+  ...                                       ← default — zkosené rohy
+</NotchMenu>
+
+<NotchMenu value={tab} onChange={setTab} bodyCorners="sharp">
+  ...                                       ← rovné rohy
+</NotchMenu>`} />
       </Section>
 
       <Section

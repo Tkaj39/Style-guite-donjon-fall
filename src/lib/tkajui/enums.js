@@ -23,6 +23,7 @@ export const MODAL_VARIANT_VALUES = ['default', 'danger', 'success', 'warning']
 
 export const NOTCH_MENU_SIZE_VALUES           = ['xs', 'sm', 'md', 'lg']
 export const NOTCH_MENU_ITEMS_POSITION_VALUES = ['top', 'bottom']
+export const NOTCH_MENU_BODY_CORNERS_VALUES   = ['octagon', 'sharp']
 
 export const PICTOGRAM_SIZE_VALUES = ['sm', 'md', 'lg', 'xl']
 

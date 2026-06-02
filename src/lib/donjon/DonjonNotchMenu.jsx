@@ -169,38 +169,47 @@ const CUTOUT_BUFFER = 8
 /** Extra bevel on the cutout's diagonal corners — on top of the items' cx. */
 const CUTOUT_BEVEL_EXTRA = 1
 
-function makeBodyClipPath(bannerWidth, s, expandHalfW = 0, side = 'top') {
+function makeBodyClipPath(bannerWidth, s, expandHalfW = 0, side = 'top', cornerCx = 0) {
   const cutoutHalfW = bannerWidth / 2 + CUTOUT_BUFFER + expandHalfW
   const cutoutDepth = Math.round(s.h / 2) + CUTOUT_BUFFER
   const cx = s.cx + CUTOUT_BEVEL_EXTRA
   const innerHalfW = Math.max(cutoutHalfW - cx, 0)
   const innerDepth = Math.max(cutoutDepth - cx, 0)
+  const k = Math.max(cornerCx, 0)
+  const tl0 = k > 0 ? `${k}px 0` : `0 0`
+  const tl1 = k > 0 ? `0 ${k}px` : null
+  const tr0 = k > 0 ? `calc(100% - ${k}px) 0` : `100% 0`
+  const tr1 = k > 0 ? `100% ${k}px` : null
+  const br0 = k > 0 ? `100% calc(100% - ${k}px)` : `100% 100%`
+  const br1 = k > 0 ? `calc(100% - ${k}px) 100%` : null
+  const bl0 = k > 0 ? `${k}px 100%` : `0 100%`
+  const bl1 = k > 0 ? `0 calc(100% - ${k}px)` : null
+  const tl = [tl0, tl1].filter(Boolean)
+  const tr = [tr0, tr1].filter(Boolean)
+  const br = [br0, br1].filter(Boolean)
+  const bl = [bl0, bl1].filter(Boolean)
   if (side === 'bottom') {
-    return `polygon(
-      0 0,
-      100% 0,
-      100% 100%,
-      calc(50% + ${cutoutHalfW}px) 100%,
-      calc(50% + ${cutoutHalfW}px) calc(100% - ${innerDepth}px),
-      calc(50% + ${innerHalfW}px) calc(100% - ${cutoutDepth}px),
-      calc(50% - ${innerHalfW}px) calc(100% - ${cutoutDepth}px),
-      calc(50% - ${cutoutHalfW}px) calc(100% - ${innerDepth}px),
-      calc(50% - ${cutoutHalfW}px) 100%,
-      0 100%
-    )`
+    return `polygon(${[
+      ...tl, ...tr, ...br,
+      `calc(50% + ${cutoutHalfW}px) 100%`,
+      `calc(50% + ${cutoutHalfW}px) calc(100% - ${innerDepth}px)`,
+      `calc(50% + ${innerHalfW}px) calc(100% - ${cutoutDepth}px)`,
+      `calc(50% - ${innerHalfW}px) calc(100% - ${cutoutDepth}px)`,
+      `calc(50% - ${cutoutHalfW}px) calc(100% - ${innerDepth}px)`,
+      `calc(50% - ${cutoutHalfW}px) 100%`,
+      ...bl,
+    ].join(',')})`
   }
-  return `polygon(
-    0 0,
-    calc(50% - ${cutoutHalfW}px) 0,
-    calc(50% - ${cutoutHalfW}px) ${innerDepth}px,
-    calc(50% - ${innerHalfW}px) ${cutoutDepth}px,
-    calc(50% + ${innerHalfW}px) ${cutoutDepth}px,
-    calc(50% + ${cutoutHalfW}px) ${innerDepth}px,
-    calc(50% + ${cutoutHalfW}px) 0,
-    100% 0,
-    100% 100%,
-    0 100%
-  )`
+  return `polygon(${[
+    ...tl,
+    `calc(50% - ${cutoutHalfW}px) 0`,
+    `calc(50% - ${cutoutHalfW}px) ${innerDepth}px`,
+    `calc(50% - ${innerHalfW}px) ${cutoutDepth}px`,
+    `calc(50% + ${innerHalfW}px) ${cutoutDepth}px`,
+    `calc(50% + ${cutoutHalfW}px) ${innerDepth}px`,
+    `calc(50% + ${cutoutHalfW}px) 0`,
+    ...tr, ...br, ...bl,
+  ].join(',')})`
 }
 
 /* ── Body ─────────────────────────────────────────────────────────────── */
@@ -212,6 +221,7 @@ function Body({ children, className, style }) {
   const cutoutSide = onTop ? 'top' : 'bottom'
   const extraTop    = onTop  ? cutoutDepth : 0
   const extraBottom = !onTop ? cutoutDepth : 0
+  const bodyCornerCx = ctx.bodyCorners === 'octagon' ? s.cx : 0
 
   if (ctx.bannerWidth <= 0) {
     return (
@@ -232,8 +242,8 @@ function Body({ children, className, style }) {
     )
   }
 
-  const outerClip = makeBodyClipPath(ctx.bannerWidth, s, 0, cutoutSide)
-  const innerClip = makeBodyClipPath(ctx.bannerWidth, s, BORDER_W, cutoutSide)
+  const outerClip = makeBodyClipPath(ctx.bannerWidth, s, 0, cutoutSide, bodyCornerCx)
+  const innerClip = makeBodyClipPath(ctx.bannerWidth, s, BORDER_W, cutoutSide, bodyCornerCx)
 
   const cx = s.cx + CUTOUT_BEVEL_EXTRA
   const minWidth = ctx.bannerWidth + 2 * (CUTOUT_BUFFER + cx + 8)
@@ -273,6 +283,8 @@ function Body({ children, className, style }) {
  * @param {'decorated'|'plain'} [ornament='decorated']
  * @param {'top'|'bottom'} [itemsPosition='top']  Where items sit relative
  *   to Body — 'top' (default) or 'bottom' (items live below body).
+ * @param {'octagon'|'sharp'} [bodyCorners='octagon']  Body's outer corner
+ *   style — 'octagon' matches the items' bevel, 'sharp' = plain rectangle.
  */
 export default function DonjonNotchMenu({
   value = null,
@@ -281,6 +293,7 @@ export default function DonjonNotchMenu({
   dividers = true,
   ornament = 'decorated',
   itemsPosition = 'top',
+  bodyCorners = 'octagon',
   children,
   className,
   style,
@@ -318,7 +331,7 @@ export default function DonjonNotchMenu({
     return cloneElement(it, { _position: position, key: it.props.value ?? `action-${i}` })
   })
 
-  const ctx = { value, onChange, size, ornament, bannerWidth, itemsPosition }
+  const ctx = { value, onChange, size, ornament, bannerWidth, itemsPosition, bodyCorners }
   const onTop = itemsPosition === 'top'
 
   const banner = (

@@ -147,46 +147,67 @@ const CUTOUT_BUFFER = 8
  *  hair clear of the items' diagonal. */
 const CUTOUT_BEVEL_EXTRA = 1
 
-/** Build a body clip-path polygon with an octagon-shaped notch on one edge.
- *  `expandHalfW` widens the cutout's horizontal half-width — used by the
- *  inner (border-trick) layer to leave a 1 px border visible along the
- *  cutout's vertical edges. `side` picks which edge holds the notch — when
- *  items sit at the bottom, the cutout is on the body's bottom edge. */
-function makeBodyClipPath(bannerWidth, s, expandHalfW = 0, side = 'top') {
+/** Build a body clip-path polygon with an octagon-shaped notch on one edge
+ *  and optional octagon-cut corners on the body's outer perimeter.
+ *
+ *  `expandHalfW` widens the cutout — used by the inner (border-trick) layer
+ *  to leave a 1 px border visible along the cutout edges.
+ *  `side`        picks which body edge holds the notch ('top' | 'bottom').
+ *  `cornerCx`    > 0 → octagon-cut corners on the body's outer perimeter.
+ *                 0  → sharp (rectangular) corners.
+ */
+function makeBodyClipPath(bannerWidth, s, expandHalfW = 0, side = 'top', cornerCx = 0) {
   const cutoutHalfW = bannerWidth / 2 + CUTOUT_BUFFER + expandHalfW
   const cutoutDepth = Math.round(s.h / 2) + CUTOUT_BUFFER
   const cx = s.cx + CUTOUT_BEVEL_EXTRA
   const innerHalfW = Math.max(cutoutHalfW - cx, 0)
   const innerDepth = Math.max(cutoutDepth - cx, 0)
+  // Body's own corner bevel. When 0, fall back to plain rectangle corners.
+  const k = Math.max(cornerCx, 0)
+  const tl0 = k > 0 ? `${k}px 0` : `0 0`
+  const tl1 = k > 0 ? `0 ${k}px` : null
+  const tr0 = k > 0 ? `calc(100% - ${k}px) 0` : `100% 0`
+  const tr1 = k > 0 ? `100% ${k}px` : null
+  const br0 = k > 0 ? `100% calc(100% - ${k}px)` : `100% 100%`
+  const br1 = k > 0 ? `calc(100% - ${k}px) 100%` : null
+  const bl0 = k > 0 ? `${k}px 100%` : `0 100%`
+  const bl1 = k > 0 ? `0 calc(100% - ${k}px)` : null
+
+  // Helper: list outer corner points clockwise, omitting nulls (sharp corners).
+  const tl = [tl0, tl1].filter(Boolean)
+  const tr = [tr0, tr1].filter(Boolean)
+  const br = [br0, br1].filter(Boolean)
+  const bl = [bl0, bl1].filter(Boolean)
 
   if (side === 'bottom') {
-    // Notch on the bottom edge. Polygon trace: TL → TR → BR → up bevel →
-    // along the cutout bottom edge → down bevel → BL → close.
-    return `polygon(
-      0 0,
-      100% 0,
-      100% 100%,
-      calc(50% + ${cutoutHalfW}px) 100%,
-      calc(50% + ${cutoutHalfW}px) calc(100% - ${innerDepth}px),
-      calc(50% + ${innerHalfW}px) calc(100% - ${cutoutDepth}px),
-      calc(50% - ${innerHalfW}px) calc(100% - ${cutoutDepth}px),
-      calc(50% - ${cutoutHalfW}px) calc(100% - ${innerDepth}px),
-      calc(50% - ${cutoutHalfW}px) 100%,
-      0 100%
-    )`
+    return `polygon(${[
+      ...tl,
+      ...tr,
+      ...br,
+      // notch on bottom edge — traced from right to left
+      `calc(50% + ${cutoutHalfW}px) 100%`,
+      `calc(50% + ${cutoutHalfW}px) calc(100% - ${innerDepth}px)`,
+      `calc(50% + ${innerHalfW}px) calc(100% - ${cutoutDepth}px)`,
+      `calc(50% - ${innerHalfW}px) calc(100% - ${cutoutDepth}px)`,
+      `calc(50% - ${cutoutHalfW}px) calc(100% - ${innerDepth}px)`,
+      `calc(50% - ${cutoutHalfW}px) 100%`,
+      ...bl,
+    ].join(',')})`
   }
-  return `polygon(
-    0 0,
-    calc(50% - ${cutoutHalfW}px) 0,
-    calc(50% - ${cutoutHalfW}px) ${innerDepth}px,
-    calc(50% - ${innerHalfW}px) ${cutoutDepth}px,
-    calc(50% + ${innerHalfW}px) ${cutoutDepth}px,
-    calc(50% + ${cutoutHalfW}px) ${innerDepth}px,
-    calc(50% + ${cutoutHalfW}px) 0,
-    100% 0,
-    100% 100%,
-    0 100%
-  )`
+
+  return `polygon(${[
+    ...tl,
+    // notch on top edge — traced left to right
+    `calc(50% - ${cutoutHalfW}px) 0`,
+    `calc(50% - ${cutoutHalfW}px) ${innerDepth}px`,
+    `calc(50% - ${innerHalfW}px) ${cutoutDepth}px`,
+    `calc(50% + ${innerHalfW}px) ${cutoutDepth}px`,
+    `calc(50% + ${cutoutHalfW}px) ${innerDepth}px`,
+    `calc(50% + ${cutoutHalfW}px) 0`,
+    ...tr,
+    ...br,
+    ...bl,
+  ].join(',')})`
 }
 
 /* ── Body ─────────────────────────────────────────────────────────────── */
@@ -198,6 +219,7 @@ function Body({ children, className, style }) {
   const cutoutSide = onTop ? 'top' : 'bottom'
   const extraTop    = onTop  ? cutoutDepth : 0
   const extraBottom = !onTop ? cutoutDepth : 0
+  const bodyCornerCx = ctx.bodyCorners === 'octagon' ? s.cx : 0
 
   // Before measurement: plain body with a simple CSS border. Avoids a flash
   // of broken layout on first paint.
@@ -223,8 +245,8 @@ function Body({ children, className, style }) {
   // Border-trick on the body: outer layer = border color + outer clip,
   // inner layer = surface color + inner clip (cutout 1 px wider so the
   // 1 px gap shows along the cutout's vertical edges too).
-  const outerClip = makeBodyClipPath(ctx.bannerWidth, s, 0, cutoutSide)
-  const innerClip = makeBodyClipPath(ctx.bannerWidth, s, BORDER_W, cutoutSide)
+  const outerClip = makeBodyClipPath(ctx.bannerWidth, s, 0, cutoutSide, bodyCornerCx)
+  const innerClip = makeBodyClipPath(ctx.bannerWidth, s, BORDER_W, cutoutSide, bodyCornerCx)
 
   // Body must be wider than the cutout for the diagonal bevels + the body's
   // own visible top/bottom edges to fit.
@@ -271,6 +293,10 @@ function Body({ children, className, style }) {
  *   Body — 'top' (items above body, default) or 'bottom' (items below body).
  *   Affects layout order, banner margin, and on which body edge the cutout
  *   notch is rendered.
+ * @param {'octagon'|'sharp'} [bodyCorners='octagon']  Body's outer corner
+ *   style. 'octagon' (default) cuts the 4 corners with the same cx as the
+ *   items so the body matches the banner's silhouette; 'sharp' leaves them
+ *   as plain rectangles.
  * @param {ReactNode} children - Mix of NotchMenu.Item and NotchMenu.Body.
  */
 export default function NotchMenu({
@@ -279,6 +305,7 @@ export default function NotchMenu({
   size = 'md',
   dividers = true,
   itemsPosition = 'top',
+  bodyCorners = 'octagon',
   children,
   className,
   style,
@@ -317,7 +344,7 @@ export default function NotchMenu({
     return cloneElement(it, { _position: position, key: it.props.value ?? `action-${i}` })
   })
 
-  const ctx = { value, onChange, size, bannerWidth, itemsPosition }
+  const ctx = { value, onChange, size, bannerWidth, itemsPosition, bodyCorners }
   const onTop = itemsPosition === 'top'
 
   const banner = (

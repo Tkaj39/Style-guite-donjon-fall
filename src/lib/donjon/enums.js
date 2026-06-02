@@ -45,6 +45,7 @@ export const DONJON_MODAL_ORNAMENT_VALUES = ['decorated', 'plain']
 export const DONJON_NOTCH_MENU_SIZE_VALUES           = ['xs', 'sm', 'md', 'lg']
 export const DONJON_NOTCH_MENU_ORNAMENT_VALUES       = ['decorated', 'plain']
 export const DONJON_NOTCH_MENU_ITEMS_POSITION_VALUES = ['top', 'bottom']
+export const DONJON_NOTCH_MENU_BODY_CORNERS_VALUES   = ['octagon', 'sharp']
 
 export const DONJON_PICTOGRAM_SIZE_VALUES    = ['sm', 'md', 'lg', 'xl']
 export const DONJON_PICTOGRAM_VARIANT_VALUES = ['active', 'passive', 'disabled', 'danger', 'success']
