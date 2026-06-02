@@ -169,12 +169,26 @@ const CUTOUT_BUFFER = 8
 /** Extra bevel on the cutout's diagonal corners — on top of the items' cx. */
 const CUTOUT_BEVEL_EXTRA = 1
 
-function makeBodyClipPath(bannerWidth, s, expandHalfW = 0) {
+function makeBodyClipPath(bannerWidth, s, expandHalfW = 0, side = 'top') {
   const cutoutHalfW = bannerWidth / 2 + CUTOUT_BUFFER + expandHalfW
   const cutoutDepth = Math.round(s.h / 2) + CUTOUT_BUFFER
   const cx = s.cx + CUTOUT_BEVEL_EXTRA
   const innerHalfW = Math.max(cutoutHalfW - cx, 0)
   const innerDepth = Math.max(cutoutDepth - cx, 0)
+  if (side === 'bottom') {
+    return `polygon(
+      0 0,
+      100% 0,
+      100% 100%,
+      calc(50% + ${cutoutHalfW}px) 100%,
+      calc(50% + ${cutoutHalfW}px) calc(100% - ${innerDepth}px),
+      calc(50% + ${innerHalfW}px) calc(100% - ${cutoutDepth}px),
+      calc(50% - ${innerHalfW}px) calc(100% - ${cutoutDepth}px),
+      calc(50% - ${cutoutHalfW}px) calc(100% - ${innerDepth}px),
+      calc(50% - ${cutoutHalfW}px) 100%,
+      0 100%
+    )`
+  }
   return `polygon(
     0 0,
     calc(50% - ${cutoutHalfW}px) 0,
@@ -194,6 +208,10 @@ function Body({ children, className, style }) {
   const ctx = useDonjonNotchMenu()
   const s = SIZE_MAP[ctx.size] ?? SIZE_MAP.md
   const cutoutDepth = Math.round(s.h / 2) + CUTOUT_BUFFER
+  const onTop = ctx.itemsPosition === 'top'
+  const cutoutSide = onTop ? 'top' : 'bottom'
+  const extraTop    = onTop  ? cutoutDepth : 0
+  const extraBottom = !onTop ? cutoutDepth : 0
 
   if (ctx.bannerWidth <= 0) {
     return (
@@ -203,7 +221,8 @@ function Body({ children, className, style }) {
           background: bgDeep,
           border: `${BORDER_W}px solid ${goldDim}`,
           padding: 18,
-          paddingTop: 18 + cutoutDepth,
+          paddingTop: 18 + extraTop,
+          paddingBottom: 18 + extraBottom,
           color: textHigh,
           ...style,
         }}
@@ -213,12 +232,9 @@ function Body({ children, className, style }) {
     )
   }
 
-  const outerClip = makeBodyClipPath(ctx.bannerWidth, s, 0)
-  const innerClip = makeBodyClipPath(ctx.bannerWidth, s, BORDER_W)
+  const outerClip = makeBodyClipPath(ctx.bannerWidth, s, 0, cutoutSide)
+  const innerClip = makeBodyClipPath(ctx.bannerWidth, s, BORDER_W, cutoutSide)
 
-  // Body must be wider than the cutout so the diagonal bevels + a strip of
-  // visible body edge on each side actually fit (otherwise CUTOUT_BEVEL_EXTRA
-  // tweaks have no visible effect — the bevels fall outside the body).
   const cx = s.cx + CUTOUT_BEVEL_EXTRA
   const minWidth = ctx.bannerWidth + 2 * (CUTOUT_BUFFER + cx + 8)
 
@@ -238,7 +254,8 @@ function Body({ children, className, style }) {
           background: bgDeep,
           clipPath: innerClip,
           padding: 18,
-          paddingTop: 18 + cutoutDepth - BORDER_W,
+          paddingTop: 18 + (onTop ? extraTop - BORDER_W : 0),
+          paddingBottom: 18 + (!onTop ? extraBottom - BORDER_W : 0),
           color: textHigh,
         }}
       >
@@ -253,11 +270,9 @@ function Body({ children, className, style }) {
  * DonjonNotchMenu — game variant of NotchMenu with optional decorative
  * ornaments on the items.
  *
- * @param {'decorated'|'plain'|'zkosen'|'roh'} [ornament='decorated']
- *   'decorated' = SideOrnament on outer ends + HexOrnament line on top/bottom
- *   'zkosen'    = same with ZkosenOrnament as the side ornament
- *   'roh'       = same with RohOrnament as the side ornament
- *   'plain'     = no ornaments (clean variant)
+ * @param {'decorated'|'plain'} [ornament='decorated']
+ * @param {'top'|'bottom'} [itemsPosition='top']  Where items sit relative
+ *   to Body — 'top' (default) or 'bottom' (items live below body).
  */
 export default function DonjonNotchMenu({
   value = null,
@@ -265,6 +280,7 @@ export default function DonjonNotchMenu({
   size = 'md',
   dividers = true,
   ornament = 'decorated',
+  itemsPosition = 'top',
   children,
   className,
   style,
@@ -302,7 +318,57 @@ export default function DonjonNotchMenu({
     return cloneElement(it, { _position: position, key: it.props.value ?? `action-${i}` })
   })
 
-  const ctx = { value, onChange, size, ornament, bannerWidth }
+  const ctx = { value, onChange, size, ornament, bannerWidth, itemsPosition }
+  const onTop = itemsPosition === 'top'
+
+  const banner = (
+    <div
+      ref={bannerRef}
+      style={{
+        // content-box so total height = s.h + 2*BORDER_W and the inner row
+        // matches the items' explicit height (avoids 2 px overflow that would
+        // shift SVG ornaments vertically).
+        boxSizing: 'content-box',
+        display: 'inline-flex',
+        background: goldDim,
+        clipPath: outerClip,
+        padding: BORDER_W,
+        height: s.h,
+        [onTop ? 'marginBottom' : 'marginTop']: -Math.round(s.h / 2),
+        zIndex: 1,
+      }}
+    >
+      <div
+        role="tablist"
+        style={{
+          height: '100%',
+          display: 'inline-flex',
+          alignItems: 'stretch',
+          background: bg2,
+          clipPath: outerClip,
+        }}
+      >
+        {positionedItems.map((it, idx) => (
+          <Fragment key={it.key ?? `frag-${idx}`}>
+            {idx > 0 && dividers && (
+              <span
+                aria-hidden="true"
+                style={{
+                  width: BORDER_W,
+                  alignSelf: 'center',
+                  height: 20,
+                  background: goldDim,
+                  opacity: 0.4,
+                  flexShrink: 0,
+                }}
+              />
+            )}
+            {it}
+          </Fragment>
+        ))}
+      </div>
+    </div>
+  )
 
   return (
     <DonjonNotchMenuContext.Provider value={ctx}>
@@ -310,58 +376,8 @@ export default function DonjonNotchMenu({
         className={className}
         style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', ...style }}
       >
-        <div
-          ref={bannerRef}
-          style={{
-            // content-box so total height = s.h + 2*BORDER_W and the inner
-            // row (height: 100% = s.h) matches the items' explicit height —
-            // otherwise items overflow the row by 2 px and SVG ornaments
-            // appear vertically offset (clipped at bottom, gap at top).
-            boxSizing: 'content-box',
-            display: 'inline-flex',
-            background: goldDim,
-            clipPath: outerClip,
-            padding: BORDER_W,
-            height: s.h,
-            // Pull the banner halfway down so items center on body's top edge.
-            marginBottom: -Math.round(s.h / 2),
-            zIndex: 1,
-          }}
-        >
-          <div
-            role="tablist"
-            style={{
-              height: '100%',
-              display: 'inline-flex',
-              alignItems: 'stretch',
-              background: bg2,
-              // Same octagon clip as the outer so the 1px gold-border gap
-              // is visible along the diagonal corner cuts too.
-              clipPath: outerClip,
-            }}
-          >
-            {positionedItems.map((it, idx) => (
-              <Fragment key={it.key ?? `frag-${idx}`}>
-                {idx > 0 && dividers && (
-                  <span
-                    aria-hidden="true"
-                    style={{
-                      width: BORDER_W,
-                      alignSelf: 'center',
-                      height: 20,
-                      background: goldDim,
-                      opacity: 0.4,
-                      flexShrink: 0,
-                    }}
-                  />
-                )}
-                {it}
-              </Fragment>
-            ))}
-          </div>
-        </div>
-
-        {body}
+        {onTop ? banner : body}
+        {onTop ? body : banner}
       </div>
     </DonjonNotchMenuContext.Provider>
   )

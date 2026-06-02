@@ -147,16 +147,34 @@ const CUTOUT_BUFFER = 8
  *  hair clear of the items' diagonal. */
 const CUTOUT_BEVEL_EXTRA = 1
 
-/** Build a body clip-path polygon with an octagon-shaped notch on the top.
+/** Build a body clip-path polygon with an octagon-shaped notch on one edge.
  *  `expandHalfW` widens the cutout's horizontal half-width — used by the
  *  inner (border-trick) layer to leave a 1 px border visible along the
- *  cutout's vertical edges. */
-function makeBodyClipPath(bannerWidth, s, expandHalfW = 0) {
+ *  cutout's vertical edges. `side` picks which edge holds the notch — when
+ *  items sit at the bottom, the cutout is on the body's bottom edge. */
+function makeBodyClipPath(bannerWidth, s, expandHalfW = 0, side = 'top') {
   const cutoutHalfW = bannerWidth / 2 + CUTOUT_BUFFER + expandHalfW
   const cutoutDepth = Math.round(s.h / 2) + CUTOUT_BUFFER
   const cx = s.cx + CUTOUT_BEVEL_EXTRA
   const innerHalfW = Math.max(cutoutHalfW - cx, 0)
   const innerDepth = Math.max(cutoutDepth - cx, 0)
+
+  if (side === 'bottom') {
+    // Notch on the bottom edge. Polygon trace: TL → TR → BR → up bevel →
+    // along the cutout bottom edge → down bevel → BL → close.
+    return `polygon(
+      0 0,
+      100% 0,
+      100% 100%,
+      calc(50% + ${cutoutHalfW}px) 100%,
+      calc(50% + ${cutoutHalfW}px) calc(100% - ${innerDepth}px),
+      calc(50% + ${innerHalfW}px) calc(100% - ${cutoutDepth}px),
+      calc(50% - ${innerHalfW}px) calc(100% - ${cutoutDepth}px),
+      calc(50% - ${cutoutHalfW}px) calc(100% - ${innerDepth}px),
+      calc(50% - ${cutoutHalfW}px) 100%,
+      0 100%
+    )`
+  }
   return `polygon(
     0 0,
     calc(50% - ${cutoutHalfW}px) 0,
@@ -176,6 +194,10 @@ function Body({ children, className, style }) {
   const ctx = useNotchMenu()
   const s = SIZE_MAP[ctx.size] ?? SIZE_MAP.md
   const cutoutDepth = Math.round(s.h / 2) + CUTOUT_BUFFER
+  const onTop = ctx.itemsPosition === 'top'  // items sit on body's TOP edge
+  const cutoutSide = onTop ? 'top' : 'bottom'
+  const extraTop    = onTop  ? cutoutDepth : 0
+  const extraBottom = !onTop ? cutoutDepth : 0
 
   // Before measurement: plain body with a simple CSS border. Avoids a flash
   // of broken layout on first paint.
@@ -187,7 +209,8 @@ function Body({ children, className, style }) {
           background: surface2,
           border: `${BORDER_W}px solid ${borderDefault}`,
           padding: 16,
-          paddingTop: 16 + cutoutDepth,
+          paddingTop: 16 + extraTop,
+          paddingBottom: 16 + extraBottom,
           color: textHigh,
           ...style,
         }}
@@ -200,13 +223,11 @@ function Body({ children, className, style }) {
   // Border-trick on the body: outer layer = border color + outer clip,
   // inner layer = surface color + inner clip (cutout 1 px wider so the
   // 1 px gap shows along the cutout's vertical edges too).
-  const outerClip = makeBodyClipPath(ctx.bannerWidth, s, 0)
-  const innerClip = makeBodyClipPath(ctx.bannerWidth, s, BORDER_W)
+  const outerClip = makeBodyClipPath(ctx.bannerWidth, s, 0, cutoutSide)
+  const innerClip = makeBodyClipPath(ctx.bannerWidth, s, BORDER_W, cutoutSide)
 
   // Body must be wider than the cutout for the diagonal bevels + the body's
-  // own visible top edges to fit. Without this, body width matches the items
-  // strip width and the cutout's diagonals fall outside the body — making
-  // CUTOUT_BEVEL_EXTRA changes invisible.
+  // own visible top/bottom edges to fit.
   const cx = s.cx + CUTOUT_BEVEL_EXTRA
   const minWidth = ctx.bannerWidth + 2 * (CUTOUT_BUFFER + cx + 8)
 
@@ -226,7 +247,8 @@ function Body({ children, className, style }) {
           background: surface2,
           clipPath: innerClip,
           padding: 16,
-          paddingTop: 16 + cutoutDepth - BORDER_W,
+          paddingTop: 16 + (onTop ? extraTop - BORDER_W : 0),
+          paddingBottom: 16 + (!onTop ? extraBottom - BORDER_W : 0),
           color: textHigh,
         }}
       >
@@ -239,12 +261,16 @@ function Body({ children, className, style }) {
 /* ── Root ─────────────────────────────────────────────────────────────── */
 /**
  * NotchMenu — ButtonGroup-shaped row of items (octagon-cut corners on the
- * outermost ends) on top of a Body panel.
+ * outermost ends) attached to a Body panel.
  *
  * @param {string|null} [value]
  * @param {(value: string) => void} [onChange]
  * @param {'xs'|'sm'|'md'|'lg'} [size='md']
  * @param {boolean} [dividers=true]
+ * @param {'top'|'bottom'} [itemsPosition='top']  Where items sit relative to
+ *   Body — 'top' (items above body, default) or 'bottom' (items below body).
+ *   Affects layout order, banner margin, and on which body edge the cutout
+ *   notch is rendered.
  * @param {ReactNode} children - Mix of NotchMenu.Item and NotchMenu.Body.
  */
 export default function NotchMenu({
@@ -252,6 +278,7 @@ export default function NotchMenu({
   onChange,
   size = 'md',
   dividers = true,
+  itemsPosition = 'top',
   children,
   className,
   style,
@@ -290,7 +317,60 @@ export default function NotchMenu({
     return cloneElement(it, { _position: position, key: it.props.value ?? `action-${i}` })
   })
 
-  const ctx = { value, onChange, size, bannerWidth }
+  const ctx = { value, onChange, size, bannerWidth, itemsPosition }
+  const onTop = itemsPosition === 'top'
+
+  const banner = (
+    <div
+      ref={bannerRef}
+      style={{
+        // content-box so total height = s.h + 2*BORDER_W and the inner
+        // row (height: 100% = s.h) matches the items' explicit height —
+        // otherwise items overflow the row by 2 px and content can be
+        // vertically offset.
+        boxSizing: 'content-box',
+        display: 'inline-flex',
+        background: borderDefault,
+        clipPath: outerClip,
+        padding: BORDER_W,
+        height: s.h,
+        // Pull the banner halfway into the body so the items' vertical
+        // center sits on the body's top (or bottom) edge.
+        [onTop ? 'marginBottom' : 'marginTop']: -Math.round(s.h / 2),
+        zIndex: 1,
+      }}
+    >
+      <div
+        role="tablist"
+        style={{
+          height: '100%',
+          display: 'inline-flex',
+          alignItems: 'stretch',
+          background: surface2,
+          clipPath: outerClip,
+        }}
+      >
+        {positionedItems.map((it, idx) => (
+          <Fragment key={it.key ?? `frag-${idx}`}>
+            {idx > 0 && dividers && (
+              <span
+                aria-hidden="true"
+                style={{
+                  width: BORDER_W,
+                  alignSelf: 'center',
+                  height: 20,
+                  background: borderDefault,
+                  opacity: 0.6,
+                  flexShrink: 0,
+                }}
+              />
+            )}
+            {it}
+          </Fragment>
+        ))}
+      </div>
+    </div>
+  )
 
   return (
     <NotchMenuContext.Provider value={ctx}>
@@ -298,67 +378,8 @@ export default function NotchMenu({
         className={className}
         style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', ...style }}
       >
-        {/* Border-trick: outer wrapper = border color, 1px padding, with
-            the full octagon clip. Inner = items in a flex row; the items'
-            own clip-paths (clipLeft / clipRight) shape the outer ends. */}
-        <div
-          ref={bannerRef}
-          style={{
-            // content-box so total height = s.h + 2*BORDER_W and the inner
-            // row (height: 100% = s.h) matches the items' explicit height —
-            // otherwise items overflow the row by 2 px and content can be
-            // vertically offset.
-            boxSizing: 'content-box',
-            display: 'inline-flex',
-            background: borderDefault,
-            clipPath: outerClip,
-            padding: BORDER_W,
-            height: s.h,
-            // Pull the banner halfway down so the items' vertical center
-            // sits on the body's top edge.
-            marginBottom: -Math.round(s.h / 2),
-            zIndex: 1,
-          }}
-        >
-          <div
-            role="tablist"
-            style={{
-              height: '100%',
-              display: 'inline-flex',
-              alignItems: 'stretch',
-              background: surface2,
-              // Same octagon clip as the outer so the 1px padding gap shows
-              // borderDefault along the diagonal cuts too (not just the
-              // straight sides).
-              clipPath: outerClip,
-            }}
-          >
-            {positionedItems.map((it, idx) => (
-              <Fragment key={it.key ?? `frag-${idx}`}>
-                {idx > 0 && dividers && (
-                  <span
-                    aria-hidden="true"
-                    style={{
-                      width: BORDER_W,
-                      alignSelf: 'center',
-                      height: 20,
-                      background: borderDefault,
-                      opacity: 0.6,
-                      flexShrink: 0,
-                    }}
-                  />
-                )}
-                {it}
-              </Fragment>
-            ))}
-          </div>
-        </div>
-
-        {/* Body is a direct flex child so its own minWidth (computed from
-            bannerWidth + cutout bevel) can grow the wrapper. With the
-            previous `alignSelf: stretch` wrapper, the body was forced to
-            match the wrapper's cross-axis width and minWidth had no effect. */}
-        {body}
+        {onTop ? banner : body}
+        {onTop ? body : banner}
       </div>
     </NotchMenuContext.Provider>
   )
