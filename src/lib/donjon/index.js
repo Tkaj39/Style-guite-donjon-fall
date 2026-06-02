@@ -437,3 +437,7 @@ export * from './tokens'
  * <Erb playerColor={playerColorsByKey.blue.primary} />
  */
 export * from './playerColors'
+
+// Prop enum values (lists of valid prop values like 'xs'|'sm'|'md'|'lg').
+// Naming convention: <COMPONENT>_<PROP>_VALUES. See ./enums.js for the full list.
+export * from './enums'

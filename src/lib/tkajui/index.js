@@ -70,6 +70,10 @@ export { hexFlatTop, hexPointyTop, regularPolygon } from '../../utils/polygon'
  */
 export * from './tokens'
 
+// Prop enum values (lists of valid prop values like 'xs'|'sm'|'md'|'lg').
+// Naming convention: <COMPONENT>_<PROP>_VALUES. See ./enums.js for the full list.
+export * from './enums'
+
 // Note: Ornaments (CornerOrnament, SideOrnament, HexOrnament) are game-themed
 // decorations exclusive to donjon-fall-ui. Import them directly:
 //   import { CornerOrnament } from 'donjon-fall-ui'
