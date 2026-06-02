@@ -78,3 +78,16 @@ export const INLINE_JUSTIFY_VALUES = STACK_JUSTIFY_VALUES
 export const CLUSTER_GAP_VALUES     = STACK_GAP_VALUES
 export const CLUSTER_ALIGN_VALUES   = STACK_ALIGN_VALUES
 export const CLUSTER_JUSTIFY_VALUES = STACK_JUSTIFY_VALUES
+
+export const GRID_GAP_VALUES        = STACK_GAP_VALUES
+export const GRID_ALIGN_ITEMS_VALUES = ['start', 'center', 'end', 'stretch']
+
+export const CONTAINER_MAX_WIDTH_VALUES = ['sm', 'md', 'lg', 'xl', 'full']
+export const CONTAINER_PADDING_VALUES   = STACK_GAP_VALUES
+
+export const BOX_PADDING_VALUES = STACK_GAP_VALUES
+
+export const SPACER_AXIS_VALUES = ['horizontal', 'vertical']
+
+export const SPLIT_DIRECTION_VALUES = ['horizontal', 'vertical']
+export const SPLIT_GAP_VALUES       = STACK_GAP_VALUES

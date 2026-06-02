@@ -1,10 +1,10 @@
-import { Stack, Inline, Cluster } from '../lib/tkajui/Layout'
-import { surface3, surface4, borderDefault, textHigh, textMid, textLow, accent } from '../lib/tkajui/tokens'
+import { Stack, Inline, Cluster, Grid, Container, Box, Spacer, Split, Center } from '../lib/tkajui/Layout'
+import { surface2, surface3, surface4, borderDefault, borderMid, textHigh, textMid, textLow, accent } from '../lib/tkajui/tokens'
 import { SPACE, SPACE_VALUES } from '../lib/shared/tokens'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 
 /* ── Tiny demo blocks so the layout shape is visible ─────────────────── */
-function Box({ children, color = surface3, w, h }) {
+function DemoBox({ children, color = surface3, w, h }) {
   return (
     <div style={{
       background: color,
@@ -44,7 +44,7 @@ export default function LayoutPage() {
     <ShowcasePage
       title="Layout primitives"
       description="Tři malé flex wrappery — Stack (vertikální), Inline (horizontální bez wrap), Cluster (horizontální s wrap). Sdílejí stejnou spacing škálu (xs–xxl) napříč TkajUI i donjon-fall-ui."
-      componentSlugs={['stack', 'inline', 'cluster']}
+      componentSlugs={['stack', 'inline', 'cluster', 'grid', 'container', 'box', 'spacer', 'split', 'center']}
     >
       <Section
         id="stack"
@@ -53,9 +53,9 @@ export default function LayoutPage() {
       >
         <Preview>
           <Stack gap="md">
-            <Box>First</Box>
-            <Box>Second</Box>
-            <Box>Third</Box>
+            <DemoBox>First</DemoBox>
+            <DemoBox>Second</DemoBox>
+            <DemoBox>Third</DemoBox>
           </Stack>
         </Preview>
         <CodeBlock code={`<Stack gap="md">
@@ -72,10 +72,10 @@ export default function LayoutPage() {
       >
         <Preview>
           <Inline gap="md">
-            <Box>One</Box>
-            <Box>Two</Box>
-            <Box>Three</Box>
-            <Box>Four</Box>
+            <DemoBox>One</DemoBox>
+            <DemoBox>Two</DemoBox>
+            <DemoBox>Three</DemoBox>
+            <DemoBox>Four</DemoBox>
           </Inline>
         </Preview>
         <CodeBlock code={`<Inline gap="md" align="center">
@@ -117,9 +117,9 @@ export default function LayoutPage() {
                   gap=&quot;{key}&quot; · {SPACE[key]} px
                 </p>
                 <Inline gap={key}>
-                  <Box>A</Box>
-                  <Box>B</Box>
-                  <Box>C</Box>
+                  <DemoBox>A</DemoBox>
+                  <DemoBox>B</DemoBox>
+                  <DemoBox>C</DemoBox>
                 </Inline>
               </div>
             ))}
@@ -146,9 +146,9 @@ SPACE_VALUES      // → ['none','xs','sm','md','lg','xl','xxl']`} />
                 Inline · justify=&quot;between&quot;
               </p>
               <Inline gap="sm" justify="between" style={{ width: 320, border: `1px dashed ${borderDefault}`, padding: 8 }}>
-                <Box color={accent}>L</Box>
-                <Box>M</Box>
-                <Box color={accent}>R</Box>
+                <DemoBox color={accent}>L</DemoBox>
+                <DemoBox>M</DemoBox>
+                <DemoBox color={accent}>R</DemoBox>
               </Inline>
             </div>
             <div>
@@ -156,9 +156,9 @@ SPACE_VALUES      // → ['none','xs','sm','md','lg','xl','xxl']`} />
                 Stack · align=&quot;center&quot;
               </p>
               <Stack gap="sm" align="center" style={{ border: `1px dashed ${borderDefault}`, padding: 8 }}>
-                <Box w={60}>A</Box>
-                <Box w={120}>BB</Box>
-                <Box w={80}>CC</Box>
+                <DemoBox w={60}>A</DemoBox>
+                <DemoBox w={120}>BB</DemoBox>
+                <DemoBox w={80}>CC</DemoBox>
               </Stack>
             </div>
           </Stack>
@@ -173,6 +173,160 @@ SPACE_VALUES      // → ['none','xs','sm','md','lg','xl','xxl']`} />
   <Avatar />
   <Username />
 </Stack>`} />
+      </Section>
+
+      <Section
+        id="grid"
+        title="Grid — CSS Grid wrapper"
+        description="N stejných sloupců s tokenizovaným gap. Pro responzivní cols předej objekt: `cols={{ base: 1, md: 2, lg: 3 }}`."
+      >
+        <Preview>
+          <Stack gap="md">
+            <div>
+              <p style={{ margin: '0 0 6px', fontSize: '0.625rem', color: textLow, letterSpacing: '0.1em', textTransform: 'uppercase' }}>cols={3}</p>
+              <Grid cols={3} gap="md">
+                {[1, 2, 3, 4, 5, 6].map(n => <Box key={n} bg={surface3} borderColor={borderDefault} padding="md">{n}</Box>)}
+              </Grid>
+            </div>
+            <div>
+              <p style={{ margin: '0 0 6px', fontSize: '0.625rem', color: textLow, letterSpacing: '0.1em', textTransform: 'uppercase' }}>responzivní · base=1 · md=3</p>
+              <Grid cols={{ base: 1, md: 3 }} gap="sm">
+                {['A', 'B', 'C'].map(t => <Box key={t} bg={surface3} borderColor={borderDefault} padding="md">{t}</Box>)}
+              </Grid>
+            </div>
+          </Stack>
+        </Preview>
+        <CodeBlock code={`<Grid cols={3} gap="md">
+  {items.map(item => <Card key={item.id} />)}
+</Grid>
+
+{/* Responzivní cols */}
+<Grid cols={{ base: 1, sm: 2, md: 3, lg: 4 }} gap="md">
+  ...
+</Grid>`} />
+      </Section>
+
+      <Section
+        id="container"
+        title="Container — centered page wrapper"
+        description="Max-width + horizontal padding. Předdefinované breakpoints (sm=640, md=768, lg=1024, xl=1280, full=100%)."
+      >
+        <Preview>
+          <Stack gap="md">
+            <Container maxWidth="sm" padding="md" style={{ background: surface2, border: `1px dashed ${borderMid}` }}>
+              <span style={{ fontSize: '0.75rem', color: textMid }}>maxWidth=&quot;sm&quot; (640 px)</span>
+            </Container>
+            <Container maxWidth="md" padding="md" style={{ background: surface2, border: `1px dashed ${borderMid}` }}>
+              <span style={{ fontSize: '0.75rem', color: textMid }}>maxWidth=&quot;md&quot; (768 px)</span>
+            </Container>
+            <Container maxWidth="lg" padding="md" style={{ background: surface2, border: `1px dashed ${borderMid}` }}>
+              <span style={{ fontSize: '0.75rem', color: textMid }}>maxWidth=&quot;lg&quot; (1024 px, default)</span>
+            </Container>
+          </Stack>
+        </Preview>
+        <CodeBlock code={`<Container maxWidth="lg" padding="md">
+  <Stack gap="lg">
+    <Header />
+    <Content />
+  </Stack>
+</Container>`} />
+      </Section>
+
+      <Section
+        id="box"
+        title="Box — surface primitive"
+        description="Background + border + padding + radius. Color tokeny jsou předávané callerem (Box neví o lib-specifických surface tokenech), tak `bg` / `borderColor` přijímají jakýkoliv CSS color string."
+      >
+        <Preview>
+          <Inline gap="md" wrap>
+            <Box bg={surface2} borderColor={borderDefault} padding="md" radius={4}>
+              <span style={{ color: textHigh, fontSize: '0.8125rem' }}>Default Box</span>
+            </Box>
+            <Box bg={surface4} borderColor={accent} padding="lg" radius={8}>
+              <span style={{ color: textHigh, fontSize: '0.8125rem' }}>Accent Box · radius 8</span>
+            </Box>
+            <Box bg={surface3} padding="md" paddingX="xl">
+              <span style={{ color: textMid, fontSize: '0.8125rem' }}>paddingX=&quot;xl&quot; override</span>
+            </Box>
+          </Inline>
+        </Preview>
+        <CodeBlock code={`import { Box, surface2, borderDefault } from 'tkajui'
+
+<Box bg={surface2} borderColor={borderDefault} padding="md" radius={4}>
+  Card content
+</Box>
+
+<Box padding="md" paddingX="xl">    {/* Override jednou stranou */}
+  Wider horizontal padding
+</Box>`} />
+      </Section>
+
+      <Section
+        id="spacer"
+        title="Spacer — vyplní available space"
+        description="Vloží flexibilní prostor mezi sourozence ve flex containeru. Užitečné pro left-/right-aligned grupování bez počítání marginů."
+      >
+        <Preview>
+          <Inline gap="sm" style={{ width: 360, padding: 8, border: `1px dashed ${borderMid}` }}>
+            <Box bg={surface3} borderColor={borderDefault} padding="sm">A</Box>
+            <Box bg={surface3} borderColor={borderDefault} padding="sm">B</Box>
+            <Spacer />
+            <Box bg={surface4} borderColor={accent} padding="sm">→</Box>
+          </Inline>
+        </Preview>
+        <CodeBlock code={`<Inline>
+  <BackButton />
+  <Title />
+  <Spacer />            {/* push the close button to the right */}
+  <CloseButton />
+</Inline>`} />
+      </Section>
+
+      <Section
+        id="split"
+        title="Split — 2-column with divider"
+        description="Dva sloty s volitelnou divider linkou. `ratio` zkosí poměr (např. `[1, 3]` = 25/75 sidebar:content)."
+      >
+        <Preview>
+          <Stack gap="md">
+            <Split gap="md" dividerColor={borderDefault} style={{ minHeight: 80, border: `1px dashed ${borderMid}`, padding: 8 }}>
+              <Box bg={surface2} padding="md"><span style={{ color: textMid, fontSize: '0.75rem' }}>Left slot</span></Box>
+              <Box bg={surface2} padding="md"><span style={{ color: textMid, fontSize: '0.75rem' }}>Right slot</span></Box>
+            </Split>
+            <Split ratio={[1, 3]} gap="md" dividerColor={borderDefault} style={{ minHeight: 80, border: `1px dashed ${borderMid}`, padding: 8 }}>
+              <Box bg={surface3} padding="md"><span style={{ color: textMid, fontSize: '0.75rem' }}>Sidebar (1)</span></Box>
+              <Box bg={surface2} padding="md"><span style={{ color: textMid, fontSize: '0.75rem' }}>Content (3)</span></Box>
+            </Split>
+          </Stack>
+        </Preview>
+        <CodeBlock code={`<Split dividerColor={borderDefault}>
+  <Left />
+  <Right />
+</Split>
+
+{/* Sidebar layout — 25/75 */}
+<Split ratio={[1, 3]} dividerColor={borderDefault}>
+  <Sidebar />
+  <MainContent />
+</Split>`} />
+      </Section>
+
+      <Section
+        id="center"
+        title="Center — full centering"
+        description={'Centruje content horizontálně i vertikálně. Pro full-viewport použij `minHeight="100vh"` (login, loading screens, empty states).'}
+      >
+        <Preview>
+          <Center minHeight={140} style={{ background: surface2, border: `1px dashed ${borderMid}` }}>
+            <Stack gap="xs" align="center">
+              <span style={{ color: textHigh, fontSize: '0.875rem', fontWeight: 600 }}>Welcome back</span>
+              <span style={{ color: textMid, fontSize: '0.75rem' }}>Sign in to continue</span>
+            </Stack>
+          </Center>
+        </Preview>
+        <CodeBlock code={`<Center minHeight="100vh">
+  <LoginForm />
+</Center>`} />
       </Section>
 
       <Section id="pravidla" title="Pravidla použití">

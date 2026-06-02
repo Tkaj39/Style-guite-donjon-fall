@@ -256,4 +256,5 @@ export {
   bpMobile, bpTablet, bpDesktop, bpWide, BREAKPOINTS,
   zDropdown, zNotification, zToast, zTooltip,
   SPACE, SPACE_VALUES, resolveSpace,
+  CONTAINER_WIDTHS, CONTAINER_WIDTH_VALUES, resolveContainerWidth,
 } from '../shared/tokens'
