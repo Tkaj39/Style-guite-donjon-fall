@@ -145,7 +145,7 @@ const CUTOUT_BUFFER = 8
 /** Extra bevel size (px) on the cutout's diagonal corners — on top of the
  *  items' own `cx`. Slightly larger bevel keeps the cutout's diagonal a
  *  hair clear of the items' diagonal. */
-const CUTOUT_BEVEL_EXTRA = 1
+const CUTOUT_BEVEL_EXTRA = 4
 
 /** Build a body clip-path polygon with an octagon-shaped notch on the top.
  *  `expandHalfW` widens the cutout's horizontal half-width — used by the
@@ -203,6 +203,13 @@ function Body({ children, className, style }) {
   const outerClip = makeBodyClipPath(ctx.bannerWidth, s, 0)
   const innerClip = makeBodyClipPath(ctx.bannerWidth, s, BORDER_W)
 
+  // Body must be wider than the cutout for the diagonal bevels + the body's
+  // own visible top edges to fit. Without this, body width matches the items
+  // strip width and the cutout's diagonals fall outside the body — making
+  // CUTOUT_BEVEL_EXTRA changes invisible.
+  const cx = s.cx + CUTOUT_BEVEL_EXTRA
+  const minWidth = ctx.bannerWidth + 2 * (CUTOUT_BUFFER + cx + 8)
+
   return (
     <div
       className={className}
@@ -210,6 +217,7 @@ function Body({ children, className, style }) {
         background: borderDefault,
         clipPath: outerClip,
         padding: BORDER_W,
+        minWidth,
         ...style,
       }}
     >

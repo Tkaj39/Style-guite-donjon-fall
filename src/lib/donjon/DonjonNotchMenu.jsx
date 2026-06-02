@@ -189,6 +189,12 @@ function Body({ children, className, style }) {
   const outerClip = makeBodyClipPath(ctx.bannerWidth, s, 0)
   const innerClip = makeBodyClipPath(ctx.bannerWidth, s, BORDER_W)
 
+  // Body must be wider than the cutout so the diagonal bevels + a strip of
+  // visible body edge on each side actually fit (otherwise CUTOUT_BEVEL_EXTRA
+  // tweaks have no visible effect — the bevels fall outside the body).
+  const cx = s.cx + CUTOUT_BEVEL_EXTRA
+  const minWidth = ctx.bannerWidth + 2 * (CUTOUT_BUFFER + cx + 8)
+
   return (
     <div
       className={className}
@@ -196,6 +202,7 @@ function Body({ children, className, style }) {
         background: goldDim,
         clipPath: outerClip,
         padding: BORDER_W,
+        minWidth,
         ...style,
       }}
     >
