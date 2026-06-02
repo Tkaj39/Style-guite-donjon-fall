@@ -33,6 +33,9 @@ export { default as NotchMenu }      from './NotchMenu'
 export { Stack, Inline, Cluster, Grid, Container, Box, Spacer, Split, Center, AspectBox } from './Layout'
 export { default as Avatar } from './Avatar'
 
+// ─── Form primitives (purely structural — no themed visuals) ────────────
+export { Field, Form, Radio, RadioGroup, Checkbox, CheckboxGroup } from './Form'
+
 export { default as Pictogram }      from './Pictogram'
 
 // ─── Shape primitives ────────────────────────────────────────────────────

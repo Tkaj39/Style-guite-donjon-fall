@@ -95,3 +95,7 @@ export const SPLIT_GAP_VALUES       = STACK_GAP_VALUES
 // ── Image essentials ──────────────────────────────────────────────────────
 export const AVATAR_SIZE_VALUES   = ['xs', 'sm', 'md', 'lg', 'xl']
 export const AVATAR_SHAPE_VALUES  = ['circle', 'octagon']
+
+// ── Form primitives ──────────────────────────────────────────────────────
+export const RADIO_GROUP_ORIENTATION_VALUES    = ['vertical', 'horizontal']
+export const CHECKBOX_GROUP_ORIENTATION_VALUES = ['vertical', 'horizontal']

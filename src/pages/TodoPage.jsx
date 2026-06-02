@@ -129,10 +129,10 @@ const MANUAL_TASKS = [
       { status: 'done', text: 'FramedImage — donjon heraldický rám (octagon + gold border + SideOrnament + RohOrnament)' },
       { status: 'done', text: 'AspectBox — CSS aspect-ratio container (16:9, 1:1, 4:3, 21:9)' },
       // Form primitives — gaps blokují reálné formuláře
-      { status: 'todo', text: 'Field — label + input + error + hint composer' },
-      { status: 'todo', text: 'Radio + RadioGroup — single-choice (difficulty, genre)' },
-      { status: 'todo', text: 'Checkbox + CheckboxGroup — multi-choice (options, flags)' },
-      { status: 'todo', text: 'Form — wrapper s submit handlerem + validační state' },
+      { status: 'done', text: 'Field — label + input + hint + error composer (cloneElement injektuje id + aria-describedby)' },
+      { status: 'done', text: 'Radio + RadioGroup — single-choice (controlled value/onChange, vertical/horizontal layout, aria-required)' },
+      { status: 'done', text: 'Checkbox + CheckboxGroup — standalone i grouped (array of selected), required marker' },
+      { status: 'done', text: 'Form — <form> wrapper s auto-preventDefault + flex column gap' },
     ],
   },
   {

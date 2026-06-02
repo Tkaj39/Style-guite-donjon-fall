@@ -145,6 +145,9 @@ export { default as Avatar } from '../tkajui/Avatar'
  */
 export { default as FramedImage } from './FramedImage'
 
+// ─── Form primitives (re-exported from tkajui) ──────────────────────────
+export { Field, Form, Radio, RadioGroup, Checkbox, CheckboxGroup } from '../tkajui/Form'
+
 /**
  * Game-themed tooltip with a parchment style and gold border.
  * @prop {React.ReactNode} children - Trigger element
