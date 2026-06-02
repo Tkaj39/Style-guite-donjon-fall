@@ -175,40 +175,40 @@ function makeBodyClipPath(bannerWidth, s, expandHalfW = 0, side = 'top', cornerC
   const cx = s.cx + CUTOUT_BEVEL_EXTRA
   const innerHalfW = Math.max(cutoutHalfW - cx, 0)
   const innerDepth = Math.max(cutoutDepth - cx, 0)
+  // Each corner contributes TWO points (incoming-edge end + outgoing-edge
+  // start); the diagonal between them is the bevel. Trace clockwise.
   const k = Math.max(cornerCx, 0)
-  const tl0 = k > 0 ? `${k}px 0` : `0 0`
-  const tl1 = k > 0 ? `0 ${k}px` : null
-  const tr0 = k > 0 ? `calc(100% - ${k}px) 0` : `100% 0`
-  const tr1 = k > 0 ? `100% ${k}px` : null
-  const br0 = k > 0 ? `100% calc(100% - ${k}px)` : `100% 100%`
-  const br1 = k > 0 ? `calc(100% - ${k}px) 100%` : null
-  const bl0 = k > 0 ? `${k}px 100%` : `0 100%`
-  const bl1 = k > 0 ? `0 calc(100% - ${k}px)` : null
-  const tl = [tl0, tl1].filter(Boolean)
-  const tr = [tr0, tr1].filter(Boolean)
-  const br = [br0, br1].filter(Boolean)
-  const bl = [bl0, bl1].filter(Boolean)
+  const beveled = k > 0
+  const TL_in  = beveled ? `0 ${k}px`                  : `0 0`
+  const TL_out = beveled ? `${k}px 0`                  : `0 0`
+  const TR_in  = beveled ? `calc(100% - ${k}px) 0`     : `100% 0`
+  const TR_out = beveled ? `100% ${k}px`               : `100% 0`
+  const BR_in  = beveled ? `100% calc(100% - ${k}px)`  : `100% 100%`
+  const BR_out = beveled ? `calc(100% - ${k}px) 100%`  : `100% 100%`
+  const BL_in  = beveled ? `${k}px 100%`               : `0 100%`
+  const BL_out = beveled ? `0 calc(100% - ${k}px)`     : `0 100%`
+
   if (side === 'bottom') {
     return `polygon(${[
-      ...tl, ...tr, ...br,
+      TL_out, TR_in, TR_out, BR_in,
       `calc(50% + ${cutoutHalfW}px) 100%`,
       `calc(50% + ${cutoutHalfW}px) calc(100% - ${innerDepth}px)`,
       `calc(50% + ${innerHalfW}px) calc(100% - ${cutoutDepth}px)`,
       `calc(50% - ${innerHalfW}px) calc(100% - ${cutoutDepth}px)`,
       `calc(50% - ${cutoutHalfW}px) calc(100% - ${innerDepth}px)`,
       `calc(50% - ${cutoutHalfW}px) 100%`,
-      ...bl,
+      BL_in, BL_out, TL_in,
     ].join(',')})`
   }
   return `polygon(${[
-    ...tl,
+    TL_out,
     `calc(50% - ${cutoutHalfW}px) 0`,
     `calc(50% - ${cutoutHalfW}px) ${innerDepth}px`,
     `calc(50% - ${innerHalfW}px) ${cutoutDepth}px`,
     `calc(50% + ${innerHalfW}px) ${cutoutDepth}px`,
     `calc(50% + ${cutoutHalfW}px) ${innerDepth}px`,
     `calc(50% + ${cutoutHalfW}px) 0`,
-    ...tr, ...br, ...bl,
+    TR_in, TR_out, BR_in, BR_out, BL_in, BL_out, TL_in,
   ].join(',')})`
 }
 

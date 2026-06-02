@@ -163,50 +163,58 @@ function makeBodyClipPath(bannerWidth, s, expandHalfW = 0, side = 'top', cornerC
   const innerHalfW = Math.max(cutoutHalfW - cx, 0)
   const innerDepth = Math.max(cutoutDepth - cx, 0)
   // Body's own corner bevel. When 0, fall back to plain rectangle corners.
+  // Each corner contributes TWO points to the polygon trace: one as the
+  // last point of the incoming edge, one as the first point of the outgoing
+  // edge. The diagonal between them is the bevel — drawn automatically as
+  // the polygon's implicit edge between consecutive points.
   const k = Math.max(cornerCx, 0)
-  const tl0 = k > 0 ? `${k}px 0` : `0 0`
-  const tl1 = k > 0 ? `0 ${k}px` : null
-  const tr0 = k > 0 ? `calc(100% - ${k}px) 0` : `100% 0`
-  const tr1 = k > 0 ? `100% ${k}px` : null
-  const br0 = k > 0 ? `100% calc(100% - ${k}px)` : `100% 100%`
-  const br1 = k > 0 ? `calc(100% - ${k}px) 100%` : null
-  const bl0 = k > 0 ? `${k}px 100%` : `0 100%`
-  const bl1 = k > 0 ? `0 calc(100% - ${k}px)` : null
-
-  // Helper: list outer corner points clockwise, omitting nulls (sharp corners).
-  const tl = [tl0, tl1].filter(Boolean)
-  const tr = [tr0, tr1].filter(Boolean)
-  const br = [br0, br1].filter(Boolean)
-  const bl = [bl0, bl1].filter(Boolean)
+  const beveled = k > 0
+  // For each corner: [incomingEdgeEnd, outgoingEdgeStart]
+  const TL_in  = beveled ? `0 ${k}px`                  : `0 0`            // left edge ending
+  const TL_out = beveled ? `${k}px 0`                  : `0 0`            // top edge starting
+  const TR_in  = beveled ? `calc(100% - ${k}px) 0`     : `100% 0`         // top edge ending
+  const TR_out = beveled ? `100% ${k}px`               : `100% 0`         // right edge starting
+  const BR_in  = beveled ? `100% calc(100% - ${k}px)`  : `100% 100%`      // right edge ending
+  const BR_out = beveled ? `calc(100% - ${k}px) 100%`  : `100% 100%`      // bottom edge starting
+  const BL_in  = beveled ? `${k}px 100%`               : `0 100%`         // bottom edge ending
+  const BL_out = beveled ? `0 calc(100% - ${k}px)`     : `0 100%`         // left edge starting
 
   if (side === 'bottom') {
+    // Notch on bottom edge. Clockwise trace starting from top-left:
     return `polygon(${[
-      ...tl,
-      ...tr,
-      ...br,
-      // notch on bottom edge — traced from right to left
+      TL_out,                                          // top edge starts here
+      TR_in,                                           // top edge ends
+      TR_out,                                          // right edge starts
+      BR_in,                                           // right edge ends
+      // notch on bottom — traced right → left
       `calc(50% + ${cutoutHalfW}px) 100%`,
       `calc(50% + ${cutoutHalfW}px) calc(100% - ${innerDepth}px)`,
       `calc(50% + ${innerHalfW}px) calc(100% - ${cutoutDepth}px)`,
       `calc(50% - ${innerHalfW}px) calc(100% - ${cutoutDepth}px)`,
       `calc(50% - ${cutoutHalfW}px) calc(100% - ${innerDepth}px)`,
       `calc(50% - ${cutoutHalfW}px) 100%`,
-      ...bl,
+      BL_in,                                           // bottom edge resumes / ends
+      BL_out,                                          // left edge starts
+      TL_in,                                           // left edge ends (polygon closes via TL bevel)
     ].join(',')})`
   }
 
+  // Notch on top edge. Clockwise trace starting from top-left:
   return `polygon(${[
-    ...tl,
-    // notch on top edge — traced left to right
-    `calc(50% - ${cutoutHalfW}px) 0`,
+    TL_out,                                            // top edge starts
+    `calc(50% - ${cutoutHalfW}px) 0`,                 // top edge approaches notch
     `calc(50% - ${cutoutHalfW}px) ${innerDepth}px`,
     `calc(50% - ${innerHalfW}px) ${cutoutDepth}px`,
     `calc(50% + ${innerHalfW}px) ${cutoutDepth}px`,
     `calc(50% + ${cutoutHalfW}px) ${innerDepth}px`,
-    `calc(50% + ${cutoutHalfW}px) 0`,
-    ...tr,
-    ...br,
-    ...bl,
+    `calc(50% + ${cutoutHalfW}px) 0`,                 // top edge resumes
+    TR_in,                                             // top edge ends
+    TR_out,                                            // right edge starts
+    BR_in,                                             // right edge ends
+    BR_out,                                            // bottom edge starts
+    BL_in,                                             // bottom edge ends
+    BL_out,                                            // left edge starts
+    TL_in,                                             // left edge ends (polygon closes via TL bevel)
   ].join(',')})`
 }
 
