@@ -133,7 +133,7 @@ export { default as DonjonNotchMenu }    from './DonjonNotchMenu'
 // donjon-fall-ui re-exports them unchanged. Users can write
 // `import { Stack, DonjonButton } from 'donjon-fall-ui'` without juggling
 // two package imports.
-export { Stack, Inline, Cluster } from '../tkajui/Layout'
+export { Stack, Inline, Cluster, Grid, Container, Box, Spacer, Split, Center } from '../tkajui/Layout'
 
 /**
  * Game-themed tooltip with a parchment style and gold border.

@@ -88,3 +88,26 @@ export function resolveSpace(value, fallback = 0) {
   if (SPACE[value] != null) return SPACE[value]
   return fallback
 }
+
+// ── Container max-widths ───────────────────────────────────────────────────
+// Used by the <Container> layout primitive for consistent page widths.
+// 'full' = no max-width (100%). Other values are px breakpoints commonly
+// used for centered reading-width content.
+
+export const CONTAINER_WIDTHS = {
+  sm:   640,
+  md:   768,
+  lg:   1024,
+  xl:   1280,
+  full: '100%',
+}
+
+export const CONTAINER_WIDTH_VALUES = ['sm', 'md', 'lg', 'xl', 'full']
+
+/** Resolve a `maxWidth` prop: 'lg' → 1024, 720 → 720, 'full' → '100%'. */
+export function resolveContainerWidth(value, fallback = '100%') {
+  if (value == null) return fallback
+  if (typeof value === 'number') return value
+  if (CONTAINER_WIDTHS[value] != null) return CONTAINER_WIDTHS[value]
+  return fallback
+}
