@@ -21,6 +21,54 @@ npm run lint:lib   # ESLint, src/lib/ only
 
 ---
 
+## Git workflow — REQUIRED
+
+**No direct commits to `master`. Ever.** Every change — feature, fix, chore,
+docs — must live on its own feature branch and reach `master` only through
+a `--no-ff` merge commit. This gives a clean per-feature history, makes
+rollbacks atomic, and forces an explicit "this is done" merge moment.
+
+### Before starting ANY work
+
+1. Verify you're on `master` and clean: `git status`
+2. Create a branch whose name describes the work in kebab-case:
+   ```bash
+   git checkout -b feat/<short-name>     # new feature
+   git checkout -b fix/<short-name>      # bug fix
+   git checkout -b chore/<short-name>    # tooling / docs / refactor without behavior change
+   git checkout -b refactor/<short-name> # behavior-preserving restructure
+   ```
+   Examples: `feat/notch-menu`, `fix/hex-tile-border`, `chore/english-only`,
+   `refactor/extract-octagon-utility`.
+3. Branch name must reflect the change — not a vague "updates" or "wip".
+
+### During work
+
+- Commit early, push the branch (`git push -u origin <branch>`) so it's visible.
+- Multiple commits per branch are fine — they get squashed by the merge view if needed.
+
+### Finishing
+
+1. `npm run test:run` + `npm run build` — green
+2. Commit, push the branch
+3. Switch + merge with `--no-ff` so the merge is an explicit boundary:
+   ```bash
+   git checkout master
+   git merge --no-ff <branch> -m "Merge branch '<branch>': <one-line summary>"
+   git push origin master
+   ```
+4. Optional: delete the branch (`git branch -d <branch>`, `git push origin --delete <branch>`)
+
+### Forbidden
+
+- ❌ `git commit` while on `master`
+- ❌ `git push origin master` from anything other than a merge of a feature branch
+- ❌ Force-push to `master`
+- ❌ Skipping the `--no-ff` flag (would lose the merge commit boundary)
+- ❌ Vague branch names (`updates`, `wip`, `tmp`, `branch1`)
+
+---
+
 ## Project structure
 
 ```
