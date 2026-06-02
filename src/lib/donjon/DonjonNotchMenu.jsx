@@ -139,10 +139,13 @@ function Item({
 
 const CUTOUT_BUFFER = 8
 
+/** Extra bevel on the cutout's diagonal corners — on top of the items' cx. */
+const CUTOUT_BEVEL_EXTRA = 1
+
 function makeBodyClipPath(bannerWidth, s, expandHalfW = 0) {
   const cutoutHalfW = bannerWidth / 2 + CUTOUT_BUFFER + expandHalfW
   const cutoutDepth = Math.round(s.h / 2) + CUTOUT_BUFFER
-  const cx = s.cx
+  const cx = s.cx + CUTOUT_BEVEL_EXTRA
   const innerHalfW = Math.max(cutoutHalfW - cx, 0)
   const innerDepth = Math.max(cutoutDepth - cx, 0)
   return `polygon(
