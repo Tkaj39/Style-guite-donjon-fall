@@ -21,9 +21,9 @@ const HEX_CLIP = hexPointyTop()
    = the active focal point currently picked by the player.
    ─────────────────────────────────────────────────────────────────────── */
 
-// Note: the public enum arrays (HEX_TILE_PROPERTIES, HEX_TILE_FOCAL_KINDS,
-// HEX_TILE_STATES) live in `./tokens` so this file can export ONLY the
-// component — required for React Fast Refresh to work cleanly.
+// Note: the public enum arrays (HEX_TILE_PROPERTY_VALUES, HEX_TILE_FOCAL_VALUES,
+// HEX_TILE_STATE_VALUES, HEX_TILE_SIZE_VALUES) live in `./enums` so this file
+// can export ONLY the component — required for React Fast Refresh.
 
 // Legacy single-string API → triple (property, focal, state). Kept for
 // backward compat so existing showcase pages and consumers don't change.
