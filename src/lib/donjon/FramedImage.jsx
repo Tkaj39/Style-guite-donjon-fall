@@ -1,22 +1,23 @@
 /* ── FramedImage (donjon-fall-ui) ──────────────────────────────────────
-   Image inside an ornamental heraldic frame — octagonal silhouette + gold
-   border + optional SideOrnament brackets on the left/right edges and
-   RohOrnament accents in the corners.
+   Image inside a donjon ornamental frame — octagonal silhouette + gold
+   border + RohOrnament accents in all 4 corners.
 
    Use cases: NPC portraits in the dialogue panel, hero artwork in the
    main menu, character sheet portrait, win-screen MVP image.
    ─────────────────────────────────────────────────────────────────── */
 import { useId } from 'react'
 import { octagon } from '../../utils/octagon'
-import { SideOrnament, RohOrnament } from './Ornaments'
+import { RohOrnament, ornamentHForCx } from './Ornaments'
 import { bg2, gold, goldDim } from './tokens'
 
+// box = pixel size of the (square) frame
+// cx  = octagon corner cut size — keeps a ~15 % cut for a strong silhouette
 const SIZE_MAP = {
-  xs: { box: 48,  cx: 8,  ornW: 14, rohW: 16 },
-  sm: { box: 80,  cx: 12, ornW: 22, rohW: 22 },
-  md: { box: 128, cx: 18, ornW: 30, rohW: 28 },
-  lg: { box: 192, cx: 24, ornW: 40, rohW: 36 },
-  xl: { box: 256, cx: 32, ornW: 50, rohW: 44 },
+  xs: { box: 64,  cx: 10 },
+  sm: { box: 96,  cx: 14 },
+  md: { box: 144, cx: 20 },
+  lg: { box: 208, cx: 28 },
+  xl: { box: 288, cx: 38 },
 }
 
 /**
@@ -26,7 +27,7 @@ const SIZE_MAP = {
  * @param {string} [alt]            Alt text.
  * @param {'xs'|'sm'|'md'|'lg'|'xl'|number} [size='md']  Frame box size in px.
  * @param {'decorated'|'plain'} [ornament='decorated']  Decorated adds
- *   SideOrnament + RohOrnament accents; plain is just the gold octagon frame.
+ *   RohOrnament accents in all 4 corners; plain is just the gold octagon frame.
  * @param {string} [color]          Border color override (defaults to gold).
  *
  * @example <FramedImage src="/aragorn.jpg" alt="Aragorn" size="lg" />
@@ -43,7 +44,7 @@ export default function FramedImage({
   ...rest
 }) {
   const s = typeof size === 'number'
-    ? { box: size, cx: Math.round(size * 0.14), ornW: Math.round(size * 0.20), rohW: Math.round(size * 0.18) }
+    ? { box: size, cx: Math.round(size * 0.15) }
     : (SIZE_MAP[size] ?? SIZE_MAP.md)
   const borderColor = color ?? gold
   const dimColor = color ? `${color}88` : goldDim
@@ -51,6 +52,11 @@ export default function FramedImage({
   const rawId = useId()
   const uid = rawId.replace(/:/g, '')
   const hasOrnaments = ornament !== 'plain'
+
+  // Proportional roh ornament size derived from the octagon cx — same helper
+  // used by ActionTile / DonjonCard, keeps the corner accent visually scaled
+  // to the frame's bevel.
+  const ornH = hasOrnaments ? ornamentHForCx(s.cx, 'roh') : 0
 
   return (
     <span
@@ -64,7 +70,7 @@ export default function FramedImage({
       }}
       {...rest}
     >
-      {/* Outer = border color via border-trick */}
+      {/* Outer = gold border via border-trick */}
       <span
         style={{
           position: 'absolute',
@@ -76,7 +82,7 @@ export default function FramedImage({
           filter: `drop-shadow(0 0 6px ${borderColor}33)`,
         }}
       >
-        {/* Inner = parchment-dark background; image covers it */}
+        {/* Inner = parchment-dark background + image cover */}
         <span
           style={{
             display: 'block',
@@ -101,29 +107,14 @@ export default function FramedImage({
         </span>
       </span>
 
-      {/* Side ornaments — vertical brackets on left + right */}
+      {/* Corner accents — 4 × RohOrnament aligned to the octagon diagonals.
+          flip = horizontal mirror, bottom = vertical mirror. */}
       {hasOrnaments && (
         <>
-          <SideOrnament
-            h={s.box}
-            uid={`${uid}l`}
-            color={borderColor}
-            colorDim={dimColor}
-            style={{ left: 1, pointerEvents: 'none' }}
-          />
-          <SideOrnament
-            h={s.box}
-            uid={`${uid}r`}
-            flip
-            color={borderColor}
-            colorDim={dimColor}
-            style={{ right: 1, pointerEvents: 'none' }}
-          />
-          {/* Corner accents on all 4 corners */}
-          <RohOrnament h={s.rohW} uid={`${uid}tl`}                color={borderColor} colorDim={dimColor} style={{ top: 1, left: 1, pointerEvents: 'none' }} />
-          <RohOrnament h={s.rohW} uid={`${uid}tr`} flip           color={borderColor} colorDim={dimColor} style={{ top: 1, right: 1, pointerEvents: 'none' }} />
-          <RohOrnament h={s.rohW} uid={`${uid}bl`} bottom         color={borderColor} colorDim={dimColor} style={{ bottom: 1, left: 1, pointerEvents: 'none' }} />
-          <RohOrnament h={s.rohW} uid={`${uid}br`} flip bottom    color={borderColor} colorDim={dimColor} style={{ bottom: 1, right: 1, pointerEvents: 'none' }} />
+          <RohOrnament h={ornH} uid={`${uid}tl`}              color={borderColor} colorDim={dimColor} bgFill={bg2} />
+          <RohOrnament h={ornH} uid={`${uid}tr`} flip         color={borderColor} colorDim={dimColor} bgFill={bg2} />
+          <RohOrnament h={ornH} uid={`${uid}bl`} bottom       color={borderColor} colorDim={dimColor} bgFill={bg2} />
+          <RohOrnament h={ornH} uid={`${uid}br`} flip bottom  color={borderColor} colorDim={dimColor} bgFill={bg2} />
         </>
       )}
     </span>
