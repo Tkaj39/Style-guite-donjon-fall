@@ -3,12 +3,14 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import noHardcodedHex from './scripts/eslint-rules/no-hardcoded-hex.js'
 import noComponentInRender from './scripts/eslint-rules/no-component-in-render.js'
+import contrastCheck from './scripts/eslint-rules/contrast-check.js'
 
 /** Lokální plugin — donjon pravidla */
 const donjonPlugin = {
   rules: {
     'no-hardcoded-hex':      noHardcodedHex,
     'no-component-in-render': noComponentInRender,
+    'contrast-check':         contrastCheck,
   },
 }
 
@@ -102,6 +104,18 @@ export default [
     plugins: { donjon: donjonPlugin },
     rules: {
       'donjon/no-component-in-render': 'error',
+    },
+  },
+
+  // ── DONJON pravidlo 3: WCAG contrast check pro inline style ───────────────
+  // Warning, ne error — false-positive ratio existuje (gradients,
+  // semi-transparent backgrounds). Eskaluj na 'error' až po validaci.
+  {
+    files: ['src/lib/**/*.jsx', 'src/pages/**/*.jsx'],
+    ignores: ['src/pages/ColorsPage.jsx', 'src/pages/ContrastLabPage.jsx'],
+    plugins: { donjon: donjonPlugin },
+    rules: {
+      'donjon/contrast-check': ['warn', { level: 'AA-large' }],
     },
   },
 ]

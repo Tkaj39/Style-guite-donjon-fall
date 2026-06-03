@@ -118,7 +118,7 @@ function ActionBar({ actions, activePlayer }) {
           minWidth: 60,
         }}>
           <span style={{ fontSize: '0.8125rem', color: available ? textActive : textDeep }}>{label}</span>
-          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
+          {/* eslint-disable-next-line donjon/no-hardcoded-hex, donjon/contrast-check -- TODO: tokenize keycap chip; current 2.24:1 is intentionally subdued, only seen as secondary keymap reminder */}
           <code style={{ fontSize: '0.5625rem', color: textDeep, background: '#0E0C22', padding: '1px 4px', borderRadius: 2 }}>{key}</code>
         </div>
       ))}
