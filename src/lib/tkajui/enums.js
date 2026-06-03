@@ -131,6 +131,9 @@ export const DESCRIPTION_LIST_LAYOUT_VALUES  = ['inline', 'stacked']
 export const STAT_SIZE_VALUES                = ['sm', 'md', 'lg', 'xl']
 export const STAT_ALIGN_VALUES               = ['left', 'center', 'right']
 
+// ── Navigation group ────────────────────────────────────────────────────
+export const PAGINATION_SIZE_VALUES = ['sm', 'md', 'lg']
+
 // ── Feedback group ───────────────────────────────────────────────────────
 export const SPINNER_SIZE_VALUES     = ['xs', 'sm', 'md', 'lg', 'xl']
 export const SKELETON_VARIANT_VALUES = ['text', 'block', 'circle']
