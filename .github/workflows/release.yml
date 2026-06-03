@@ -1,0 +1,56 @@
+name: Release
+
+# Publishes all three workspace packages to npm when a tag matching v* is pushed.
+# The tag is created manually after bumping the per-package version. Future
+# work: switch to changesets for fully automated semver + changelog.
+#
+# Required repo secret:
+#   NPM_TOKEN — npm automation token with publish permission for the
+#               @tkaj scope and the tkajui / donjon-fall-ui names.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    name: Build + publish all workspaces
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write   # for npm provenance
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install
+        run: npm ci
+
+      - name: Sanity — lint + tests
+        run: |
+          npm run lint
+          npm run test:run
+
+      - name: Build every workspace
+        run: npm run build:libs
+
+      - name: Publish @tkaj/donjon-shared
+        run: npm publish --workspace=@tkaj/donjon-shared --access=public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish tkajui
+        run: npm publish --workspace=tkajui --access=public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish donjon-fall-ui
+        run: npm publish --workspace=donjon-fall-ui --access=public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
