@@ -20,7 +20,11 @@
     "test:run": "vitest run",
     "lint": "eslint src/",
     "lint:lib": "eslint src/lib/",
-    "lint:pages": "eslint src/pages/"
+    "lint:pages": "eslint src/pages/",
+    "build:libs":   "npm run build --workspaces --if-present",
+    "build:shared": "npm run build --workspace=@tkaj/donjon-shared",
+    "build:tkajui": "npm run build --workspace=tkajui",
+    "build:donjon": "npm run build --workspace=donjon-fall-ui"
   },
   "dependencies": {
     "react": "^19.2.6",
@@ -42,6 +46,8 @@
     "jest-axe": "^10.0.0",
     "jsdom": "^29.1.1",
     "tailwindcss": "^4.3.0",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
     "vite": "^8.0.14",
     "vitest": "^4.1.6"
   }

@@ -6,21 +6,29 @@
   "license": "MIT",
   "sideEffects": ["*.css"],
   "files": [
+    "dist",
     "*.js",
     "*.jsx",
     "donjon.css",
     "enums.js",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
-  "main": "./index.js",
+  "main":   "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types":  "./dist/index.d.ts",
   "exports": {
-    ".":              "./index.js",
-    "./tokens":       "./tokens.js",
-    "./enums":        "./enums.js",
+    ".":              { "source": "./index.js",        "types": "./dist/index.d.ts",        "import": "./dist/index.js",        "require": "./dist/index.cjs" },
+    "./tokens":       { "source": "./tokens.js",       "types": "./dist/tokens.d.ts",       "import": "./dist/tokens.js",       "require": "./dist/tokens.cjs" },
+    "./enums":        { "source": "./enums.js",        "types": "./dist/enums.d.ts",        "import": "./dist/enums.js",        "require": "./dist/enums.cjs" },
+    "./playerColors": { "source": "./playerColors.js", "types": "./dist/playerColors.d.ts", "import": "./dist/playerColors.js", "require": "./dist/playerColors.cjs" },
     "./styles":       "./donjon.css",
     "./donjon.css":   "./donjon.css",
-    "./playerColors": "./playerColors.js",
     "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build":          "tsup",
+    "prepublishOnly": "tsup"
   },
   "peerDependencies": {
     "react":     ">=18.0.0",
