@@ -116,6 +116,9 @@ import {
   INLINE_GAP_VALUES,
   INLINE_JUSTIFY_VALUES,
   INPUT_SIZE_VALUES,
+  INVENTORY_GRID_GAP_VALUES,
+  INVENTORY_GRID_SIZE_VALUES,
+  INVENTORY_SLOT_SIZE_VALUES,
   MODAL_SIZE_VALUES,
   MODAL_VARIANT_VALUES,
   NOTCHED_BOX_SIDE_VALUES,
@@ -729,6 +732,42 @@ export const componentMeta = {
       { name: 'onClick',  type: '(e: MouseEvent) => void',                   required: false, description: 'When set, the Thumbnail renders as a <button>.' },
     ],
     relatedSlugs: ['avatar', 'framed-image', 'hero-image'],
+  },
+
+  'inventory-slot': {
+    description: 'Square cell representing an item in an inventory grid — icon + count badge + rarity-colored border + selected ring + locked/disabled states. Empty slot = no `icon` (renders a plus placeholder).',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/inventory',
+    props: [
+      { name: 'icon',     type: 'ReactNode',                                  required: false, description: 'Item glyph (emoji, <svg>, <img>). Omit for empty slot.' },
+      { name: 'count',    type: 'number',                                     required: false, description: 'Badge bottom-right when > 1.' },
+      { name: 'name',     type: 'string',                                     required: false, description: 'Title attr + aria-label.' },
+      { name: 'size',     type: `${enumType(INVENTORY_SLOT_SIZE_VALUES)} | number`, required: false, default: "'md'",     description: 'Cell box size (xs 32 → xl 96) or raw px.' },
+      { name: 'rarity',   type: 'string',                                     required: false, description: 'Border color (rarity tint).' },
+      { name: 'selected', type: 'boolean',                                    required: false, default: 'false',    description: 'Accent ring + lift.' },
+      { name: 'disabled', type: 'boolean',                                    required: false, default: 'false',    description: 'Greyed out, not clickable.' },
+      { name: 'locked',   type: 'boolean',                                    required: false, default: 'false',    description: 'Dim overlay + lock icon.' },
+      { name: 'onClick',  type: '() => void',                                 required: false, description: 'When set, slot renders as <button>.' },
+    ],
+    relatedSlugs: ['inventory-grid', 'thumbnail'],
+  },
+
+  'inventory-grid': {
+    description: 'Pads an array of items into a fixed N × M grid of <InventorySlot>s. Missing items render as empty slots. Use for fixed-capacity inventories (backpack, hotbar). For open-ended lists use plain <Grid>.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/inventory',
+    props: [
+      { name: 'items',         type: 'Array<object | null>',                     required: true,  description: 'Item descriptors (passed as props to InventorySlot). `null` / undefined = empty slot.' },
+      { name: 'columns',       type: 'number',                                   required: true,  description: 'Grid width in cells.' },
+      { name: 'rows',          type: 'number',                                   required: false, description: 'Grid height. Inferred from items.length / columns if omitted.' },
+      { name: 'size',          type: enumType(INVENTORY_GRID_SIZE_VALUES),       required: false, default: "'md'", description: 'Forwarded to every slot.' },
+      { name: 'gap',           type: `${enumType(INVENTORY_GRID_GAP_VALUES)} | number`, required: false, default: "'xs'", description: 'Gap between cells (token or px).' },
+      { name: 'selectedIndex', type: 'number',                                   required: false, description: 'Index of the selected slot.' },
+      { name: 'onSelect',      type: '(index: number, item: object | null) => void', required: false, description: 'Click handler for any slot.' },
+    ],
+    relatedSlugs: ['inventory-slot', 'grid'],
   },
 
   'framed-image': {
