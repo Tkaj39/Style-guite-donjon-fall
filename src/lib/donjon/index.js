@@ -145,6 +145,13 @@ export { default as Avatar } from '../tkajui/Avatar'
  */
 export { default as FramedImage } from './FramedImage'
 
+// ── Gameplay group ──────────────────────────────────────────────────────
+export { default as Dialogue }         from './Dialogue'
+export { default as ChoicePanel }      from './ChoicePanel'
+export { default as RewardPopup }      from './RewardPopup'
+export { default as AchievementToast } from './AchievementToast'
+export { default as LevelUp }          from './LevelUp'
+
 // ─── Form primitives (re-exported from tkajui) ──────────────────────────
 export { Field, Form, Radio, RadioGroup, Checkbox, CheckboxGroup } from '../tkajui/Form'
 export { default as TextArea }    from '../tkajui/TextArea'

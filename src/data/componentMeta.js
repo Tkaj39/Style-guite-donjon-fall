@@ -16,9 +16,12 @@
 // arrays. Single source of truth — edit src/lib/{donjon,tkajui}/enums.js.
 
 import {
+  ACHIEVEMENT_TOAST_TIER_VALUES,
   ACTION_TILE_ORNAMENT_VALUES,
   ACTION_TILE_SIZE_VALUES,
   ACTION_TILE_VARIANT_VALUES,
+  CHOICE_PANEL_LAYOUT_VALUES,
+  DIALOGUE_PORTRAIT_SIDE_VALUES,
   DIE_FACE_SIZE_VALUES,
   DIE_FACE_STATE_VALUES,
   DONJON_BADGE_SIZE_VALUES,
@@ -995,6 +998,89 @@ export const componentMeta = {
       { name: 'emptyLabel',  type: 'string',                                   required: false, default: "'No matches'", description: 'Label shown when filter yields nothing.' },
     ],
     relatedSlugs: ['select', 'input', 'dropdown-menu'],
+  },
+
+  'dialogue': {
+    description: 'NPC speech panel — portrait + name + body text + optional choices below. Donjon-themed: gold border, octagon silhouette, italic body text. choices use the same format as inline dialogue tree branches. Dialogue.Continue is a convenience Button for advance.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/gameplay',
+    props: [
+      { name: 'portraitSrc',  type: 'string',                                       required: false, description: 'Portrait image URL. Renders into an Avatar octagon.' },
+      { name: 'portrait',     type: 'ReactNode',                                    required: false, description: 'Override the portrait slot (e.g. <FramedImage>).' },
+      { name: 'name',         type: 'string',                                       required: true,  description: 'Speaker name.' },
+      { name: 'text',         type: 'ReactNode',                                    required: true,  description: 'Body of speech.' },
+      { name: 'choices',      type: 'Array<{id, label, hint?, disabled?, onClick?}>', required: false, description: 'Optional list of branching choices.' },
+      { name: 'footer',       type: 'ReactNode',                                    required: false, description: 'Slot below choices (Continue / Skip).' },
+      { name: 'portraitSide', type: enumType(DIALOGUE_PORTRAIT_SIDE_VALUES),        required: false, default: "'left'", description: 'Portrait left or right of the text.' },
+    ],
+    relatedSlugs: ['choice-panel', 'modal', 'avatar'],
+  },
+
+  'choice-panel': {
+    description: 'Player picks one of N options. Cards with title + description + consequences badges (cost / gain / danger / info) preview side-effects. Use for permanent decisions outside conversation (class, alignment, route). Sister of Dialogue without speech bubble framing.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/gameplay',
+    props: [
+      { name: 'title',    type: 'ReactNode',                                  required: false, description: 'Panel heading.' },
+      { name: 'prompt',   type: 'ReactNode',                                  required: false, description: 'Helper text above options.' },
+      { name: 'options',  type: 'Array<{id, title, description?, consequences?, disabled?, disabledReason?, icon?}>', required: true, description: 'Options. consequences: [{label, type?: \'cost\'|\'gain\'|\'danger\'|\'info\'}].' },
+      { name: 'selected', type: 'string',                                     required: false, description: 'Currently selected option id.' },
+      { name: 'onSelect', type: '(id: string, option) => void',                required: false, description: 'Selection handler.' },
+      { name: 'layout',   type: enumType(CHOICE_PANEL_LAYOUT_VALUES),         required: false, default: "'list'", description: 'list = single column, grid = auto-fit 220 px columns.' },
+    ],
+    relatedSlugs: ['dialogue', 'modal'],
+  },
+
+  'reward-popup': {
+    description: 'Animated drop notification — icon + name + quantity slides in, bounces, holds, then fades out. duration covers the full lifecycle. onDismiss fires at the end so the parent can clean it up. Auto-stacks vertically when multiple appear in the same container.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/gameplay',
+    props: [
+      { name: 'open',        type: 'boolean',           required: true,  description: 'Visibility — controlled by parent.' },
+      { name: 'icon',        type: 'ReactNode',         required: false, description: 'Item glyph / image.' },
+      { name: 'name',        type: 'ReactNode',         required: true,  description: 'Item name.' },
+      { name: 'quantity',    type: 'number',            required: false, default: '1',     description: 'Shows +N when > 1.' },
+      { name: 'rarityColor', type: 'string',            required: false, description: 'Border color override.' },
+      { name: 'duration',    type: 'number',            required: false, default: '2400', description: 'Total ms visible (pop + hold + fade).' },
+      { name: 'onDismiss',   type: '() => void',         required: false, description: 'Called at the end so parent can unmount.' },
+    ],
+    relatedSlugs: ['achievement-toast', 'numeric-display'],
+  },
+
+  'achievement-toast': {
+    description: 'Special unlock notification with bigger visual weight than a generic Toast. Tier (gold / silver / bronze) drives the ring color + glow. Pair with a top-right container at the screen edge.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/gameplay',
+    props: [
+      { name: 'open',        type: 'boolean',                                   required: true,  description: 'Visibility — controlled by parent.' },
+      { name: 'icon',        type: 'ReactNode',                                 required: false, default: "'🏆'", description: 'Trophy / badge glyph.' },
+      { name: 'title',       type: 'ReactNode',                                 required: true,  description: 'Achievement name.' },
+      { name: 'description', type: 'ReactNode',                                 required: false, description: 'Sub-line under the title.' },
+      { name: 'tier',        type: enumType(ACHIEVEMENT_TOAST_TIER_VALUES),     required: false, default: "'gold'", description: 'Visual rarity ring.' },
+      { name: 'tierColor',   type: 'string',                                    required: false, description: 'Override the ring color.' },
+      { name: 'duration',    type: 'number',                                    required: false, default: '4500', description: 'Total ms visible.' },
+      { name: 'onDismiss',   type: '() => void',                                required: false, description: 'Called at the end of the fade.' },
+    ],
+    relatedSlugs: ['reward-popup', 'donjon-toast', 'toast'],
+  },
+
+  'level-up': {
+    description: 'Celebration panel for gaining a level. Big pop-in of the new level number with a glowing gold ring + optional stat-gain list (HP +5, MP +2, …) + slot for Continue button. Inline render — wrap in portal + Backdrop for full-screen takeover.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/gameplay',
+    props: [
+      { name: 'level',    type: 'number',           required: true,  description: 'New level value (shown big).' },
+      { name: 'title',    type: 'ReactNode',        required: false, default: "'Level Up!'", description: 'Heading above the number.' },
+      { name: 'subtitle', type: 'ReactNode',        required: false, description: 'Smaller text under the level.' },
+      { name: 'stats',    type: 'Array<{label, value, icon?}>', required: false, description: 'Stat gains shown in a panel below.' },
+      { name: 'actions',  type: 'ReactNode',        required: false, description: 'Slot under the panel (typically Continue button).' },
+    ],
+    relatedSlugs: ['reward-popup', 'achievement-toast', 'modal'],
   },
 
   'framed-image': {
