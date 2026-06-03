@@ -63,6 +63,11 @@ export { default as List }            from './List'
 export { default as DescriptionList } from './DescriptionList'
 export { default as Stat }            from './Stat'
 
+// ─── Navigation group ────────────────────────────────────────────────────
+export { default as Breadcrumb }      from './Breadcrumb'
+export { default as Pagination }      from './Pagination'
+export { default as ContextMenu }     from './ContextMenu'
+
 // ─── Feedback group ──────────────────────────────────────────────────────
 export { default as Spinner }     from './Spinner'
 export { default as Skeleton }    from './Skeleton'

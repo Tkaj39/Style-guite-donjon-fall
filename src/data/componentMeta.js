@@ -130,6 +130,7 @@ import {
   NOTCH_MENU_ITEMS_POSITION_VALUES,
   NOTCH_MENU_SIZE_VALUES,
   NUMBER_INPUT_SIZE_VALUES,
+  PAGINATION_SIZE_VALUES,
   PICTOGRAM_SIZE_VALUES,
   PROGRESS_BAR_SIZE_VALUES,
   PROGRESS_BAR_VARIANT_VALUES,
@@ -931,6 +932,49 @@ export const componentMeta = {
       { name: 'align',       type: enumType(STAT_ALIGN_VALUES),           required: false, default: "'left'", description: 'Horizontal alignment.' },
     ],
     relatedSlugs: ['numeric-display', 'description-list', 'progress-bar'],
+  },
+
+  'breadcrumb': {
+    description: 'Hierarchical path navigation (Home › Library › Item). The last item is the current page (aria-current="page", non-clickable). linkComponent override allows React Router <Link> integration.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/navigation',
+    props: [
+      { name: 'items',         type: 'Array<{label, href?, onClick?}>',  required: true,  description: 'Path segments. Last one is treated as current page.' },
+      { name: 'separator',     type: 'ReactNode',                        required: false, default: "'›'",  description: 'Separator between items.' },
+      { name: 'linkComponent', type: 'ElementType',                       required: false, default: "'a'",  description: 'Override the link element (e.g. React Router Link).' },
+    ],
+    relatedSlugs: ['notch-menu', 'pagination'],
+  },
+
+  'pagination': {
+    description: 'Page navigator. Always shows first + last, brackets the current page with siblingCount neighbors, fills gaps with ellipses. Tabular-nums to keep widths stable. Controlled via page + total + onChange.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/navigation',
+    props: [
+      { name: 'page',         type: 'number',                            required: true,  description: 'Current page (1-indexed).' },
+      { name: 'total',        type: 'number',                            required: true,  description: 'Total number of pages.' },
+      { name: 'onChange',     type: '(page: number) => void',             required: true,  description: 'Change handler.' },
+      { name: 'siblingCount', type: 'number',                            required: false, default: '1',     description: 'Neighbors shown around current page.' },
+      { name: 'size',         type: enumType(PAGINATION_SIZE_VALUES),    required: false, default: "'md'",   description: 'Button size.' },
+      { name: 'showEdges',    type: 'boolean',                            required: false, default: 'true',  description: 'Show ‹ prev / next › arrows.' },
+    ],
+    relatedSlugs: ['table', 'list'],
+  },
+
+  'context-menu': {
+    description: 'Right-click menu. Wraps an area; on contextmenu opens a popover at the cursor position. Same item format as DropdownMenu (label / icon / shortcut / divider / danger / disabled). Auto-clamps within viewport.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/navigation',
+    props: [
+      { name: 'children', type: 'ReactNode', required: true,  description: 'Area that receives onContextMenu.' },
+      { name: 'items',    type: 'Array<{label, icon?, shortcut?, onClick?, danger?, disabled?, divider?}>', required: true, description: 'Menu items.' },
+      { name: 'minWidth', type: 'number',     required: false, default: '180',   description: 'Minimum popover width.' },
+      { name: 'as',       type: 'ElementType', required: false, default: "'div'", description: 'Wrapper element type.' },
+    ],
+    relatedSlugs: ['dropdown-menu', 'tooltip'],
   },
 
   'framed-image': {
