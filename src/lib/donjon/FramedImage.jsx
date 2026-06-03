@@ -57,6 +57,11 @@ export default function FramedImage({
   // used by ActionTile / DonjonCard, keeps the corner accent visually scaled
   // to the frame's bevel.
   const ornH = hasOrnaments ? ornamentHForCx(s.cx, 'roh') : 0
+  // RohOrnament's built-in offset (h/14) is tuned for ActionTile's tight
+  // box. FramedImage has a bigger relative cx, so the ornaments end up
+  // glued to the edge. Push them inward to sit on the diagonal cut.
+  const ornOffset = Math.max(2, Math.round(s.cx * 0.4))
+  const ornPos = { top: { top: ornOffset, left: ornOffset }, bottom: { bottom: ornOffset, left: ornOffset }, topRight: { top: ornOffset, right: ornOffset }, bottomRight: { bottom: ornOffset, right: ornOffset } }
 
   return (
     <span
@@ -111,10 +116,10 @@ export default function FramedImage({
           flip = horizontal mirror, bottom = vertical mirror. */}
       {hasOrnaments && (
         <>
-          <RohOrnament h={ornH} uid={`${uid}tl`}              color={borderColor} colorDim={dimColor} bgFill={bg2} />
-          <RohOrnament h={ornH} uid={`${uid}tr`} flip         color={borderColor} colorDim={dimColor} bgFill={bg2} />
-          <RohOrnament h={ornH} uid={`${uid}bl`} bottom       color={borderColor} colorDim={dimColor} bgFill={bg2} />
-          <RohOrnament h={ornH} uid={`${uid}br`} flip bottom  color={borderColor} colorDim={dimColor} bgFill={bg2} />
+          <RohOrnament h={ornH} uid={`${uid}tl`}              color={borderColor} colorDim={dimColor} bgFill={bg2} style={ornPos.top} />
+          <RohOrnament h={ornH} uid={`${uid}tr`} flip         color={borderColor} colorDim={dimColor} bgFill={bg2} style={ornPos.topRight} />
+          <RohOrnament h={ornH} uid={`${uid}bl`} bottom       color={borderColor} colorDim={dimColor} bgFill={bg2} style={ornPos.bottom} />
+          <RohOrnament h={ornH} uid={`${uid}br`} flip bottom  color={borderColor} colorDim={dimColor} bgFill={bg2} style={ornPos.bottomRight} />
         </>
       )}
     </span>
