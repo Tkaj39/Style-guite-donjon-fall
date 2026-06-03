@@ -116,6 +116,10 @@ export const INVENTORY_SLOT_SIZE_VALUES = ['xs', 'sm', 'md', 'lg', 'xl']
 export const INVENTORY_GRID_SIZE_VALUES = INVENTORY_SLOT_SIZE_VALUES
 export const INVENTORY_GRID_GAP_VALUES  = ['none', 'xs', 'sm', 'md', 'lg', 'xl', 'xxl']
 
+// ── Layout structures group ──────────────────────────────────────────────
+export const STICKY_BAR_POSITION_VALUES = ['top', 'bottom']
+export const SIDEBAR_LAYOUT_SIDE_VALUES = ['left', 'right']
+
 // ── Feedback group ───────────────────────────────────────────────────────
 export const SPINNER_SIZE_VALUES     = ['xs', 'sm', 'md', 'lg', 'xl']
 export const SKELETON_VARIANT_VALUES = ['text', 'block', 'circle']

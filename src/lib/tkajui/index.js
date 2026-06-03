@@ -48,6 +48,10 @@ export { default as Thumbnail }   from './Thumbnail'
 export { default as InventorySlot } from './InventorySlot'
 export { default as InventoryGrid } from './InventoryGrid'
 
+// ─── Layout structures group ─────────────────────────────────────────────
+export { default as StickyBar }     from './StickyBar'
+export { default as SidebarLayout } from './SidebarLayout'
+
 // ─── Feedback group ──────────────────────────────────────────────────────
 export { default as Spinner }     from './Spinner'
 export { default as Skeleton }    from './Skeleton'

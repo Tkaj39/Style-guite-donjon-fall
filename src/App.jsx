@@ -89,6 +89,7 @@ const NotificationCenterPage      = lazy(() => import('./pages/NotificationCente
 const FeedbackPage                = lazy(() => import('./pages/FeedbackPage'))
 const ButtonsMediaPage            = lazy(() => import('./pages/ButtonsMediaPage'))
 const InventoryPage               = lazy(() => import('./pages/InventoryPage'))
+const LayoutStructuresPage        = lazy(() => import('./pages/LayoutStructuresPage'))
 
 export default function App() {
   const [searchParams] = useSearchParams()
@@ -182,6 +183,7 @@ export default function App() {
         <Route path="feedback"               element={<S><FeedbackPage /></S>} />
         <Route path="buttons-media"          element={<S><ButtonsMediaPage /></S>} />
         <Route path="inventory"              element={<S><InventoryPage /></S>} />
+        <Route path="layout-structures"      element={<S><LayoutStructuresPage /></S>} />
       </Route>
     </Routes>
     </LibPreferenceProvider>
