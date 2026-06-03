@@ -120,6 +120,10 @@ export const INVENTORY_GRID_GAP_VALUES  = ['none', 'xs', 'sm', 'md', 'lg', 'xl',
 export const STICKY_BAR_POSITION_VALUES = ['top', 'bottom']
 export const SIDEBAR_LAYOUT_SIDE_VALUES = ['left', 'right']
 
+// ── Disclosure group ─────────────────────────────────────────────────────
+export const DRAWER_SIDE_VALUES         = ['left', 'right', 'top', 'bottom']
+export const DROPDOWN_MENU_ALIGN_VALUES = ['left', 'right']
+
 // ── Feedback group ───────────────────────────────────────────────────────
 export const SPINNER_SIZE_VALUES     = ['xs', 'sm', 'md', 'lg', 'xl']
 export const SKELETON_VARIANT_VALUES = ['text', 'block', 'circle']

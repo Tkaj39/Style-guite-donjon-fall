@@ -52,6 +52,11 @@ export { default as InventoryGrid } from './InventoryGrid'
 export { default as StickyBar }     from './StickyBar'
 export { default as SidebarLayout } from './SidebarLayout'
 
+// ─── Disclosure group ────────────────────────────────────────────────────
+export { default as Drawer }        from './Drawer'
+export { default as DropdownMenu }  from './DropdownMenu'
+export { default as Accordion }     from './Accordion'
+
 // ─── Feedback group ──────────────────────────────────────────────────────
 export { default as Spinner }     from './Spinner'
 export { default as Skeleton }    from './Skeleton'

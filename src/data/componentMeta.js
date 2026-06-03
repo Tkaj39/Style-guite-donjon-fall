@@ -105,6 +105,8 @@ import {
   CORNER_ORNAMENT_CORNER_TYPE_VALUES,
   CORNER_ORNAMENT_VARIANT_VALUES,
   DEVICE_FRAME_TYPE_VALUES,
+  DRAWER_SIDE_VALUES,
+  DROPDOWN_MENU_ALIGN_VALUES,
   GRID_ALIGN_ITEMS_VALUES,
   GRID_GAP_VALUES,
   HERO_IMAGE_ALIGN_VALUES,
@@ -807,6 +809,54 @@ export const componentMeta = {
       { name: 'height',         type: 'string | number',                      required: false, default: "'100%'", description: 'Outer container height.' },
     ],
     relatedSlugs: ['sticky-bar', 'drawer'],
+  },
+
+  'drawer': {
+    description: 'Slide-in panel anchored to one edge of the viewport. Closes on backdrop click or ESC. Used for mobile navigation, settings panels, property inspectors. Renders its own Backdrop.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/disclosure',
+    props: [
+      { name: 'open',            type: 'boolean',                          required: true,  description: 'Visibility control.' },
+      { name: 'onClose',         type: '() => void',                       required: true,  description: 'Called by backdrop click / ESC / × button.' },
+      { name: 'side',            type: enumType(DRAWER_SIDE_VALUES),       required: false, default: "'right'", description: 'Edge to slide in from.' },
+      { name: 'size',            type: 'number | string',                  required: false, default: '320',     description: 'Panel dimension on the cross axis.' },
+      { name: 'title',           type: 'string',                           required: false, description: 'Header text + × button when set.' },
+      { name: 'closeOnBackdrop', type: 'boolean',                          required: false, default: 'true',    description: 'Click backdrop to close.' },
+      { name: 'closeOnEscape',   type: 'boolean',                          required: false, default: 'true',    description: 'ESC to close.' },
+      { name: 'children',        type: 'ReactNode',                        required: true,  description: 'Panel content.' },
+    ],
+    relatedSlugs: ['modal', 'backdrop', 'sidebar-layout'],
+  },
+
+  'dropdown-menu': {
+    description: 'Clickable trigger that toggles a popover menu. Items support label / icon / shortcut / divider / danger / disabled. Closes on item click, outside click, or ESC. Trigger can be an element or a render-prop receiving `{open, toggle}`.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/disclosure',
+    props: [
+      { name: 'trigger',  type: 'ReactNode | (props: {open, toggle}) => ReactNode', required: true,  description: 'Element or render-prop. Bare strings render in a default button.' },
+      { name: 'items',    type: 'Array<{label, icon?, shortcut?, onClick?, danger?, disabled?, divider?}>', required: true, description: 'Menu items. `divider: true` renders a separator.' },
+      { name: 'align',    type: enumType(DROPDOWN_MENU_ALIGN_VALUES),     required: false, default: "'left'", description: 'Horizontal anchor of the popover.' },
+      { name: 'minWidth', type: 'number',                                 required: false, default: '180',     description: 'Minimum popover width in px.' },
+    ],
+    relatedSlugs: ['select', 'tooltip', 'modal'],
+  },
+
+  'accordion': {
+    description: 'Vertically stacked collapsible sections. Items have a clickable header that toggles a body. Single-expand (default) or multi-expand. Controlled (`value` + `onChange`) or uncontrolled (`defaultValue`).',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/disclosure',
+    props: [
+      { name: 'items',        type: 'Array<{id, title, content, disabled?}>', required: true,  description: 'Section descriptors. id uniquely identifies an item.' },
+      { name: 'multi',        type: 'boolean',                                required: false, default: 'false', description: 'Allow multiple sections open at once.' },
+      { name: 'value',        type: 'Array<string | number>',                required: false, description: 'Controlled list of open ids.' },
+      { name: 'onChange',     type: '(next: Array) => void',                  required: false, description: 'Controlled change handler.' },
+      { name: 'defaultValue', type: 'Array<string | number>',                required: false, default: '[]',    description: 'Uncontrolled initial open list.' },
+      { name: 'bordered',     type: 'boolean',                                required: false, default: 'true',  description: 'Outer border + inter-item dividers.' },
+    ],
+    relatedSlugs: ['tabs', 'card', 'drawer'],
   },
 
   'framed-image': {
