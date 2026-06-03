@@ -123,3 +123,8 @@ export const DIALOGUE_PORTRAIT_SIDE_VALUES   = ['left', 'right']
 export const CHOICE_PANEL_LAYOUT_VALUES      = ['list', 'grid']
 export const CHOICE_PANEL_CONSEQUENCE_VALUES = ['cost', 'gain', 'danger', 'info']
 export const ACHIEVEMENT_TOAST_TIER_VALUES   = ['gold', 'silver', 'bronze']
+
+// ── Game-specific layout group ─────────────────────────────────────────
+export const SCOREBOARD_LAYOUT_VALUES = ['compact', 'table']
+export const COOLDOWN_SHAPE_VALUES    = ['circle', 'linear']
+export const COOLDOWN_SIZE_VALUES     = ['sm', 'md', 'lg', 'xl']

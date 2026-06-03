@@ -21,6 +21,8 @@ import {
   ACTION_TILE_SIZE_VALUES,
   ACTION_TILE_VARIANT_VALUES,
   CHOICE_PANEL_LAYOUT_VALUES,
+  COOLDOWN_SHAPE_VALUES,
+  COOLDOWN_SIZE_VALUES,
   DIALOGUE_PORTRAIT_SIDE_VALUES,
   DIE_FACE_SIZE_VALUES,
   DIE_FACE_STATE_VALUES,
@@ -84,6 +86,7 @@ import {
   PLAYER_PANEL_SYMBOL_VALUES,
   RESOURCE_BAR_SIZE_VALUES,
   RESOURCE_BAR_VARIANT_VALUES,
+  SCOREBOARD_LAYOUT_VALUES,
 } from '../lib/donjon/enums'
 
 import {
@@ -1081,6 +1084,118 @@ export const componentMeta = {
       { name: 'actions',  type: 'ReactNode',        required: false, description: 'Slot under the panel (typically Continue button).' },
     ],
     relatedSlugs: ['reward-popup', 'achievement-toast', 'modal'],
+  },
+
+  'hud-layout': {
+    description: 'Full-screen HUD scaffold — top bar + bottom bar + 4 corner slots (topLeft/topRight/bottomLeft/bottomRight) + center gameplay area. Bars sit in flex flow; corners absolute-position above the center. Use once at the screen root.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/game-layout',
+    props: [
+      { name: 'top',         type: 'ReactNode',         required: false, description: 'Top bar content.' },
+      { name: 'bottom',      type: 'ReactNode',         required: false, description: 'Bottom bar content.' },
+      { name: 'topLeft',     type: 'ReactNode',         required: false, description: 'Top-left corner slot.' },
+      { name: 'topRight',    type: 'ReactNode',         required: false, description: 'Top-right corner slot.' },
+      { name: 'bottomLeft',  type: 'ReactNode',         required: false, description: 'Bottom-left corner slot.' },
+      { name: 'bottomRight', type: 'ReactNode',         required: false, description: 'Bottom-right corner slot.' },
+      { name: 'children',    type: 'ReactNode',         required: true,  description: 'Center gameplay area.' },
+      { name: 'height',      type: 'string | number',   required: false, default: "'100vh'", description: 'Outer container height.' },
+      { name: 'bordered',    type: 'boolean',           required: false, default: 'true',     description: 'Top/bottom dividers.' },
+    ],
+    relatedSlugs: ['sidebar-layout', 'sticky-bar'],
+  },
+
+  'scoreboard': {
+    description: 'Multi-player live score grid. Each player has color, name, score, optional stats. compact = horizontal chip strip; table = full HTML table with stat columns. current highlights you; eliminated dims + strikes through.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/game-layout',
+    props: [
+      { name: 'players', type: 'Array<{id, name, score, color?, stats?, current?, eliminated?}>', required: true, description: 'Player rows.' },
+      { name: 'layout',  type: enumType(SCOREBOARD_LAYOUT_VALUES),   required: false, default: "'compact'", description: 'compact (chips) or table.' },
+      { name: 'title',   type: 'ReactNode',                          required: false, description: 'Optional heading.' },
+    ],
+    relatedSlugs: ['leaderboard', 'player-panel'],
+  },
+
+  'leaderboard': {
+    description: 'Ranked list — post-match or all-time. Top 3 get medal tints (🥇/🥈/🥉) in place of the rank number. current highlights the local player. Optional avatar + meta column.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/game-layout',
+    props: [
+      { name: 'entries',   type: 'Array<{id, name, score, meta?, avatar?, current?}>', required: true, description: 'Ordered entries (caller pre-sorts).' },
+      { name: 'startRank', type: 'number',                                              required: false, default: '1',     description: 'First row rank (use for paginated leaderboards).' },
+      { name: 'title',     type: 'ReactNode',                                           required: false, description: 'Optional heading.' },
+    ],
+    relatedSlugs: ['scoreboard', 'table'],
+  },
+
+  'cooldown': {
+    description: 'Countdown indicator (circle or linear). Visual sweep from remaining to 0 over total. Component does NOT manage a timer — your game loop owns the clock and passes updated remaining (ms). Done state shows ✓ or custom icon.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/game-layout',
+    props: [
+      { name: 'remaining',   type: 'number',                              required: true,  description: 'Ms left.' },
+      { name: 'total',       type: 'number',                              required: true,  description: 'Total cooldown ms.' },
+      { name: 'shape',       type: enumType(COOLDOWN_SHAPE_VALUES),       required: false, default: "'circle'", description: 'Circle or horizontal bar.' },
+      { name: 'size',        type: `${enumType(COOLDOWN_SIZE_VALUES)} | number`, required: false, default: "'md'", description: 'Diameter (circle) or bar width (linear).' },
+      { name: 'color',       type: 'string',                              required: false, description: 'Fill color override.' },
+      { name: 'trackColor',  type: 'string',                              required: false, description: 'Track color override.' },
+      { name: 'showLabel',   type: 'boolean',                             required: false, default: 'true', description: 'Show seconds-remaining text.' },
+      { name: 'icon',        type: 'ReactNode',                           required: false, description: 'Center icon (circle) or done-state glyph.' },
+    ],
+    relatedSlugs: ['progress-bar', 'spinner', 'action-tile'],
+  },
+
+  'minimap': {
+    description: 'Compact world view with viewport overlay rectangle + markers. All coords normalized 0–1 (no px). Click reports (x, y) ∈ [0, 1] for recenter logic. Background can be image src or solid color.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/game-layout',
+    props: [
+      { name: 'src',        type: 'string',                                       required: false, description: 'Background image URL.' },
+      { name: 'background', type: 'string',                                       required: false, description: 'Solid background when no src.' },
+      { name: 'viewport',   type: '{x, y, w, h}',                                  required: false, description: 'Visible area rectangle (all 0–1).' },
+      { name: 'markers',    type: 'Array<{x, y, color?, label?}>',                required: false, description: 'Marker dots, coords 0–1.' },
+      { name: 'size',       type: 'number | string',                              required: false, default: '180', description: 'Container width.' },
+      { name: 'aspect',     type: 'number',                                       required: false, default: '1',   description: 'Width / height ratio.' },
+      { name: 'onClick',    type: '(x: number, y: number) => void',                required: false, description: 'Normalized click handler.' },
+    ],
+    relatedSlugs: ['hex-tile', 'hud-layout'],
+  },
+
+  'timeline': {
+    description: 'Vertical sequence of events with a connecting line. Each item has time (turn # / hour), icon dot, title, description. current highlights with gold + glow + bold. Caller controls chronological vs reverse order.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/game-layout',
+    props: [
+      { name: 'items',    type: 'Array<{id, time?, icon?, color?, title, description?, current?}>', required: true, description: 'Event entries.' },
+      { name: 'bordered', type: 'boolean', required: false, default: 'true', description: 'Outer border + padding.' },
+    ],
+    relatedSlugs: ['event-log', 'list'],
+  },
+
+  'sprite': {
+    description: 'Animated sprite-sheet renderer using CSS steps(). Pass a horizontal strip image of N equally-sized frames + frame count + fps. Component shifts background-position via a generated @keyframes. image-rendering: pixelated for retro feel.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/game-layout',
+    props: [
+      { name: 'src',         type: 'string',           required: true,  description: 'Sprite-sheet image URL.' },
+      { name: 'frameWidth',  type: 'number',           required: true,  description: 'Single-frame width in px.' },
+      { name: 'frameHeight', type: 'number',           required: true,  description: 'Single-frame height in px.' },
+      { name: 'frames',      type: 'number',           required: true,  description: 'Total frames in the strip.' },
+      { name: 'fps',         type: 'number',           required: false, default: '12', description: 'Frames per second.' },
+      { name: 'playing',     type: 'boolean',          required: false, default: 'true', description: 'Play / pause animation.' },
+      { name: 'iterations',  type: "'infinite' | number", required: false, default: "'infinite'", description: 'Animation iteration count.' },
+      { name: 'scale',       type: 'number',           required: false, default: '1', description: 'Render scale multiplier.' },
+      { name: 'flip',        type: 'boolean',          required: false, default: 'false', description: 'Horizontal mirror.' },
+      { name: 'fallback',    type: 'ReactNode',        required: false, description: 'Rendered when src is empty.' },
+    ],
+    relatedSlugs: ['game-transition', 'float-feedback'],
   },
 
   'framed-image': {
