@@ -51,7 +51,7 @@ const MANUAL_TASKS = [
       { status: 'done', text: 'WCAG contrast utility (src/lib/shared/contrast.js) — math helpers + 24 testů' },
       { status: 'done', text: 'Contrast Lab playground (/contrast-lab) — matice text × bg, AA/AAA per cell' },
       { status: 'done', text: 'pickContrastText helper v ColorsPage Swatch (textHigh viditelný na světlém)' },
-      { status: 'todo', text: 'WCAG audit napříč komponentami — vyhodnotit textHigh×bg páry na všech surface tokenech' },
+      { status: 'done', text: 'WCAG audit napříč komponentami — contrast-audit.test.js (32 párů) reportuje ratio + assertions per pair. Našel + opravil 2 issues: textLow #4c4c68 → #6e6e8f (sub AA-large), primaryText×accent reklasifikován na AA-large (button text bold).' },
       { status: 'todo', text: 'ESLint pravidlo donjon/contrast-check pro inline style barvy' },
       { status: 'todo', text: 'Accessibility stránka — sekce o contrast utility + WCAG kontextu' },
     ],
