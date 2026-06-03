@@ -103,6 +103,14 @@ export const CHECKBOX_GROUP_ORIENTATION_VALUES = ['vertical', 'horizontal']
 export const TEXT_AREA_SIZE_VALUES    = ['xs', 'sm', 'md', 'lg']
 export const NUMBER_INPUT_SIZE_VALUES = ['xs', 'sm', 'md', 'lg']
 
+// ── Buttons & media group ────────────────────────────────────────────────
+export const ICON_BUTTON_SIZE_VALUES    = ['xs', 'sm', 'md', 'lg']
+export const ICON_BUTTON_VARIANT_VALUES = ['default', 'success', 'danger', 'warning', 'info']
+export const HERO_IMAGE_HEIGHT_VALUES   = ['sm', 'md', 'lg', 'xl']
+export const HERO_IMAGE_OVERLAY_VALUES  = ['bottom', 'full', 'none']
+export const HERO_IMAGE_ALIGN_VALUES    = ['start', 'center', 'end']
+export const THUMBNAIL_SIZE_VALUES      = ['xs', 'sm', 'md', 'lg', 'xl']
+
 // ── Feedback group ───────────────────────────────────────────────────────
 export const SPINNER_SIZE_VALUES     = ['xs', 'sm', 'md', 'lg', 'xl']
 export const SKELETON_VARIANT_VALUES = ['text', 'block', 'circle']

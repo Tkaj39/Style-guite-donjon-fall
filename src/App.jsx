@@ -87,6 +87,7 @@ const EventLogPage         = lazy(() => import('./pages/EventLogPage'))
 const PhaseIndicatorPage          = lazy(() => import('./pages/PhaseIndicatorPage'))
 const NotificationCenterPage      = lazy(() => import('./pages/NotificationCenterPage'))
 const FeedbackPage                = lazy(() => import('./pages/FeedbackPage'))
+const ButtonsMediaPage            = lazy(() => import('./pages/ButtonsMediaPage'))
 
 export default function App() {
   const [searchParams] = useSearchParams()
@@ -178,6 +179,7 @@ export default function App() {
         <Route path="phase-indicator"        element={<S><PhaseIndicatorPage /></S>} />
         <Route path="notification-center"    element={<S><NotificationCenterPage /></S>} />
         <Route path="feedback"               element={<S><FeedbackPage /></S>} />
+        <Route path="buttons-media"          element={<S><ButtonsMediaPage /></S>} />
       </Route>
     </Routes>
     </LibPreferenceProvider>

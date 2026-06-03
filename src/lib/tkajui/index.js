@@ -38,6 +38,12 @@ export { Field, Form, Radio, RadioGroup, Checkbox, CheckboxGroup } from './Form'
 export { default as TextArea }    from './TextArea'
 export { default as NumberInput } from './NumberInput'
 
+// ─── Buttons & media group ───────────────────────────────────────────────
+export { default as IconButton }  from './IconButton'
+export { default as HeroImage }   from './HeroImage'
+export { default as Backdrop }    from './Backdrop'
+export { default as Thumbnail }   from './Thumbnail'
+
 // ─── Feedback group ──────────────────────────────────────────────────────
 export { default as Spinner }     from './Spinner'
 export { default as Skeleton }    from './Skeleton'
