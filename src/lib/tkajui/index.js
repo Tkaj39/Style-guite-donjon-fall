@@ -68,6 +68,9 @@ export { default as Breadcrumb }      from './Breadcrumb'
 export { default as Pagination }      from './Pagination'
 export { default as ContextMenu }     from './ContextMenu'
 
+// ─── Form — niche ────────────────────────────────────────────────────────
+export { default as Combobox }        from './Combobox'
+
 // ─── Feedback group ──────────────────────────────────────────────────────
 export { default as Spinner }     from './Spinner'
 export { default as Skeleton }    from './Skeleton'
