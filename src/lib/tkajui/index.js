@@ -35,6 +35,8 @@ export { default as Avatar } from './Avatar'
 
 // ─── Form primitives (purely structural — no themed visuals) ────────────
 export { Field, Form, Radio, RadioGroup, Checkbox, CheckboxGroup } from './Form'
+export { default as TextArea }    from './TextArea'
+export { default as NumberInput } from './NumberInput'
 
 export { default as Pictogram }      from './Pictogram'
 
