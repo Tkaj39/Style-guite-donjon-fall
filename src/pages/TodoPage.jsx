@@ -206,14 +206,14 @@ const MANUAL_TASKS = [
   {
     group: 'Lib publish — Fáze 2: package metadata',
     items: [
-      { status: 'todo', text: 'src/lib/donjon/package.json — name, version, type, main, exports, peerDependencies, sideEffects' },
-      { status: 'todo', text: 'src/lib/tkajui/package.json — paritní struktura' },
-      { status: 'todo', text: 'src/lib/shared/package.json — privátní nebo public companion' },
-      { status: 'todo', text: 'Root package.json — npm/pnpm workspaces config' },
-      { status: 'todo', text: 'Subpath exports — `./tokens`, `./styles`, `./icons`' },
-      { status: 'todo', text: 'README per package — install + quick start + link na style guide' },
-      { status: 'todo', text: 'LICENSE soubor (MIT?)' },
-      { status: 'todo', text: '.npmignore nebo files allowlist' },
+      { status: 'done', text: 'src/lib/donjon/package.json — name, version, type, main, exports, peerDependencies, sideEffects' },
+      { status: 'done', text: 'src/lib/tkajui/package.json — paritní struktura' },
+      { status: 'done', text: 'src/lib/shared/package.json — @tkaj/donjon-shared (companion package)' },
+      { status: 'done', text: 'Root package.json — npm workspaces nastaveny (src/lib/{shared,tkajui,donjon})' },
+      { status: 'done', text: 'Subpath exports — `./tokens`, `./styles`, `./enums`, `./playerColors` (donjon)' },
+      { status: 'done', text: 'README per package — install + quick start + link na style guide' },
+      { status: 'done', text: 'LICENSE soubor — MIT v rootu + zkopírováno do každého balíčku' },
+      { status: 'done', text: '.npmignore — test souborů + dev artifacts' },
     ],
   },
   {

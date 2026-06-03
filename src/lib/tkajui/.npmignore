@@ -1,0 +1,9 @@
+# Tests + dev artifacts — never published
+__tests__/
+*.test.js
+*.test.jsx
+*.spec.js
+*.spec.jsx
+.eslintrc*
+tsconfig*.json
+*.tsbuildinfo
