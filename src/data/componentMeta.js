@@ -100,6 +100,7 @@ import {
   CLUSTER_ALIGN_VALUES,
   CLUSTER_GAP_VALUES,
   CLUSTER_JUSTIFY_VALUES,
+  COMBOBOX_SIZE_VALUES,
   CONTAINER_MAX_WIDTH_VALUES,
   CONTAINER_PADDING_VALUES,
   CORNER_ORNAMENT_CORNER_TYPE_VALUES,
@@ -975,6 +976,25 @@ export const componentMeta = {
       { name: 'as',       type: 'ElementType', required: false, default: "'div'", description: 'Wrapper element type.' },
     ],
     relatedSlugs: ['dropdown-menu', 'tooltip'],
+  },
+
+  'combobox': {
+    description: 'Searchable single-select. Input with typeahead filter + dropdown of matching options. Arrow keys / Enter / Esc / Backspace-to-clear. Use for >10 options where typing is faster than scrolling.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/form',
+    props: [
+      { name: 'options',     type: 'Array<{value, label, disabled?, hint?}>', required: true,  description: 'Selectable options.' },
+      { name: 'value',       type: 'string | number | null',                   required: true,  description: 'Selected option value (controlled).' },
+      { name: 'onChange',    type: '(value: string | number | null) => void',  required: true,  description: 'Selection change handler.' },
+      { name: 'placeholder', type: 'string',                                   required: false, default: "'Search…'", description: 'Input placeholder.' },
+      { name: 'filter',      type: '(query, option) => boolean',               required: false, description: 'Custom filter predicate. Default = case-insensitive label substring.' },
+      { name: 'size',        type: enumType(COMBOBOX_SIZE_VALUES),             required: false, default: "'md'",      description: 'Trigger size.' },
+      { name: 'disabled',    type: 'boolean',                                  required: false, default: 'false',     description: 'Disables the input.' },
+      { name: 'clearable',   type: 'boolean',                                  required: false, default: 'true',      description: 'Show × clear button when a value is selected.' },
+      { name: 'emptyLabel',  type: 'string',                                   required: false, default: "'No matches'", description: 'Label shown when filter yields nothing.' },
+    ],
+    relatedSlugs: ['select', 'input', 'dropdown-menu'],
   },
 
   'framed-image': {

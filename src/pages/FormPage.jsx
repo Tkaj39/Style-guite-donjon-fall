@@ -7,6 +7,7 @@ import Select from '../lib/tkajui/Select'
 import Button from '../lib/tkajui/Button'
 import TextArea from '../lib/tkajui/TextArea'
 import NumberInput from '../lib/tkajui/NumberInput'
+import Combobox from '../lib/tkajui/Combobox'
 import { Stack, Inline } from '../lib/tkajui/Layout'
 import { surface2, borderDefault, textMid, textLow } from '../lib/tkajui/tokens'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
@@ -128,6 +129,33 @@ function NumberInputDemo() {
   )
 }
 
+const SPELLS = [
+  { value: 'firebolt',     label: 'Firebolt',          hint: 'Lvl 1' },
+  { value: 'magic-missile', label: 'Magic Missile',    hint: 'Lvl 1' },
+  { value: 'fireball',     label: 'Fireball',          hint: 'Lvl 3' },
+  { value: 'lightning',    label: 'Lightning Bolt',    hint: 'Lvl 3' },
+  { value: 'heal',         label: 'Cure Wounds',       hint: 'Lvl 1' },
+  { value: 'invisibility', label: 'Invisibility',      hint: 'Lvl 2' },
+  { value: 'teleport',     label: 'Teleport',          hint: 'Lvl 5' },
+  { value: 'meteor',       label: 'Meteor Swarm',      hint: 'Lvl 9' },
+  { value: 'resurrect',    label: 'Resurrect',         hint: 'Lvl 7', disabled: true },
+  { value: 'wish',         label: 'Wish',              hint: 'Lvl 9', disabled: true },
+]
+
+function ComboboxDemo() {
+  const [spell, setSpell] = useState('fireball')
+  return (
+    <Stack gap="md">
+      <Field label="Select a spell" hint="Type to filter — Arrow keys, Enter, Esc, Backspace to clear.">
+        <Combobox options={SPELLS} value={spell} onChange={setSpell} placeholder="Search spells…" />
+      </Field>
+      <Field label="Smaller (sm) — no clearable">
+        <Combobox options={SPELLS} value={null} onChange={() => {}} size="sm" clearable={false} />
+      </Field>
+    </Stack>
+  )
+}
+
 function FormDemo() {
   const [submitted, setSubmitted] = useState(null)
   const [data, setData] = useState({ email: '', password: '', terms: false })
@@ -165,7 +193,7 @@ export default function FormPage() {
     <ShowcasePage
       title="Form primitives"
       description="Field + Radio/RadioGroup + Checkbox/CheckboxGroup + Form — kompletní sada pro stavbu formulářů. Native form semantics, fieldset/legend pro screen readery, aria-describedby, aria-invalid, required marker."
-      componentSlugs={['field', 'form', 'radio', 'radio-group', 'checkbox', 'checkbox-group', 'text-area', 'number-input']}
+      componentSlugs={['field', 'form', 'radio', 'radio-group', 'checkbox', 'checkbox-group', 'text-area', 'number-input', 'combobox']}
     >
       <Section
         id="field"
@@ -254,6 +282,28 @@ export default function FormPage() {
 
 {/* Decimal — precision 2, step 0.05 */}
 <NumberInput value={vol} onChange={setVol} min={0} max={1} step={0.05} precision={2} />`} />
+      </Section>
+
+      <Section
+        id="combobox"
+        title="Combobox — searchable single-select"
+        description="Input s typeahead filtrem + dropdown matchů. Pro >10 options kde scrollování je pomalejší než typing. Arrow keys, Enter, Esc, Backspace pro clear."
+      >
+        <Preview>
+          <ComboboxDemo />
+        </Preview>
+        <CodeBlock code={`const [spell, setSpell] = useState(null)
+
+<Combobox
+  options={[
+    { value: 'fireball', label: 'Fireball', hint: 'Lvl 3' },
+    { value: 'heal',     label: 'Cure Wounds' },
+    { value: 'wish',     label: 'Wish', hint: 'Lvl 9', disabled: true },
+  ]}
+  value={spell}
+  onChange={setSpell}
+  placeholder="Search spells…"
+/>`} />
       </Section>
 
       <Section
