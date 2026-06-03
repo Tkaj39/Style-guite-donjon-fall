@@ -44,6 +44,10 @@ export { default as HeroImage }   from './HeroImage'
 export { default as Backdrop }    from './Backdrop'
 export { default as Thumbnail }   from './Thumbnail'
 
+// ─── Inventory group ─────────────────────────────────────────────────────
+export { default as InventorySlot } from './InventorySlot'
+export { default as InventoryGrid } from './InventoryGrid'
+
 // ─── Feedback group ──────────────────────────────────────────────────────
 export { default as Spinner }     from './Spinner'
 export { default as Skeleton }    from './Skeleton'

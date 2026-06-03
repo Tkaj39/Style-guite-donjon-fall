@@ -111,6 +111,11 @@ export const HERO_IMAGE_OVERLAY_VALUES  = ['bottom', 'full', 'none']
 export const HERO_IMAGE_ALIGN_VALUES    = ['start', 'center', 'end']
 export const THUMBNAIL_SIZE_VALUES      = ['xs', 'sm', 'md', 'lg', 'xl']
 
+// ── Inventory group ──────────────────────────────────────────────────────
+export const INVENTORY_SLOT_SIZE_VALUES = ['xs', 'sm', 'md', 'lg', 'xl']
+export const INVENTORY_GRID_SIZE_VALUES = INVENTORY_SLOT_SIZE_VALUES
+export const INVENTORY_GRID_GAP_VALUES  = ['none', 'xs', 'sm', 'md', 'lg', 'xl', 'xxl']
+
 // ── Feedback group ───────────────────────────────────────────────────────
 export const SPINNER_SIZE_VALUES     = ['xs', 'sm', 'md', 'lg', 'xl']
 export const SKELETON_VARIANT_VALUES = ['text', 'block', 'circle']
