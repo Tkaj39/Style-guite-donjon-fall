@@ -57,6 +57,12 @@ export { default as Drawer }        from './Drawer'
 export { default as DropdownMenu }  from './DropdownMenu'
 export { default as Accordion }     from './Accordion'
 
+// ─── Data display group ──────────────────────────────────────────────────
+export { default as Table }           from './Table'
+export { default as List }            from './List'
+export { default as DescriptionList } from './DescriptionList'
+export { default as Stat }            from './Stat'
+
 // ─── Feedback group ──────────────────────────────────────────────────────
 export { default as Spinner }     from './Spinner'
 export { default as Skeleton }    from './Skeleton'

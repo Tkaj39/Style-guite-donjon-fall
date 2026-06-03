@@ -124,6 +124,13 @@ export const SIDEBAR_LAYOUT_SIDE_VALUES = ['left', 'right']
 export const DRAWER_SIDE_VALUES         = ['left', 'right', 'top', 'bottom']
 export const DROPDOWN_MENU_ALIGN_VALUES = ['left', 'right']
 
+// ── Data display group ──────────────────────────────────────────────────
+export const TABLE_SIZE_VALUES               = ['sm', 'md', 'lg']
+export const LIST_SIZE_VALUES                = ['sm', 'md', 'lg']
+export const DESCRIPTION_LIST_LAYOUT_VALUES  = ['inline', 'stacked']
+export const STAT_SIZE_VALUES                = ['sm', 'md', 'lg', 'xl']
+export const STAT_ALIGN_VALUES               = ['left', 'center', 'right']
+
 // ── Feedback group ───────────────────────────────────────────────────────
 export const SPINNER_SIZE_VALUES     = ['xs', 'sm', 'md', 'lg', 'xl']
 export const SKELETON_VARIANT_VALUES = ['text', 'block', 'circle']

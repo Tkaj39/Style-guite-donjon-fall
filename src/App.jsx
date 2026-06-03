@@ -91,6 +91,7 @@ const ButtonsMediaPage            = lazy(() => import('./pages/ButtonsMediaPage'
 const InventoryPage               = lazy(() => import('./pages/InventoryPage'))
 const LayoutStructuresPage        = lazy(() => import('./pages/LayoutStructuresPage'))
 const DisclosurePage              = lazy(() => import('./pages/DisclosurePage'))
+const DataDisplayPage             = lazy(() => import('./pages/DataDisplayPage'))
 
 export default function App() {
   const [searchParams] = useSearchParams()
@@ -186,6 +187,7 @@ export default function App() {
         <Route path="inventory"              element={<S><InventoryPage /></S>} />
         <Route path="layout-structures"      element={<S><LayoutStructuresPage /></S>} />
         <Route path="disclosure"             element={<S><DisclosurePage /></S>} />
+        <Route path="data-display"           element={<S><DataDisplayPage /></S>} />
       </Route>
     </Routes>
     </LibPreferenceProvider>
