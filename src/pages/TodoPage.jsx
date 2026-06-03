@@ -139,28 +139,28 @@ const MANUAL_TASKS = [
     group: 'Chybějící komponenty — 🟡 vysoká priorita (běžné app patterns)',
     items: [
       // Loading/feedback
-      { status: 'todo', text: 'Spinner — loading indikátor (kruhový/lineární)' },
-      { status: 'todo', text: 'Skeleton — máme dokumentaci, chybí komponenta' },
-      { status: 'todo', text: 'Banner — top-of-page persistent notice' },
-      { status: 'todo', text: 'Alert — inline banner s ikonou + title + body' },
+      { status: 'done', text: 'Spinner — loading indikátor (kruhový/lineární)' },
+      { status: 'done', text: 'Skeleton — máme dokumentaci, chybí komponenta' },
+      { status: 'done', text: 'Banner — top-of-page persistent notice' },
+      { status: 'done', text: 'Alert — inline banner s ikonou + title + body' },
       // Media + buttons
-      { status: 'todo', text: 'IconButton — tlačítko jen s ikonou (HUD, toolbar)' },
-      { status: 'todo', text: 'HeroImage / Banner — velká ilustrace s overlay textem (menu, loading)' },
-      { status: 'todo', text: 'Backdrop — full-screen pozadí s content overlay (modální fond hry)' },
-      { status: 'todo', text: 'Thumbnail — klikatelný preview (mapy, save sloty)' },
+      { status: 'done', text: 'IconButton — tlačítko jen s ikonou (HUD, toolbar)' },
+      { status: 'done', text: 'HeroImage — velká ilustrace s overlay textem (menu, loading)' },
+      { status: 'done', text: 'Backdrop — full-screen pozadí s content overlay (modální fond hry)' },
+      { status: 'done', text: 'Thumbnail — klikatelný preview (mapy, save sloty)' },
       // Inventory pattern (core game)
-      { status: 'todo', text: 'InventorySlot — buňka s rarity border + count badge' },
-      { status: 'todo', text: 'InventoryGrid — mřížka s drag/drop supportem' },
+      { status: 'done', text: 'InventorySlot — buňka s rarity border + count badge' },
+      { status: 'done', text: 'InventoryGrid — N×M layout s padded items (drag/drop deferred)' },
       // Layout — sticky
-      { status: 'todo', text: 'StickyBar — top/bottom anchor (HUD topbar, actionbar)' },
-      { status: 'todo', text: 'SidebarLayout — left-nav + content (settings, codex)' },
+      { status: 'done', text: 'StickyBar — top/bottom anchor (HUD topbar, actionbar)' },
+      { status: 'done', text: 'SidebarLayout — left-nav + content (settings, codex)' },
       // Forms — secondary
       { status: 'done', text: 'TextArea — multi-line text input (thin wrapper over Input multiline)' },
       { status: 'done', text: 'NumberInput — − / + stepper buttons + min/max/step/precision clamping' },
       // Navigation
-      { status: 'todo', text: 'Drawer — side panel (inventory, character sheet)' },
-      { status: 'todo', text: 'DropdownMenu — generic dropdown s items' },
-      { status: 'todo', text: 'Accordion — collapsible sekce (codex, settings)' },
+      { status: 'done', text: 'Drawer — side panel (inventory, character sheet)' },
+      { status: 'done', text: 'DropdownMenu — generic dropdown s items' },
+      { status: 'done', text: 'Accordion — collapsible sekce (codex, settings)' },
     ],
   },
   {
