@@ -6,7 +6,7 @@
    ─────────────────────────────────────────────────────────────────────── */
 import { useId, useState, useRef, useLayoutEffect } from 'react'
 import { HexOrnament } from './Ornaments'
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import { gold, goldMid, goldDim, bg0, bg3, bg4, textActive, textDisabled, VARIANT_BG, VARIANT_BORDER, VARIANT_TITLE_GRAD } from './tokens'
 
 const SIZES = {

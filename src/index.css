@@ -2,6 +2,15 @@
 
 @import 'tailwindcss';
 
+/* ── Dogfood the lib stylesheets ────────────────────────────────────────
+   Both libs ship a CSS file with custom properties + utility classes
+   (.dj-clip-focus, .dj-segment-button, .tkajui-segment-button). The app
+   imports them through their package-relative paths so the style guide
+   exercises the exact same artifacts a downstream consumer would.
+   ───────────────────────────────────────────────────────────────────── */
+@import './lib/tkajui/tkajui.css';
+@import './lib/donjon/donjon.css';
+
 @theme {
   --color-brand-50: #f0f2ff;
   --color-brand-100: #e2e5ff;
@@ -295,22 +304,9 @@ dialog.modal-dialog > .modal-panel {
   100% { transform: translateY(-20px);             opacity: 0; }
 }
 
-/* ── Centrální focus ring pro clip-path prvky ─────────────────────────────
-   CSS outline se neřídí clip-path — vyjde jako obdélník.
-   .dj-clip-focus nahrazuje outline drop-shadow filtrem, který tvar sleduje.
-   Použití: přidej className="dj-clip-focus" na interaktivní prvek s clip-path.
-   ─────────────────────────────────────────────────────────────────────── */
-/* Prvek sám má clip-path a je focusable */
-.dj-clip-focus:focus-visible,
-.dj-clip-focus:has(:focus-visible) {
-  outline: none !important;
-  filter: drop-shadow(0 0 5px #FFC18399);
-}
-
-/* Potlačí outline na dětech uvnitř clippovaného wrapperu */
-.dj-clip-focus :focus-visible {
-  outline: none !important;
-}
+/* dj-clip-focus rule moved to src/lib/donjon/donjon.css so it ships with
+   the package. Still applied to the app via the @import at the top of
+   this file. */
 
 /* ── Donjon component animations ── */
 

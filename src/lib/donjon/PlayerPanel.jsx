@@ -12,7 +12,7 @@ import { Shield } from './Erb'
 import ResourceBar from './ResourceBar'
 import DonjonBadge from './DonjonBadge'
 import { RohOrnament, ornamentHForCx } from './Ornaments'
-import { octagon, octagonInner } from '../../utils/octagon'
+import { octagon, octagonInner } from '../shared/octagon'
 import {
   gold, goldDim,
   bg2, bg3, bg4,

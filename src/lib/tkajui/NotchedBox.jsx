@@ -1,5 +1,5 @@
 import { Children, isValidElement } from 'react'
-import { octagonWithNotch, octagonWithNotches, notchClamp } from '../../utils/octagon'
+import { octagonWithNotch, octagonWithNotches, notchClamp } from '../shared/octagon'
 
 // ─── Slot ──────────────────────────────────────────────────────────────────
 /**

@@ -18,8 +18,8 @@ import { createPortal } from 'react-dom'
 import GameTransition from './GameTransition'
 import DonjonBadge from './DonjonBadge'
 import { RohOrnament, ornamentHForCx } from './Ornaments'
-import { octagon, octagonInner } from '../../utils/octagon'
-import { useModalPageInert } from '../../hooks/useModalPageInert'
+import { octagon, octagonInner } from '../shared/octagon'
+import { useModalPageInert } from '../shared/useModalPageInert'
 import {
   gold, goldDim,
   bg0, bg2, bg3, bg4, bgDeep,

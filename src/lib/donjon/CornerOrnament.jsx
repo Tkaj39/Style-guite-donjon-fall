@@ -1,4 +1,4 @@
-import { SHAPE_SIZES } from '../../utils/octagon'
+import { SHAPE_SIZES } from '../shared/octagon'
 
 /**
  * CornerOrnament — decorative corner ornament

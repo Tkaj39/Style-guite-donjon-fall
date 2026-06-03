@@ -9,7 +9,7 @@ import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { players } from '../data/gameUiMockData'
 import { blue } from '../lib/donjon/playerColors'
-import { useBreakpoint } from '../hooks/useBreakpoint'
+import { useBreakpoint } from '../lib/shared/useBreakpoint'
 
 function statLabel(s) {
   const labels = { default: 'Default', selected: 'Vybraný', rerolled: 'Přehozeno', damaged: 'Poškozeno' }

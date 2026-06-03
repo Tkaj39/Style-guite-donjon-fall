@@ -1,5 +1,5 @@
-import { octagon } from '../../utils/octagon'
-import { buttonSizes as sizes } from '../../utils/sizes'
+import { octagon } from '../shared/octagon'
+import { buttonSizes as sizes } from '../shared/sizes'
 import {
   accent, accentLight, surface2, surface3, surface4,
   borderDefault, borderMid,

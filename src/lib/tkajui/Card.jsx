@@ -1,4 +1,4 @@
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import {
   surface2, surface3, surface4,
   borderDefault, borderMid,

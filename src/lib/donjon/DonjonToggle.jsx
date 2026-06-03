@@ -3,7 +3,7 @@
    shape='round'  — round track + round thumb (default)
    shape='sharp'  — octagon track + diamond thumb (beveled corners)
    ─────────────────────────────────────────────────────────────────────── */
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import {
   gold, goldDim, bgDeep,
   textHigh, textMid, textLow,

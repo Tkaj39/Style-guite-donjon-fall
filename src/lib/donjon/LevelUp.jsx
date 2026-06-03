@@ -6,7 +6,7 @@
    Renders inline — pair with a portal / backdrop at the call site if
    you want it as a full-screen takeover.
    ─────────────────────────────────────────────────────────────────── */
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import { bg2, bg3, gold, goldDim, textHigh, textMid, gainColor } from './tokens'
 
 /**

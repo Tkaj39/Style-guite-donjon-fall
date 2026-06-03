@@ -1,7 +1,7 @@
 import { useEffect, useRef, useId } from 'react'
 import { createPortal } from 'react-dom'
-import { useModalPageInert } from '../../hooks/useModalPageInert'
-import { octagon } from '../../utils/octagon'
+import { useModalPageInert } from '../shared/useModalPageInert'
+import { octagon } from '../shared/octagon'
 import {
   surface2, surface3,
   borderDefault, borderMid,
@@ -144,12 +144,12 @@ export default function Modal({
               }}>
                 <h2
                   id={titleId}
-                  className="text-balance"
                   style={{
                     margin: 0,
                     fontSize: '0.875rem',
                     fontWeight: 600,
                     letterSpacing: '0.04em',
+                    textWrap: 'balance',
                     color: v.title,
                   }}
                 >

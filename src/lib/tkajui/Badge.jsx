@@ -1,4 +1,4 @@
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import {
   accent, accentBg, accentBorder,
   surface3, borderDefault, textHigh, textMid,

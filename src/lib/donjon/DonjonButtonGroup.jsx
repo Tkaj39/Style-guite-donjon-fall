@@ -1,5 +1,5 @@
 import { useId } from 'react'
-import { octagon, clipLeft, clipRight } from '../../utils/octagon'
+import { octagon, clipLeft, clipRight } from '../shared/octagon'
 import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament } from './Ornaments'
 import { gold, goldDim, bg2, bgInactive, VARIANT_BG, VARIANT_BORDER, VARIANT_TITLE_GRAD } from './tokens'
 
@@ -98,7 +98,7 @@ export default function DonjonButtonGroup({
                 cursor: 'pointer',
                 transition: 'filter 150ms',
               }}
-              className="hover:brightness-110 active:brightness-90 focus:outline-hidden focus-visible:drop-shadow-[0_0_8px_#FFC183AA]"
+              className="dj-segment-button"
             >
               {hasOrnaments && (isFirst || isOnly) && <SideOrn h={s.h} uid={`${uid}l`} />}
               {hasOrnaments && (isLast  || isOnly) && <SideOrn h={s.h} uid={`${uid}r`} flip />}

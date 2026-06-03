@@ -111,3 +111,26 @@
   --tkajui-z-toast:       2000;
   --tkajui-z-tooltip:     2100;
 }
+
+/* ── Interactive segment (ButtonGroup) ────────────────────────────────────
+   Brightness pulse on hover/active and an accent drop-shadow on focus-visible.
+   Replaces a previous Tailwind utility chain so the lib works without
+   Tailwind in the consumer project.
+   ──────────────────────────────────────────────────────────────────────── */
+.tkajui-segment-button:hover         { filter: brightness(1.10); }
+.tkajui-segment-button:active        { filter: brightness(0.90); }
+.tkajui-segment-button:focus         { outline: none; }
+.tkajui-segment-button:focus-visible {
+  outline: none;
+  filter: drop-shadow(0 0 8px var(--tkajui-accent-border, #6576ff55));
+}
+
+/* ── Drawer slide-in keyframes ────────────────────────────────────────────
+   One per side. Drawer.jsx picks the right animation name based on the
+   `side` prop. Living here (not inline in the component) keeps the lib
+   bundle's CSS in one file.
+   ──────────────────────────────────────────────────────────────────────── */
+@keyframes tkajuiDrawerSlideInLeft   { from { transform: translateX(-100%); } to { transform: none; } }
+@keyframes tkajuiDrawerSlideInRight  { from { transform: translateX( 100%); } to { transform: none; } }
+@keyframes tkajuiDrawerSlideInTop    { from { transform: translateY(-100%); } to { transform: none; } }
+@keyframes tkajuiDrawerSlideInBottom { from { transform: translateY( 100%); } to { transform: none; } }

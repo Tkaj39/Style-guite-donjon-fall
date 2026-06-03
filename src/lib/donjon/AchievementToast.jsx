@@ -6,7 +6,7 @@
    Pair with a side-of-screen container (top-right is canonical).
    ─────────────────────────────────────────────────────────────────── */
 import { useEffect, useState } from 'react'
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import { bg2, bgDeep, gold, textHigh, textMid, warningColor } from './tokens'
 
 /**

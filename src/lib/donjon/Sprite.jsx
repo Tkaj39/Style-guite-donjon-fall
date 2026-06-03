@@ -1,13 +1,13 @@
 /* ── Sprite (donjon-fall-ui) ─────────────────────────────────────────
-   Animated sprite-sheet renderer using CSS steps(). Pass a single
-   horizontal strip image of N equally-sized frames + frame count +
-   fps. The component shifts background-position via a steps() keyframe
-   animation.
+   Animated sprite-sheet renderer. Pass a single horizontal strip image
+   of N equally-sized frames + frame count + fps. Driven by the Web
+   Animations API (no per-instance <style> keyframes, no CSS string
+   generation) so the component is self-contained for library publish.
 
-   For single static icons use an <img> or an <svg>. For Lottie /
-   complex vector animations use a dedicated tool.
+   For single static icons use an <img>. For Lottie / complex vector
+   animations use a dedicated tool.
    ─────────────────────────────────────────────────────────────────── */
-import { useId } from 'react'
+import { useEffect, useRef } from 'react'
 
 /**
  * @param {string} src               Horizontal sprite-sheet image URL.
@@ -36,15 +36,36 @@ export default function Sprite({
   style,
   ...rest
 }) {
-  const rawId = useId()
-  const uid = `sprite-${rawId.replace(/:/g, '')}`
-  if (!src) return fallback
-
-  const duration = (frames / fps).toFixed(3)
+  const ref = useRef(null)
   const totalWidth = frameWidth * frames
+  const stripWidth = totalWidth * scale
+  const durationMs = (frames / fps) * 1000
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el || !src || !playing) return undefined
+
+    // Discrete frame-by-frame keyframes — N+1 stops so each frame holds
+    // for one slot. Equivalent to CSS `steps(N)` over background-position.
+    const keyframes = Array.from({ length: frames + 1 }, (_, i) => ({
+      backgroundPositionX: `${-i * frameWidth * scale}px`,
+      easing: 'steps(1)',
+    }))
+
+    const anim = el.animate(keyframes, {
+      duration: durationMs,
+      iterations: iterations === 'infinite' ? Infinity : iterations,
+      fill: 'forwards',
+    })
+
+    return () => anim.cancel()
+  }, [src, playing, frames, frameWidth, scale, durationMs, iterations])
+
+  if (!src) return fallback
 
   return (
     <span
+      ref={ref}
       role="img"
       aria-hidden="true"
       className={className}
@@ -54,23 +75,13 @@ export default function Sprite({
         height: frameHeight * scale,
         backgroundImage: `url(${src})`,
         backgroundRepeat: 'no-repeat',
-        backgroundSize: `${totalWidth * scale}px ${frameHeight * scale}px`,
+        backgroundSize: `${stripWidth}px ${frameHeight * scale}px`,
         backgroundPosition: '0 0',
         imageRendering: 'pixelated',
         transform: flip ? 'scaleX(-1)' : undefined,
-        animation: playing
-          ? `${uid} ${duration}s steps(${frames}) ${iterations === 'infinite' ? 'infinite' : iterations}`
-          : undefined,
         ...style,
       }}
       {...rest}
-    >
-      <style>{`
-        @keyframes ${uid} {
-          from { background-position: 0 0; }
-          to   { background-position: -${totalWidth * scale}px 0; }
-        }
-      `}</style>
-    </span>
+    />
   )
 }

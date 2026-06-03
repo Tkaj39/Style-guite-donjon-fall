@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament, HrotErbu, ornamentHForCx, ORNAMENT_BASE_WIDTH } from '../lib/donjon/Ornaments'
 import CornerOrnament from '../lib/donjon/CornerOrnament'
 import { Shield } from '../lib/donjon/Erb'
-import { buttonSizes, CARD_ORN_H } from '../utils/sizes'
+import { buttonSizes, CARD_ORN_H } from '../lib/shared/sizes'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { octagon, octagonInner, octagonPerCorner, octagonInnerPerCorner } from '../utils/octagon'
+import { octagon, octagonInner, octagonPerCorner, octagonInnerPerCorner } from '../lib/shared/octagon'
 import { gold, goldMid, goldDim, infoColor, bg2, bg3, borderDefault, borderMid, textHigh, textMid, textLow } from '../lib/donjon/tokens'
 
 /* ── Doporučené hodnoty cx pro různé komponenty ── */
@@ -368,7 +368,7 @@ const ornH = ornamentHForCx(cx, ornament === 'roh' ? 'roh' : 'zkosen')`} />
       >
         <MixedCornerDemo />
 
-        <CodeBlock code={`import { octagonPerCorner } from '../utils/octagon'
+        <CodeBlock code={`import { octagonPerCorner } from '../lib/shared/octagon'
 import { RohOrnament, ornamentHForCx } from './Ornaments'
 
 const corners = { tl: 20, tr: 10, br: 14, bl: 16 }

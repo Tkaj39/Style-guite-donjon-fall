@@ -1,5 +1,5 @@
-import { octagon } from '../../utils/octagon'
-import { createToastContext } from '../../utils/toastContext'
+import { octagon } from '../shared/octagon'
+import { createToastContext } from '../shared/toastContext'
 import {
   surface3,
   borderDefault, borderMid,

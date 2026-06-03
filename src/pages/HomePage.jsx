@@ -21,7 +21,7 @@ import {
   textHigh, textMid, textLow,
   gainColor, dangerColor, warningColor, infoColor, magicColor,
 } from '../lib/donjon/tokens'
-import { octagon, octagonInner } from '../utils/octagon'
+import { octagon, octagonInner } from '../lib/shared/octagon'
 import ArchDiagram from '../styleguide/ArchDiagram'
 import LibraryLogo from '../styleguide/LibraryLogo'
 

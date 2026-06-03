@@ -4,7 +4,7 @@
    Clean TkajUI palette.
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useRef, useEffect, useId } from 'react'
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import {
   surface2, surface4,
   borderDefault, borderMid,

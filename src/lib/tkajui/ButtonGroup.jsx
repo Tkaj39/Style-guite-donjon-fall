@@ -1,4 +1,4 @@
-import { octagon, clipLeft, clipRight } from '../../utils/octagon'
+import { octagon, clipLeft, clipRight } from '../shared/octagon'
 import {
   surface2, surface3, surface4,
   borderDefault,
@@ -75,7 +75,7 @@ export default function ButtonGroup({
                 cursor: 'pointer',
                 transition: 'filter 150ms, background 150ms',
               }}
-              className="hover:brightness-110 active:brightness-90 focus:outline-hidden focus-visible:drop-shadow-[0_0_8px_#FFC183AA]"
+              className="tkajui-segment-button"
             >
               {item.icon && (
                 <span style={{

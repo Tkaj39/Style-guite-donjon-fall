@@ -1,5 +1,5 @@
 import { useId } from 'react'
-import { octagon, octagonInner } from '../../utils/octagon'
+import { octagon, octagonInner } from '../shared/octagon'
 import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament, ornamentHForCx } from './Ornaments'
 import {
   goldDim, goldMid,
@@ -98,12 +98,12 @@ export default function DonjonCard({
           )}
           {description && (
             <p
-              className="text-pretty"
               style={{
                 margin: '4px 0 0',
                 fontSize: '0.75rem',
                 color: goldMid,
                 lineHeight: 1.4,
+                textWrap: 'pretty',
               }}
             >
               {description}

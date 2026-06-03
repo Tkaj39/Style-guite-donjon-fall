@@ -6,7 +6,7 @@
    main menu, character sheet portrait, win-screen MVP image.
    ─────────────────────────────────────────────────────────────────── */
 import { useId } from 'react'
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import { RohOrnament, ornamentHForCx } from './Ornaments'
 import { bg2, gold, goldDim } from './tokens'
 

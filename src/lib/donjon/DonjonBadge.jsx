@@ -19,7 +19,7 @@ import {
   HEX_BADGE_SIZES,
 } from './tokens'
 
-import { hexFlatTop } from '../../utils/polygon'
+import { hexFlatTop } from '../shared/polygon'
 
 /* ── Variants ──
    Inner bg must be dark — colored text on a dark bg is readable.

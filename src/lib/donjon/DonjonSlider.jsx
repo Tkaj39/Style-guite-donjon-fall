@@ -11,7 +11,7 @@ import {
   textMid, textLow,
   dangerColor, successColor, warningColor, infoColor,
 } from './tokens'
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 
 /* Variant lookup — parita s TkajUI Slider.
    main = primary stop (bright), mid = secondary stop (mid-tone), dim = idle/inactive. */
