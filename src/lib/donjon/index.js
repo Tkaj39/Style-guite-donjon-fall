@@ -152,6 +152,15 @@ export { default as RewardPopup }      from './RewardPopup'
 export { default as AchievementToast } from './AchievementToast'
 export { default as LevelUp }          from './LevelUp'
 
+// ── Game-specific layout group ─────────────────────────────────────────
+export { default as HUDLayout }    from './HUDLayout'
+export { default as Scoreboard }   from './Scoreboard'
+export { default as Leaderboard }  from './Leaderboard'
+export { default as Cooldown }     from './Cooldown'
+export { default as Minimap }      from './Minimap'
+export { default as Timeline }     from './Timeline'
+export { default as Sprite }       from './Sprite'
+
 // ─── Form primitives (re-exported from tkajui) ──────────────────────────
 export { Field, Form, Radio, RadioGroup, Checkbox, CheckboxGroup } from '../tkajui/Form'
 export { default as TextArea }    from '../tkajui/TextArea'
