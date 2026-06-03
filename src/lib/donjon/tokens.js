@@ -257,4 +257,6 @@ export {
   zDropdown, zNotification, zToast, zTooltip,
   SPACE, SPACE_VALUES, resolveSpace,
   CONTAINER_WIDTHS, CONTAINER_WIDTH_VALUES, resolveContainerWidth,
+  shadowSm, shadowMd, shadowLg, shadowModal, shadowDeep,
+  scrimLight, scrimMid, scrimHeavy, panelShadow,
 } from '../shared/tokens'

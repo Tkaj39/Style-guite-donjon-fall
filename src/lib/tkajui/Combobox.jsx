@@ -8,7 +8,7 @@
    the list is slower than typing.
    ─────────────────────────────────────────────────────────────────── */
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { surface2, surface3, surface4, borderDefault, accent, textHigh, textMid, textLow } from './tokens'
+import { surface2, surface3, surface4, borderDefault, accent, textHigh, textMid, textLow, shadowMd } from './tokens'
 import { zDropdown } from '../shared/tokens'
 
 const SIZE = {
@@ -170,7 +170,7 @@ export default function Combobox({
             background: surface2,
             border: `1px solid ${borderDefault}`,
             borderRadius: 4,
-            boxShadow: '0 6px 20px rgba(0,0,0,0.45)',
+            boxShadow: shadowMd,
             maxHeight: 280,
             overflowY: 'auto',
             padding: 4,

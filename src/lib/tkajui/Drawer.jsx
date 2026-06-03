@@ -7,7 +7,7 @@
 import { useEffect } from 'react'
 import Backdrop from './Backdrop'
 import { surface2, borderDefault, textHigh, textMid } from './tokens'
-import { zNotification } from '../shared/tokens'
+import { zNotification, panelShadow } from '../shared/tokens'
 
 const SIDES = {
   left:   { axis: 'X', sign: -1, full: 'height' },
@@ -68,9 +68,7 @@ export default function Drawer({
           background: surface2,
           color: textHigh,
           zIndex: zNotification - 50,
-          boxShadow: side === 'left' || side === 'top'
-            ? `4px 0 24px rgba(0,0,0,0.5)`
-            : `-4px 0 24px rgba(0,0,0,0.5)`,
+          boxShadow: panelShadow(side),
           display: 'flex',
           flexDirection: 'column',
           animation: `${animName} 220ms ease-out`,
