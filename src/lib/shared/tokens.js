@@ -111,3 +111,44 @@ export function resolveContainerWidth(value, fallback = '100%') {
   if (CONTAINER_WIDTHS[value] != null) return CONTAINER_WIDTHS[value]
   return fallback
 }
+
+// ── Shadows (structural, theme-neutral) ────────────────────────────────────
+// Drop-shadow values used by popovers, modals, toasts, drawers. Pure black
+// with alpha — they are physical shadows, not brand colors, and read the
+// same on both palettes.
+//
+//   shadowSm    — small lift (icon buttons, badges)
+//   shadowMd    — popover / dropdown / tooltip drop
+//   shadowLg    — drawer / select dropdown
+//   shadowModal — modal panel
+//   shadowDeep  — full-screen takeover (level-up, achievement)
+//
+// Stack with a glow ring inline when needed:
+//   boxShadow: `${shadowMd}, 0 0 0 1px ${accent}33`
+
+export const shadowSm    = '0 2px 8px rgba(0, 0, 0, 0.30)'
+export const shadowMd    = '0 6px 20px rgba(0, 0, 0, 0.45)'
+export const shadowLg    = '0 8px 24px rgba(0, 0, 0, 0.50)'
+export const shadowModal = '0 8px 32px rgba(0, 0, 0, 0.60)'
+export const shadowDeep  = '0 12px 48px rgba(0, 0, 0, 0.70)'
+
+// Scrim alpha values for full-viewport overlays (Backdrop, image gradients,
+// locked-item dim). Use as plain CSS color strings.
+export const scrimLight = 'rgba(0, 0, 0, 0.30)'
+export const scrimMid   = 'rgba(0, 0, 0, 0.55)'
+export const scrimHeavy = 'rgba(0, 0, 0, 0.75)'
+
+/**
+ * Build a side-offset shadow for a slide-in panel (Drawer).
+ * @param {'left'|'right'|'top'|'bottom'} side
+ * @param {string} [color='rgba(0, 0, 0, 0.5)']
+ */
+export function panelShadow(side, color = 'rgba(0, 0, 0, 0.5)') {
+  switch (side) {
+    case 'left':   return `4px 0 24px ${color}`
+    case 'right':  return `-4px 0 24px ${color}`
+    case 'top':    return `0 4px 24px ${color}`
+    case 'bottom': return `0 -4px 24px ${color}`
+    default:       return `0 8px 24px ${color}`
+  }
+}

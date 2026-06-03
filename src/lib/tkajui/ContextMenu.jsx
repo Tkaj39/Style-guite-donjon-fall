@@ -6,7 +6,7 @@
    The wrapper renders as a <div> by default — pass `as` to swap.
    ─────────────────────────────────────────────────────────────────── */
 import { useEffect, useRef, useState } from 'react'
-import { surface2, surface4, borderDefault, textHigh, textMid, textLow, dangerText } from './tokens'
+import { surface2, surface4, borderDefault, textHigh, textMid, textLow, dangerText, shadowMd } from './tokens'
 import { zDropdown } from '../shared/tokens'
 
 /**
@@ -80,7 +80,7 @@ export default function ContextMenu({
             background: surface2,
             border: `1px solid ${borderDefault}`,
             borderRadius: 4,
-            boxShadow: '0 6px 20px rgba(0,0,0,0.45)',
+            boxShadow: shadowMd,
             padding: 4,
             zIndex: zDropdown,
             animation: 'fadeIn 120ms ease-out',

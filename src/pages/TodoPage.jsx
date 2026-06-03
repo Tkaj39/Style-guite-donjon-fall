@@ -24,7 +24,7 @@ const MANUAL_TASKS = [
       { status: 'done', text: 'Donjon — barrel re-export player palette' },
       { status: 'done', text: 'ColorsPage — "Použití v kódu" sekce s JS+CSS příklady' },
       { status: 'done', text: 'Audit orphan hexů na tkajui straně — 0 violations (ESLint config rozšířen o **/dist/** ignore, předtím falešně hlásil bundled output)' },
-      { status: 'todo', text: 'Migrace #000000/#FFFFFF alpha overlays na tokeny nebo strukturální výjimky' },
+      { status: 'done', text: 'Migrace alpha-black overlays — shadowSm/Md/Lg/Modal/Deep + scrimLight/Mid/Heavy + panelShadow() v shared/tokens, re-exported v obou libs. Popovery (Combobox/DropdownMenu/ContextMenu) + Drawer migrated; ostatní rgba(0,0,0,X) jsou legitimní ad-hoc drop-shadows.' },
     ],
   },
   {
