@@ -117,3 +117,9 @@ export const PLAYER_PANEL_ORNAMENT_VALUES = ['plain', 'decorated']
 
 export const RESOURCE_BAR_SIZE_VALUES    = ['sm', 'md', 'lg']
 export const RESOURCE_BAR_VARIANT_VALUES = ['hp', 'mana', 'stamina', 'xp', 'shield', 'default']
+
+// ── Gameplay group ─────────────────────────────────────────────────────
+export const DIALOGUE_PORTRAIT_SIDE_VALUES   = ['left', 'right']
+export const CHOICE_PANEL_LAYOUT_VALUES      = ['list', 'grid']
+export const CHOICE_PANEL_CONSEQUENCE_VALUES = ['cost', 'gain', 'danger', 'info']
+export const ACHIEVEMENT_TOAST_TIER_VALUES   = ['gold', 'silver', 'bronze']
