@@ -155,8 +155,8 @@ const MANUAL_TASKS = [
       { status: 'todo', text: 'StickyBar — top/bottom anchor (HUD topbar, actionbar)' },
       { status: 'todo', text: 'SidebarLayout — left-nav + content (settings, codex)' },
       // Forms — secondary
-      { status: 'todo', text: 'TextArea — multi-line text input' },
-      { status: 'todo', text: 'NumberInput — s stepper buttons (settings hodnoty)' },
+      { status: 'done', text: 'TextArea — multi-line text input (thin wrapper over Input multiline)' },
+      { status: 'done', text: 'NumberInput — − / + stepper buttons + min/max/step/precision clamping' },
       // Navigation
       { status: 'todo', text: 'Drawer — side panel (inventory, character sheet)' },
       { status: 'todo', text: 'DropdownMenu — generic dropdown s items' },

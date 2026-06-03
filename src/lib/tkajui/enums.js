@@ -99,3 +99,6 @@ export const AVATAR_SHAPE_VALUES  = ['circle', 'octagon']
 // ── Form primitives ──────────────────────────────────────────────────────
 export const RADIO_GROUP_ORIENTATION_VALUES    = ['vertical', 'horizontal']
 export const CHECKBOX_GROUP_ORIENTATION_VALUES = ['vertical', 'horizontal']
+
+export const TEXT_AREA_SIZE_VALUES    = ['xs', 'sm', 'md', 'lg']
+export const NUMBER_INPUT_SIZE_VALUES = ['xs', 'sm', 'md', 'lg']

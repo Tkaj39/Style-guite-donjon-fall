@@ -5,6 +5,8 @@ import {
 import Input from '../lib/tkajui/Input'
 import Select from '../lib/tkajui/Select'
 import Button from '../lib/tkajui/Button'
+import TextArea from '../lib/tkajui/TextArea'
+import NumberInput from '../lib/tkajui/NumberInput'
 import { Stack, Inline } from '../lib/tkajui/Layout'
 import { surface2, borderDefault, textMid, textLow } from '../lib/tkajui/tokens'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
@@ -91,6 +93,41 @@ function CheckboxGroupDemo() {
   )
 }
 
+function TextAreaDemo() {
+  const [bio, setBio] = useState('A wandering ranger from the north.\nKeeper of ancient lore.')
+  return (
+    <Stack gap="md">
+      <Field label="Bio" hint="Auto-grows with content (field-sizing: content).">
+        <TextArea value={bio} onChange={setBio} placeholder="Tell us about your character…" rows={3} />
+      </Field>
+      <Field label="Notes" error="At least 10 characters required">
+        <TextArea value="Short" onChange={() => {}} rows={2} />
+      </Field>
+    </Stack>
+  )
+}
+
+function NumberInputDemo() {
+  const [qty, setQty] = useState(5)
+  const [vol, setVol] = useState(0.75)
+  return (
+    <Stack gap="md">
+      <Field label="Quantity" hint="Integer · min 0 · max 99">
+        <NumberInput value={qty} onChange={setQty} min={0} max={99} />
+      </Field>
+      <Field label="Volume" hint="Decimal (precision 2) · step 0.05">
+        <NumberInput value={vol} onChange={setVol} min={0} max={1} step={0.05} precision={2} />
+      </Field>
+      <Field label="Disabled state">
+        <NumberInput value={42} onChange={() => {}} disabled />
+      </Field>
+      <Field label="With error" error="Value must be positive">
+        <NumberInput value={-3} onChange={() => {}} />
+      </Field>
+    </Stack>
+  )
+}
+
 function FormDemo() {
   const [submitted, setSubmitted] = useState(null)
   const [data, setData] = useState({ email: '', password: '', terms: false })
@@ -128,7 +165,7 @@ export default function FormPage() {
     <ShowcasePage
       title="Form primitives"
       description="Field + Radio/RadioGroup + Checkbox/CheckboxGroup + Form — kompletní sada pro stavbu formulářů. Native form semantics, fieldset/legend pro screen readery, aria-describedby, aria-invalid, required marker."
-      componentSlugs={['field', 'form', 'radio', 'radio-group', 'checkbox', 'checkbox-group']}
+      componentSlugs={['field', 'form', 'radio', 'radio-group', 'checkbox', 'checkbox-group', 'text-area', 'number-input']}
     >
       <Section
         id="field"
@@ -186,6 +223,37 @@ export default function FormPage() {
 <Checkbox checked={subscribe} onChange={setSubscribe}>
   Subscribe to newsletter
 </Checkbox>`} />
+      </Section>
+
+      <Section
+        id="text-area"
+        title="TextArea — multi-line text input"
+        description="Thin wrapper okolo `<Input multiline>` s vlastním API pro jasné multi-line use cases. Auto-grow přes CSS field-sizing: content."
+      >
+        <Preview>
+          <TextAreaDemo />
+        </Preview>
+        <CodeBlock code={`<Field label="Bio" hint="Auto-grows">
+  <TextArea value={bio} onChange={setBio} rows={3} />
+</Field>`} />
+      </Section>
+
+      <Section
+        id="number-input"
+        title="NumberInput — number + stepper buttons"
+        description="Numeric text field s − / + tlačítky. Min/max/step/precision. Stepper disabled na hranicích. Při blur se commit zaokrouhlí na precision."
+      >
+        <Preview>
+          <NumberInputDemo />
+        </Preview>
+        <CodeBlock code={`const [qty, setQty] = useState(5)
+
+<Field label="Quantity">
+  <NumberInput value={qty} onChange={setQty} min={0} max={99} />
+</Field>
+
+{/* Decimal — precision 2, step 0.05 */}
+<NumberInput value={vol} onChange={setVol} min={0} max={1} step={0.05} precision={2} />`} />
       </Section>
 
       <Section

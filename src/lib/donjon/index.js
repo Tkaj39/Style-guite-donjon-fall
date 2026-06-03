@@ -147,6 +147,8 @@ export { default as FramedImage } from './FramedImage'
 
 // ─── Form primitives (re-exported from tkajui) ──────────────────────────
 export { Field, Form, Radio, RadioGroup, Checkbox, CheckboxGroup } from '../tkajui/Form'
+export { default as TextArea }    from '../tkajui/TextArea'
+export { default as NumberInput } from '../tkajui/NumberInput'
 
 /**
  * Game-themed tooltip with a parchment style and gold border.
