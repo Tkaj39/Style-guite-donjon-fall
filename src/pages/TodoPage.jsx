@@ -219,13 +219,13 @@ const MANUAL_TASKS = [
   {
     group: 'Lib publish — Fáze 3: build pipeline',
     items: [
-      { status: 'todo', text: 'Build tool výběr — tsup (doporučeno, JSDoc → .d.ts) vs vite build --lib vs Rollup' },
-      { status: 'todo', text: 'ESM + CJS bundles per package' },
-      { status: 'todo', text: 'TypeScript .d.ts generování z JSDoc' },
-      { status: 'todo', text: 'Tree-shaking validation (sideEffects: false / explicit list)' },
-      { status: 'todo', text: 'CSS bundling strategy (separate .css file vs CSS-in-JS)' },
-      { status: 'todo', text: 'Bundle size baseline + monitoring (size-limit / bundlewatch)' },
-      { status: 'todo', text: 'Lokální test přes `npm link` do kolegova projektu' },
+      { status: 'done', text: 'Build tool — tsup zvolen (esbuild + automatický .d.ts z JSDoc)' },
+      { status: 'done', text: 'ESM + CJS bundles per package — tsup.config.js v každém balíčku' },
+      { status: 'done', text: 'TypeScript .d.ts generování z JSDoc — vše vystaveno (index/tokens/enums/octagon/...)' },
+      { status: 'done', text: 'Tree-shaking — sideEffects:false (shared) / [*.css] (tkajui+donjon)' },
+      { status: 'done', text: 'CSS bundling — separate tkajui.css / donjon.css (sideEffects flag)' },
+      { status: 'todo', text: 'Bundle size baseline + monitoring (size-limit / bundlewatch) — deferred' },
+      { status: 'todo', text: 'Lokální test přes `npm link` do kolegova projektu — manuální krok' },
     ],
   },
   {

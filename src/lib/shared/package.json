@@ -6,23 +6,31 @@
   "license": "MIT",
   "sideEffects": false,
   "files": [
+    "dist",
     "*.js",
     "*.jsx",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
-  "main": "./index.js",
+  "main":   "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types":  "./dist/index.d.ts",
   "exports": {
-    ".":                 "./index.js",
-    "./tokens":          "./tokens.js",
-    "./octagon":         "./octagon.js",
-    "./polygon":         "./polygon.js",
-    "./sizes":           "./sizes.js",
-    "./contrast":        "./contrast.js",
-    "./toastContext":    "./toastContext.jsx",
-    "./tooltipUtils":    "./tooltipUtils.jsx",
-    "./useModalPageInert": "./useModalPageInert.js",
-    "./useBreakpoint":     "./useBreakpoint.js",
+    ".":                 { "source": "./index.js",             "types": "./dist/index.d.ts",             "import": "./dist/index.js",             "require": "./dist/index.cjs" },
+    "./tokens":          { "source": "./tokens.js",            "types": "./dist/tokens.d.ts",            "import": "./dist/tokens.js",            "require": "./dist/tokens.cjs" },
+    "./octagon":         { "source": "./octagon.js",           "types": "./dist/octagon.d.ts",           "import": "./dist/octagon.js",           "require": "./dist/octagon.cjs" },
+    "./polygon":         { "source": "./polygon.js",           "types": "./dist/polygon.d.ts",           "import": "./dist/polygon.js",           "require": "./dist/polygon.cjs" },
+    "./sizes":           { "source": "./sizes.js",             "types": "./dist/sizes.d.ts",             "import": "./dist/sizes.js",             "require": "./dist/sizes.cjs" },
+    "./contrast":        { "source": "./contrast.js",          "types": "./dist/contrast.d.ts",          "import": "./dist/contrast.js",          "require": "./dist/contrast.cjs" },
+    "./toastContext":    { "source": "./toastContext.jsx",     "types": "./dist/toastContext.d.ts",     "import": "./dist/toastContext.js",     "require": "./dist/toastContext.cjs" },
+    "./tooltipUtils":    { "source": "./tooltipUtils.jsx",     "types": "./dist/tooltipUtils.d.ts",     "import": "./dist/tooltipUtils.js",     "require": "./dist/tooltipUtils.cjs" },
+    "./useModalPageInert": { "source": "./useModalPageInert.js", "types": "./dist/useModalPageInert.d.ts", "import": "./dist/useModalPageInert.js", "require": "./dist/useModalPageInert.cjs" },
+    "./useBreakpoint":   { "source": "./useBreakpoint.js",     "types": "./dist/useBreakpoint.d.ts",     "import": "./dist/useBreakpoint.js",     "require": "./dist/useBreakpoint.cjs" },
     "./package.json":    "./package.json"
+  },
+  "scripts": {
+    "build":          "tsup",
+    "prepublishOnly": "tsup"
   },
   "peerDependencies": {
     "react":     ">=18.0.0",
