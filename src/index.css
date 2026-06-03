@@ -146,6 +146,11 @@ dialog.modal-dialog > .modal-panel {
   100% { transform: translateX(200%)  scaleX(0.4); }
 }
 
+@keyframes skeletonShimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 /* ── Game piece animations ── */
 
 @keyframes die-reroll {

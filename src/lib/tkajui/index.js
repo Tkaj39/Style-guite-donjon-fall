@@ -38,6 +38,12 @@ export { Field, Form, Radio, RadioGroup, Checkbox, CheckboxGroup } from './Form'
 export { default as TextArea }    from './TextArea'
 export { default as NumberInput } from './NumberInput'
 
+// ─── Feedback group ──────────────────────────────────────────────────────
+export { default as Spinner }     from './Spinner'
+export { default as Skeleton }    from './Skeleton'
+export { default as Alert }       from './Alert'
+export { default as Banner }      from './Banner'
+
 export { default as Pictogram }      from './Pictogram'
 
 // ─── Shape primitives ────────────────────────────────────────────────────
