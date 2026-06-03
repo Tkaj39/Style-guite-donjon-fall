@@ -1,0 +1,40 @@
+{
+  "name": "@tkaj/donjon-shared",
+  "version": "0.1.0",
+  "description": "Structural utilities shared by tkajui and donjon-fall-ui — clip-path helpers (octagon / polygon), shape size tokens, motion / breakpoint / z-index tokens, and a couple of generic hooks. Consumed internally by the two UI packages; rarely imported directly.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "files": [
+    "*.js",
+    "*.jsx",
+    "README.md"
+  ],
+  "main": "./index.js",
+  "exports": {
+    ".":                 "./index.js",
+    "./tokens":          "./tokens.js",
+    "./octagon":         "./octagon.js",
+    "./polygon":         "./polygon.js",
+    "./sizes":           "./sizes.js",
+    "./contrast":        "./contrast.js",
+    "./toastContext":    "./toastContext.jsx",
+    "./tooltipUtils":    "./tooltipUtils.jsx",
+    "./useModalPageInert": "./useModalPageInert.js",
+    "./useBreakpoint":     "./useBreakpoint.js",
+    "./package.json":    "./package.json"
+  },
+  "peerDependencies": {
+    "react":     ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react-dom": { "optional": true }
+  },
+  "keywords": ["design-system", "clip-path", "octagon", "shape-utils", "tokens"],
+  "repository": {
+    "type": "git",
+    "url":  "https://github.com/Tkaj39/Style-guite-donjon-fall.git",
+    "directory": "src/lib/shared"
+  }
+}

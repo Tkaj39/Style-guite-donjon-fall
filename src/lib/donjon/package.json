@@ -1,0 +1,39 @@
+{
+  "name": "donjon-fall-ui",
+  "version": "0.1.0",
+  "description": "donjon-fall-ui — game UI component library built on top of TkajUI. Warm medieval gold palette, ornament SVGs (RohOrnament, SideOrnament, HexOrnament, …), HUD layout, gameplay primitives (Dialogue, ChoicePanel, RewardPopup, AchievementToast, LevelUp), and a full suite of Donjon* variants that extend the TkajUI counterparts with gold borders and octagonal ornaments.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": ["*.css"],
+  "files": [
+    "*.js",
+    "*.jsx",
+    "donjon.css",
+    "enums.js",
+    "README.md"
+  ],
+  "main": "./index.js",
+  "exports": {
+    ".":              "./index.js",
+    "./tokens":       "./tokens.js",
+    "./enums":        "./enums.js",
+    "./styles":       "./donjon.css",
+    "./donjon.css":   "./donjon.css",
+    "./playerColors": "./playerColors.js",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "react":     ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "@tkaj/donjon-shared": "*",
+    "tkajui":              "*"
+  },
+  "keywords": ["react", "ui-library", "game-ui", "design-system", "octagon", "medieval", "rpg"],
+  "repository": {
+    "type": "git",
+    "url":  "https://github.com/Tkaj39/Style-guite-donjon-fall.git",
+    "directory": "src/lib/donjon"
+  }
+}

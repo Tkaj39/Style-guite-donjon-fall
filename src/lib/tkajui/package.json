@@ -1,0 +1,37 @@
+{
+  "name": "tkajui",
+  "version": "0.1.0",
+  "description": "TkajUI — generic React component library. Cool neutral palette + blue accent, octagonal silhouettes via CSS clip-path, no Tailwind dependency. Ships JSDoc-typed components, a single CSS file with custom properties + utility classes, and a token export for inline styling.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": ["*.css"],
+  "files": [
+    "*.js",
+    "*.jsx",
+    "tkajui.css",
+    "enums.js",
+    "README.md"
+  ],
+  "main": "./index.js",
+  "exports": {
+    ".":              "./index.js",
+    "./tokens":       "./tokens.js",
+    "./enums":        "./enums.js",
+    "./styles":       "./tkajui.css",
+    "./tkajui.css":   "./tkajui.css",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "react":     ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "@tkaj/donjon-shared": "*"
+  },
+  "keywords": ["react", "ui-library", "design-system", "octagon", "clip-path", "components"],
+  "repository": {
+    "type": "git",
+    "url":  "https://github.com/Tkaj39/Style-guite-donjon-fall.git",
+    "directory": "src/lib/tkajui"
+  }
+}
