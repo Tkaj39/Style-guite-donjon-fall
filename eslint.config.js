@@ -15,7 +15,12 @@ const donjonPlugin = {
 export default [
   // ── Ignorované cesty ──────────────────────────────────────────────────────
   {
-    ignores: ['dist/**', 'node_modules/**'],
+    ignores: [
+      'dist/**',
+      '**/dist/**',          // workspace package builds (src/lib/*/dist)
+      'node_modules/**',
+      '**/node_modules/**',
+    ],
   },
 
   // ── Testovací soubory — Vitest globály ────────────────────────────────────
