@@ -1,6 +1,6 @@
 import { useId } from 'react'
-import { octagon } from '../../utils/octagon'
-import { buttonSizes as sizes } from '../../utils/sizes'
+import { octagon } from '../shared/octagon'
+import { buttonSizes as sizes } from '../shared/sizes'
 import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament } from './Ornaments'
 import { bg0, bg2, bg3, gold, goldDim, goldMid, dangerColor, successColor, warningColor, VARIANT_BG, VARIANT_BORDER, VARIANT_TITLE_GRAD } from './tokens'
 

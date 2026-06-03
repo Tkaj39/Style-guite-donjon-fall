@@ -52,9 +52,7 @@ export default function Drawer({
   const sizeStyle = cfg.full === 'height'
     ? { width: size, height: '100vh', top: 0, [side]: 0 }
     : { height: size, width: '100vw', left: 0, [side]: 0 }
-  const transform = cfg.axis === 'X'
-    ? `translateX(${cfg.sign * 100}%)`
-    : `translateY(${cfg.sign * 100}%)`
+  const animName = `tkajuiDrawerSlideIn${side[0].toUpperCase()}${side.slice(1)}`
 
   return (
     <>
@@ -75,18 +73,11 @@ export default function Drawer({
             : `-4px 0 24px rgba(0,0,0,0.5)`,
           display: 'flex',
           flexDirection: 'column',
-          animation: `drawerSlideIn 220ms ease-out`,
-          // initial transform handled inline via keyframes name; provide fallback for browsers
+          animation: `${animName} 220ms ease-out`,
           ...style,
         }}
         {...rest}
       >
-        <style>{`
-          @keyframes drawerSlideIn {
-            from { transform: ${transform}; }
-            to   { transform: none; }
-          }
-        `}</style>
         {title && (
           <header style={{
             padding: '14px 20px',

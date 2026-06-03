@@ -1,6 +1,6 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { octagon, clipLeft, clipRight, octagonWithNotch, octagonWithNotches, roundRect, pill, scoopPath, SHAPE_SIZES } from '../utils/octagon'
-import { buttonSizes } from '../utils/sizes'
+import { octagon, clipLeft, clipRight, octagonWithNotch, octagonWithNotches, roundRect, pill, scoopPath, SHAPE_SIZES } from '../lib/shared/octagon'
+import { buttonSizes } from '../lib/shared/sizes'
 import ScoopClip from '../lib/tkajui/ScoopClip'
 import NotchedBox from '../lib/tkajui/NotchedBox'
 import {
@@ -642,7 +642,7 @@ const clipPath = clipFn?.(cx)`} />
           </div>
         </Preview>
 
-        <CodeBlock code={`import { octagonWithNotch } from '../utils/octagon'
+        <CodeBlock code={`import { octagonWithNotch } from '../lib/shared/octagon'
 
 // Základní použití — notch bottom (default)
 <div style={{ clipPath: octagonWithNotch(cx, nw, nh, 'bottom') }}>
@@ -899,7 +899,7 @@ octagonWithNotch(
         })()}
 
         {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
-        <CodeBlock code={`import { octagon, roundRect, scoopPath, pill, SHAPE_SIZES } from '../utils/octagon'
+        <CodeBlock code={`import { octagon, roundRect, scoopPath, pill, SHAPE_SIZES } from '../lib/shared/octagon'
 import ScoopClip from '../lib/tkajui/ScoopClip'
 
 // ── Cut — zkosené rohy (výchozí Donjon) ──

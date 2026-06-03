@@ -4,7 +4,7 @@
    Keyboard navigation, click-outside, Escape.
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useRef, useEffect, useId } from 'react'
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import {
   gold, goldDim, goldMid,
   bg2, bg3, bgDeep,

@@ -4,8 +4,8 @@
                   warning(amber) · event(blue)
    Shape: octagon cx=12, dark bgDeep, variant color in border + title + glow.
    ─────────────────────────────────────────────────────────────────────── */
-import { octagon, octagonInner } from '../../utils/octagon'
-import { createToastContext } from '../../utils/toastContext'
+import { octagon, octagonInner } from '../shared/octagon'
+import { createToastContext } from '../shared/toastContext'
 import {
   gold, goldDim,
   bgDeep,

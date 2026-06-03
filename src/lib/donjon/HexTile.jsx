@@ -3,7 +3,7 @@ import {
   focalActiveBg, focalPassiveBg, focalPassiveBorder,
   HEX_TILE_SIZES, HEX_TILE_BORDER_WIDTH, HEX_TILE_ICON_SIZES, HEX_TILE_DOT_SIZES,
 } from './tokens'
-import { hexPointyTop } from '../../utils/polygon'
+import { hexPointyTop } from '../shared/polygon'
 
 const HEX_CLIP = hexPointyTop()
 

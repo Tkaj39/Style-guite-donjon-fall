@@ -7,7 +7,7 @@
 
    Sister of Dialogue but without portrait/speech-bubble framing.
    ─────────────────────────────────────────────────────────────────── */
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import { bg2, bg3, gold, goldMid, goldDim, textHigh, textMid, borderDefault, dangerColor, gainColor, infoColor } from './tokens'
 
 const CONSEQUENCE_COLOR = {

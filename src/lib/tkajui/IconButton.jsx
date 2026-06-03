@@ -6,7 +6,7 @@
    For icon + text — use the regular <Button> with an icon prefix.
    Always pair with `aria-label` since there's no visible text.
    ─────────────────────────────────────────────────────────────────── */
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import {
   VARIANT_COLORS, surface3, surface4, borderDefault, textHigh, textMid,
 } from './tokens'

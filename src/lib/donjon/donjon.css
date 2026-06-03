@@ -121,3 +121,29 @@
   --donjon-player-orange-light:  #F8D0B8;
   --donjon-player-orange-dark:   #3D1F0A;
 }
+
+/* ── Focus ring pro clip-path prvky ───────────────────────────────────────
+   CSS outline se neřídí clip-path — vyjde jako obdélník. .dj-clip-focus
+   nahrazuje outline drop-shadow filtrem, který tvar sleduje.
+   Used by: DonjonInput, DonjonButton, DonjonSelect (and any future
+   clipped focusable element).
+   ──────────────────────────────────────────────────────────────────────── */
+.dj-clip-focus:focus-visible,
+.dj-clip-focus:has(:focus-visible) {
+  outline: none !important;
+  filter: drop-shadow(0 0 5px var(--donjon-gold, #FFC183) / 0.6);
+  /* Fallback for browsers without color-mix: use a fixed alpha hex */
+  filter: drop-shadow(0 0 5px #FFC18399);
+}
+.dj-clip-focus :focus-visible { outline: none !important; }
+
+/* ── Interactive segment (DonjonButtonGroup) ──────────────────────────────
+   Brightness pulse on hover/active + gold drop-shadow on focus-visible.
+   ──────────────────────────────────────────────────────────────────────── */
+.dj-segment-button:hover         { filter: brightness(1.10); }
+.dj-segment-button:active        { filter: brightness(0.90); }
+.dj-segment-button:focus         { outline: none; }
+.dj-segment-button:focus-visible {
+  outline: none;
+  filter: drop-shadow(0 0 8px #FFC183AA);
+}

@@ -6,7 +6,7 @@
    anywhere a small identity icon is needed.
    ─────────────────────────────────────────────────────────────────── */
 import { useState } from 'react'
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import { surface3, borderDefault, textHigh, textMid } from './tokens'
 
 const SIZE_MAP = {

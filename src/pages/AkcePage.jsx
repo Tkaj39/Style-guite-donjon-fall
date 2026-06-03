@@ -2,7 +2,7 @@ import { useState } from 'react'
 import {
   bg4, bgDeep, dangerText, goldDim, successText, textFaint, textParchment,
 } from '../lib/donjon/tokens'
-import { useBreakpoint } from '../hooks/useBreakpoint'
+import { useBreakpoint } from '../lib/shared/useBreakpoint'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'

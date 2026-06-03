@@ -9,7 +9,7 @@ import {
   textMid,
   dangerColor, successColor, warningColor, infoColor,
 } from './tokens'
-import { getPosition, resolveFlip, Arrow } from '../../utils/tooltipUtils'
+import { getPosition, resolveFlip, Arrow } from '../shared/tooltipUtils'
 
 const Z_TOOLTIP = 2100
 

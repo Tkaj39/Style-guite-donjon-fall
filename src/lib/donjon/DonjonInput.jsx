@@ -6,7 +6,7 @@
      DonjonInput     → cx=12, gold focus glow, bg2 dark background, gold caret
    ─────────────────────────────────────────────────────────────────────────── */
 import { useState, useId } from 'react'
-import { octagon, octagonInner } from '../../utils/octagon'
+import { octagon, octagonInner } from '../shared/octagon'
 import {
   gold, goldDim, goldMid,
   bg2, bgDeep,

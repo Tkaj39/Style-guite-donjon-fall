@@ -23,7 +23,7 @@
  * <DonjonPictogram icon={ShieldIcon} size="sm" variant="passive" bare />
  */
 
-import { octagon, octagonInner } from '../../utils/octagon'
+import { octagon, octagonInner } from '../shared/octagon'
 import { gold, goldDim, bg0, bg1, bg2, borderDefault, borderMid, VARIANT_BORDER } from './tokens'
 
 const SIZES = { sm: 16, md: 24, lg: 32, xl: 48 }

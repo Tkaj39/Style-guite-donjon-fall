@@ -5,7 +5,7 @@
    For multi-step conversations drive `text` from your own dialogue
    engine; this component is purely presentational.
    ─────────────────────────────────────────────────────────────────── */
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import { bg2, bg3, gold, goldDim, textHigh, textMid, borderDefault } from './tokens'
 import Avatar from '../tkajui/Avatar'
 import Button from '../tkajui/Button'

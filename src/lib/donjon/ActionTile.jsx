@@ -4,7 +4,7 @@
    lock state.
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useId } from 'react'
-import { octagon, octagonInner } from '../../utils/octagon'
+import { octagon, octagonInner } from '../shared/octagon'
 import { RohOrnament, HexOrnament, ornamentHForCx, ORNAMENT_BASE_WIDTH } from './Ornaments'
 import {
   gold, goldDim, goldMid,

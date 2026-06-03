@@ -102,10 +102,10 @@ export {
   roundRect,
   pill,
   SHAPE_SIZES,
-} from '../../utils/octagon'
+} from '../shared/octagon'
 
 // Polygon shape utility (hex, regularPolygon)
-export { hexFlatTop, hexPointyTop, regularPolygon } from '../../utils/polygon'
+export { hexFlatTop, hexPointyTop, regularPolygon } from '../shared/polygon'
 
 // ─── Design tokens ──────────────────────────────────────────────────────
 /**

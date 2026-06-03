@@ -196,11 +196,11 @@ const MANUAL_TASKS = [
   {
     group: 'Lib publish — Fáze 1: decoupling (blocker)',
     items: [
-      { status: 'todo', text: 'Audit Tailwind classes v src/lib/** — najít všechny className="..." a převést na inline style (kolega bez Tailwindu se rozbije)' },
-      { status: 'todo', text: 'Audit react-router-dom v src/lib/** — Link nahradit `as` prop patternem nebo <a>' },
-      { status: 'todo', text: 'Audit absolute imports mimo lib/ — `import "../utils/octagon"` musí být součást balíčku' },
-      { status: 'todo', text: 'Audit @keyframes inline v komponentách (vs src/index.css) — CSS musí ven z app bundle' },
-      { status: 'todo', text: 'Inventarizace peer dependencies (react, react-dom, optional react-router-dom)' },
+      { status: 'done', text: 'Audit Tailwind classes v src/lib/** — text-balance/pretty → inline textWrap, ButtonGroup hover utilities → .tkajui-segment-button / .dj-segment-button v lib stylesheetech, dj-clip-focus přesunut do donjon.css' },
+      { status: 'done', text: 'Audit react-router-dom v src/lib/** — 0 výskytů ✓' },
+      { status: 'done', text: 'Audit absolute imports mimo lib/ — src/utils/* + src/hooks/* fyzicky přesunuty do src/lib/shared/, 48 importů přepsáno' },
+      { status: 'done', text: 'Audit @keyframes inline v komponentách — Drawer keyframes (4 sides) přesunuty do tkajui.css, Sprite refaktorován na Web Animations API' },
+      { status: 'done', text: 'Inventarizace peer dependencies — pouze react + react-dom (react-router-dom NEPOTŘEBA v lib/)' },
     ],
   },
   {

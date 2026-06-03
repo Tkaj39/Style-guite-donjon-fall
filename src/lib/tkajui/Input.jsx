@@ -1,5 +1,5 @@
 import { useState, useId } from 'react'
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import {
   surface2, borderDefault, borderMid,
   accent, accentBorder,

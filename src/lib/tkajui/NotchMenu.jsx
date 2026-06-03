@@ -13,7 +13,7 @@
      </NotchMenu>
    ─────────────────────────────────────────────────────────────────────── */
 import { Children, cloneElement, createContext, Fragment, isValidElement, useContext, useLayoutEffect, useRef, useState } from 'react'
-import { octagon, clipLeft, clipRight } from '../../utils/octagon'
+import { octagon, clipLeft, clipRight } from '../shared/octagon'
 import {
   surface2, surface3,
   borderDefault,

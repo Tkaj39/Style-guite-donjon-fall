@@ -4,7 +4,7 @@
    ─────────────────────────────────────────────────────────────────────── */
 import { useRef, useEffect, useState, useMemo } from 'react'
 import { useId } from 'react'
-import { octagon, octagonInner } from '../../utils/octagon'
+import { octagon, octagonInner } from '../shared/octagon'
 import { RohOrnament, HexOrnament, ornamentHForCx } from './Ornaments'
 import {
   gold, goldDim,

@@ -1,4 +1,4 @@
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import { goldDim, textHigh } from './tokens'
 
 const sizeMap = {

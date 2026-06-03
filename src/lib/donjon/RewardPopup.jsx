@@ -7,7 +7,7 @@
    are placed in the same container.
    ─────────────────────────────────────────────────────────────────── */
 import { useEffect, useState } from 'react'
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import { bg2, gold, goldDim, textHigh, gainColor } from './tokens'
 
 /**

@@ -1,5 +1,5 @@
 import { useId } from 'react'
-import { scoopBBPath, scoopCirclePath, SHAPE_SIZES } from '../../utils/octagon'
+import { scoopBBPath, scoopCirclePath, SHAPE_SIZES } from '../shared/octagon'
 
 /**
  * ScoopClip — wrapper for elements with concave scooped corners.

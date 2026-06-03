@@ -1,7 +1,7 @@
 import { useEffect, useRef, useId } from 'react'
 import { createPortal } from 'react-dom'
-import { useModalPageInert } from '../../hooks/useModalPageInert'
-import { octagon, octagonInner } from '../../utils/octagon'
+import { useModalPageInert } from '../shared/useModalPageInert'
+import { octagon, octagonInner } from '../shared/octagon'
 import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament, ornamentHForCx } from './Ornaments'
 import {
   goldDim, goldMid, textActive,
@@ -142,13 +142,13 @@ export default function DonjonModal({
 
                 <h2
                   id={titleId}
-                  className="text-balance"
                   style={{
                     margin: 0,
                     fontSize: '0.8125rem',
                     fontWeight: 700,
                     letterSpacing: '0.14em',
                     textTransform: 'uppercase',
+                    textWrap: 'balance',
                     backgroundImage: v.titleGrad,
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',

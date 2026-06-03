@@ -4,7 +4,7 @@
    active, gradient-text uppercase labels, gold border).
    ─────────────────────────────────────────────────────────────────────── */
 import { Children, cloneElement, createContext, Fragment, isValidElement, useContext, useId, useLayoutEffect, useRef, useState } from 'react'
-import { octagon, clipLeft, clipRight } from '../../utils/octagon'
+import { octagon, clipLeft, clipRight } from '../shared/octagon'
 import { SideOrnament, HexOrnament } from './Ornaments'
 import {
   bg2, bgInactive, bgDeep,

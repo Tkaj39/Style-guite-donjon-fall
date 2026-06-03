@@ -9,7 +9,7 @@ import {
   scoopBBPath,
   octagonWithNotch,
   SHAPE_SIZES,
-} from './octagon'
+} from '../octagon'
 
 // ─── octagon ───────────────────────────────────────────────────────────────
 

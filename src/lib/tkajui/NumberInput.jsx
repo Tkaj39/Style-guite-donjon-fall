@@ -7,7 +7,7 @@
    quantity pickers, damage rolls.
    ─────────────────────────────────────────────────────────────────── */
 import { useId, useState } from 'react'
-import { octagon } from '../../utils/octagon'
+import { octagon } from '../shared/octagon'
 import {
   surface2, surface3,
   borderDefault,

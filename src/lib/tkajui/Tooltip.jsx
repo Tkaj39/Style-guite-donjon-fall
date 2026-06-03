@@ -10,7 +10,7 @@ import {
   infoColor, infoBg, infoBorder, infoText,
   zTooltip,
 } from './tokens'
-import { getPosition, resolveFlip, Arrow } from '../../utils/tooltipUtils'
+import { getPosition, resolveFlip, Arrow } from '../shared/tooltipUtils'
 
 /* ── Varianty ── */
 const VARIANTS = {
