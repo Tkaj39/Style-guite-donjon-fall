@@ -86,6 +86,7 @@ const ActionTilePage       = lazy(() => import('./pages/ActionTilePage'))
 const EventLogPage         = lazy(() => import('./pages/EventLogPage'))
 const PhaseIndicatorPage          = lazy(() => import('./pages/PhaseIndicatorPage'))
 const NotificationCenterPage      = lazy(() => import('./pages/NotificationCenterPage'))
+const FeedbackPage                = lazy(() => import('./pages/FeedbackPage'))
 
 export default function App() {
   const [searchParams] = useSearchParams()
@@ -176,6 +177,7 @@ export default function App() {
         <Route path="event-log"         element={<S><EventLogPage /></S>} />
         <Route path="phase-indicator"        element={<S><PhaseIndicatorPage /></S>} />
         <Route path="notification-center"    element={<S><NotificationCenterPage /></S>} />
+        <Route path="feedback"               element={<S><FeedbackPage /></S>} />
       </Route>
     </Routes>
     </LibPreferenceProvider>

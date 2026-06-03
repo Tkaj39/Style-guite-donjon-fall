@@ -102,3 +102,9 @@ export const CHECKBOX_GROUP_ORIENTATION_VALUES = ['vertical', 'horizontal']
 
 export const TEXT_AREA_SIZE_VALUES    = ['xs', 'sm', 'md', 'lg']
 export const NUMBER_INPUT_SIZE_VALUES = ['xs', 'sm', 'md', 'lg']
+
+// ── Feedback group ───────────────────────────────────────────────────────
+export const SPINNER_SIZE_VALUES     = ['xs', 'sm', 'md', 'lg', 'xl']
+export const SKELETON_VARIANT_VALUES = ['text', 'block', 'circle']
+export const ALERT_VARIANT_VALUES    = ['default', 'success', 'danger', 'warning', 'info']
+export const BANNER_VARIANT_VALUES   = ['default', 'success', 'danger', 'warning', 'info']

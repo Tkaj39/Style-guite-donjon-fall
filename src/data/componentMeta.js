@@ -84,10 +84,12 @@ import {
 } from '../lib/donjon/enums'
 
 import {
+  ALERT_VARIANT_VALUES,
   AVATAR_SHAPE_VALUES,
   AVATAR_SIZE_VALUES,
   BADGE_SIZE_VALUES,
   BADGE_VARIANT_VALUES,
+  BANNER_VARIANT_VALUES,
   BOX_PADDING_VALUES,
   BUTTON_GROUP_SIZE_VALUES,
   BUTTON_GROUP_VARIANT_VALUES,
@@ -124,9 +126,11 @@ import {
   SCOOP_CLIP_SIZE_VALUES,
   SELECT_SIZE_VALUES,
   SELECT_VARIANT_VALUES,
+  SKELETON_VARIANT_VALUES,
   SLIDER_SIZE_VALUES,
   SLIDER_VARIANT_VALUES,
   SPACER_AXIS_VALUES,
+  SPINNER_SIZE_VALUES,
   SPLIT_DIRECTION_VALUES,
   SPLIT_GAP_VALUES,
   STACK_ALIGN_VALUES,
@@ -588,6 +592,68 @@ export const componentMeta = {
       { name: 'disabled',    type: 'boolean',                                 required: false, default: 'false', description: 'Disables the input + stepper buttons.' },
     ],
     relatedSlugs: ['input', 'slider', 'field'],
+  },
+
+  'spinner': {
+    description: 'Indeterminate loading indicator — thin static ring + rotating quarter arc. Use when one action is in flight and the duration is unknown. For known progress use ProgressBar.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/feedback',
+    props: [
+      { name: 'size',       type: `${enumType(SPINNER_SIZE_VALUES)} | number`, required: false, default: "'md'", description: 'Token size (xs=14, sm=20, md=28, lg=40, xl=56) or raw diameter in px.' },
+      { name: 'color',      type: 'string',                                    required: false, description: 'Color of the rotating arc (defaults to accent).' },
+      { name: 'trackColor', type: 'string',                                    required: false, description: 'Color of the static ring (defaults to borderDefault).' },
+      { name: 'label',      type: 'string',                                    required: false, description: 'Accessible name. When provided, renders next to the spinner; when omitted the spinner is aria-hidden.' },
+    ],
+    relatedSlugs: ['progress-bar', 'skeleton'],
+  },
+
+  'skeleton': {
+    description: 'Placeholder shape for content that is loading. Three variants: text (rounded line), block (rectangle), circle (avatar). Animated shimmer gradient by default. Use to reserve layout space and prevent CLS while data loads.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/feedback',
+    props: [
+      { name: 'variant',  type: enumType(SKELETON_VARIANT_VALUES),       required: false, default: "'text'",  description: 'Shape preset.' },
+      { name: 'width',    type: 'string | number',                        required: false, description: 'CSS width — defaults to 100 % for text/block, 40 for circle.' },
+      { name: 'height',   type: 'string | number',                        required: false, description: 'CSS height — defaults: text=1em, block=80, circle=width.' },
+      { name: 'lines',    type: 'number',                                 required: false, default: '1',       description: 'For variant=text: render N lines. The last is 60 % wide.' },
+      { name: 'animated', type: 'boolean',                                required: false, default: 'true',    description: 'Enable shimmer animation.' },
+    ],
+    relatedSlugs: ['spinner', 'progress-bar'],
+  },
+
+  'alert': {
+    description: 'Inline contextual feedback message — sits in the document flow with a leading variant icon, optional title, body, action button, and dismiss. Use for context-specific guidance (form-summary errors, save-failed, trial-ending). Persistent (no auto-dismiss).',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/feedback',
+    props: [
+      { name: 'variant',   type: enumType(ALERT_VARIANT_VALUES),        required: false, default: "'info'", description: 'Semantic variant — drives color, icon, border.' },
+      { name: 'title',     type: 'string',                              required: false, description: 'Bold heading above the body.' },
+      { name: 'children',  type: 'ReactNode',                           required: false, description: 'Body content.' },
+      { name: 'icon',      type: 'ReactNode',                           required: false, description: 'Override the default variant icon. Pass `null` to suppress.' },
+      { name: 'action',    type: 'ReactNode',                           required: false, description: 'Trailing action — typically a small Button.' },
+      { name: 'onDismiss', type: '() => void',                          required: false, description: 'When set, renders an × close button calling this handler.' },
+    ],
+    relatedSlugs: ['banner', 'toast', 'field'],
+  },
+
+  'banner': {
+    description: 'Full-width announcement strip — page- or section-level message for global state (maintenance window, trial expiry, new feature). Optional sticky positioning at top. Stronger visual weight than Alert, less ephemeral than Toast.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/feedback',
+    props: [
+      { name: 'variant',   type: enumType(BANNER_VARIANT_VALUES),       required: false, default: "'info'", description: 'Semantic variant.' },
+      { name: 'title',     type: 'string',                              required: false, description: 'Bold heading.' },
+      { name: 'children',  type: 'ReactNode',                           required: false, description: 'Body / description text.' },
+      { name: 'icon',      type: 'ReactNode',                           required: false, description: 'Override default icon. `null` to suppress.' },
+      { name: 'action',    type: 'ReactNode',                           required: false, description: 'Trailing CTA (Button).' },
+      { name: 'onDismiss', type: '() => void',                          required: false, description: 'When set, renders × dismiss button.' },
+      { name: 'sticky',    type: 'boolean',                             required: false, default: 'false',  description: 'position: sticky; top: 0; z-index: 10.' },
+    ],
+    relatedSlugs: ['alert', 'toast'],
   },
 
   'framed-image': {
