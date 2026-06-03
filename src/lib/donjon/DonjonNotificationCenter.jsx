@@ -296,6 +296,7 @@ export default function DonjonNotificationCenter({
             ) : (
               <>
                 {archived > 0 && (
+                  // eslint-disable-next-line donjon/contrast-check -- intentionally subdued archive separator (10px caps label), de-emphasized vs unread notifications above
                   <div style={{
                     padding:       '5px 12px',
                     fontSize:      '0.625rem',

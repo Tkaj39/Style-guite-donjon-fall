@@ -24,6 +24,7 @@ function SoundSpec({ label, trigger, variant = 'default', loop = false, descript
       background: bgDeep, borderRadius: 4,
       border: `1px solid ${bg4}`, padding: '10px 14px',
     }}>
+      {/* eslint-disable-next-line donjon/contrast-check -- decorative speaker glyph (🔇 / 🔊) on inactive sound chip, not interactive text */}
       <div style={{
         width: 32, height: 32, borderRadius: 3, flexShrink: 0,
         background: bgInactive, border: `1px solid ${borderMuted}`,
@@ -121,6 +122,7 @@ function SharedBase({ label, ms, description }) {
       display: 'flex', flexDirection: 'column', gap: 6,
     }}>
       <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+        {/* eslint-disable-next-line donjon/contrast-check -- decorative play arrow (▶) on inactive demo chip, low-priority symbol */}
         <div style={{
           width: 28, height: 28, borderRadius: 3, flexShrink: 0,
           background: bgInactive, border: `1px solid ${borderMuted}`,
