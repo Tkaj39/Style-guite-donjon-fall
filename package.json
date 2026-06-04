@@ -21,10 +21,12 @@
     "lint": "eslint src/",
     "lint:lib": "eslint src/lib/",
     "lint:pages": "eslint src/pages/",
-    "build:libs":   "npm run build --workspaces --if-present",
+    "build:libs": "npm run build --workspaces --if-present",
     "build:shared": "npm run build --workspace=@tkaj/donjon-shared",
     "build:tkajui": "npm run build --workspace=tkajui",
-    "build:donjon": "npm run build --workspace=donjon-fall-ui"
+    "build:donjon": "npm run build --workspace=donjon-fall-ui",
+    "size":         "size-limit",
+    "size:why":     "size-limit --why"
   },
   "dependencies": {
     "react": "^19.2.6",
@@ -33,6 +35,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@size-limit/preset-small-lib": "^12.1.0",
     "@tailwindcss/vite": "^4.3.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -45,6 +48,7 @@
     "globals": "^17.6.0",
     "jest-axe": "^10.0.0",
     "jsdom": "^29.1.1",
+    "size-limit": "^12.1.0",
     "tailwindcss": "^4.3.0",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",

@@ -1,0 +1,68 @@
+[
+  {
+    "name": "@tkaj/donjon-shared (full)",
+    "path": "src/lib/shared/dist/index.js",
+    "import": "*",
+    "limit": "1.5 kB"
+  },
+  {
+    "name": "@tkaj/donjon-shared/octagon",
+    "path": "src/lib/shared/dist/octagon.js",
+    "import": "{ octagon, octagonInner, clipLeft, clipRight }",
+    "limit": "250 B"
+  },
+  {
+    "name": "@tkaj/donjon-shared/tokens",
+    "path": "src/lib/shared/dist/tokens.js",
+    "import": "*",
+    "limit": "1 kB"
+  },
+
+  {
+    "name": "tkajui (full)",
+    "path": "src/lib/tkajui/dist/index.js",
+    "import": "*",
+    "limit": "28 kB",
+    "ignore": ["react", "react-dom", "@tkaj/donjon-shared"]
+  },
+  {
+    "name": "tkajui (Button only — tree-shake check)",
+    "path": "src/lib/tkajui/dist/index.js",
+    "import": "{ Button }",
+    "limit": "6 kB",
+    "ignore": ["react", "react-dom", "@tkaj/donjon-shared"]
+  },
+  {
+    "name": "tkajui/tokens",
+    "path": "src/lib/tkajui/dist/tokens.js",
+    "import": "*",
+    "limit": "1.5 kB"
+  },
+
+  {
+    "name": "donjon-fall-ui (full)",
+    "path": "src/lib/donjon/dist/index.js",
+    "import": "*",
+    "limit": "45 kB",
+    "ignore": ["react", "react-dom", "@tkaj/donjon-shared", "tkajui"]
+  },
+  {
+    "name": "donjon-fall-ui (DonjonButton only — tree-shake check)",
+    "path": "src/lib/donjon/dist/index.js",
+    "import": "{ DonjonButton }",
+    "limit": "16 kB",
+    "ignore": ["react", "react-dom", "@tkaj/donjon-shared", "tkajui"]
+  },
+  {
+    "name": "donjon-fall-ui/tokens",
+    "path": "src/lib/donjon/dist/tokens.js",
+    "import": "*",
+    "limit": "2.2 kB"
+  },
+  {
+    "name": "donjon-fall-ui/playerColors",
+    "path": "src/lib/donjon/dist/playerColors.js",
+    "import": "*",
+    "limit": "700 B"
+  }
+]
