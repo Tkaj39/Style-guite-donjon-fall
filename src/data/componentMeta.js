@@ -234,7 +234,7 @@ export const componentMeta = {
   'input': {
     description: 'Text input field with an octagonal frame. Label, hint, error state, leading/trailing icons. DonjonInput is a visually identical re-export.',
     status: 'documented',
-    showcaseRoute: '/inputs',
+    showcaseRoute: '/form#input',
     props: [
       { name: 'label',        type: 'string',                               required: false, description: 'Field label — shown above the field.' },
       { name: 'value',        type: 'string',                               required: true,  description: 'Current field value.' },
@@ -1216,7 +1216,7 @@ export const componentMeta = {
   'select': {
     description: 'Custom dropdown for picking a single value from a list. Octagonal trigger, arrow-key and Escape keyboard navigation, support for disabled items.',
     status: 'documented',
-    showcaseRoute: '/select',
+    showcaseRoute: '/form#select',
     props: [
       { name: 'value',       type: 'string | null',                                        required: true,  description: 'Selected value.' },
       { name: 'onChange',    type: '(value: string) => void',                              required: true,  description: 'Callback on selection.' },
@@ -1233,7 +1233,7 @@ export const componentMeta = {
   'slider': {
     description: 'Range input for picking a value within a range. Native <input type=range> overlaid by custom visuals continuing from ProgressBar. formatValue support for units.',
     status: 'documented',
-    showcaseRoute: '/slider',
+    showcaseRoute: '/form#slider',
     props: [
       { name: 'value',       type: 'number',                                               required: true,  description: 'Current value.' },
       { name: 'onChange',    type: '(value: number) => void',                             required: true,  description: 'Change callback.' },
@@ -1269,7 +1269,7 @@ export const componentMeta = {
   'toggle': {
     description: 'On/off switch for binary settings with immediate effect. Pill shape, animated thumb, full keyboard accessibility. Four variants and two sizes.',
     status: 'documented',
-    showcaseRoute: '/toggle',
+    showcaseRoute: '/form#toggle',
     props: [
       { name: 'checked',       type: 'boolean',                                           required: true,  description: 'Current toggle state.' },
       { name: 'onChange',      type: '(value: boolean) => void',                          required: true,  description: 'Callback when the state changes.' },
@@ -1443,7 +1443,7 @@ export const componentMeta = {
       'Variant-gradient header for `danger`/`success` states',
     ],
     status: 'documented',
-    showcaseRoute: '/inputs',
+    showcaseRoute: '/form#input',
     props: [
       { name: 'label',       type: 'string',                     required: false, description: 'Field description shown above the input.' },
       { name: 'value',       type: 'string',                     required: true,  description: 'Controlled field value.' },
@@ -1519,7 +1519,7 @@ export const componentMeta = {
   'submit-button': {
     description: 'Form submit wrapper around the Button component. Automatically reads the pending state of the parent form via React 19 useFormStatus and switches the button into loading mode without manual state management.',
     status: 'documented',
-    showcaseRoute: '/inputs',
+    showcaseRoute: '/form#input',
     props: [
       { name: 'children',      type: 'ReactNode',                                         required: false, default: "'Odeslat'", description: 'Default button content outside the pending state.' },
       { name: 'loadingLabel',  type: 'string',                                            required: false, description: 'Text shown during the pending state in place of children.' },
@@ -1789,7 +1789,7 @@ export const componentMeta = {
       '`variant` prop (5 states) — parity with TkajUI Select for success/danger/warning/info contextual states',
     ],
     status: 'documented',
-    showcaseRoute: '/select',
+    showcaseRoute: '/form#select',
     props: [
       { name: 'value',       type: 'string | null',                                        required: true,  description: 'Selected value.' },
       { name: 'onChange',    type: '(value: string) => void',                              required: true,  description: 'Callback on selection.' },
@@ -1814,7 +1814,7 @@ export const componentMeta = {
       '`variant` prop (5 states) — parity with TkajUI Slider for contextual bars',
     ],
     status: 'documented',
-    showcaseRoute: '/slider',
+    showcaseRoute: '/form#slider',
     props: [
       { name: 'value',       type: 'number',                              required: true,  description: 'Current value.' },
       { name: 'onChange',    type: '(value: number) => void',            required: true,  description: 'Callback when the value changes.' },
@@ -1844,7 +1844,7 @@ export const componentMeta = {
       '`variant` prop (5 states) + `id` prop — parity with TkajUI Toggle (success/danger/warning/info + label-binding)',
     ],
     status: 'documented',
-    showcaseRoute: '/toggle',
+    showcaseRoute: '/form#toggle',
     props: [
       { name: 'checked',       type: 'boolean',                                                  required: true,  description: 'Toggle state.' },
       { name: 'onChange',      type: '(checked: boolean) => void',                              required: true,  description: 'Toggle callback.' },

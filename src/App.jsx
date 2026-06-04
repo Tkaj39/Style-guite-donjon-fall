@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { Routes, Route, useSearchParams } from 'react-router-dom'
+import { Routes, Route, Navigate, useSearchParams } from 'react-router-dom'
 import Layout from './styleguide/Layout'
 import ErrorBoundary from './styleguide/ErrorBoundary'
 import { LibPreferenceProvider } from './styleguide/LibPreferenceProvider'
@@ -12,7 +12,7 @@ function S({ children }) {
 const ButtonsPage          = lazy(() => import('./pages/ButtonsPage'))
 const ButtonGroupsPage     = lazy(() => import('./pages/ButtonGroupsPage'))
 const PlaceholderPage      = lazy(() => import('./pages/PlaceholderPage'))
-const InputsPage           = lazy(() => import('./pages/InputsPage'))
+// Inputs / Select / Toggle / Slider merged into /form (see redirects below).
 const BadgesPage           = lazy(() => import('./pages/BadgesPage'))
 const CardsPage            = lazy(() => import('./pages/CardsPage'))
 const ColorsPage           = lazy(() => import('./pages/ColorsPage'))
@@ -47,10 +47,7 @@ const ComponentDetailPage  = lazy(() => import('./pages/ComponentDetailPage'))
 const TooltipPage          = lazy(() => import('./pages/TooltipPage'))
 const ModalPage            = lazy(() => import('./pages/ModalPage'))
 const ToastPage            = lazy(() => import('./pages/ToastPage'))
-const TogglePage           = lazy(() => import('./pages/TogglePage'))
 const ProgressBarPage      = lazy(() => import('./pages/ProgressBarPage'))
-const SelectPage           = lazy(() => import('./pages/SelectPage'))
-const SliderPage           = lazy(() => import('./pages/SliderPage'))
 const TabsPage             = lazy(() => import('./pages/TabsPage'))
 const NotchMenuPage        = lazy(() => import('./pages/NotchMenuPage'))
 const LayoutPage           = lazy(() => import('./pages/LayoutPage'))
@@ -120,7 +117,11 @@ export default function App() {
         <Route path="pictograms"   element={<S><PictogramsPage /></S>} />
         <Route path="ornaments"    element={<S><OrnamentsPage /></S>} />
         <Route path="shapes"       element={<S><ShapesPage /></S>} />
-        <Route path="inputs"       element={<S><InputsPage /></S>} />
+        {/* /inputs, /select, /toggle, /slider merged into /form */}
+        <Route path="inputs" element={<Navigate to="/form#input" replace />} />
+        <Route path="select" element={<Navigate to="/form#select" replace />} />
+        <Route path="toggle" element={<Navigate to="/form#toggle" replace />} />
+        <Route path="slider" element={<Navigate to="/form#slider" replace />} />
         <Route path="badges"       element={<S><BadgesPage /></S>} />
         <Route path="cards"        element={<S><CardsPage /></S>} />
         <Route path="turn"         element={<S><TahPage /></S>} />
@@ -146,10 +147,7 @@ export default function App() {
         <Route path="tooltip"      element={<S><TooltipPage /></S>} />
         <Route path="modal"        element={<S><ModalPage /></S>} />
         <Route path="toast"        element={<S><ToastPage /></S>} />
-        <Route path="toggle"       element={<S><TogglePage /></S>} />
         <Route path="progress-bar" element={<S><ProgressBarPage /></S>} />
-        <Route path="select"       element={<S><SelectPage /></S>} />
-        <Route path="slider"       element={<S><SliderPage /></S>} />
         <Route path="tabs"               element={<S><TabsPage /></S>} />
         <Route path="notch-menu"         element={<S><NotchMenuPage /></S>} />
         <Route path="layout"             element={<S><LayoutPage /></S>} />
