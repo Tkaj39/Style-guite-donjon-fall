@@ -13,8 +13,7 @@ const ButtonsPage          = lazy(() => import('./pages/ButtonsPage'))
 // ButtonGroups merged into /buttons.
 const PlaceholderPage      = lazy(() => import('./pages/PlaceholderPage'))
 // Inputs / Select / Toggle / Slider merged into /form (see redirects below).
-const BadgesPage           = lazy(() => import('./pages/BadgesPage'))
-const CardsPage            = lazy(() => import('./pages/CardsPage'))
+// Badges + Cards merged into /data-display.
 const ColorsPage           = lazy(() => import('./pages/ColorsPage'))
 const HomePage             = lazy(() => import('./pages/HomePage'))
 const ArchitecturePage     = lazy(() => import('./pages/ArchitecturePage'))
@@ -123,8 +122,8 @@ export default function App() {
         <Route path="select" element={<Navigate to="/form#select" replace />} />
         <Route path="toggle" element={<Navigate to="/form#toggle" replace />} />
         <Route path="slider" element={<Navigate to="/form#slider" replace />} />
-        <Route path="badges"       element={<S><BadgesPage /></S>} />
-        <Route path="cards"        element={<S><CardsPage /></S>} />
+        <Route path="badges" element={<Navigate to="/data-display#badge" replace />} />
+        <Route path="cards"  element={<Navigate to="/data-display#card"  replace />} />
         <Route path="turn"         element={<S><TahPage /></S>} />
         <Route path="actions"      element={<S><AkcePage /></S>} />
         <Route path="victory-points" element={<S><VictoryPointsPage /></S>} />
