@@ -88,6 +88,7 @@ const MediaPage                   = lazy(() => import('./pages/MediaPage'))
 const InventoryPage               = lazy(() => import('./pages/InventoryPage'))
 const LayoutStructuresPage        = lazy(() => import('./pages/LayoutStructuresPage'))
 const DisclosurePage              = lazy(() => import('./pages/DisclosurePage'))
+const OverlaysPage                = lazy(() => import('./pages/OverlaysPage'))
 const DataDisplayPage             = lazy(() => import('./pages/DataDisplayPage'))
 const NavigationPage              = lazy(() => import('./pages/NavigationPage'))
 const GameplayPage                = lazy(() => import('./pages/GameplayPage'))
@@ -189,6 +190,7 @@ export default function App() {
         <Route path="inventory"              element={<S><InventoryPage /></S>} />
         <Route path="layout-structures"      element={<S><LayoutStructuresPage /></S>} />
         <Route path="disclosure"             element={<S><DisclosurePage /></S>} />
+        <Route path="overlays"               element={<S><OverlaysPage /></S>} />
         <Route path="data-display"           element={<S><DataDisplayPage /></S>} />
         <Route path="navigation"             element={<S><NavigationPage /></S>} />
         <Route path="gameplay"               element={<S><GameplayPage /></S>} />
