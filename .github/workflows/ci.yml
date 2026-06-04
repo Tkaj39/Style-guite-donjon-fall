@@ -32,3 +32,6 @@ jobs:
 
       - name: Library bundles (tsup)
         run: npm run build:libs
+
+      - name: Bundle size check
+        run: npm run size

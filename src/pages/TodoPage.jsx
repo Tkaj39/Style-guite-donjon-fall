@@ -224,7 +224,7 @@ const MANUAL_TASKS = [
       { status: 'done', text: 'TypeScript .d.ts generování z JSDoc — vše vystaveno (index/tokens/enums/octagon/...)' },
       { status: 'done', text: 'Tree-shaking — sideEffects:false (shared) / [*.css] (tkajui+donjon)' },
       { status: 'done', text: 'CSS bundling — separate tkajui.css / donjon.css (sideEffects flag)' },
-      { status: 'todo', text: 'Bundle size baseline + monitoring (size-limit / bundlewatch) — deferred' },
+      { status: 'done', text: 'Bundle size baseline — size-limit, 10 entries (full/tokens/single-component per package), brotli-compressed, CI guarded. Real numbers: shared 1.2 kB · tkajui 24.9 kB · donjon 40.2 kB; per-component tree-shake check (Button 5.3 kB, DonjonButton 14.7 kB)' },
       { status: 'todo', text: 'Lokální test přes `npm link` do kolegova projektu — manuální krok' },
     ],
   },
