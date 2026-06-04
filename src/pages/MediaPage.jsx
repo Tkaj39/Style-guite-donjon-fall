@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import IconButton from '../lib/tkajui/IconButton'
 import HeroImage from '../lib/tkajui/HeroImage'
 import Backdrop from '../lib/tkajui/Backdrop'
 import Thumbnail from '../lib/tkajui/Thumbnail'
@@ -8,30 +7,6 @@ import Badge from '../lib/tkajui/Badge'
 import { Stack, Inline } from '../lib/tkajui/Layout'
 import { surface2, borderDefault, textMid, textLow } from '../lib/tkajui/tokens'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-
-function IconButtonDemo() {
-  const [muted, setMuted] = useState(false)
-  return (
-    <Stack gap="lg">
-      <Inline gap="md" align="center">
-        {['xs', 'sm', 'md', 'lg'].map(sz => (
-          <Stack key={sz} gap="xs" align="center">
-            <IconButton size={sz} ariaLabel="Settings">⚙</IconButton>
-            <span style={{ fontSize: '0.7rem', color: textLow }}>{sz}</span>
-          </Stack>
-        ))}
-      </Inline>
-      <Inline gap="sm" align="center">
-        <IconButton ariaLabel="Confirm" variant="success">✓</IconButton>
-        <IconButton ariaLabel="Delete"  variant="danger">×</IconButton>
-        <IconButton ariaLabel="Warning" variant="warning">!</IconButton>
-        <IconButton ariaLabel="Info"    variant="info">ⓘ</IconButton>
-        <IconButton ariaLabel="Disabled" disabled>↻</IconButton>
-        <IconButton ariaLabel="Mute" active={muted} onClick={() => setMuted(m => !m)}>{muted ? '🔇' : '🔊'}</IconButton>
-      </Inline>
-    </Stack>
-  )
-}
 
 function HeroImageDemo() {
   return (
@@ -105,23 +80,10 @@ function ThumbnailDemo() {
 export default function ButtonsMediaPage() {
   return (
     <ShowcasePage
-      title="Buttons & media"
-      description="IconButton + HeroImage + Backdrop + Thumbnail — primitiva pro akční pruhy, splash obrazovky, media pickery a dim overlay vrstvy."
-      componentSlugs={['icon-button', 'hero-image', 'backdrop', 'thumbnail']}
+      title="Media"
+      description="HeroImage + Backdrop + Thumbnail — splash obrazovky, media pickery, dim overlay vrstvy. (IconButton se přestěhoval pod /buttons#icon-button.)"
+      componentSlugs={['hero-image', 'backdrop', 'thumbnail']}
     >
-      <Section
-        id="icon-button"
-        title="IconButton — square icon-only action"
-        description="Stejný octagonální silhouette jako Button, ale width=height. Always vyžaduje `ariaLabel`. `active` prop pro toggle (mute, pin)."
-      >
-        <Preview>
-          <IconButtonDemo />
-        </Preview>
-        <CodeBlock code={`<IconButton ariaLabel="Settings">⚙</IconButton>
-<IconButton ariaLabel="Confirm" variant="success">✓</IconButton>
-<IconButton ariaLabel="Mute" active={muted} onClick={toggle}>🔇</IconButton>`} />
-      </Section>
-
       <Section
         id="hero-image"
         title="HeroImage — featured banner"
@@ -179,11 +141,9 @@ export default function ButtonsMediaPage() {
 
       <Section id="pravidla" title="Pravidla použití">
         <Stack gap="xs" style={{ fontSize: '0.875rem', color: textMid, background: surface2, padding: 16, border: `1px solid ${borderDefault}`, borderRadius: 6 }}>
-          <p style={{ margin: 0 }}>✓ <strong>IconButton</strong> vždy s `ariaLabel` — bez něj screen reader uvidí jen "button".</p>
           <p style={{ margin: 0 }}>✓ <strong>HeroImage</strong> nepoužívej pro avatary nebo malé media (max ~600 px), na to je Thumbnail / FramedImage.</p>
           <p style={{ margin: 0 }}>✓ <strong>Backdrop</strong> pouze pro non-modal floating panely — Modal má svůj přes ::backdrop.</p>
           <p style={{ margin: 0 }}>✓ <strong>Thumbnail</strong> jako {'`<button>`'} (s onClick) automaticky dostane `aria-pressed`.</p>
-          <p style={{ margin: 0 }}>✗ Nepoužívej IconButton pro důležité akce v primary CTA — používá ho jen jako sekundární action (close, settings, more).</p>
           <p style={{ margin: 0, color: textLow }}>Hierarchie media tiles: Avatar (identita, kruh) → Thumbnail (media pick) → FramedImage (game ornament) → HeroImage (full-width feature).</p>
         </Stack>
       </Section>

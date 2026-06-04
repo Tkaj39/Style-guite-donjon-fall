@@ -230,8 +230,14 @@ export const sections = [
           { to: '/form#form',           label: 'Form wrapper' },
         ],
       },
-      { to: '/buttons',       label: 'Buttons',       library: 'both' },
-      { to: '/button-groups', label: 'Button Groups', library: 'both' },
+      {
+        to: '/buttons', label: 'Buttons', library: 'both',
+        children: [
+          { to: '/buttons#icon-button',   label: 'IconButton' },
+          { to: '/buttons#button-group',  label: 'ButtonGroup' },
+          { to: '/buttons#submit-button', label: 'SubmitButton' },
+        ],
+      },
       { to: '/badges', label: 'Badges', library: 'both' },
       { to: '/cards',  label: 'Cards',  library: 'both' },
     ],

@@ -686,7 +686,7 @@ export const componentMeta = {
     description: 'Square button whose only content is an icon. Same octagonal silhouette as Button, but width=height. Always requires `ariaLabel`. Use for close, settings, refresh, mute, pin and other accessory actions.',
     subcategory: 'exclusive',
     status: 'documented',
-    showcaseRoute: '/buttons-media',
+    showcaseRoute: '/buttons#icon-button',
     props: [
       { name: 'children',  type: 'ReactNode',                              required: true,  description: 'Icon glyph, emoji, or <svg>.' },
       { name: 'ariaLabel', type: 'string',                                 required: true,  description: 'Accessible name — required because there is no visible text.' },
@@ -703,7 +703,7 @@ export const componentMeta = {
     description: 'Large featured banner image with optional gradient scrim and overlaid title / subtitle / actions. Used for screen headers — main menu, campaign select, victory screen, game over.',
     subcategory: 'exclusive',
     status: 'documented',
-    showcaseRoute: '/buttons-media',
+    showcaseRoute: '/media',
     props: [
       { name: 'src',      type: 'string',                                    required: true,  description: 'Background image URL.' },
       { name: 'alt',      type: 'string',                                    required: false, default: "''",          description: 'Image alt text.' },
@@ -722,7 +722,7 @@ export const componentMeta = {
     description: 'Full-viewport dim overlay. Used behind floating panels that do not render in the native <dialog> top-layer — Drawer, custom popovers, tour highlights. For real modals use <Modal> (it has its own ::backdrop).',
     subcategory: 'exclusive',
     status: 'documented',
-    showcaseRoute: '/buttons-media',
+    showcaseRoute: '/media',
     props: [
       { name: 'open',     type: 'boolean',                                  required: true,  description: 'When false the backdrop is unmounted.' },
       { name: 'onClick',  type: '() => void',                               required: false, description: 'Click handler — usually closes the host.' },
@@ -737,7 +737,7 @@ export const componentMeta = {
     description: 'Small clickable image preview with optional accent ring (selected), caption, and badge slot. For media pickers, gallery grids, save-slot screens. Unlike Avatar this is a media tile (square or aspect-respecting), not a circular identity glyph.',
     subcategory: 'exclusive',
     status: 'documented',
-    showcaseRoute: '/buttons-media',
+    showcaseRoute: '/media',
     props: [
       { name: 'src',      type: 'string',                                    required: true,  description: 'Image URL.' },
       { name: 'alt',      type: 'string',                                    required: false, default: "''",          description: 'Alt text.' },
@@ -1398,7 +1398,7 @@ export const componentMeta = {
   'button-group': {
     description: 'Segmented control — picks a single value from a fixed list of options. Used for action selection, tabs and filters.',
     status: 'documented',
-    showcaseRoute: '/button-groups',
+    showcaseRoute: '/buttons#button-group',
     props: [
       { name: 'items',    type: 'Array<{value: string, label: string, icon?: ReactNode}>', required: true,  description: 'List of toggleable options.' },
       { name: 'value',    type: 'string',                                                  required: true,  description: 'Currently selected value.' },
@@ -1420,7 +1420,7 @@ export const componentMeta = {
       'Plain mode (`ornament="plain"`) — outer-wrapper octagon border without ornaments',
     ],
     status: 'documented',
-    showcaseRoute: '/button-groups',
+    showcaseRoute: '/buttons#button-group',
     props: [
       { name: 'items',    type: 'Array<{value, label, icon?}>', required: true,  description: 'List of toggleable options.' },
       { name: 'value',    type: 'string',                       required: true,  description: 'Currently selected value.' },
@@ -1519,7 +1519,7 @@ export const componentMeta = {
   'submit-button': {
     description: 'Form submit wrapper around the Button component. Automatically reads the pending state of the parent form via React 19 useFormStatus and switches the button into loading mode without manual state management.',
     status: 'documented',
-    showcaseRoute: '/form#input',
+    showcaseRoute: '/buttons#submit-button',
     props: [
       { name: 'children',      type: 'ReactNode',                                         required: false, default: "'Odeslat'", description: 'Default button content outside the pending state.' },
       { name: 'loadingLabel',  type: 'string',                                            required: false, description: 'Text shown during the pending state in place of children.' },

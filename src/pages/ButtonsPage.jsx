@@ -1,6 +1,12 @@
 import { useState } from 'react'
 import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
+import ButtonGroup from '../lib/tkajui/ButtonGroup'
+import DonjonButtonGroup from '../lib/donjon/DonjonButtonGroup'
+import IconButton from '../lib/tkajui/IconButton'
+import SubmitButton from '../lib/tkajui/SubmitButton'
+import { Stack, Inline } from '../lib/tkajui/Layout'
+import { textMid, textLow } from '../lib/tkajui/tokens'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 const PlusIcon = () => (
@@ -18,6 +24,37 @@ const TrashIcon = () => (
     <path fillRule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.712Z" />
   </svg>
 )
+
+/* ── ButtonGroup demo (consumes lib variant) ── */
+function ButtonGroupDemo() {
+  const lib  = useLibVariant()
+  const Grp  = lib === 'donjon' ? DonjonButtonGroup : ButtonGroup
+  const [view, setView] = useState('map')
+  const [size, setSize] = useState('md')
+  return (
+    <Stack gap="lg">
+      <Grp
+        items={[
+          { value: 'map',  label: 'Map' },
+          { value: 'list', label: 'List' },
+          { value: 'tree', label: 'Tree' },
+        ]}
+        value={view}
+        onChange={setView}
+      />
+      <Grp
+        items={[
+          { value: 'sm', label: 'Small' },
+          { value: 'md', label: 'Medium' },
+          { value: 'lg', label: 'Large' },
+        ]}
+        value={size}
+        onChange={setSize}
+        variant="tabs"
+      />
+    </Stack>
+  )
+}
 
 /* ── Obsah stránky — čte aktivní variantu přes hook ── */
 function ButtonContent() {
@@ -263,6 +300,85 @@ function ButtonContent() {
         </Preview>
       </Section>
 
+      {/* ── IconButton ────────────────────────────────────────────── */}
+      <Section
+        id="icon-button"
+        title="IconButton — square icon-only action"
+        description="Stejný octagonální silhouette jako Button, ale width=height. Vyžaduje `ariaLabel`. `active` prop pro toggle (mute, pin). Pro ikona+text → použij regulární Button s `leadingIcon`."
+      >
+        <Preview>
+          <Stack gap="md">
+            <Inline gap="md" align="center">
+              {['xs', 'sm', 'md', 'lg'].map(sz => (
+                <Stack key={sz} gap="xs" align="center">
+                  <IconButton size={sz} ariaLabel="Settings">⚙</IconButton>
+                  <span style={{ fontSize: '0.7rem', color: textLow }}>{sz}</span>
+                </Stack>
+              ))}
+            </Inline>
+            <Inline gap="sm">
+              <IconButton ariaLabel="Confirm" variant="success">✓</IconButton>
+              <IconButton ariaLabel="Delete"  variant="danger">×</IconButton>
+              <IconButton ariaLabel="Warning" variant="warning">!</IconButton>
+              <IconButton ariaLabel="Info"    variant="info">ⓘ</IconButton>
+              <IconButton ariaLabel="Disabled" disabled>↻</IconButton>
+            </Inline>
+          </Stack>
+        </Preview>
+        <CodeBlock code={`<IconButton ariaLabel="Settings">⚙</IconButton>
+<IconButton ariaLabel="Confirm" variant="success">✓</IconButton>
+<IconButton ariaLabel="Mute" active={muted} onClick={toggle}>🔇</IconButton>`} />
+      </Section>
+
+      {/* ── ButtonGroup ───────────────────────────────────────────── */}
+      <Section
+        id="button-group"
+        title="ButtonGroup — segmented control"
+        description="Single-select skupina tlačítek. Items obsahují value + label (+ ikonu). Pro toggle filtry, view switchers, segmentované volby. donjon variant má side ornamenty na krajích."
+      >
+        <Preview>
+          <ButtonGroupDemo />
+        </Preview>
+        <CodeBlock code={`<ButtonGroup
+  items={[
+    { value: 'map',  label: 'Map' },
+    { value: 'list', label: 'List' },
+  ]}
+  value={view}
+  onChange={setView}
+/>`} />
+      </Section>
+
+      {/* ── SubmitButton ──────────────────────────────────────────── */}
+      <Section
+        id="submit-button"
+        title="SubmitButton — pending state via useFormStatus"
+        description="`type='submit'` Button uvnitř <form>. Při pending state zamění label za `loadingLabel`. Postaveno na useFormStatus z React 19. Použij uvnitř <form action={action}>."
+      >
+        <Preview>
+          <Stack gap="md">
+            <form><SubmitButton loadingLabel="Saving…">Save</SubmitButton></form>
+            <form>
+              <Inline gap="sm">
+                <SubmitButton variant="success">Sign up</SubmitButton>
+                <SubmitButton variant="danger" loadingLabel="Deleting…">Delete</SubmitButton>
+              </Inline>
+            </form>
+          </Stack>
+        </Preview>
+        <CodeBlock code={`<form action={saveAction}>
+  <SubmitButton loadingLabel="Saving…">Save</SubmitButton>
+</form>`} />
+      </Section>
+
+      {/* Legacy URL map */}
+      <Section id="legacy-routes" title="Legacy URL → anchor map">
+        <Stack gap="xs" style={{ fontSize: '0.8125rem', color: textMid }}>
+          <p style={{ margin: 0 }}><code>/button-groups</code> → <code>/buttons#button-group</code></p>
+          <p style={{ margin: 0, color: textLow }}>Staré routes jsou Navigate redirects.</p>
+        </Stack>
+      </Section>
+
       {/* Pravidla */}
       <Section id="pravidla" title="Pravidla použití">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">
@@ -285,7 +401,7 @@ export default function ButtonsPage() {
     <ShowcasePage
       title="Buttons"
       description="Herní tlačítka Donjon Fall — osmihranný tvar. donjon-fall-ui umí dekorovaný ornamentální režim i plain gold-frame režim, TkajUI základ zůstává čistý bez ornamentů."
-      componentSlugs={['donjon-button', 'button']}
+      componentSlugs={['donjon-button', 'button', 'button-group', 'donjon-button-group', 'icon-button', 'submit-button']}
       variants={[
         { id: 'donjon', label: 'donjon-fall-ui' },
         { id: 'tkajui', label: 'TkajUI' },

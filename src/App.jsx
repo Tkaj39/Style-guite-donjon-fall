@@ -10,7 +10,7 @@ function S({ children }) {
 }
 
 const ButtonsPage          = lazy(() => import('./pages/ButtonsPage'))
-const ButtonGroupsPage     = lazy(() => import('./pages/ButtonGroupsPage'))
+// ButtonGroups merged into /buttons.
 const PlaceholderPage      = lazy(() => import('./pages/PlaceholderPage'))
 // Inputs / Select / Toggle / Slider merged into /form (see redirects below).
 const BadgesPage           = lazy(() => import('./pages/BadgesPage'))
@@ -84,7 +84,7 @@ const EventLogPage         = lazy(() => import('./pages/EventLogPage'))
 const PhaseIndicatorPage          = lazy(() => import('./pages/PhaseIndicatorPage'))
 const NotificationCenterPage      = lazy(() => import('./pages/NotificationCenterPage'))
 const FeedbackPage                = lazy(() => import('./pages/FeedbackPage'))
-const ButtonsMediaPage            = lazy(() => import('./pages/ButtonsMediaPage'))
+const MediaPage                   = lazy(() => import('./pages/MediaPage'))
 const InventoryPage               = lazy(() => import('./pages/InventoryPage'))
 const LayoutStructuresPage        = lazy(() => import('./pages/LayoutStructuresPage'))
 const DisclosurePage              = lazy(() => import('./pages/DisclosurePage'))
@@ -109,7 +109,7 @@ export default function App() {
         <Route index element={<S><HomePage /></S>} />
         <Route path="architecture" element={<S><ArchitecturePage /></S>} />
         <Route path="buttons"      element={<S><ButtonsPage /></S>} />
-        <Route path="button-groups" element={<S><ButtonGroupsPage /></S>} />
+        <Route path="button-groups" element={<Navigate to="/buttons#button-group" replace />} />
         <Route path="mood"         element={<S><MoodPage /></S>} />
         <Route path="colors"       element={<S><ColorsPage /></S>} />
         <Route path="typography"   element={<S><TypographyPage /></S>} />
@@ -184,7 +184,8 @@ export default function App() {
         <Route path="phase-indicator"        element={<S><PhaseIndicatorPage /></S>} />
         <Route path="notification-center"    element={<S><NotificationCenterPage /></S>} />
         <Route path="feedback"               element={<S><FeedbackPage /></S>} />
-        <Route path="buttons-media"          element={<S><ButtonsMediaPage /></S>} />
+        <Route path="media"                  element={<S><MediaPage /></S>} />
+        <Route path="buttons-media"          element={<Navigate to="/media" replace />} />
         <Route path="inventory"              element={<S><InventoryPage /></S>} />
         <Route path="layout-structures"      element={<S><LayoutStructuresPage /></S>} />
         <Route path="disclosure"             element={<S><DisclosurePage /></S>} />
