@@ -263,8 +263,17 @@ export const sections = [
           { to: '/feedback#progress-bar', label: 'ProgressBar' },
         ],
       },
-      { to: '/badges', label: 'Badges', library: 'both' },
-      { to: '/cards',  label: 'Cards',  library: 'both' },
+      {
+        to: '/data-display', label: 'Data display', library: 'both',
+        children: [
+          { to: '/data-display#table',            label: 'Table' },
+          { to: '/data-display#list',             label: 'List' },
+          { to: '/data-display#description-list', label: 'DescriptionList' },
+          { to: '/data-display#stat',             label: 'Stat' },
+          { to: '/data-display#card',             label: 'Card' },
+          { to: '/data-display#badge',            label: 'Badge' },
+        ],
+      },
     ],
   },
   {

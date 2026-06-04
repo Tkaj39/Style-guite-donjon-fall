@@ -188,7 +188,7 @@ export const componentMeta = {
   'badge': {
     description: 'Status badge with an octagonal shape. Semantic color variants, optional live-state dot, and an icon slot. DonjonBadge is a visually identical re-export.',
     status: 'documented',
-    showcaseRoute: '/badges',
+    showcaseRoute: '/data-display#badge',
     props: [
       { name: 'children', type: 'ReactNode',                                              required: true,  description: 'Badge text.' },
       { name: 'variant',  type: enumType(BADGE_VARIANT_VALUES),          required: false, default: "'default'", description: 'Color variant.' },
@@ -220,7 +220,7 @@ export const componentMeta = {
   'card': {
     description: 'Container card with an octagonal frame. Optional header (title + description), body, and footer. DonjonCard extends with SideOrnament and HexOrnament.',
     status: 'documented',
-    showcaseRoute: '/cards',
+    showcaseRoute: '/data-display#card',
     props: [
       { name: 'children',    type: 'ReactNode',                             required: false, description: 'Card body content.' },
       { name: 'title',       type: 'string',                                required: false, default: 'undefined', description: 'Header title.' },
@@ -1464,7 +1464,7 @@ export const componentMeta = {
     description: 'Game badge with a hexagonal shape and glow effect. Visually different from TkajUI Badge — native game variants (gain/loss/event/warning/magic), diamond indicator instead of a circle.',
     subcategory: 'exclusive',
     status: 'documented',
-    showcaseRoute: '/badges',
+    showcaseRoute: '/data-display#badge',
     props: [
       { name: 'children', type: 'ReactNode',                                                                              required: false, description: 'Badge text or content.' },
       { name: 'variant',  type: enumType(DONJON_BADGE_VARIANT_VALUES), required: false, default: "'default'", description: 'Game variant. Backward-compat: success=gain, danger=loss, info=infoColor, primary=event.' },
@@ -1485,7 +1485,7 @@ export const componentMeta = {
       'Variant-gradient header (`VARIANT_HEADER_BG`) instead of solid bg',
     ],
     status: 'documented',
-    showcaseRoute: '/cards',
+    showcaseRoute: '/data-display#card',
     props: [
       { name: 'children',    type: 'ReactNode',                              required: false, description: 'Card body content.' },
       { name: 'title',       type: 'string',                                 required: false, description: 'Card header title.' },

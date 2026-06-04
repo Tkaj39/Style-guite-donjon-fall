@@ -4,9 +4,13 @@ import List from '../lib/tkajui/List'
 import DescriptionList from '../lib/tkajui/DescriptionList'
 import Stat from '../lib/tkajui/Stat'
 import Badge from '../lib/tkajui/Badge'
+import Card from '../lib/tkajui/Card'
+import DonjonBadge from '../lib/donjon/DonjonBadge'
+import DonjonCard from '../lib/donjon/DonjonCard'
+import Button from '../lib/tkajui/Button'
 import { Stack, Inline, Grid } from '../lib/tkajui/Layout'
 import { surface2, borderDefault, textMid, textLow, dangerColor } from '../lib/tkajui/tokens'
-import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 const PLAYERS = [
   { id: 1, name: 'Aragorn',  class: 'Ranger',   hp: 84,  level: 12, gold: 1240 },
@@ -107,12 +111,53 @@ function StatDemo() {
   )
 }
 
+function BadgeDemo() {
+  const lib = useLibVariant()
+  const B = lib === 'donjon' ? DonjonBadge : Badge
+  return (
+    <Stack gap="md">
+      <Inline gap="sm">
+        <B variant="default">Default</B>
+        <B variant="success">Success</B>
+        <B variant="danger">Danger</B>
+        <B variant="warning">Warning</B>
+        <B variant="info">Info</B>
+      </Inline>
+      <Inline gap="sm" align="center">
+        <B size="sm" variant="success">sm</B>
+        <B size="md" variant="success">md</B>
+      </Inline>
+    </Stack>
+  )
+}
+
+function CardDemo() {
+  const lib = useLibVariant()
+  const C = lib === 'donjon' ? DonjonCard : Card
+  return (
+    <Stack gap="md" style={{ maxWidth: 420 }}>
+      <C title="Default card" description="A short description that explains the panel.">
+        Body content goes here.
+      </C>
+      <C title="Confirm action" description="This will permanently delete the items." variant="danger"
+         footer={<Button variant="danger" size="sm">Delete</Button>}>
+        Body
+      </C>
+      <C title="Success" variant="success" description="Operation succeeded.">Body</C>
+    </Stack>
+  )
+}
+
 export default function DataDisplayPage() {
   return (
     <ShowcasePage
       title="Data display"
-      description="Table + List + DescriptionList + Stat — sada pro zobrazení strukturovaných dat. Sortable tabulky, item listy, key-value páry, KPI tiles."
-      componentSlugs={['table', 'list', 'description-list', 'stat']}
+      description="Table + List + DescriptionList + Stat + Card + Badge — kompletní sada pro zobrazení strukturovaných dat. Sortable tabulky, item listy, key-value páry, KPI tiles, info kartičky, label badge."
+      componentSlugs={['table', 'list', 'description-list', 'stat', 'card', 'donjon-card', 'badge', 'donjon-badge']}
+      variants={[
+        { id: 'tkajui', label: 'TkajUI' },
+        { id: 'donjon', label: 'donjon-fall-ui' },
+      ]}
     >
       <Section
         id="table"
@@ -187,6 +232,40 @@ export default function DataDisplayPage() {
 
 {/* No delta — static KPI */}
 <Stat label="Players" value="84" size="lg" />`} />
+      </Section>
+
+      <Section
+        id="card"
+        title="Card — info panel"
+        description="Bordered panel s title / description / body / footer slotem. 3 variants (default / success / danger). Donjon variant má gold border + ornamenty."
+      >
+        <Preview>
+          <CardDemo />
+        </Preview>
+        <CodeBlock code={`<Card title="Confirm action" description="…" variant="danger"
+      footer={<Button variant="danger">Delete</Button>}>
+  Body
+</Card>`} />
+      </Section>
+
+      <Section
+        id="badge"
+        title="Badge — small label / tag"
+        description="Inline label pro status, count, kategorii. 5 variants + 2 sizes. Donjon variant = hex polygon, tkajui = pill."
+      >
+        <Preview>
+          <BadgeDemo />
+        </Preview>
+        <CodeBlock code={`<Badge variant="success">NEW</Badge>
+<Badge variant="danger" size="sm">3</Badge>`} />
+      </Section>
+
+      <Section id="legacy-routes" title="Legacy URL → anchor map">
+        <Stack gap="xs" style={{ fontSize: '0.8125rem', color: textMid }}>
+          <p style={{ margin: 0 }}><code>/cards</code>  → <code>/data-display#card</code></p>
+          <p style={{ margin: 0 }}><code>/badges</code> → <code>/data-display#badge</code></p>
+          <p style={{ margin: 0, color: textLow }}>Staré routes jsou Navigate redirects.</p>
+        </Stack>
       </Section>
 
       <Section id="pravidla" title="Pravidla použití">
