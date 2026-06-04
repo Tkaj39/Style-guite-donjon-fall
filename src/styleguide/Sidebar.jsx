@@ -205,12 +205,19 @@ export const sections = [
   {
     label: 'Komponenty',
     items: [
-      { to: '/tooltip',      label: 'Tooltip',      library: 'both' },
-      { to: '/modal',        label: 'Modal',        library: 'both' },
-      { to: '/toast',        label: 'Toast',        library: 'both' },
+      {
+        to: '/overlays', label: 'Overlays', library: 'both',
+        children: [
+          { to: '/modal',                label: 'Modal' },
+          { to: '/tooltip',              label: 'Tooltip' },
+          { to: '/toast',                label: 'Toast' },
+          { to: '/notification-center',  label: 'NotificationCenter' },
+          { to: '/notch-menu',           label: 'NotchMenu' },
+          { to: '/disclosure',           label: 'Drawer · DropdownMenu · Accordion' },
+        ],
+      },
       { to: '/progress-bar', label: 'Progress Bar', library: 'both' },
       { to: '/tabs',         label: 'Tabs',         library: 'both' },
-      { to: '/notch-menu',   label: 'Notch Menu',   library: 'both' },
       { to: '/layout',       label: 'Layout (Stack / Grid / Box / …)', library: 'both' },
       {
         to: '/media', label: 'Media', library: 'both',
