@@ -212,7 +212,16 @@ export const sections = [
       { to: '/tabs',         label: 'Tabs',         library: 'both' },
       { to: '/notch-menu',   label: 'Notch Menu',   library: 'both' },
       { to: '/layout',       label: 'Layout (Stack / Grid / Box / …)', library: 'both' },
-      { to: '/avatar',       label: 'Avatar / FramedImage', library: 'both' },
+      {
+        to: '/media', label: 'Media', library: 'both',
+        children: [
+          { to: '/media#avatar',       label: 'Avatar' },
+          { to: '/media#thumbnail',    label: 'Thumbnail' },
+          { to: '/media#framed-image', label: 'FramedImage' },
+          { to: '/media#hero-image',   label: 'HeroImage' },
+          { to: '/media#backdrop',     label: 'Backdrop' },
+        ],
+      },
       {
         to: '/form', label: 'Forms & inputs', library: 'both',
         children: [

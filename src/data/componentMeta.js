@@ -470,7 +470,7 @@ export const componentMeta = {
     description: 'Portrait image with circular or octagonal frame + initials fallback when the image is missing or fails to load. Used for player/NPC portraits in the HUD, scoreboards, dialog headers.',
     subcategory: 'exclusive',
     status: 'documented',
-    showcaseRoute: '/avatar',
+    showcaseRoute: '/media#avatar',
     props: [
       { name: 'src',      type: 'string',                                 required: false, description: 'Image URL. When absent (or load fails) → initials fallback.' },
       { name: 'name',     type: 'string',                                 required: false, description: 'Display name. Used for `alt` text and to derive 1–2 letter initials.' },
@@ -1202,7 +1202,7 @@ export const componentMeta = {
     description: 'Image inside a donjon ornamental frame — octagonal silhouette + gold border + (optional) SideOrnament brackets on left/right + RohOrnament accents in the corners. Game-themed: NPC portraits in dialogue, hero artwork in menus, character sheet portraits.',
     subcategory: 'exclusive',
     status: 'documented',
-    showcaseRoute: '/avatar',
+    showcaseRoute: '/media#framed-image',
     props: [
       { name: 'src',      type: 'string',                                       required: true,  description: 'Image URL.' },
       { name: 'alt',      type: 'string',                                       required: false, default: "''",          description: 'Alt text.' },
