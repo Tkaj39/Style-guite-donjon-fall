@@ -51,7 +51,7 @@ const ProgressBarPage      = lazy(() => import('./pages/ProgressBarPage'))
 const TabsPage             = lazy(() => import('./pages/TabsPage'))
 const NotchMenuPage        = lazy(() => import('./pages/NotchMenuPage'))
 const LayoutPage           = lazy(() => import('./pages/LayoutPage'))
-const AvatarPage           = lazy(() => import('./pages/AvatarPage'))
+// Avatar merged into /media.
 const FormPage             = lazy(() => import('./pages/FormPage'))
 const MotionPage           = lazy(() => import('./pages/MotionPage'))
 const InteractionStatesPage = lazy(() => import('./pages/InteractionStatesPage'))
@@ -151,7 +151,7 @@ export default function App() {
         <Route path="tabs"               element={<S><TabsPage /></S>} />
         <Route path="notch-menu"         element={<S><NotchMenuPage /></S>} />
         <Route path="layout"             element={<S><LayoutPage /></S>} />
-        <Route path="avatar"             element={<S><AvatarPage /></S>} />
+        <Route path="avatar" element={<Navigate to="/media#avatar" replace />} />
         <Route path="form"               element={<S><FormPage /></S>} />
         <Route path="motion"             element={<S><MotionPage /></S>} />
         <Route path="interaction-states" element={<S><InteractionStatesPage /></S>} />
