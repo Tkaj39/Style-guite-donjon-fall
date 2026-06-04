@@ -23,6 +23,25 @@ import {
   SubmitButton,
   Tabs,
   Toggle,
+  // New: feedback / buttons-media / inventory / layout / disclosure / data / nav / form niche
+  Spinner,
+  Skeleton,
+  Alert,
+  Banner,
+  IconButton,
+  Thumbnail,
+  InventorySlot,
+  InventoryGrid,
+  Accordion,
+  Table,
+  List,
+  DescriptionList,
+  Stat,
+  Breadcrumb,
+  Pagination,
+  Combobox,
+  TextArea,
+  NumberInput,
 } from '../lib/tkajui'
 import {
   ActionTile,
@@ -44,6 +63,13 @@ import {
   ShieldIcon,
   SwordIcon,
   TowerIcon,
+  // New: framed image + gameplay + game layout
+  FramedImage,
+  Cooldown,
+  Minimap,
+  Timeline,
+  Scoreboard,
+  Leaderboard,
 } from '../lib/donjon'
 
 /* ── Tech stack data ── */
@@ -358,6 +384,254 @@ const MINI_PREVIEWS = {
   'player-panel': <PlayerPanel name="Hráč 1" color={blue} symbol="shield" vp={7} hp={72} size="sm" isActive />,
   'game-transition': <GameTransition show preset="slideUp"><div className="rounded border border-amber-700/40 bg-neutral-900 px-3 py-2 text-xs text-neutral-200">Enter / exit</div></GameTransition>,
   'error-boundary': <StaticErrorPreview />,
+
+  // ── New tkajui — feedback ──────────────────────────────────────────────
+  spinner: <Spinner size="md" label="Loading…" />,
+  skeleton: (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, width: '100%' }}>
+      <Skeleton variant="text" width="60%" />
+      <Skeleton variant="text" />
+      <Skeleton variant="text" width="80%" />
+    </div>
+  ),
+  alert: <Alert variant="info" title="Heads up">Save was upgraded.</Alert>,
+  banner: <Banner variant="warning" title="Maintenance">Restart 22:00 UTC.</Banner>,
+
+  // ── New tkajui — buttons & media ───────────────────────────────────────
+  'icon-button': (
+    <div style={{ display: 'flex', gap: 6 }}>
+      <IconButton ariaLabel="Settings" size="sm">⚙</IconButton>
+      <IconButton ariaLabel="Confirm" size="sm" variant="success">✓</IconButton>
+      <IconButton ariaLabel="Delete" size="sm" variant="danger">×</IconButton>
+    </div>
+  ),
+  'hero-image': (
+    <div className="relative h-24 w-full overflow-hidden rounded-md">
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-700/60 via-indigo-900/60 to-neutral-950" />
+      <div className="absolute inset-x-3 bottom-2">
+        <div className="text-xs font-bold text-white">Hero title</div>
+        <div className="text-[10px] text-neutral-300">subtitle goes here</div>
+      </div>
+    </div>
+  ),
+  backdrop: (
+    <div className="relative h-24 w-full rounded-md border border-neutral-800 bg-neutral-900">
+      <div className="absolute inset-0 rounded-md bg-black/55 backdrop-blur-[1px]" />
+      <div className="absolute inset-0 flex items-center justify-center text-[10px] font-mono text-neutral-300">Backdrop</div>
+    </div>
+  ),
+  thumbnail: <Thumbnail src="https://picsum.photos/seed/thumb/120/120" size="sm" caption="Save 1" selected />,
+
+  // ── New tkajui — inventory ─────────────────────────────────────────────
+  'inventory-slot': <InventorySlot icon="⚔️" name="Sword" count={3} size="md" />,
+  'inventory-grid': (
+    <InventoryGrid
+      columns={3}
+      rows={2}
+      size="sm"
+      items={[
+        { icon: '⚔️', name: 'Sword', count: 1 },
+        { icon: '🧪', name: 'Potion', count: 12 },
+        { icon: '🗝️', name: 'Key' },
+        null,
+        { icon: '💎', name: 'Gem' },
+        null,
+      ]}
+    />
+  ),
+
+  // ── New tkajui — layout structures ─────────────────────────────────────
+  'sticky-bar': (
+    <div className="flex h-24 w-full flex-col overflow-hidden rounded-md border border-neutral-800">
+      <div className="flex items-center justify-between border-b border-neutral-700 bg-neutral-900 px-3 py-1.5 text-[10px] text-neutral-200">
+        <span className="font-semibold">Settings</span>
+        <span className="text-neutral-400">Save</span>
+      </div>
+      <div className="flex-1 bg-neutral-950 px-3 py-2 text-[10px] text-neutral-500">scroll…</div>
+      <div className="border-t border-neutral-700 bg-neutral-900 px-3 py-1.5 text-[10px] text-neutral-400 text-right">3 selected · Delete</div>
+    </div>
+  ),
+  'sidebar-layout': (
+    <div className="flex h-24 w-full overflow-hidden rounded-md border border-neutral-800">
+      <div className="flex w-16 flex-col gap-1 border-r border-neutral-700 bg-neutral-900 p-2 text-[9px] text-neutral-400">
+        <span>🏠 Home</span>
+        <span className="text-white">⚔ Combat</span>
+        <span>🎒 Bag</span>
+      </div>
+      <div className="flex-1 bg-neutral-950 px-2 py-2 text-[10px] text-neutral-500">Main</div>
+    </div>
+  ),
+
+  // ── New tkajui — disclosure ────────────────────────────────────────────
+  drawer: (
+    <div className="relative h-24 w-full overflow-hidden rounded-md border border-neutral-800 bg-neutral-950">
+      <div className="absolute inset-0 bg-black/30" />
+      <div className="absolute right-0 top-0 h-full w-2/3 border-l border-neutral-700 bg-neutral-900 px-3 py-2">
+        <div className="text-[10px] font-semibold text-neutral-100">Drawer</div>
+        <div className="mt-1 h-1.5 w-full rounded bg-neutral-800" />
+        <div className="mt-1 h-1.5 w-3/4 rounded bg-neutral-800" />
+      </div>
+    </div>
+  ),
+  'dropdown-menu': (
+    <div className="flex flex-col items-start gap-1">
+      <div className="rounded border border-neutral-700 bg-neutral-900 px-2 py-0.5 text-[10px] text-neutral-200">File ▾</div>
+      <div className="w-32 rounded border border-neutral-700 bg-neutral-950 px-1 py-1 shadow-lg">
+        <div className="rounded px-2 py-1 text-[10px] text-neutral-200">🆕 New game</div>
+        <div className="rounded px-2 py-1 text-[10px] text-neutral-200">📂 Open</div>
+        <div className="my-0.5 h-px bg-neutral-800" />
+        <div className="rounded px-2 py-1 text-[10px] text-rose-300">⏻ Quit</div>
+      </div>
+    </div>
+  ),
+  accordion: <Accordion items={[
+    { id: 'a', title: 'How do I save?', content: 'Auto-saved every turn.' },
+    { id: 'b', title: 'Offline play?',   content: 'Yes, LAN included.' },
+  ]} defaultValue={['a']} />,
+
+  // ── New tkajui — data display ──────────────────────────────────────────
+  table: (
+    <Table
+      size="sm"
+      bordered
+      columns={[
+        { key: 'name', label: 'Name' },
+        { key: 'hp',   label: 'HP', align: 'right' },
+      ]}
+      data={[
+        { id: 1, name: 'Aragorn', hp: 84 },
+        { id: 2, name: 'Gandalf', hp: 62 },
+      ]}
+    />
+  ),
+  list: <List size="sm" items={[
+    { id: 1, icon: '⚔️', title: 'Iron Sword',  description: '+5 ATK' },
+    { id: 2, icon: '🧪', title: 'Health Potion', description: 'Restores 50 HP', selected: true },
+  ]} />,
+  'description-list': (
+    <DescriptionList items={[
+      { term: 'Name',  description: 'Aragorn' },
+      { term: 'Class', description: 'Ranger' },
+      { term: 'HP',    description: '84 / 100' },
+    ]} />
+  ),
+  stat: (
+    <div style={{ display: 'flex', gap: 16 }}>
+      <Stat size="sm" label="Score" value="12 450" delta={320} />
+      <Stat size="sm" label="Turns" value="84" delta={-3} />
+    </div>
+  ),
+
+  // ── New tkajui — navigation ────────────────────────────────────────────
+  breadcrumb: <Breadcrumb items={[
+    { label: 'Home',     href: '#', onClick: e => e.preventDefault() },
+    { label: 'Library',  href: '#', onClick: e => e.preventDefault() },
+    { label: 'Iron Sword' },
+  ]} />,
+  pagination: <Pagination page={3} total={10} onChange={_noop} size="sm" />,
+  'context-menu': (
+    <div className="flex flex-col items-start gap-1">
+      <div className="rounded border border-dashed border-neutral-700 bg-neutral-900 px-2 py-1 text-[10px] text-neutral-400">right-click area</div>
+      <div className="w-32 rounded border border-neutral-700 bg-neutral-950 px-1 py-1 shadow-lg">
+        <div className="rounded px-2 py-1 text-[10px] text-neutral-200">👁 View</div>
+        <div className="rounded px-2 py-1 text-[10px] text-neutral-200">✎ Rename</div>
+        <div className="rounded px-2 py-1 text-[10px] text-rose-300">🗑 Delete</div>
+      </div>
+    </div>
+  ),
+
+  // ── New tkajui — form niche ────────────────────────────────────────────
+  combobox: <Combobox options={[
+    { value: 'fire',  label: 'Firebolt' },
+    { value: 'heal',  label: 'Cure Wounds' },
+  ]} value="fire" onChange={_noop} size="sm" />,
+  'text-area': <TextArea value={'A wandering ranger.\nKeeper of lore.'} onChange={_noop} rows={2} size="sm" />,
+  'number-input': <NumberInput value={42} onChange={_noop} min={0} max={99} size="sm" />,
+
+  // ── New donjon — gameplay ──────────────────────────────────────────────
+  dialogue: (
+    <div className="flex h-24 w-full overflow-hidden rounded-md border border-amber-600/60 bg-neutral-900 px-2 py-2">
+      <div className="mr-2 h-10 w-10 flex-shrink-0 rounded-md border border-amber-700/60 bg-neutral-800" />
+      <div className="flex-1 min-w-0">
+        <div className="text-[9px] font-bold uppercase tracking-wider text-amber-300">Old Wizard</div>
+        <div className="mt-0.5 line-clamp-2 text-[10px] italic text-neutral-200">"You stand at the threshold, young one…"</div>
+      </div>
+    </div>
+  ),
+  'choice-panel': (
+    <div className="flex h-24 w-full flex-col gap-1 overflow-hidden rounded-md border border-amber-600/60 bg-neutral-900 p-2">
+      <div className="text-[9px] font-bold uppercase tracking-wider text-amber-300">Choose</div>
+      <div className="rounded border-l-2 border-amber-500 bg-neutral-800 px-2 py-1 text-[10px] text-neutral-100">⚔ The Blade</div>
+      <div className="rounded border-l-2 border-amber-700/60 bg-transparent px-2 py-1 text-[10px] text-neutral-400">📜 The Sage</div>
+    </div>
+  ),
+  'reward-popup': (
+    <div className="inline-flex items-center gap-2 rounded-md border border-amber-500 bg-neutral-900 px-3 py-1.5">
+      <span className="text-base">⚔️</span>
+      <div className="flex flex-col">
+        <span className="text-[8px] font-bold uppercase tracking-wider text-amber-400">Received</span>
+        <span className="text-[11px] font-semibold text-neutral-100">Iron Sword</span>
+      </div>
+      <span className="text-[10px] font-bold text-emerald-400">+1</span>
+    </div>
+  ),
+  'achievement-toast': (
+    <div className="flex items-center gap-2 rounded-md border-2 border-amber-400 bg-neutral-950 p-2 shadow-[0_0_18px_rgba(255,193,131,0.35)]">
+      <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-amber-400 text-lg">🏆</div>
+      <div>
+        <div className="text-[8px] font-bold uppercase tracking-wider text-amber-300">Achievement unlocked</div>
+        <div className="text-[11px] font-bold text-neutral-100">Slayer of Dragons</div>
+      </div>
+    </div>
+  ),
+  'level-up': (
+    <div className="flex flex-col items-center rounded-md border-2 border-amber-400 bg-neutral-900 p-2">
+      <div className="text-[8px] font-bold uppercase tracking-wider text-amber-300">Level Up!</div>
+      <div className="flex items-baseline gap-1 text-amber-300"><span className="text-[10px]">LVL</span><span className="text-2xl font-extrabold leading-none">8</span></div>
+      <div className="mt-1 text-[9px] text-emerald-400">❤️ +8 · ✦ +4</div>
+    </div>
+  ),
+
+  // ── New donjon — game-specific layout ──────────────────────────────────
+  'framed-image': <FramedImage src="https://picsum.photos/seed/framed/120/120" alt="" size="xs" />,
+  'hud-layout': (
+    <div className="flex h-24 w-full flex-col overflow-hidden rounded-md border border-amber-700/60">
+      <div className="border-b border-amber-700/40 bg-neutral-900 px-2 py-1 text-[9px] font-bold text-amber-300">⚔ Donjon Fall</div>
+      <div className="flex-1 bg-gradient-to-br from-neutral-800 to-neutral-950 px-2 py-1 text-[9px] text-neutral-500 italic">gameplay</div>
+      <div className="border-t border-amber-700/40 bg-neutral-900 px-2 py-1 text-[9px] text-neutral-300">HP 84/100</div>
+    </div>
+  ),
+  scoreboard: <Scoreboard title="Live" layout="compact" players={[
+    { id: '1', name: 'Aragorn', score: 84, current: true },
+    { id: '2', name: 'Legolas', score: 71 },
+  ]} />,
+  leaderboard: <Leaderboard entries={[
+    { id: '1', name: 'Aragorn', score: 12450 },
+    { id: '2', name: 'Legolas', score: 11200 },
+    { id: '3', name: 'Gandalf', score: 10840 },
+  ]} />,
+  cooldown: (
+    <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+      <Cooldown remaining={3000} total={5000} size="md" />
+      <Cooldown shape="linear" remaining={3000} total={5000} size={100} />
+    </div>
+  ),
+  minimap: <Minimap src="https://picsum.photos/seed/map/180/180" size={96} viewport={{ x: 0.35, y: 0.3, w: 0.3, h: 0.3 }} markers={[
+    // eslint-disable-next-line donjon/no-hardcoded-hex -- mini preview accent colors
+    { x: 0.5, y: 0.5, color: '#FFC183' },
+    // eslint-disable-next-line donjon/no-hardcoded-hex -- mini preview accent colors
+    { x: 0.8, y: 0.2, color: '#E05C5C' },
+  ]} />,
+  timeline: <Timeline bordered={false} items={[
+    { id: '1', time: 'T 1', icon: '⚔', title: 'Battle' },
+    { id: '2', time: 'T 2', icon: '🧪', title: 'Heal' },
+    { id: '3', time: 'T 3', icon: '✦', title: 'Lvl up', current: true },
+  ]} />,
+  sprite: (
+    <div className="flex h-24 items-center justify-center">
+      <div className="h-12 w-12 animate-pulse rounded bg-amber-400/80" />
+    </div>
+  ),
 }
 
 function MiniPreview({ comp }) {
