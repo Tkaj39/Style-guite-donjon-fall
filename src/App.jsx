@@ -47,7 +47,7 @@ const ComponentDetailPage  = lazy(() => import('./pages/ComponentDetailPage'))
 const TooltipPage          = lazy(() => import('./pages/TooltipPage'))
 const ModalPage            = lazy(() => import('./pages/ModalPage'))
 const ToastPage            = lazy(() => import('./pages/ToastPage'))
-const ProgressBarPage      = lazy(() => import('./pages/ProgressBarPage'))
+// ProgressBar merged into /feedback.
 const TabsPage             = lazy(() => import('./pages/TabsPage'))
 const NotchMenuPage        = lazy(() => import('./pages/NotchMenuPage'))
 const LayoutPage           = lazy(() => import('./pages/LayoutPage'))
@@ -148,7 +148,7 @@ export default function App() {
         <Route path="tooltip"      element={<S><TooltipPage /></S>} />
         <Route path="modal"        element={<S><ModalPage /></S>} />
         <Route path="toast"        element={<S><ToastPage /></S>} />
-        <Route path="progress-bar" element={<S><ProgressBarPage /></S>} />
+        <Route path="progress-bar" element={<Navigate to="/feedback#progress-bar" replace />} />
         <Route path="tabs"               element={<S><TabsPage /></S>} />
         <Route path="notch-menu"         element={<S><NotchMenuPage /></S>} />
         <Route path="layout"             element={<S><LayoutPage /></S>} />

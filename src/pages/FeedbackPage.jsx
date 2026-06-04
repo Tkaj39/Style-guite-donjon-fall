@@ -1,12 +1,14 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Spinner from '../lib/tkajui/Spinner'
 import Skeleton from '../lib/tkajui/Skeleton'
 import Alert from '../lib/tkajui/Alert'
 import Banner from '../lib/tkajui/Banner'
 import Button from '../lib/tkajui/Button'
+import ProgressBar from '../lib/tkajui/ProgressBar'
+import DonjonProgressBar from '../lib/donjon/DonjonProgressBar'
 import { Stack, Inline } from '../lib/tkajui/Layout'
 import { surface2, borderDefault, textMid, textLow } from '../lib/tkajui/tokens'
-import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 function SpinnerDemo() {
   return (
@@ -96,12 +98,39 @@ function BannerDemo() {
   )
 }
 
+function ProgressBarDemo() {
+  const lib = useLibVariant()
+  const P = lib === 'donjon' ? DonjonProgressBar : ProgressBar
+  const [value, setValue] = useState(40)
+  useEffect(() => {
+    const t = setInterval(() => setValue(v => (v >= 100 ? 0 : v + 5)), 350)
+    return () => clearInterval(t)
+  }, [])
+  return (
+    <Stack gap="lg">
+      <P value={value} variant="default" showValue />
+      <P value={70} variant="success" showValue label="Download" />
+      <P value={28} variant="warning" showValue label="Low HP" />
+      <P value={92} variant="danger"  showValue label="Almost dead" />
+      <Inline gap="md" align="end">
+        {['xs', 'sm', 'md', 'lg'].map(sz => (
+          <P key={sz} size={sz} value={value} style={{ minWidth: 120 }} showValue />
+        ))}
+      </Inline>
+    </Stack>
+  )
+}
+
 export default function FeedbackPage() {
   return (
     <ShowcasePage
-      title="Feedback group"
-      description="Spinner + Skeleton + Alert + Banner — sada pro průběžnou komunikaci stavu uživateli. Spinner = unknown duration, Skeleton = layout placeholder, Alert = inline contextual, Banner = page-level announcement."
-      componentSlugs={['spinner', 'skeleton', 'alert', 'banner']}
+      title="Feedback"
+      description="Spinner + Skeleton + Alert + Banner + ProgressBar — celá sada pro průběžnou komunikaci stavu uživateli. Spinner = unknown duration, Skeleton = layout placeholder, Alert = inline contextual, Banner = page-level announcement, ProgressBar = known progress %."
+      componentSlugs={['spinner', 'skeleton', 'alert', 'banner', 'progress-bar', 'donjon-progress-bar']}
+      variants={[
+        { id: 'tkajui', label: 'TkajUI' },
+        { id: 'donjon', label: 'donjon-fall-ui' },
+      ]}
     >
       <Section
         id="spinner"
@@ -174,6 +203,27 @@ export default function FeedbackPage() {
 <Banner variant="warning" sticky>
   Servers restart at 22:00 UTC.
 </Banner>`} />
+      </Section>
+
+      <Section
+        id="progress-bar"
+        title="ProgressBar — known progress %"
+        description="Pro známý progress (download, save, install). Pokud délka není známá, použij Spinner. Variants pro semantic stavy, sizes, optional label/value."
+      >
+        <Preview>
+          <ProgressBarDemo />
+        </Preview>
+        <CodeBlock code={`<ProgressBar value={progress} variant="success" showValue label="Download" />
+
+{/* Game contexts — HP, Mana */}
+<ProgressBar value={hp} variant="danger" showValue label="HP" />`} />
+      </Section>
+
+      <Section id="legacy-routes" title="Legacy URL → anchor map">
+        <Stack gap="xs" style={{ fontSize: '0.8125rem', color: textMid }}>
+          <p style={{ margin: 0 }}><code>/progress-bar</code> → <code>/feedback#progress-bar</code></p>
+          <p style={{ margin: 0, color: textLow }}>/loading-skeleton + /feedback-hierarchy zůstávají jako samostatné recipe stránky.</p>
+        </Stack>
       </Section>
 
       <Section id="pravidla" title="Pravidla použití">
