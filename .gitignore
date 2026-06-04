@@ -4,3 +4,6 @@ dist
 .env.local
 .claude/
 .vite/
+
+*storybook.log
+storybook-static

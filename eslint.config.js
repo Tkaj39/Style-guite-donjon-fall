@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
+
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
@@ -24,7 +27,6 @@ export default [
       '**/node_modules/**',
     ],
   },
-
   // ── Testovací soubory — Vitest globály ────────────────────────────────────
   {
     files: ['src/**/*.test.{js,jsx}', 'src/**/__tests__/**/*.{js,jsx}', 'src/test/**/*.{js,jsx}'],
@@ -44,7 +46,6 @@ export default [
       },
     },
   },
-
   // ── Základní JS pravidla pro celý projekt ─────────────────────────────────
   {
     files: ['src/**/*.{js,jsx}'],
@@ -72,7 +73,6 @@ export default [
       'no-console': 'off',
     },
   },
-
   // ── DONJON pravidlo 1: žádné hardcoded hex v lib/ a pages/ ────────────────
   // Výjimka: tokens.js samotný (tam hex být musí) + ColorsPage (paleta demo).
   // Scope rozšířen na src/pages/ — kolega reportoval že hex v pages neslipne
@@ -97,7 +97,6 @@ export default [
       'donjon/no-hardcoded-hex': 'error',
     },
   },
-
   // ── DONJON pravidlo 2: žádné komponenty s hooky uvnitř render funkce ──────
   {
     files: ['src/pages/**/*.jsx', 'src/lib/**/*.jsx'],
@@ -106,7 +105,6 @@ export default [
       'donjon/no-component-in-render': 'error',
     },
   },
-
   // ── DONJON pravidlo 3: WCAG contrast check pro inline style ───────────────
   // Warning, ne error — false-positive ratio existuje (gradients,
   // semi-transparent backgrounds). Eskaluj na 'error' až po validaci.
@@ -118,4 +116,5 @@ export default [
       'donjon/contrast-check': ['warn', { level: 'AA-large' }],
     },
   },
-]
+  ...storybook.configs["flat/recommended"]
+];

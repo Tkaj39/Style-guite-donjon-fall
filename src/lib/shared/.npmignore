@@ -1,9 +1,15 @@
-# Tests + dev artifacts — never published
+# Tests + stories + dev artifacts — never published
 __tests__/
+__stories__/
 *.test.js
 *.test.jsx
 *.spec.js
 *.spec.jsx
+*.stories.js
+*.stories.jsx
+*.stories.ts
+*.stories.tsx
 .eslintrc*
+tsup.config.js
 tsconfig*.json
 *.tsbuildinfo
