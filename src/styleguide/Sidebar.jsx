@@ -216,7 +216,6 @@ export const sections = [
           { to: '/disclosure',           label: 'Drawer · DropdownMenu · Accordion' },
         ],
       },
-      { to: '/progress-bar', label: 'Progress Bar', library: 'both' },
       { to: '/tabs',         label: 'Tabs',         library: 'both' },
       { to: '/layout',       label: 'Layout (Stack / Grid / Box / …)', library: 'both' },
       {
@@ -252,6 +251,16 @@ export const sections = [
           { to: '/buttons#icon-button',   label: 'IconButton' },
           { to: '/buttons#button-group',  label: 'ButtonGroup' },
           { to: '/buttons#submit-button', label: 'SubmitButton' },
+        ],
+      },
+      {
+        to: '/feedback', label: 'Feedback', library: 'both',
+        children: [
+          { to: '/feedback#spinner',      label: 'Spinner' },
+          { to: '/feedback#skeleton',     label: 'Skeleton' },
+          { to: '/feedback#alert',        label: 'Alert' },
+          { to: '/feedback#banner',       label: 'Banner' },
+          { to: '/feedback#progress-bar', label: 'ProgressBar' },
         ],
       },
       { to: '/badges', label: 'Badges', library: 'both' },

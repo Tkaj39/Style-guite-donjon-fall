@@ -1253,7 +1253,7 @@ export const componentMeta = {
   'progress-bar': {
     description: 'Linear progress indicator. Determinate (value 0–100) or indeterminate (animated shimmer). Five variants, three sizes, optional label and percentage.',
     status: 'documented',
-    showcaseRoute: '/progress-bar',
+    showcaseRoute: '/feedback#progress-bar',
     props: [
       { name: 'value',         type: 'number',                                                    required: false, default: '0',         description: 'Current value (0 to max).' },
       { name: 'max',           type: 'number',                                                    required: false, default: '100',        description: 'Maximum value.' },
@@ -1869,7 +1869,7 @@ export const componentMeta = {
       'Heights unified with TkajUI (md=8) — drop-in replacement with no layout shift',
     ],
     status: 'documented',
-    showcaseRoute: '/progress-bar',
+    showcaseRoute: '/feedback#progress-bar',
     props: [
       { name: 'value',         type: 'number',                                                                              required: false, default: '0',         description: 'Current value (0 – max).' },
       { name: 'max',           type: 'number',                                                                              required: false, default: '100',       description: 'Maximum value.' },
