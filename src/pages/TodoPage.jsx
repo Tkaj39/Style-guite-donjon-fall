@@ -106,9 +106,9 @@ const MANUAL_TASKS = [
       { status: 'done', text: 'componentMeta — zdokumentováno všech 8 herních primitiv' },
       { status: 'done', text: 'CLAUDE.md — lessons learned z mass refactorů (JSX context, CRLF gotcha, …)' },
       { status: 'done', text: 'README na úrovni design-sources/ — workflow SVG → JSX paths' },
-      { status: 'todo', text: 'Storybook nebo live sandbox pro izolované demo komponent' },
-      { status: 'todo', text: 'Changelog — sledovat změny API mezi verzemi' },
-      { status: 'todo', text: 'Migration guide pro kolegy — jak importovat tokeny, palette, ikony' },
+      { status: 'done', text: 'Storybook 10 — react-vite builder, a11y + docs addons, 12 stories (Button/Card/Input/Alert/Spinner/Stat/IconButton + DonjonButton/ActionTile/ResourceBar/FramedImage/Dialogue/LevelUp) jako vzor, stories pod __stories__/, lib CSS importované v preview' },
+      { status: 'done', text: 'Changelog — CHANGELOG.md (Keep a Changelog format) z Fáze 4' },
+      { status: 'done', text: 'Migration guide — MIGRATION.md (install + setup + framework pro 0.2+) z Fáze 4' },
     ],
   },
   {
