@@ -79,6 +79,13 @@ export { default as Banner }      from './Banner'
 
 export { default as Pictogram }      from './Pictogram'
 
+// ─── Utility icons (generic UI — not game-specific) ──────────────────────
+// For game-themed icons see `donjon-fall-ui` (SwordIcon, ShieldIcon, …).
+export {
+  ListIcon, PhasesIcon, HashIcon, PaletteIcon, GridIcon, SparkIcon,
+  StackIcon, FormIcon, ButtonIcon, ModalIcon, TabsIcon, ToggleIcon, ArchIcon,
+} from './Icons'
+
 // ─── Shape primitives ────────────────────────────────────────────────────
 // Base shape elements with a unified cornerSize system.
 // ScoopClip & NotchedBox are wrapper components; octagon and other utilities

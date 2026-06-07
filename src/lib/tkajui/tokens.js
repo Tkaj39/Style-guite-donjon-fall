@@ -71,6 +71,11 @@ export const infoDim    = '#2070d0'  // gradient end (ProgressBar, Slider)
 export const primaryText = '#ffffff'
 export const primaryIcon = '#ffffffcc'
 
+// ── Brand (cross-library context — HomePage cards, LibraryBadges, Arch
+// diagram). Softer than `accent` (#6576ff) — used when both libs are
+// shown side-by-side and the indigo would dominate the gold palette.
+export const tkajuiBrand = '#7BAED4'
+
 // ── Shared tokens (motion, breakpoints, z-index) ──────────────────────────
 // Re-export from `lib/shared/tokens.js` — structurally neutral tokens shared
 // by tkajui and donjon. A change propagates to both libraries.

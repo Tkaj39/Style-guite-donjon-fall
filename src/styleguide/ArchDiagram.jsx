@@ -7,11 +7,12 @@
    ShowcasePage (#7BAED4 pro tkajui, #B8956A pro donjon).
    ─────────────────────────────────────────────────────────────────────── */
 
-import { bg2, bgDeep, borderMid, textMid, textLow } from '../lib/donjon/tokens'
+import { bg2, bgDeep, borderMid, goldMid, textMid, textLow } from '../lib/donjon/tokens'
+import { tkajuiBrand } from '../lib/tkajui/tokens'
 
 export const ARCH_BRAND = {
-  tkajui: '#7BAED4',
-  donjon: '#B8956A',
+  tkajui: tkajuiBrand,
+  donjon: goldMid,
 }
 
 function Node({ label, sub, color, bg, big }) {

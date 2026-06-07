@@ -88,6 +88,9 @@
   --tkajui-primary-text: #ffffff;
   --tkajui-primary-icon: #ffffffcc;
 
+  /* ── Brand (cross-library context — softer than --tkajui-accent) ── */
+  --tkajui-brand:        #7BAED4;
+
   /* ── Animation timing (shared with donjon via shared/tokens) ──────────── */
   --tkajui-anim-fast:     80ms;
   --tkajui-anim-normal:   160ms;
