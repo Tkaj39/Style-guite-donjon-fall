@@ -1,5 +1,5 @@
 import { useState, createContext, useContext, useEffect } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams, useLocation } from 'react-router-dom'
 import { useLibPreference } from './LibPreferenceProvider'
 import { componentMeta } from '../data/componentMeta'
 
@@ -211,6 +211,35 @@ export function ShowcasePage({ title, description, children, componentSlug, comp
       setSearchParams({ lib: preference }, { replace: true })
     }
   }, [preference, variants, activeVariant, setSearchParams])
+
+  /* Scroll to anchor target on initial mount + whenever the hash changes.
+     Without this, navigating to `/form#input` (e.g. via a Navigate
+     redirect from the merged routes) lands at the top of the page —
+     the browser's native anchor-scroll fires before the lazy-loaded
+     section has rendered. We poll briefly until the element exists,
+     then scroll into view. */
+  const location = useLocation()
+  useEffect(() => {
+    const hash = location.hash?.slice(1)
+    if (!hash) return undefined
+    let attempts = 0
+    const tryScroll = () => {
+      const el = document.getElementById(hash)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        // For screen readers, also move focus to the section
+        if (typeof el.focus === 'function') {
+          const hadTabindex = el.hasAttribute('tabindex')
+          if (!hadTabindex) el.setAttribute('tabindex', '-1')
+          el.focus({ preventScroll: true })
+        }
+        return
+      }
+      if (++attempts < 20) timer = setTimeout(tryScroll, 50)
+    }
+    let timer = setTimeout(tryScroll, 0)
+    return () => clearTimeout(timer)
+  }, [location.hash, location.pathname])
 
   const handleVariantChange = (v) => {
     setActiveVariant(v)

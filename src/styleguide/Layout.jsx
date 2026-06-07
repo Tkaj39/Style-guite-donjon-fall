@@ -54,6 +54,22 @@ export default function Layout() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      {/* Skip-link — first focusable element. Visually hidden until
+          keyboard focus pulls it onscreen, lets users bypass the 30+
+          sidebar items and land directly on the main content. */}
+      <a
+        href="#main-content"
+        className="
+          sr-only focus:not-sr-only
+          focus:absolute focus:top-2 focus:left-2 focus:z-[1000]
+          focus:rounded focus:bg-indigo-600 focus:px-3 focus:py-1.5
+          focus:text-sm focus:font-medium focus:text-white
+          focus:outline-2 focus:outline-white focus:outline-offset-2
+        "
+      >
+        Přeskočit na obsah
+      </a>
+
       {/* Top navigation — sticky, viditelná na všech breakpointech */}
       <TopNav
         showMenuToggle
@@ -79,8 +95,14 @@ export default function Layout() {
         {/* Sidebar */}
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-        {/* Main content */}
-        <main className="flex-1 overflow-y-auto">
+        {/* Main content — id matches the skip-link href above so keyboard
+            users land in this scroll container. tabIndex=-1 lets the link
+            move focus here even though <main> isn't natively focusable. */}
+        <main
+          id="main-content"
+          tabIndex={-1}
+          className="flex-1 overflow-y-auto outline-none"
+        >
           <Outlet />
         </main>
       </div>
