@@ -19,11 +19,7 @@
  */
 import { TkajuiLogoIcon, DonjonLogoIcon } from '../lib/donjon/icons'
 import { gold } from '../lib/donjon/tokens'
-
-// TkajUI brand color v cross-library kontextu — Sidebar zobrazuje obě
-// knihovny vedle sebe a potřebuje brand barvu mimo donjon paletu.
-// (ESLint rule donjon/no-hardcoded-hex není v src/styleguide aktivní.)
-const TKAJUI_BRAND = '#7BAED4'
+import { tkajuiBrand } from '../lib/tkajui/tokens'
 
 export default function LibraryBadges({ library, size = 11 }) {
   if (!library) return null
@@ -51,7 +47,7 @@ export default function LibraryBadges({ library, size = 11 }) {
       }}
     >
       {showTkajui && (
-        <span style={{ display: 'inline-flex', color: TKAJUI_BRAND }}>
+        <span style={{ display: 'inline-flex', color: tkajuiBrand }}>
           <TkajuiLogoIcon width={size} height={size} />
         </span>
       )}

@@ -33,9 +33,12 @@ function DonjonIcon({ size = 13 }) {
   )
 }
 
+import { tkajuiBrand } from '../lib/tkajui/tokens'
+import { goldMid } from '../lib/donjon/tokens'
+
 export const LIBRARY_CFG = {
-  tkajui: { label: 'TkajUI',         color: '#7BAED4', Icon: TkajuiIcon },
-  donjon: { label: 'donjon-fall-ui', color: '#B8956A', Icon: DonjonIcon },
+  tkajui: { label: 'TkajUI',         color: tkajuiBrand, Icon: TkajuiIcon },
+  donjon: { label: 'donjon-fall-ui', color: goldMid,     Icon: DonjonIcon },
 }
 
 function LibraryBadge({ library }) {

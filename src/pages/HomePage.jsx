@@ -21,7 +21,13 @@ import {
   textHigh, textMid, textLow,
   gainColor, dangerColor, warningColor, infoColor, magicColor,
 } from '../lib/donjon/tokens'
+import { tkajuiBrand } from '../lib/tkajui/tokens'
 import { octagon, octagonInner } from '../lib/shared/octagon'
+import {
+  ListIcon, PhasesIcon, HashIcon, PaletteIcon, GridIcon, SparkIcon,
+  StackIcon, FormIcon, ButtonIcon, ModalIcon, TabsIcon, ToggleIcon, ArchIcon,
+} from '../lib/tkajui'
+import { ShieldIcon, HeartIcon, SwordIcon } from '../lib/donjon'
 import ArchDiagram from '../styleguide/ArchDiagram'
 import LibraryLogo from '../styleguide/LibraryLogo'
 
@@ -31,10 +37,8 @@ const NPM_PACKAGE = 'donjon-fall-ui'
 // Toto je výjimka z pravidla „nesmíchávej palety": HomePage prezentuje
 // OBĚ knihovny jako rovnocenné a potřebuje brand identitu pro každou.
 const BRAND = {
-  donjon: { color: goldMid, accent: gold,      label: 'donjon-fall-ui' },
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)
-  tkajui: { color: '#7BAED4', accent: '#7BAED4', label: 'TkajUI'         },
+  donjon: { color: goldMid,     accent: gold,        label: 'donjon-fall-ui' },
+  tkajui: { color: tkajuiBrand, accent: tkajuiBrand, label: 'TkajUI'         },
 }
 
 /* ── Stats — počítáno z registry ── */
@@ -47,147 +51,9 @@ function getStats() {
   return { total, documented, donjon, tkajui, extending }
 }
 
-/* ── Mini ikonky pro karty herních primitiv ── */
-function ShieldIcon({ color = gold }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-      <path d="M12 2 4 5v7c0 4.5 3.5 7.5 8 9 4.5-1.5 8-4.5 8-9V5l-8-3Z" stroke={color} strokeWidth="1.5" strokeLinejoin="round" />
-    </svg>
-  )
-}
-function HeartIcon({ color = dangerColor }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-      <path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10Z" stroke={color} strokeWidth="1.5" strokeLinejoin="round" />
-    </svg>
-  )
-}
-function SwordIcon({ color = gold }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-      <path d="m4 20 4-4M6 18l-3 3M14.5 5.5 19 2l3 3-3.5 4.5M14 6l4 4M14 10l-9.5 9.5L7 22l9.5-9.5" stroke={color} strokeWidth="1.5" strokeLinejoin="round" />
-    </svg>
-  )
-}
-function ListIcon({ color = goldMid }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-      <path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01" stroke={color} strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  )
-}
-function PhasesIcon({ color = infoColor }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-      <circle cx="5" cy="12" r="2.5" fill={color} />
-      <path d="M8 12h4" stroke={color} strokeWidth="1.5" />
-      <circle cx="14" cy="12" r="3" stroke={color} strokeWidth="1.5" />
-      <path d="M17 12h4" stroke={color} strokeWidth="1.5" />
-      <circle cx="22" cy="12" r="0" />
-    </svg>
-  )
-}
-function HashIcon({ color = magicColor }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-      <path d="M9 3 7 21M17 3l-2 18M3 9h18M2 15h18" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  )
-}
-function PaletteIcon({ color = gold }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-      <path d="M12 3a9 9 0 0 0 0 18c1.5 0 2-1.2 2-2.5 0-1.2-1-2-1-3 0-1.5 1-2.5 2.5-2.5H17a4 4 0 0 0 4-4c0-3.3-4-6-9-6Z" stroke={color} strokeWidth="1.5" />
-      <circle cx="7.5" cy="11" r="1.2" fill={color} />
-      <circle cx="12" cy="7.5" r="1.2" fill={color} />
-      <circle cx="16.5" cy="11" r="1.2" fill={color} />
-    </svg>
-  )
-}
-function GridIcon({ color = goldMid }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-      <rect x="3.5" y="3.5" width="7" height="7" rx="1" stroke={color} strokeWidth="1.5" />
-      <rect x="13.5" y="3.5" width="7" height="7" rx="1" stroke={color} strokeWidth="1.5" />
-      <rect x="3.5" y="13.5" width="7" height="7" rx="1" stroke={color} strokeWidth="1.5" />
-      <rect x="13.5" y="13.5" width="7" height="7" rx="1" stroke={color} strokeWidth="1.5" />
-    </svg>
-  )
-}
-function SparkIcon({ color = gold }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-      <path d="M12 3v6M12 15v6M3 12h6M15 12h6M5.5 5.5l4 4M14.5 14.5l4 4M18.5 5.5l-4 4M9.5 14.5l-4 4" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  )
-}
-// eslint-disable-next-line donjon/no-hardcoded-hex -- brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)
-function StackIcon({ color = '#7BAED4' }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-      <rect x="3" y="4"  width="18" height="4" rx="1" stroke={color} strokeWidth="1.4" />
-      <rect x="3" y="10" width="18" height="4" rx="1" stroke={color} strokeWidth="1.4" />
-      <rect x="3" y="16" width="18" height="4" rx="1" stroke={color} strokeWidth="1.4" />
-    </svg>
-  )
-}
-// eslint-disable-next-line donjon/no-hardcoded-hex -- brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)
-function FormIcon({ color = '#7BAED4' }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-      <rect x="3" y="6" width="18" height="3.5" rx="1" stroke={color} strokeWidth="1.4" />
-      <rect x="3" y="13" width="18" height="3.5" rx="1" stroke={color} strokeWidth="1.4" />
-      <path d="M5 8h2M5 15h2" stroke={color} strokeWidth="1.2" />
-    </svg>
-  )
-}
-// eslint-disable-next-line donjon/no-hardcoded-hex -- brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)
-function ButtonIcon({ color = '#7BAED4' }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-      <rect x="3" y="8" width="18" height="8" rx="2" stroke={color} strokeWidth="1.5" />
-      <path d="M8 12h8" stroke={color} strokeWidth="1.4" strokeLinecap="round" />
-    </svg>
-  )
-}
-// eslint-disable-next-line donjon/no-hardcoded-hex -- brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)
-function ModalIcon({ color = '#7BAED4' }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-      <rect x="3" y="4" width="18" height="16" rx="2" stroke={color} strokeWidth="1.4" opacity="0.4" />
-      <rect x="6" y="7" width="12" height="10" rx="1.5" stroke={color} strokeWidth="1.6" />
-      <path d="M9 11h6M9 14h4" stroke={color} strokeWidth="1.2" />
-    </svg>
-  )
-}
-// eslint-disable-next-line donjon/no-hardcoded-hex -- brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)
-function TabsIcon({ color = '#7BAED4' }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-      <path d="M3 9h6V6h12v3" stroke={color} strokeWidth="1.4" strokeLinejoin="round" />
-      <rect x="3" y="9" width="18" height="11" rx="1.5" stroke={color} strokeWidth="1.4" />
-    </svg>
-  )
-}
-// eslint-disable-next-line donjon/no-hardcoded-hex -- brand color v cross-library kontextu (HomePage, ArchDiagram — mix paletes)
-function ToggleIcon({ color = '#7BAED4' }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-      <rect x="3" y="8" width="18" height="8" rx="4" stroke={color} strokeWidth="1.4" />
-      <circle cx="16" cy="12" r="2.6" fill={color} />
-    </svg>
-  )
-}
-function ArchIcon({ color = goldMid }) {
-  return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-      <rect x="9" y="2" width="6" height="4" rx="0.6" stroke={color} strokeWidth="1.3" />
-      <rect x="2" y="14" width="6" height="6" rx="0.6" stroke={color} strokeWidth="1.3" />
-      <rect x="16" y="14" width="6" height="6" rx="0.6" stroke={color} strokeWidth="1.3" />
-      <path d="M12 6v4M12 10H5v4M12 10h7v4" stroke={color} strokeWidth="1.3" strokeLinecap="round" />
-    </svg>
-  )
-}
+/* Ikony pro karty — importované z knihoven (utility z tkajui/Icons,
+   herní z donjon/Icons). Lokální duplikáty byly extrahovány v
+   refactor/homepage-extract-icons. */
 
 /* ── HomeCard primitiva pro herní/UI sekce ── */
 function HomeCard({ to, icon, title, description, accent = gold, badge }) {
@@ -298,7 +164,7 @@ function HeroInstall() {
   const cmd = `npm install ${NPM_PACKAGE}`
 
   async function copy() {
-    try { await navigator.clipboard.writeText(cmd) } catch {}
+    try { await navigator.clipboard.writeText(cmd) } catch { /* clipboard unavailable */ }
     setCopied(true)
     setTimeout(() => setCopied(false), 1500)
   }
