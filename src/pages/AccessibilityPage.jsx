@@ -1,6 +1,6 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import {
-  bg0, bg2, bgDeep, bg4, failColor, gold, goldDim, goldMid, successColor, textActive, textCool, textDeep, textFaint, textHigh, warningColor,
+  bg0, bg2, bgDeep, bg4, failColor, gainColor, gold, goldDim, goldMid, successColor, textActive, textCool, textDeep, textFaint, textHigh, warningColor,
 } from '../lib/donjon/tokens'
 import { primaryText } from '../lib/tkajui/tokens'
 import DonjonButton from '../lib/donjon/DonjonButton'
@@ -338,6 +338,64 @@ pickContrastText('#FFC183')                          // '#111111' (dark text win
 │ ✓ 13.84  donjon.textHigh    on donjon.bg0        AA (≥4.5)
 │ ✓ 10.07  donjon.gold        on donjon.bg2        AA (≥4.5)
 └─────────────────────────────────────────────────────────`}</pre>
+        </div>
+      </Section>
+
+      {/* ── Touch targets ─────────────────────────────────────────────── */}
+      <Section
+        id="touch-targets"
+        title="Touch targets — WCAG 2.5.5"
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, fontSize: '0.875rem', color: textCool }}>
+          <p>
+            WCAG 2.5.5 (AAA) doporučuje minimum <strong>44×44 px</strong> pro
+            interaktivní prvky na touch zařízeních. Náš game stack je primárně
+            desktop — některé sizes (xs/sm) jsou pod touto hranicí
+            <strong> záměrně</strong>, aby dense game HUD zůstal čitelný.
+          </p>
+
+          <div style={{ background: bg0, border: `1px solid ${goldDim}`, padding: 14, borderRadius: 4 }}>
+            <div style={{ color: warningColor, fontSize: '0.7rem', fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase', marginBottom: 6 }}>
+              Pod 44×44 — desktop only
+            </div>
+            <ul style={{ margin: 0, paddingLeft: 18, color: goldMid, lineHeight: 1.6 }}>
+              <li><code style={{ color: textCool }}>Button size=&quot;xs&quot;</code> — 32 px height (HUD action bar)</li>
+              <li><code style={{ color: textCool }}>Button size=&quot;sm&quot;</code> — 40 px height (compact toolbars)</li>
+              <li><code style={{ color: textCool }}>IconButton size=&quot;xs&quot;</code> — 24×24 (inline tag chips)</li>
+              <li><code style={{ color: textCool }}>IconButton size=&quot;sm&quot;</code> — 32×32 (close × in toasts)</li>
+              <li><code style={{ color: textCool }}>InventorySlot size=&quot;xs&quot;/&quot;sm&quot;</code> — 32 a 44 px</li>
+              <li><code style={{ color: textCool }}>Toggle size=&quot;sm&quot;</code> — 18 px track</li>
+            </ul>
+          </div>
+
+          <div style={{ background: bg0, border: `1px solid ${gainColor}55`, padding: 14, borderRadius: 4 }}>
+            <div style={{ color: gainColor, fontSize: '0.7rem', fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase', marginBottom: 6 }}>
+              Nad 44×44 — bezpečné pro touch
+            </div>
+            <ul style={{ margin: 0, paddingLeft: 18, color: goldMid, lineHeight: 1.6 }}>
+              <li><code style={{ color: textCool }}>Button size=&quot;md&quot;</code> (default) — 52 px</li>
+              <li><code style={{ color: textCool }}>Button size=&quot;lg&quot;</code> — 64 px</li>
+              <li><code style={{ color: textCool }}>IconButton size=&quot;md&quot;/&quot;lg&quot;</code> — 40/48 px</li>
+              <li><code style={{ color: textCool }}>Field/Input/Select size=&quot;md&quot;</code> — 44+ px</li>
+              <li>Všechny <code style={{ color: textCool }}>ActionTile</code> velikosti — herní karta, vždy &gt;60 px</li>
+              <li><code style={{ color: textCool }}>InventorySlot size=&quot;md&quot;+</code> — 56–96 px</li>
+            </ul>
+          </div>
+
+          <p>
+            <strong>Pravidlo:</strong> pokud cílíš na mobile / touch (settings,
+            menu, login), použij default <code style={{ color: textCool }}>size=&quot;md&quot;</code>.
+            Sizes <code style={{ color: textCool }}>xs/sm</code> rezervuj pro
+            denzní game HUD kde uživatel hraje s myší a klávesnicí.
+          </p>
+
+          <p>
+            Když potřebuješ malou vizuální velikost ale velkou tap area, vlož tlačítko do
+            obalu s vlastním padding:
+          </p>
+          <CodeBlock code={`<span className="block p-2">           {/* 44+ px hit area */}
+  <IconButton size="xs" ariaLabel="Close">×</IconButton>
+</span>`} />
         </div>
       </Section>
 

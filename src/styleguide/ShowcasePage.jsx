@@ -1,4 +1,4 @@
-import { useState, createContext, useContext, useEffect } from 'react'
+import { Children, isValidElement, useState, createContext, useContext, useEffect } from 'react'
 import { Link, useSearchParams, useLocation } from 'react-router-dom'
 import { useLibPreference } from './LibPreferenceProvider'
 import { componentMeta } from '../data/componentMeta'
@@ -250,6 +250,13 @@ export function ShowcasePage({ title, description, children, componentSlug, comp
   // Aktivní knihovna: buď z varianty nebo ze statického library prop
   const effectiveLibrary = activeVariant ?? library
 
+  // Extract section anchors from children — feeds the sticky "Jump to" jumper.
+  // Each Section component exposes its id + title, so we walk Children.toArray
+  // once and grab the props.
+  const sectionEntries = Children.toArray(children)
+    .filter((c) => isValidElement(c) && c.type === Section && c.props?.id)
+    .map((c) => ({ id: c.props.id, title: c.props.title ?? c.props.id }))
+
   return (
     <LibVariantContext.Provider value={activeVariant}>
       {/* React 19 — document metadata hoistovaná do <head> bez knihoven */}
@@ -260,11 +267,6 @@ export function ShowcasePage({ title, description, children, componentSlug, comp
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-3 flex-wrap">
                 <h2 className="text-2xl lg:text-3xl font-bold text-white text-balance">{title}</h2>
-                {/* Variantní přepínač — nahrazuje statický LibraryBadge */}
-                {variants
-                  ? <VariantSwitcher variants={variants} active={activeVariant} onChange={handleVariantChange} />
-                  : <LibraryBadge library={effectiveLibrary} />
-                }
               </div>
               {description && (
                 <p className="text-neutral-400 text-sm lg:text-base text-pretty">{description}</p>
@@ -279,10 +281,71 @@ export function ShowcasePage({ title, description, children, componentSlug, comp
           {/* Extends-tkajui banner — pro donjon komponenty s TkajUI protějškem */}
           {slugs.length > 0 && <ExtendsBanner slugs={slugs} activeVariant={activeVariant} />}
         </header>
-        {/* *:scroll-mt-8 — kotvové odkazy ze sidebaru nezakrývá hlavička */}
-        <div className="flex flex-col gap-10 lg:gap-12 *:scroll-mt-8">{children}</div>
+
+        {/* Sticky strip — variant switcher + section jumper. Stays visible
+            during long scrolls (Group-A merged pages have 8+ sections).
+            backdrop-blur lets background show through so it doesn't feel
+            heavy. The strip's z-index sits above content but below toasts. */}
+        {(variants || sectionEntries.length >= 4) && (
+          <div className="sticky top-0 z-20 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-2 mb-6 lg:mb-8 backdrop-blur-md bg-neutral-950/75 border-b border-neutral-800/60">
+            <div className="flex items-center gap-3 flex-wrap">
+              {variants
+                ? <VariantSwitcher variants={variants} active={activeVariant} onChange={handleVariantChange} />
+                : <LibraryBadge library={effectiveLibrary} />
+              }
+              {sectionEntries.length >= 4 && (
+                <SectionJumper sections={sectionEntries} />
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* *:scroll-mt-20 — kotvové odkazy nezakrývá sticky strip (taller now) */}
+        <div className="flex flex-col gap-10 lg:gap-12 *:scroll-mt-20">{children}</div>
       </div>
     </LibVariantContext.Provider>
+  )
+}
+
+/* ── SectionJumper — native <select> that scrolls to the picked section.
+   Selected value resets to '' after the jump so the placeholder ('Skoč
+   na sekci…') reappears, signalling the user can pick again. */
+function SectionJumper({ sections }) {
+  const [value, setValue] = useState('')
+  function jump(id) {
+    setValue(id)
+    if (!id) return
+    const el = document.getElementById(id)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      if (typeof el.focus === 'function') {
+        const had = el.hasAttribute('tabindex')
+        if (!had) el.setAttribute('tabindex', '-1')
+        el.focus({ preventScroll: true })
+      }
+      // Update URL hash so refresh / share works as expected
+      if (history.replaceState) {
+        history.replaceState(null, '', `#${id}`)
+      }
+    }
+    // Reset so user can pick the same section again later
+    setTimeout(() => setValue(''), 100)
+  }
+  return (
+    <label className="flex items-center gap-2 text-xs text-neutral-400 ml-auto">
+      <span className="sr-only sm:not-sr-only">Skoč na sekci</span>
+      <select
+        value={value}
+        onChange={(e) => jump(e.target.value)}
+        className="bg-neutral-900 border border-neutral-700 rounded px-2 py-1 text-xs text-neutral-200 focus:border-brand-400 focus:outline-none"
+        aria-label="Skoč na sekci"
+      >
+        <option value="">Skoč na sekci…</option>
+        {sections.map((s) => (
+          <option key={s.id} value={s.id}>{s.title}</option>
+        ))}
+      </select>
+    </label>
   )
 }
 
