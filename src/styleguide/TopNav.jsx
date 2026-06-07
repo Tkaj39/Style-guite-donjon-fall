@@ -11,7 +11,7 @@ import { useLibPreference } from './LibPreferenceProvider'
 import { LIBRARY_CFG } from './ShowcasePage'
 import LibraryLogo from './LibraryLogo'
 import {
-  gold, goldMid, goldDim,
+  gold, goldMid, goldDim, warningColor,
   bgDeep, borderDefault, textHigh, textMid, textLow,
 } from '../lib/donjon/tokens'
 
@@ -139,8 +139,8 @@ function WipDot() {
         width: 6,
         height: 6,
         borderRadius: '50%',
-        background: '#C08040',  // warningColor — "v přípravě"
-        boxShadow: '0 0 4px #C0804099',
+        background: warningColor,                      // "v přípravě" dot
+        boxShadow: `0 0 4px ${warningColor}99`,
         pointerEvents: 'none',
       }}
     />
@@ -253,9 +253,9 @@ function NpmInstallButton({ compact = false }) {
           style={{
             fontSize: '0.625rem',
             fontWeight: 700,
-            color: '#C08040',
-            border: '1px solid #C0804055',
-            background: '#C0804011',
+            color: warningColor,
+            border: `1px solid ${warningColor}55`,
+            background: `${warningColor}11`,
             borderRadius: 3,
             padding: '1px 4px',
             letterSpacing: '0.06em',
