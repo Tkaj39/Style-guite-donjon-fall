@@ -531,12 +531,15 @@ function SubItem({ item, onClose, depth = 1 }) {
   const isRouteActive = pathname === item.to || pathname.startsWith(item.to + '/')
   const py = depth === 1 ? 'py-1.5' : 'py-1'
   const textColor = depth === 1 ? 'text-neutral-500' : 'text-neutral-600'
+  const childrenId = item.children ? `sidebar-children-${item.to.replace(/[^a-z0-9]/gi, '-')}` : undefined
 
   return (
     <li>
       <NavLink
         to={item.to}
         onClick={onClose}
+        aria-expanded={item.children ? isRouteActive : undefined}
+        aria-controls={item.children ? childrenId : undefined}
         className={({ isActive }) =>
           `block px-3 ${py} rounded-md text-sm transition-colors ${
             isActive
@@ -548,7 +551,7 @@ function SubItem({ item, onClose, depth = 1 }) {
         {item.label}
       </NavLink>
       {item.children && isRouteActive && (
-        <ul className="flex flex-col gap-0.5 mt-0.5 ml-3 pl-3 border-l border-neutral-800">
+        <ul id={childrenId} className="flex flex-col gap-0.5 mt-0.5 ml-3 pl-3 border-l border-neutral-800">
           {item.children.map((child) => (
             <SubItem key={child.to} item={child} onClose={onClose} depth={depth + 1} />
           ))}
@@ -566,12 +569,15 @@ function NavItem({ item, onClose, sectionLibrary }) {
   // Library badge — explicitní hodnota na položce má přednost, jinak
   // dědíme ze sekce (např. Herní UI → 'donjon' pro všechny děti).
   const library = item.library ?? sectionLibrary
+  const childrenId = item.children ? `sidebar-children-${item.to.replace(/[^a-z0-9]/gi, '-')}` : undefined
 
   return (
     <li>
       <NavLink
         to={item.to}
         onClick={onClose}
+        aria-expanded={item.children ? isRouteActive : undefined}
+        aria-controls={item.children ? childrenId : undefined}
         className={({ isActive }) =>
           `flex items-center gap-1.5 px-3 py-2 rounded-md text-sm transition-colors ${
             isActive
@@ -583,9 +589,18 @@ function NavItem({ item, onClose, sectionLibrary }) {
         <ItemIcon icon={item.icon} />
         <span className="flex-1">{item.label}</span>
         {library && <LibraryBadges library={library} />}
+        {item.children && (
+          <span
+            aria-hidden="true"
+            className="text-[0.625rem] text-neutral-500 transition-transform"
+            style={{ transform: isRouteActive ? 'rotate(90deg)' : 'rotate(0)' }}
+          >
+            ▸
+          </span>
+        )}
       </NavLink>
       {item.children && isRouteActive && (
-        <ul className="flex flex-col gap-0.5 mt-0.5 ml-3 pl-3 border-l border-neutral-800">
+        <ul id={childrenId} className="flex flex-col gap-0.5 mt-0.5 ml-3 pl-3 border-l border-neutral-800">
           {item.children.map((child) => (
             <SubItem key={child.to} item={child} onClose={onClose} depth={1} />
           ))}
