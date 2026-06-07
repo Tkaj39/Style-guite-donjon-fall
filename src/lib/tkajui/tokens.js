@@ -20,7 +20,7 @@ export const borderStrong  = '#626280'
 // ── Text ──────────────────────────────────────────────────────────────────
 export const textHigh     = '#eeeef8'  // near-white, cool tint
 export const textMid      = '#8888a8'  // labels, hints
-export const textLow      = '#6e6e8f'  // placeholder, disabled, hints — meets WCAG AA-large on surface2 (3.48:1)
+export const textLow      = '#7a7a9a'  // placeholder, disabled, hints — 4.12:1 on surface2 (near-AA, comfortable AA-large)
 export const textDisabled = '#333348'
 
 // ── Accent (interactive blue) ──────────────────────────────────────────────

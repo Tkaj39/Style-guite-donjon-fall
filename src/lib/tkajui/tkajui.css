@@ -37,7 +37,7 @@
   /* ── Text ─────────────────────────────────────────────────────────────── */
   --tkajui-text-high:     #eeeef8;   /* near-white, cool tint */
   --tkajui-text-mid:      #8888a8;   /* labels, hints */
-  --tkajui-text-low:      #6e6e8f;   /* placeholder, disabled, hints (WCAG AA-large on surface2) */
+  --tkajui-text-low:      #7a7a9a;   /* placeholder, disabled, hints — 4.12:1 on surface2 (near-AA) */
   --tkajui-text-disabled: #333348;
 
   /* ── Accent (interactive blue) ────────────────────────────────────────── */
