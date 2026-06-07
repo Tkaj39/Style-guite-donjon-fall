@@ -444,7 +444,7 @@ function SelectedDemo() {
             color: sel === value ? textActive : textCool,
             borderRadius: 3,
             cursor: 'pointer',
-            boxShadow: sel === value ? '0 0 0 1px #B8956A44' : 'none',
+            boxShadow: sel === value ? `0 0 0 1px ${goldMid}44` : 'none',
             transition: 'all 0.12s',
           }}
         >
