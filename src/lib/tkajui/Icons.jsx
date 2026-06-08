@@ -148,3 +148,143 @@ export function ArchIcon({ width = 22, height = 22, color = 'currentColor' }) {
     </svg>
   )
 }
+
+/* ── Common actions ────────────────────────────────────────────────────────
+   The 14 most-reused UI icons across an app shell — settings panel,
+   search, CRUD verbs, download / share, chrome controls. Each follows
+   the same { width, height, color = 'currentColor' } API as the icons
+   above so they can be drop-in replacements for emoji or one-off SVGs. */
+
+/** Settings — gear / cog. */
+export function SettingsIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="3" stroke={color} strokeWidth="1.5" />
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.36.13.66.36.87.69.21.33.32.71.31 1.1a1.65 1.65 0 0 0-1.18 1.21Z" stroke={color} strokeWidth="1.4" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+/** Search — magnifier with diagonal handle. */
+export function SearchIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="6" stroke={color} strokeWidth="1.5"/>
+      <path d="m20 20-4.35-4.35" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
+/** Plus — horizontal + vertical cross, increment / add. */
+export function PlusIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M12 5v14M5 12h14" stroke={color} strokeWidth="1.6" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
+/** Minus — single horizontal stroke, decrement / collapse. */
+export function MinusIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M5 12h14" stroke={color} strokeWidth="1.6" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
+/** Edit — pencil pointing down-left over a baseline. */
+export function EditIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M14.5 4 20 9.5 9.5 20H4v-5.5L14.5 4Z" stroke={color} strokeWidth="1.5" strokeLinejoin="round"/>
+      <path d="m13 5.5 5.5 5.5" stroke={color} strokeWidth="1.5"/>
+    </svg>
+  )
+}
+
+/** Trash — bin with lid + 2 inner ribs, delete verb. */
+export function TrashIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M3 6h18M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 6l1 14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-14" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M10 11v6M14 11v6" stroke={color} strokeWidth="1.3" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
+/** Download — arrow pointing down into a tray. */
+export function DownloadIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M12 3v12m0 0-4-4m4 4 4-4" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+/** Upload — mirror of Download (arrow points up out of the tray). */
+export function UploadIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M12 21V9m0 0-4 4m4-4 4 4" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M4 7V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+/** Close — diagonal cross (X), used for dismiss / close. */
+export function CloseIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="m6 6 12 12M18 6 6 18" stroke={color} strokeWidth="1.6" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
+/** Check — confirmation tick (✓). */
+export function CheckIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="m5 12 5 5 9-12" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+/** Copy — two overlapping rounded rectangles, clipboard verb. */
+export function CopyIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <rect x="9" y="9" width="11" height="11" rx="2" stroke={color} strokeWidth="1.5"/>
+      <path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1" stroke={color} strokeWidth="1.5" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+/** Chevron Down — disclosure / dropdown caret. */
+export function ChevronDownIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="m6 9 6 6 6-6" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+/** Chevron Right — disclosure / breadcrumb arrow. */
+export function ChevronRightIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="m9 6 6 6-6 6" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+/** External link — square with diagonal arrow exiting top-right. */
+export function ExternalLinkIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M14 4h6v6M20 4 10 14" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M19 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6" stroke={color} strokeWidth="1.5" strokeLinejoin="round"/>
+    </svg>
+  )
+}

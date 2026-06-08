@@ -84,6 +84,10 @@ export { default as Pictogram }      from './Pictogram'
 export {
   ListIcon, PhasesIcon, HashIcon, PaletteIcon, GridIcon, SparkIcon,
   StackIcon, FormIcon, ButtonIcon, ModalIcon, TabsIcon, ToggleIcon, ArchIcon,
+  // Common actions (settings panel, search, CRUD, chrome controls)
+  SettingsIcon, SearchIcon, PlusIcon, MinusIcon, EditIcon, TrashIcon,
+  DownloadIcon, UploadIcon, CloseIcon, CheckIcon, CopyIcon,
+  ChevronDownIcon, ChevronRightIcon, ExternalLinkIcon,
 } from './Icons'
 
 // ─── Shape primitives ────────────────────────────────────────────────────

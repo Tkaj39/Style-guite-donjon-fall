@@ -10,8 +10,9 @@ import { sections } from './Sidebar'
 import { useLibPreference } from './LibPreferenceProvider'
 import { LIBRARY_CFG } from './ShowcasePage'
 import LibraryLogo from './LibraryLogo'
+import { SearchIcon, CopyIcon, CheckIcon } from '../lib/tkajui'
 import {
-  gold, goldMid, goldDim, warningColor,
+  gold, goldDim, warningColor,
   bgDeep, borderDefault, textHigh, textMid, textLow,
 } from '../lib/donjon/tokens'
 
@@ -43,31 +44,8 @@ function GitHubIcon() {
   )
 }
 
-function SearchIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5" />
-      <path d="m11 11 3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-function CopyIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" stroke="currentColor" strokeWidth="1.4" />
-    </svg>
-  )
-}
-
-function CheckIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path d="m3.5 8 3 3 6-6.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
+/* SearchIcon / CopyIcon / CheckIcon are imported from tkajui — see the
+   import block at the top of the file. */
 
 /* ── LibPreferenceToggle — globální přepínač knihovny ── */
 function LibPreferenceToggle() {
@@ -212,7 +190,7 @@ function NpmInstallButton({ compact = false }) {
         onMouseEnter={e => { if (!copied) { e.currentTarget.style.color = gold; e.currentTarget.style.background = `${borderDefault}66` } }}
         onMouseLeave={e => { if (!copied) { e.currentTarget.style.color = textLow; e.currentTarget.style.background = 'transparent' } }}
       >
-        {copied ? <CheckIcon /> : <CopyIcon />}
+        {copied ? <CheckIcon width={14} height={14} /> : <CopyIcon width={14} height={14} />}
         {!copied && <WipDot />}
       </button>
     )
@@ -242,7 +220,7 @@ function NpmInstallButton({ compact = false }) {
       onMouseLeave={e => { if (!copied) e.currentTarget.style.borderColor = borderDefault }}
     >
       <span style={{ color: copied ? gold : textLow }}>
-        {copied ? <CheckIcon /> : <CopyIcon />}
+        {copied ? <CheckIcon width={14} height={14} /> : <CopyIcon width={14} height={14} />}
       </span>
       <span>
         {copied ? 'Zkopírováno' : `npm i ${NPM_PACKAGE}`}
@@ -385,7 +363,7 @@ export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButto
             onMouseEnter={e => { e.currentTarget.style.borderColor = goldDim; e.currentTarget.style.background = `${borderDefault}66` }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = borderDefault; e.currentTarget.style.background = `${borderDefault}33` }}
           >
-            <SearchIcon />
+            <SearchIcon width={14} height={14} />
             <span style={{ flex: 1, textAlign: 'left' }}>Hledat…</span>
             <kbd style={{
               fontSize: '0.6875rem',
@@ -412,7 +390,7 @@ export default function TopNav({ onMenuToggle, showMenuToggle = false, menuButto
             onMouseEnter={e => { e.currentTarget.style.color = gold; e.currentTarget.style.background = `${borderDefault}66` }}
             onMouseLeave={e => { e.currentTarget.style.color = textLow; e.currentTarget.style.background = 'transparent' }}
           >
-            <SearchIcon />
+            <SearchIcon width={14} height={14} />
           </button>
         )}
 
