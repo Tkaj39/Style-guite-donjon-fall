@@ -63,6 +63,8 @@ import {
   ShieldIcon,
   SwordIcon,
   TowerIcon,
+  // Loot icons used in mini-previews (list / inventory-grid / timeline)
+  PotionIcon, GemIcon, KeyIcon, BoltIcon,
   // New: framed image + gameplay + game layout
   FramedImage,
   Cooldown,
@@ -423,18 +425,18 @@ const MINI_PREVIEWS = {
   thumbnail: <Thumbnail src="https://picsum.photos/seed/thumb/120/120" size="sm" caption="Save 1" selected />,
 
   // ── New tkajui — inventory ─────────────────────────────────────────────
-  'inventory-slot': <InventorySlot icon="⚔️" name="Sword" count={3} size="md" />,
+  'inventory-slot': <InventorySlot icon={<SwordIcon width={28} height={28} />} name="Sword" count={3} size="md" />,
   'inventory-grid': (
     <InventoryGrid
       columns={3}
       rows={2}
       size="sm"
       items={[
-        { icon: '⚔️', name: 'Sword', count: 1 },
-        { icon: '🧪', name: 'Potion', count: 12 },
-        { icon: '🗝️', name: 'Key' },
+        { icon: <SwordIcon  width={20} height={20} />, name: 'Sword',  count: 1 },
+        { icon: <PotionIcon width={20} height={20} />, name: 'Potion', count: 12 },
+        { icon: <KeyIcon    width={20} height={20} />, name: 'Key' },
         null,
-        { icon: '💎', name: 'Gem' },
+        { icon: <GemIcon    width={20} height={20} />, name: 'Gem' },
         null,
       ]}
     />
@@ -505,8 +507,8 @@ const MINI_PREVIEWS = {
     />
   ),
   list: <List size="sm" items={[
-    { id: 1, icon: '⚔️', title: 'Iron Sword',  description: '+5 ATK' },
-    { id: 2, icon: '🧪', title: 'Health Potion', description: 'Restores 50 HP', selected: true },
+    { id: 1, icon: <SwordIcon  width={18} height={18} />, title: 'Iron Sword',    description: '+5 ATK' },
+    { id: 2, icon: <PotionIcon width={18} height={18} />, title: 'Health Potion', description: 'Restores 50 HP', selected: true },
   ]} />,
   'description-list': (
     <DescriptionList items={[
@@ -623,9 +625,9 @@ const MINI_PREVIEWS = {
     { x: 0.8, y: 0.2, color: '#E05C5C' },
   ]} />,
   timeline: <Timeline bordered={false} items={[
-    { id: '1', time: 'T 1', icon: '⚔', title: 'Battle' },
-    { id: '2', time: 'T 2', icon: '🧪', title: 'Heal' },
-    { id: '3', time: 'T 3', icon: '✦', title: 'Lvl up', current: true },
+    { id: '1', time: 'T 1', icon: <SwordIcon  width={14} height={14} />, title: 'Battle' },
+    { id: '2', time: 'T 2', icon: <PotionIcon width={14} height={14} />, title: 'Heal' },
+    { id: '3', time: 'T 3', icon: <BoltIcon   width={14} height={14} />, title: 'Lvl up', current: true },
   ]} />,
   sprite: (
     <div className="flex h-24 items-center justify-center">

@@ -3,6 +3,7 @@ import InventorySlot from '../lib/tkajui/InventorySlot'
 import InventoryGrid from '../lib/tkajui/InventoryGrid'
 import { Stack, Inline } from '../lib/tkajui/Layout'
 import { surface2, borderDefault, textMid, textLow, warningColor, infoColor, successColor, dangerColor } from '../lib/tkajui/tokens'
+import { SwordIcon, ShieldIcon, PotionIcon, KeyIcon, GemIcon, ScrollIcon, CrownIcon } from '../lib/donjon'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 
 const RARITY = {
@@ -14,13 +15,13 @@ const RARITY = {
 }
 
 const SAMPLE_ITEMS = [
-  { icon: '⚔️', name: 'Iron Sword',     count: 1, rarity: RARITY.common },
-  { icon: '🛡️', name: 'Wooden Shield',   count: 1, rarity: RARITY.common },
-  { icon: '🧪', name: 'Health Potion',   count: 12, rarity: RARITY.uncommon },
-  { icon: '🗝️', name: 'Brass Key',       count: 3, rarity: RARITY.uncommon },
-  { icon: '💎', name: 'Ruby',            count: 1, rarity: RARITY.rare },
-  { icon: '📜', name: 'Ancient Scroll',  count: 1, rarity: RARITY.epic },
-  { icon: '👑', name: 'Crown of Kings',  count: 1, rarity: RARITY.legendary },
+  { icon: <SwordIcon />,  name: 'Iron Sword',     count: 1,  rarity: RARITY.common },
+  { icon: <ShieldIcon />, name: 'Wooden Shield',  count: 1,  rarity: RARITY.common },
+  { icon: <PotionIcon />, name: 'Health Potion',  count: 12, rarity: RARITY.uncommon },
+  { icon: <KeyIcon />,    name: 'Brass Key',      count: 3,  rarity: RARITY.uncommon },
+  { icon: <GemIcon />,    name: 'Ruby',           count: 1,  rarity: RARITY.rare },
+  { icon: <ScrollIcon />, name: 'Ancient Scroll', count: 1,  rarity: RARITY.epic },
+  { icon: <CrownIcon />,  name: 'Crown of Kings', count: 1,  rarity: RARITY.legendary },
   null,
   null,
 ]
@@ -32,23 +33,23 @@ function SlotDemo() {
       <Inline gap="md" align="center">
         {['xs', 'sm', 'md', 'lg', 'xl'].map(sz => (
           <Stack key={sz} gap="xs" align="center">
-            <InventorySlot icon="⚔️" name="Sword" count={1} size={sz} />
+            <InventorySlot icon={<SwordIcon />} name="Sword" count={1} size={sz} />
             <span style={{ fontSize: '0.7rem', color: textLow }}>{sz}</span>
           </Stack>
         ))}
       </Inline>
       <Inline gap="sm">
-        <InventorySlot icon="⚔️" name="Common"    rarity={RARITY.common}    />
-        <InventorySlot icon="🛡️" name="Uncommon" rarity={RARITY.uncommon}  />
-        <InventorySlot icon="💎" name="Rare"      rarity={RARITY.rare}      />
-        <InventorySlot icon="📜" name="Epic"      rarity={RARITY.epic}      />
-        <InventorySlot icon="👑" name="Legendary" rarity={RARITY.legendary} />
+        <InventorySlot icon={<SwordIcon />}  name="Common"    rarity={RARITY.common}    />
+        <InventorySlot icon={<ShieldIcon />} name="Uncommon"  rarity={RARITY.uncommon}  />
+        <InventorySlot icon={<GemIcon />}    name="Rare"      rarity={RARITY.rare}      />
+        <InventorySlot icon={<ScrollIcon />} name="Epic"      rarity={RARITY.epic}      />
+        <InventorySlot icon={<CrownIcon />}  name="Legendary" rarity={RARITY.legendary} />
       </Inline>
       <Inline gap="sm" align="center">
-        <InventorySlot icon="🧪" name="Counter" count={count} onClick={() => setCount(c => c + 1)} />
-        <InventorySlot icon="🗝️" name="Selected"  selected />
-        <InventorySlot icon="🍞" name="Locked"   locked />
-        <InventorySlot icon="🔮" name="Disabled" disabled onClick={() => {}} />
+        <InventorySlot icon={<PotionIcon />} name="Counter"  count={count} onClick={() => setCount(c => c + 1)} />
+        <InventorySlot icon={<KeyIcon />}    name="Selected" selected />
+        <InventorySlot icon={<GemIcon />}    name="Locked"   locked />
+        <InventorySlot icon={<ScrollIcon />} name="Disabled" disabled onClick={() => {}} />
         <InventorySlot name="Empty slot" />
       </Inline>
     </Stack>
@@ -89,9 +90,11 @@ export default function InventoryPage() {
         <Preview>
           <SlotDemo />
         </Preview>
-        <CodeBlock code={`<InventorySlot icon="⚔️" name="Sword" count={1} rarity={legendaryColor} />
+        <CodeBlock code={`import { SwordIcon, PotionIcon } from 'donjon-fall-ui'
 
-<InventorySlot icon="🧪" count={12} selected onClick={pick} />
+<InventorySlot icon={<SwordIcon />} name="Sword" count={1} rarity={legendaryColor} />
+
+<InventorySlot icon={<PotionIcon />} count={12} selected onClick={pick} />
 
 {/* Empty slot */}
 <InventorySlot />`} />
@@ -105,9 +108,11 @@ export default function InventoryPage() {
         <Preview>
           <GridDemo />
         </Preview>
-        <CodeBlock code={`const items = [
-  { icon: '⚔️', name: 'Sword', count: 1, rarity: rare },
-  { icon: '🧪', name: 'Potion', count: 12 },
+        <CodeBlock code={`import { SwordIcon, PotionIcon } from 'donjon-fall-ui'
+
+const items = [
+  { icon: <SwordIcon />,  name: 'Sword',  count: 1,  rarity: rare },
+  { icon: <PotionIcon />, name: 'Potion', count: 12 },
   null,  // empty
   // …
 ]

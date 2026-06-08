@@ -224,6 +224,8 @@ export {
   HeartIcon, DropIcon, BoltIcon,
   SwordIcon, ShieldIcon, MoveIcon, TargetIcon, MagicIcon,
   StarIcon, CrownIcon, DiceIcon, HourglassIcon, TowerIcon,
+  // Loot / inventory
+  PotionIcon, GemIcon, KeyIcon, ScrollIcon, SkullIcon, LockIcon,
   HexIcon, BaseIcon, FocalPointIcon, FocalPointActiveIcon, FocalPointPassiveIcon,
   PushIcon, OccupyIcon, EncirclementIcon, TowerCollapseIcon, SuddenDeathIcon, TurnOrderIcon,
   DonjonLogoIcon, TkajuiLogoIcon,
