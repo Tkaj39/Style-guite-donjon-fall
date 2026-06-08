@@ -7,7 +7,7 @@ import LevelUp from '../lib/donjon/LevelUp'
 import Button from '../lib/tkajui/Button'
 import { Stack, Inline } from '../lib/tkajui/Layout'
 import { bg2, borderDefault, textMid, textLow } from '../lib/donjon/tokens'
-import { SwordIcon, ShieldIcon, PotionIcon, KeyIcon, GemIcon, ScrollIcon, CrownIcon, MagicIcon } from '../lib/donjon'
+import { SwordIcon, ShieldIcon, PotionIcon, KeyIcon, GemIcon, ScrollIcon, CrownIcon, MagicIcon, HeartIcon, SparkleIcon, StrengthIcon, IntelligenceIcon } from '../lib/donjon'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 
 function DialogueDemo() {
@@ -215,10 +215,10 @@ function LevelUpDemo() {
         level={level}
         subtitle="A new chapter begins. Your power grows."
         stats={[
-          { label: 'Max HP', value: 8,  icon: '❤️' },
-          { label: 'Max MP', value: 4,  icon: '✦' },
-          { label: 'STR',    value: 2,  icon: '💪' },
-          { label: 'INT',    value: 1,  icon: '🧠' },
+          { label: 'Max HP', value: 8,  icon: <HeartIcon        width={14} height={14} /> },
+          { label: 'Max MP', value: 4,  icon: <SparkleIcon      width={14} height={14} /> },
+          { label: 'STR',    value: 2,  icon: <StrengthIcon     width={14} height={14} /> },
+          { label: 'INT',    value: 1,  icon: <IntelligenceIcon width={14} height={14} /> },
         ]}
         actions={<Button variant="success">Continue</Button>}
       />
@@ -313,12 +313,14 @@ export default function GameplayPage() {
         description="Pop animation pro level + glow ring. Stats list (HP/MP/STR/…) s + delta. Inline render — pro full-screen takeover obal v portal + Backdrop."
       >
         <Preview><LevelUpDemo /></Preview>
-        <CodeBlock code={`<LevelUp
+        <CodeBlock code={`import { HeartIcon, StrengthIcon } from 'donjon-fall-ui'
+
+<LevelUp
   level={8}
   subtitle="A new chapter begins."
   stats={[
-    { label: 'Max HP', value: 8, icon: '❤️' },
-    { label: 'STR',    value: 2 },
+    { label: 'Max HP', value: 8, icon: <HeartIcon    width={14} height={14} /> },
+    { label: 'STR',    value: 2, icon: <StrengthIcon width={14} height={14} /> },
   ]}
   actions={<Button variant="success">Continue</Button>}
 />`} />

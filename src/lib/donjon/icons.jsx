@@ -243,6 +243,54 @@ export function LockIcon({ width = 24, height = 24 }) {
   )
 }
 
+/* ── Stats / achievements ─────────────────────────────────────────────────
+   Stat icons for LevelUp + character sheet (STR / INT / MP / etc.) and
+   the AchievementToast trophy default. */
+
+/** Trophy — cup with side handles + base, default for AchievementToast. */
+export function TrophyIcon({ width = 24, height = 24 }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M7 4h10v5a5 5 0 0 1-10 0V4Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+      <path d="M7 6H4a2 2 0 0 0 2 2h1M17 6h3a2 2 0 0 1-2 2h-1" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+      <path d="M12 14v3M9 17h6M8 20h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
+/** Sparkle — 4-point star burst for mana, magic spark, level-up moment.
+    Two crossed thin diamonds; visually distinct from StarIcon (5-point) and
+    BoltIcon (lightning). */
+export function SparkleIcon({ width = 24, height = 24 }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M12 2 13.5 10.5 22 12 13.5 13.5 12 22 10.5 13.5 2 12 10.5 10.5 12 2Z" fill="currentColor"/>
+    </svg>
+  )
+}
+
+/** Strength — flexed bicep with upward chevrons signaling power growth. */
+export function StrengthIcon({ width = 24, height = 24 }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M5 19c0-4 2-6 5-6h2c2 0 4-1.5 4-4 0-3-2-5-5-5-2 0-3 1-4 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <circle cx="13" cy="11" r="2.2" fill="currentColor"/>
+      <path d="m17 3 2 2-2 2M19 5h-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+/** Intelligence — stylized brain (two hemispheres + central groove). */
+export function IntelligenceIcon({ width = 24, height = 24 }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 2.5A3 3 0 0 0 5 13a3 3 0 0 0 0 4 3 3 0 0 0 3 3h1V4H9Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
+      <path d="M15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 2.5A3 3 0 0 1 19 13a3 3 0 0 1 0 4 3 3 0 0 1-3 3h-1V4h0Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
+      <path d="M9 4v16M15 4v16M9 12h6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
 /* ── Map ────────────────────────────────────────────────────────────────── */
 
 /** Map tile / hex — empty hexagon (pointy-top) */
