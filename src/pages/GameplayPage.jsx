@@ -7,6 +7,7 @@ import LevelUp from '../lib/donjon/LevelUp'
 import Button from '../lib/tkajui/Button'
 import { Stack, Inline } from '../lib/tkajui/Layout'
 import { bg2, borderDefault, textMid, textLow } from '../lib/donjon/tokens'
+import { SwordIcon, ShieldIcon, PotionIcon, KeyIcon, GemIcon, ScrollIcon, CrownIcon, MagicIcon } from '../lib/donjon'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 
 function DialogueDemo() {
@@ -60,7 +61,7 @@ function ChoicePanelDemo() {
       options={[
         {
           id: 'blade',
-          icon: '⚔️',
+          icon: <SwordIcon width={28} height={28} />,
           title: 'The Blade',
           description: 'Master of melee combat. High HP, high damage, low magic.',
           consequences: [
@@ -71,7 +72,7 @@ function ChoicePanelDemo() {
         },
         {
           id: 'sage',
-          icon: '📜',
+          icon: <ScrollIcon width={28} height={28} />,
           title: 'The Sage',
           description: 'Master of arcane arts. Devastating spells, fragile body.',
           consequences: [
@@ -82,7 +83,7 @@ function ChoicePanelDemo() {
         },
         {
           id: 'rogue',
-          icon: '🗡',
+          icon: <ShieldIcon width={28} height={28} />,
           title: 'The Rogue',
           description: 'Balance of stealth and skill. Backstab, lockpick, traps.',
           consequences: [
@@ -93,7 +94,7 @@ function ChoicePanelDemo() {
         },
         {
           id: 'monk',
-          icon: '☯',
+          icon: <MagicIcon width={28} height={28} />,
           title: 'The Monk',
           description: 'Locked behind expansion content.',
           disabled: true,
@@ -107,11 +108,11 @@ function ChoicePanelDemo() {
 function RewardPopupDemo() {
   const [items, setItems] = useState([])
   const POOL = [
-    { icon: '⚔️', name: 'Iron Sword',    quantity: 1 },
-    { icon: '🧪', name: 'Health Potion', quantity: 3 },
-    { icon: '💎', name: 'Ruby',          quantity: 1 },
-    { icon: '🗝️', name: 'Brass Key',     quantity: 1 },
-    { icon: '👑', name: 'Crown of Kings', quantity: 1 },
+    { icon: <SwordIcon  width={24} height={24} />, name: 'Iron Sword',     quantity: 1 },
+    { icon: <PotionIcon width={24} height={24} />, name: 'Health Potion',  quantity: 3 },
+    { icon: <GemIcon    width={24} height={24} />, name: 'Ruby',           quantity: 1 },
+    { icon: <KeyIcon    width={24} height={24} />, name: 'Brass Key',      quantity: 1 },
+    { icon: <CrownIcon  width={24} height={24} />, name: 'Crown of Kings', quantity: 1 },
   ]
   const trigger = () => {
     const pick = POOL[Math.floor(Math.random() * POOL.length)]

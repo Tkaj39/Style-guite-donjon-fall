@@ -7,6 +7,7 @@ import Badge from '../lib/tkajui/Badge'
 import Card from '../lib/tkajui/Card'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DonjonCard from '../lib/donjon/DonjonCard'
+import { SwordIcon, ShieldIcon, PotionIcon, KeyIcon, GemIcon, LockIcon } from '../lib/donjon'
 import Button from '../lib/tkajui/Button'
 import { Stack, Inline, Grid } from '../lib/tkajui/Layout'
 import { surface2, borderDefault, textMid, textLow, dangerColor } from '../lib/tkajui/tokens'
@@ -50,11 +51,11 @@ function ListDemo() {
     <Stack gap="lg">
       <List
         items={[
-          { id: 1, icon: '⚔️', title: 'Iron Sword',     description: '+5 ATK', trailing: <Badge size="sm">x1</Badge> },
-          { id: 2, icon: '🛡️', title: 'Wooden Shield', description: '+3 DEF', trailing: <Badge size="sm">x1</Badge> },
-          { id: 3, icon: '🧪', title: 'Health Potion', description: 'Restores 50 HP', trailing: <Badge size="sm">x12</Badge>, onClick: () => {} },
-          { id: 4, icon: '🗝️', title: 'Brass Key',     description: 'Opens the East Gate', selected: true, onClick: () => {} },
-          { id: 5, icon: '💎', title: 'Cursed Gem',    description: 'Cannot be sold', disabled: true, trailing: '🔒' },
+          { id: 1, icon: <SwordIcon  width={18} height={18} />, title: 'Iron Sword',     description: '+5 ATK', trailing: <Badge size="sm">x1</Badge> },
+          { id: 2, icon: <ShieldIcon width={18} height={18} />, title: 'Wooden Shield', description: '+3 DEF', trailing: <Badge size="sm">x1</Badge> },
+          { id: 3, icon: <PotionIcon width={18} height={18} />, title: 'Health Potion', description: 'Restores 50 HP', trailing: <Badge size="sm">x12</Badge>, onClick: () => {} },
+          { id: 4, icon: <KeyIcon    width={18} height={18} />, title: 'Brass Key',     description: 'Opens the East Gate', selected: true, onClick: () => {} },
+          { id: 5, icon: <GemIcon    width={18} height={18} />, title: 'Cursed Gem',    description: 'Cannot be sold', disabled: true, trailing: <LockIcon width={14} height={14} /> },
         ]}
       />
     </Stack>
@@ -188,12 +189,14 @@ export default function DataDisplayPage() {
         <Preview>
           <ListDemo />
         </Preview>
-        <CodeBlock code={`<List items={[
-  { id: 1, icon: '⚔️', title: 'Iron Sword',
+        <CodeBlock code={`import { SwordIcon, PotionIcon, GemIcon } from 'donjon-fall-ui'
+
+<List items={[
+  { id: 1, icon: <SwordIcon />,  title: 'Iron Sword',
     description: '+5 ATK', trailing: <Badge>x1</Badge> },
-  { id: 2, icon: '🧪', title: 'Health Potion',
+  { id: 2, icon: <PotionIcon />, title: 'Health Potion',
     description: 'Restores 50 HP', onClick: usePotion },
-  { id: 3, icon: '💎', title: 'Cursed Gem', disabled: true },
+  { id: 3, icon: <GemIcon />,    title: 'Cursed Gem', disabled: true },
 ]} />`} />
       </Section>
 

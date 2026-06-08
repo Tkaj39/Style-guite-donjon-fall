@@ -172,6 +172,77 @@ export function TowerIcon({ width = 24, height = 24 }) {
   )
 }
 
+/* ── Loot / inventory ─────────────────────────────────────────────────────
+   Item icons used on InventorySlot, RewardPopup, ChoicePanel etc. Each
+   takes width / height — color via currentColor so the slot's color
+   token tints the icon. */
+
+/** Potion — flask with rounded top and liquid level. */
+export function PotionIcon({ width = 24, height = 24 }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M10 3h4M10 3v4l-3 5a3.5 3.5 0 0 0 3 5h4a3.5 3.5 0 0 0 3-5l-3-5V3" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+      <path d="M8 14h8" stroke="currentColor" strokeWidth="1.5"/>
+      <circle cx="11" cy="16.5" r="0.5" fill="currentColor"/>
+      <circle cx="13.5" cy="17" r="0.5" fill="currentColor"/>
+    </svg>
+  )
+}
+
+/** Gem — faceted diamond / loot stone. */
+export function GemIcon({ width = 24, height = 24 }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M6 9 12 3l6 6-6 12L6 9Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+      <path d="M6 9h12M9 6l3 15M15 6l-3 15" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+/** Key — old skeleton key. */
+export function KeyIcon({ width = 24, height = 24 }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <circle cx="8" cy="14" r="4" stroke="currentColor" strokeWidth="1.5"/>
+      <path d="m11.5 11.5 8.5-8.5M16 7l3 3M14 9l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+/** Scroll — rolled parchment, two visible end-caps. */
+export function ScrollIcon({ width = 24, height = 24 }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M5 5a3 3 0 0 1 3-3h11a3 3 0 0 1 3 3v0a3 3 0 0 1-3 3H8M5 5v12a3 3 0 0 0 3 3h11M5 5a3 3 0 0 0-3 3v0a3 3 0 0 0 3 3" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+      <path d="M9 11h8M9 14h6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
+/** Skull — death / dangerous item marker. */
+export function SkullIcon({ width = 24, height = 24 }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M5 11a7 7 0 1 1 14 0v3a2 2 0 0 1-2 2v3H7v-3a2 2 0 0 1-2-2v-3Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+      <circle cx="9" cy="12" r="1.5" fill="currentColor"/>
+      <circle cx="15" cy="12" r="1.5" fill="currentColor"/>
+      <path d="M11 17h2M10 16h1m3 0h1" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
+/** Lock — closed padlock for locked / disabled slots. */
+export function LockIcon({ width = 24, height = 24 }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <rect x="4" y="11" width="16" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
+      <path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <circle cx="12" cy="15.5" r="1.2" fill="currentColor"/>
+      <path d="M12 16.5v2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
 /* ── Map ────────────────────────────────────────────────────────────────── */
 
 /** Map tile / hex — empty hexagon (pointy-top) */
