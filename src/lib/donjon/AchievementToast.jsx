@@ -8,6 +8,7 @@
 import { useEffect, useState } from 'react'
 import { octagon } from '../shared/octagon'
 import { bg2, bgDeep, gold, textHigh, textMid, warningColor } from './tokens'
+import { TrophyIcon } from './Icons'
 
 /**
  * @param {boolean} open
@@ -31,7 +32,7 @@ const TIER_COLOR = {
 
 export default function AchievementToast({
   open,
-  icon = '🏆',
+  icon = <TrophyIcon width={32} height={32} />,
   title,
   description,
   tier = 'gold',

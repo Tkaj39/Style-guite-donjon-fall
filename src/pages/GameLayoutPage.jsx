@@ -10,7 +10,7 @@ import Button from '../lib/tkajui/Button'
 import Badge from '../lib/tkajui/Badge'
 import { Stack, Inline } from '../lib/tkajui/Layout'
 import { bg2, borderDefault, textMid, textLow, gold, gainColor, dangerColor, infoColor, magicColor } from '../lib/donjon/tokens'
-import { SwordIcon, PotionIcon, KeyIcon, SkullIcon, BoltIcon } from '../lib/donjon'
+import { SwordIcon, PotionIcon, KeyIcon, SkullIcon, SparkleIcon } from '../lib/donjon'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 
 function HUDLayoutDemo() {
@@ -121,7 +121,7 @@ function TimelineDemo() {
       { id: 't2', time: 'T 2', icon: <PotionIcon width={12} height={12} />, title: 'Used Healing Potion', description: 'Restored 35 HP.', color: gainColor },
       { id: 't3', time: 'T 3', icon: <SkullIcon  width={12} height={12} />, title: 'Boromir fell',         description: 'Permadeath. Party reduced to 3.', color: dangerColor },
       { id: 't4', time: 'T 4', icon: <KeyIcon    width={12} height={12} />, title: 'Found Brass Key',     description: 'Opens the East Gate of the keep.' },
-      { id: 't5', time: 'T 5', icon: <BoltIcon   width={12} height={12} />, title: 'Level up — Lvl 8',    color: gold, current: true },
+      { id: 't5', time: 'T 5', icon: <SparkleIcon width={12} height={12} />, title: 'Level up — Lvl 8',    color: gold, current: true },
     ]} />
   )
 }
@@ -253,10 +253,12 @@ export default function GameLayoutPage() {
         description="Items vertikálně s connecting line. Time (turn # / hodina) v levém railu, dot + icon uprostřed, title + description vpravo. `current` zvýrazní (gold + glow + tučně)."
       >
         <Preview><TimelineDemo /></Preview>
-        <CodeBlock code={`<Timeline items={[
-  { id: 't1', time: 'T 1', icon: '⚔', title: 'Battle of Westford' },
-  { id: 't3', time: 'T 3', icon: '💀', title: 'Boromir fell', color: dangerColor },
-  { id: 't5', time: 'T 5', icon: '✦', title: 'Level up', color: gold, current: true },
+        <CodeBlock code={`import { SwordIcon, SkullIcon, SparkleIcon } from 'donjon-fall-ui'
+
+<Timeline items={[
+  { id: 't1', time: 'T 1', icon: <SwordIcon />,   title: 'Battle of Westford' },
+  { id: 't3', time: 'T 3', icon: <SkullIcon />,   title: 'Boromir fell', color: dangerColor },
+  { id: 't5', time: 'T 5', icon: <SparkleIcon />, title: 'Level up', color: gold, current: true },
 ]} />`} />
       </Section>
 
