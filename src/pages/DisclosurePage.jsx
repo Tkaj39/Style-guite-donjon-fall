@@ -5,11 +5,14 @@ import Accordion from '../lib/tkajui/Accordion'
 import Button from '../lib/tkajui/Button'
 import { Stack, Inline } from '../lib/tkajui/Layout'
 import { surface2, borderDefault, textMid, textLow, textHigh } from '../lib/tkajui/tokens'
-import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 import {
   PlusIcon, UploadIcon, DownloadIcon, SettingsIcon, CloseIcon, ExternalLinkIcon,
 } from '../lib/tkajui'
-import { ShieldIcon, TurnOrderIcon, HourglassIcon } from '../lib/donjon'
+import {
+  ShieldIcon, TurnOrderIcon, HourglassIcon,
+  DonjonDrawer, DonjonDropdownMenu, DonjonAccordion, DonjonButton,
+} from '../lib/donjon'
 
 const ICON_SIZE = { width: 14, height: 14 }
 
@@ -24,15 +27,19 @@ const FAQ = [
 ]
 
 function DrawerDemo() {
+  const lib = useLibVariant()
+  const isDonjon = lib === 'donjon'
+  const Btn = isDonjon ? DonjonButton : Button
+  const DrawerC = isDonjon ? DonjonDrawer : Drawer
   const [side, setSide] = useState(null)
   return (
     <Stack gap="md">
       <Inline gap="sm">
         {['left', 'right', 'top', 'bottom'].map(s => (
-          <Button key={s} size="sm" onClick={() => setSide(s)}>Open {s}</Button>
+          <Btn key={s} size="sm" onClick={() => setSide(s)}>Open {s}</Btn>
         ))}
       </Inline>
-      <Drawer
+      <DrawerC
         open={side != null}
         onClose={() => setSide(null)}
         side={side ?? 'right'}
@@ -41,19 +48,23 @@ function DrawerDemo() {
         <Stack gap="md">
           <p>Slide-in panel s vlastním Backdrop. Closes on ESC nebo na backdrop.</p>
           <Inline gap="sm">
-            <Button variant="success" onClick={() => setSide(null)}>OK</Button>
-            <Button onClick={() => setSide(null)}>Cancel</Button>
+            <Btn variant="success" onClick={() => setSide(null)}>OK</Btn>
+            <Btn onClick={() => setSide(null)}>Cancel</Btn>
           </Inline>
         </Stack>
-      </Drawer>
+      </DrawerC>
     </Stack>
   )
 }
 
 function DropdownMenuDemo() {
+  const lib = useLibVariant()
+  const isDonjon = lib === 'donjon'
+  const Btn = isDonjon ? DonjonButton : Button
+  const DropdownC = isDonjon ? DonjonDropdownMenu : DropdownMenu
   return (
     <Inline gap="md">
-      <DropdownMenu
+      <DropdownC
         trigger="File ▾"
         items={[
           { label: 'New game',  icon: <PlusIcon {...ICON_SIZE} />,     shortcut: 'Ctrl+N', onClick: () => {} },
@@ -64,12 +75,12 @@ function DropdownMenuDemo() {
           { label: 'Quit',      icon: <CloseIcon {...ICON_SIZE} />, danger: true, shortcut: 'Alt+F4', onClick: () => {} },
         ]}
       />
-      <DropdownMenu
+      <DropdownC
         align="right"
         trigger={({ open, toggle }) => (
-          <Button variant="default" onClick={toggle}>
+          <Btn variant="default" onClick={toggle}>
             Profile {open ? '▴' : '▾'}
-          </Button>
+          </Btn>
         )}
         items={[
           { label: 'View profile',   icon: <ShieldIcon {...ICON_SIZE} /> },
@@ -84,16 +95,19 @@ function DropdownMenuDemo() {
 }
 
 function AccordionDemo() {
+  const lib = useLibVariant()
+  const isDonjon = lib === 'donjon'
+  const AccordionC = isDonjon ? DonjonAccordion : Accordion
   const [multiValue, setMultiValue] = useState(['a'])
   return (
     <Stack gap="lg">
       <Stack gap="xs">
         <span style={{ fontSize: '0.75rem', color: textLow }}>Single-expand (default)</span>
-        <Accordion items={FAQ} defaultValue={['a']} />
+        <AccordionC items={FAQ} defaultValue={['a']} />
       </Stack>
       <Stack gap="xs">
         <span style={{ fontSize: '0.75rem', color: textLow }}>Multi-expand (controlled)</span>
-        <Accordion items={FAQ} multi value={multiValue} onChange={setMultiValue} />
+        <AccordionC items={FAQ} multi value={multiValue} onChange={setMultiValue} />
         <span style={{ fontSize: '0.75rem', color: textMid }}>
           Open: {multiValue.length === 0 ? '(none)' : multiValue.join(', ')}
         </span>
@@ -107,7 +121,11 @@ export default function DisclosurePage() {
     <ShowcasePage
       title="Disclosure"
       description="Drawer + DropdownMenu + Accordion — sada pro progresivní odhalování obsahu. Slide-in panely, popover menu, collapsible sections."
-      componentSlugs={['drawer', 'dropdown-menu', 'accordion']}
+      componentSlugs={['drawer', 'donjon-drawer', 'dropdown-menu', 'donjon-dropdown-menu', 'accordion', 'donjon-accordion']}
+      variants={[
+        { id: 'tkajui', label: 'TkajUI' },
+        { id: 'donjon', label: 'donjon-fall-ui' },
+      ]}
     >
       <Section
         id="drawer"
