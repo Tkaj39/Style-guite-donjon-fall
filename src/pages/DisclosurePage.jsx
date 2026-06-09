@@ -6,6 +6,12 @@ import Button from '../lib/tkajui/Button'
 import { Stack, Inline } from '../lib/tkajui/Layout'
 import { surface2, borderDefault, textMid, textLow, textHigh } from '../lib/tkajui/tokens'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import {
+  PlusIcon, UploadIcon, DownloadIcon, SettingsIcon, CloseIcon, ExternalLinkIcon,
+} from '../lib/tkajui'
+import { ShieldIcon, TurnOrderIcon, HourglassIcon } from '../lib/donjon'
+
+const ICON_SIZE = { width: 14, height: 14 }
 
 const FAQ = [
   { id: 'a', title: 'How do I save the game?',
@@ -50,12 +56,12 @@ function DropdownMenuDemo() {
       <DropdownMenu
         trigger="File ▾"
         items={[
-          { label: 'New game',  icon: '🆕', shortcut: 'Ctrl+N', onClick: () => {} },
-          { label: 'Open save', icon: '📂', shortcut: 'Ctrl+O', onClick: () => {} },
-          { label: 'Save',      icon: '💾', shortcut: 'Ctrl+S', onClick: () => {} },
+          { label: 'New game',  icon: <PlusIcon {...ICON_SIZE} />,     shortcut: 'Ctrl+N', onClick: () => {} },
+          { label: 'Open save', icon: <UploadIcon {...ICON_SIZE} />,   shortcut: 'Ctrl+O', onClick: () => {} },
+          { label: 'Save',      icon: <DownloadIcon {...ICON_SIZE} />, shortcut: 'Ctrl+S', onClick: () => {} },
           { divider: true },
-          { label: 'Settings',  icon: '⚙', onClick: () => {} },
-          { label: 'Quit',      icon: '⏻', danger: true, shortcut: 'Alt+F4', onClick: () => {} },
+          { label: 'Settings',  icon: <SettingsIcon {...ICON_SIZE} />, onClick: () => {} },
+          { label: 'Quit',      icon: <CloseIcon {...ICON_SIZE} />, danger: true, shortcut: 'Alt+F4', onClick: () => {} },
         ]}
       />
       <DropdownMenu
@@ -66,11 +72,11 @@ function DropdownMenuDemo() {
           </Button>
         )}
         items={[
-          { label: 'View profile', icon: '👤' },
-          { label: 'Switch account', icon: '🔁' },
-          { label: 'Coming soon', icon: '⏳', disabled: true },
+          { label: 'View profile',   icon: <ShieldIcon {...ICON_SIZE} /> },
+          { label: 'Switch account', icon: <TurnOrderIcon {...ICON_SIZE} /> },
+          { label: 'Coming soon',    icon: <HourglassIcon {...ICON_SIZE} />, disabled: true },
           { divider: true },
-          { label: 'Sign out', icon: '🚪', danger: true },
+          { label: 'Sign out',       icon: <ExternalLinkIcon {...ICON_SIZE} />, danger: true },
         ]}
       />
     </Inline>
@@ -132,13 +138,15 @@ export default function DisclosurePage() {
         <Preview>
           <DropdownMenuDemo />
         </Preview>
-        <CodeBlock code={`<DropdownMenu
+        <CodeBlock code={`import { PlusIcon, UploadIcon, CloseIcon } from 'tkajui'
+
+<DropdownMenu
   trigger="File ▾"
   items={[
-    { label: 'New', icon: '🆕', shortcut: 'Ctrl+N', onClick: newFile },
-    { label: 'Open', icon: '📂', onClick: open },
+    { label: 'New', icon: <PlusIcon width={14} height={14} />, shortcut: 'Ctrl+N', onClick: newFile },
+    { label: 'Open', icon: <UploadIcon width={14} height={14} />, onClick: open },
     { divider: true },
-    { label: 'Quit', icon: '⏻', danger: true, onClick: quit },
+    { label: 'Quit', icon: <CloseIcon width={14} height={14} />, danger: true, onClick: quit },
   ]}
 />
 
