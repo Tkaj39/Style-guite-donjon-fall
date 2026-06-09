@@ -6,15 +6,18 @@
    For live in-game player state use Scoreboard.
    ─────────────────────────────────────────────────────────────────── */
 import { bg2, bg3, gold, textHigh, textMid, textLow, borderDefault } from './tokens'
+import { TrophyIcon } from './icons'
 
 // Medal tint colors — gold uses the donjon palette token; silver / bronze
-// are leaderboard-only colors without a broader token analog.
+// are leaderboard-only colors without a broader token analog. The medal
+// glyph itself is a single TrophyIcon tinted via currentColor — visually
+// distinct ranks come from the row order + the color tint.
 const MEDAL = {
-  1: { color: gold, label: '🥇' },
+  1: { color: gold,      sr: 'Gold medal' },
   // eslint-disable-next-line donjon/no-hardcoded-hex -- medal silver, no token analog
-  2: { color: '#C0C0CC', label: '🥈' },
+  2: { color: '#C0C0CC', sr: 'Silver medal' },
   // eslint-disable-next-line donjon/no-hardcoded-hex -- medal bronze, no token analog
-  3: { color: '#B87333', label: '🥉' },
+  3: { color: '#B87333', sr: 'Bronze medal' },
 }
 
 /**
@@ -83,17 +86,19 @@ export default function Leaderboard({
               }}
             >
               <span
-                aria-label={`Rank ${rank}`}
+                aria-label={medal ? `Rank ${rank} — ${medal.sr}` : `Rank ${rank}`}
                 style={{
                   width: 36,
-                  textAlign: 'center',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   fontVariantNumeric: 'tabular-nums',
                   fontWeight: 700,
-                  fontSize: medal ? '1.25rem' : '0.875rem',
+                  fontSize: '0.875rem',
                   color: medal ? medal.color : textLow,
                 }}
               >
-                {medal ? medal.label : `#${rank}`}
+                {medal ? <TrophyIcon width={22} height={22} /> : `#${rank}`}
               </span>
               {e.avatar && (
                 <img

@@ -10,7 +10,7 @@ import Button from '../lib/tkajui/Button'
 import Badge from '../lib/tkajui/Badge'
 import { Stack, Inline } from '../lib/tkajui/Layout'
 import { bg2, borderDefault, textMid, textLow, gold, gainColor, dangerColor, infoColor, magicColor } from '../lib/donjon/tokens'
-import { SwordIcon, PotionIcon, KeyIcon, SkullIcon, SparkleIcon } from '../lib/donjon'
+import { SwordIcon, PotionIcon, KeyIcon, SkullIcon, SparkleIcon, HeartIcon } from '../lib/donjon'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 
 function HUDLayoutDemo() {
@@ -18,11 +18,11 @@ function HUDLayoutDemo() {
     <div style={{ border: `1px solid ${borderDefault}`, borderRadius: 6, overflow: 'hidden' }}>
       <HUDLayout
         height={360}
-        top={<Inline justify="between" align="center"><strong style={{ color: gold }}>⚔ Donjon Fall</strong><span style={{ color: textMid, fontSize: '0.75rem' }}>Turn 14 · Spring 1304</span></Inline>}
+        top={<Inline justify="between" align="center"><strong style={{ color: gold, display: 'inline-flex', alignItems: 'center', gap: 6 }}><SwordIcon width={14} height={14} /> Donjon Fall</strong><span style={{ color: textMid, fontSize: '0.75rem' }}>Turn 14 · Spring 1304</span></Inline>}
         bottom={<Inline justify="between" align="center"><span style={{ color: textMid, fontSize: '0.75rem' }}>HP 84 / 100 · MP 32 / 50</span><Inline gap="xs"><Button size="sm">End turn</Button></Inline></Inline>}
         topLeft={<Badge variant="warning">Quest: Find the Crown</Badge>}
         topRight={<Badge variant="info">2 / 5 explored</Badge>}
-        bottomRight={<Badge variant="danger">⚠ Low HP</Badge>}
+        bottomRight={<Badge variant="danger"><span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><HeartIcon width={12} height={12} /> Low HP</span></Badge>}
       >
         <div style={{
           height: '100%',
@@ -208,7 +208,7 @@ export default function GameLayoutPage() {
       <Section
         id="leaderboard"
         title="Leaderboard — ranked list"
-        description="Pro post-match nebo all-time. Top 3 dostanou medaile (🥇 🥈 🥉) místo čísla. current zvýrazní hráče. avatar je optional kruh."
+        description="Pro post-match nebo all-time. Top 3 dostanou TrophyIcon v gold/silver/bronze tintu místo čísla. current zvýrazní hráče. avatar je optional kruh."
       >
         <Preview><LeaderboardDemo /></Preview>
         <CodeBlock code={`<Leaderboard title="All-time best" entries={[
