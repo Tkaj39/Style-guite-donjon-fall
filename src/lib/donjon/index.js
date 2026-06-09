@@ -193,6 +193,38 @@ export { default as DonjonPagination }   from './DonjonPagination'
  */
 export { default as DonjonContextMenu }  from './DonjonContextMenu'
 
+// ── Data display group (extends TkajUI Table / List / DescriptionList / Stat) ──
+
+/**
+ * Game variant of Table — octagonal gold shell (border-trick),
+ * bgDeep header strip with gold uppercase labels, gold sort arrow,
+ * goldDim row dividers, bg3 hover. Same columns / data / sort API
+ * as TkajUI Table.
+ */
+export { default as DonjonTable }            from './DonjonTable'
+
+/**
+ * Game variant of List — octagonal gold shell, goldDim dividers,
+ * gold-tinted leading icon, 3-px gold left rail + gold title on
+ * the selected row (mirrors DonjonAccordion). Same items / sizes
+ * API as TkajUI List.
+ */
+export { default as DonjonList }             from './DonjonList'
+
+/**
+ * Game variant of DescriptionList — gold uppercase terms (parchment
+ * header feel), textHigh descriptions, goldDim row dividers. Same
+ * inline / stacked layout API as TkajUI DescriptionList.
+ */
+export { default as DonjonDescriptionList }  from './DonjonDescriptionList'
+
+/**
+ * Game variant of Stat — gold uppercase label, gold value
+ * (parchment-numeral feel), donjon gain/danger delta colors,
+ * goldDim hint. For animated game counters use NumericDisplay.
+ */
+export { default as DonjonStat }             from './DonjonStat'
+
 // ─── Layout primitives (re-export from TkajUI base) ────────────────────
 // Stack / Inline / Cluster are purely structural — no themed visuals — so
 // donjon-fall-ui re-exports them unchanged. Users can write
