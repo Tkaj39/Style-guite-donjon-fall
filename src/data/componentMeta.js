@@ -620,6 +620,58 @@ export const componentMeta = {
     relatedSlugs: ['input', 'slider', 'field'],
   },
 
+  'donjon-text-area': {
+    description: 'Game variant of TextArea — thin wrapper around DonjonInput with multiline=true. Picks up the donjon octagon shell, gold focus border and field-sizing:content auto-grow from DonjonInput.',
+    subcategory: 'extends-tkajui',
+    extendsSlug: 'text-area',
+    differencesFromBase: [
+      'Renders DonjonInput instead of tkajui Input',
+      'Inherits donjon octagon corner-cut, gold focus, parchment palette',
+    ],
+    status: 'stable',
+    showcaseRoute: '/form',
+    props: [
+      { name: 'value',       type: 'string',                                  required: true,  description: 'Current text value.' },
+      { name: 'onChange',    type: '(value: string) => void',                 required: true,  description: 'Change callback.' },
+      { name: 'placeholder', type: 'string',                                  required: false, description: 'Placeholder.' },
+      { name: 'rows',        type: 'number',                                  required: false, default: '3',   description: 'Minimum visible rows.' },
+      { name: 'label',       type: 'string',                                  required: false, description: 'Label above the field.' },
+      { name: 'hint',        type: 'string',                                  required: false, description: 'Helper text below.' },
+      { name: 'error',       type: 'string',                                  required: false, description: 'Error message.' },
+      { name: 'size',        type: "'xs'|'sm'|'md'|'lg'",                     required: false, default: "'md'", description: 'Size scale.' },
+      { name: 'disabled',    type: 'boolean',                                 required: false, default: 'false', description: 'Disables the field.' },
+    ],
+    relatedSlugs: ['text-area', 'donjon-input'],
+  },
+
+  'donjon-number-input': {
+    description: 'Game variant of NumberInput — extends TkajUI NumberInput with the donjon octagon shell (cx scale matching DonjonInput), bgDeep stepper buttons with gold − / + glyphs, gold focus border. Same controlled value / min / max / step / precision / partial-typing behavior.',
+    subcategory: 'extends-tkajui',
+    extendsSlug: 'number-input',
+    differencesFromBase: [
+      'Donjon octagon shell (cx 8/10/12/14 — matches DonjonInput)',
+      'bgDeep stepper buttons with gold glyphs (bg3 on hover)',
+      'goldMid uppercase label, gold focus border, gold caret',
+    ],
+    status: 'stable',
+    showcaseRoute: '/form',
+    props: [
+      { name: 'value',       type: 'number | null',                           required: true,  description: 'Current numeric value.' },
+      { name: 'onChange',    type: '(value: number | null) => void',          required: true,  description: 'Change callback.' },
+      { name: 'min',         type: 'number',                                  required: false, description: 'Minimum allowed.' },
+      { name: 'max',         type: 'number',                                  required: false, description: 'Maximum allowed.' },
+      { name: 'step',        type: 'number',                                  required: false, default: '1',     description: 'Increment / decrement amount.' },
+      { name: 'precision',   type: 'number',                                  required: false, default: '0',     description: 'Decimal places kept on commit.' },
+      { name: 'placeholder', type: 'string',                                  required: false, description: 'Placeholder.' },
+      { name: 'size',        type: enumType(NUMBER_INPUT_SIZE_VALUES),        required: false, default: "'md'",  description: 'Size scale.' },
+      { name: 'label',       type: 'string',                                  required: false, description: 'Label above.' },
+      { name: 'hint',        type: 'string',                                  required: false, description: 'Helper text below.' },
+      { name: 'error',       type: 'string',                                  required: false, description: 'Error message.' },
+      { name: 'disabled',    type: 'boolean',                                 required: false, default: 'false', description: 'Disables the field.' },
+    ],
+    relatedSlugs: ['number-input', 'donjon-input', 'donjon-slider'],
+  },
+
   'spinner': {
     description: 'Indeterminate loading indicator — thin static ring + rotating quarter arc. Use when one action is in flight and the duration is unknown. For known progress use ProgressBar.',
     subcategory: 'exclusive',
@@ -1223,6 +1275,32 @@ export const componentMeta = {
       { name: 'emptyLabel',  type: 'string',                                   required: false, default: "'No matches'", description: 'Label shown when filter yields nothing.' },
     ],
     relatedSlugs: ['select', 'input', 'dropdown-menu'],
+  },
+
+  'donjon-combobox': {
+    description: 'Game variant of Combobox — extends TkajUI Combobox with an octagonal gold shell on the input (border-trick), parchment popover panel (bg2 on full gold border + octagon clip), gold selected ✓ / bg3 highlight rows, CloseIcon clear button. Same keyboard behavior (ArrowUp/Down, Enter, Esc, Backspace-clear).',
+    subcategory: 'extends-tkajui',
+    extendsSlug: 'combobox',
+    differencesFromBase: [
+      'Octagonal gold shell on the input',
+      'Parchment popover panel — bg2 on full gold border, octagon clip',
+      'Gold selected ✓ + bg3 highlight, gold-tinted dropdown chevron',
+      'CloseIcon × clear button instead of glyph',
+    ],
+    status: 'stable',
+    showcaseRoute: '/form',
+    props: [
+      { name: 'options',     type: 'Array<{value, label, disabled?, hint?}>', required: true,  description: 'Selectable options.' },
+      { name: 'value',       type: 'string | number | null',                   required: true,  description: 'Selected option value (controlled).' },
+      { name: 'onChange',    type: '(value: string | number | null) => void',  required: true,  description: 'Selection change handler.' },
+      { name: 'placeholder', type: 'string',                                   required: false, default: "'Search…'", description: 'Input placeholder.' },
+      { name: 'filter',      type: '(query, option) => boolean',               required: false, description: 'Custom filter predicate.' },
+      { name: 'size',        type: enumType(COMBOBOX_SIZE_VALUES),             required: false, default: "'md'",      description: 'Trigger size.' },
+      { name: 'disabled',    type: 'boolean',                                  required: false, default: 'false',     description: 'Disables the input.' },
+      { name: 'clearable',   type: 'boolean',                                  required: false, default: 'true',      description: 'Show clear button when a value is selected.' },
+      { name: 'emptyLabel',  type: 'string',                                   required: false, default: "'No matches'", description: 'Label shown when filter yields nothing.' },
+    ],
+    relatedSlugs: ['combobox', 'donjon-select', 'donjon-input'],
   },
 
   'dialogue': {
