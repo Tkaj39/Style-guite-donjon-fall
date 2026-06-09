@@ -917,10 +917,11 @@ export const componentMeta = {
   },
 
   'donjon-accordion': {
-    description: 'Game variant of Accordion — extends the TkajUI Accordion with a 3-px gold left rail on the open section, gold uppercase title + gold chevron, bgDeep content panel for parchment feel. Same single/multi expand + controlled/uncontrolled API.',
+    description: 'Game variant of Accordion — extends the TkajUI Accordion with an octagonal gold shell, a 3-px gold left rail on the open section, gold uppercase title + gold chevron, bgDeep content panel for parchment feel. Same single/multi expand + controlled/uncontrolled API.',
     subcategory: 'extends-tkajui',
     extendsSlug: 'accordion',
     differencesFromBase: [
+      'Octagonal outer shell — gold border via border-trick (outer/inner wrappers + clipPath: octagon)',
       '3-px gold left rail on the currently open section',
       'Gold title + gold ChevronDownIcon (rotates on open)',
       'bgDeep content panel under the open header',

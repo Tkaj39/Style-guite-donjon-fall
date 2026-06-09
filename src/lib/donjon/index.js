@@ -145,9 +145,10 @@ export { default as DonjonDrawer }       from './DonjonDrawer'
 export { default as DonjonDropdownMenu } from './DonjonDropdownMenu'
 
 /**
- * Game variant of Accordion — gold left rail on the open section,
- * gold title + chevron, bgDeep content panel. Same single/multi
- * expand + controlled/uncontrolled API as TkajUI Accordion.
+ * Game variant of Accordion — octagonal gold shell (border-trick clip),
+ * gold left rail on the open section, gold title + chevron, bgDeep
+ * content panel. Same single/multi expand + controlled/uncontrolled
+ * API as TkajUI Accordion.
  */
 export { default as DonjonAccordion }    from './DonjonAccordion'
 
