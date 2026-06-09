@@ -7,7 +7,13 @@
    ─────────────────────────────────────────────────────────────────── */
 import { useState } from 'react'
 import { bg2, bg3, bgDeep, gold, goldDim, borderDefault, textHigh, textMid } from './tokens'
+import { octagon } from '../shared/octagon'
 import { ChevronDownIcon } from '../tkajui/Icons'
+
+// Octagon corner-cut size on the outer shell — matches DonjonCard / DonjonModal
+// in feel. Bigger than DonjonButton (cx=12) because the accordion is a card-
+// sized container.
+const SHELL_CX = 12
 
 /**
  * @param {Array<{id: string|number, title: ReactNode, content: ReactNode, disabled?: boolean}>} items
@@ -47,18 +53,15 @@ export default function DonjonAccordion({
     setOpen(next)
   }
 
-  return (
-    <div
-      className={className}
-      style={{
-        border: bordered ? `1px solid ${goldDim}` : undefined,
-        borderRadius: 4,
-        overflow: 'hidden',
-        background: bg2,
-        ...style,
-      }}
-      {...rest}
-    >
+  // Outer / inner border-trick + octagonal corner cut. With `bordered`
+  // we paint a 1-px gold edge around the whole accordion via the outer
+  // wrapper background and clip both layers with octagon(SHELL_CX) so
+  // the corners pick up the donjon silhouette.
+  // When bordered=false, only the inner panel is rendered — no clip,
+  // no edge — so callers can drop the accordion into an existing
+  // octagonal shell without doubled corners.
+  const innerContent = (
+    <>
       {items.map((item, i) => {
         const isOpen = open.includes(item.id)
         return (
@@ -122,6 +125,42 @@ export default function DonjonAccordion({
           </div>
         )
       })}
+    </>
+  )
+
+  if (!bordered) {
+    return (
+      <div
+        className={className}
+        style={{ background: bg2, ...style }}
+        {...rest}
+      >
+        {innerContent}
+      </div>
+    )
+  }
+
+  return (
+    <div
+      className={className}
+      style={{
+        background: gold,            // outer = border color
+        clipPath: octagon(SHELL_CX),
+        padding: 1,                  // border thickness
+        boxSizing: 'border-box',
+        ...style,
+      }}
+      {...rest}
+    >
+      <div
+        style={{
+          background: bg2,           // inner = fill
+          clipPath: octagon(SHELL_CX),
+          // inner-item dividers still read because the panel itself stays bg2
+        }}
+      >
+        {innerContent}
+      </div>
     </div>
   )
 }
