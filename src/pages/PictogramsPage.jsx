@@ -3,6 +3,13 @@ import { textFaint, textParchment, gold, goldDim, successColor, failColor } from
 import Pictogram from '../lib/tkajui/Pictogram'
 import DonjonPictogram from '../lib/donjon/DonjonPictogram'
 import {
+  ListIcon, PhasesIcon, HashIcon, PaletteIcon, GridIcon, SparkIcon,
+  StackIcon, FormIcon, ButtonIcon, ModalIcon, TabsIcon, ToggleIcon, ArchIcon,
+  SettingsIcon, SearchIcon, PlusIcon, MinusIcon, EditIcon, TrashIcon,
+  DownloadIcon, UploadIcon, CloseIcon, CheckIcon, CopyIcon,
+  ChevronDownIcon, ChevronRightIcon, ExternalLinkIcon,
+} from '../lib/tkajui'
+import {
   SwordIcon, ShieldIcon, TowerIcon,
   HeartIcon, DropIcon, BoltIcon,
   MoveIcon, TargetIcon, MagicIcon, BombIcon,
@@ -96,6 +103,48 @@ const ICON_GROUPS = [
   },
 ]
 
+// TkajUI utility icons — generic UI (not game-specific). Used on showcase
+// chrome (HomePage cards, TopNav controls, sidebar). 27 icons in 2 groups.
+const TKAJUI_ICON_GROUPS = [
+  {
+    label: 'Showcase / navigace (utility)',
+    icons: [
+      { icon: ListIcon,    label: 'ListIcon',    note: 'Seznam položek' },
+      { icon: PhasesIcon,  label: 'PhasesIcon',  note: 'Fáze / state diagram' },
+      { icon: HashIcon,    label: 'HashIcon',    note: 'Tokeny / čísla / kategorie' },
+      { icon: PaletteIcon, label: 'PaletteIcon', note: 'Barvy / theming' },
+      { icon: GridIcon,    label: 'GridIcon',    note: 'Mřížka / layout' },
+      { icon: SparkIcon,   label: 'SparkIcon',   note: 'Highlight / novinka' },
+      { icon: StackIcon,   label: 'StackIcon',   note: 'Stack layout' },
+      { icon: FormIcon,    label: 'FormIcon',    note: 'Formulář / vstupy' },
+      { icon: ButtonIcon,  label: 'ButtonIcon',  note: 'Tlačítka' },
+      { icon: ModalIcon,   label: 'ModalIcon',   note: 'Modální dialog' },
+      { icon: TabsIcon,    label: 'TabsIcon',    note: 'Tabs / přepínač' },
+      { icon: ToggleIcon,  label: 'ToggleIcon',  note: 'On/off switch' },
+      { icon: ArchIcon,    label: 'ArchIcon',    note: 'Architektura / diagram' },
+    ],
+  },
+  {
+    label: 'Akce (CRUD, chrome controls)',
+    icons: [
+      { icon: SettingsIcon,      label: 'SettingsIcon',      note: 'Nastavení / settings' },
+      { icon: SearchIcon,        label: 'SearchIcon',        note: 'Vyhledávání' },
+      { icon: PlusIcon,          label: 'PlusIcon',          note: 'Přidat' },
+      { icon: MinusIcon,         label: 'MinusIcon',         note: 'Odebrat / decrement' },
+      { icon: EditIcon,          label: 'EditIcon',          note: 'Upravit (pencil)' },
+      { icon: TrashIcon,         label: 'TrashIcon',         note: 'Smazat' },
+      { icon: DownloadIcon,      label: 'DownloadIcon',      note: 'Stáhnout' },
+      { icon: UploadIcon,        label: 'UploadIcon',        note: 'Nahrát' },
+      { icon: CloseIcon,         label: 'CloseIcon',         note: 'Zavřít (×)' },
+      { icon: CheckIcon,         label: 'CheckIcon',         note: 'Potvrdit / hotovo' },
+      { icon: CopyIcon,          label: 'CopyIcon',          note: 'Kopírovat' },
+      { icon: ChevronDownIcon,   label: 'ChevronDownIcon',   note: 'Disclosure / dropdown' },
+      { icon: ChevronRightIcon,  label: 'ChevronRightIcon',  note: 'Rozbalit / další' },
+      { icon: ExternalLinkIcon,  label: 'ExternalLinkIcon',  note: 'Odkaz mimo aplikaci' },
+    ],
+  },
+]
+
 // Flat list for size/variant demos — use first icon from each group
 const SIZES    = ['sm', 'md', 'lg', 'xl']
 const VARIANTS = ['active', 'passive', 'disabled', 'danger', 'success']
@@ -149,7 +198,25 @@ function TkajuiContent() {
             </div>
 
             <div>
-              <p style={subLabel}>Dostupné ikony — 39 ikon v 8 kategoriích</p>
+              <p style={subLabel}>TkajUI utility ikony — 27 ikon ve 2 kategoriích (nativní pro TkajUI)</p>
+              {TKAJUI_ICON_GROUPS.map(group => (
+                <div key={group.label} style={{ marginBottom: 20 }}>
+                  <p style={{ ...nano, color: goldDim, marginBottom: 10, fontSize: '0.5rem' }}>{group.label}</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+                    {group.icons.map(({ icon, label, note }) => (
+                      <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, minWidth: 60 }}>
+                        <Pictogram icon={icon} size="lg" color={goldDim} />
+                        <span style={{ ...nano, color: textParchment, fontSize: '0.4375rem', textAlign: 'center' }}>{label}</span>
+                        <span style={{ fontSize: '0.375rem', color: textFaint, textAlign: 'center', lineHeight: 1.3 }}>{note}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div>
+              <p style={subLabel}>Donjon herní ikony — 39 ikon v 8 kategoriích (Pictogram je agnostický — přijme i ikony z jiné knihovny)</p>
               {ICON_GROUPS.map(group => (
                 <div key={group.label} style={{ marginBottom: 20 }}>
                   <p style={{ ...nano, color: goldDim, marginBottom: 10, fontSize: '0.5rem' }}>{group.label}</p>
