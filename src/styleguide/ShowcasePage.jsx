@@ -11,30 +11,21 @@ export function useLibVariant() {
   return useContext(LibVariantContext)
 }
 
-/* ── Library icons ── */
+/* ── Library brand marks ──
+   Use the canonical TkajuiLogoIcon / DonjonLogoIcon from donjon/icons
+   (mirrors of the favicons) — no separate inline silhouettes. The wrappers
+   normalize the API to { size } so LIBRARY_CFG.Icon stays interchangeable. */
+import { TkajuiLogoIcon, DonjonLogoIcon } from '../lib/donjon/icons'
+import { tkajuiBrand } from '../lib/tkajui/tokens'
+import { goldMid } from '../lib/donjon/tokens'
+
 function TkajuiIcon({ size = 13 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 14 14" fill="none">
-      <rect x="1" y="1"   width="12" height="3" rx="0.8" fill="currentColor" opacity="0.4" />
-      <rect x="1" y="5.5" width="12" height="3" rx="0.8" fill="currentColor" opacity="0.7" />
-      <rect x="1" y="10"  width="12" height="3" rx="0.8" fill="currentColor" />
-    </svg>
-  )
+  return <TkajuiLogoIcon width={size} height={size} />
 }
 
 function DonjonIcon({ size = 13 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 14 14" fill="none">
-      <path d="M7 1.5V10.5"  stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M3.5 5H10.5"  stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M5.5 10.5H8.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-      <path d="M7 10.5V12.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  )
+  return <DonjonLogoIcon width={size} height={size} />
 }
-
-import { tkajuiBrand } from '../lib/tkajui/tokens'
-import { goldMid } from '../lib/donjon/tokens'
 
 export const LIBRARY_CFG = {
   tkajui: { label: 'TkajUI',         color: tkajuiBrand, Icon: TkajuiIcon },
