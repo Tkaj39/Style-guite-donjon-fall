@@ -302,6 +302,53 @@ function RerollDemo() {
   )
 }
 
+function HoverRegionsDemo() {
+  const [topHover, setTopHover] = useState(false)
+  const [towerHover, setTowerHover] = useState(false)
+  const [clicks, setClicks] = useState({ top: 0, tower: 0 })
+
+  const tone = (active) => ({
+    padding: '8px 12px',
+    borderRadius: 4,
+    border: `1px solid ${active ? gold : borderDefault}`,
+    background: active ? `${gold}15` : 'transparent',
+    color: active ? gold : textMid,
+    fontSize: '0.75rem',
+    fontFamily: 'monospace',
+    transition: 'all 120ms ease',
+  })
+
+  return (
+    <div style={{ display: 'flex', gap: 40, alignItems: 'center', flexWrap: 'wrap' }}>
+      <DiceTower
+        dice={[
+          { value: 4, playerColor: red },
+          { value: 2, playerColor: red },
+          { value: 6, playerColor: blue },
+        ]}
+        size="md"
+        showBase
+        label="Najeď myší"
+        onTopHover={setTopHover}
+        onTowerHover={setTowerHover}
+        onTopClick={() => setClicks(c => ({ ...c, top: c.top + 1 }))}
+        onTowerClick={() => setClicks(c => ({ ...c, tower: c.tower + 1 }))}
+      />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minWidth: 220 }}>
+        <div style={tone(topHover)}>
+          <strong>Top die</strong> · {topHover ? 'hovered' : 'idle'} · click count: {clicks.top}
+        </div>
+        <div style={tone(towerHover)}>
+          <strong>Tower (lower peeks)</strong> · {towerHover ? 'hovered' : 'idle'} · click count: {clicks.tower}
+        </div>
+        <p style={{ margin: 0, fontSize: '0.6875rem', color: textFaint, lineHeight: 1.5 }}>
+          Vrchní (modrá) kostka má vlastní cursor target. Najetí na červené peeky pod ní spustí druhý hover signál.
+        </p>
+      </div>
+    </div>
+  )
+}
+
 export default function DicePage() {
   const isDesktop = useBreakpoint()
   return (
@@ -630,6 +677,34 @@ const mixedTower = [{ owner:2, value:3 }, { owner:1, value:1 }, { owner:1, value
   ]}
   selected
 />`} />
+      </Section>
+
+      {/* Hover regiony */}
+      <Section
+        id="dice-tower-hover"
+        title="DiceTower — dva hover regiony"
+        description="Vrchní kostka a zbytek věže jsou samostatné hover cíle. Najetí na vrchol fires onTopHover; najetí na peek nižších kostek fires onTowerHover. Mutuálně exkluzivní — nelze hoverovat oba současně. Stejné rozdělení platí pro click (onTopClick / onTowerClick)."
+      >
+        <Preview>
+          <HoverRegionsDemo />
+        </Preview>
+        <CodeBlock code={`const [topHover, setTopHover] = useState(false)
+const [towerHover, setTowerHover] = useState(false)
+
+<DiceTower
+  dice={[
+    { value: 4, playerColor: red },
+    { value: 2, playerColor: red },
+    { value: 6, playerColor: blue },
+  ]}
+  onTopHover={setTopHover}        // hover na vrchní kostku
+  onTowerHover={setTowerHover}    // hover na peek nižších kostek
+  onTopClick={() => attackTopOwner()}
+  onTowerClick={() => openHistory()}
+/>
+
+{topHover   && <Tooltip>Vlastník: modrý hráč</Tooltip>}
+{towerHover && <Tooltip>3 kostky · captured 1× · last turn 12</Tooltip>}`} />
       </Section>
 
       {/* Velikosti */}

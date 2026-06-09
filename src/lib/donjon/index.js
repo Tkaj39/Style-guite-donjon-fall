@@ -414,11 +414,23 @@ export { default as DieFace }           from './DieFace'
  * Each die has its own value (1–6) and playerColor; bottom die is the
  * foundation, top die's owner controls the tower. Mixed colors = a
  * captured / contested tower.
+ *
+ * Two independent hover targets:
+ *   • TOP die (controlling die) — fires `onTopHover` / `onTopClick`
+ *   • REST of the stack         — fires `onTowerHover` / `onTowerClick`
+ * Mutually exclusive: hovering the top die does NOT count as a tower
+ * hover.
+ *
  * @prop {Array<{value, playerColor?, state?}>} dice  Stack bottom → top.
  * @prop {'xs'|'sm'|'md'|'lg'} size                   Die size.
  * @prop {boolean} selected                           Highlights the top die.
  * @prop {React.ReactNode} label                       Caption under the tower.
  * @prop {boolean} showBase                            Adds a faint ground shadow.
+ * @prop {(hovered: boolean) => void} onTopHover      Cursor enter/leave on the top die.
+ * @prop {(hovered: boolean) => void} onTowerHover    Cursor enter/leave on lower peeks.
+ * @prop {(e: MouseEvent) => void}    onTopClick      Click on the top die.
+ * @prop {(e: MouseEvent) => void}    onTowerClick    Click on lower peeks.
+ *
  * @example
  *   import { DiceTower, red, blue } from 'donjon-fall-ui'
  *   <DiceTower
@@ -427,8 +439,10 @@ export { default as DieFace }           from './DieFace'
  *       { value: 2, playerColor: red },
  *       { value: 6, playerColor: blue },   // captured!
  *     ]}
- *     size="md"
- *     label="Vez 1"
+ *     onTopHover={(h) => setTopHover(h)}
+ *     onTowerHover={(h) => setTowerHover(h)}
+ *     onTopClick={() => attackTopOwner()}
+ *     onTowerClick={() => inspectTowerHistory()}
  *   />
  */
 export { default as DiceTower }         from './DiceTower'
