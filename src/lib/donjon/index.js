@@ -128,6 +128,29 @@ export { default as DonjonTabs }        from './DonjonTabs'
  */
 export { default as DonjonNotchMenu }    from './DonjonNotchMenu'
 
+// ── Disclosure group (extends TkajUI Drawer / DropdownMenu / Accordion) ──
+
+/**
+ * Game variant of Drawer — bg2 panel on a gold rail, gold uppercase
+ * title, CloseIcon dismiss. Same slide-in / focus-trap / ESC behavior
+ * as TkajUI Drawer.
+ */
+export { default as DonjonDrawer }       from './DonjonDrawer'
+
+/**
+ * Game variant of DropdownMenu — gold-trimmed trigger, parchment menu
+ * panel (bg2 on gold border), gold-tinted icons, bg3 hover rows.
+ * Behaviorally identical to TkajUI DropdownMenu.
+ */
+export { default as DonjonDropdownMenu } from './DonjonDropdownMenu'
+
+/**
+ * Game variant of Accordion — gold left rail on the open section,
+ * gold title + chevron, bgDeep content panel. Same single/multi
+ * expand + controlled/uncontrolled API as TkajUI Accordion.
+ */
+export { default as DonjonAccordion }    from './DonjonAccordion'
+
 // ─── Layout primitives (re-export from TkajUI base) ────────────────────
 // Stack / Inline / Cluster are purely structural — no themed visuals — so
 // donjon-fall-ui re-exports them unchanged. Users can write

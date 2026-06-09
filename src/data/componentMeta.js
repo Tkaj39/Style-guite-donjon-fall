@@ -872,6 +872,72 @@ export const componentMeta = {
     relatedSlugs: ['tabs', 'card', 'drawer'],
   },
 
+  'donjon-drawer': {
+    description: 'Game variant of Drawer — extends the TkajUI Drawer with the donjon palette: bg2 panel on a gold rail along the entry edge, gold uppercase title, CloseIcon × button, goldDim header divider. Same slide-in / focus-trap / ESC behavior.',
+    subcategory: 'extends-tkajui',
+    extendsSlug: 'drawer',
+    differencesFromBase: [
+      'Warm bg2 panel with gold border on the slide-in edge',
+      'Gold uppercase title (parchment header)',
+      'CloseIcon × button with donjon textMid tint',
+    ],
+    status: 'stable',
+    showcaseRoute: '/disclosure',
+    props: [
+      { name: 'open',            type: 'boolean',                          required: true,  description: 'Visibility control.' },
+      { name: 'onClose',         type: '() => void',                       required: true,  description: 'Called by backdrop click / ESC / × button.' },
+      { name: 'side',            type: enumType(DRAWER_SIDE_VALUES),       required: false, default: "'right'", description: 'Edge to slide in from.' },
+      { name: 'size',            type: 'number | string',                  required: false, default: '320',     description: 'Panel dimension on the cross axis.' },
+      { name: 'title',           type: 'string',                           required: false, description: 'Header text + × button when set.' },
+      { name: 'closeOnBackdrop', type: 'boolean',                          required: false, default: 'true',    description: 'Click backdrop to close.' },
+      { name: 'closeOnEscape',   type: 'boolean',                          required: false, default: 'true',    description: 'ESC to close.' },
+      { name: 'children',        type: 'ReactNode',                        required: true,  description: 'Panel content.' },
+    ],
+    relatedSlugs: ['drawer', 'donjon-modal', 'sidebar-layout'],
+  },
+
+  'donjon-dropdown-menu': {
+    description: 'Game variant of DropdownMenu — extends the TkajUI DropdownMenu with a gold-trimmed trigger, parchment menu panel (bg2 on gold border), gold-tinted icons and a soft bg3 row hover. Same outside-click / ESC / divider behavior.',
+    subcategory: 'extends-tkajui',
+    extendsSlug: 'dropdown-menu',
+    differencesFromBase: [
+      'Gold-trimmed default trigger (bg3 + goldDim border, gold label)',
+      'Parchment menu panel — bg2 on gold border',
+      'Gold-tinted icon column; goldDim shortcut text',
+    ],
+    status: 'stable',
+    showcaseRoute: '/disclosure',
+    props: [
+      { name: 'trigger',  type: 'ReactNode | (props: {open, toggle}) => ReactNode', required: true,  description: 'Element or render-prop. Bare strings render in the default donjon button.' },
+      { name: 'items',    type: 'Array<{label, icon?, shortcut?, onClick?, danger?, disabled?, divider?}>', required: true, description: 'Menu items. `divider: true` renders a separator.' },
+      { name: 'align',    type: enumType(DROPDOWN_MENU_ALIGN_VALUES),     required: false, default: "'left'", description: 'Horizontal anchor of the popover.' },
+      { name: 'minWidth', type: 'number',                                 required: false, default: '180',     description: 'Minimum popover width in px.' },
+    ],
+    relatedSlugs: ['dropdown-menu', 'donjon-modal', 'donjon-tooltip'],
+  },
+
+  'donjon-accordion': {
+    description: 'Game variant of Accordion — extends the TkajUI Accordion with a 3-px gold left rail on the open section, gold uppercase title + gold chevron, bgDeep content panel for parchment feel. Same single/multi expand + controlled/uncontrolled API.',
+    subcategory: 'extends-tkajui',
+    extendsSlug: 'accordion',
+    differencesFromBase: [
+      '3-px gold left rail on the currently open section',
+      'Gold title + gold ChevronDownIcon (rotates on open)',
+      'bgDeep content panel under the open header',
+    ],
+    status: 'stable',
+    showcaseRoute: '/disclosure',
+    props: [
+      { name: 'items',        type: 'Array<{id, title, content, disabled?}>', required: true,  description: 'Section descriptors. id uniquely identifies an item.' },
+      { name: 'multi',        type: 'boolean',                                required: false, default: 'false', description: 'Allow multiple sections open at once.' },
+      { name: 'value',        type: 'Array<string | number>',                required: false, description: 'Controlled list of open ids.' },
+      { name: 'onChange',     type: '(next: Array) => void',                  required: false, description: 'Controlled change handler.' },
+      { name: 'defaultValue', type: 'Array<string | number>',                required: false, default: '[]',    description: 'Uncontrolled initial open list.' },
+      { name: 'bordered',     type: 'boolean',                                required: false, default: 'true',  description: 'Outer border + inter-item dividers.' },
+    ],
+    relatedSlugs: ['accordion', 'donjon-tabs', 'donjon-card'],
+  },
+
   'table': {
     description: 'Tabular data with column sort. Columns describe key / label / render / sortable / align / width. Uncontrolled sort by default (asc → desc → off); controlled via sortBy + onSortChange. Striped, hoverable, onRowClick.',
     subcategory: 'exclusive',
