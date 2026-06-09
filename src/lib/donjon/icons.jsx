@@ -196,12 +196,21 @@ export function BombIcon({ width = 24, height = 24 }) {
   )
 }
 
-/** Fire — flame silhouette for active focal points, burning effects, hot
-    rewards. Filled shape so it reads at small badge sizes (12 px). */
+/** Fire — flame outline for active focal points, burning effects, hot
+    rewards. Stroke-only (parity with the other game icons). */
 export function FireIcon({ width = 24, height = 24 }) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" width={width} height={height} aria-hidden="true">
-      <path d="M12 2c0 3-2 4-2 7a4 4 0 0 0 1.5 3.1C11 11 11.5 9 13 8c-.3 2 2 3.5 2 6.5a3.5 3.5 0 0 1-7 .2c-.4 1 0 2.3.6 3.2A6 6 0 1 0 18 14c0-5-3-7-6-12Z"/>
+    <svg viewBox="0 0 24 24" fill="none" width={width} height={height} aria-hidden="true">
+      {/* Outer flame */}
+      <path
+        d="M12 2c0 3-2 4-2 7a4 4 0 0 0 1.5 3.1C11 11 11.5 9 13 8c-.3 2 2 3.5 2 6.5a3.5 3.5 0 0 1-7 .2c-.4 1 0 2.3.6 3.2A6 6 0 1 0 18 14c0-5-3-7-6-12Z"
+        stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"
+      />
+      {/* Inner flame highlight */}
+      <path
+        d="M11 17.5a2.2 2.2 0 0 0 2.2 2.2c1.2 0 2-.9 2-2 0-1.4-1-2-1-3.2 0 .9-.7 1.4-1.4 1.4-.9 0-1.4-.6-1.4-1.4-.9.6-1.4 1.4-1.4 2.5 0 .2 0 .4.1.5Z"
+        stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"
+      />
     </svg>
   )
 }
