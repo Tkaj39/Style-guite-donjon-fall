@@ -4,8 +4,8 @@
  *
  * Categories:
  *   Resources:   HeartIcon, DropIcon, BoltIcon
- *   Actions:     SwordIcon, ShieldIcon, MoveIcon, TargetIcon, MagicIcon
- *   Game state:  StarIcon, CrownIcon, DiceIcon, HourglassIcon, TowerIcon
+ *   Actions:     SwordIcon, ShieldIcon, MoveIcon, TargetIcon, MagicIcon, BombIcon
+ *   Game state:  StarIcon, CrownIcon, DiceIcon, HourglassIcon, TowerIcon, CastleIcon, FireIcon
  *   Map:         HexIcon, BaseIcon, FocalPointIcon,
  *                FocalPointActiveIcon, FocalPointPassiveIcon
  *   Mechanics:   PushIcon, OccupyIcon, EncirclementIcon,
@@ -168,6 +168,40 @@ export function TowerIcon({ width = 24, height = 24 }) {
       <rect x="6" y="11" width="12" height="10" rx="1" stroke="currentColor" strokeWidth="1.5"/>
       <path d="M6 11V7H8V9H10V7H14V9H16V7H18V11" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
       <path d="M10 21V17H14V21" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+/** Castle — full keep with crenellated walls, towers and gate. Distinct from
+    TowerIcon (single dice-stack tower) — Castle is the wider stronghold for
+    "build castle / occupy keep" actions. */
+export function CastleIcon({ width = 24, height = 24 }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" width={width} height={height} aria-hidden="true">
+      <rect x="3" y="11" width="18" height="10" rx="1" stroke="currentColor" strokeWidth="1.8"/>
+      <path d="M3 11V7h3V4h3v3h3V4h3v3h3V4h3v7" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/>
+      <rect x="9" y="15" width="6" height="6" rx="0.5" stroke="currentColor" strokeWidth="1.5"/>
+    </svg>
+  )
+}
+
+/** Bomb — round bomb with a lit fuse. Used for destruction / blast actions. */
+export function BombIcon({ width = 24, height = 24 }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" width={width} height={height} aria-hidden="true">
+      <circle cx="11" cy="14" r="7" stroke="currentColor" strokeWidth="1.8"/>
+      <path d="M17.5 7.5l2-2" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+      <path d="M15 7l2-2 2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+/** Fire — flame silhouette for active focal points, burning effects, hot
+    rewards. Filled shape so it reads at small badge sizes (12 px). */
+export function FireIcon({ width = 24, height = 24 }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" width={width} height={height} aria-hidden="true">
+      <path d="M12 2c0 3-2 4-2 7a4 4 0 0 0 1.5 3.1C11 11 11.5 9 13 8c-.3 2 2 3.5 2 6.5a3.5 3.5 0 0 1-7 .2c-.4 1 0 2.3.6 3.2A6 6 0 1 0 18 14c0-5-3-7-6-12Z"/>
     </svg>
   )
 }
