@@ -284,7 +284,20 @@ export { default as Timeline }     from './Timeline'
 export { default as Sprite }       from './Sprite'
 
 // ─── Form primitives (re-exported from tkajui) ──────────────────────────
+// Field + Form are purely structural (no themed visuals) → reused as-is.
+// Radio / Checkbox keep the tkajui re-export for back-compat in code that
+// already imports them under the bare names; the donjon-themed versions
+// live under DonjonRadio / DonjonCheckbox below (diamond shape, variants
+// in parity with DonjonSlider / DonjonToggle).
 export { Field, Form, Radio, RadioGroup, Checkbox, CheckboxGroup } from '../tkajui/Form'
+
+/**
+ * Game variant of Radio + RadioGroup — diamond-shaped (square rotated 45°)
+ * with gold gradient + glow when selected, matching the DonjonSlider thumb
+ * aesthetic. Variant-aware: default / danger / success / warning / info.
+ * Same standalone + group context API as the TkajUI primitives.
+ */
+export { DonjonRadio, DonjonRadioGroup, DonjonCheckbox, DonjonCheckboxGroup } from './DonjonForm'
 export { default as TextArea }    from '../tkajui/TextArea'
 export { default as NumberInput } from '../tkajui/NumberInput'
 

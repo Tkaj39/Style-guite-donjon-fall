@@ -1,7 +1,9 @@
 /* ── DonjonToggle ──────────────────────────────────────────────────────────
    Game on/off switch — gold state, dark base, glow effect.
-   shape='round'  — round track + round thumb (default)
-   shape='sharp'  — octagon track + diamond thumb (beveled corners)
+   shape='sharp'         — octagon track + diamond thumb (DEFAULT — matches
+                           DonjonSlider thumb + DonjonCheckbox/Radio aesthetic)
+   shape='sharp-outline' — octagon track + diamond thumb, outline emphasis
+   shape='round'         — round track + round thumb (legacy / pill style)
    ─────────────────────────────────────────────────────────────────────── */
 import { octagon } from '../shared/octagon'
 import {
@@ -34,7 +36,7 @@ export default function DonjonToggle({
   size          = 'md',
   variant       = 'default',   // 'default'|'danger'|'success'|'warning'|'info' — parita s TkajUI Toggle
   disabled      = false,
-  shape         = 'round',
+  shape         = 'sharp',
   id,                         // forwardable id pro <label htmlFor>
 }) {
   const v            = VARIANTS[variant] ?? VARIANTS.default

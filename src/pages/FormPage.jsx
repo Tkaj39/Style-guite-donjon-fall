@@ -33,6 +33,9 @@ import DonjonToggle from '../lib/donjon/DonjonToggle'
 import DonjonSlider from '../lib/donjon/DonjonSlider'
 import DonjonSubmitButton from '../lib/donjon/DonjonSubmitButton'
 import DonjonTextArea from '../lib/donjon/DonjonTextArea'
+import {
+  DonjonRadio, DonjonRadioGroup, DonjonCheckbox, DonjonCheckboxGroup,
+} from '../lib/donjon/DonjonForm'
 import DonjonNumberInput from '../lib/donjon/DonjonNumberInput'
 import DonjonCombobox from '../lib/donjon/DonjonCombobox'
 
@@ -166,36 +169,44 @@ function FieldDemo() {
 }
 
 function RadioGroupDemo() {
+  const lib = useLibVariant()
+  const isDonjon = lib === 'donjon'
+  const RG = isDonjon ? DonjonRadioGroup : RadioGroup
+  const R  = isDonjon ? DonjonRadio      : Radio
   const [difficulty, setDifficulty] = useState('normal')
   return (
     <Stack gap="lg">
-      <RadioGroup label="Difficulty" value={difficulty} onChange={setDifficulty} hint="Change later in settings.">
+      <RG label="Difficulty" value={difficulty} onChange={setDifficulty} hint="Change later in settings.">
         {DIFFICULTIES.map(d => (
-          <Radio key={d} value={d}>{d.charAt(0).toUpperCase() + d.slice(1)}</Radio>
+          <R key={d} value={d}>{d.charAt(0).toUpperCase() + d.slice(1)}</R>
         ))}
-      </RadioGroup>
-      <RadioGroup label="Genre" value="rpg" onChange={_noop} orientation="horizontal">
-        <Radio value="rpg">RPG</Radio>
-        <Radio value="strategy">Strategy</Radio>
-        <Radio value="puzzle">Puzzle</Radio>
-        <Radio value="action" disabled>Action (locked)</Radio>
-      </RadioGroup>
+      </RG>
+      <RG label="Genre" value="rpg" onChange={_noop} orientation="horizontal">
+        <R value="rpg">RPG</R>
+        <R value="strategy">Strategy</R>
+        <R value="puzzle">Puzzle</R>
+        <R value="action" disabled>Action (locked)</R>
+      </RG>
     </Stack>
   )
 }
 
 function CheckboxGroupDemo() {
+  const lib = useLibVariant()
+  const isDonjon = lib === 'donjon'
+  const CG = isDonjon ? DonjonCheckboxGroup : CheckboxGroup
+  const C  = isDonjon ? DonjonCheckbox      : Checkbox
   const [features, setFeatures] = useState(['multiplayer'])
   const [single, setSingle] = useState(false)
   return (
     <Stack gap="lg">
-      <Checkbox checked={single} onChange={setSingle}>Subscribe to newsletter (standalone)</Checkbox>
-      <CheckboxGroup label="Options" value={features} onChange={setFeatures} hint={`Selected: ${features.join(', ') || 'none'}`}>
-        <Checkbox value="multiplayer">Multiplayer</Checkbox>
-        <Checkbox value="permadeath">Permadeath</Checkbox>
-        <Checkbox value="hardmode">Hard mode</Checkbox>
-        <Checkbox value="cheats" disabled>Cheats (developer build only)</Checkbox>
-      </CheckboxGroup>
+      <C checked={single} onChange={setSingle}>Subscribe to newsletter (standalone)</C>
+      <CG label="Options" value={features} onChange={setFeatures} hint={`Selected: ${features.join(', ') || 'none'}`}>
+        <C value="multiplayer">Multiplayer</C>
+        <C value="permadeath">Permadeath</C>
+        <C value="hardmode">Hard mode</C>
+        <C value="cheats" disabled>Cheats (developer build only)</C>
+      </CG>
     </Stack>
   )
 }
@@ -307,7 +318,7 @@ export default function FormPage() {
     <ShowcasePage
       title="Forms & inputs"
       description="Kompletní rodina form controls — text inputs, výběry, toggles, sliders + compositional helpers (Field / Form / RadioGroup / CheckboxGroup). Lib switcher v hlavičce přepne mezi tkajui a donjon variantami tam, kde existují obě."
-      componentSlugs={['input', 'select', 'toggle', 'slider', 'field', 'form', 'radio', 'radio-group', 'checkbox', 'checkbox-group', 'text-area', 'donjon-text-area', 'number-input', 'donjon-number-input', 'combobox', 'donjon-combobox', 'submit-button', 'donjon-submit-button']}
+      componentSlugs={['input', 'select', 'toggle', 'slider', 'field', 'form', 'radio', 'donjon-radio', 'radio-group', 'donjon-radio-group', 'checkbox', 'donjon-checkbox', 'checkbox-group', 'donjon-checkbox-group', 'text-area', 'donjon-text-area', 'number-input', 'donjon-number-input', 'combobox', 'donjon-combobox', 'submit-button', 'donjon-submit-button']}
       variants={[
         { id: 'tkajui', label: 'TkajUI' },
         { id: 'donjon', label: 'donjon-fall-ui' },
