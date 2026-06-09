@@ -32,6 +32,9 @@ import DonjonSelect from '../lib/donjon/DonjonSelect'
 import DonjonToggle from '../lib/donjon/DonjonToggle'
 import DonjonSlider from '../lib/donjon/DonjonSlider'
 import DonjonSubmitButton from '../lib/donjon/DonjonSubmitButton'
+import DonjonTextArea from '../lib/donjon/DonjonTextArea'
+import DonjonNumberInput from '../lib/donjon/DonjonNumberInput'
+import DonjonCombobox from '../lib/donjon/DonjonCombobox'
 
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
@@ -198,46 +201,52 @@ function CheckboxGroupDemo() {
 }
 
 function TextAreaDemo() {
+  const lib = useLibVariant()
+  const TextAreaC = lib === 'donjon' ? DonjonTextArea : TextArea
   const [bio, setBio] = useState('A wandering ranger from the north.\nKeeper of ancient lore.')
   return (
     <Stack gap="md">
       <Field label="Bio" hint="Auto-grows with content (field-sizing: content).">
-        <TextArea value={bio} onChange={setBio} placeholder="Tell us about your character…" rows={3} />
+        <TextAreaC value={bio} onChange={setBio} placeholder="Tell us about your character…" rows={3} />
       </Field>
       <Field label="Notes" error="At least 10 characters required">
-        <TextArea value="Short" onChange={_noop} rows={2} />
+        <TextAreaC value="Short" onChange={_noop} rows={2} />
       </Field>
     </Stack>
   )
 }
 
 function NumberInputDemo() {
+  const lib = useLibVariant()
+  const NumberInputC = lib === 'donjon' ? DonjonNumberInput : NumberInput
   const [qty, setQty] = useState(5)
   const [vol, setVol] = useState(0.75)
   return (
     <Stack gap="md">
       <Field label="Quantity" hint="Integer · min 0 · max 99">
-        <NumberInput value={qty} onChange={setQty} min={0} max={99} />
+        <NumberInputC value={qty} onChange={setQty} min={0} max={99} />
       </Field>
       <Field label="Volume" hint="Decimal (precision 2) · step 0.05">
-        <NumberInput value={vol} onChange={setVol} min={0} max={1} step={0.05} precision={2} />
+        <NumberInputC value={vol} onChange={setVol} min={0} max={1} step={0.05} precision={2} />
       </Field>
       <Field label="With error" error="Value must be positive">
-        <NumberInput value={-3} onChange={_noop} />
+        <NumberInputC value={-3} onChange={_noop} />
       </Field>
     </Stack>
   )
 }
 
 function ComboboxDemo() {
+  const lib = useLibVariant()
+  const ComboboxC = lib === 'donjon' ? DonjonCombobox : Combobox
   const [spell, setSpell] = useState('fireball')
   return (
     <Stack gap="md">
       <Field label="Select a spell" hint="Type to filter — Arrow keys, Enter, Esc, Backspace to clear.">
-        <Combobox options={SPELLS} value={spell} onChange={setSpell} placeholder="Search spells…" />
+        <ComboboxC options={SPELLS} value={spell} onChange={setSpell} placeholder="Search spells…" />
       </Field>
       <Field label="Smaller (sm) — no clearable">
-        <Combobox options={SPELLS} value={null} onChange={_noop} size="sm" clearable={false} />
+        <ComboboxC options={SPELLS} value={null} onChange={_noop} size="sm" clearable={false} />
       </Field>
     </Stack>
   )
@@ -298,7 +307,7 @@ export default function FormPage() {
     <ShowcasePage
       title="Forms & inputs"
       description="Kompletní rodina form controls — text inputs, výběry, toggles, sliders + compositional helpers (Field / Form / RadioGroup / CheckboxGroup). Lib switcher v hlavičce přepne mezi tkajui a donjon variantami tam, kde existují obě."
-      componentSlugs={['input', 'select', 'toggle', 'slider', 'field', 'form', 'radio', 'radio-group', 'checkbox', 'checkbox-group', 'text-area', 'number-input', 'combobox', 'submit-button', 'donjon-submit-button']}
+      componentSlugs={['input', 'select', 'toggle', 'slider', 'field', 'form', 'radio', 'radio-group', 'checkbox', 'checkbox-group', 'text-area', 'donjon-text-area', 'number-input', 'donjon-number-input', 'combobox', 'donjon-combobox', 'submit-button', 'donjon-submit-button']}
       variants={[
         { id: 'tkajui', label: 'TkajUI' },
         { id: 'donjon', label: 'donjon-fall-ui' },

@@ -33,6 +33,31 @@ export { default as DonjonButton }      from './DonjonButton'
  */
 export { default as DonjonSubmitButton } from './DonjonSubmitButton'
 
+// ── Form niche (extends TkajUI TextArea / NumberInput / Combobox) ─────
+
+/**
+ * Game variant of TextArea — thin wrapper around DonjonInput with
+ * multiline=true. Picks up the donjon octagon shell + gold focus +
+ * field-sizing:content auto-grow from DonjonInput.
+ */
+export { default as DonjonTextArea }     from './DonjonTextArea'
+
+/**
+ * Game variant of NumberInput — − / + stepper with bgDeep buttons +
+ * gold glyphs sitting inside a donjon octagon shell. Same controlled
+ * value / min / max / step / precision / partial-typing behavior as
+ * the TkajUI NumberInput.
+ */
+export { default as DonjonNumberInput }  from './DonjonNumberInput'
+
+/**
+ * Game variant of Combobox — searchable single-select with parchment
+ * panel (bg2 on gold border, octagon clip), gold selected ✓ + bg3
+ * highlight row, CloseIcon clear button. Same keyboard behavior
+ * (ArrowUp/Down, Enter, Esc, Backspace-clear) as TkajUI Combobox.
+ */
+export { default as DonjonCombobox }     from './DonjonCombobox'
+
 /**
  * A group of adjacent game buttons sharing borders.
  * @prop {React.ReactNode} children - Items must be DonjonButton
