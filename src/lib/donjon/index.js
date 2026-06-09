@@ -429,7 +429,10 @@ export { default as DieFace }           from './DieFace'
  * @prop {(hovered: boolean) => void} onTopHover      Cursor enter/leave on the top die.
  * @prop {(hovered: boolean) => void} onTowerHover    Cursor enter/leave on lower peeks.
  * @prop {(e: MouseEvent) => void}    onTopClick      Click on the top die.
- * @prop {(e: MouseEvent) => void}    onTowerClick    Click on lower peeks.
+ * @prop {(e: MouseEvent) => void}    onTowerClick    Click on lower peeks (or whole tower if splitHover=false).
+ * @prop {boolean} splitHover                          (default true) Set false on touch UIs — top die and lower
+ *                                                     peeks merge into one hover/click target; the "die vs tower"
+ *                                                     choice is offered via visible buttons elsewhere.
  *
  * @example
  *   import { DiceTower, red, blue } from 'donjon-fall-ui'

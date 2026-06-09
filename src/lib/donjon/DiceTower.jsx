@@ -22,6 +22,13 @@
    (top + lower peeks, softer gold) because the dice belong to the
    same physical piece. The same split applies to click — `onTopClick`
    vs `onTowerClick`.
+
+   `splitHover` (default true) is a desktop-only contract. On touch
+   devices the game UI typically picks "move die" vs "move tower" via
+   visible buttons instead — pass `splitHover={false}` and the whole
+   tower becomes a single hover/click target firing `onTowerHover` /
+   `onTowerClick`. `onTopHover` / `onTopClick` become inert. Glow
+   collapses to the unified tower glow.
    ─────────────────────────────────────────────────────────────────── */
 import { useRef, useState } from 'react'
 import DieFace from './DieFace'
@@ -54,10 +61,15 @@ const SIZE = {
  * @param {boolean} [showBase=false]         Draws a faint ground plate under the tower.
  * @param {string} [emptyHint='—']           Glyph shown when dice is empty (lost tower).
  *
- * @param {(hovered: boolean) => void} [onTopHover]    Fires when cursor enters / leaves the top die.
- * @param {(hovered: boolean) => void} [onTowerHover]  Fires when cursor enters / leaves the peeks of the lower dice.
- * @param {(e: MouseEvent) => void}    [onTopClick]    Click on the top die.
- * @param {(e: MouseEvent) => void}    [onTowerClick]  Click anywhere on the lower-dice peeks.
+ * @param {(hovered: boolean) => void} [onTopHover]    Fires when cursor enters / leaves the top die. (splitHover only)
+ * @param {(hovered: boolean) => void} [onTowerHover]  Fires when cursor enters / leaves the tower region.
+ *                                                     With splitHover=true this is the peeks only; with
+ *                                                     splitHover=false it's the entire tower.
+ * @param {(e: MouseEvent) => void}    [onTopClick]    Click on the top die. (splitHover only)
+ * @param {(e: MouseEvent) => void}    [onTowerClick]  Click anywhere on the tower region.
+ * @param {boolean} [splitHover=true]                  When false, top die and lower peeks merge into one
+ *                                                     hover/click target — useful on touch where the
+ *                                                     "die vs. tower" choice is exposed via buttons.
  */
 export default function DiceTower({
   dice = [],
@@ -70,6 +82,7 @@ export default function DiceTower({
   onTowerHover,
   onTopClick,
   onTowerClick,
+  splitHover = true,
   className,
   style,
   ...rest
@@ -128,9 +141,13 @@ export default function DiceTower({
   const TOP_HOVER_GLOW   = `drop-shadow(0 0 6px ${gold}AA)`
   const TOWER_HOVER_GLOW = `drop-shadow(0 0 5px ${gold}66)`
 
+  // Selected falls back to the top-die glow only when no hover handlers
+  // are wired — otherwise hover wins and we don't want the static glow
+  // competing with cursor feedback.
+  const selectedFallbackOnTop = selected && !onTopHover && !onTowerHover
   const topFilter   = hoverTop   ? TOP_HOVER_GLOW
                    : hoverTower ? TOWER_HOVER_GLOW
-                   : (selected && !onTopHover && !onTowerHover ? TOP_HOVER_GLOW : undefined)
+                   : (selectedFallbackOnTop ? TOP_HOVER_GLOW : undefined)
   const lowerFilter = hoverTower ? TOWER_HOVER_GLOW : undefined
 
   return (
@@ -176,9 +193,12 @@ export default function DiceTower({
             // `dice` array (for state precedence below) is:
             const origIndex = dice.length - 1 - i
             const isTop = i === 0
-            // Hover handlers per region. The top die is its own region;
-            // every other die belongs to the shared "tower" region.
-            const hoverProps = isTop
+            // When splitHover is on, the top die has its own region; when
+            // off, EVERY die belongs to the shared "tower" region. That
+            // single switch covers handlers, glow, cursor and the data
+            // attribute used for testing.
+            const belongsToTopRegion = splitHover && isTop
+            const hoverProps = belongsToTopRegion
               ? {
                   onMouseEnter: enterTop,
                   onMouseLeave: leaveTop,
@@ -189,20 +209,20 @@ export default function DiceTower({
                   onMouseLeave: leaveTower,
                   onClick: onTowerClick,
                 }
-            const interactive = isTop
+            const interactive = belongsToTopRegion
               ? Boolean(onTopHover || onTopClick)
               : Boolean(onTowerHover || onTowerClick)
             return (
               <div
                 key={origIndex}
-                data-hover-target={isTop ? 'top' : 'tower'}
+                data-hover-target={belongsToTopRegion ? 'top' : 'tower'}
                 {...hoverProps}
                 style={{
                   position: 'relative',
                   zIndex: dice.length - i,  // top die (i=0) wins
                   marginTop: isTop ? 0 : -(s.box - s.peek),
                   cursor: interactive ? 'pointer' : undefined,
-                  filter: isTop ? topFilter : lowerFilter,
+                  filter: belongsToTopRegion ? topFilter : lowerFilter,
                   transition: 'filter 120ms ease',
                 }}
               >
