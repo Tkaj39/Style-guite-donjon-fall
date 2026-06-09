@@ -410,6 +410,30 @@ export { default as HexTile } from './HexTile'
 export { default as DieFace }           from './DieFace'
 
 /**
+ * Stacked dice forming a "tower" — the core game piece of Donjon Fall.
+ * Each die has its own value (1–6) and playerColor; bottom die is the
+ * foundation, top die's owner controls the tower. Mixed colors = a
+ * captured / contested tower.
+ * @prop {Array<{value, playerColor?, state?}>} dice  Stack bottom → top.
+ * @prop {'xs'|'sm'|'md'|'lg'} size                   Die size.
+ * @prop {boolean} selected                           Highlights the top die.
+ * @prop {React.ReactNode} label                       Caption under the tower.
+ * @prop {boolean} showBase                            Adds a faint ground shadow.
+ * @example
+ *   import { DiceTower, red, blue } from 'donjon-fall-ui'
+ *   <DiceTower
+ *     dice={[
+ *       { value: 4, playerColor: red },
+ *       { value: 2, playerColor: red },
+ *       { value: 6, playerColor: blue },   // captured!
+ *     ]}
+ *     size="md"
+ *     label="Vez 1"
+ *   />
+ */
+export { default as DiceTower }         from './DiceTower'
+
+/**
  * Floating game feedback — animates upward and disappears after 700 ms.
  * NOTE: The parent must have position: relative.
  * @prop {string} text - Displayed text ("+1", "−1 HP", "+1 VP")

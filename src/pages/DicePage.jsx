@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import DieFace from '../lib/donjon/DieFace'
+import DiceTower from '../lib/donjon/DiceTower'
 import {
   bg2, bgDeep, borderDefault, borderMuted, dangerColor, gold, goldDim, textActive, textFaint, textMid,
 } from '../lib/donjon/tokens'
@@ -8,7 +9,7 @@ import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { players } from '../data/gameUiMockData'
-import { blue } from '../lib/donjon/playerColors'
+import { blue, red, green, yellow } from '../lib/donjon/playerColors'
 import { useBreakpoint } from '../lib/shared/useBreakpoint'
 
 function statLabel(s) {
@@ -16,7 +17,9 @@ function statLabel(s) {
   return labels[s] ?? s
 }
 
-// PEEK and box per size — coordinated with HexTile sizeMap so tower fits on hex
+// PEEK and box per size — coordinated with HexTile sizeMap so tower fits on hex.
+// Kept locally because dieSize computation in TowerOnHexDemo (below) reads `box`/`peek`
+// directly. The actual stacking is now delegated to <DiceTower> from the lib.
 const towerSizeConfig = {
   xs: { box: 24, peek: 10 }, // tower of 3: 44px ≤ sm hex height 48px
   sm: { box: 32, peek: 16 }, // tower of 3: 64px ≤ md hex height 72px
@@ -24,24 +27,14 @@ const towerSizeConfig = {
   lg: { box: 64, peek: 26 },
 }
 
+// Thin adapter — accepts the demo data shape ({ value, owner }) and resolves
+// each owner id to its player color, then forwards to <DiceTower>.
 function TowerStack({ dice, size = 'md' }) {
-  const cfg = towerSizeConfig[size] ?? towerSizeConfig.md
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      {[...dice].reverse().map((die, i) => {
-        const p = players.find(p => p.id === die.owner)
-        return (
-          <div key={i} style={{
-            position: 'relative',
-            zIndex: dice.length - i,
-            marginTop: i === 0 ? 0 : -(cfg.box - cfg.peek),
-          }}>
-            <DieFace value={die.value} playerColor={p?.color ?? goldDim} size={size} />
-          </div>
-        )
-      })}
-    </div>
-  )
+  const resolved = dice.map(d => {
+    const p = players.find(pl => pl.id === d.owner)
+    return { value: d.value, playerColor: p?.color ?? goldDim }
+  })
+  return <DiceTower dice={resolved} size={size} />
 }
 
 function StatPill({ label, value, color }) {
@@ -316,7 +309,7 @@ export default function DicePage() {
       library="donjon"
       title="Kostky"
       description="D6 kostky jako základní herní jednotka. Každý hráč vlastní sadu kostek barevně označených jeho barvou. Kostky se stohují do věží."
-      componentSlug="die-face"
+      componentSlugs={['die-face', 'dice-tower']}
     >
       {/* Values */}
       <Section
@@ -564,6 +557,103 @@ const mixedTower = [{ owner:2, value:3 }, { owner:1, value:1 }, { owner:1, value
         description="Klikni na tlačítko pro spuštění die-reroll-spin animace s náhodnou novou hodnotou."
       >
         <RerollDemo />
+      </Section>
+
+      {/* DiceTower — extracted library component */}
+      <Section
+        id="dice-tower"
+        title="DiceTower — knihovní komponenta"
+        description="Stoh kostek. Pole `dice` jde zdola nahoru — poslední kostka v poli je vrchol věže a její vlastník věž kontroluje. Mixování barev modeluje obsazenou nebo spornou věž."
+      >
+        <Preview>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 40, alignItems: 'flex-end' }}>
+            <DiceTower
+              dice={[
+                { value: 4, playerColor: red },
+                { value: 2, playerColor: red },
+                { value: 6, playerColor: red },
+              ]}
+              size="md"
+              label="Vlastní (1 hráč)"
+              showBase
+            />
+            <DiceTower
+              dice={[
+                { value: 3, playerColor: red },
+                { value: 5, playerColor: red },
+                { value: 1, playerColor: blue },
+              ]}
+              size="md"
+              label="Obsazená (top = modrý)"
+              showBase
+              selected
+            />
+            <DiceTower
+              dice={[
+                { value: 6, playerColor: red },
+                { value: 4, playerColor: blue },
+                { value: 2, playerColor: green },
+                { value: 5, playerColor: yellow },
+              ]}
+              size="md"
+              label="Sporná (4 hráči)"
+              showBase
+            />
+            <DiceTower
+              dice={[]}
+              size="md"
+              label="Zničená věž"
+              emptyHint="✕"
+            />
+          </div>
+        </Preview>
+        <CodeBlock code={`import { DiceTower, red, blue } from 'donjon-fall-ui'
+
+{/* Vlastní věž — top kostka = vlastník */}
+<DiceTower
+  dice={[
+    { value: 4, playerColor: red },
+    { value: 2, playerColor: red },
+    { value: 6, playerColor: red },
+  ]}
+  size="md"
+  label="Vez 1"
+  showBase
+/>
+
+{/* Obsazená věž — top owner ji kontroluje */}
+<DiceTower
+  dice={[
+    { value: 3, playerColor: red },
+    { value: 5, playerColor: red },
+    { value: 1, playerColor: blue },   // ← nový vlastník
+  ]}
+  selected
+/>`} />
+      </Section>
+
+      {/* Velikosti */}
+      <Section
+        id="dice-tower-velikosti"
+        title="DiceTower — velikosti"
+        description="Velikosti xs/sm/md/lg odpovídají DieFace — věž scale-uje proporčně. Box-peek geometrie zajišťuje, že 3-kostková věž se vejde na hex stejné velikosti."
+      >
+        <Preview>
+          <div style={{ display: 'flex', gap: 32, alignItems: 'flex-end' }}>
+            {['xs', 'sm', 'md', 'lg'].map(s => (
+              <DiceTower
+                key={s}
+                dice={[
+                  { value: 3, playerColor: red },
+                  { value: 5, playerColor: red },
+                  { value: 2, playerColor: red },
+                ]}
+                size={s}
+                label={s}
+              />
+            ))}
+          </div>
+        </Preview>
       </Section>
 
       <Section id="pravidla" title="Pravidla použití">
