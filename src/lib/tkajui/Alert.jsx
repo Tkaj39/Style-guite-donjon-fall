@@ -9,13 +9,14 @@
    a dismiss button.
    ─────────────────────────────────────────────────────────────────── */
 import { VARIANT_COLORS, textHigh, textMid } from './tokens'
+import { InfoIcon, SuccessIcon, WarningIcon, DangerIcon, CloseIcon } from './Icons'
 
 const VARIANT_ICONS = {
-  default: 'ⓘ',
-  info:    'ⓘ',
-  success: '✓',
-  warning: '⚠',
-  danger:  '⛔',
+  default: <InfoIcon width={18} height={18} />,
+  info:    <InfoIcon width={18} height={18} />,
+  success: <SuccessIcon width={18} height={18} />,
+  warning: <WarningIcon width={18} height={18} />,
+  danger:  <DangerIcon width={18} height={18} />,
 }
 
 /**
@@ -66,9 +67,11 @@ export default function Alert({
           aria-hidden="true"
           style={{
             flex: '0 0 auto',
+            display: 'inline-flex',
+            alignItems: 'center',
             color: v.color,
-            fontSize: '1.1rem',
-            lineHeight: 1.25,
+            lineHeight: 1,
+            marginTop: 1,
           }}
         >
           {iconNode}
@@ -98,13 +101,14 @@ export default function Alert({
             border: 'none',
             cursor: 'pointer',
             color: textMid,
-            fontSize: '1.1rem',
+            display: 'inline-flex',
+            alignItems: 'center',
             lineHeight: 1,
             padding: 2,
             alignSelf: 'flex-start',
           }}
         >
-          ×
+          <CloseIcon width={14} height={14} />
         </button>
       )}
     </div>

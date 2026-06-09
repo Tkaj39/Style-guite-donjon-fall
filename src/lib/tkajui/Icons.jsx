@@ -288,3 +288,51 @@ export function ExternalLinkIcon({ width = 22, height = 22, color = 'currentColo
     </svg>
   )
 }
+
+/* ── Alert pictograms ────────────────────────────────────────────────────
+   Variant icons for Alert / Banner / Toast and any inline contextual
+   feedback. Distinct silhouettes so they read at small sizes (14–18 px)
+   even without color — color comes from the surrounding variant. */
+
+/** Info — circled lowercase "i" (info / default Alert). */
+export function InfoIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" stroke={color} strokeWidth="1.6"/>
+      <path d="M12 11v5" stroke={color} strokeWidth="1.8" strokeLinecap="round"/>
+      <circle cx="12" cy="8" r="1.05" fill={color}/>
+    </svg>
+  )
+}
+
+/** Success — checkmark inside a circle (positive confirmation). */
+export function SuccessIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" stroke={color} strokeWidth="1.6"/>
+      <path d="m8 12.5 2.5 2.5L16 9.5" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+/** Warning — exclamation mark inside a triangle (caution, recoverable). */
+export function WarningIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M12 3.5 21 19.5H3L12 3.5Z" stroke={color} strokeWidth="1.6" strokeLinejoin="round"/>
+      <path d="M12 10v4.5" stroke={color} strokeWidth="1.8" strokeLinecap="round"/>
+      <circle cx="12" cy="17.2" r="1.05" fill={color}/>
+    </svg>
+  )
+}
+
+/** Danger — exclamation mark inside an octagon (stop / error, blocking). */
+export function DangerIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <path d="M8.5 3h7L21 8.5v7L15.5 21h-7L3 15.5v-7L8.5 3Z" stroke={color} strokeWidth="1.6" strokeLinejoin="round"/>
+      <path d="M12 8v5" stroke={color} strokeWidth="1.8" strokeLinecap="round"/>
+      <circle cx="12" cy="16" r="1.05" fill={color}/>
+    </svg>
+  )
+}

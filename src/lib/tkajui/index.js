@@ -88,6 +88,8 @@ export {
   SettingsIcon, SearchIcon, PlusIcon, MinusIcon, EditIcon, TrashIcon,
   DownloadIcon, UploadIcon, CloseIcon, CheckIcon, CopyIcon,
   ChevronDownIcon, ChevronRightIcon, ExternalLinkIcon,
+  // Alert pictograms (Alert / Banner / Toast variants)
+  InfoIcon, SuccessIcon, WarningIcon, DangerIcon,
 } from './Icons'
 
 // ─── Shape primitives ────────────────────────────────────────────────────

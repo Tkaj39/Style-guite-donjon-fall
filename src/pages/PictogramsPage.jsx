@@ -8,6 +8,7 @@ import {
   SettingsIcon, SearchIcon, PlusIcon, MinusIcon, EditIcon, TrashIcon,
   DownloadIcon, UploadIcon, CloseIcon, CheckIcon, CopyIcon,
   ChevronDownIcon, ChevronRightIcon, ExternalLinkIcon,
+  InfoIcon, SuccessIcon, WarningIcon, DangerIcon,
 } from '../lib/tkajui'
 import {
   SwordIcon, ShieldIcon, TowerIcon,
@@ -143,6 +144,15 @@ const TKAJUI_ICON_GROUPS = [
       { icon: ExternalLinkIcon,  label: 'ExternalLinkIcon',  note: 'Odkaz mimo aplikaci' },
     ],
   },
+  {
+    label: 'Alert / Banner / Toast pictogramy',
+    icons: [
+      { icon: InfoIcon,    label: 'InfoIcon',    note: 'Info / default Alert (kruh + "i")' },
+      { icon: SuccessIcon, label: 'SuccessIcon', note: 'Úspěch / potvrzení (kruh + ✓)' },
+      { icon: WarningIcon, label: 'WarningIcon', note: 'Varování (trojúhelník + !)' },
+      { icon: DangerIcon,  label: 'DangerIcon',  note: 'Chyba / blokující stop (oktagon + !)' },
+    ],
+  },
 ]
 
 // Flat list for size/variant demos — use first icon from each group
@@ -198,7 +208,7 @@ function TkajuiContent() {
             </div>
 
             <div>
-              <p style={subLabel}>TkajUI utility ikony — 27 ikon ve 2 kategoriích (nativní pro TkajUI)</p>
+              <p style={subLabel}>TkajUI utility ikony — 31 ikon ve 3 kategoriích (nativní pro TkajUI)</p>
               {TKAJUI_ICON_GROUPS.map(group => (
                 <div key={group.label} style={{ marginBottom: 20 }}>
                   <p style={{ ...nano, color: goldDim, marginBottom: 10, fontSize: '0.5rem' }}>{group.label}</p>
