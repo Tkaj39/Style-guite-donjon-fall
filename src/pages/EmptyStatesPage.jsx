@@ -2,6 +2,10 @@ import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/Showcas
 import { textCool, goldMid, goldDim, bg0, successColor, textActive, borderSubtle, failColor } from '../lib/donjon/tokens'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
+import { SearchIcon, ListIcon } from '../lib/tkajui'
+import { ScrollIcon, SwordIcon } from '../lib/donjon'
+
+const ICON_PX = 40
 
 /* ── Prázdný stav template ── */
 function EmptyState({ icon, title, description, cta, ctaLabel = 'Začít', variant = 'default' }) {
@@ -69,20 +73,20 @@ export default function EmptyStatesPage() {
           {/* Grid — 3 karty v řadě, stejná výška buňky bez zalomení */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, width: '100%', alignItems: 'start' }}>
             <EmptyState
-              icon="🗺"
+              icon={<ScrollIcon width={ICON_PX} height={ICON_PX} />}
               title="Žádné uložené hry"
               description="Zatím nemáš žádnou rozehranou hru. Začni novou partii a ponoř se do boje."
               cta ctaLabel="Nová hra"
               variant="game"
             />
             <EmptyState
-              icon="🔍"
+              icon={<SearchIcon width={ICON_PX} height={ICON_PX} />}
               title="Žádné výsledky"
               description="Pro hledaný výraz nebyla nalezena žádná mapa. Zkus jiný název nebo filtr."
               variant="info"
             />
             <EmptyState
-              icon="📋"
+              icon={<ListIcon width={ICON_PX} height={ICON_PX} />}
               title="Žádný log tahů"
               description="Historia tahů se zobrazí po zahájení první hry v tomto kole."
               variant="default"
@@ -105,20 +109,22 @@ export default function EmptyStatesPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }}>
             <p style={{ margin: 0, fontSize: '0.75rem', color: textCool }}>Prázdný stav — data přišla, žádné záznamy:</p>
             <EmptyState
-              icon="📂"
+              icon={<ListIcon width={ICON_PX} height={ICON_PX} />}
               title="Prázdná složka"
               description="Tady zatím nic není."
               variant="default"
             />
           </div>
         </Preview>
-        <CodeBlock code={`{isLoading ? (
+        <CodeBlock code={`import { ListIcon } from 'tkajui'
+
+{isLoading ? (
   // Skeleton — zobrazuj strukturu před daty
   <SkeletonList rows={5} />
 ) : data.length === 0 ? (
   // Prázdný stav — data jsou, ale seznam je prázdný
   <EmptyState
-    icon="📂"
+    icon={<ListIcon width={40} height={40} />}
     title="Žádné záznamy"
     description="Přidej první položku tlačítkem níže."
     cta={<DonjonButton onClick={handleAdd}>Přidat</DonjonButton>}
@@ -137,7 +143,7 @@ export default function EmptyStatesPage() {
         <Preview dark={false}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxWidth: 520, width: '100%' }}>
             {[
-              { part: 'Ikona / ilustrace', required: false, note: 'Emoji nebo SVG — atmosféra, ne kritická informace. Vždy volitelná.' },
+              { part: 'Ikona / ilustrace', required: false, note: 'SVG z lib (ScrollIcon, SearchIcon, …) — atmosféra, ne kritická informace. Vždy volitelná.' },
               { part: 'Headline',          required: true,  note: 'Co chybí — stručné, max 6 slov. "Žádné uložené hry", "Prázdný inventář".' },
               { part: 'Description',       required: true,  note: 'Proč + co dělat dál. Max 2 věty, konkrétní a akční.' },
               { part: 'CTA tlačítko',      required: false, note: 'Jen pokud existuje jasná primární akce. Nemít raději než mít bezvýznamné.' },
@@ -160,20 +166,22 @@ export default function EmptyStatesPage() {
       >
         <Preview>
           <EmptyState
-            icon="⚔️"
+            icon={<SwordIcon width={ICON_PX} height={ICON_PX} />}
             title="Vítej v Donjon Fall"
             description="Připrav se na strategický souboj věží. Zahaj první hru a vyber svého protivníka."
-            cta ctaLabel="▶  Zahájit první hru"
+            cta ctaLabel="Zahájit první hru"
             variant="game"
           />
         </Preview>
-        <CodeBlock code={`{/* Onboarding prázdný stav */}
+        <CodeBlock code={`import { SwordIcon } from 'donjon-fall-ui'
+
+{/* Onboarding prázdný stav */}
 {!hasPlayedBefore && games.length === 0 && (
   <EmptyState
-    icon="⚔️"
+    icon={<SwordIcon width={40} height={40} />}
     title="Vítej v Donjon Fall"
     description="Připrav se na strategický souboj věží."
-    cta={<DonjonButton onClick={startGame}>▶  Zahájit první hru</DonjonButton>}
+    cta={<DonjonButton onClick={startGame}>Zahájit první hru</DonjonButton>}
   />
 )}`} />
       </Section>
