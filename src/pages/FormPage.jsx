@@ -31,6 +31,7 @@ import DonjonInput from '../lib/donjon/DonjonInput'
 import DonjonSelect from '../lib/donjon/DonjonSelect'
 import DonjonToggle from '../lib/donjon/DonjonToggle'
 import DonjonSlider from '../lib/donjon/DonjonSlider'
+import DonjonSubmitButton from '../lib/donjon/DonjonSubmitButton'
 
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
@@ -243,16 +244,20 @@ function ComboboxDemo() {
 }
 
 function SubmitButtonDemo() {
+  const lib = useLibVariant()
+  const Submit = lib === 'donjon' ? DonjonSubmitButton : SubmitButton
   return (
     <Stack gap="md">
       <form>
-        <SubmitButton loadingLabel="Saving…">Save</SubmitButton>
+        <Submit loadingLabel="Saving…">Save</Submit>
       </form>
       <form>
         <Inline gap="sm">
-          <SubmitButton variant="success">Sign up</SubmitButton>
-          <SubmitButton variant="danger" loadingLabel="Deleting…">Delete</SubmitButton>
-          <SubmitButton variant="link">Reset</SubmitButton>
+          <Submit variant="success">Sign up</Submit>
+          <Submit variant="danger" loadingLabel="Deleting…">Delete</Submit>
+          {lib === 'donjon'
+            ? <Submit variant="default" ornament="plain">Reset</Submit>
+            : <Submit variant="link">Reset</Submit>}
         </Inline>
       </form>
     </Stack>
@@ -293,7 +298,7 @@ export default function FormPage() {
     <ShowcasePage
       title="Forms & inputs"
       description="Kompletní rodina form controls — text inputs, výběry, toggles, sliders + compositional helpers (Field / Form / RadioGroup / CheckboxGroup). Lib switcher v hlavičce přepne mezi tkajui a donjon variantami tam, kde existují obě."
-      componentSlugs={['input', 'select', 'toggle', 'slider', 'field', 'form', 'radio', 'radio-group', 'checkbox', 'checkbox-group', 'text-area', 'number-input', 'combobox', 'submit-button']}
+      componentSlugs={['input', 'select', 'toggle', 'slider', 'field', 'form', 'radio', 'radio-group', 'checkbox', 'checkbox-group', 'text-area', 'number-input', 'combobox', 'submit-button', 'donjon-submit-button']}
       variants={[
         { id: 'tkajui', label: 'TkajUI' },
         { id: 'donjon', label: 'donjon-fall-ui' },

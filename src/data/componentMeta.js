@@ -1663,6 +1663,32 @@ export const componentMeta = {
     relatedSlugs: ['button', 'input', 'donjon-button'],
   },
 
+  'donjon-submit-button': {
+    description: 'Game variant of SubmitButton — extends the TkajUI SubmitButton by rendering a DonjonButton underneath, so the form submit inherits the octagonal silhouette, gold gradient and ornament shell. Same React 19 useFormStatus wiring: automatic spinner + disable while pending.',
+    subcategory: 'extends-tkajui',
+    extendsSlug: 'submit-button',
+    differencesFromBase: [
+      'Renders a DonjonButton instead of the tkajui Button',
+      'Picks up the donjon octagon shape + gold gradient + optional ornament shell',
+      'Pending behavior unchanged — useFormStatus drives loading + disabled',
+    ],
+    status: 'stable',
+    showcaseRoute: '/buttons#submit-button',
+    props: [
+      { name: 'children',      type: 'ReactNode',                                         required: false, default: "'Submit'",  description: 'Default button content outside the pending state.' },
+      { name: 'loadingLabel',  type: 'string',                                            required: false, description: 'Text shown during the pending state in place of children.' },
+      { name: 'variant',       type: enumType(SUBMIT_BUTTON_VARIANT_VALUES),              required: false, default: "'default'", description: 'Variant forwarded to the underlying DonjonButton.' },
+      { name: 'size',          type: enumType(SUBMIT_BUTTON_SIZE_VALUES),                 required: false, default: "'md'",      description: 'Button size.' },
+      { name: 'ornament',      type: "'decorated' | 'plain'",                             required: false, default: "'decorated'", description: 'Forwarded to DonjonButton — controls the ornament shell.' },
+      { name: 'leadingIcon',   type: 'ReactNode',                                         required: false, description: 'Icon to the left of the text.' },
+      { name: 'trailingIcon',  type: 'ReactNode',                                         required: false, description: 'Icon to the right of the text.' },
+      { name: 'iconOnly',      type: 'boolean',                                           required: false, default: 'false',     description: 'Square icon-only mode.' },
+      { name: 'fullWidth',     type: 'boolean',                                           required: false, default: 'false',     description: 'Stretches the button to the parent full width.' },
+      { name: 'disabled',      type: 'boolean',                                           required: false, default: 'false',     description: 'Disables the button even outside the pending state.' },
+    ],
+    relatedSlugs: ['submit-button', 'donjon-button', 'donjon-input'],
+  },
+
   /* ── Game Assets ───────────────────────────────────────────────────── */
 
   'erb': {
