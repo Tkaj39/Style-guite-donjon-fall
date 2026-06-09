@@ -152,6 +152,33 @@ export { default as DonjonDropdownMenu } from './DonjonDropdownMenu'
  */
 export { default as DonjonAccordion }    from './DonjonAccordion'
 
+// ── Navigation group (extends TkajUI Breadcrumb / Pagination / ContextMenu) ──
+
+/**
+ * Game variant of Breadcrumb — gold current page label, goldDim
+ * separator (›), textMid hover links. No octagon shell — breadcrumb
+ * is inline text, no card surface to clip. Same items / linkComponent
+ * API as TkajUI Breadcrumb.
+ */
+export { default as DonjonBreadcrumb }   from './DonjonBreadcrumb'
+
+/**
+ * Game variant of Pagination — each page chip is an octagonal tile
+ * via the border-trick. Current page = gold-filled octagon
+ * (parchment seal); non-current = bg2 + goldDim outline; prev/next
+ * chevrons in the same style. Same range builder / controlled API
+ * as TkajUI Pagination.
+ */
+export { default as DonjonPagination }   from './DonjonPagination'
+
+/**
+ * Game variant of ContextMenu — parchment popover panel: bg2 inner
+ * panel on a full gold border, octagonal clip via the border-trick,
+ * gold-tinted icons, bg3 row hover. Same right-click / outside-click
+ * / ESC / viewport-clamp behavior as TkajUI ContextMenu.
+ */
+export { default as DonjonContextMenu }  from './DonjonContextMenu'
+
 // ─── Layout primitives (re-export from TkajUI base) ────────────────────
 // Stack / Inline / Cluster are purely structural — no themed visuals — so
 // donjon-fall-ui re-exports them unchanged. Users can write
