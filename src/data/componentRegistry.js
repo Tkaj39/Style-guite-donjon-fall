@@ -23,8 +23,14 @@ const DONJON_GLOB = import.meta.glob('../lib/donjon/*.jsx')
 
 /* Explicitní override viditelnosti pro konkrétní komponenty */
 const VISIBILITY_OVERRIDES = {
-  Ornaments:      'internal',
-  icons:          'internal',   // sada SVG exportů, ne samostatná komponenta
+  Ornaments:           'internal',
+  icons:               'internal',   // sada SVG exportů, ne samostatná komponenta
+  // Internal helper barrel — co-locates DonjonRadio/RadioGroup/Checkbox/
+  // CheckboxGroup (each documented under its own componentMeta slug). The
+  // file itself isn't a renderable component, so keep it out of the public
+  // index. The companion DonjonForm.jsx file IS public — it owns the
+  // documented `donjon-form` slug (Form wrapper + DonjonField).
+  DonjonChoiceControls: 'internal',
 }
 
 /* Explicitní override kategorie — přesune komponentu do jiné knihovny */
@@ -36,11 +42,20 @@ const CATEGORY_OVERRIDES = {
 
 /* ── Helpers ── */
 
-/** PascalCase / CamelCase → kebab-case */
+/** PascalCase / CamelCase → kebab-case.
+ *
+ * Acronym-aware: HUDLayout → hud-layout (not h-u-d-layout). Two passes:
+ *   1) split BEFORE a single-cap-then-lower when preceded by ≥1 cap
+ *      (HUDLayout → HUD-Layout)
+ *   2) split between lower→Upper boundary
+ *      (myThing → my-Thing)
+ * Then lowercase.
+ */
 function toKebab(name) {
   return name
-    .replace(/([A-Z])/g, (m) => `-${m.toLowerCase()}`)
-    .replace(/^-/, '')
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .toLowerCase()
 }
 
 /** Extrahuje název komponenty z cesty souboru */

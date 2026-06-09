@@ -35,8 +35,8 @@ import DonjonSubmitButton from '../lib/donjon/DonjonSubmitButton'
 import DonjonTextArea from '../lib/donjon/DonjonTextArea'
 import {
   DonjonRadio, DonjonRadioGroup, DonjonCheckbox, DonjonCheckboxGroup,
-} from '../lib/donjon/DonjonForm'
-import { DonjonField, DonjonForm } from '../lib/donjon/DonjonFormPrimitives'
+} from '../lib/donjon/DonjonChoiceControls'
+import { DonjonField, DonjonForm } from '../lib/donjon/DonjonForm'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonNumberInput from '../lib/donjon/DonjonNumberInput'
 import DonjonCombobox from '../lib/donjon/DonjonCombobox'

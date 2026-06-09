@@ -558,6 +558,15 @@ export const componentMeta = {
     relatedSlugs: ['form', 'donjon-field', 'donjon-submit-button'],
   },
 
+  'donjon-choice-controls': {
+    description: 'Internal barrel module — co-locates DonjonRadio, DonjonRadioGroup, DonjonCheckbox, DonjonCheckboxGroup in a single file so they share the diamond Variant lookup + visuals. Not a renderable component on its own. Visible exports are each documented under their own slug.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/form',
+    props: [],
+    relatedSlugs: ['donjon-radio', 'donjon-checkbox'],
+  },
+
   'radio': {
     description: 'Native radio input styled. Use inside a RadioGroup for controlled single-choice selection — the group provides name + value + onChange via context.',
     subcategory: 'exclusive',

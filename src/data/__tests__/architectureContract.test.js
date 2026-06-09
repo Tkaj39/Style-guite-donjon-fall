@@ -39,9 +39,15 @@ describe('Architektonický kontrakt: TkajUI ↔ donjon-fall-ui', () => {
     })
 
     it('subcategory: "extends-tkajui" → odkazovaný extendsSlug existuje v TkajUI', () => {
-      const tkajuiSlugs = new Set(
-        registry.filter(c => c.category === 'TkajUI').map(c => c.slug)
-      )
+      // tkajui slugy = sjednocení filesystem-derived registru + ručních
+      // componentMeta klíčů bez `donjon-` prefixu. Některé komponenty
+      // (Field, Radio, Checkbox, RadioGroup, CheckboxGroup) sdílí jeden
+      // soubor (Form.jsx) a jejich slugy v registru neexistují — žijí
+      // jen v componentMeta. Pro "existuje v TkajUI" je počítáme též.
+      const tkajuiSlugs = new Set([
+        ...registry.filter(c => c.category === 'TkajUI').map(c => c.slug),
+        ...Object.keys(componentMeta).filter(s => !s.startsWith('donjon-')),
+      ])
       const broken = []
       for (const [slug, meta] of Object.entries(componentMeta)) {
         if (meta.subcategory === 'extends-tkajui') {
