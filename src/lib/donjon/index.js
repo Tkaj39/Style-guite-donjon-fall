@@ -209,10 +209,13 @@ export { default as DonjonBadge }       from './DonjonBadge'
 export { default as DonjonPictogram }   from './DonjonPictogram'
 
 /**
- * The SVG game icon set — 26 icons across 6 categories:
+ * The SVG game icon set — 39 icons across 8 categories:
  *   - Resources: HeartIcon, DropIcon, BoltIcon
- *   - Actions:   SwordIcon, ShieldIcon, MoveIcon, TargetIcon, MagicIcon
- *   - State:     StarIcon, CrownIcon, DiceIcon, HourglassIcon, TowerIcon
+ *   - Actions:   SwordIcon, ShieldIcon, MoveIcon, TargetIcon, MagicIcon, BombIcon
+ *   - State:     StarIcon, CrownIcon, DiceIcon, HourglassIcon, TowerIcon,
+ *                CastleIcon, FireIcon
+ *   - Loot:      PotionIcon, GemIcon, KeyIcon, ScrollIcon, SkullIcon, LockIcon
+ *   - Stats:     TrophyIcon, SparkleIcon, StrengthIcon, IntelligenceIcon
  *   - Map:       HexIcon, BaseIcon, FocalPointIcon,
  *                FocalPointActiveIcon, FocalPointPassiveIcon
  *   - Mechanics: PushIcon, OccupyIcon, EncirclementIcon,
