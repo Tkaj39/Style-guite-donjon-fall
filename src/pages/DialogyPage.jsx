@@ -8,6 +8,7 @@ import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DonjonButtonGroup from '../lib/donjon/DonjonButtonGroup'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import { players } from '../data/gameUiMockData'
+import { FireIcon } from '../lib/donjon/icons'
 
 function PushIcon() {
   return (
@@ -29,14 +30,6 @@ function SkullIcon() {
   return (
     <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12">
       <path d="M8 1a5 5 0 0 0-5 5c0 2 1 3.5 2.5 4.5V13h5v-2.5A5 5 0 0 0 13 6a5 5 0 0 0-5-5ZM5 7a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm4 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z" />
-    </svg>
-  )
-}
-
-function FireIcon() {
-  return (
-    <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12">
-      <path d="M8 16c3.314 0 6-2 6-5.5 0-1.5-.5-4-2.5-6 .25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16Z" />
     </svg>
   )
 }
@@ -207,7 +200,7 @@ export default function DialogyPage() {
           {vpSource === 'focal' && (
             <DonjonCard title="+1 vítězný bod" description="Za aktivní ohnisko na začátku tahu">
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <DonjonBadge variant="warning" icon={<FireIcon />}>+1 VP</DonjonBadge>
+                <DonjonBadge variant="warning" icon={<FireIcon width={12} height={12} />}>+1 VP</DonjonBadge>
                 <p style={{ margin: 0, fontSize: '0.8125rem', color: goldMid, lineHeight: 1.5 }}>
                   Hráč drží kostku/věž na aktivním ohnisku na začátku svého tahu.
                 </p>

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import ActionTile from '../lib/donjon/ActionTile'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import { CodeBlock } from '../styleguide/ShowcasePage'
-import { SwordIcon, ShieldIcon, TowerIcon } from '../lib/donjon/icons'
+import { SwordIcon, ShieldIcon, TowerIcon, CastleIcon, BombIcon } from '../lib/donjon/icons'
 import {
   gold, bg2, bg3, bgDeep, borderDefault,
   textMid, textFaint, textParchment, textHigh,
@@ -48,15 +48,6 @@ function MoveIcon() {
     </svg>
   )
 }
-function CastleIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" width="24" height="24">
-      <rect x="3" y="11" width="18" height="10" rx="1" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M3 11V7h3V4h3v3h3V4h3v3h3v4" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-      <rect x="9" y="15" width="6" height="6" rx="0.5" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
-  )
-}
 function SwapIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" width="24" height="24">
@@ -64,16 +55,6 @@ function SwapIcon() {
     </svg>
   )
 }
-function BombIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" width="24" height="24">
-      <circle cx="11" cy="14" r="7" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M17.5 7.5l2-2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M15 7l2-2 2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
 export default function ActionTilePage() {
   const [selected, setSelected] = useState('move')
   const [selected2, setSelected2] = useState(null)

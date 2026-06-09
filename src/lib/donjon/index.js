@@ -222,8 +222,8 @@ export { default as DonjonPictogram }   from './DonjonPictogram'
  */
 export {
   HeartIcon, DropIcon, BoltIcon,
-  SwordIcon, ShieldIcon, MoveIcon, TargetIcon, MagicIcon,
-  StarIcon, CrownIcon, DiceIcon, HourglassIcon, TowerIcon,
+  SwordIcon, ShieldIcon, MoveIcon, TargetIcon, MagicIcon, BombIcon,
+  StarIcon, CrownIcon, DiceIcon, HourglassIcon, TowerIcon, CastleIcon, FireIcon,
   // Loot / inventory
   PotionIcon, GemIcon, KeyIcon, ScrollIcon, SkullIcon, LockIcon,
   // Stats / achievements
