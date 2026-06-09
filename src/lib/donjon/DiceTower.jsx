@@ -9,11 +9,21 @@
    ~peek px of each lower die is still visible — matches the in-game
    look where you can see the colors stacked through.
 
-   Built on DieFace — sizing, state and color logic stay in the single
-   die. DiceTower only handles stacking, ground shadow, optional label.
+   Hover regions
+   ─────────────
+   The tower exposes TWO independent hover targets:
+     • the TOP die (controlling die) — fires `onTopHover`
+     • the REST of the stack (peeks of all lower dice) — fires
+       `onTowerHover`
+   They are mutually exclusive: hovering over the top die does NOT
+   register as a tower hover, and vice versa. The same split applies
+   to click — `onTopClick` vs `onTowerClick`. Hovering any part of the
+   relevant region adds a subtle gold drop-shadow on that region so
+   the player sees what their cursor is targeting.
    ─────────────────────────────────────────────────────────────────── */
+import { useRef, useState } from 'react'
 import DieFace from './DieFace'
-import { goldDim, textHigh, textMid, borderDefault } from './tokens'
+import { gold, goldDim, textHigh, textMid, borderDefault } from './tokens'
 
 /**
  * @typedef {object} DiceTowerEntry
@@ -41,6 +51,11 @@ const SIZE = {
  * @param {React.ReactNode} [label]          Rendered under the tower (player name, "Vez 1", …).
  * @param {boolean} [showBase=false]         Draws a faint ground plate under the tower.
  * @param {string} [emptyHint='—']           Glyph shown when dice is empty (lost tower).
+ *
+ * @param {(hovered: boolean) => void} [onTopHover]    Fires when cursor enters / leaves the top die.
+ * @param {(hovered: boolean) => void} [onTowerHover]  Fires when cursor enters / leaves the peeks of the lower dice.
+ * @param {(e: MouseEvent) => void}    [onTopClick]    Click on the top die.
+ * @param {(e: MouseEvent) => void}    [onTowerClick]  Click anywhere on the lower-dice peeks.
  */
 export default function DiceTower({
   dice = [],
@@ -49,6 +64,10 @@ export default function DiceTower({
   label,
   showBase = false,
   emptyHint = '—',
+  onTopHover,
+  onTowerHover,
+  onTopClick,
+  onTowerClick,
   className,
   style,
   ...rest
@@ -57,19 +76,50 @@ export default function DiceTower({
   const isEmpty = dice.length === 0
   const topIndex = dice.length - 1
 
+  // Local hover state — drives the visual glow only. Parents that also
+  // want the signal pass `onTopHover` / `onTowerHover` callbacks.
+  const [hoverTop, setHoverTop] = useState(false)
+  const [hoverTower, setHoverTower] = useState(false)
+
+  // For the tower region (multiple separate die wrappers, one per
+  // lower die), we use a ref-counted enter/leave so moving the cursor
+  // between two adjacent peek strips doesn't blink the hover state.
+  const towerEnterCount = useRef(0)
+
+  const enterTop = () => {
+    setHoverTop(true)
+    onTopHover?.(true)
+  }
+  const leaveTop = () => {
+    setHoverTop(false)
+    onTopHover?.(false)
+  }
+  const enterTower = () => {
+    towerEnterCount.current += 1
+    if (towerEnterCount.current === 1) {
+      setHoverTower(true)
+      onTowerHover?.(true)
+    }
+  }
+  const leaveTower = () => {
+    towerEnterCount.current = Math.max(0, towerEnterCount.current - 1)
+    if (towerEnterCount.current === 0) {
+      setHoverTower(false)
+      onTowerHover?.(false)
+    }
+  }
+
   // Render TOP-to-BOTTOM (column flex, dice array reversed).
-  //
-  // Layout: each die after the first gets `marginTop: -(box - peek)`,
-  // pulling it UP into the die above so only `peek` px of it remains
-  // visible. With this DOM order, the FIRST element painted is the
-  // TOP die (i = 0), and every subsequent die is pulled up under it
-  // — which means the bottom die is the most overlapped (least
-  // visible), matching how a real dice stack reads. We tried
-  // column-reverse first, but marginTop in that direction overlaps
-  // the wrong end of the stack.
-  //
-  // z-index counts down so the top die wins paint order.
-  const ordered = [...dice].reverse()  // ordered[0] = top of tower
+  // ordered[0] = top of tower → paints first, sits at the top of the
+  // visual stack and wins z-stack; ordered[last] = bottom of tower →
+  // most overlapped. See the comment in fix/dice-tower-overlap for
+  // why we don't use column-reverse.
+  const ordered = [...dice].reverse()
+
+  const topGlow   = (hoverTop   || (selected && !onTopHover && !onTowerHover))
+    ? `drop-shadow(0 0 6px ${gold}AA)` : undefined
+  const towerGlow = hoverTower ? `drop-shadow(0 0 5px ${gold}66)` : undefined
+
   return (
     <div
       className={className}
@@ -108,19 +158,41 @@ export default function DiceTower({
             {emptyHint}
           </span>
         ) : (
-          // ordered[0] = top of tower → paints first, sits at the top of
-          // the visual stack and wins z-stack; ordered[last] = bottom of
-          // tower → most overlapped.
           ordered.map((die, i) => {
-            // i runs 0..N-1 over `ordered`. The matching index in the
-            // original `dice` array (for state precedence below) is:
+            // i runs 0..N-1 over `ordered`. Matching index in the caller's
+            // `dice` array (for state precedence below) is:
             const origIndex = dice.length - 1 - i
+            const isTop = i === 0
+            // Hover handlers per region. The top die is its own region;
+            // every other die belongs to the shared "tower" region.
+            const hoverProps = isTop
+              ? {
+                  onMouseEnter: enterTop,
+                  onMouseLeave: leaveTop,
+                  onClick: onTopClick,
+                }
+              : {
+                  onMouseEnter: enterTower,
+                  onMouseLeave: leaveTower,
+                  onClick: onTowerClick,
+                }
+            const interactive = isTop
+              ? Boolean(onTopHover || onTopClick)
+              : Boolean(onTowerHover || onTowerClick)
             return (
-              <div key={origIndex} style={{
-                position: 'relative',
-                zIndex: dice.length - i,  // top die (i=0) wins
-                marginTop: i === 0 ? 0 : -(s.box - s.peek),
-              }}>
+              <div
+                key={origIndex}
+                data-hover-target={isTop ? 'top' : 'tower'}
+                {...hoverProps}
+                style={{
+                  position: 'relative',
+                  zIndex: dice.length - i,  // top die (i=0) wins
+                  marginTop: isTop ? 0 : -(s.box - s.peek),
+                  cursor: interactive ? 'pointer' : undefined,
+                  filter: isTop ? topGlow : towerGlow,
+                  transition: 'filter 120ms ease',
+                }}
+              >
                 <DieFace
                   value={die.value}
                   playerColor={die.playerColor ?? goldDim}
