@@ -8,13 +8,14 @@
    weight.
    ─────────────────────────────────────────────────────────────────── */
 import { VARIANT_COLORS, textHigh, textMid } from './tokens'
+import { InfoIcon, SuccessIcon, WarningIcon, DangerIcon, CloseIcon } from './Icons'
 
 const VARIANT_ICONS = {
-  default: 'ⓘ',
-  info:    'ⓘ',
-  success: '✓',
-  warning: '⚠',
-  danger:  '⛔',
+  default: <InfoIcon width={20} height={20} />,
+  info:    <InfoIcon width={20} height={20} />,
+  success: <SuccessIcon width={20} height={20} />,
+  warning: <WarningIcon width={20} height={20} />,
+  danger:  <DangerIcon width={20} height={20} />,
 }
 
 /**
@@ -69,9 +70,10 @@ export default function Banner({
           aria-hidden="true"
           style={{
             flex: '0 0 auto',
+            display: 'inline-flex',
+            alignItems: 'center',
             color: v.color,
-            fontSize: '1.25rem',
-            lineHeight: 1.25,
+            lineHeight: 1,
           }}
         >
           {iconNode}
@@ -101,12 +103,13 @@ export default function Banner({
             border: 'none',
             cursor: 'pointer',
             color: textMid,
-            fontSize: '1.25rem',
+            display: 'inline-flex',
+            alignItems: 'center',
             lineHeight: 1,
             padding: 2,
           }}
         >
-          ×
+          <CloseIcon width={16} height={16} />
         </button>
       )}
     </div>
