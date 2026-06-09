@@ -298,6 +298,15 @@ export { Field, Form, Radio, RadioGroup, Checkbox, CheckboxGroup } from '../tkaj
  * Same standalone + group context API as the TkajUI primitives.
  */
 export { DonjonRadio, DonjonRadioGroup, DonjonCheckbox, DonjonCheckboxGroup } from './DonjonForm'
+
+/**
+ * Game variants of Field + Form. Same API as TkajUI Field / Form —
+ * DonjonField adds the goldMid uppercase label + donjon hint/error
+ * tokens; DonjonForm wraps its children in an octagonal gold shell
+ * (border-trick) with optional gold uppercase title + description
+ * header strip, bg2 parchment interior.
+ */
+export { DonjonField, DonjonForm } from './DonjonFormPrimitives'
 export { default as TextArea }    from '../tkajui/TextArea'
 export { default as NumberInput } from '../tkajui/NumberInput'
 

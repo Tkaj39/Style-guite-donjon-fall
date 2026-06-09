@@ -512,6 +512,52 @@ export const componentMeta = {
     relatedSlugs: ['field', 'submit-button'],
   },
 
+  'donjon-field': {
+    description: 'Game variant of Field — extends TkajUI Field with the donjon header palette: goldMid uppercase label (letterSpacing 0.6, fontWeight 700), donjon dangerColor required marker, dangerText error, textLow hint. Label / required / hint / error / aria-describedby wiring identical to the base.',
+    subcategory: 'extends-tkajui',
+    extendsSlug: 'field',
+    differencesFromBase: [
+      'goldMid uppercase label instead of textHigh sentence case',
+      'donjon dangerColor required marker + dangerText error',
+      'Same id + aria-describedby + aria-invalid wiring',
+    ],
+    status: 'stable',
+    showcaseRoute: '/form',
+    props: [
+      { name: 'label',    type: 'ReactNode', required: false, description: 'Field label (above the input).' },
+      { name: 'hint',     type: 'ReactNode', required: false, description: 'Helper text shown below when error is absent.' },
+      { name: 'error',    type: 'string',    required: false, description: 'Error message — overrides hint and applies error styling.' },
+      { name: 'required', type: 'boolean',   required: false, default: 'false', description: 'Show a * marker after the label.' },
+      { name: 'htmlFor',  type: 'string',    required: false, description: 'Override the auto-generated input id.' },
+      { name: 'children', type: 'ReactNode', required: true,  description: 'Single input — cloned with id + aria attributes.' },
+    ],
+    relatedSlugs: ['field', 'donjon-form', 'donjon-input'],
+  },
+
+  'donjon-form': {
+    description: 'Game variant of Form — extends TkajUI Form by rendering the form inside an octagonal gold shell via the border-trick. Optional gold uppercase title + textMid description header strip on top, bg2 parchment interior. Same onSubmit preventDefault + flex column behavior as the base.',
+    subcategory: 'extends-tkajui',
+    extendsSlug: 'form',
+    differencesFromBase: [
+      'Octagonal gold shell (clipPath: octagon(12)) via border-trick',
+      'Optional gold uppercase title + textMid description header strip',
+      'bg2 parchment interior (vs. plain transparent form)',
+      'bordered=false collapses to a plain <form> for embedding',
+    ],
+    status: 'stable',
+    showcaseRoute: '/form',
+    props: [
+      { name: 'onSubmit',    type: '(e: SubmitEvent) => void', required: false, description: 'Submit handler. Called after e.preventDefault().' },
+      { name: 'gap',         type: 'number | string',          required: false, default: '16', description: 'Gap between children.' },
+      { name: 'title',       type: 'ReactNode',                required: false, description: 'Gold uppercase title rendered at the top of the panel.' },
+      { name: 'description', type: 'ReactNode',                required: false, description: 'Subtitle under the title.' },
+      { name: 'bordered',    type: 'boolean',                  required: false, default: 'true', description: 'Octagonal gold shell. Disable for embedding inside another donjon container.' },
+      { name: 'padding',     type: 'number | string',          required: false, default: '20',  description: 'Inner panel padding.' },
+      { name: 'children',    type: 'ReactNode',                required: true,  description: 'Form fields, submit button, etc.' },
+    ],
+    relatedSlugs: ['form', 'donjon-field', 'donjon-submit-button'],
+  },
+
   'radio': {
     description: 'Native radio input styled. Use inside a RadioGroup for controlled single-choice selection — the group provides name + value + onChange via context.',
     subcategory: 'exclusive',
