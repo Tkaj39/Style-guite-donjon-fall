@@ -5,8 +5,10 @@ import DonjonPictogram from '../lib/donjon/DonjonPictogram'
 import {
   SwordIcon, ShieldIcon, TowerIcon,
   HeartIcon, DropIcon, BoltIcon,
-  MoveIcon, TargetIcon, MagicIcon,
-  StarIcon, CrownIcon, DiceIcon, HourglassIcon,
+  MoveIcon, TargetIcon, MagicIcon, BombIcon,
+  StarIcon, CrownIcon, DiceIcon, HourglassIcon, CastleIcon, FireIcon,
+  PotionIcon, GemIcon, KeyIcon, ScrollIcon, SkullIcon, LockIcon,
+  TrophyIcon, SparkleIcon, StrengthIcon, IntelligenceIcon,
   HexIcon, BaseIcon, FocalPointIcon, FocalPointActiveIcon, FocalPointPassiveIcon,
   PushIcon, OccupyIcon, EncirclementIcon, TowerCollapseIcon, SuddenDeathIcon, TurnOrderIcon,
   DonjonLogoIcon, TkajuiLogoIcon,
@@ -29,6 +31,7 @@ const ICON_GROUPS = [
       { icon: MoveIcon,   label: 'MoveIcon',   note: 'Pohyb / přesun kostky' },
       { icon: TargetIcon, label: 'TargetIcon', note: 'Cíl / dosah útoku' },
       { icon: MagicIcon,  label: 'MagicIcon',  note: 'Magie / speciální schopnost' },
+      { icon: BombIcon,   label: 'BombIcon',   note: 'Destrukce / výbuch' },
     ],
   },
   {
@@ -39,6 +42,28 @@ const ICON_GROUPS = [
       { icon: DiceIcon,        label: 'DiceIcon',        note: 'Kostka / přehazování' },
       { icon: HourglassIcon,   label: 'HourglassIcon',   note: 'Konec tahu / čas' },
       { icon: TowerIcon,       label: 'TowerIcon',       note: 'Věž / donjon' },
+      { icon: CastleIcon,      label: 'CastleIcon',      note: 'Hrad / pevnost' },
+      { icon: FireIcon,        label: 'FireIcon',        note: 'Aktivní ohnisko / oheň' },
+    ],
+  },
+  {
+    label: 'Loot a inventář (Loot / Inventory)',
+    icons: [
+      { icon: PotionIcon, label: 'PotionIcon', note: 'Lektvar / consumable' },
+      { icon: GemIcon,    label: 'GemIcon',    note: 'Drahokam / loot' },
+      { icon: KeyIcon,    label: 'KeyIcon',    note: 'Klíč / odemčení' },
+      { icon: ScrollIcon, label: 'ScrollIcon', note: 'Svitek / pergamen' },
+      { icon: SkullIcon,  label: 'SkullIcon',  note: 'Smrt / nebezpečný item' },
+      { icon: LockIcon,   label: 'LockIcon',   note: 'Zámek / locked slot' },
+    ],
+  },
+  {
+    label: 'Statistiky a achievementy (Stats / Achievements)',
+    icons: [
+      { icon: TrophyIcon,       label: 'TrophyIcon',       note: 'Achievement / trofej' },
+      { icon: SparkleIcon,      label: 'SparkleIcon',      note: 'Mana spark / level up' },
+      { icon: StrengthIcon,     label: 'StrengthIcon',     note: 'Síla (STR)' },
+      { icon: IntelligenceIcon, label: 'IntelligenceIcon', note: 'Inteligence (INT)' },
     ],
   },
   {
@@ -124,7 +149,7 @@ function TkajuiContent() {
             </div>
 
             <div>
-              <p style={subLabel}>Dostupné ikony — 26 ikon v 6 kategoriích</p>
+              <p style={subLabel}>Dostupné ikony — 39 ikon v 8 kategoriích</p>
               {ICON_GROUPS.map(group => (
                 <div key={group.label} style={{ marginBottom: 20 }}>
                   <p style={{ ...nano, color: goldDim, marginBottom: 10, fontSize: '0.5rem' }}>{group.label}</p>
@@ -201,7 +226,7 @@ function DonjonContent() {
             </div>
 
             <div>
-              <p style={subLabel}>Všechny herní ikony — 26 ikon v 6 kategoriích</p>
+              <p style={subLabel}>Všechny herní ikony — 39 ikon v 8 kategoriích</p>
               {ICON_GROUPS.map(group => (
                 <div key={group.label} style={{ marginBottom: 24 }}>
                   <p style={{ ...nano, color: goldDim, marginBottom: 12, fontSize: '0.5rem' }}>{group.label}</p>
