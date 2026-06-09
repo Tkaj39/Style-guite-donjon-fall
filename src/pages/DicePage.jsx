@@ -306,6 +306,8 @@ function HoverRegionsDemo() {
   const [topHover, setTopHover] = useState(false)
   const [towerHover, setTowerHover] = useState(false)
   const [clicks, setClicks] = useState({ top: 0, tower: 0 })
+  const [splitHover, setSplitHover] = useState(true)
+  const [pendingTarget, setPendingTarget] = useState('top')   // mobile-mode button choice
 
   const tone = (active) => ({
     padding: '8px 12px',
@@ -318,32 +320,75 @@ function HoverRegionsDemo() {
     transition: 'all 120ms ease',
   })
 
+  const modeBtn = (active) => ({
+    padding: '4px 10px',
+    borderRadius: 4,
+    border: `1px solid ${active ? gold : borderDefault}`,
+    background: active ? `${gold}20` : 'transparent',
+    color: active ? gold : textMid,
+    fontSize: '0.6875rem',
+    cursor: 'pointer',
+    fontFamily: 'monospace',
+  })
+
   return (
-    <div style={{ display: 'flex', gap: 40, alignItems: 'center', flexWrap: 'wrap' }}>
-      <DiceTower
-        dice={[
-          { value: 4, playerColor: red },
-          { value: 2, playerColor: red },
-          { value: 6, playerColor: blue },
-        ]}
-        size="md"
-        showBase
-        label="Najeď myší"
-        onTopHover={setTopHover}
-        onTowerHover={setTowerHover}
-        onTopClick={() => setClicks(c => ({ ...c, top: c.top + 1 }))}
-        onTowerClick={() => setClicks(c => ({ ...c, tower: c.tower + 1 }))}
-      />
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minWidth: 220 }}>
-        <div style={tone(topHover)}>
-          <strong>Top die</strong> · {topHover ? 'hovered' : 'idle'} · click count: {clicks.top}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <span style={{ fontSize: '0.6875rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>splitHover:</span>
+        <button onClick={() => setSplitHover(true)}  style={modeBtn(splitHover)}>true (desktop)</button>
+        <button onClick={() => setSplitHover(false)} style={modeBtn(!splitHover)}>false (mobile)</button>
+      </div>
+
+      <div style={{ display: 'flex', gap: 40, alignItems: 'center', flexWrap: 'wrap' }}>
+        <DiceTower
+          dice={[
+            { value: 4, playerColor: red },
+            { value: 2, playerColor: red },
+            { value: 6, playerColor: blue },
+          ]}
+          size="md"
+          showBase
+          label={splitHover ? 'Najeď myší' : 'Klikni na věž'}
+          splitHover={splitHover}
+          onTopHover={setTopHover}
+          onTowerHover={setTowerHover}
+          onTopClick={() => setClicks(c => ({ ...c, top: c.top + 1 }))}
+          onTowerClick={() => {
+            if (splitHover) {
+              setClicks(c => ({ ...c, tower: c.tower + 1 }))
+            } else {
+              // Mobile mode: a single click on the whole tower fires the
+              // action the user pre-selected via the buttons below.
+              setClicks(c => ({ ...c, [pendingTarget]: c[pendingTarget] + 1 }))
+            }
+          }}
+        />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minWidth: 240 }}>
+          <div style={tone(topHover)}>
+            <strong>Top die</strong> · {splitHover ? (topHover ? 'hovered' : 'idle') : 'n/a (no split)'} · click: {clicks.top}
+          </div>
+          <div style={tone(towerHover)}>
+            <strong>Tower</strong> · {towerHover ? 'hovered' : 'idle'} · click: {clicks.tower}
+          </div>
+
+          {!splitHover && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 4 }}>
+              <span style={{ fontSize: '0.625rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                Mobile UI — vyber cíl tlačítky, pak klikni na věž
+              </span>
+              <div style={{ display: 'flex', gap: 6 }}>
+                <button onClick={() => setPendingTarget('top')}   style={modeBtn(pendingTarget === 'top')}>kostka (top)</button>
+                <button onClick={() => setPendingTarget('tower')} style={modeBtn(pendingTarget === 'tower')}>věž</button>
+              </div>
+            </div>
+          )}
+
+          <p style={{ margin: 0, fontSize: '0.6875rem', color: textFaint, lineHeight: 1.5 }}>
+            {splitHover
+              ? 'Vrchní (modrá) kostka má vlastní cursor target. Najetí na červené peeky pod ní spustí druhý hover signál a podsvítí celou věž.'
+              : 'Cela věž je jediný hover/click target. onTopHover/onTopClick jsou inertní — volba "kostka vs věž" jde přes tlačítka.'}
+          </p>
         </div>
-        <div style={tone(towerHover)}>
-          <strong>Tower (lower peeks)</strong> · {towerHover ? 'hovered' : 'idle'} · click count: {clicks.tower}
-        </div>
-        <p style={{ margin: 0, fontSize: '0.6875rem', color: textFaint, lineHeight: 1.5 }}>
-          Vrchní (modrá) kostka má vlastní cursor target. Najetí na červené peeky pod ní spustí druhý hover signál.
-        </p>
       </div>
     </div>
   )
@@ -683,20 +728,17 @@ const mixedTower = [{ owner:2, value:3 }, { owner:1, value:1 }, { owner:1, value
       <Section
         id="dice-tower-hover"
         title="DiceTower — dva hover regiony"
-        description="Vrchní kostka a zbytek věže jsou samostatné hover cíle. Najetí na vrchol fires onTopHover; najetí na peek nižších kostek fires onTowerHover. Mutuálně exkluzivní — nelze hoverovat oba současně. Stejné rozdělení platí pro click (onTopClick / onTowerClick)."
+        description="Vrchní kostka a zbytek věže jsou samostatné hover cíle. splitHover=true (default, desktop) — onTopHover fires na vrcholu, onTowerHover na peek nižších kostek. splitHover=false (mobil) — věž je jeden hover/click target a volba „kostka vs věž“ se exponuje přes tlačítka, jak ukazuje druhý preset."
       >
         <Preview>
           <HoverRegionsDemo />
         </Preview>
-        <CodeBlock code={`const [topHover, setTopHover] = useState(false)
+        <CodeBlock code={`// ── Desktop ── splitHover=true (default)
+const [topHover, setTopHover] = useState(false)
 const [towerHover, setTowerHover] = useState(false)
 
 <DiceTower
-  dice={[
-    { value: 4, playerColor: red },
-    { value: 2, playerColor: red },
-    { value: 6, playerColor: blue },
-  ]}
+  dice={dice}
   onTopHover={setTopHover}        // hover na vrchní kostku
   onTowerHover={setTowerHover}    // hover na peek nižších kostek
   onTopClick={() => attackTopOwner()}
@@ -704,7 +746,23 @@ const [towerHover, setTowerHover] = useState(false)
 />
 
 {topHover   && <Tooltip>Vlastník: modrý hráč</Tooltip>}
-{towerHover && <Tooltip>3 kostky · captured 1× · last turn 12</Tooltip>}`} />
+{towerHover && <Tooltip>3 kostky · captured 1× · last turn 12</Tooltip>}
+
+
+// ── Mobil ── splitHover=false + volba přes tlačítka
+const { isTouch } = useBreakpoint()
+const [target, setTarget] = useState('top')
+
+<DiceTower
+  dice={dice}
+  splitHover={!isTouch}                    // desktop: split, touch: jeden region
+  onTowerClick={() => act(target)}         // single tap, akce závisí na target
+/>
+
+<ButtonGroup>
+  <Button onClick={() => setTarget('top')}   active={target === 'top'}>Kostka</Button>
+  <Button onClick={() => setTarget('tower')} active={target === 'tower'}>Věž</Button>
+</ButtonGroup>`} />
       </Section>
 
       {/* Velikosti */}
