@@ -7,10 +7,14 @@ import Badge from '../lib/tkajui/Badge'
 import Card from '../lib/tkajui/Card'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DonjonCard from '../lib/donjon/DonjonCard'
-import { SwordIcon, ShieldIcon, PotionIcon, KeyIcon, GemIcon, LockIcon } from '../lib/donjon'
+import {
+  SwordIcon, ShieldIcon, PotionIcon, KeyIcon, GemIcon, LockIcon,
+  DonjonTable, DonjonList, DonjonDescriptionList, DonjonStat, DonjonButton,
+} from '../lib/donjon'
 import Button from '../lib/tkajui/Button'
 import { Stack, Inline, Grid } from '../lib/tkajui/Layout'
 import { surface2, borderDefault, textMid, textLow, dangerColor } from '../lib/tkajui/tokens'
+import { dangerColor as donjonDanger, goldMid } from '../lib/donjon/tokens'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 const PLAYERS = [
@@ -22,24 +26,30 @@ const PLAYERS = [
 ]
 
 function TableDemo() {
+  const lib = useLibVariant()
+  const isDonjon = lib === 'donjon'
+  const TableC = isDonjon ? DonjonTable : Table
+  const BadgeC = isDonjon ? DonjonBadge : Badge
+  const hpDanger = isDonjon ? donjonDanger : dangerColor
+  const labelColor = isDonjon ? goldMid : textMid
   const [selected, setSelected] = useState(null)
   return (
     <Stack gap="md">
-      <Table
+      <TableC
         columns={[
           { key: 'name',  label: 'Name',  sortable: true },
           { key: 'class', label: 'Class', sortable: true },
           { key: 'level', label: 'Lvl',   sortable: true, align: 'right', width: 60 },
           { key: 'hp',    label: 'HP',    sortable: true, align: 'right', width: 80,
-            render: (v) => <span style={{ color: v < 60 ? dangerColor : 'inherit' }}>{v}</span> },
+            render: (v) => <span style={{ color: v < 60 ? hpDanger : 'inherit' }}>{v}</span> },
           { key: 'gold',  label: 'Gold',  sortable: true, align: 'right',
-            render: (v) => <Badge variant="warning" size="sm">{v} g</Badge> },
+            render: (v) => <BadgeC variant="warning" size="sm">{v} g</BadgeC> },
         ]}
         data={PLAYERS}
         striped
         onRowClick={(row) => setSelected(row.name)}
       />
-      <span style={{ fontSize: '0.75rem', color: textMid }}>
+      <span style={{ fontSize: '0.75rem', color: labelColor }}>
         Selected row: {selected ?? '(none — click a row)'}
       </span>
     </Stack>
@@ -47,13 +57,17 @@ function TableDemo() {
 }
 
 function ListDemo() {
+  const lib = useLibVariant()
+  const isDonjon = lib === 'donjon'
+  const ListC = isDonjon ? DonjonList : List
+  const BadgeC = isDonjon ? DonjonBadge : Badge
   return (
     <Stack gap="lg">
-      <List
+      <ListC
         items={[
-          { id: 1, icon: <SwordIcon  width={18} height={18} />, title: 'Iron Sword',     description: '+5 ATK', trailing: <Badge size="sm">x1</Badge> },
-          { id: 2, icon: <ShieldIcon width={18} height={18} />, title: 'Wooden Shield', description: '+3 DEF', trailing: <Badge size="sm">x1</Badge> },
-          { id: 3, icon: <PotionIcon width={18} height={18} />, title: 'Health Potion', description: 'Restores 50 HP', trailing: <Badge size="sm">x12</Badge>, onClick: () => {} },
+          { id: 1, icon: <SwordIcon  width={18} height={18} />, title: 'Iron Sword',     description: '+5 ATK', trailing: <BadgeC size="sm">x1</BadgeC> },
+          { id: 2, icon: <ShieldIcon width={18} height={18} />, title: 'Wooden Shield', description: '+3 DEF', trailing: <BadgeC size="sm">x1</BadgeC> },
+          { id: 3, icon: <PotionIcon width={18} height={18} />, title: 'Health Potion', description: 'Restores 50 HP', trailing: <BadgeC size="sm">x12</BadgeC>, onClick: () => {} },
           { id: 4, icon: <KeyIcon    width={18} height={18} />, title: 'Brass Key',     description: 'Opens the East Gate', selected: true, onClick: () => {} },
           { id: 5, icon: <GemIcon    width={18} height={18} />, title: 'Cursed Gem',    description: 'Cannot be sold', disabled: true, trailing: <LockIcon width={14} height={14} /> },
         ]}
@@ -63,11 +77,15 @@ function ListDemo() {
 }
 
 function DescriptionListDemo() {
+  const lib = useLibVariant()
+  const isDonjon = lib === 'donjon'
+  const DLC = isDonjon ? DonjonDescriptionList : DescriptionList
+  const labelColor = isDonjon ? goldMid : textLow
   return (
     <Grid columns={2} gap="lg">
       <Stack gap="xs">
-        <span style={{ fontSize: '0.75rem', color: textLow }}>Inline layout (default)</span>
-        <DescriptionList
+        <span style={{ fontSize: '0.75rem', color: labelColor }}>Inline layout (default)</span>
+        <DLC
           items={[
             { term: 'Name',  description: 'Aragorn II Elessar' },
             { term: 'Class', description: 'Ranger / King' },
@@ -79,8 +97,8 @@ function DescriptionListDemo() {
         />
       </Stack>
       <Stack gap="xs">
-        <span style={{ fontSize: '0.75rem', color: textLow }}>Stacked layout</span>
-        <DescriptionList
+        <span style={{ fontSize: '0.75rem', color: labelColor }}>Stacked layout</span>
+        <DLC
           layout="stacked"
           items={[
             { term: 'Difficulty',  description: 'Nightmare' },
@@ -95,17 +113,19 @@ function DescriptionListDemo() {
 }
 
 function StatDemo() {
+  const lib = useLibVariant()
+  const StatC = lib === 'donjon' ? DonjonStat : Stat
   return (
     <Stack gap="lg">
       <Inline gap="lg">
-        <Stat label="Score"      value="12 450" delta={320} hint="vs last run" />
-        <Stat label="Turns"      value="84"     delta={-3}  hint="vs avg"      />
-        <Stat label="Errors"     value="2"      delta={-1}  invertDelta hint="lower is better" />
-        <Stat label="Streak"     value="7"      delta={0}   hint="this week" />
+        <StatC label="Score"      value="12 450" delta={320} hint="vs last run" />
+        <StatC label="Turns"      value="84"     delta={-3}  hint="vs avg"      />
+        <StatC label="Errors"     value="2"      delta={-1}  invertDelta hint="lower is better" />
+        <StatC label="Streak"     value="7"      delta={0}   hint="this week" />
       </Inline>
       <Inline gap="lg" align="end">
         {['sm', 'md', 'lg', 'xl'].map(sz => (
-          <Stat key={sz} size={sz} label={`Size ${sz}`} value="42" delta={5} />
+          <StatC key={sz} size={sz} label={`Size ${sz}`} value="42" delta={5} />
         ))}
       </Inline>
     </Stack>
@@ -134,14 +154,16 @@ function BadgeDemo() {
 
 function CardDemo() {
   const lib = useLibVariant()
-  const C = lib === 'donjon' ? DonjonCard : Card
+  const isDonjon = lib === 'donjon'
+  const C = isDonjon ? DonjonCard : Card
+  const Btn = isDonjon ? DonjonButton : Button
   return (
     <Stack gap="md" style={{ maxWidth: 420 }}>
       <C title="Default card" description="A short description that explains the panel.">
         Body content goes here.
       </C>
       <C title="Confirm action" description="This will permanently delete the items." variant="danger"
-         footer={<Button variant="danger" size="sm">Delete</Button>}>
+         footer={<Btn variant="danger" size="sm">Delete</Btn>}>
         Body
       </C>
       <C title="Success" variant="success" description="Operation succeeded.">Body</C>
@@ -154,7 +176,7 @@ export default function DataDisplayPage() {
     <ShowcasePage
       title="Data display"
       description="Table + List + DescriptionList + Stat + Card + Badge — kompletní sada pro zobrazení strukturovaných dat. Sortable tabulky, item listy, key-value páry, KPI tiles, info kartičky, label badge."
-      componentSlugs={['table', 'list', 'description-list', 'stat', 'card', 'donjon-card', 'badge', 'donjon-badge']}
+      componentSlugs={['table', 'donjon-table', 'list', 'donjon-list', 'description-list', 'donjon-description-list', 'stat', 'donjon-stat', 'card', 'donjon-card', 'badge', 'donjon-badge']}
       variants={[
         { id: 'tkajui', label: 'TkajUI' },
         { id: 'donjon', label: 'donjon-fall-ui' },
