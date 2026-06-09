@@ -1584,7 +1584,23 @@ export const componentMeta = {
       { name: 'size',        type: enumType(DIE_FACE_SIZE_VALUES),    required: false, default: "'md'", description: 'Die size.' },
       { name: 'state',       type: enumType(DIE_FACE_STATE_VALUES), required: false, default: "'default'", description: 'Die visual state.' },
     ],
-    relatedSlugs: ['hex-tile', 'float-feedback'],
+    relatedSlugs: ['hex-tile', 'float-feedback', 'dice-tower'],
+  },
+
+  'dice-tower': {
+    description: 'Stacked dice forming a "tower" — the core game piece of Donjon Fall. Each die has its own value and player color, so a tower can represent a single-owner stack, a captured tower (top die owner controls), or a contested tower with mixed colors.',
+    subcategory: 'exclusive',
+    status: 'stable',
+    showcaseRoute: '/dice',
+    props: [
+      { name: 'dice',       type: 'Array<{ value: 1–6, playerColor?: string, state?: DieFaceState }>', required: true,  description: 'Dice stack, bottom → top.' },
+      { name: 'size',       type: enumType(DIE_FACE_SIZE_VALUES),   required: false, default: "'md'",     description: 'Die size (tower height scales accordingly).' },
+      { name: 'selected',   type: 'boolean',                        required: false, default: 'false',    description: 'Highlights the top (owning) die via selected state.' },
+      { name: 'label',      type: 'React.ReactNode',                required: false,                       description: 'Caption rendered under the tower.' },
+      { name: 'showBase',   type: 'boolean',                        required: false, default: 'false',    description: 'Draws a faint ground shadow below the stack.' },
+      { name: 'emptyHint',  type: 'string',                         required: false, default: "'—'",      description: 'Glyph rendered when dice array is empty.' },
+    ],
+    relatedSlugs: ['die-face', 'hex-tile', 'player-panel'],
   },
 
   'float-feedback': {
