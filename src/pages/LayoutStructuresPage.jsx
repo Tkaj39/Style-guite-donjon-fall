@@ -5,6 +5,8 @@ import Button from '../lib/tkajui/Button'
 import { Stack, Inline } from '../lib/tkajui/Layout'
 import { surface1, surface2, surface3, borderDefault, textMid, textHigh, textLow } from '../lib/tkajui/tokens'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { SettingsIcon } from '../lib/tkajui'
+import { SwordIcon, GemIcon, HexIcon, BaseIcon } from '../lib/donjon'
 
 function StickyBarDemo() {
   return (
@@ -53,9 +55,19 @@ function SidebarLayoutDemo() {
           collapsed={collapsed}
           sidebar={
             <Stack gap="xs" style={{ padding: 12 }}>
-              {['🏠 Home', '⚔️ Combat', '🎒 Inventory', '🗺 Map', '⚙ Settings'].map((it, i) => (
+              {[
+                { icon: <BaseIcon width={16} height={16} />,     label: 'Home' },
+                { icon: <SwordIcon width={16} height={16} />,    label: 'Combat' },
+                { icon: <GemIcon width={16} height={16} />,      label: 'Inventory' },
+                { icon: <HexIcon width={16} height={16} />,      label: 'Map' },
+                { icon: <SettingsIcon width={16} height={16} />, label: 'Settings' },
+              ].map((it, i) => (
                 <div key={i} style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
                   padding: collapsed ? '8px 6px' : '8px 12px',
+                  justifyContent: collapsed ? 'center' : 'flex-start',
                   background: i === 0 ? surface3 : 'transparent',
                   color: i === 0 ? textHigh : textMid,
                   borderRadius: 4,
@@ -64,7 +76,8 @@ function SidebarLayoutDemo() {
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                 }}>
-                  {collapsed ? it.slice(0, 2) : it}
+                  {it.icon}
+                  {!collapsed && <span>{it.label}</span>}
                 </div>
               ))}
             </Stack>
