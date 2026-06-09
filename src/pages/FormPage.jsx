@@ -36,6 +36,8 @@ import DonjonTextArea from '../lib/donjon/DonjonTextArea'
 import {
   DonjonRadio, DonjonRadioGroup, DonjonCheckbox, DonjonCheckboxGroup,
 } from '../lib/donjon/DonjonForm'
+import { DonjonField, DonjonForm } from '../lib/donjon/DonjonFormPrimitives'
+import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonNumberInput from '../lib/donjon/DonjonNumberInput'
 import DonjonCombobox from '../lib/donjon/DonjonCombobox'
 
@@ -153,17 +155,22 @@ function SliderDemo() {
    Field — label / hint / error composer for any input
    ──────────────────────────────────────────────────────────────────── */
 function FieldDemo() {
+  const lib = useLibVariant()
+  const isDonjon = lib === 'donjon'
+  const F = isDonjon ? DonjonField : Field
+  const I = isDonjon ? DonjonInput : Input
+  const S = isDonjon ? DonjonSelect : Select
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')
   const validate = () => setError(email.includes('@') ? '' : 'Email must contain @')
   return (
     <Stack gap="md">
-      <Field label="Email" required hint="We'll never share your email." error={error}>
-        <Input value={email} onChange={setEmail} placeholder="you@example.com" onBlur={validate} />
-      </Field>
-      <Field label="Country" hint="Where do you live?">
-        <Select options={COUNTRIES} value="" onChange={_noop} placeholder="Choose…" />
-      </Field>
+      <F label="Email" required hint="We'll never share your email." error={error}>
+        <I value={email} onChange={setEmail} placeholder="you@example.com" onBlur={validate} />
+      </F>
+      <F label="Country" hint="Where do you live?">
+        <S options={COUNTRIES} value="" onChange={_noop} placeholder="Choose…" />
+      </F>
     </Stack>
   )
 }
@@ -285,25 +292,52 @@ function SubmitButtonDemo() {
 }
 
 function FormDemo() {
+  const lib = useLibVariant()
+  const isDonjon = lib === 'donjon'
+  const FormC  = isDonjon ? DonjonForm     : Form
+  const FieldC = isDonjon ? DonjonField    : Field
+  const I      = isDonjon ? DonjonInput    : Input
+  const C      = isDonjon ? DonjonCheckbox : Checkbox
+  const Btn    = isDonjon ? DonjonButton   : Button
   const [submitted, setSubmitted] = useState(null)
   const [data, setData] = useState({ email: '', password: '', terms: false })
+
+  const inner = (
+    <>
+      <FieldC label="Email" required>
+        <I value={data.email} onChange={v => setData({ ...data, email: v })} placeholder="you@example.com" />
+      </FieldC>
+      <FieldC label="Password" required hint="At least 8 characters">
+        <I value={data.password} onChange={v => setData({ ...data, password: v })} placeholder="••••••••" />
+      </FieldC>
+      <C checked={data.terms} onChange={v => setData({ ...data, terms: v })}>
+        I accept the terms of service
+      </C>
+      <Inline gap="sm" justify="end">
+        <Btn variant="default" onClick={() => { setSubmitted(null); setData({ email: '', password: '', terms: false }) }}>Reset</Btn>
+        <Btn variant="success" type="submit" disabled={!data.terms}>Sign up</Btn>
+      </Inline>
+    </>
+  )
+
   return (
-    <Stack gap="md" style={{ background: surface2, padding: 16, border: `1px solid ${borderDefault}`, borderRadius: 6 }}>
-      <Form onSubmit={() => setSubmitted({ ...data })} gap={12}>
-        <Field label="Email" required>
-          <Input value={data.email} onChange={v => setData({ ...data, email: v })} placeholder="you@example.com" />
-        </Field>
-        <Field label="Password" required hint="At least 8 characters">
-          <Input value={data.password} onChange={v => setData({ ...data, password: v })} placeholder="••••••••" />
-        </Field>
-        <Checkbox checked={data.terms} onChange={v => setData({ ...data, terms: v })}>
-          I accept the terms of service
-        </Checkbox>
-        <Inline gap="sm" justify="end">
-          <Button variant="default" onClick={() => { setSubmitted(null); setData({ email: '', password: '', terms: false }) }}>Reset</Button>
-          <Button variant="success" type="submit" disabled={!data.terms}>Sign up</Button>
-        </Inline>
-      </Form>
+    <Stack gap="md">
+      {isDonjon ? (
+        <FormC
+          onSubmit={() => setSubmitted({ ...data })}
+          gap={12}
+          title="Sign up"
+          description="Create your account — the form lives inside a parchment shell."
+        >
+          {inner}
+        </FormC>
+      ) : (
+        <Stack gap="md" style={{ background: surface2, padding: 16, border: `1px solid ${borderDefault}`, borderRadius: 6 }}>
+          <FormC onSubmit={() => setSubmitted({ ...data })} gap={12}>
+            {inner}
+          </FormC>
+        </Stack>
+      )}
       {submitted && (
         <pre style={{ margin: 0, fontSize: '0.75rem', color: textMid, background: 'rgba(0,0,0,0.2)', padding: 8, borderRadius: 4 }}>
           submitted = {JSON.stringify(submitted, null, 2)}
@@ -318,7 +352,7 @@ export default function FormPage() {
     <ShowcasePage
       title="Forms & inputs"
       description="Kompletní rodina form controls — text inputs, výběry, toggles, sliders + compositional helpers (Field / Form / RadioGroup / CheckboxGroup). Lib switcher v hlavičce přepne mezi tkajui a donjon variantami tam, kde existují obě."
-      componentSlugs={['input', 'select', 'toggle', 'slider', 'field', 'form', 'radio', 'donjon-radio', 'radio-group', 'donjon-radio-group', 'checkbox', 'donjon-checkbox', 'checkbox-group', 'donjon-checkbox-group', 'text-area', 'donjon-text-area', 'number-input', 'donjon-number-input', 'combobox', 'donjon-combobox', 'submit-button', 'donjon-submit-button']}
+      componentSlugs={['input', 'select', 'toggle', 'slider', 'field', 'donjon-field', 'form', 'donjon-form', 'radio', 'donjon-radio', 'radio-group', 'donjon-radio-group', 'checkbox', 'donjon-checkbox', 'checkbox-group', 'donjon-checkbox-group', 'text-area', 'donjon-text-area', 'number-input', 'donjon-number-input', 'combobox', 'donjon-combobox', 'submit-button', 'donjon-submit-button']}
       variants={[
         { id: 'tkajui', label: 'TkajUI' },
         { id: 'donjon', label: 'donjon-fall-ui' },
