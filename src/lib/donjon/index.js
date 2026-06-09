@@ -20,6 +20,20 @@
 export { default as DonjonButton }      from './DonjonButton'
 
 /**
+ * Submit button wired to React 19 `useFormStatus`. Must live inside
+ * a `<form>` — automatically shows a spinner and disables itself
+ * while the form action is pending.
+ * @prop {string} [loadingLabel]  Text shown while pending. Defaults to children.
+ * @prop {...DonjonButtonProps}   Everything DonjonButton accepts.
+ * @example
+ *   <form action={save}>
+ *     <DonjonInput name="name" />
+ *     <DonjonSubmitButton loadingLabel="Saving…">Save</DonjonSubmitButton>
+ *   </form>
+ */
+export { default as DonjonSubmitButton } from './DonjonSubmitButton'
+
+/**
  * A group of adjacent game buttons sharing borders.
  * @prop {React.ReactNode} children - Items must be DonjonButton
  * @example <DonjonButtonGroup><DonjonButton>A</DonjonButton><DonjonButton>B</DonjonButton></DonjonButtonGroup>
