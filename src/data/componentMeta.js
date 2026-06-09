@@ -1051,6 +1051,67 @@ export const componentMeta = {
     relatedSlugs: ['dropdown-menu', 'tooltip'],
   },
 
+  'donjon-breadcrumb': {
+    description: 'Game variant of Breadcrumb — extends TkajUI Breadcrumb with the donjon palette: gold current page label, goldDim › separator, textMid hover links. No octagon shell — breadcrumb is inline text, no surface to clip.',
+    subcategory: 'extends-tkajui',
+    extendsSlug: 'breadcrumb',
+    differencesFromBase: [
+      'Gold uppercase-ish weight on the current page',
+      'GoldDim separator (›) instead of textLow',
+      'Same items / linkComponent API',
+    ],
+    status: 'stable',
+    showcaseRoute: '/navigation',
+    props: [
+      { name: 'items',         type: 'Array<{label, href?, onClick?}>', required: true,  description: 'Path segments. Last item is treated as current.' },
+      { name: 'separator',     type: 'ReactNode',                       required: false, default: "'›'",   description: 'Inter-item separator glyph or node.' },
+      { name: 'linkComponent', type: 'ElementType',                     required: false, default: "'a'",   description: 'Router Link override; receives both href and to props.' },
+    ],
+    relatedSlugs: ['breadcrumb', 'donjon-tabs'],
+  },
+
+  'donjon-pagination': {
+    description: 'Game variant of Pagination — extends TkajUI Pagination with octagonal page chips via the border-trick. Current page = gold-filled octagon, non-current = bg2 inside a goldDim octagon outline. Prev/next chevrons share the chip style.',
+    subcategory: 'extends-tkajui',
+    extendsSlug: 'pagination',
+    differencesFromBase: [
+      'Octagonal page chips (clipPath: octagon + border-trick)',
+      'Current page filled with gold (parchment-seal feel)',
+      'Hover lifts non-current chips to bg3, edges respect octagon clip',
+    ],
+    status: 'stable',
+    showcaseRoute: '/navigation',
+    props: [
+      { name: 'page',         type: 'number',                  required: true,  description: 'Current page (1-indexed).' },
+      { name: 'total',        type: 'number',                  required: true,  description: 'Total page count.' },
+      { name: 'onChange',     type: '(page: number) => void',  required: true,  description: 'Page-change handler.' },
+      { name: 'siblingCount', type: 'number',                  required: false, default: '1',     description: 'Neighbors shown on each side of current page.' },
+      { name: 'size',         type: enumType(PAGINATION_SIZE_VALUES), required: false, default: "'md'", description: 'Chip dimension (sm/md/lg = 28/34/42 px).' },
+      { name: 'showEdges',    type: 'boolean',                 required: false, default: 'true',  description: 'Render prev/next chevron chips.' },
+    ],
+    relatedSlugs: ['pagination', 'donjon-button'],
+  },
+
+  'donjon-context-menu': {
+    description: 'Game variant of ContextMenu — extends TkajUI ContextMenu with the parchment menu shell: bg2 inner panel on a full gold border, octagonal clip via the border-trick, gold-tinted icons, bg3 row hover. Same right-click / outside-click / ESC / viewport-clamp behavior.',
+    subcategory: 'extends-tkajui',
+    extendsSlug: 'context-menu',
+    differencesFromBase: [
+      'Octagonal parchment panel — bg2 on full gold border via border-trick',
+      'Gold-tinted icon column; goldDim shortcut text',
+      'bg3 row hover instead of cool surface4',
+    ],
+    status: 'stable',
+    showcaseRoute: '/navigation',
+    props: [
+      { name: 'children', type: 'ReactNode', required: true,  description: 'Area that receives onContextMenu.' },
+      { name: 'items',    type: 'Array<{label, icon?, shortcut?, onClick?, danger?, disabled?, divider?}>', required: true, description: 'Menu items.' },
+      { name: 'minWidth', type: 'number',     required: false, default: '180',   description: 'Minimum popover width.' },
+      { name: 'as',       type: 'ElementType', required: false, default: "'div'", description: 'Wrapper element type.' },
+    ],
+    relatedSlugs: ['context-menu', 'donjon-dropdown-menu'],
+  },
+
   'combobox': {
     description: 'Searchable single-select. Input with typeahead filter + dropdown of matching options. Arrow keys / Enter / Esc / Backspace-to-clear. Use for >10 options where typing is faster than scrolling.',
     subcategory: 'exclusive',
