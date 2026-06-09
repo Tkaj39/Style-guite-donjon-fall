@@ -15,11 +15,13 @@
      • the TOP die (controlling die) — fires `onTopHover`
      • the REST of the stack (peeks of all lower dice) — fires
        `onTowerHover`
-   They are mutually exclusive: hovering over the top die does NOT
-   register as a tower hover, and vice versa. The same split applies
-   to click — `onTopClick` vs `onTowerClick`. Hovering any part of the
-   relevant region adds a subtle gold drop-shadow on that region so
-   the player sees what their cursor is targeting.
+   The HOVER SIGNALS are mutually exclusive — hovering the top die
+   does NOT register as a tower hover. But the VISUAL glow follows
+   game semantics: hovering the top region lights up the top die only
+   (strong gold), hovering the tower region lights up the WHOLE tower
+   (top + lower peeks, softer gold) because the dice belong to the
+   same physical piece. The same split applies to click — `onTopClick`
+   vs `onTowerClick`.
    ─────────────────────────────────────────────────────────────────── */
 import { useRef, useState } from 'react'
 import DieFace from './DieFace'
@@ -116,9 +118,20 @@ export default function DiceTower({
   // why we don't use column-reverse.
   const ordered = [...dice].reverse()
 
-  const topGlow   = (hoverTop   || (selected && !onTopHover && !onTowerHover))
-    ? `drop-shadow(0 0 6px ${gold}AA)` : undefined
-  const towerGlow = hoverTower ? `drop-shadow(0 0 5px ${gold}66)` : undefined
+  // Glow rules:
+  //   • top die hover  → strong glow on TOP only
+  //   • tower hover    → softer glow on WHOLE tower (lower peeks + the top
+  //                      die above them) — the lower dice belong to the
+  //                      same physical structure as the top die, so a
+  //                      "tower" hover lights up the whole piece
+  //   • selected (no hover handlers wired) → fall back to a top-die glow
+  const TOP_HOVER_GLOW   = `drop-shadow(0 0 6px ${gold}AA)`
+  const TOWER_HOVER_GLOW = `drop-shadow(0 0 5px ${gold}66)`
+
+  const topFilter   = hoverTop   ? TOP_HOVER_GLOW
+                   : hoverTower ? TOWER_HOVER_GLOW
+                   : (selected && !onTopHover && !onTowerHover ? TOP_HOVER_GLOW : undefined)
+  const lowerFilter = hoverTower ? TOWER_HOVER_GLOW : undefined
 
   return (
     <div
@@ -189,7 +202,7 @@ export default function DiceTower({
                   zIndex: dice.length - i,  // top die (i=0) wins
                   marginTop: isTop ? 0 : -(s.box - s.peek),
                   cursor: interactive ? 'pointer' : undefined,
-                  filter: isTop ? topGlow : towerGlow,
+                  filter: isTop ? topFilter : lowerFilter,
                   transition: 'filter 120ms ease',
                 }}
               >
