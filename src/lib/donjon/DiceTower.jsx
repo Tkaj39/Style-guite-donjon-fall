@@ -57,10 +57,19 @@ export default function DiceTower({
   const isEmpty = dice.length === 0
   const topIndex = dice.length - 1
 
-  // Reverse for rendering — visually the top die must paint last so it
-  // wins z-stack and we keep the natural DOM order (top in the array =
-  // top of the tower). We use flex-direction: column-reverse instead so
-  // the bottom die in the array stays at the bottom of the screen.
+  // Render TOP-to-BOTTOM (column flex, dice array reversed).
+  //
+  // Layout: each die after the first gets `marginTop: -(box - peek)`,
+  // pulling it UP into the die above so only `peek` px of it remains
+  // visible. With this DOM order, the FIRST element painted is the
+  // TOP die (i = 0), and every subsequent die is pulled up under it
+  // — which means the bottom die is the most overlapped (least
+  // visible), matching how a real dice stack reads. We tried
+  // column-reverse first, but marginTop in that direction overlaps
+  // the wrong end of the stack.
+  //
+  // z-index counts down so the top die wins paint order.
+  const ordered = [...dice].reverse()  // ordered[0] = top of tower
   return (
     <div
       className={className}
@@ -80,7 +89,7 @@ export default function DiceTower({
       <div style={{
         position: 'relative',
         display: 'flex',
-        flexDirection: 'column-reverse',  // dice[0] at the bottom visually
+        flexDirection: 'column',
         alignItems: 'center',
         // Reserve full height so layout doesn't jitter as the tower shrinks
         minHeight: s.box,
@@ -99,21 +108,28 @@ export default function DiceTower({
             {emptyHint}
           </span>
         ) : (
-          dice.map((die, i) => (
-            <div key={i} style={{
-              position: 'relative',
-              zIndex: i + 1,  // bottom-to-top, top wins
-              // i === 0 (bottom) = no overlap; all others pulled up by (box-peek)
-              marginTop: i === 0 ? 0 : -(s.box - s.peek),
-            }}>
-              <DieFace
-                value={die.value}
-                playerColor={die.playerColor ?? goldDim}
-                size={size}
-                state={die.state ?? (i === topIndex && selected ? 'selected' : 'default')}
-              />
-            </div>
-          ))
+          // ordered[0] = top of tower → paints first, sits at the top of
+          // the visual stack and wins z-stack; ordered[last] = bottom of
+          // tower → most overlapped.
+          ordered.map((die, i) => {
+            // i runs 0..N-1 over `ordered`. The matching index in the
+            // original `dice` array (for state precedence below) is:
+            const origIndex = dice.length - 1 - i
+            return (
+              <div key={origIndex} style={{
+                position: 'relative',
+                zIndex: dice.length - i,  // top die (i=0) wins
+                marginTop: i === 0 ? 0 : -(s.box - s.peek),
+              }}>
+                <DieFace
+                  value={die.value}
+                  playerColor={die.playerColor ?? goldDim}
+                  size={size}
+                  state={die.state ?? (origIndex === topIndex && selected ? 'selected' : 'default')}
+                />
+              </div>
+            )
+          })
         )}
         {showBase && !isEmpty && (
           <div aria-hidden="true" style={{
