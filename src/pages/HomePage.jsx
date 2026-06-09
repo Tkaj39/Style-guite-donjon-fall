@@ -27,7 +27,7 @@ import {
   ListIcon, PhasesIcon, HashIcon, PaletteIcon, GridIcon, SparkIcon,
   StackIcon, FormIcon, ButtonIcon, ModalIcon, TabsIcon, ToggleIcon, ArchIcon,
 } from '../lib/tkajui'
-import { ShieldIcon, HeartIcon, SwordIcon } from '../lib/donjon'
+import { ShieldIcon, HeartIcon, SwordIcon, ScrollIcon, BoltIcon } from '../lib/donjon'
 import ArchDiagram from '../styleguide/ArchDiagram'
 import LibraryLogo from '../styleguide/LibraryLogo'
 
@@ -510,7 +510,7 @@ export default function HomePage() {
         {/* ── DVĚ KNIHOVNY, JEDEN SYSTÉM ───────────────────────── */}
         <section style={{ marginBottom: 48 }}>
           <SectionHeader
-            kicker="🏛️ Architektura"
+            kicker={<span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><ArchIcon width={14} height={14} /> Architektura</span>}
             title="Dvě knihovny, jeden systém"
             description="TkajUI je obecná UI základna použitelná v jakékoli React aplikaci. donjon-fall-ui z ní vychází a přidává herní vrstvu — středověkou estetiku, ornamenty a primitiva specifická pro deskové a tahové hry. Sdílejí motion, breakpointy a z-index škálu."
           />
@@ -555,7 +555,7 @@ export default function HomePage() {
 
         {/* ── ZAČNI TADY ───────────────────────────────────────── */}
         <section style={{ marginBottom: 48 }}>
-          <SectionHeader kicker="⚡ Začni tady" />
+          <SectionHeader kicker={<span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><BoltIcon width={14} height={14} /> Začni tady</span>} />
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
@@ -722,7 +722,8 @@ export default function HomePage() {
               textTransform: 'uppercase', marginBottom: 8,
               display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap',
             }}>
-              📜 Nejnovější změny
+              <ScrollIcon width={14} height={14} />
+              Nejnovější změny
               <BrandChip brand="tkajui" />
               <BrandChip brand="donjon" />
             </div>
