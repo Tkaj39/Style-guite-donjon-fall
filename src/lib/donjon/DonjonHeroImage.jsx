@@ -2,12 +2,20 @@
    Game variant of HeroImage. Same height / overlay / title / subtitle /
    actions / align API as the TkajUI version — visuals swap to the
    parchment palette + octagonal silhouette:
-     • Border-trick gold octagon shell (cx 16)
-     • bg2 fallback so a slow/blocked image still shows the frame
-     • Gold uppercase title with letter-spacing
-     • textMid subtitle, donjon overlay tints
+     • Single-layer octagon shell: gold border + clipPath: octagon(16)
+     • Parchment-shading gradient fallback so the framed area stays
+       visible even when the image is stalling / blocked
+     • Gold uppercase title with letter-spacing + text-shadow
+     • Donjon-tinted scrim (deep purple-blue) instead of pure black
+
+   The shell is intentionally NOT the outer/inner border-trick used by
+   DonjonCard etc. The double-clipPath pattern eats the title slot
+   inside a position:absolute content layer — the inner clip was
+   overriding the outer one at the corners and leaving most of the
+   frame invisible. One container + border + clipPath does the same
+   gold-edge job and keeps the absolute children rendering correctly.
    ─────────────────────────────────────────────────────────────────── */
-import { octagon, octagonInner } from '../shared/octagon'
+import { octagon } from '../shared/octagon'
 import { bg2, bg3, bgDeep, gold, goldDim, textHigh, textMid } from './tokens'
 
 const HEIGHTS = {
@@ -62,103 +70,90 @@ export default function DonjonHeroImage({
         position: 'relative',
         width: '100%',
         height: h,
-        background: gold,          // outer = gold edge
+        // Parchment-shading gradient so the framed area stays visible
+        // even when the image is stalling / blocked. bg0 (page bg) is
+        // very close to bg2 and used to make the panel disappear.
+        background: `linear-gradient(135deg, ${bg3} 0%, ${bgDeep} 60%, ${bg2} 100%)`,
+        border: `1px solid ${gold}`,
         clipPath: octagon(SHELL_CX),
-        padding: 1,                // border thickness
-        boxSizing: 'border-box',
+        overflow: 'hidden',
         ...style,
       }}
       {...rest}
     >
+      {/* Subtle goldDim diagonal hatch behind the image so the empty
+          frame looks intentional rather than blank. */}
+      <div aria-hidden="true" style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: `repeating-linear-gradient(135deg, transparent 0 12px, ${goldDim}11 12px 13px)`,
+        pointerEvents: 'none',
+      }} />
+      <img
+        src={src}
+        alt={alt}
+        draggable={false}
+        // Hide the broken-image icon if the URL fails / is blocked so the
+        // gradient + hatch fallback stays clean.
+        onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          display: 'block',
+        }}
+      />
+      {overlayStyle && (
+        <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', ...overlayStyle }} />
+      )}
       <div style={{
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        // Parchment-shading gradient so a slow / blocked image still shows
-        // the framed area clearly against the page bg (bg0 is very close to
-        // bg2 and made the panel look invisible).
-        background: `linear-gradient(135deg, ${bg3} 0%, ${bgDeep} 60%, ${bg2} 100%)`,
-        // Inner shell uses octagonInner so the 1 px gold ring stays uniform
-        // around all 8 edges (octagon(SHELL_CX) on both layers leaves the
-        // edge gaps inconsistent).
-        clipPath: octagonInner(SHELL_CX),
-        overflow: 'hidden',
+        position: 'absolute',
+        inset: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: flexAlign,
+        alignItems: align === 'center' ? 'center' : 'flex-start',
+        padding: '28px 32px',
+        color: textHigh,
+        textAlign,
       }}>
-        {/* Decorative goldDim diagonal hatch as the "no image" backdrop.
-            Stays under the real <img> when the image is fine; visible on
-            its own when the image fails or is still loading. */}
-        <div aria-hidden="true" style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `repeating-linear-gradient(135deg, transparent 0 12px, ${goldDim}11 12px 13px)`,
-          pointerEvents: 'none',
-        }} />
-        <img
-          src={src}
-          alt={alt}
-          draggable={false}
-          // Hide the broken-image icon if the URL fails / is blocked so the
-          // gradient + hatch fallback stays clean.
-          onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            display: 'block',
-          }}
-        />
-        {overlayStyle && (
-          <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', ...overlayStyle }} />
+        {children ?? (
+          <>
+            {title && (
+              <h2 style={{
+                margin: 0,
+                fontSize: '1.875rem',
+                lineHeight: 1.15,
+                fontWeight: 700,
+                color: gold,
+                letterSpacing: 1,
+                textTransform: 'uppercase',
+                textShadow: '0 2px 8px rgba(0,0,0,0.7)',
+              }}>
+                {title}
+              </h2>
+            )}
+            {subtitle && (
+              <p style={{
+                margin: '8px 0 0',
+                fontSize: '0.95rem',
+                color: textMid,
+                maxWidth: '60ch',
+                lineHeight: 1.55,
+                textShadow: '0 1px 6px rgba(0,0,0,0.7)',
+              }}>
+                {subtitle}
+              </p>
+            )}
+            {actions && (
+              <div style={{ marginTop: 16, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                {actions}
+              </div>
+            )}
+          </>
         )}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: flexAlign,
-          alignItems: align === 'center' ? 'center' : 'flex-start',
-          padding: '28px 32px',
-          color: textHigh,
-          textAlign,
-        }}>
-          {children ?? (
-            <>
-              {title && (
-                <h2 style={{
-                  margin: 0,
-                  fontSize: '1.875rem',
-                  lineHeight: 1.15,
-                  fontWeight: 700,
-                  color: gold,
-                  letterSpacing: 1,
-                  textTransform: 'uppercase',
-                  textShadow: '0 2px 8px rgba(0,0,0,0.7)',
-                }}>
-                  {title}
-                </h2>
-              )}
-              {subtitle && (
-                <p style={{
-                  margin: '8px 0 0',
-                  fontSize: '0.95rem',
-                  color: textMid,
-                  maxWidth: '60ch',
-                  lineHeight: 1.55,
-                  textShadow: '0 1px 6px rgba(0,0,0,0.7)',
-                }}>
-                  {subtitle}
-                </p>
-              )}
-              {actions && (
-                <div style={{ marginTop: 16, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                  {actions}
-                </div>
-              )}
-            </>
-          )}
-        </div>
       </div>
     </div>
   )
