@@ -51,6 +51,13 @@ export default function HeroImage({
 
   const flexAlign = align === 'start' ? 'flex-start' : align === 'center' ? 'center' : 'flex-end'
 
+  // Hero shell is the flex container itself; absolute-positioned media
+  // (img + scrim) sits behind a single relatively-positioned content slot.
+  // Earlier versions had the content as a 4th absolute child — that left
+  // it visually empty in some browsers because the stacking context
+  // interacted oddly with `overflow: hidden` on the parent. Using
+  // `position: relative` + `zIndex: 1` keeps the content above the media
+  // siblings without taking it out of the flex flow that drives `align`.
   return (
     <div
       className={className}
@@ -65,10 +72,17 @@ export default function HeroImage({
         // etc. can stall). Use a diagonal surface3→surface4 gradient so the
         // frame reads as intentional even with no image.
         background: `linear-gradient(135deg, ${surface3} 0%, ${surface2} 60%, ${surface4} 100%)`,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: flexAlign,
+        padding: '24px 28px',
+        boxSizing: 'border-box',
+        color: textHigh,
         ...style,
       }}
       {...rest}
     >
+      {/* ── Media stack — absolutely positioned, out of flex flow ── */}
       <img
         src={src}
         alt={alt}
@@ -88,17 +102,10 @@ export default function HeroImage({
       {overlayStyle && (
         <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', ...overlayStyle }} />
       )}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: flexAlign,
-          padding: '24px 28px',
-          color: textHigh,
-        }}
-      >
+
+      {/* ── Content slot — relative so it stacks above media siblings,
+            still a flex child so align/justify on the shell positions it. */}
+      <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column' }}>
         {children ?? (
           <>
             {title && (
