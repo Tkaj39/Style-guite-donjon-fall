@@ -267,6 +267,22 @@ export { default as Avatar } from '../tkajui/Avatar'
  */
 export { default as FramedImage } from './FramedImage'
 
+/**
+ * Game variant of HeroImage — extends TkajUI HeroImage with the parchment
+ * palette + octagonal gold shell (border-trick). bg2 fallback so a slow
+ * image still shows the framed area. Gold uppercase title, donjon overlay
+ * tints. Same height / overlay / align / actions API.
+ */
+export { default as DonjonHeroImage } from './DonjonHeroImage'
+
+/**
+ * Game variant of Thumbnail — extends TkajUI Thumbnail with an octagonal
+ * gold ring (border-trick), bg2 fallback fill, gold glow + lift when
+ * selected, gold uppercase caption. Same src / size / aspect / selected /
+ * caption / badge / onClick API.
+ */
+export { default as DonjonThumbnail } from './DonjonThumbnail'
+
 // ── Gameplay group ──────────────────────────────────────────────────────
 export { default as Dialogue }         from './Dialogue'
 export { default as ChoicePanel }      from './ChoicePanel'

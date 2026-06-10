@@ -953,6 +953,57 @@ export const componentMeta = {
     relatedSlugs: ['avatar', 'framed-image', 'hero-image'],
   },
 
+  'donjon-hero-image': {
+    description: 'Game variant of HeroImage — extends TkajUI HeroImage with the parchment palette + octagonal gold shell (border-trick). Gold uppercase title (letter-spaced, text-shadowed), donjon overlay tints, bg2 fallback so the framed area stays visible even before the image loads. Same height / overlay / align / actions API.',
+    subcategory: 'extends-tkajui',
+    extendsSlug: 'hero-image',
+    differencesFromBase: [
+      'Octagonal gold shell via border-trick (clipPath: octagon(16))',
+      'bg2 fallback fill (image loading / blocked stays visible)',
+      'Gold uppercase title with letter-spacing 1 and text-shadow',
+      'Donjon-tinted overlay (rgba(15,13,30,…) instead of pure black)',
+    ],
+    status: 'stable',
+    showcaseRoute: '/media',
+    props: [
+      { name: 'src',      type: 'string',                                                required: true,  description: 'Background image URL.' },
+      { name: 'alt',      type: 'string',                                                required: false, default: "''",          description: 'Background-image alt.' },
+      { name: 'height',   type: "'sm'|'md'|'lg'|'xl' | number",                          required: false, default: "'md'",       description: 'Container height token (180/280/380/520) or raw px.' },
+      { name: 'overlay',  type: "'bottom'|'full'|'none'",                                required: false, default: "'bottom'",   description: 'Scrim mode.' },
+      { name: 'title',    type: 'string',                                                required: false, description: 'Gold uppercase title.' },
+      { name: 'subtitle', type: 'string',                                                required: false, description: 'Sub-text under the title.' },
+      { name: 'actions',  type: 'ReactNode',                                             required: false, description: 'Trailing slot (button group).' },
+      { name: 'align',    type: "'start'|'center'|'end'",                                required: false, default: "'end'",      description: 'Vertical position of content.' },
+      { name: 'children', type: 'ReactNode',                                             required: false, description: 'Custom content (replaces title/subtitle/actions).' },
+    ],
+    relatedSlugs: ['hero-image', 'framed-image', 'donjon-thumbnail'],
+  },
+
+  'donjon-thumbnail': {
+    description: 'Game variant of Thumbnail — extends TkajUI Thumbnail with an octagonal gold ring via border-trick, bg2 fallback fill, gold glow + lift when selected, gold uppercase caption. Same src / size / aspect / selected / caption / badge / onClick API.',
+    subcategory: 'extends-tkajui',
+    extendsSlug: 'thumbnail',
+    differencesFromBase: [
+      'Octagonal silhouette per size (cx scales 5/7/9/11/14)',
+      'goldDim ring idle, gold ring + drop-shadow glow when selected',
+      'Gold uppercase caption (letter-spacing 0.6) with goldMid idle / gold selected',
+      'bg2 fallback fill so a slow/blocked image still shows the tile',
+    ],
+    status: 'stable',
+    showcaseRoute: '/media',
+    props: [
+      { name: 'src',      type: 'string',                                                required: true,  description: 'Image URL.' },
+      { name: 'alt',      type: 'string',                                                required: false, default: "''",          description: 'Alt text.' },
+      { name: 'size',     type: `${enumType(THUMBNAIL_SIZE_VALUES)} | number`,           required: false, default: "'md'",       description: 'Width in px — token (xs=48, sm=72, md=96, lg=128, xl=192) or raw.' },
+      { name: 'aspect',   type: 'number',                                                required: false, default: '1',           description: 'Width / height ratio.' },
+      { name: 'selected', type: 'boolean',                                               required: false, default: 'false',       description: 'Gold ring + glow + lift. Sets aria-pressed when interactive.' },
+      { name: 'caption',  type: 'string',                                                required: false, description: 'Gold uppercase label below the image.' },
+      { name: 'badge',    type: 'ReactNode',                                             required: false, description: 'Top-right corner slot.' },
+      { name: 'onClick',  type: '(e: MouseEvent) => void',                               required: false, description: 'When set, renders as a <button>.' },
+    ],
+    relatedSlugs: ['thumbnail', 'donjon-hero-image', 'framed-image'],
+  },
+
   'inventory-slot': {
     description: 'Square cell representing an item in an inventory grid — icon + count badge + rarity-colored border + selected ring + locked/disabled states. Empty slot = no `icon` (renders a plus placeholder).',
     subcategory: 'exclusive',

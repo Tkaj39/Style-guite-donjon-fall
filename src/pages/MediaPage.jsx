@@ -6,30 +6,38 @@ import Avatar from '../lib/tkajui/Avatar'
 import FramedImage from '../lib/donjon/FramedImage'
 import Button from '../lib/tkajui/Button'
 import Badge from '../lib/tkajui/Badge'
+import DonjonHeroImage from '../lib/donjon/DonjonHeroImage'
+import DonjonThumbnail from '../lib/donjon/DonjonThumbnail'
+import DonjonButton from '../lib/donjon/DonjonButton'
+import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { Stack, Inline, Cluster } from '../lib/tkajui/Layout'
 import { surface2, borderDefault, textMid, textLow } from '../lib/tkajui/tokens'
 import { red, blue, green, yellow, purple, orange } from '../lib/donjon/playerColors'
-import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
 
 const SIZE_KEYS = ['xs', 'sm', 'md', 'lg', 'xl']
 const PLAYER_COLORS = [red, blue, green, yellow, purple, orange]
 
 function HeroImageDemo() {
+  const lib = useLibVariant()
+  const isDonjon = lib === 'donjon'
+  const HeroC = isDonjon ? DonjonHeroImage : HeroImage
+  const Btn = isDonjon ? DonjonButton : Button
   return (
     <Stack gap="lg">
-      <HeroImage
+      <HeroC
         src="https://picsum.photos/seed/hero1/1200/520"
         height="md"
         title="The Hollow Crown"
         subtitle="A turn-based dungeon crawler. Your campaign awaits."
         actions={
           <>
-            <Button variant="success">Continue</Button>
-            <Button variant="default">New game</Button>
+            <Btn variant="success">Continue</Btn>
+            <Btn variant="default">New game</Btn>
           </>
         }
       />
-      <HeroImage
+      <HeroC
         src="https://picsum.photos/seed/hero2/1200/360"
         height="sm"
         overlay="full"
@@ -57,26 +65,30 @@ function BackdropDemo() {
 }
 
 function ThumbnailDemo() {
+  const lib = useLibVariant()
+  const isDonjon = lib === 'donjon'
+  const ThumbC = isDonjon ? DonjonThumbnail : Thumbnail
+  const BadgeC = isDonjon ? DonjonBadge : Badge
   const [selected, setSelected] = useState(1)
   return (
     <Stack gap="lg">
       <Inline gap="md">
         {[0, 1, 2, 3].map(i => (
-          <Thumbnail
+          <ThumbC
             key={i}
             src={`https://picsum.photos/seed/thumb${i}/200/200`}
             alt={`Save slot ${i + 1}`}
             size="md"
             selected={selected === i}
             caption={`Save ${i + 1}`}
-            badge={i === 0 ? <Badge variant="success" size="sm">NEW</Badge> : null}
+            badge={i === 0 ? <BadgeC variant="success" size="sm">NEW</BadgeC> : null}
             onClick={() => setSelected(i)}
           />
         ))}
       </Inline>
       <Inline gap="md" align="end">
         {['xs', 'sm', 'md', 'lg', 'xl'].map(sz => (
-          <Thumbnail key={sz} src={`https://picsum.photos/seed/${sz}/200/200`} size={sz} caption={sz} />
+          <ThumbC key={sz} src={`https://picsum.photos/seed/${sz}/200/200`} size={sz} caption={sz} />
         ))}
       </Inline>
     </Stack>
@@ -154,7 +166,11 @@ export default function MediaPage() {
     <ShowcasePage
       title="Media"
       description="Avatar + Thumbnail + FramedImage + HeroImage + Backdrop — kompletní rodina media tiles uspořádaná od nejmenší (identita) po nejvíc plnou (full-screen feature). (IconButton se přestěhoval pod /buttons#icon-button.)"
-      componentSlugs={['avatar', 'thumbnail', 'framed-image', 'hero-image', 'backdrop']}
+      componentSlugs={['avatar', 'thumbnail', 'donjon-thumbnail', 'framed-image', 'hero-image', 'donjon-hero-image', 'backdrop']}
+      variants={[
+        { id: 'tkajui', label: 'TkajUI' },
+        { id: 'donjon', label: 'donjon-fall-ui' },
+      ]}
     >
       <Section
         id="avatar"
