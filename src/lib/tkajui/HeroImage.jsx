@@ -4,21 +4,28 @@
    campaign select, victory screen).
 
    Composition: background <img>, optional gradient overlay (bottom or
-   full), an absolutely-positioned content slot.
+   full), a flex-flow content slot. Shell itself is the flex container
+   so the content participates in `align` without being yanked out of
+   flow by absolute positioning.
+
+   Responsive: `height` token resolves to (aspectRatio, maxHeight,
+   minHeight) so the box scales with viewport width. A numeric `height`
+   is a fixed-pixel escape hatch.
    ─────────────────────────────────────────────────────────────────── */
 import { surface2, surface3, surface4, textHigh, textMid } from './tokens'
 
 const HEIGHTS = {
-  sm: 180,
-  md: 280,
-  lg: 380,
-  xl: 520,
+  sm: { max: 180, ratio: 16 / 5 },   // 3.2 : 1
+  md: { max: 280, ratio: 21 / 9 },   // ≈ 2.33 : 1
+  lg: { max: 380, ratio: 16 / 8 },   // 2 : 1
+  xl: { max: 520, ratio: 16 / 9 },   // ≈ 1.78 : 1
 }
 
 /**
  * @param {string} src                 Background image URL.
  * @param {string} [alt='']            Background-image alt.
- * @param {'sm'|'md'|'lg'|'xl'|number} [height='md']  Container height token or raw px.
+ * @param {'sm'|'md'|'lg'|'xl'|number} [height='md']  Token (responsive)
+ *                                     or raw px (fixed).
  * @param {'bottom'|'full'|'none'} [overlay='bottom']
  *   bottom = dark gradient bottom→middle, full = uniform dim, none = no scrim.
  * @param {string} [title]
@@ -41,7 +48,15 @@ export default function HeroImage({
   style,
   ...rest
 }) {
-  const h = typeof height === 'number' ? height : (HEIGHTS[height] ?? HEIGHTS.md)
+  const isNumeric = typeof height === 'number'
+  const cfg = HEIGHTS[height] ?? HEIGHTS.md
+  const sizing = isNumeric
+    ? { height }
+    : {
+        aspectRatio: cfg.ratio,
+        maxHeight: cfg.max,
+        minHeight: Math.round(cfg.max * 0.55),
+      }
 
   const overlayStyle = overlay === 'full'
     ? { background: 'linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55))' }
@@ -51,26 +66,17 @@ export default function HeroImage({
 
   const flexAlign = align === 'start' ? 'flex-start' : align === 'center' ? 'center' : 'flex-end'
 
-  // Hero shell is the flex container itself; absolute-positioned media
-  // (img + scrim) sits behind a single relatively-positioned content slot.
-  // Earlier versions had the content as a 4th absolute child — that left
-  // it visually empty in some browsers because the stacking context
-  // interacted oddly with `overflow: hidden` on the parent. Using
-  // `position: relative` + `zIndex: 1` keeps the content above the media
-  // siblings without taking it out of the flex flow that drives `align`.
   return (
     <div
       className={className}
       style={{
         position: 'relative',
         width: '100%',
-        height: h,
+        ...sizing,
         overflow: 'hidden',
         borderRadius: 6,
-        // Fallback bg so a slow/blocked image still shows the framed area
-        // (a flat surface2 was invisible against the page surface — picsum
-        // etc. can stall). Use a diagonal surface3→surface4 gradient so the
-        // frame reads as intentional even with no image.
+        // Fallback gradient so the framed area stays visible even when the
+        // image is still loading or blocked.
         background: `linear-gradient(135deg, ${surface3} 0%, ${surface2} 60%, ${surface4} 100%)`,
         display: 'flex',
         flexDirection: 'column',
@@ -87,8 +93,6 @@ export default function HeroImage({
         src={src}
         alt={alt}
         draggable={false}
-        // Hide the broken-image icon if the URL fails / is blocked so the
-        // fallback surface stays clean. The container's bg shows through.
         onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
         style={{
           position: 'absolute',
@@ -103,18 +107,27 @@ export default function HeroImage({
         <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', ...overlayStyle }} />
       )}
 
-      {/* ── Content slot — relative so it stacks above media siblings,
-            still a flex child so align/justify on the shell positions it. */}
+      {/* ── Content slot — relative so it stacks above the media. */}
       <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column' }}>
         {children ?? (
           <>
             {title && (
-              <h2 style={{ margin: 0, fontSize: '1.75rem', lineHeight: 1.15, fontWeight: 700 }}>
+              <h2 style={{
+                margin: 0,
+                fontSize: 'clamp(1.125rem, 0.9rem + 1.5vw, 1.75rem)',
+                lineHeight: 1.15,
+                fontWeight: 700,
+              }}>
                 {title}
               </h2>
             )}
             {subtitle && (
-              <p style={{ margin: '6px 0 0', fontSize: '0.95rem', color: textMid, maxWidth: '60ch' }}>
+              <p style={{
+                margin: '6px 0 0',
+                fontSize: 'clamp(0.8125rem, 0.7rem + 0.5vw, 0.95rem)',
+                color: textMid,
+                maxWidth: '60ch',
+              }}>
                 {subtitle}
               </p>
             )}

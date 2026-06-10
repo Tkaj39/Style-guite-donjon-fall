@@ -2,27 +2,30 @@
    Game variant of HeroImage. Same height / overlay / title / subtitle /
    actions / align API as the TkajUI version — visuals swap to the
    parchment palette + octagonal silhouette:
-     • Single-layer octagon shell: gold border + clipPath: octagon(16)
-     • Parchment-shading gradient fallback so the framed area stays
-       visible even when the image is stalling / blocked
-     • Gold uppercase title with letter-spacing + text-shadow
-     • Donjon-tinted scrim (deep purple-blue) instead of pure black
-
-   The shell is intentionally NOT the outer/inner border-trick used by
-   DonjonCard etc. The double-clipPath pattern eats the title slot
-   inside a position:absolute content layer — the inner clip was
-   overriding the outer one at the corners and leaving most of the
-   frame invisible. One container + border + clipPath does the same
-   gold-edge job and keeps the absolute children rendering correctly.
+     • Border-trick gold octagon shell (outer = gold + clipPath, inner =
+       gradient + clipPath via octagonInner). The CSS `border` shortcut
+       breaks at the 45° diagonals of the octagon — the rectangle's
+       border edges don't run along the diagonals so the clipPath shows
+       bg through. The two-clipPath sandwich paints the gold edge along
+       all 8 sides instead.
+     • aspectRatio + min/maxHeight clamp so the panel scales with the
+       viewport width (a flat fixed pixel height made the box look very
+       tall on mobile and squashed on ultrawide).
+     • Gold uppercase title, donjon-tinted scrim, parchment gradient
+       fallback so the framed area stays visible even before the image
+       loads.
    ─────────────────────────────────────────────────────────────────── */
-import { octagon } from '../shared/octagon'
+import { octagon, octagonInner } from '../shared/octagon'
 import { bg2, bg3, bgDeep, gold, goldDim, textHigh, textMid } from './tokens'
 
+// Token → (maxHeight px, aspectRatio).
+// Aspect ratios picked so the box reads as a banner / hero on typical
+// desktop widths and shrinks proportionally on phones.
 const HEIGHTS = {
-  sm: 180,
-  md: 280,
-  lg: 380,
-  xl: 520,
+  sm: { max: 180, ratio: 16 / 5 },   // 3.2 : 1
+  md: { max: 280, ratio: 21 / 9 },   // ≈ 2.33 : 1
+  lg: { max: 380, ratio: 16 / 8 },   // 2 : 1
+  xl: { max: 520, ratio: 16 / 9 },   // ≈ 1.78 : 1
 }
 
 const SHELL_CX = 16
@@ -52,7 +55,19 @@ export default function DonjonHeroImage({
   style,
   ...rest
 }) {
-  const h = typeof height === 'number' ? height : (HEIGHTS[height] ?? HEIGHTS.md)
+  // Numeric height → fixed (legacy escape hatch). Token height → responsive
+  // box that uses an aspect ratio with a maxHeight cap.
+  const isNumeric = typeof height === 'number'
+  const cfg = HEIGHTS[height] ?? HEIGHTS.md
+  const sizing = isNumeric
+    ? { height }
+    : {
+        aspectRatio: cfg.ratio,
+        maxHeight: cfg.max,
+        // Don't collapse on very narrow viewports — keep enough room for
+        // the title and a button row.
+        minHeight: Math.round(cfg.max * 0.55),
+      }
 
   const overlayStyle = overlay === 'full'
     ? { background: 'linear-gradient(rgba(15, 13, 30, 0.65), rgba(15, 13, 30, 0.65))' }
@@ -63,27 +78,34 @@ export default function DonjonHeroImage({
   const flexAlign = align === 'start' ? 'flex-start' : align === 'center' ? 'center' : 'flex-end'
   const textAlign = align === 'center' ? 'center' : 'left'
 
-  // Hero shell is the flex container itself; absolute-positioned media
-  // layers (hatch / img / scrim) sit behind a single relatively-positioned
-  // content slot. Earlier versions had the content layer as a 4th absolute
-  // child — that left it visually empty in some browsers because the
-  // stacking context interacted oddly with `clipPath` + `overflow: hidden`
-  // on a small parent. Using `position: relative` + `zIndex: 1` on the
-  // content slot keeps it above the media siblings without taking it out
-  // of the flex flow that drives `align` / `justifyContent`.
   return (
     <div
       className={className}
       style={{
         position: 'relative',
         width: '100%',
-        height: h,
-        // Parchment-shading gradient so the framed area stays visible
-        // even when the image is stalling / blocked.
-        background: `linear-gradient(135deg, ${bg3} 0%, ${bgDeep} 60%, ${bg2} 100%)`,
-        border: `1px solid ${gold}`,
+        ...sizing,
+        // Outer = gold edge. Border-trick: padding: 1 reveals 1 px of
+        // outer gold along all 8 sides through the inner clip.
+        background: gold,
         clipPath: octagon(SHELL_CX),
+        padding: 1,
+        boxSizing: 'border-box',
+        ...style,
+      }}
+      {...rest}
+    >
+      <div style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        // Parchment-shading gradient — visible even when the image fails.
+        background: `linear-gradient(135deg, ${bg3} 0%, ${bgDeep} 60%, ${bg2} 100%)`,
+        // octagonInner = octagon(SHELL_CX - 1) so the inner clip sits 1 px
+        // inside the outer along every edge, producing a uniform gold ring.
+        clipPath: octagonInner(SHELL_CX),
         overflow: 'hidden',
+        // Inner is the flex parent for the content slot.
         display: 'flex',
         flexDirection: 'column',
         justifyContent: flexAlign,
@@ -92,77 +114,71 @@ export default function DonjonHeroImage({
         boxSizing: 'border-box',
         color: textHigh,
         textAlign,
-        ...style,
-      }}
-      {...rest}
-    >
-      {/* ── Media stack — absolutely positioned, out of flex flow ── */}
-      {/* Subtle goldDim diagonal hatch behind the image so the empty
-          frame looks intentional rather than blank. */}
-      <div aria-hidden="true" style={{
-        position: 'absolute',
-        inset: 0,
-        backgroundImage: `repeating-linear-gradient(135deg, transparent 0 12px, ${goldDim}11 12px 13px)`,
-        pointerEvents: 'none',
-      }} />
-      <img
-        src={src}
-        alt={alt}
-        draggable={false}
-        // Hide the broken-image icon if the URL fails / is blocked so the
-        // gradient + hatch fallback stays clean.
-        onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
-        style={{
+      }}>
+        {/* ── Media stack — absolute, behind the content ── */}
+        <div aria-hidden="true" style={{
           position: 'absolute',
           inset: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          display: 'block',
-        }}
-      />
-      {overlayStyle && (
-        <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', ...overlayStyle }} />
-      )}
-
-      {/* ── Content slot — relative so it stacks above media siblings,
-            still a flex child so align/justify on the shell positions it. */}
-      <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'inherit' }}>
-        {children ?? (
-          <>
-            {title && (
-              <h2 style={{
-                margin: 0,
-                fontSize: '1.875rem',
-                lineHeight: 1.15,
-                fontWeight: 700,
-                color: gold,
-                letterSpacing: 1,
-                textTransform: 'uppercase',
-                textShadow: '0 2px 8px rgba(0,0,0,0.7)',
-              }}>
-                {title}
-              </h2>
-            )}
-            {subtitle && (
-              <p style={{
-                margin: '8px 0 0',
-                fontSize: '0.95rem',
-                color: textMid,
-                maxWidth: '60ch',
-                lineHeight: 1.55,
-                textShadow: '0 1px 6px rgba(0,0,0,0.7)',
-              }}>
-                {subtitle}
-              </p>
-            )}
-            {actions && (
-              <div style={{ marginTop: 16, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                {actions}
-              </div>
-            )}
-          </>
+          backgroundImage: `repeating-linear-gradient(135deg, transparent 0 12px, ${goldDim}11 12px 13px)`,
+          pointerEvents: 'none',
+        }} />
+        <img
+          src={src}
+          alt={alt}
+          draggable={false}
+          onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+          }}
+        />
+        {overlayStyle && (
+          <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', ...overlayStyle }} />
         )}
+
+        {/* ── Content slot — relative + zIndex over the media siblings,
+              still a flex child so align/justify positions it. */}
+        <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'inherit' }}>
+          {children ?? (
+            <>
+              {title && (
+                <h2 style={{
+                  margin: 0,
+                  fontSize: 'clamp(1.25rem, 1rem + 1.8vw, 1.875rem)',
+                  lineHeight: 1.15,
+                  fontWeight: 700,
+                  color: gold,
+                  letterSpacing: 1,
+                  textTransform: 'uppercase',
+                  textShadow: '0 2px 8px rgba(0,0,0,0.7)',
+                }}>
+                  {title}
+                </h2>
+              )}
+              {subtitle && (
+                <p style={{
+                  margin: '8px 0 0',
+                  fontSize: 'clamp(0.8125rem, 0.7rem + 0.5vw, 0.95rem)',
+                  color: textMid,
+                  maxWidth: '60ch',
+                  lineHeight: 1.55,
+                  textShadow: '0 1px 6px rgba(0,0,0,0.7)',
+                }}>
+                  {subtitle}
+                </p>
+              )}
+              {actions && (
+                <div style={{ marginTop: 16, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                  {actions}
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   )
