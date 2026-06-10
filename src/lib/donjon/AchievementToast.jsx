@@ -8,7 +8,7 @@
 import { useEffect, useState } from 'react'
 import { octagon } from '../shared/octagon'
 import { bg2, bgDeep, gold, textHigh, textMid, warningColor } from './tokens'
-import { TrophyIcon } from './Icons'
+import { TrophyIcon } from './icons'
 
 /**
  * @param {boolean} open
