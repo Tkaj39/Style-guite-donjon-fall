@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { registry, CATEGORIES, getCategoryCounts } from '../data/componentRegistry'
+import { registry, CATEGORIES, getCategoryCounts, isDocumented } from '../data/componentRegistry'
 import { ShowcasePage, Section } from '../styleguide/ShowcasePage'
 import LibraryLogo from '../styleguide/LibraryLogo'
 import { blue } from '../lib/donjon/playerColors'
@@ -226,14 +226,18 @@ function PropsIcon() {
   )
 }
 
-/* ── StatusBadge ── */
+/* ── StatusBadge ──
+   'documented' and 'stable' are both "ready" — same emerald treatment.
+   'draft' = WIP (amber). 'generated' = auto-discovered only (neutral). */
 const STATUS_STYLES = {
   documented: 'bg-emerald-900/40 text-emerald-400 border border-emerald-700/40',
-  draft:      'bg-amber-900/40  text-amber-400  border border-amber-700/40',
-  generated:  'bg-neutral-800   text-neutral-500 border border-neutral-700',
+  stable:     'bg-emerald-900/40 text-emerald-400 border border-emerald-700/40',
+  draft:      'bg-amber-900/40   text-amber-400   border border-amber-700/40',
+  generated:  'bg-neutral-800    text-neutral-500 border border-neutral-700',
 }
 const STATUS_LABEL = {
   documented: 'documented',
+  stable:     'stable',
   draft:      'draft',
   generated:  'auto',
 }
@@ -755,7 +759,7 @@ function LibStatBlock({ libId, libLabel, accent, reg }) {
   const total      = comps.length
   const pubCount   = comps.filter(c => c.visibility === 'public').length
   const intCount   = total - pubCount
-  const docCount   = comps.filter(c => c.status === 'documented').length
+  const docCount   = comps.filter(isDocumented).length
   const undocCount = total - docCount
   const showCount  = comps.filter(c => !!c.showcaseRoute).length
 
@@ -840,7 +844,7 @@ export default function ComponentsPage() {
     : registry
 
   const totalComponents  = filteredRegistry.length
-  const documentedCount  = filteredRegistry.filter(c => c.status === 'documented').length
+  const documentedCount  = filteredRegistry.filter(isDocumented).length
   const publicCount      = filteredRegistry.filter(c => c.visibility === 'public').length
   const showcaseCount    = filteredRegistry.filter(c => !!c.showcaseRoute).length
 
@@ -879,8 +883,8 @@ export default function ComponentsPage() {
             {/* Celkový součet */}
             <div className="flex flex-wrap gap-3">
               <StatCard value={totalComponents} label="komponent celkem" />
-              <StatCard value={registry.filter(c => c.status === 'documented').length} label="documented" />
-              <StatCard value={registry.filter(c => c.status !== 'documented').length} label="zbývá zdokumentovat" />
+              <StatCard value={registry.filter(isDocumented).length} label="documented" />
+              <StatCard value={registry.filter(c => !isDocumented(c)).length} label="zbývá zdokumentovat" />
               <StatCard value={registry.filter(c => !!c.showcaseRoute).length} label="se showcase stránkou" />
             </div>
             {/* Per-knihovna breakdown */}

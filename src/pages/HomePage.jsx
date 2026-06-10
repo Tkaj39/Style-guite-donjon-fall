@@ -12,7 +12,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import pkg from '../../package.json'
-import { registry } from '../data/componentRegistry'
+import { registry, isDocumented } from '../data/componentRegistry'
 import { componentMeta } from '../data/componentMeta'
 import {
   gold, goldMid, goldDim,
@@ -44,7 +44,7 @@ const BRAND = {
 /* ── Stats — počítáno z registry ── */
 function getStats() {
   const total       = registry.length
-  const documented  = registry.filter(c => c.status === 'documented').length
+  const documented  = registry.filter(isDocumented).length
   const donjon      = registry.filter(c => c.category === 'donjon-fall-ui').length
   const tkajui      = registry.filter(c => c.category === 'TkajUI').length
   const extending   = Object.values(componentMeta).filter(m => m.subcategory === 'extends-tkajui').length
