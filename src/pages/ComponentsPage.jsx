@@ -52,6 +52,11 @@ import {
   DonjonCard,
   DonjonInput,
   DonjonPictogram,
+  DonjonProgressBar,
+  DonjonSelect,
+  DonjonSlider,
+  DonjonTabs,
+  DonjonToggle,
   EventLog,
   FloatFeedback,
   GameTransition,
@@ -72,6 +77,29 @@ import {
   Timeline,
   Scoreboard,
   Leaderboard,
+  // Newly added donjon variants — disclosure / navigation / data / form / media
+  DonjonAccordion,
+  DonjonBreadcrumb,
+  DonjonCombobox,
+  DonjonDescriptionList,
+  DonjonList,
+  DonjonNumberInput,
+  DonjonPagination,
+  DonjonStat,
+  DonjonSubmitButton,
+  DonjonTable,
+  DonjonTextArea,
+  DonjonThumbnail,
+  DiceTower,
+  // Donjon form primitives + diamond choice controls
+  DonjonField,
+  DonjonForm,
+  DonjonCheckbox,
+  DonjonCheckboxGroup,
+  DonjonRadio,
+  DonjonRadioGroup,
+  // Player colors for DiceTower preview
+  red,
 } from '../lib/donjon'
 
 /* ── Tech stack data ── */
@@ -323,6 +351,106 @@ function StaticIconsPreview() {
   )
 }
 
+function StaticDonjonToastPreview() {
+  return (
+    <div className="w-full max-w-[15rem] rounded-md border-2 border-amber-500/80 bg-neutral-950/95 px-3 py-2 text-left shadow-[0_0_16px_rgba(255,193,131,0.25)]">
+      <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-amber-300">Donjon · Reward</div>
+      <div className="mt-1 text-xs font-semibold text-amber-200">+5 VP</div>
+      <div className="mt-0.5 text-[11px] text-neutral-300">Obsadil jsi pevnost.</div>
+    </div>
+  )
+}
+
+function StaticDonjonTooltipPreview() {
+  return (
+    <div className="relative flex w-full items-center justify-center py-2">
+      <div className="rounded border border-amber-700/70 bg-neutral-900 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-amber-300">Trigger</div>
+      <div className="absolute -top-1 rounded-md border-2 border-amber-500/80 bg-neutral-950 px-2 py-1 text-[10px] text-amber-100 shadow-[0_0_12px_rgba(255,193,131,0.25)]">
+        Pergamenový hint
+      </div>
+    </div>
+  )
+}
+
+function StaticDonjonModalPreview() {
+  return (
+    <div className="flex h-full items-center justify-center rounded-md bg-neutral-950/70 p-3">
+      <div className="w-full max-w-[15rem] rounded-md border-2 border-amber-500/80 bg-neutral-900 px-3 py-2.5 shadow-[0_0_20px_rgba(255,193,131,0.25)]">
+        <div className="text-[10px] font-bold uppercase tracking-wider text-amber-300">Donjon panel</div>
+        <div className="mt-1 h-2 rounded bg-amber-700/30" />
+        <div className="mt-1 h-2 w-4/5 rounded bg-amber-700/20" />
+      </div>
+    </div>
+  )
+}
+
+function StaticDonjonDrawerPreview() {
+  return (
+    <div className="relative h-24 w-full overflow-hidden rounded-md border border-amber-700/40 bg-neutral-950">
+      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute right-0 top-0 h-full w-2/3 border-l-2 border-amber-500/80 bg-neutral-900 px-3 py-2">
+        <div className="text-[10px] font-bold uppercase tracking-wider text-amber-300">Drawer</div>
+        <div className="mt-1 h-1.5 w-full rounded bg-amber-700/30" />
+        <div className="mt-1 h-1.5 w-3/4 rounded bg-amber-700/20" />
+      </div>
+    </div>
+  )
+}
+
+function StaticDonjonDropdownPreview() {
+  return (
+    <div className="flex flex-col items-start gap-1">
+      <div className="rounded border border-amber-700/70 bg-neutral-900 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-amber-300">File ▾</div>
+      <div className="w-32 rounded border-2 border-amber-500/80 bg-neutral-950 px-1 py-1 shadow-[0_0_12px_rgba(255,193,131,0.2)]">
+        <div className="rounded px-2 py-1 text-[10px] text-amber-100">New game</div>
+        <div className="rounded px-2 py-1 text-[10px] text-amber-100">Open save</div>
+        <div className="my-0.5 h-px bg-amber-700/40" />
+        <div className="rounded px-2 py-1 text-[10px] text-rose-300">Quit</div>
+      </div>
+    </div>
+  )
+}
+
+function StaticDonjonContextMenuPreview() {
+  return (
+    <div className="flex flex-col items-start gap-1">
+      <div className="rounded border border-dashed border-amber-700/60 bg-neutral-900 px-2 py-1 text-[10px] text-amber-200/80">right-click</div>
+      <div className="w-32 rounded border-2 border-amber-500/80 bg-neutral-950 px-1 py-1 shadow-[0_0_12px_rgba(255,193,131,0.2)]">
+        <div className="rounded px-2 py-1 text-[10px] text-amber-100">View</div>
+        <div className="rounded px-2 py-1 text-[10px] text-amber-100">Rename</div>
+        <div className="rounded px-2 py-1 text-[10px] text-rose-300">Delete</div>
+      </div>
+    </div>
+  )
+}
+
+function StaticDonjonHeroImagePreview() {
+  return (
+    <div className="relative h-24 w-full overflow-hidden rounded-md border-2 border-amber-500/80">
+      <div className="absolute inset-0 bg-gradient-to-br from-amber-900/40 via-neutral-900 to-neutral-950" />
+      <div className="absolute inset-0 bg-[repeating-linear-gradient(135deg,transparent_0_8px,rgba(143,116,88,0.18)_8px_9px)]" />
+      <div className="absolute inset-x-3 bottom-2">
+        <div className="text-[10px] font-bold uppercase tracking-wider text-amber-300">Hollow Crown</div>
+        <div className="text-[9px] text-neutral-300">a turn-based crawler</div>
+      </div>
+    </div>
+  )
+}
+
+function StaticDonjonFormPreview() {
+  return (
+    <div className="w-full rounded-md border-2 border-amber-500/80 bg-neutral-900 p-2.5">
+      <div className="text-[9px] font-bold uppercase tracking-wider text-amber-300 border-b border-amber-700/40 pb-1.5 mb-1.5">Sign up</div>
+      <div className="space-y-1">
+        <div className="h-1.5 rounded bg-amber-700/30 w-1/3" />
+        <div className="h-4 rounded bg-neutral-800 border border-amber-700/50" />
+        <div className="h-1.5 rounded bg-amber-700/30 w-1/4" />
+        <div className="h-4 rounded bg-neutral-800 border border-amber-700/50" />
+      </div>
+    </div>
+  )
+}
+
 function StaticErrorPreview() {
   return (
     <div className="flex h-full items-center justify-center rounded-md border border-rose-900/50 bg-rose-950/20 px-3">
@@ -368,15 +496,15 @@ const MINI_PREVIEWS = {
   'donjon-button-group': <DonjonButtonGroup items={[{ value: 'attack', label: 'Útok' }, { value: 'move', label: 'Pohyb' }]} value="attack" onChange={_noop} size="sm" />,
   'donjon-card': <DonjonCard title="Loot" description="Pergamenový panel" />,
   'donjon-input': <DonjonInput value="Arkan" onChange={_noop} size="sm" label="Nick" />,
-  'donjon-modal': <StaticModalPreview />,
-  'donjon-progress-bar': <ProgressBar value={72} size="sm" variant="warning" showValue />,
+  'donjon-modal': <StaticDonjonModalPreview />,
+  'donjon-progress-bar': <DonjonProgressBar value={72} max={100} size="sm" variant="hp" label="HP" showValue />,
   'donjon-pictogram': <DonjonPictogram icon={ShieldIcon} size="lg" />,
-  'donjon-select': <Select value="fire" onChange={_noop} options={[{ value: 'fire', label: 'Oheň' }]} size="sm" label="Škola" />,
-  'donjon-slider': <Slider value={58} onChange={_noop} size="sm" label="Hudba" showValue />,
-  'donjon-tabs': <Tabs items={[{ value: 'p1', label: 'Hráč 1' }, { value: 'p2', label: 'Hráč 2' }]} value="p1" onChange={_noop} size="sm" variant="pills" />,
-  'donjon-toast': <StaticToastPreview />,
-  'donjon-toggle': <Toggle checked onChange={_noop} size="sm" label="SFX" variant="warning" />,
-  'donjon-tooltip': <StaticTooltipPreview />,
+  'donjon-select': <DonjonSelect value="fire" onChange={_noop} options={[{ value: 'fire', label: 'Oheň' }, { value: 'ice', label: 'Led' }]} size="sm" label="Škola" />,
+  'donjon-slider': <DonjonSlider value={58} onChange={_noop} size="sm" label="Hudba" showValue />,
+  'donjon-tabs': <DonjonTabs items={[{ value: 'p1', label: 'Hráč 1' }, { value: 'p2', label: 'Hráč 2' }]} value="p1" onChange={_noop} variant="pills" />,
+  'donjon-toast': <StaticDonjonToastPreview />,
+  'donjon-toggle': <DonjonToggle checked onChange={_noop} size="sm" label="SFX" variant="warning" />,
+  'donjon-tooltip': <StaticDonjonTooltipPreview />,
   erb: <div className="flex items-center justify-center"><div className="flex h-12 w-10 items-center justify-center rounded-[12px] border border-amber-700/60 bg-neutral-900 text-[11px] font-bold text-amber-300">II</div></div>,
   'hex-tile': <HexTile state="selected" size="sm" label="A3" showLabel />,
   // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
@@ -553,6 +681,100 @@ const MINI_PREVIEWS = {
   ]} value="fire" onChange={_noop} size="sm" />,
   'text-area': <TextArea value={'A wandering ranger.\nKeeper of lore.'} onChange={_noop} rows={2} size="sm" />,
   'number-input': <NumberInput value={42} onChange={_noop} min={0} max={99} size="sm" />,
+
+  // ── New donjon variants — disclosure / navigation / data / form / media ──
+  'donjon-accordion': <DonjonAccordion items={[
+    { id: 'a', title: 'Pravidla hry', content: 'Krátký popis pravidel.' },
+    { id: 'b', title: 'FAQ',          content: 'Často kladené dotazy.' },
+  ]} defaultValue={['a']} />,
+  'donjon-breadcrumb': <DonjonBreadcrumb items={[
+    { label: 'Hrad', href: '#', onClick: (e) => e.preventDefault() },
+    { label: 'Komnata', href: '#', onClick: (e) => e.preventDefault() },
+    { label: 'Trůn' },
+  ]} />,
+  'donjon-drawer': <StaticDonjonDrawerPreview />,
+  'donjon-dropdown-menu': <StaticDonjonDropdownPreview />,
+  'donjon-context-menu': <StaticDonjonContextMenuPreview />,
+  'donjon-pagination': <DonjonPagination page={2} total={6} onChange={_noop} size="sm" />,
+  'donjon-table': (
+    <DonjonTable
+      size="sm"
+      bordered
+      columns={[
+        { key: 'name', label: 'Jméno' },
+        { key: 'hp',   label: 'HP', align: 'right' },
+      ]}
+      data={[
+        { id: 1, name: 'Aragorn', hp: 84 },
+        { id: 2, name: 'Gandalf', hp: 62 },
+      ]}
+    />
+  ),
+  'donjon-list': <DonjonList size="sm" items={[
+    { id: 1, icon: <SwordIcon  width={16} height={16} />, title: 'Železný meč',  description: '+5 ATK' },
+    { id: 2, icon: <PotionIcon width={16} height={16} />, title: 'Lektvar HP',  description: 'Obnoví 50 HP', selected: true },
+  ]} />,
+  'donjon-description-list': (
+    <DonjonDescriptionList items={[
+      { term: 'Jméno', description: 'Aragorn' },
+      { term: 'Třída', description: 'Hraničář' },
+      { term: 'HP',    description: '84 / 100' },
+    ]} />
+  ),
+  'donjon-stat': (
+    <div style={{ display: 'flex', gap: 16 }}>
+      <DonjonStat size="sm" label="Skóre" value="12 450" delta={320} />
+      <DonjonStat size="sm" label="Tahy" value="84" delta={-3} />
+    </div>
+  ),
+  'donjon-hero-image': <StaticDonjonHeroImagePreview />,
+  'donjon-thumbnail': <DonjonThumbnail src="https://picsum.photos/seed/donjon-thumb/120/120" size="sm" caption="Save 1" selected />,
+  // Form niche
+  'donjon-combobox': <DonjonCombobox options={[
+    { value: 'fire', label: 'Firebolt' },
+    { value: 'heal', label: 'Cure Wounds' },
+  ]} value="fire" onChange={_noop} size="sm" />,
+  'donjon-text-area': <DonjonTextArea value={'A wandering ranger.\nKeeper of lore.'} onChange={_noop} rows={2} size="sm" />,
+  'donjon-number-input': <DonjonNumberInput value={42} onChange={_noop} min={0} max={99} size="sm" />,
+  'donjon-submit-button': <form><DonjonSubmitButton size="sm" loadingLabel="Ukládám…">Uložit</DonjonSubmitButton></form>,
+  // Form primitives — diamond Checkbox / Radio + Form / Field
+  'donjon-field': <DonjonField label="Email" hint="Pergamentový label"><DonjonInput value="rohan@king.me" onChange={_noop} size="sm" /></DonjonField>,
+  'donjon-form': <StaticDonjonFormPreview />,
+  'donjon-checkbox': (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <DonjonCheckbox checked onChange={_noop}>Aktivní</DonjonCheckbox>
+      <DonjonCheckbox checked={false} onChange={_noop}>Vypnuté</DonjonCheckbox>
+    </div>
+  ),
+  'donjon-checkbox-group': (
+    <DonjonCheckboxGroup label="Volby" value={['a']} onChange={_noop}>
+      <DonjonCheckbox value="a">Multiplayer</DonjonCheckbox>
+      <DonjonCheckbox value="b">Permadeath</DonjonCheckbox>
+    </DonjonCheckboxGroup>
+  ),
+  'donjon-radio': (
+    <DonjonRadioGroup value="normal" onChange={_noop}>
+      <DonjonRadio value="easy">Easy</DonjonRadio>
+      <DonjonRadio value="normal">Normal</DonjonRadio>
+    </DonjonRadioGroup>
+  ),
+  'donjon-radio-group': (
+    <DonjonRadioGroup label="Obtížnost" value="normal" onChange={_noop}>
+      <DonjonRadio value="easy">Easy</DonjonRadio>
+      <DonjonRadio value="normal">Normal</DonjonRadio>
+      <DonjonRadio value="hard">Hard</DonjonRadio>
+    </DonjonRadioGroup>
+  ),
+  // Dice tower
+  'dice-tower': <DiceTower
+    dice={[
+      { value: 4, playerColor: red },
+      { value: 2, playerColor: red },
+      { value: 6, playerColor: blue },
+    ]}
+    size="sm"
+    label="Vez"
+  />,
 
   // ── New donjon — gameplay ──────────────────────────────────────────────
   dialogue: (
