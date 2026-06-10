@@ -6,7 +6,7 @@
    Composition: background <img>, optional gradient overlay (bottom or
    full), an absolutely-positioned content slot.
    ─────────────────────────────────────────────────────────────────── */
-import { surface3, textHigh, textMid } from './tokens'
+import { surface2, surface3, surface4, textHigh, textMid } from './tokens'
 
 const HEIGHTS = {
   sm: 180,
@@ -61,8 +61,10 @@ export default function HeroImage({
         overflow: 'hidden',
         borderRadius: 6,
         // Fallback bg so a slow/blocked image still shows the framed area
-        // (was invisible against the page surface — picsum etc. can stall).
-        background: surface3,
+        // (a flat surface2 was invisible against the page surface — picsum
+        // etc. can stall). Use a diagonal surface3→surface4 gradient so the
+        // frame reads as intentional even with no image.
+        background: `linear-gradient(135deg, ${surface3} 0%, ${surface2} 60%, ${surface4} 100%)`,
         ...style,
       }}
       {...rest}
