@@ -7,8 +7,8 @@
      • Gold uppercase title with letter-spacing
      • textMid subtitle, donjon overlay tints
    ─────────────────────────────────────────────────────────────────── */
-import { octagon } from '../shared/octagon'
-import { bg2, gold, textHigh, textMid } from './tokens'
+import { octagon, octagonInner } from '../shared/octagon'
+import { bg2, bg3, bgDeep, gold, goldDim, textHigh, textMid } from './tokens'
 
 const HEIGHTS = {
   sm: 180,
@@ -74,17 +74,31 @@ export default function DonjonHeroImage({
         position: 'relative',
         width: '100%',
         height: '100%',
-        // bg2 fallback so a slow/blocked image still shows the framed area
-        background: bg2,
-        clipPath: octagon(SHELL_CX),
+        // Parchment-shading gradient so a slow / blocked image still shows
+        // the framed area clearly against the page bg (bg0 is very close to
+        // bg2 and made the panel look invisible).
+        background: `linear-gradient(135deg, ${bg3} 0%, ${bgDeep} 60%, ${bg2} 100%)`,
+        // Inner shell uses octagonInner so the 1 px gold ring stays uniform
+        // around all 8 edges (octagon(SHELL_CX) on both layers leaves the
+        // edge gaps inconsistent).
+        clipPath: octagonInner(SHELL_CX),
         overflow: 'hidden',
       }}>
+        {/* Decorative goldDim diagonal hatch as the "no image" backdrop.
+            Stays under the real <img> when the image is fine; visible on
+            its own when the image fails or is still loading. */}
+        <div aria-hidden="true" style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `repeating-linear-gradient(135deg, transparent 0 12px, ${goldDim}11 12px 13px)`,
+          pointerEvents: 'none',
+        }} />
         <img
           src={src}
           alt={alt}
           draggable={false}
           // Hide the broken-image icon if the URL fails / is blocked so the
-          // bg2 fallback stays clean. The framed area still reads as donjon.
+          // gradient + hatch fallback stays clean.
           onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
           style={{
             position: 'absolute',
