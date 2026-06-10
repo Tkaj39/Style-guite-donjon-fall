@@ -63,6 +63,14 @@ export default function DonjonHeroImage({
   const flexAlign = align === 'start' ? 'flex-start' : align === 'center' ? 'center' : 'flex-end'
   const textAlign = align === 'center' ? 'center' : 'left'
 
+  // Hero shell is the flex container itself; absolute-positioned media
+  // layers (hatch / img / scrim) sit behind a single relatively-positioned
+  // content slot. Earlier versions had the content layer as a 4th absolute
+  // child — that left it visually empty in some browsers because the
+  // stacking context interacted oddly with `clipPath` + `overflow: hidden`
+  // on a small parent. Using `position: relative` + `zIndex: 1` on the
+  // content slot keeps it above the media siblings without taking it out
+  // of the flex flow that drives `align` / `justifyContent`.
   return (
     <div
       className={className}
@@ -71,16 +79,24 @@ export default function DonjonHeroImage({
         width: '100%',
         height: h,
         // Parchment-shading gradient so the framed area stays visible
-        // even when the image is stalling / blocked. bg0 (page bg) is
-        // very close to bg2 and used to make the panel disappear.
+        // even when the image is stalling / blocked.
         background: `linear-gradient(135deg, ${bg3} 0%, ${bgDeep} 60%, ${bg2} 100%)`,
         border: `1px solid ${gold}`,
         clipPath: octagon(SHELL_CX),
         overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: flexAlign,
+        alignItems: align === 'center' ? 'center' : 'flex-start',
+        padding: '28px 32px',
+        boxSizing: 'border-box',
+        color: textHigh,
+        textAlign,
         ...style,
       }}
       {...rest}
     >
+      {/* ── Media stack — absolutely positioned, out of flex flow ── */}
       {/* Subtle goldDim diagonal hatch behind the image so the empty
           frame looks intentional rather than blank. */}
       <div aria-hidden="true" style={{
@@ -108,17 +124,10 @@ export default function DonjonHeroImage({
       {overlayStyle && (
         <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', ...overlayStyle }} />
       )}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: flexAlign,
-        alignItems: align === 'center' ? 'center' : 'flex-start',
-        padding: '28px 32px',
-        color: textHigh,
-        textAlign,
-      }}>
+
+      {/* ── Content slot — relative so it stacks above media siblings,
+            still a flex child so align/justify on the shell positions it. */}
+      <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'inherit' }}>
         {children ?? (
           <>
             {title && (
