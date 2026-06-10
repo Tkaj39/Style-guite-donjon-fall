@@ -23,8 +23,12 @@ function HeroImageDemo() {
   const isDonjon = lib === 'donjon'
   const HeroC = isDonjon ? DonjonHeroImage : HeroImage
   const Btn = isDonjon ? DonjonButton : Button
+  // Preview wraps children with `flex flex-wrap items-start` — that doesn't
+  // stretch a flex child to 100% on its own. Force the demo column to fill
+  // the preview width so the heroes get their intended full-width look,
+  // not the natural max-content width of their inner text.
   return (
-    <Stack gap="lg">
+    <Stack gap="lg" style={{ width: '100%', flexBasis: '100%' }}>
       <HeroC
         src="https://picsum.photos/seed/hero1/1200/520"
         height="md"
