@@ -173,6 +173,26 @@ export function getInternal() {
   return registry.filter(c => c.visibility === 'internal')
 }
 
+/**
+ * Treats a registry entry as "documented" for UI/count purposes.
+ *
+ * Status taxonomy (per CLAUDE.md):
+ *   - 'documented' — has hand-written componentMeta (description, props, …)
+ *   - 'stable'     — same level of completeness as documented; the label
+ *                    just signals the API is unlikely to change
+ *   - 'draft'      — WIP, expect rough edges
+ *   - 'generated'  — auto-discovered from filesystem only, no meta yet
+ *
+ * 'documented' and 'stable' are both "done" from a docs perspective — UI
+ * counts that say "documented N / X" or "zbývá zdokumentovat" should treat
+ * them as equivalent. Use this helper instead of `=== 'documented'` so
+ * adding new statuses (e.g. 'deprecated') doesn't require touching every
+ * call site.
+ */
+export function isDocumented(entry) {
+  return entry.status === 'documented' || entry.status === 'stable'
+}
+
 /** Počty podle kategorie — pro rychlou navigaci. */
 export function getCategoryCounts() {
   return CATEGORIES.map(cat => ({
