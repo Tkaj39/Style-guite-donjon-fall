@@ -83,6 +83,9 @@ export default function DonjonHeroImage({
           src={src}
           alt={alt}
           draggable={false}
+          // Hide the broken-image icon if the URL fails / is blocked so the
+          // bg2 fallback stays clean. The framed area still reads as donjon.
+          onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
           style={{
             position: 'absolute',
             inset: 0,

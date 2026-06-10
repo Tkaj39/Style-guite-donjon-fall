@@ -71,6 +71,9 @@ export default function HeroImage({
         src={src}
         alt={alt}
         draggable={false}
+        // Hide the broken-image icon if the URL fails / is blocked so the
+        // fallback surface stays clean. The container's bg shows through.
+        onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
         style={{
           position: 'absolute',
           inset: 0,
