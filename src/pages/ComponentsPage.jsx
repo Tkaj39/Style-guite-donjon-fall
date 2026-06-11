@@ -42,6 +42,10 @@ import {
   Combobox,
   TextArea,
   NumberInput,
+  HeroImage,
+  // Icons used in dropdown / context-menu / icon-button mini previews
+  SettingsIcon, CheckIcon, CloseIcon, PlusIcon, UploadIcon,
+  SearchIcon, EditIcon, TrashIcon,
 } from '../lib/tkajui'
 import {
   ActionTile,
@@ -68,6 +72,7 @@ import {
   ShieldIcon,
   SwordIcon,
   TowerIcon,
+  BaseIcon,
   // Loot icons used in mini-previews (list / inventory-grid / timeline)
   PotionIcon, GemIcon, KeyIcon, BoltIcon,
   // New: framed image + gameplay + game layout
@@ -534,18 +539,22 @@ const MINI_PREVIEWS = {
   // ── New tkajui — buttons & media ───────────────────────────────────────
   'icon-button': (
     <div style={{ display: 'flex', gap: 6 }}>
-      <IconButton ariaLabel="Settings" size="sm">⚙</IconButton>
-      <IconButton ariaLabel="Confirm" size="sm" variant="success">✓</IconButton>
-      <IconButton ariaLabel="Delete" size="sm" variant="danger">×</IconButton>
+      <IconButton ariaLabel="Settings" size="sm"><SettingsIcon width={14} height={14} /></IconButton>
+      <IconButton ariaLabel="Confirm" size="sm" variant="success"><CheckIcon width={14} height={14} /></IconButton>
+      <IconButton ariaLabel="Delete" size="sm" variant="danger"><CloseIcon width={14} height={14} /></IconButton>
     </div>
   ),
   'hero-image': (
-    <div className="relative h-24 w-full overflow-hidden rounded-md">
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-700/60 via-indigo-900/60 to-neutral-950" />
-      <div className="absolute inset-x-3 bottom-2">
-        <div className="text-xs font-bold text-white">Hero title</div>
-        <div className="text-[10px] text-neutral-300">subtitle goes here</div>
-      </div>
+    // Real HeroImage with a numeric fixed height so the preview cell stays
+    // compact; the live component now has the surface3→surface4 gradient
+    // fallback that shows immediately even before / without an image.
+    <div style={{ width: '100%' }}>
+      <HeroImage
+        src="https://picsum.photos/seed/hero-mini/600/200"
+        height={96}
+        title="Hero title"
+        subtitle="subtitle goes here"
+      />
     </div>
   ),
   backdrop: (
@@ -587,10 +596,10 @@ const MINI_PREVIEWS = {
   ),
   'sidebar-layout': (
     <div className="flex h-24 w-full overflow-hidden rounded-md border border-neutral-800">
-      <div className="flex w-16 flex-col gap-1 border-r border-neutral-700 bg-neutral-900 p-2 text-[9px] text-neutral-400">
-        <span>🏠 Home</span>
-        <span className="text-white">⚔ Combat</span>
-        <span>🎒 Bag</span>
+      <div className="flex w-20 flex-col gap-1 border-r border-neutral-700 bg-neutral-900 p-2 text-[10px] text-neutral-400">
+        <span className="flex items-center gap-1.5"><BaseIcon width={11} height={11} /> Home</span>
+        <span className="flex items-center gap-1.5 text-white"><SwordIcon width={11} height={11} /> Combat</span>
+        <span className="flex items-center gap-1.5"><GemIcon width={11} height={11} /> Bag</span>
       </div>
       <div className="flex-1 bg-neutral-950 px-2 py-2 text-[10px] text-neutral-500">Main</div>
     </div>
@@ -611,10 +620,10 @@ const MINI_PREVIEWS = {
     <div className="flex flex-col items-start gap-1">
       <div className="rounded border border-neutral-700 bg-neutral-900 px-2 py-0.5 text-[10px] text-neutral-200">File ▾</div>
       <div className="w-32 rounded border border-neutral-700 bg-neutral-950 px-1 py-1 shadow-lg">
-        <div className="rounded px-2 py-1 text-[10px] text-neutral-200">🆕 New game</div>
-        <div className="rounded px-2 py-1 text-[10px] text-neutral-200">📂 Open</div>
+        <div className="flex items-center gap-1.5 rounded px-2 py-1 text-[10px] text-neutral-200"><PlusIcon width={11} height={11} /> New game</div>
+        <div className="flex items-center gap-1.5 rounded px-2 py-1 text-[10px] text-neutral-200"><UploadIcon width={11} height={11} /> Open</div>
         <div className="my-0.5 h-px bg-neutral-800" />
-        <div className="rounded px-2 py-1 text-[10px] text-rose-300">⏻ Quit</div>
+        <div className="flex items-center gap-1.5 rounded px-2 py-1 text-[10px] text-rose-300"><CloseIcon width={11} height={11} /> Quit</div>
       </div>
     </div>
   ),
@@ -657,9 +666,12 @@ const MINI_PREVIEWS = {
   ),
 
   // ── New tkajui — navigation ────────────────────────────────────────────
+  // No href / onClick — ComponentCard wraps the preview in an <a>, so a
+  // nested <a> here would trigger a hydration warning. Items without
+  // href render as inert <span>, which still showcases the visual.
   breadcrumb: <Breadcrumb items={[
-    { label: 'Home',     href: '#', onClick: e => e.preventDefault() },
-    { label: 'Library',  href: '#', onClick: e => e.preventDefault() },
+    { label: 'Home' },
+    { label: 'Library' },
     { label: 'Iron Sword' },
   ]} />,
   pagination: <Pagination page={3} total={10} onChange={_noop} size="sm" />,
@@ -667,9 +679,9 @@ const MINI_PREVIEWS = {
     <div className="flex flex-col items-start gap-1">
       <div className="rounded border border-dashed border-neutral-700 bg-neutral-900 px-2 py-1 text-[10px] text-neutral-400">right-click area</div>
       <div className="w-32 rounded border border-neutral-700 bg-neutral-950 px-1 py-1 shadow-lg">
-        <div className="rounded px-2 py-1 text-[10px] text-neutral-200">👁 View</div>
-        <div className="rounded px-2 py-1 text-[10px] text-neutral-200">✎ Rename</div>
-        <div className="rounded px-2 py-1 text-[10px] text-rose-300">🗑 Delete</div>
+        <div className="flex items-center gap-1.5 rounded px-2 py-1 text-[10px] text-neutral-200"><SearchIcon width={11} height={11} /> View</div>
+        <div className="flex items-center gap-1.5 rounded px-2 py-1 text-[10px] text-neutral-200"><EditIcon width={11} height={11} /> Rename</div>
+        <div className="flex items-center gap-1.5 rounded px-2 py-1 text-[10px] text-rose-300"><TrashIcon width={11} height={11} /> Delete</div>
       </div>
     </div>
   ),
@@ -687,9 +699,10 @@ const MINI_PREVIEWS = {
     { id: 'a', title: 'Pravidla hry', content: 'Krátký popis pravidel.' },
     { id: 'b', title: 'FAQ',          content: 'Často kladené dotazy.' },
   ]} defaultValue={['a']} />,
+  // No href — see breadcrumb above for the reason
   'donjon-breadcrumb': <DonjonBreadcrumb items={[
-    { label: 'Hrad', href: '#', onClick: (e) => e.preventDefault() },
-    { label: 'Komnata', href: '#', onClick: (e) => e.preventDefault() },
+    { label: 'Hrad' },
+    { label: 'Komnata' },
     { label: 'Trůn' },
   ]} />,
   'donjon-drawer': <StaticDonjonDrawerPreview />,
