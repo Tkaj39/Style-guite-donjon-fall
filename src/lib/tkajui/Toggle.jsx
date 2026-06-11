@@ -98,11 +98,12 @@ export default function Toggle({
       aria-label={ariaLabel || label || undefined}
       tabIndex={disabled ? -1 : 0}
       id={id}
+      // Unified accent focus ring (keyboard only) instead of the previous
+      // inline onFocus boxShadow that also fired on mouse focus.
+      className="tkajui-focus"
       style={trackStyle}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-      onFocus={e => { if (!disabled) e.currentTarget.style.boxShadow = `0 0 0 2px ${v.border}99` }}
-      onBlur={e => { e.currentTarget.style.boxShadow = 'none' }}
     >
       <div style={thumbStyle} />
     </div>

@@ -162,7 +162,9 @@ function Button({
         'cursor-pointer select-none',
         'transition-[filter] duration-150',
         'hover:brightness-110 active:brightness-90',
-        'focus:outline-hidden focus-visible:drop-shadow-[0_0_8px_#FFC183AA]',
+        // Accent-colored clip-aware focus glow — the gold drop-shadow that
+        // used to live here belongs to donjon, not the tkajui palette.
+        'tkajui-clip-focus',
         'disabled:opacity-40 disabled:pointer-events-none',
         className,
       ].filter(Boolean).join(' ')}

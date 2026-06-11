@@ -3,9 +3,16 @@
    secondary text, trailing element, and dividers. Items can be
    clickable (each item renders as a button).
 
+   Bordered mode wraps the list in the TkajUI octagon shell
+   (border-trick) so the container matches Button / Card / Input
+   corner language.
+
    For grid-based item layouts use Grid + Card.
    ─────────────────────────────────────────────────────────────────── */
+import { octagon, octagonInner } from '../shared/octagon'
 import { surface2, surface3, surface4, borderDefault, textHigh, textMid, textLow } from './tokens'
+
+const SHELL_CX = 8
 
 const SIZE_PADDING = {
   sm: '6px 10px',
@@ -42,20 +49,19 @@ export default function List({
 }) {
   const padding = SIZE_PADDING[size] ?? SIZE_PADDING.md
 
-  return (
+  const listEl = (
     <ul
-      className={className}
+      className={bordered ? undefined : className}
       style={{
         listStyle: 'none',
         margin: 0,
         padding: 0,
         background: surface2,
-        border: bordered ? `1px solid ${borderDefault}` : undefined,
-        borderRadius: 6,
+        ...(bordered ? { clipPath: octagonInner(SHELL_CX) } : {}),
         overflow: 'hidden',
-        ...style,
+        ...(bordered ? {} : style),
       }}
-      {...rest}
+      {...(bordered ? {} : rest)}
     >
       {items.map((item, i) => {
         const isInteractive = !!item.onClick && !item.disabled
@@ -116,5 +122,25 @@ export default function List({
         )
       })}
     </ul>
+  )
+
+  if (!bordered) return listEl
+
+  // Octagon shell via border-trick — outer paints the 1 px border, inner
+  // (the <ul> above) is clipped one px tighter so the edge shows evenly.
+  return (
+    <div
+      className={className}
+      style={{
+        background: borderDefault,
+        clipPath: octagon(SHELL_CX),
+        padding: 1,
+        boxSizing: 'border-box',
+        ...style,
+      }}
+      {...rest}
+    >
+      {listEl}
+    </div>
   )
 }

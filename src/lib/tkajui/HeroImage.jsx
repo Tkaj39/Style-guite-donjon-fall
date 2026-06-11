@@ -12,6 +12,7 @@
    minHeight) so the box scales with viewport width. A numeric `height`
    is a fixed-pixel escape hatch.
    ─────────────────────────────────────────────────────────────────── */
+import { octagon } from '../shared/octagon'
 import { surface2, surface3, surface4, textHigh, textMid } from './tokens'
 
 const HEIGHTS = {
@@ -74,7 +75,9 @@ export default function HeroImage({
         width: '100%',
         ...sizing,
         overflow: 'hidden',
-        borderRadius: 6,
+        // Octagon silhouette — matches the TkajUI corner language
+        // (Button / Card / Table). cx=12 because hero is a large panel.
+        clipPath: octagon(12),
         // Fallback gradient so the framed area stays visible even when the
         // image is still loading or blocked.
         background: `linear-gradient(135deg, ${surface3} 0%, ${surface2} 60%, ${surface4} 100%)`,

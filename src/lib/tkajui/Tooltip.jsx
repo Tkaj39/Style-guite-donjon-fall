@@ -11,6 +11,7 @@ import {
   zTooltip,
 } from './tokens'
 import { getPosition, resolveFlip, Arrow } from '../shared/tooltipUtils'
+import { octagon, octagonInner } from '../shared/octagon'
 
 /* ── Varianty ── */
 const VARIANTS = {
@@ -84,24 +85,39 @@ export default function Tooltip({
             minWidth: 80,
           }}
         >
+          {/* Octagon bubble via border-trick. The Arrow stays OUTSIDE the
+              clipped layers (clipPath would slice it off) — it anchors to
+              this relatively-positioned wrapper, which is the same box. */}
           <span style={{
             display: 'block',
             position: 'relative',
-            background: v.bg,
-            border: `1px solid ${v.border}`,
-            borderRadius: 4,
-            padding: title ? '8px 12px' : '5px 10px',
-            boxShadow: `0 4px 20px rgba(0,0,0,0.6), 0 0 0 1px ${v.border}33`,
+            filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.55))',
           }}>
             <Arrow placement={effectivePlacement} color={v.border} />
-            {title && (
-              <p style={{ margin: '0 0 3px 0', fontSize: '0.6875rem', fontWeight: 600, color: v.title, letterSpacing: '0.04em' }}>
-                {title}
-              </p>
-            )}
-            <p style={{ margin: 0, fontSize: '0.75rem', color: v.text, lineHeight: 1.5 }}>
-              {content}
-            </p>
+            <span style={{
+              display: 'block',
+              background: v.border,
+              clipPath: octagon(6),
+              padding: 1,
+              boxSizing: 'border-box',
+            }}>
+              <span style={{
+                display: 'block',
+                background: v.bg,
+                clipPath: octagonInner(6),
+                padding: title ? '8px 12px' : '5px 10px',
+                boxSizing: 'border-box',
+              }}>
+                {title && (
+                  <p style={{ margin: '0 0 3px 0', fontSize: '0.6875rem', fontWeight: 600, color: v.title, letterSpacing: '0.04em' }}>
+                    {title}
+                  </p>
+                )}
+                <p style={{ margin: 0, fontSize: '0.75rem', color: v.text, lineHeight: 1.5 }}>
+                  {content}
+                </p>
+              </span>
+            </span>
           </span>
         </span>
       )}

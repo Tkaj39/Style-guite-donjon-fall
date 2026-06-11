@@ -2,17 +2,22 @@
    Square cell representing an item in an inventory grid — icon + count
    badge + optional rarity-colored border + selected ring.
 
+   Octagonal silhouette via the border-trick (ring = 2 px), matching
+   the TkajUI corner language (Button / Card / Thumbnail).
+
    Empty slot = no `icon` prop (renders a plus-style placeholder).
    Pair with InventoryGrid for a full N×M layout.
    ─────────────────────────────────────────────────────────────────── */
+import { octagon, octagonInner } from '../shared/octagon'
 import { surface2, surface3, surface4, borderDefault, accent, textHigh, textMid, textLow } from './tokens'
+import { LockIcon } from './Icons'
 
 const SIZES = {
-  xs: { box: 32, icon: 18, count: 9  },
-  sm: { box: 44, icon: 24, count: 10 },
-  md: { box: 56, icon: 32, count: 11 },
-  lg: { box: 72, icon: 40, count: 12 },
-  xl: { box: 96, icon: 56, count: 13 },
+  xs: { box: 32, icon: 18, count: 9,  cx: 5  },
+  sm: { box: 44, icon: 24, count: 10, cx: 6  },
+  md: { box: 56, icon: 32, count: 11, cx: 8  },
+  lg: { box: 72, icon: 40, count: 12, cx: 10 },
+  xl: { box: 96, icon: 56, count: 13, cx: 13 },
 }
 
 /**
@@ -43,12 +48,13 @@ export default function InventorySlot({
   ...rest
 }) {
   const s = typeof size === 'number'
-    ? { box: size, icon: Math.round(size * 0.55), count: Math.max(9, Math.round(size * 0.18)) }
+    ? { box: size, icon: Math.round(size * 0.55), count: Math.max(9, Math.round(size * 0.18)), cx: Math.round(size * 0.14) }
     : (SIZES[size] ?? SIZES.md)
 
   const isInteractive = !!onClick && !disabled && !locked
   const ringColor = selected ? accent : (rarity ?? borderDefault)
   const empty = icon == null
+  const fillBg = empty ? surface2 : surface3
   const Tag = isInteractive ? 'button' : 'div'
 
   return (
@@ -59,20 +65,21 @@ export default function InventorySlot({
       aria-label={name ?? (empty ? 'Empty slot' : undefined)}
       aria-pressed={isInteractive && selected ? true : undefined}
       disabled={isInteractive && (disabled || locked) ? true : undefined}
-      className={className}
+      className={[isInteractive ? 'tkajui-clip-focus' : null, className].filter(Boolean).join(' ') || undefined}
       style={{
         position: 'relative',
         width: s.box,
         height: s.box,
         padding: 0,
-        background: empty ? surface2 : surface3,
-        border: `2px solid ${ringColor}`,
-        borderRadius: 6,
+        // Octagon ring via border-trick — outer = ring color + clip.
+        background: ringColor,
+        clipPath: octagon(s.cx),
+        border: 'none',
         cursor: isInteractive ? 'pointer' : 'default',
         opacity: disabled ? 0.45 : 1,
-        transition: 'border-color 120ms, transform 120ms, background 120ms',
+        transition: 'background 120ms, transform 120ms, filter 120ms',
         transform: selected ? 'translateY(-1px)' : 'none',
-        boxShadow: selected ? `0 0 0 1px ${accent}33` : 'none',
+        filter: selected ? `drop-shadow(0 0 4px ${accent}55)` : 'none',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -81,11 +88,25 @@ export default function InventorySlot({
         lineHeight: 1,
         ...style,
       }}
-      onMouseEnter={isInteractive ? (e) => { e.currentTarget.style.background = surface4 } : undefined}
-      onMouseLeave={isInteractive ? (e) => { e.currentTarget.style.background = empty ? surface2 : surface3 } : undefined}
+      onMouseEnter={isInteractive ? (e) => { const inner = e.currentTarget.querySelector('[data-slot-fill]'); if (inner) inner.style.background = surface4 } : undefined}
+      onMouseLeave={isInteractive ? (e) => { const inner = e.currentTarget.querySelector('[data-slot-fill]'); if (inner) inner.style.background = fillBg } : undefined}
       {...rest}
     >
-      {empty ? <span aria-hidden="true" style={{ fontSize: s.icon * 0.5, color: textLow }}>＋</span> : icon}
+      {/* Inner fill — 2 px inset reveals the ring along all 8 edges. */}
+      <span
+        aria-hidden="true"
+        data-slot-fill
+        style={{
+          position: 'absolute',
+          inset: 2,
+          clipPath: octagonInner(s.cx, 2),
+          background: fillBg,
+          transition: 'background 120ms',
+        }}
+      />
+      <span style={{ position: 'relative', zIndex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+        {empty ? <span aria-hidden="true" style={{ fontSize: s.icon * 0.5, color: textLow }}>＋</span> : icon}
+      </span>
 
       {count > 1 && (
         <span
@@ -94,6 +115,7 @@ export default function InventorySlot({
             position: 'absolute',
             bottom: 2,
             right: 4,
+            zIndex: 2,
             fontSize: s.count,
             fontWeight: 700,
             color: textHigh,
@@ -110,17 +132,17 @@ export default function InventorySlot({
           aria-hidden="true"
           style={{
             position: 'absolute',
-            inset: 0,
+            inset: 2,
+            zIndex: 2,
             background: 'rgba(0,0,0,0.55)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: s.icon * 0.6,
             color: textMid,
-            borderRadius: 4,
+            clipPath: octagonInner(s.cx, 2),
           }}
         >
-          🔒
+          <LockIcon width={Math.round(s.icon * 0.6)} height={Math.round(s.icon * 0.6)} />
         </span>
       )}
     </Tag>

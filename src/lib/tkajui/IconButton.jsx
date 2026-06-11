@@ -55,7 +55,7 @@ export default function IconButton({
       disabled={disabled}
       aria-label={ariaLabel}
       aria-pressed={active || undefined}
-      className={className}
+      className={['tkajui-clip-focus', className].filter(Boolean).join(' ')}
       style={{
         position: 'relative',
         width: s.box,

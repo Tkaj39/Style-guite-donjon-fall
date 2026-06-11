@@ -8,15 +8,19 @@
    the list is slower than typing.
    ─────────────────────────────────────────────────────────────────── */
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { surface2, surface3, surface4, borderDefault, accent, textHigh, textMid, textLow, shadowMd } from './tokens'
+import { octagon, octagonInner } from '../shared/octagon'
+import { surface2, surface3, surface4, borderDefault, accent, textHigh, textMid, textLow } from './tokens'
+import { CloseIcon } from './Icons'
 import { zDropdown } from '../shared/tokens'
 
 const SIZE = {
-  xs: { h: 28, font: '0.75rem',  pad: '4px 8px'  },
-  sm: { h: 32, font: '0.8125rem', pad: '6px 10px' },
-  md: { h: 38, font: '0.875rem',  pad: '8px 12px' },
-  lg: { h: 46, font: '1rem',      pad: '10px 14px' },
+  xs: { h: 28, cx: 6, font: '0.75rem',  pad: '4px 8px'  },
+  sm: { h: 32, cx: 7, font: '0.8125rem', pad: '6px 10px' },
+  md: { h: 38, cx: 8, font: '0.875rem',  pad: '8px 12px' },
+  lg: { h: 46, cx: 9, font: '1rem',      pad: '10px 14px' },
 }
+
+const PANEL_CX = 8
 
 /**
  * @typedef {object} ComboboxOption
@@ -107,20 +111,31 @@ export default function Combobox({
       style={{ position: 'relative', display: 'inline-block', minWidth: 220, ...style }}
       {...rest}
     >
+      {/* Octagon input shell via border-trick — accent border when open. */}
       <span
         style={{
           position: 'relative',
-          display: 'flex', alignItems: 'center',
+          display: 'block',
           height: s.h,
-          background: surface3,
-          border: `1px solid ${open ? accent : borderDefault}`,
-          borderRadius: 4,
-          padding: s.pad,
+          background: open ? accent : borderDefault,
+          clipPath: octagon(s.cx),
+          padding: 1,
+          boxSizing: 'border-box',
           cursor: disabled ? 'not-allowed' : 'text',
           opacity: disabled ? 0.5 : 1,
-          transition: 'border-color 80ms',
+          transition: 'background 80ms',
         }}
         onClick={() => !disabled && inputRef.current?.focus()}
+      >
+      <span
+        style={{
+          display: 'flex', alignItems: 'center',
+          width: '100%', height: '100%',
+          background: surface3,
+          clipPath: octagonInner(s.cx),
+          padding: s.pad,
+          boxSizing: 'border-box',
+        }}
       >
         <input
           ref={inputRef}
@@ -151,31 +166,42 @@ export default function Combobox({
             type="button"
             onClick={(e) => { e.stopPropagation(); onChange?.(null); inputRef.current?.focus() }}
             aria-label="Clear"
+            className="tkajui-focus"
             style={{
               background: 'transparent', border: 'none', cursor: 'pointer',
-              color: textMid, fontSize: '0.9rem', lineHeight: 1, padding: '0 4px',
+              color: textMid, display: 'inline-flex', alignItems: 'center',
+              lineHeight: 1, padding: '0 4px',
             }}
-          >×</button>
+          ><CloseIcon width={12} height={12} /></button>
         )}
         <span aria-hidden="true" style={{ color: textMid, fontSize: '0.7rem', marginLeft: 4 }}>▾</span>
       </span>
+      </span>
       {open && (
+        // Octagon popover via border-trick — matches DropdownMenu.
         <div
-          id="combobox-list"
-          role="listbox"
           style={{
             position: 'absolute',
             top: 'calc(100% + 4px)',
             left: 0, right: 0,
+            background: borderDefault,
+            clipPath: octagon(PANEL_CX),
+            padding: 1,
+            boxSizing: 'border-box',
+            filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.4))',
+            zIndex: zDropdown,
+            animation: 'fadeIn 100ms ease-out',
+          }}
+        >
+        <div
+          id="combobox-list"
+          role="listbox"
+          style={{
             background: surface2,
-            border: `1px solid ${borderDefault}`,
-            borderRadius: 4,
-            boxShadow: shadowMd,
+            clipPath: octagonInner(PANEL_CX),
             maxHeight: 280,
             overflowY: 'auto',
             padding: 4,
-            zIndex: zDropdown,
-            animation: 'fadeIn 100ms ease-out',
           }}
         >
           {filtered.length === 0 ? (
@@ -216,6 +242,7 @@ export default function Combobox({
               </div>
             )
           })}
+        </div>
         </div>
       )}
     </span>

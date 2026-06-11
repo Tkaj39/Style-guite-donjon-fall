@@ -6,8 +6,11 @@
    The wrapper renders as a <div> by default — pass `as` to swap.
    ─────────────────────────────────────────────────────────────────── */
 import { useEffect, useRef, useState } from 'react'
-import { surface2, surface4, borderDefault, textHigh, textMid, textLow, dangerText, shadowMd } from './tokens'
+import { octagon, octagonInner } from '../shared/octagon'
+import { surface2, surface4, borderDefault, textHigh, textMid, textLow, dangerText } from './tokens'
 import { zDropdown } from '../shared/tokens'
+
+const PANEL_CX = 8
 
 /**
  * @param {React.ReactNode} children   Area that receives the right-click handler.
@@ -69,21 +72,29 @@ export default function ContextMenu({
         {children}
       </As>
       {pos && (
+        // Octagon popover via border-trick — matches DropdownMenu.
         <div
           ref={menuRef}
-          role="menu"
           style={{
             position: 'fixed',
             left: pos.x,
             top:  pos.y,
             minWidth,
-            background: surface2,
-            border: `1px solid ${borderDefault}`,
-            borderRadius: 4,
-            boxShadow: shadowMd,
-            padding: 4,
+            background: borderDefault,
+            clipPath: octagon(PANEL_CX),
+            padding: 1,
+            boxSizing: 'border-box',
+            filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.4))',
             zIndex: zDropdown,
             animation: 'fadeIn 120ms ease-out',
+          }}
+        >
+        <div
+          role="menu"
+          style={{
+            background: surface2,
+            clipPath: octagonInner(PANEL_CX),
+            padding: 4,
           }}
         >
           {items.map((item, i) => {
@@ -98,6 +109,7 @@ export default function ContextMenu({
                 role="menuitem"
                 disabled={item.disabled}
                 onClick={() => { if (item.disabled) return; item.onClick?.(); close() }}
+                className="tkajui-focus"
                 style={{
                   display: 'flex', alignItems: 'center', gap: 10, width: '100%',
                   background: 'transparent', border: 'none',
@@ -121,6 +133,7 @@ export default function ContextMenu({
               </button>
             )
           })}
+        </div>
         </div>
       )}
     </>
