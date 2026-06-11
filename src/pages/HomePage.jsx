@@ -27,7 +27,12 @@ import {
   ListIcon, PhasesIcon, HashIcon, PaletteIcon, GridIcon, SparkIcon,
   StackIcon, FormIcon, ButtonIcon, ModalIcon, TabsIcon, ToggleIcon, ArchIcon,
 } from '../lib/tkajui'
-import { ShieldIcon, HeartIcon, SwordIcon, ScrollIcon, BoltIcon } from '../lib/donjon'
+import {
+  ShieldIcon, HeartIcon, SwordIcon, ScrollIcon, BoltIcon,
+  // Live hero vignette — real components, not mockups
+  DiceTower, HexTile, ResourceBar, DonjonButton, CornerOrnament, DonjonBadge,
+  red, blue,
+} from '../lib/donjon'
 import ArchDiagram from '../styleguide/ArchDiagram'
 import LibraryLogo from '../styleguide/LibraryLogo'
 
@@ -39,6 +44,94 @@ const NPM_PACKAGE = 'donjon-fall-ui'
 const BRAND = {
   donjon: { color: goldMid,     accent: gold,        label: 'donjon-fall-ui' },
   tkajui: { color: tkajuiBrand, accent: tkajuiBrand, label: 'TkajUI'         },
+}
+
+/* ── Hex-grid pattern — herní motiv do pozadí hero ──
+   Inline SVG jako data-URI: pointy-top hexagony, gold stroke na nízké
+   opacitě. Dlaždicuje se přes background-repeat. */
+const HEX_PATTERN = `url("data:image/svg+xml,${encodeURIComponent(
+  `<svg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'>
+    <g fill='none' stroke='${gold}' stroke-opacity='0.07' stroke-width='1'>
+      <path d='M28 0 56 16.17v32.33L28 64.67 0 48.5V16.17z'/>
+      <path d='M28 64.67 56 80.83v32.34L28 129.33 0 113.17V80.83z'/>
+    </g>
+  </svg>`
+)}")`
+
+/* ── Živá hero vignette — mini herní scéna ze skutečných komponent ──
+   Žádné mockupy: DiceTower, HexTile, ResourceBar a DonjonButton přímo
+   z knihovny. To je hlavní "wow" — návštěvník vidí komponenty v akci
+   dřív, než scrollne k dokumentaci. */
+function HeroVignette() {
+  const [hp, setHp] = useState(72)
+  const [selected, setSelected] = useState(false)
+
+  return (
+    <div
+      aria-label="Živá ukázka komponent donjon-fall-ui"
+      style={{
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 14,
+        padding: '22px 24px 18px',
+        background: `linear-gradient(150deg, ${bg3} 0%, ${bgDeep} 70%)`,
+        clipPath: octagon(14),
+        minWidth: 260,
+      }}
+    >
+      {/* Vnitřní gold edge přes inset border-trick */}
+      <span aria-hidden="true" style={{
+        position: 'absolute', inset: 0,
+        clipPath: octagon(14),
+        background: `${goldDim}66`,
+        zIndex: -1,
+        transform: 'scale(1.004)',
+      }} />
+
+      <span style={{
+        fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.16em',
+        textTransform: 'uppercase', color: goldMid,
+      }}>
+        Živé komponenty — žádný mockup
+      </span>
+
+      {/* Herní scéna: hex + věž vedle sebe */}
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 18, justifyContent: 'center' }}>
+        <HexTile property="focal" focal="active" size="md" />
+        <DiceTower
+          dice={[
+            { value: 4, playerColor: red },
+            { value: 2, playerColor: red },
+            { value: 6, playerColor: blue },
+          ]}
+          size="sm"
+          selected={selected}
+          showBase
+          splitHover={false}
+          onTowerClick={() => setSelected(s => !s)}
+          label={selected ? 'vybráno' : 'klikni na věž'}
+        />
+        <HexTile property="base" size="md" owner={blue} />
+      </div>
+
+      {/* HP bar reaguje na tlačítka */}
+      <ResourceBar value={hp} max={100} variant="hp" size="sm" label="HP" showValue zones />
+
+      <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+        <DonjonButton size="sm" variant="danger" onClick={() => setHp(h => Math.max(0, h - 12))}>
+          Útok −12
+        </DonjonButton>
+        <DonjonButton size="sm" variant="success" onClick={() => setHp(h => Math.min(100, h + 8))}>
+          Léčit +8
+        </DonjonButton>
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <DonjonBadge variant="warning" size="sm">interaktivní · zkus to</DonjonBadge>
+      </div>
+    </div>
+  )
 }
 
 /* ── Stats — počítáno z registry ── */
@@ -356,18 +449,52 @@ export default function HomePage() {
       <title>{`donjon-fall-ui & TkajUI · Style Guide`}</title>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 16px 64px' }}>
 
-        {/* ── HERO — dual brand ───────────────────────────────────── */}
+        {/* ── HERO — dual brand, octagon shell + hex pattern ─────────
+            Hero používá vlastní jazyk knihoven: octagon clip (border-trick
+            se zlato-modrým gradientem), hex-grid pozadí, CornerOrnament
+            v rozích a živou komponentovou vignette místo statického textu. */}
         <section style={{
-          padding: '44px 32px 40px',
-          background: `
-            radial-gradient(circle at 15% 0%,  ${gold}0E, transparent 55%),
-            radial-gradient(circle at 85% 0%,  ${BRAND.tkajui.color}0D, transparent 55%),
-            ${bg2}
-          `,
-          border: `1px solid ${borderDefault}`,
-          borderRadius: 10,
+          position: 'relative',
+          // Outer = gradient edge donjon gold → tkajui blue (obě brandy)
+          background: `linear-gradient(120deg, ${gold} 0%, ${goldDim} 35%, ${BRAND.tkajui.color}88 100%)`,
+          clipPath: octagon(18),
+          padding: 1.5,
+          boxSizing: 'border-box',
           marginBottom: 24,
         }}>
+        <div style={{
+          position: 'relative',
+          padding: '44px 36px 40px',
+          background: `
+            radial-gradient(circle at 12% 0%,  ${gold}14, transparent 50%),
+            radial-gradient(circle at 88% 100%, ${BRAND.tkajui.color}12, transparent 50%),
+            ${bg2}
+          `,
+          clipPath: octagonInner(18, 1.5),
+          overflow: 'hidden',
+        }}>
+          {/* Hex-grid herní motiv — pod obsahem */}
+          <div aria-hidden="true" style={{
+            position: 'absolute', inset: 0,
+            backgroundImage: HEX_PATTERN,
+            backgroundSize: '56px 97px',
+            maskImage: 'linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.25) 60%, transparent)',
+            WebkitMaskImage: 'linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.25) 60%, transparent)',
+            pointerEvents: 'none',
+          }} />
+          {/* Rohové ornamenty — donjon komponenta přímo v chrome */}
+          <CornerOrnament size={18} color={goldDim} style={{ position: 'absolute', top: 10, left: 10 }} />
+          <CornerOrnament size={18} color={goldDim} style={{ position: 'absolute', top: 10, right: 10, transform: 'scaleX(-1)' }} />
+          <CornerOrnament size={18} color={`${BRAND.tkajui.color}AA`} style={{ position: 'absolute', bottom: 10, left: 10, transform: 'scaleY(-1)' }} />
+          <CornerOrnament size={18} color={`${BRAND.tkajui.color}AA`} style={{ position: 'absolute', bottom: 10, right: 10, transform: 'scale(-1)' }} />
+
+          {/* Two-column: text vlevo, živá vignette vpravo (stack na mobilu) */}
+          <div style={{
+            position: 'relative',
+            display: 'flex', flexWrap: 'wrap', gap: 32,
+            alignItems: 'center',
+          }}>
+          <div style={{ flex: '1 1 420px', minWidth: 0 }}>
           {/* Dual brand title row */}
           <div style={{
             display: 'flex', alignItems: 'center', gap: 12,
@@ -491,6 +618,14 @@ export default function HomePage() {
               Mood &amp; Vision
             </Link>
           </div>
+          </div>{/* /levý sloupec */}
+
+          {/* Pravý sloupec — živá komponentová vignette */}
+          <div style={{ flex: '0 1 320px', display: 'flex', justifyContent: 'center' }}>
+            <HeroVignette />
+          </div>
+          </div>{/* /two-column */}
+        </div>{/* /inner octagon panel */}
         </section>
 
         {/* ── STATS ────────────────────────────────────────────── */}
