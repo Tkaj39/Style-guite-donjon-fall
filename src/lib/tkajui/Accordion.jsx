@@ -7,7 +7,10 @@
    Uncontrolled: pass `defaultValue`, component manages state.
    ─────────────────────────────────────────────────────────────────── */
 import { useState } from 'react'
+import { octagon, octagonInner } from '../shared/octagon'
 import { surface2, surface3, borderDefault, textHigh, textMid } from './tokens'
+
+const SHELL_CX = 8
 
 /**
  * @param {Array<{id: string|number, title: ReactNode, content: ReactNode, disabled?: boolean}>} items
@@ -47,17 +50,16 @@ export default function Accordion({
     setOpen(next)
   }
 
-  return (
+  const innerEl = (
     <div
-      className={className}
+      className={bordered ? undefined : className}
       style={{
-        border: bordered ? `1px solid ${borderDefault}` : undefined,
-        borderRadius: 6,
+        ...(bordered ? { clipPath: octagonInner(SHELL_CX) } : {}),
         overflow: 'hidden',
         background: surface2,
-        ...style,
+        ...(bordered ? {} : style),
       }}
-      {...rest}
+      {...(bordered ? {} : rest)}
     >
       {items.map((item, i) => {
         const isOpen = open.includes(item.id)
@@ -73,6 +75,7 @@ export default function Accordion({
               onClick={() => !item.disabled && toggle(item.id)}
               aria-expanded={isOpen}
               disabled={item.disabled}
+              className="tkajui-focus"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -113,6 +116,25 @@ export default function Accordion({
           </div>
         )
       })}
+    </div>
+  )
+
+  if (!bordered) return innerEl
+
+  // Octagon shell via border-trick — matches Button / Card / List corners.
+  return (
+    <div
+      className={className}
+      style={{
+        background: borderDefault,
+        clipPath: octagon(SHELL_CX),
+        padding: 1,
+        boxSizing: 'border-box',
+        ...style,
+      }}
+      {...rest}
+    >
+      {innerEl}
     </div>
   )
 }

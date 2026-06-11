@@ -8,8 +8,11 @@
    Difference from Banner: smaller, used at the section level, may have
    a dismiss button.
    ─────────────────────────────────────────────────────────────────── */
+import { octagon, octagonInner } from '../shared/octagon'
 import { VARIANT_COLORS, textHigh, textMid } from './tokens'
 import { InfoIcon, SuccessIcon, WarningIcon, DangerIcon, CloseIcon } from './Icons'
+
+const SHELL_CX = 8
 
 const VARIANT_ICONS = {
   default: <InfoIcon width={18} height={18} />,
@@ -42,26 +45,42 @@ export default function Alert({
   const v = VARIANT_COLORS[variant] ?? VARIANT_COLORS.info
   const iconNode = icon === null ? null : (icon ?? VARIANT_ICONS[variant])
 
+  // Octagon shell via border-trick. The variant left rail (previously a
+  // 3 px borderLeft, which clipPath would slice off at the corners) is an
+  // absolutely positioned bar inside the inner panel instead.
   return (
     <div
       role="alert"
       className={className}
       style={{
-        display: 'flex',
-        alignItems: 'flex-start',
-        gap: 12,
-        padding: '12px 14px',
-        background: v.bg,
-        border: `1px solid ${v.border}`,
-        borderLeft: `3px solid ${v.color}`,
-        borderRadius: 6,
-        color: textHigh,
-        fontSize: '0.875rem',
-        lineHeight: 1.45,
+        background: v.border,
+        clipPath: octagon(SHELL_CX),
+        padding: 1,
+        boxSizing: 'border-box',
         ...style,
       }}
       {...rest}
     >
+      <div style={{
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: 12,
+        padding: '12px 14px 12px 17px',   // +3 left for the rail
+        background: v.bg,
+        clipPath: octagonInner(SHELL_CX),
+        color: textHigh,
+        fontSize: '0.875rem',
+        lineHeight: 1.45,
+      }}>
+      <span aria-hidden="true" style={{
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        bottom: 0,
+        width: 3,
+        background: v.color,
+      }} />
       {iconNode != null && (
         <span
           aria-hidden="true"
@@ -95,6 +114,7 @@ export default function Alert({
           type="button"
           aria-label="Dismiss"
           onClick={onDismiss}
+          className="tkajui-focus"
           style={{
             flex: '0 0 auto',
             background: 'transparent',
@@ -111,6 +131,7 @@ export default function Alert({
           <CloseIcon width={14} height={14} />
         </button>
       )}
+      </div>
     </div>
   )
 }

@@ -90,6 +90,8 @@ export {
   ChevronDownIcon, ChevronRightIcon, ExternalLinkIcon,
   // Alert pictograms (Alert / Banner / Toast variants)
   InfoIcon, SuccessIcon, WarningIcon, DangerIcon,
+  // Misc cell icons
+  LockIcon,
 } from './Icons'
 
 // ─── Shape primitives ────────────────────────────────────────────────────

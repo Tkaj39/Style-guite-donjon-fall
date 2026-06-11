@@ -107,6 +107,9 @@ export default function Tabs({
             onKeyDown={e => handleKeyDown(e, item, i)}
             onMouseEnter={e => { if (!isActive && !item.disabled) e.currentTarget.style.color = v.hoverColor }}
             onMouseLeave={e => { if (!isActive && !item.disabled) e.currentTarget.style.color = v.inactiveTab.color }}
+            // Unified accent focus ring (keyboard only) — replaces the
+            // previous inline onFocus outline that also fired on click.
+            className="tkajui-focus"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -121,13 +124,10 @@ export default function Tabs({
               background: 'transparent',
               border: 'none',
               transition: 'color 0.12s, background 0.12s, border-color 0.12s',
-              outline: 'none',
               marginBottom: variant === 'underline' && !isVertical ? -1 : 0,
               ...tabStyle,
               ...verticalActiveStyle,
             }}
-            onFocus={e => { e.currentTarget.style.outline = `2px solid ${accent}99`; e.currentTarget.style.outlineOffset = '3px' }}
-            onBlur={e => { e.currentTarget.style.outline = 'none' }}
           >
             {item.icon && <span style={{ display: 'flex', alignItems: 'center', opacity: isActive ? 1 : 0.6 }}>{item.icon}</span>}
             {item.label}

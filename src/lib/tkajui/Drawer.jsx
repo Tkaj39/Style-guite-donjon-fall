@@ -14,6 +14,7 @@ import { useEffect, useRef } from 'react'
 import Backdrop from './Backdrop'
 import { surface2, borderDefault, textHigh, textMid } from './tokens'
 import { zNotification, panelShadow } from '../shared/tokens'
+import { CloseIcon } from './Icons'
 
 const SIDES = {
   left:   { axis: 'X', sign: -1, full: 'height' },
@@ -149,11 +150,13 @@ export default function Drawer({
               type="button"
               onClick={onClose}
               aria-label="Close"
+              className="tkajui-focus"
               style={{
                 background: 'transparent', border: 'none', cursor: 'pointer',
-                color: textMid, fontSize: '1.25rem', lineHeight: 1, padding: 2,
+                color: textMid, display: 'inline-flex', alignItems: 'center',
+                lineHeight: 1, padding: 2,
               }}
-            >×</button>
+            ><CloseIcon width={16} height={16} /></button>
           </header>
         )}
         <div style={{ flex: 1, overflowY: 'auto', padding: title ? 20 : '20px' }}>

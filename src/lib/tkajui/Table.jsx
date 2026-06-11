@@ -7,7 +7,10 @@
    pass `sortBy` + `onSortChange`.
    ─────────────────────────────────────────────────────────────────── */
 import { useMemo, useState } from 'react'
+import { octagon, octagonInner } from '../shared/octagon'
 import { surface2, surface3, surface4, borderDefault, textHigh, textMid, textLow } from './tokens'
+
+const SHELL_CX = 8
 
 const SIZE_PADDING = {
   sm: '6px 10px',
@@ -86,18 +89,17 @@ export default function Table({
   const padding = SIZE_PADDING[size] ?? SIZE_PADDING.md
   const borderStyle = bordered ? `1px solid ${borderDefault}` : 'none'
 
-  return (
+  const tableEl = (
     <div
-      className={className}
+      className={bordered ? undefined : className}
       style={{
         width: '100%',
         overflowX: 'auto',
-        border: borderStyle,
-        borderRadius: 6,
         background: surface2,
-        ...style,
+        ...(bordered ? { clipPath: octagonInner(SHELL_CX) } : {}),
+        ...(bordered ? {} : style),
       }}
-      {...rest}
+      {...(bordered ? {} : rest)}
     >
       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
         <thead>
@@ -171,6 +173,25 @@ export default function Table({
           ))}
         </tbody>
       </table>
+    </div>
+  )
+
+  if (!bordered) return tableEl
+
+  // Octagon shell via border-trick — matches Button / Card / List corners.
+  return (
+    <div
+      className={className}
+      style={{
+        background: borderDefault,
+        clipPath: octagon(SHELL_CX),
+        padding: 1,
+        boxSizing: 'border-box',
+        ...style,
+      }}
+      {...rest}
+    >
+      {tableEl}
     </div>
   )
 }

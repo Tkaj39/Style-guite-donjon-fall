@@ -137,3 +137,27 @@
 @keyframes tkajuiDrawerSlideInRight  { from { transform: translateX( 100%); } to { transform: none; } }
 @keyframes tkajuiDrawerSlideInTop    { from { transform: translateY(-100%); } to { transform: none; } }
 @keyframes tkajuiDrawerSlideInBottom { from { transform: translateY( 100%); } to { transform: none; } }
+
+/* ── Focus ring — TkajUI unified keyboard-navigation treatment ───────────
+   Two classes, one accent color (--tkajui-accent #6576ff):
+
+   .tkajui-focus       → standard outline ring. For non-clipped interactive
+                         elements (list rows, accordion headers, pagination
+                         chips, menu items). Overrides the style guide's
+                         global gold :focus-visible ring so TkajUI elements
+                         stay in the cool palette.
+   .tkajui-clip-focus  → drop-shadow glow for clip-path (octagon) elements.
+                         CSS outline ignores clip-path and renders as a
+                         rectangle — the drop-shadow follows the silhouette.
+                         Mirror of donjon's .dj-clip-focus, accent-tinted.
+   ──────────────────────────────────────────────────────────────────────── */
+.tkajui-focus:focus-visible {
+  outline: 2px solid var(--tkajui-accent, #6576ff);
+  outline-offset: 2px;
+}
+
+.tkajui-clip-focus:focus-visible,
+.tkajui-clip-focus:has(:focus-visible) {
+  outline: none !important;
+  filter: drop-shadow(0 0 6px var(--tkajui-accent, #6576ff));
+}

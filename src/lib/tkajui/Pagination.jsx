@@ -4,10 +4,17 @@
    by `siblingCount` neighbors; ellipses fill the gaps.
 
    Controlled — pass page (1-indexed) + total + onChange.
+
+   Chips are octagonal (border-trick clip) to match the TkajUI corner
+   language used by Button / Input / Card. Current page = accent-filled
+   octagon.
    ─────────────────────────────────────────────────────────────────── */
+import { octagon } from '../shared/octagon'
 import { surface3, surface4, accent, borderDefault, textHigh, textMid, textLow, primaryText } from './tokens'
 
 const SIZE_PX = { sm: 28, md: 34, lg: 42 }
+// Octagon corner-cut per chip size — proportional to the tile.
+const SIZE_CX = { sm: 4, md: 5, lg: 6 }
 
 /**
  * Build the page window: [1, 2, '…', 7, 8, 9, '…', 49, 50]
@@ -50,19 +57,61 @@ export default function Pagination({
   if (total <= 1) return null
   const items = range(page, total, siblingCount)
   const px = SIZE_PX[size] ?? SIZE_PX.md
-
-  const baseBtn = {
-    minWidth: px, height: px, padding: '0 8px',
-    background: surface3, color: textHigh,
-    border: `1px solid ${borderDefault}`,
-    borderRadius: 4,
-    cursor: 'pointer', fontSize: '0.875rem',
-    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-    transition: 'background 80ms, color 80ms, border-color 80ms',
-    fontVariantNumeric: 'tabular-nums',
-  }
+  const cx = SIZE_CX[size] ?? SIZE_CX.md
 
   const goto = (p) => { if (p !== page && p >= 1 && p <= total) onChange?.(p) }
+
+  // Octagonal chip — border-trick wrapper (outer = border color + clip,
+  // inner = fill + clip). `tone` picks the color set.
+  function Chip({ tone = 'default', disabled, onClick, ariaLabel, ariaCurrent, children }) {
+    const isCurrent = tone === 'current'
+    const border = isCurrent ? accent : borderDefault
+    const fill   = isCurrent ? accent : surface3
+    const color  = isCurrent ? primaryText : textHigh
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        disabled={disabled}
+        aria-label={ariaLabel}
+        aria-current={ariaCurrent}
+        className="tkajui-clip-focus"
+        style={{
+          minWidth: px, height: px,
+          background: border,
+          clipPath: octagon(cx),
+          padding: 1,
+          boxSizing: 'border-box',
+          border: 'none',
+          cursor: disabled ? 'not-allowed' : 'pointer',
+          opacity: disabled ? 0.4 : 1,
+          fontSize: '0.875rem',
+          fontVariantNumeric: 'tabular-nums',
+          transition: 'opacity 80ms',
+        }}
+      >
+        <span
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%', height: '100%',
+            background: fill,
+            clipPath: octagon(cx),
+            color,
+            fontWeight: isCurrent ? 600 : 400,
+            padding: '0 8px',
+            boxSizing: 'border-box',
+            transition: 'background 80ms, color 80ms',
+          }}
+          onMouseEnter={(e) => { if (!isCurrent && !disabled) e.currentTarget.style.background = surface4 }}
+          onMouseLeave={(e) => { if (!isCurrent && !disabled) e.currentTarget.style.background = surface3 }}
+        >
+          {children}
+        </span>
+      </button>
+    )
+  }
 
   return (
     <nav
@@ -72,13 +121,11 @@ export default function Pagination({
       {...rest}
     >
       {showEdges && (
-        <button
-          type="button"
+        <Chip
           onClick={() => goto(page - 1)}
           disabled={page <= 1}
-          aria-label="Previous page"
-          style={{ ...baseBtn, opacity: page <= 1 ? 0.4 : 1, cursor: page <= 1 ? 'not-allowed' : 'pointer' }}
-        >‹</button>
+          ariaLabel="Previous page"
+        >‹</Chip>
       )}
 
       {items.map((item, i) => {
@@ -91,34 +138,23 @@ export default function Pagination({
         }
         const isCurrent = item === page
         return (
-          <button
+          <Chip
             key={item}
-            type="button"
+            tone={isCurrent ? 'current' : 'default'}
             onClick={() => goto(item)}
-            aria-current={isCurrent ? 'page' : undefined}
-            style={{
-              ...baseBtn,
-              background: isCurrent ? accent : surface3,
-              color: isCurrent ? primaryText : textHigh,
-              borderColor: isCurrent ? accent : borderDefault,
-              fontWeight: isCurrent ? 600 : 400,
-            }}
-            onMouseEnter={(e) => { if (!isCurrent) { e.currentTarget.style.background = surface4 } }}
-            onMouseLeave={(e) => { if (!isCurrent) { e.currentTarget.style.background = surface3 } }}
+            ariaCurrent={isCurrent ? 'page' : undefined}
           >
             {item}
-          </button>
+          </Chip>
         )
       })}
 
       {showEdges && (
-        <button
-          type="button"
+        <Chip
           onClick={() => goto(page + 1)}
           disabled={page >= total}
-          aria-label="Next page"
-          style={{ ...baseBtn, opacity: page >= total ? 0.4 : 1, cursor: page >= total ? 'not-allowed' : 'pointer' }}
-        >›</button>
+          ariaLabel="Next page"
+        >›</Chip>
       )}
 
       <span style={{ marginLeft: 8, fontSize: '0.75rem', color: textMid, fontVariantNumeric: 'tabular-nums' }}>

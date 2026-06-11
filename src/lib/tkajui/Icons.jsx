@@ -336,3 +336,17 @@ export function DangerIcon({ width = 22, height = 22, color = 'currentColor' }) 
     </svg>
   )
 }
+
+/** Lock — closed padlock for locked / disabled cells. TkajUI's own copy —
+    the donjon LockIcon can't be imported here (tkajui must not depend on
+    donjon per the architecture contract). */
+export function LockIcon({ width = 22, height = 22, color = 'currentColor' }) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} fill="none" aria-hidden="true">
+      <rect x="4" y="11" width="16" height="10" rx="1.5" stroke={color} strokeWidth="1.5"/>
+      <path d="M8 11V7a4 4 0 0 1 8 0v4" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+      <circle cx="12" cy="15.5" r="1.2" fill={color}/>
+      <path d="M12 16.5v2" stroke={color} strokeWidth="1.3" strokeLinecap="round"/>
+    </svg>
+  )
+}

@@ -6,8 +6,11 @@
    closes on item click, outside click, or ESC.
    ─────────────────────────────────────────────────────────────────── */
 import { useEffect, useRef, useState } from 'react'
-import { surface2, surface3, surface4, borderDefault, textHigh, textMid, textLow, dangerText, shadowMd } from './tokens'
+import { octagon, octagonInner } from '../shared/octagon'
+import { surface2, surface3, surface4, borderDefault, textHigh, textMid, textLow, dangerText } from './tokens'
 import { zDropdown } from '../shared/tokens'
+
+const PANEL_CX = 8
 
 /**
  * @param {React.ReactNode | (props: {open: boolean, toggle: () => void}) => React.ReactNode} trigger
@@ -72,20 +75,28 @@ export default function DropdownMenu({
     >
       {triggerNode}
       {open && (
+        // Octagon popover via border-trick — outer paints the 1 px border.
         <div
-          role="menu"
           style={{
             position: 'absolute',
             top: 'calc(100% + 4px)',
             [align]: 0,
             minWidth,
-            background: surface2,
-            border: `1px solid ${borderDefault}`,
-            borderRadius: 4,
-            boxShadow: shadowMd,
-            padding: 4,
+            background: borderDefault,
+            clipPath: octagon(PANEL_CX),
+            padding: 1,
+            boxSizing: 'border-box',
+            filter: `drop-shadow(0 8px 16px rgba(0,0,0,0.4))`,
             zIndex: zDropdown,
             animation: 'fadeIn 120ms ease-out',
+          }}
+        >
+        <div
+          role="menu"
+          style={{
+            background: surface2,
+            clipPath: octagonInner(PANEL_CX),
+            padding: 4,
           }}
         >
           {items.map((item, i) => {
@@ -104,6 +115,7 @@ export default function DropdownMenu({
                   item.onClick?.()
                   close()
                 }}
+                className="tkajui-focus"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -134,6 +146,7 @@ export default function DropdownMenu({
               </button>
             )
           })}
+        </div>
         </div>
       )}
     </span>
