@@ -43,6 +43,9 @@ import {
   TextArea,
   NumberInput,
   HeroImage,
+  Avatar,
+  Field, Form,
+  Stack, Inline,
   // Icons used in dropdown / context-menu / icon-button mini previews
   SettingsIcon, CheckIcon, CloseIcon, PlusIcon, UploadIcon,
   SearchIcon, EditIcon, TrashIcon,
@@ -103,6 +106,7 @@ import {
   DonjonCheckboxGroup,
   DonjonRadio,
   DonjonRadioGroup,
+  DonjonNotchMenu,
   // Player colors for DiceTower preview
   red,
 } from '../lib/donjon'
@@ -301,7 +305,7 @@ function PreviewFallback({ comp }) {
     : 'from-neutral-500/20 via-neutral-400/5 to-transparent'
 
   return (
-    <div className={`relative h-24 rounded-md border border-neutral-800 bg-gradient-to-br ${accent} overflow-hidden`}>
+    <div className={`relative h-24 w-full rounded-md border border-neutral-800 bg-gradient-to-br ${accent} overflow-hidden`}>
       <div className="absolute inset-x-3 top-3 h-3 rounded bg-neutral-800/90" />
       <div className="absolute left-3 top-10 h-8 w-8 rounded-md border border-neutral-700 bg-neutral-900/90" />
       <div className="absolute right-3 top-10 left-14 h-2.5 rounded bg-neutral-800/80" />
@@ -692,7 +696,7 @@ const MINI_PREVIEWS = {
     { value: 'heal',  label: 'Cure Wounds' },
   ]} value="fire" onChange={_noop} size="sm" />,
   'text-area': <TextArea value={'A wandering ranger.\nKeeper of lore.'} onChange={_noop} rows={2} size="sm" />,
-  'number-input': <NumberInput value={42} onChange={_noop} min={0} max={99} size="sm" />,
+  'number-input': <div style={{ width: 120 }}><NumberInput value={42} onChange={_noop} min={0} max={99} size="sm" /></div>,
 
   // ── New donjon variants — disclosure / navigation / data / form / media ──
   'donjon-accordion': <DonjonAccordion items={[
@@ -748,7 +752,7 @@ const MINI_PREVIEWS = {
     { value: 'heal', label: 'Cure Wounds' },
   ]} value="fire" onChange={_noop} size="sm" />,
   'donjon-text-area': <DonjonTextArea value={'A wandering ranger.\nKeeper of lore.'} onChange={_noop} rows={2} size="sm" />,
-  'donjon-number-input': <DonjonNumberInput value={42} onChange={_noop} min={0} max={99} size="sm" />,
+  'donjon-number-input': <div style={{ width: 120 }}><DonjonNumberInput value={42} onChange={_noop} min={0} max={99} size="sm" /></div>,
   'donjon-submit-button': <form><DonjonSubmitButton size="sm" loadingLabel="Ukládám…">Uložit</DonjonSubmitButton></form>,
   // Form primitives — diamond Checkbox / Radio + Form / Field
   'donjon-field': <DonjonField label="Email" hint="Pergamentový label"><DonjonInput value="rohan@king.me" onChange={_noop} size="sm" /></DonjonField>,
@@ -788,6 +792,60 @@ const MINI_PREVIEWS = {
     size="sm"
     label="Vez"
   />,
+  'donjon-notch-menu': (
+    <DonjonNotchMenu value="map" onChange={_noop} size="sm" bannerWidth={220}>
+      <DonjonNotchMenu.Item value="map">Mapa</DonjonNotchMenu.Item>
+      <DonjonNotchMenu.Item value="hud">HUD</DonjonNotchMenu.Item>
+      <DonjonNotchMenu.Body>
+        <span className="text-[10px] text-amber-200/80">obsah panelu</span>
+      </DonjonNotchMenu.Body>
+    </DonjonNotchMenu>
+  ),
+  'donjon-notification-center': (
+    <div className="w-full max-w-[16rem] flex flex-col gap-1.5">
+      {[
+        { t: '+5 VP · obsazeno ohnisko', c: 'text-emerald-300', b: 'border-emerald-700/40' },
+        { t: '−12 HP · zásah', c: 'text-rose-300', b: 'border-rose-700/40' },
+        { t: 'Tah 14 · jaro 1304', c: 'text-amber-200', b: 'border-amber-700/40' },
+      ].map((n, i) => (
+        <div key={i} className={`rounded-md border ${n.b} bg-neutral-950/80 px-2.5 py-1 text-[10px] ${n.c}`}>
+          {n.t}
+        </div>
+      ))}
+    </div>
+  ),
+
+  // ── tkajui — structural / identity ─────────────────────────────────────
+  avatar: (
+    <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+      <Avatar name="Aragorn Strider" size="md" />
+      <Avatar name="Frodo Baggins" size="md" shape="octagon" />
+      <Avatar name="G" size="md" color={blue} />
+    </div>
+  ),
+  layout: (
+    <div className="w-full max-w-[15rem] flex flex-col gap-1.5">
+      <Inline gap="xs">
+        <div className="h-6 flex-1 rounded bg-indigo-500/25" />
+        <div className="h-6 flex-1 rounded bg-indigo-500/25" />
+        <div className="h-6 flex-1 rounded bg-indigo-500/25" />
+      </Inline>
+      <Stack gap="xs">
+        <div className="h-2.5 w-full rounded bg-neutral-800" />
+        <div className="h-2.5 w-3/4 rounded bg-neutral-800" />
+      </Stack>
+    </div>
+  ),
+  form: (
+    <div style={{ width: 200 }}>
+      <Form gap={8}>
+        <Field label="Email">
+          <Input value="ranger@rohan.me" onChange={_noop} size="sm" />
+        </Field>
+        <SubmitButton size="sm">Odeslat</SubmitButton>
+      </Form>
+    </div>
+  ),
 
   // ── New donjon — gameplay ──────────────────────────────────────────────
   dialogue: (
