@@ -138,7 +138,7 @@ function NotchedBox({
       cx, nw: n.nw, nh: n.nh, side: n.side, offset: n.offset, width, height,
     }))
     const warnings = clampedAll.map(c => c.warning).filter(Boolean)
-    if (warnings.length && typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production') {
+    if (warnings.length && !import.meta.env.PROD) {
 
       console.warn('[NotchedBox] ' + warnings.join('; '))
     }
@@ -158,7 +158,7 @@ function NotchedBox({
     slotInfos = finalNotches.map(n => ({ side: n.side, offset: n.offset }))
   } else {
     const clamped = notchClamp({ cx, nw, nh, side, offset: notchOffset, width, height })
-    if (clamped.warning && typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production') {
+    if (clamped.warning && !import.meta.env.PROD) {
 
       console.warn(`[NotchedBox] ${clamped.warning}`)
     }

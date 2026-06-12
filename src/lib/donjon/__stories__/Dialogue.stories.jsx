@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Dialogue from '../Dialogue'
+import { gold } from '../tokens'
 
 export default {
   title: 'donjon-fall-ui/Gameplay/Dialogue',
@@ -45,7 +46,7 @@ export const WithChoices = {
           ]}
         />
         {picked && (
-          <div style={{ marginTop: 12, color: '#FFC183' }}>
+          <div style={{ marginTop: 12, color: gold }}>
             You picked: <strong>{picked}</strong>
           </div>
         )}
