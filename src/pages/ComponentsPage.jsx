@@ -65,7 +65,6 @@ import {
   DonjonTabs,
   DonjonToggle,
   EventLog,
-  FloatFeedback,
   GameTransition,
   HexTile,
   NumericDisplay,
@@ -518,7 +517,16 @@ const MINI_PREVIEWS = {
   'hex-tile': <HexTile state="selected" size="sm" label="A3" showLabel />,
   // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   'die-face': <DieFace value={5} playerColor="#d6aa57" size="sm" state="selected" />,
-  'float-feedback': <FloatFeedback text="+2 VP" visible variant="success" animKey="preview" />,
+  // FloatFeedback animuje nahoru a po 700 ms zmizí (forwards) → živá
+  // instance je v náhledu většinu času neviditelná. Statická scéna
+  // ukazuje, jak komponenta vypadá v půlce animace nad herním prvkem.
+  'float-feedback': (
+    <div className="relative flex h-20 w-full items-end justify-center">
+      <span className="absolute left-1/2 top-1 -translate-x-1/2 text-xs font-bold tracking-wide text-emerald-300 [text-shadow:0_0_8px_rgba(80,184,108,0.6)]">+2 VP</span>
+      <span className="absolute left-[30%] top-5 -translate-x-1/2 text-[11px] font-bold tracking-wide text-rose-300 [text-shadow:0_0_8px_rgba(224,92,92,0.55)]">−1 HP</span>
+      <div className="h-10 w-10 rounded-md border border-amber-700/50 bg-neutral-900" />
+    </div>
+  ),
   'action-tile': <ActionTile icon={<SwordIcon width={18} height={18} />} title="Útok" cost={2} size="sm" selected />,
   'event-log': <EventLog events={[{ id: 1, type: 'gain', text: '+2 VP', round: 3 }, { id: 2, type: 'warning', text: 'Nebezpečí', detail: 'Hex je oslabený' }]} maxHeight={64} showTitle={false} />,
   'phase-indicator': <PhaseIndicator phases={[{ id: 'move', label: 'Pohyb' }, { id: 'fight', label: 'Souboj' }, { id: 'end', label: 'Konec' }]} currentPhase="fight" size="sm" />,
