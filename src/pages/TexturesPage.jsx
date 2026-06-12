@@ -17,8 +17,9 @@ import { gold, goldDim, bg0, bg2, textHigh, textMid, textLow, borderDefault } fr
 import { red, blue } from '../lib/donjon/playerColors'
 
 const TEXTURES = [
-  { id: 'grass-1', src: '/grass-1.png', label: 'grass-1 — realistická tráva' },
-  { id: 'grass-2', src: '/grass-2.png', label: 'grass-2 — kreslená / leknínová' },
+  { id: 'grass-1',  src: '/grass-1.png',  label: 'grass-1 — realistická tráva' },
+  { id: 'grass-12', src: '/grass-12.png', label: 'grass-12 — upravená grass-1' },
+  { id: 'grass-2',  src: '/grass-2.png',  label: 'grass-2 — kreslená / leknínová' },
 ]
 
 const TILE_SIZES = [64, 128, 256]
@@ -209,8 +210,8 @@ export default function TexturesPage() {
         </Section>
 
         {/* ── 5. Vedle sebe ── */}
-        <Section title="Obě textury vedle sebe" desc="Rychlé porovnání barevnosti a stylu.">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+        <Section title="Všechny textury vedle sebe" desc="Rychlé porovnání barevnosti a stylu.">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
             {TEXTURES.map(t => (
               <div key={t.id}>
                 <p style={{ ...SUB, marginBottom: 8 }}>{t.label}</p>
