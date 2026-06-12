@@ -128,7 +128,7 @@ function HeroVignette() {
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <DonjonBadge variant="warning" size="sm">interaktivní · zkus to</DonjonBadge>
+        <DonjonBadge variant="warning" size="sm">vše přímo z knihovny</DonjonBadge>
       </div>
     </div>
   )
@@ -547,12 +547,12 @@ export default function HomePage() {
             lineHeight: 1.6, maxWidth: 740,
             marginBottom: 28,
           }}>
-            <strong style={{ color: textHigh, fontWeight: 600 }}>Dvě knihovny, jedna codebase.</strong>{' '}
-            <span style={{ color: BRAND.tkajui.color }}>TkajUI</span> — chladná modrá UI základna
-            pro jakoukoli React aplikaci.{' '}
-            <span style={{ color: goldMid }}>donjon-fall-ui</span> — herní vrstva
-            postavená nad TkajUI, zlatá středověká estetika s oktagonálními tvary
-            a ornamentálními hex motivy.
+            <strong style={{ color: textHigh, fontWeight: 600 }}>Jeden systém, dva světy.</strong>{' '}
+            <span style={{ color: BRAND.tkajui.color }}>TkajUI</span> dá tvé aplikaci
+            čistý modrý základ — tlačítka, formuláře, tabulky, modaly.{' '}
+            <span style={{ color: goldMid }}>donjon-fall-ui</span> na něm staví
+            herní svět: zlato, oktagony a komponenty, které jinde nenajdeš —
+            věže z kostek, HP bary, hexové mapy.
           </p>
 
           {/* CTA row */}
@@ -636,10 +636,10 @@ export default function HomePage() {
           marginBottom: 48,
         }}>
           <StatBox value={stats.total} label="Komponent celkem" />
-          <StatBox value={stats.tkajui} label="TkajUI" accent={BRAND.tkajui.color} sublabel="base library" />
-          <StatBox value={stats.donjon} label="donjon-fall-ui" sublabel={`herní vrstva · +${stats.extending} extends`} />
-          <StatBox value={stats.documented} label="Dokumentováno" accent={gainColor} />
-          <StatBox value="WCAG 2.1" label="A11y AA" accent={gainColor} />
+          <StatBox value={stats.tkajui} label="TkajUI" accent={BRAND.tkajui.color} sublabel="základní knihovna" />
+          <StatBox value={stats.donjon} label="donjon-fall-ui" sublabel={`herní vrstva · ${stats.extending} rozšíření`} />
+          <StatBox value={stats.documented} label="Dokumentováno" accent={gainColor} sublabel="popis + props + ukázka" />
+          <StatBox value="WCAG 2.1" label="Přístupnost AA" accent={gainColor} sublabel="kontrast hlídá test" />
         </section>
 
         {/* ── DVĚ KNIHOVNY, JEDEN SYSTÉM ───────────────────────── */}
@@ -647,7 +647,7 @@ export default function HomePage() {
           <SectionHeader
             kicker={<span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><ArchIcon width={14} height={14} /> Architektura</span>}
             title="Dvě knihovny, jeden systém"
-            description="TkajUI je obecná UI základna použitelná v jakékoli React aplikaci. donjon-fall-ui z ní vychází a přidává herní vrstvu — středověkou estetiku, ornamenty a primitiva specifická pro deskové a tahové hry. Sdílejí motion, breakpointy a z-index škálu."
+            description="TkajUI je obecný základ pro jakoukoli React aplikaci. donjon-fall-ui z něj dědí API a přidává hru — středověkou estetiku, ornamenty a primitiva pro tahové hry. Sdílejí jen motion, breakpointy a z-index; palety se nikdy nemíchají."
           />
 
           {/* Architecture diagram */}
@@ -667,8 +667,8 @@ export default function HomePage() {
               tagline={`Chladná paleta · accent blue · oktagonální tvary · ${stats.tkajui} komponent`}
               bullets={[
                 'Buttons, Cards, Inputs, Modals, Tabs, Tooltips, Toasts',
-                'Zero-dependency, WCAG 2.1 AA',
-                'Použij pro: dashboardy, formuláře, business apps',
+                'Bez závislostí · kontrast WCAG 2.1 AA',
+                'Použij pro: dashboardy, formuláře, business aplikace',
               ]}
               ctaTo="/components?lib=tkajui"
               ctaLabel="Prozkoumat TkajUI"
@@ -700,25 +700,25 @@ export default function HomePage() {
               to="/mood"
               icon={<PaletteIcon />}
               title="Mood & Vision"
-              description="Hodnoty knihovny, estetika, jak vznikla a kam míří. Začni tady pokud chceš pochopit proč."
+              description="Proč zlato, proč oktagony, proč dvě knihovny. Příběh a pravidla estetiky na jednom místě."
             />
             <HomeCard
               to="/components"
               icon={<GridIcon />}
               title="Komponenty"
-              description={`Všech ${stats.total} komponent s metadaty, props tabulkami a live ukázkami. Filtruj podle knihovny.`}
+              description={`Katalog všech ${stats.total} komponent — props tabulky, živé náhledy, filtr podle knihovny. Hledej přes Ctrl+K.`}
             />
             <HomeCard
               to="/tokens"
               icon={<SparkIcon />}
               title="Design tokeny"
-              description="Barvy, fonty, spacing, animace. Sdílené (motion, z-index) i lib-specifické (gold vs accent blue)."
+              description="Barvy, typografie, spacing, animace. Dvě palety, které se nikdy nemíchají — a sdílený zbytek."
             />
             <HomeCard
               to="/architecture"
               icon={<ArchIcon />}
               title="Architektura"
-              description="Závislostní směr knihoven, naming kontrakt, 13 párů TkajUI↔donjon a pravidla pro nové komponenty."
+              description={`Jak do sebe knihovny zapadají — závislostní směr, naming kontrakt a checklist pro novou komponentu.`}
               badge="new"
             />
           </div>
@@ -729,7 +729,7 @@ export default function HomePage() {
           <SectionHeader
             kicker={<span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><LibraryLogo brand="tkajui" size={14} color={BRAND.tkajui.color} /> UI Foundations · TkajUI</span>}
             title="Obecná UI primitiva"
-            description="Base komponenty použitelné v jakékoli React aplikaci. Stejné API jako donjon protějšky, ale s chladnou modrou paletou a střídmou estetikou."
+            description="Základ bez hry: chladná modrá paleta, žádné ornamenty, stejná API jako donjon protějšky. Postavíš na nich dashboard i přihlašovací formulář."
           />
           <div style={{
             display: 'grid',
@@ -786,7 +786,7 @@ export default function HomePage() {
           <SectionHeader
             kicker={<span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><LibraryLogo brand="donjon" size={14} color={gold} /> Herní primitiva · donjon-fall-ui</span>}
             title="Co donjon přidává navíc"
-            description="Specializované UI bloky pro deskové a tahové hry — to, co TkajUI neumí a generické knihovny neumí. Plus 13 rozšíření TkajUI komponent ve zlaté paletě s ornamenty."
+            description={`Věže z kostek, HP bary, hexové mapy, herní log — bloky, které v generických knihovnách nenajdeš. Plus ${stats.extending} zlatých rozšíření TkajUI komponent s ornamenty.`}
           />
           <div style={{
             display: 'grid',
