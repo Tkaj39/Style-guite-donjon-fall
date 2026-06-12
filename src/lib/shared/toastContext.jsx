@@ -32,6 +32,7 @@ export function createToastContext({ zIndex = 2000, hookName = 'useToast' } = {}
    * @param {'bottom-right'|'top-right'|'bottom-left'|'top-left'} [props.position]
    * @param {Function} props.renderToasts — (toasts, removeToast) => ReactNode[]
    */
+  // eslint-disable-next-line donjon/no-component-in-render -- factory pattern: createToastContext is called at module top-level (not in render), returns a fresh Provider per context. The rule's heuristic can't tell factories from render functions.
   function ToastProvider({ children, position = 'bottom-right', renderToasts }) {
     const [toasts, setToasts] = useState([])
 
