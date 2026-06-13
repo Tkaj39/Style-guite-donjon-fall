@@ -4,14 +4,7 @@
    Clean TkajUI palette.
    ─────────────────────────────────────────────────────────────────────── */
 
-import {
-  accent, accentBg, accentBorder,
-  surface2, borderDefault, borderMid,
-  textHigh, textMid, textLow,
-  successColor, successBg, successBorder,
-  dangerColor, dangerBg, dangerBorder,
-  warningColor, warningBg, warningBorder,
-} from './tokens'
+import { accent, accentBg, surface2, borderDefault, borderMid, textHigh, textMid, textLow, successColor, successBg, dangerColor, dangerBg, warningColor, warningBg } from './tokens'
 
 const VARIANTS = {
   default: { border: accent,        bg: accentBg,    thumb: accent       },

@@ -1,8 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import {
-  dangerColor, textFaint, textLow,
-  PRAPOR_WIDTHS,
-} from '../lib/donjon/tokens'
+import { textFaint, textLow, PRAPOR_WIDTHS } from '../lib/donjon/tokens'
 import { players } from '../data/gameUiMockData'
 import { Shield, PlayerIdentityBadge } from '../lib/donjon/Erb'
 

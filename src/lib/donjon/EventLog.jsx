@@ -6,13 +6,7 @@ import { useRef, useEffect, useState, useMemo } from 'react'
 import { useId } from 'react'
 import { octagon, octagonInner } from '../shared/octagon'
 import { RohOrnament, HexOrnament, ornamentHForCx } from './Ornaments'
-import {
-  gold, goldDim,
-  bg2, bg3, bgDeep,
-  borderDefault, borderMid,
-  textHigh, textMid, textLow, textFaint,
-  gainColor, dangerColor, warningColor,
-} from './tokens'
+import { gold, bg3, bgDeep, borderDefault, borderMid, textHigh, textMid, textLow, textFaint, gainColor, dangerColor, warningColor } from './tokens'
 
 /* ── Type configuration ── */
 const TYPE_CFG = {

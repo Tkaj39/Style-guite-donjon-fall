@@ -1,7 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import {
-  bg0, borderMuted, borderSubtle, dangerColor, failColor, gold, goldDim, goldMid, successColor, textActive, textCool, textDeep, textFaint,
-} from '../lib/donjon/tokens'
+import { bg0, borderMuted, borderSubtle, failColor, gold, goldDim, goldMid, successColor, textActive, textCool, textDeep, textFaint } from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { Shield, PlayerIdentityBadge } from '../lib/donjon/Erb'
 import { players } from '../data/gameUiMockData'
@@ -414,7 +412,7 @@ function FloatFeedback({ text, color, x, y, onDone }) {
             </div>
           </div>
         </Preview>
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
+        { }
         <CodeBlock code={`import { PlayerIdentityBadge } from 'src/lib/donjon/Erb'
 
 // Kompaktní badge — štít xs + jméno s gradientem
@@ -519,7 +517,7 @@ function FloatFeedback({ text, color, x, y, onDone }) {
             </div>
           </div>
         </Preview>
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
+        { }
         {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
         <CodeBlock code={`/* Blokovaná akce */
 <div style={{ color: failColor, border: '1px solid #C0404030', background: '#3D181815' }}>
@@ -565,7 +563,7 @@ function FloatFeedback({ text, color, x, y, onDone }) {
               ['Blokovat herní plochu HUD prvky — max 20 % viewportu', false],
               ['Animovat HUD neustále bez herní události — rušivé', false],
             ].map(([rule, good]) => (
-              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+               
               // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
               <div key={rule} style={{ padding: '10px 12px', background: good ? '#183D2018' : '#3D181818', border: `1px solid ${good ? '#40A05530' : '#C0404030'}`, borderRadius: 3 }}>
                 <p style={{ margin: 0, fontSize: '0.8125rem', color: good ? successColor : failColor, lineHeight: 1.4 }}>

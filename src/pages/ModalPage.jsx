@@ -86,7 +86,7 @@ function InertDemo({ ModalCmp, Btn }) {
         inert={open}
         style={{
           padding: '14px 18px',
-          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+           
           // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
           border: `1px solid ${open ? '#2a2a40' : '#4C4C6A'}`,
           borderRadius: 6,

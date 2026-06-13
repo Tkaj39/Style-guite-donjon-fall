@@ -1,10 +1,7 @@
 import { useId } from 'react'
 import { octagon, octagonInner } from '../shared/octagon'
-import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament, ornamentHForCx } from './Ornaments'
-import {
-  goldDim, goldMid,
-  VARIANT_BG, VARIANT_BORDER, VARIANT_HEADER_BG, VARIANT_TITLE_GRAD,
-} from './tokens'
+import { ZkosenOrnament, RohOrnament, HexOrnament, ornamentHForCx } from './Ornaments'
+import { goldMid, VARIANT_BG, VARIANT_BORDER, VARIANT_HEADER_BG, VARIANT_TITLE_GRAD } from './tokens'
 
 const variants = {
   default: {

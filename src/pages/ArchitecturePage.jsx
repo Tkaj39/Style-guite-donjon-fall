@@ -15,13 +15,7 @@ import ArchDiagram, { ARCH_BRAND } from '../styleguide/ArchDiagram'
 import LibraryLogo from '../styleguide/LibraryLogo'
 import { componentMeta } from '../data/componentMeta'
 import { registry } from '../data/componentRegistry'
-import {
-  gold, goldMid, goldDim,
-  bg2, bg3, bgDeep,
-  borderDefault, borderMid,
-  textHigh, textMid, textLow,
-  gainColor, dangerColor,
-} from '../lib/donjon/tokens'
+import { gold, goldDim, bg2, bg3, bgDeep, borderDefault, borderMid, textHigh, textMid, textLow, gainColor, dangerColor } from '../lib/donjon/tokens'
 
 /* ── Helpers ── */
 

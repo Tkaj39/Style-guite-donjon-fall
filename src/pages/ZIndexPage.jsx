@@ -52,7 +52,7 @@ function LayerBar({ name, z, color, label, desc, highlight }) {
 /* Vizuální stack diagram */
 function StackDiagram() {
   const visible = [
-    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+     
     // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
     { z: 3000, label: 'Tooltip', bg: '#2A3D5A', border: '#4080C0' },
     // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)

@@ -1,4 +1,4 @@
-import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import {
   bg0, failColor, goldDim, goldMid, successColor, textActive, textCool, textDeep, warningColor,
 } from '../lib/donjon/tokens'
@@ -9,7 +9,7 @@ const LEVELS = [
   { label: 'Modal / Dialog',  z: 1000, color: goldDim, bg: '#2E2B50', desc: 'Blokuje veškerou interakci. Vyžaduje přímou odpověď uživatele.', examples: 'Potvrzení smazání, výhra hry, kritická chyba' },
   // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   { label: 'Toast / Notifikace', z: 2000, color: successColor, bg: '#183D20', desc: 'Nezablokuje UI. Automaticky zmizí nebo vyžaduje × kliknutí.', examples: 'Uložení proběhlo, chyba sítě, výsledek akce' },
-  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+   
   // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   { label: 'Inline feedback', z: 0,    color: '#4080C0', bg: '#182A3D', desc: 'Přímo u prvku — error u inputu, helper text, stavový badge.', examples: 'Validační chyba formuláře, disabled hint, stav hexu' },
   // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)

@@ -61,7 +61,7 @@ function MapCard({ map, cardW = 100, compact = false }) {
         background: '#12111F', borderRadius: 3,
         height: thumbH,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+         
         // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         border: `1px solid ${selected ? '#FFC18833' : '#1E1D30'}`,
       }}>

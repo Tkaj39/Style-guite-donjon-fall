@@ -11,7 +11,7 @@ const ICON_PX = 40
 function EmptyState({ icon, title, description, cta, ctaLabel = 'Začít', variant = 'default' }) {
   const colors = {
     default: { border: `${goldDim}30`, icon: goldDim },
-    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+     
     // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
     info:    { border: '#4080C040', icon: '#4080C0' },
     game:    { border: `${goldDim}40`, icon: goldMid },

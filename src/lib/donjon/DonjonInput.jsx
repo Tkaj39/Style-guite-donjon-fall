@@ -7,12 +7,7 @@
    ─────────────────────────────────────────────────────────────────────────── */
 import { useState, useId } from 'react'
 import { octagon, octagonInner } from '../shared/octagon'
-import {
-  gold, goldDim, goldMid,
-  bg2, bgDeep,
-  textHigh, textMid, textLow,
-  dangerColor,
-} from './tokens'
+import { gold, goldDim, goldMid, bgDeep, textHigh, textMid, textLow, dangerColor } from './tokens'
 
 const sizes = {
   xs: { h: 28, cx: 8,  px: 10, fontSize: '0.6875rem' },

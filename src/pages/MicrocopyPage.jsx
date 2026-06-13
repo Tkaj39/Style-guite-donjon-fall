@@ -1,4 +1,4 @@
-import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
+import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import { textDeep, textCool, goldMid, bg0, successColor, textActive, borderSubtle, failColor, goldDim } from '../lib/donjon/tokens'
 
 /* ── Comparison row ── */
@@ -52,7 +52,7 @@ export default function MicrocopyPage() {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, width: '100%' }}>
             {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             <ToneChip label="Herní"     example="Zahaj bitvu — výber protivníka."    color={goldMid} bg="#2E2B50" />
-            {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
+            { }
             {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             <ToneChip label="Neutrální" example="Hra se ukládá automaticky."         color="#4080C0" bg="#182A3D" />
             {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}

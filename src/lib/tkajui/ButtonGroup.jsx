@@ -1,10 +1,5 @@
 import { octagon, clipLeft, clipRight } from '../shared/octagon'
-import {
-  surface2, surface3, surface4,
-  borderDefault,
-  accent,
-  textHigh, textMid,
-} from './tokens'
+import { surface2, surface3, borderDefault, accent, textHigh, textMid } from './tokens'
 
 const sizeMap = {
   xs: { h: 32, cx: 9.61,  px: 10, fontSize: '0.6875rem' },

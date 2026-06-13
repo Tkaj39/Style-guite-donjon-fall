@@ -5,9 +5,8 @@
    - pills:     HexOrnament above and below the track (unchanged)
    ─────────────────────────────────────────────────────────────────────── */
 import { useId, useState, useRef, useLayoutEffect } from 'react'
-import { HexOrnament } from './Ornaments'
 import { octagon } from '../shared/octagon'
-import { gold, goldMid, goldDim, bg0, bg3, bg4, textActive, textDisabled, VARIANT_BG, VARIANT_BORDER, VARIANT_TITLE_GRAD } from './tokens'
+import { gold, goldMid, goldDim, bg0, bg4, textActive, textDisabled, VARIANT_BG, VARIANT_BORDER, VARIANT_TITLE_GRAD } from './tokens'
 
 const SIZES = {
   xs: { fontSize: '0.6875rem', px: 8,  py: 4,  gap: 2, cx: 3 },

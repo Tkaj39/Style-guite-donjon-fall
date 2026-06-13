@@ -1,18 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import {
-  octagon,
-  octagonPerCorner,
-  octagonInner,
-  octagonInnerPerCorner,
-  octagonWithNotch,
-  octagonWithNotches,
-  notchClamp,
-  NOTCH_SHAPES,
-  scoopBBPath,
-  scoopCirclePath,
-  scoopPath,
-  SHAPE_SIZES,
-} from '../octagon'
+import { octagon, octagonPerCorner, octagonInner, octagonInnerPerCorner, octagonWithNotch, octagonWithNotches, notchClamp, NOTCH_SHAPES, scoopBBPath, scoopCirclePath, SHAPE_SIZES } from '../octagon'
 
 describe('octagon', () => {
   it('vrátí 8-bodový polygon s cx zkosením', () => {

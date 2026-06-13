@@ -1,10 +1,7 @@
 import { useLibVariant, ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { textDeep, textCool, gold, goldMid, goldDim, bg0, successColor, textActive, borderSubtle, failColor } from '../lib/donjon/tokens'
 import * as T from '../lib/tkajui/tokens'
-import * as D from '../lib/donjon/tokens'
-import {
-  accent, accentBg, accentBorder, accentDim, accentLight, borderDefault, borderMid, borderStrong, dangerColor, infoColor,  surface0, surface1, surface2, surface3, surface4, textMid, warningColor,
-} from '../lib/tkajui/tokens'
+import { dangerColor, textMid } from '../lib/tkajui/tokens'
 
 /* ══════════════════════════════════════════════════════════════════════════
    Sdílené primitiva
@@ -405,7 +402,7 @@ function DonjonTokensContent() {
             {[
               { name: '--color-bg',          value: bg0, computed: { bg: bg0, w: 24, h: 24, r: 2 }, usage: 'Hlavní pozadí aplikace', category: 'color' },
               { name: '--color-bg-raised',   value: borderSubtle, computed: { bg: borderSubtle, w: 24, h: 24, r: 2 }, usage: 'Karta, skeleton, raised surface', category: 'color' },
-              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+               
               // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
               { name: '--color-bg-panel',    value: '#1E1C3A', computed: { bg: '#1E1C3A', w: 24, h: 24, r: 2 }, usage: 'Panel, modal, overlay', category: 'color' },
               { name: '--color-gold',        value: goldMid, computed: { bg: goldMid, w: 24, h: 24, r: 2 }, usage: 'Primární akcent, zlato', category: 'color' },
@@ -416,16 +413,16 @@ function DonjonTokensContent() {
               { name: '--color-text-faint',  value: textDeep, computed: { bg: textDeep, w: 24, h: 24, r: 2 }, usage: 'Placeholder, micro text', category: 'color' },
               { name: '--color-success',     value: successColor, computed: { bg: successColor, w: 24, h: 24, r: 2 }, usage: 'Úspěch, VP, ok stav', category: 'color' },
               { name: '--color-danger',      value: failColor, computed: { bg: failColor, w: 24, h: 24, r: 2 }, usage: 'Chyba, destruktivní akce', category: 'color' },
-              // eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul)
+               
               // eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul)
               { name: '--color-warning',     value: '#C08040', computed: { bg: '#C08040', w: 24, h: 24, r: 2 }, usage: 'Varování, upozornění', category: 'color' },
-              // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+               
               // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
               { name: '--color-info',        value: '#4080C0', computed: { bg: '#4080C0', w: 24, h: 24, r: 2 }, usage: 'Informace, nápověda', category: 'color' },
             ].map(t => <DonjonTokenRow key={t.name} {...t} />)}
           </div>
         </Preview>
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
+        { }
         {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
         <CodeBlock code={`/* src/index.css — kořenové tokeny */
 :root {

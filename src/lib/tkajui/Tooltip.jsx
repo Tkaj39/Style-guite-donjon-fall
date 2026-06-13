@@ -1,15 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
-import {
-  surface3,
-  borderDefault, borderMid,
-  accent,
-  textHigh, textMid,
-  successColor, successBg, successBorder, successText,
-  dangerColor, dangerBg, dangerBorder, dangerText,
-  warningColor, warningBg, warningBorder, warningText,
-  infoColor, infoBg, infoBorder, infoText,
-  zTooltip,
-} from './tokens'
+import { surface3, borderMid, accent, textMid, successColor, successBg, successBorder, successText, dangerColor, dangerBg, dangerBorder, dangerText, warningColor, warningBg, warningBorder, warningText, infoColor, infoBg, infoBorder, infoText, zTooltip } from './tokens'
 import { getPosition, resolveFlip, Arrow } from '../shared/tooltipUtils'
 import { octagon, octagonInner } from '../shared/octagon'
 

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import CornerOrnament from '../lib/donjon/CornerOrnament'
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { gold, goldDim, goldMid, bg0, bg2, bg4, borderDefault, textCool, successColor, dangerColor } from '../lib/donjon/tokens'
+import { gold, goldDim, goldMid, bg0, bg2, borderDefault, textCool, successColor, dangerColor } from '../lib/donjon/tokens'
 
 /* ── Ukázkový panel se čtyřmi rohy ── */
 function CornerPanel({ cornerType = 'cut', size = 14, color, bg = bg2, border = borderDefault, children, label }) {
@@ -56,7 +56,7 @@ function PickerBtn({ active, onClick, children, disabled }) {
         // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         border: `1px solid ${active ? gold : '#2a2838'}`,
         background: active ? `${gold}18` : 'transparent',
-        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+         
         // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         color: active ? gold : disabled ? '#3a3848' : '#8a8899',
         fontSize: '0.6875rem',
@@ -129,7 +129,7 @@ function InteractiveDemo() {
 
         {/* cornerType — disabled for non-bracket */}
         <div>
-          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
+          { }
           {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
           <p style={{ ...labelStyle, color: isBracket ? '#4a4860' : '#2a2838' }}>
             {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}

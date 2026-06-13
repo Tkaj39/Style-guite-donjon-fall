@@ -2,9 +2,7 @@ import { useState } from 'react'
 import PlayerPanel from '../lib/donjon/PlayerPanel'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import { CodeBlock } from '../styleguide/ShowcasePage'
-import {
-  bg2, bgDeep, borderDefault, gold, magicColor, textFaint, textLow, textMid, textParchment,
-} from '../lib/donjon/tokens'
+import { bg2, borderDefault, gold, magicColor, textLow, textMid } from '../lib/donjon/tokens'
 import { red, blue, green, yellow } from '../lib/donjon/playerColors'
 
 const PAGE    = { padding: '40px 32px', maxWidth: 860, margin: '0 auto' }

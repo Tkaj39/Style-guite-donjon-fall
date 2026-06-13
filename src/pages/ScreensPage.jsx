@@ -120,8 +120,8 @@ function MiniActionBtn({ label, active = false, danger = false, small = false })
   return (
     <div style={{
       background: active ? bg4 : bgDeep,
-      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+       
+       
       // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       border: `1px solid ${danger ? '#5A2020' : active ? '#5A5878' : '#252342'}`,
       borderRadius: 3,
@@ -341,8 +341,8 @@ function MobileLayout() {
         {MOBILE_ACTIONS.map((a, i) => (
           <div key={i} style={{
             background: a.active ? bg4 : bgDeep,
-            // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-            // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+             
+             
             // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
             border: `1px solid ${a.danger ? '#5A2020' : a.active ? '#5A5878' : '#252342'}`,
             borderRadius: 4, padding: '5px 4px', minHeight: 34,

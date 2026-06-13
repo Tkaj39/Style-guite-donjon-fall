@@ -4,7 +4,7 @@ import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonSelect from '../lib/donjon/DonjonSelect'
 import { CodeBlock } from '../styleguide/ShowcasePage'
 import {
-  bg2, bgDeep, borderDefault, dangerColor, gainColor, gold, goldMid, textFaint, textMid, textParchment, warningColor,
+  bg2, borderDefault, gold, goldMid, textFaint, textMid,
 } from '../lib/donjon/tokens'
 
 const PAGE    = { padding: '40px 32px', maxWidth: 860, margin: '0 auto' }
@@ -55,31 +55,31 @@ let nextId = 11
 
 const EVENT_TEMPLATES = {
   gain:    [
-    text => ({ type: 'gain',    text: `+${1 + Math.floor(Math.random()*3)} VP pro Hráče ${1 + Math.floor(Math.random()*2)}`, detail: 'Obsadil ohnisko' }),
-    text => ({ type: 'gain',    text: `Hráč ${1 + Math.floor(Math.random()*2)} získal zdroj`,  detail: 'Hex se zlatem' }),
+    _text => ({ type: 'gain',    text: `+${1 + Math.floor(Math.random()*3)} VP pro Hráče ${1 + Math.floor(Math.random()*2)}`, detail: 'Obsadil ohnisko' }),
+    _text => ({ type: 'gain',    text: `Hráč ${1 + Math.floor(Math.random()*2)} získal zdroj`,  detail: 'Hex se zlatem' }),
   ],
   loss:    [
-    text => ({ type: 'loss',    text: `Hráč ${1 + Math.floor(Math.random()*2)} prohrál souboj`, detail: 'Věž zkolabovala' }),
-    text => ({ type: 'loss',    text: `−5 HP pro Hráče ${1 + Math.floor(Math.random()*2)}`, detail: 'Útok kostkou' }),
+    _text => ({ type: 'loss',    text: `Hráč ${1 + Math.floor(Math.random()*2)} prohrál souboj`, detail: 'Věž zkolabovala' }),
+    _text => ({ type: 'loss',    text: `−5 HP pro Hráče ${1 + Math.floor(Math.random()*2)}`, detail: 'Útok kostkou' }),
   ],
   event:   [
-    text => ({ type: 'event',   text: `Hráč ${1 + Math.floor(Math.random()*3)} zahájil tah` }),
-    text => ({ type: 'event',   text: 'Ohnisko přešlo do pasivního stavu' }),
+    _text => ({ type: 'event',   text: `Hráč ${1 + Math.floor(Math.random()*3)} zahájil tah` }),
+    _text => ({ type: 'event',   text: 'Ohnisko přešlo do pasivního stavu' }),
   ],
   warning: [
-    text => ({ type: 'warning', text: `Hráč ${1 + Math.floor(Math.random()*2)} má kriticky málo HP` }),
-    text => ({ type: 'warning', text: 'Hra skončí za 2 kola — Sudden Death' }),
+    _text => ({ type: 'warning', text: `Hráč ${1 + Math.floor(Math.random()*2)} má kriticky málo HP` }),
+    _text => ({ type: 'warning', text: 'Hra skončí za 2 kola — Sudden Death' }),
   ],
   system:  [
-    text => ({ type: 'system',  text: `Kolo ${3 + Math.floor(Math.random()*5)} začíná` }),
-    text => ({ type: 'system',  text: 'Pravidla ověřena — žádné porušení' }),
+    _text => ({ type: 'system',  text: `Kolo ${3 + Math.floor(Math.random()*5)} začíná` }),
+    _text => ({ type: 'system',  text: 'Pravidla ověřena — žádné porušení' }),
   ],
 }
 
 export default function EventLogPage() {
   const [events, setEvents] = useState(SAMPLE_EVENTS)
   const [selectedType, setSelectedType] = useState('gain')
-  const [round, setRound] = useState(3)
+  const [round, _setRound] = useState(3)
 
   const addEvent = () => {
     const templates = EVENT_TEMPLATES[selectedType]

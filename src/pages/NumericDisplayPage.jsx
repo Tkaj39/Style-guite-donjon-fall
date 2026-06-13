@@ -3,8 +3,8 @@ import NumericDisplay from '../lib/donjon/NumericDisplay'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import { CodeBlock } from '../styleguide/ShowcasePage'
 import {
-  gold, bg2, bg3, bgDeep, borderDefault,
-  textMid, textFaint, textParchment,
+  gold, bg2, borderDefault,
+  textMid,
 } from '../lib/donjon/tokens'
 
 const PAGE    = { padding: '40px 32px', maxWidth: 860, margin: '0 auto' }
@@ -41,7 +41,7 @@ function Code({ children }) {
 export default function NumericDisplayPage() {
   const [vp, setVp]         = useState(7)
   const [hp, setHp]         = useState(72)
-  const [mana, setMana]     = useState(45)
+  const [mana, _setMana]    = useState(45)
   const [coins, setCoins]   = useState(120)
 
   return (

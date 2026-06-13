@@ -1,17 +1,16 @@
 import { useState } from 'react'
 import useBreakpoint from '../lib/donjon/useBreakpoint'
 import ActionTile from '../lib/donjon/ActionTile'
-import PlayerPanel from '../lib/donjon/PlayerPanel'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonModal from '../lib/donjon/DonjonModal'
 import { CodeBlock } from '../styleguide/ShowcasePage'
 import { SwordIcon, ShieldIcon, TowerIcon } from '../lib/donjon/icons'
 import {
-  gold, bg2, bg3, bgDeep, borderDefault,
-  textMid, textFaint, textParchment, textHigh,
+  gold, bg2, borderDefault,
+  textMid, textFaint, textHigh,
   gainColor, dangerColor, warningColor,
-  bpMobile, bpTablet, bpDesktop, bpWide, BREAKPOINTS,
+  bpMobile, bpTablet, bpDesktop, bpWide,
 } from '../lib/donjon/tokens'
 
 const PAGE    = { padding: '40px 32px', maxWidth: 900, margin: '0 auto' }
@@ -49,8 +48,6 @@ function Code({ children }) {
 function BreakpointIndicator() {
   const { width, isMobile, isTablet, isDesktop, isWide, isTouch } = useBreakpoint()
 
-  const active = isWide ? 'wide' : isDesktop ? 'desktop' : isTablet ? 'tablet' : 'mobile'
-
   const TIERS = [
     { id: 'mobile',  label: 'Mobile',  px: `< ${bpTablet}px`,   color: dangerColor,  active: isMobile  },
     { id: 'tablet',  label: 'Tablet',  px: `${bpTablet}–${bpDesktop-1}px`, color: warningColor, active: isTablet  },
@@ -84,7 +81,7 @@ function BreakpointIndicator() {
 
 /* ── Adaptive layout demo ── */
 function AdaptiveDemo() {
-  const { isMobile, isTouch } = useBreakpoint()
+  const { isTouch } = useBreakpoint()
   const actions = [
     { id: 'move',   icon: <ShieldIcon />, title: 'Pohyb',  cost: 1, variant: 'move'   },
     { id: 'attack', icon: <SwordIcon />,  title: 'Útok',   cost: 2, variant: 'attack' },
@@ -121,7 +118,7 @@ function AdaptiveDemo() {
 
 export default function ResponsivePage() {
   const [modalOpen, setModalOpen] = useState(false)
-  const { width, isMobile } = useBreakpoint()
+  const { width } = useBreakpoint()
 
   return (
     <div style={PAGE}>

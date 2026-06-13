@@ -1,5 +1,5 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { textDeep, textCool, goldMid, bg0, successColor, borderSubtle, goldDim } from '../lib/donjon/tokens'
+import { textDeep, textCool, goldMid, bg0, successColor, goldDim } from '../lib/donjon/tokens'
 
 /* ── Texture preview box ── */
 function TextureBox({ label, style, desc, code }) {

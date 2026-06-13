@@ -1,11 +1,6 @@
 import { useState, useId } from 'react'
 import { octagon } from '../shared/octagon'
-import {
-  surface2, borderDefault, borderMid,
-  accent, accentBorder,
-  textHigh, textMid, textLow,
-  dangerColor, dangerBorder, dangerText,
-} from './tokens'
+import { surface2, borderDefault, accent, textHigh, textMid, textLow, dangerColor, dangerText } from './tokens'
 
 const sizes = {
   xs: { h: 28, cx: 6, px: 10, fontSize: '0.6875rem' },

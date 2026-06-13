@@ -4,10 +4,9 @@
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useEffect, useRef } from 'react'
 import {
-  gold, goldDim, goldMid,
-  bg2, bg3, bg4,
+  gold, goldMid,
   borderDefault,
-  textHigh, textMid, textLow, textFaint,
+  textHigh, textMid, textLow,
   gainColor, dangerColor, infoColor, infoLight,
 } from './tokens'
 

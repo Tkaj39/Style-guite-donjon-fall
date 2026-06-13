@@ -1,12 +1,5 @@
 import { octagon } from '../shared/octagon'
-import {
-  accent, accentBg, accentBorder,
-  surface3, borderDefault, textHigh, textMid,
-  successColor, successBg, successBorder, successText,
-  dangerColor, dangerBg, dangerBorder, dangerText,
-  warningColor, warningBg, warningBorder, warningText,
-  infoColor, infoBg, infoBorder, infoText,
-} from './tokens'
+import { accent, accentBg, accentBorder, surface3, borderDefault, textMid, successColor, successBg, successBorder, successText, dangerColor, dangerBg, dangerBorder, dangerText, warningColor, warningBg, warningBorder, warningText, infoColor, infoBg, infoBorder, infoText } from './tokens'
 
 const variantMap = {
   default: { bg: surface3,    border: borderDefault, text: textMid,      dot: textMid      },

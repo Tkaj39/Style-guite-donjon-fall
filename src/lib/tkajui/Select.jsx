@@ -5,16 +5,7 @@
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useRef, useEffect, useId } from 'react'
 import { octagon } from '../shared/octagon'
-import {
-  surface2, surface4,
-  borderDefault, borderMid,
-  accent, accentBg, accentBorder,
-  textHigh, textMid, textLow,
-  successColor, successBg, successBorder,
-  dangerColor, dangerBg, dangerBorder,
-  warningColor, warningBg, warningBorder,
-  zDropdown,
-} from './tokens'
+import { surface2, surface4, borderDefault, borderMid, accent, accentBg, textHigh, textMid, textLow, successColor, successBg, successBorder, dangerColor, dangerBg, dangerBorder, warningColor, warningBg, warningBorder, zDropdown } from './tokens'
 
 const VARIANTS = {
   default: { border: borderDefault, bg: accentBg,    focus: `${accent}44`        },

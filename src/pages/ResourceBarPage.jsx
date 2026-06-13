@@ -4,16 +4,14 @@ import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonSlider from '../lib/donjon/DonjonSlider'
 import { CodeBlock } from '../styleguide/ShowcasePage'
 import {
-  gold, goldDim, bg2, bg3, bgDeep, borderDefault,
-  textHigh, textMid, textFaint, textParchment, textLow,
-  gainColor, dangerColor, warningColor,
+  gold, bg2, bg3, bgDeep, borderDefault,
+  textMid, textFaint, textLow,
 } from '../lib/donjon/tokens'
 
 const PAGE    = { padding: '40px 32px', maxWidth: 860, margin: '0 auto' }
 const H1      = { fontSize: '1.5rem', fontWeight: 700, color: gold, letterSpacing: '0.04em', marginBottom: 4 }
 const H2      = { fontSize: '0.875rem', fontWeight: 700, color: gold, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }
 const DIVIDER = { height: 1, background: borderDefault, margin: '40px 0', opacity: 0.4 }
-const LABEL   = { fontSize: '0.625rem', color: textFaint, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 8 }
 
 function Section({ id, title, desc, children }) {
   return (

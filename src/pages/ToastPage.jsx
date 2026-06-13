@@ -1,6 +1,5 @@
 import { ToastProvider, useToast } from '../lib/tkajui/Toast'
 import { textCool, goldMid } from '../lib/donjon/tokens'
-import { ToastProvider as DonjonToastProvider, useToast as useDonjonToast } from '../lib/donjon/DonjonToast'
 import Button from '../lib/tkajui/Button'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import { ShowcasePage, Section, Preview, CodeBlock, useLibVariant } from '../styleguide/ShowcasePage'
