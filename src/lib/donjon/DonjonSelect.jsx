@@ -169,7 +169,7 @@ export default function DonjonSelect({
           clipPath:   octagon(s.cx),
           background: borderColor,
           transition: 'background 150ms ease, filter 150ms ease',
-          filter:     active ? `drop-shadow(0 0 6px ${gold}40)` : undefined,
+          filter:     active ? `drop-shadow(0 0 6px ${glowColor})` : undefined,
           opacity:    disabled ? 0.45 : 1,
         }}
       >
