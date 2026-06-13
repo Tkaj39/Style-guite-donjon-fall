@@ -68,6 +68,9 @@ export default function DonjonModal({
   closeOnBackdrop = true,
   closeOnEscape = true,
   showCloseButton = true,
+  className,
+  style,
+  ...rest
 }) {
   const uid      = useId().replace(/:/g, '')
   const titleId  = `modal-title-${uid}`
@@ -111,7 +114,9 @@ export default function DonjonModal({
       onClick={handleBackdropClick}
       aria-labelledby={title ? titleId : undefined}
       aria-label={!title ? ariaLabel : undefined}
-      className="modal-dialog modal-dialog-donjon"
+      className={['modal-dialog', 'modal-dialog-donjon', className].filter(Boolean).join(' ')}
+      style={style}
+      {...rest}
     >
       {/* Panel */}
       <div

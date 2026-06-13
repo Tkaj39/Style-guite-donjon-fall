@@ -74,6 +74,9 @@ export default function DonjonSelect({
   variant     = 'default',   // 'default'|'danger'|'success'|'warning'|'info' — parita s TkajUI Select
   disabled    = false,
   id: externalId,
+  className,
+  style,
+  ...rest
 }) {
   const v = VARIANTS[variant] ?? VARIANTS.default
   const [open, setOpen]           = useState(false)
@@ -139,7 +142,7 @@ export default function DonjonSelect({
   const glowColor    = `${v.active}40`
 
   return (
-    <div style={{ position: 'relative', display: 'inline-block', width: '100%' }}>
+    <div className={className} style={{ position: 'relative', display: 'inline-block', width: '100%', ...style }} {...rest}>
 
       {/* Label */}
       {label && (

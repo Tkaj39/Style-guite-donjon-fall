@@ -38,6 +38,9 @@ export default function DonjonToggle({
   disabled      = false,
   shape         = 'sharp',
   id,                         // forwardable id pro <label htmlFor>
+  className,
+  style,
+  ...rest
 }) {
   const v            = VARIANTS[variant] ?? VARIANTS.default
   const s            = SIZES[size] ?? SIZES.md
@@ -145,8 +148,9 @@ export default function DonjonToggle({
       aria-disabled={disabled}
       aria-label={ariaLabel || label || undefined}
       tabIndex={disabled ? -1 : 0}
-      style={trackStyle}
-      className={sharp ? 'dj-clip-focus' : undefined}
+      style={label ? trackStyle : { ...trackStyle, ...style }}
+      className={[sharp ? 'dj-clip-focus' : null, label ? null : className].filter(Boolean).join(' ') || undefined}
+      {...(label ? {} : rest)}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       onFocus={e => { if (!disabled && !sharp) e.currentTarget.style.boxShadow = `0 0 0 2px ${v.main}99` }}
@@ -170,14 +174,17 @@ export default function DonjonToggle({
 
   return (
     <label
+      className={className}
       style={{
         display: 'inline-flex',
         alignItems: 'center',
         gap: s.gap,
         flexDirection: labelPosition === 'left' ? 'row-reverse' : 'row',
         cursor: disabled ? 'not-allowed' : 'pointer',
+        ...style,
       }}
       onClick={e => { e.preventDefault(); handleClick() }}
+      {...rest}
     >
       {trackEl}
       <span style={labelStyle}>{label}</span>

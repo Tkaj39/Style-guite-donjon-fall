@@ -57,6 +57,9 @@ export default function DonjonTabs({
   ornament = 'decorated',
   orientation = 'horizontal',   // 'horizontal' | 'vertical' — parita s TkajUI Tabs
   onClose,             // (itemValue) => void — closable taby s × ikonou (items.closable: true)
+  className,
+  style,
+  ...rest
 }) {
   const rawId = useId()
   const uid   = rawId.replace(/:/g, '')
@@ -344,11 +347,14 @@ export default function DonjonTabs({
     return (
       <div
         ref={containerRef}
+        className={className}
         style={{
           position: 'relative',
           ...verticalEdge,
+          ...style,
         }}
         onMouseLeave={() => setHoveredValue(null)}
+        {...rest}
       >
         {tabList}
       </div>
@@ -358,8 +364,10 @@ export default function DonjonTabs({
   return (
     <div
       ref={containerRef}
-      style={{ position: 'relative', paddingTop: 10, paddingBottom: 10 }}
+      className={className}
+      style={{ position: 'relative', paddingTop: 10, paddingBottom: 10, ...style }}
       onMouseLeave={() => setHoveredValue(null)}
+      {...rest}
     >
       {!indicatorAtBottom && (
         <div aria-hidden="true" style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 7, pointerEvents: 'none' }}>
