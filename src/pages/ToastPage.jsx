@@ -82,7 +82,6 @@ function StackDemo({ Btn }) {
 function ToastContent() {
   const lib = useLibVariant()
   const Btn       = lib === 'tkajui' ? Button : DonjonButton
-  const cmp       = lib === 'tkajui' ? 'ToastProvider / useToast' : 'DonjonToastProvider / useDonjonToast'
   const importSrc = lib === 'tkajui'
     ? `import { ToastProvider, useToast } from 'src/lib/tkajui/Toast'`
     : `import { ToastProvider as DonjonToastProvider, useToast as useDonjonToast } from 'src/lib/donjon/DonjonToast'`

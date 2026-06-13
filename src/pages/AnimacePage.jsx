@@ -117,38 +117,6 @@ function DemoShell({ label, children }) {
 
 /* ── Individual demo components ── */
 
-function MoveDieDemo() {
-  const [key, setKey] = useState(0)
-  const [playing, setPlaying] = useState(false)
-
-  function play() {
-    if (playing) return
-    setPlaying(true)
-    setKey(k => k + 1)
-  }
-
-  return (
-    <DemoShell label="Pohyb kostky — live demo">
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        {/* Zdrojový hex — kostka startuje odtud; zIndex: 1 zajistí překrytí cílového hexu při pohybu */}
-        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible', zIndex: 1 }}>
-          <HexTile state="selected" size="md" />
-          <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
-            <div key={key}
-              style={{ animation: key > 0 ? 'die-move 260ms ease-in-out both' : 'none' }}
-              onAnimationEnd={() => setPlaying(false)}>
-              <DieFace value={4} playerColor={p1.color} size="sm" />
-            </div>
-          </div>
-        </div>
-        {/* Cílový hex */}
-        <HexTile state="move" size="md" />
-      </div>
-      <PlayButton onClick={play} playing={playing} />
-    </DemoShell>
-  )
-}
-
 function MoveTowerDemo() {
   const [key, setKey] = useState(0)
   const [playing, setPlaying] = useState(false)
@@ -232,39 +200,6 @@ function CombatPhase1Demo() {
             onDone={() => setShowFeedback(false)}
             style={{ top: 0 }}
           />
-        </div>
-      </div>
-      <PlayButton onClick={play} playing={playing} />
-    </DemoShell>
-  )
-}
-
-function PushDemo() {
-  const [key, setKey] = useState(0)
-  const [playing, setPlaying] = useState(false)
-
-  function play() {
-    if (playing) return
-    setPlaying(true)
-    setKey(k => k + 1)
-  }
-
-  return (
-    <DemoShell label="Push — formace odsunuta (bounce)">
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        {/* Útočník */}
-        <HexWithDie hexState="selected" dieValue={5} dieColor={p1.color} />
-        <Arrow />
-        {/* Obránce — odsunut */}
-        <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
-          <HexTile state="base" owner={p2.color} size="md" />
-          <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
-            <div key={key}
-              style={{ animation: key > 0 ? 'formation-push 320ms ease-out both' : 'none' }}
-              onAnimationEnd={() => setPlaying(false)}>
-              <DieFace value={2} playerColor={p2.color} size="sm" />
-            </div>
-          </div>
         </div>
       </div>
       <PlayButton onClick={play} playing={playing} />
