@@ -80,7 +80,6 @@ function CornerOrnament({ size = 20, color = goldDim, variant = 'bracket', style
 
   if (variant === 'diamond') {
     // Malý kosočtverec
-    const half = s / 2
     const d = Math.round(s * 0.22)
     return (
       <svg width={s} height={s} viewBox={`0 0 ${s} ${s}`} fill="none" style={style}>

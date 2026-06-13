@@ -14,7 +14,6 @@ const MAPS = [
 /* ── Abstraktní hex miniaturní mapa (tečky v hex mřížce) ── */
 function HexDots({ count = 9, dotSize = 6, gap = 3, color = bg4 }) {
   const cols = 3
-  const rows = Math.ceil(count / cols)
   return (
     <div style={{
       display: 'inline-grid',

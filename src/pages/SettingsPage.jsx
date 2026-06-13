@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { textFaint, textParchment, gold, goldDim, bg4, bgDeep, borderMuted } from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DonjonCard from '../lib/donjon/DonjonCard'
@@ -7,7 +6,6 @@ import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
 import { players } from '../data/gameUiMockData'
 
 const p1 = players[0]
-const p2 = players[1]
 
 /* ── Mini slider ── */
 function MiniSlider({ label, pct, labelW = 64, fs = '0.4375rem' }) {
@@ -358,8 +356,6 @@ function TabPreview({ tab, title, description }) {
 
 /* ── Page ── */
 export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState('zvuk')
-
   return (
     <ShowcasePage
       title="Nastavení"
