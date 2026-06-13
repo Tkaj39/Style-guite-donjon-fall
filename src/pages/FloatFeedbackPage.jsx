@@ -95,61 +95,6 @@ function VariantDemo({ variant, text, color, desc }) {
   )
 }
 
-/* ── Multi-trigger demo ── */
-function MultiDemo() {
-  const [events, setEvents] = useState([])
-
-  const fire = (variant, text) => {
-    const id = Date.now()
-    setEvents(ev => [...ev, { id, variant, text }])
-    setTimeout(() => setEvents(ev => ev.filter(e => e.id !== id)), 800)
-  }
-
-  return (
-    <div className="flex flex-col gap-4">
-      <div
-        style={{
-          position: 'relative',
-          width: '100%',
-          maxWidth: 320,
-          height: 120,
-          background: `linear-gradient(135deg, ${bg4} 0%, ${bgDeep} 100%)`,
-          border: `1.5px solid ${goldDim}44`,
-          borderRadius: 8,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 24,
-          overflow: 'visible',
-        }}
-      >
-        {/* Tři hex sloupce */}
-        {[0, 1, 2].map(col => (
-          <div key={col} style={{ position: 'relative', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg viewBox="0 0 32 32" width="32" height="32" fill="none">
-              <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" stroke={goldDim} strokeWidth="1.5" fill={`${goldDim}18`} />
-            </svg>
-            {events.filter(e => e.col === col).map(e => (
-              <FloatFeedback key={e.id} text={e.text} variant={e.variant} visible animKey={e.id} />
-            ))}
-          </div>
-        ))}
-      </div>
-
-      <div className="flex flex-wrap gap-2">
-        {VARIANTS.map(({ variant, text, color, label: _label }) => (
-          <TriggerButton
-            key={variant}
-            label={`${text}`}
-            color={color}
-            onClick={() => fire(variant, text)}
-          />
-        ))}
-      </div>
-    </div>
-  )
-}
-
 /* ── Animační timeline ── */
 function AnimTimeline() {
   const frames = [

@@ -11,7 +11,6 @@ function S({ children }) {
 
 const ButtonsPage          = lazy(() => import('./pages/ButtonsPage'))
 // ButtonGroups merged into /buttons.
-const PlaceholderPage      = lazy(() => import('./pages/PlaceholderPage'))
 // Inputs / Select / Toggle / Slider merged into /form (see redirects below).
 // Badges + Cards merged into /data-display.
 const ColorsPage           = lazy(() => import('./pages/ColorsPage'))
