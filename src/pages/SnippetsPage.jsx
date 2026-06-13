@@ -3,9 +3,7 @@
    Každý snippet je hotový blok použitelný přímo v Donjon Fall.
    ─────────────────────────────────────────────────────────────────────── */
 import { useState } from 'react'
-import {
-  bg2, bg3, bg4, bgDeep, borderDefault, dangerColor, gainColor, gold, goldDim, goldMid, infoLight, textFaint, textHigh, textLow, textMid, textParchment, warningColor,
-} from '../lib/donjon/tokens'
+import { bg2, bg3, bg4, bgDeep, borderDefault, dangerColor, gainColor, gold, goldDim, infoLight, textFaint, textHigh, textLow, textMid, textParchment, warningColor } from '../lib/donjon/tokens'
 import DonjonButton     from '../lib/donjon/DonjonButton'
 import DonjonCard       from '../lib/donjon/DonjonCard'
 import DonjonProgressBar from '../lib/donjon/DonjonProgressBar'

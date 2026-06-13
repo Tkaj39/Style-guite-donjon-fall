@@ -1,14 +1,5 @@
-import { octagon } from '../shared/octagon'
 import { buttonSizes as sizes } from '../shared/sizes'
-import {
-  accent, accentLight, surface2, surface3, surface4,
-  borderDefault, borderMid,
-  textHigh, textMid,
-  primaryText, primaryIcon,
-  dangerColor, dangerBg, dangerBgHover, dangerBorder, dangerText,
-  successColor, successBg, successBgHover, successBorder, successText,
-  warningColor, warningBg, warningBgHover, warningBorder, warningText,
-} from './tokens'
+import { accent, accentLight, surface3, surface4, borderDefault, borderMid, textHigh, textMid, primaryText, primaryIcon, dangerColor, dangerBg, dangerBgHover, dangerBorder, dangerText, successColor, successBg, successBgHover, successBorder, successText, warningColor, warningBg, warningBgHover, warningBorder, warningText } from './tokens'
 
 function Spinner({ size }) {
   return (

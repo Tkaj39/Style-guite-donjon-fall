@@ -1,11 +1,9 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { octagon, clipLeft, clipRight, octagonWithNotch, octagonWithNotches, roundRect, pill, scoopPath, SHAPE_SIZES } from '../lib/shared/octagon'
+import { octagon, clipLeft, clipRight, octagonWithNotch, octagonWithNotches, roundRect, pill, SHAPE_SIZES } from '../lib/shared/octagon'
 import { buttonSizes } from '../lib/shared/sizes'
 import ScoopClip from '../lib/tkajui/ScoopClip'
 import NotchedBox from '../lib/tkajui/NotchedBox'
-import {
-  bg0, bg4, bgDeep, borderDefault, borderSubtle, failColor, gold, goldDim, goldMid, successColor, textActive, textCool, textDeep, textFaint, textMid, warningColor,
-} from '../lib/donjon/tokens'
+import { bg0, bg4, bgDeep, borderSubtle, failColor, gold, goldDim, goldMid, successColor, textActive, textCool, textDeep, textFaint, textMid, warningColor } from '../lib/donjon/tokens'
 
 /* ── sdílené styly ── */
 const inter = '"Inter", sans-serif'
@@ -587,7 +585,7 @@ const clipPath = clipFn?.(cx)`} />
                 Obsah panelu
                 <NotchedBox.Slot>
                   <div style={{
-                    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+                     
                     // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
                     background: '#4080C0', color: '#fff', borderRadius: 3,
                     fontSize: '0.625rem', fontWeight: 700, padding: '2px 7px',

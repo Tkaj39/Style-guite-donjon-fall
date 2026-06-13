@@ -4,10 +4,10 @@
    completed phases → checkmark, future ones → faint.
    ─────────────────────────────────────────────────────────────────────── */
 import {
-  gold, goldDim, goldMid,
-  bg0, bg2, bg3,
+  gold,
+  bg0, bg2,
   borderDefault,
-  textHigh, textMid, textLow, textFaint,
+  textLow, textFaint,
   gainColor,
 } from './tokens'
 

@@ -99,7 +99,7 @@ describe('WCAG contrast audit', () => {
       )
     }
     lines.push('└────────────────────────────────────────────────────────────────────')
-    // eslint-disable-next-line no-console
+     
     console.log(lines.join('\n'))
     expect(rows.length).toBeGreaterThan(0)
   })

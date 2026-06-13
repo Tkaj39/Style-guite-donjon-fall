@@ -2,7 +2,7 @@ import { useEffect, useRef, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { useModalPageInert } from '../shared/useModalPageInert'
 import { octagon, octagonInner } from '../shared/octagon'
-import { SideOrnament, ZkosenOrnament, RohOrnament, HexOrnament, ornamentHForCx } from './Ornaments'
+import { ZkosenOrnament, RohOrnament, HexOrnament, ornamentHForCx } from './Ornaments'
 import {
   goldDim, goldMid, textActive,
   VARIANT_BG, VARIANT_BORDER, VARIANT_HEADER_BG, VARIANT_TITLE_GRAD,

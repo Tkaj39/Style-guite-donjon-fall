@@ -6,15 +6,7 @@
 import { useState, useId } from 'react'
 import { octagon, octagonInner } from '../shared/octagon'
 import { RohOrnament, HexOrnament, ornamentHForCx, ORNAMENT_BASE_WIDTH } from './Ornaments'
-import {
-  gold, goldDim, goldMid,
-  bg2, bg3, bg4,
-  borderDefault, borderMid,
-  textHigh, textMid, textLow, textFaint,
-  dangerColor, warningColor, gainColor, magicColor,
-  infoColor, infoDark,
-  selBgInfo, selBgDanger, selBgGain, selBgMagic,
-} from './tokens'
+import { gold, goldDim, goldMid, bg3, borderDefault, borderMid, textHigh, textMid, textLow, textFaint, dangerColor, gainColor, magicColor, infoColor, infoDark, selBgInfo, selBgDanger, selBgGain, selBgMagic } from './tokens'
 
 const SIZES = {
   sm: { w: 80,  h: 72,  cx: 14, iconArea: 28, titleSize: '0.6875rem', descSize: '0.6rem',    costSize: '0.6875rem', radius: 3 },

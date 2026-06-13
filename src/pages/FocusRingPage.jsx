@@ -3,9 +3,7 @@ import DonjonButton from '../lib/donjon/DonjonButton'
 import * as T from '../lib/tkajui/tokens'
 import * as D from '../lib/donjon/tokens'
 import { failColor, textCool, textDeep } from '../lib/donjon/tokens'
-import {
-  accent, primaryText,
-} from '../lib/tkajui/tokens'
+import { primaryText } from '../lib/tkajui/tokens'
 
 /* ── Sdílené demo primitiva ── */
 

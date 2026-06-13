@@ -13,12 +13,7 @@ import ResourceBar from './ResourceBar'
 import DonjonBadge from './DonjonBadge'
 import { RohOrnament, ornamentHForCx } from './Ornaments'
 import { octagon, octagonInner } from '../shared/octagon'
-import {
-  gold, goldDim,
-  bg2, bg3, bg4,
-  borderDefault,
-  textHigh, textMid, textLow, dangerColor, infoColor,
-} from './tokens'
+import { gold, goldDim, bg3, bg4, borderDefault, textHigh, textMid, dangerColor, infoColor } from './tokens'
 
 /* ── PlayerPanel.Resource — composition slot for a game resource ── */
 function Resource() { return null }  // Marker component, PlayerPanel handles the rendering

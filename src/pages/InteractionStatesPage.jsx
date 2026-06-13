@@ -532,7 +532,7 @@ button:hover {
       {/* Focus */}
       <Section id="focus" title="Focus" description="Focus ring musí být vždy viditelný při keyboard navigaci. Donjon Fall používá zlatý box-shadow — 0 0 0 2px #8F745566.">
         <Preview><FocusDemo /></Preview>
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
+        { }
         {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
         <CodeBlock code={`/* Focus ring — globální pravidlo */
 :focus-visible {

@@ -50,65 +50,12 @@ import {
   SettingsIcon, CheckIcon, CloseIcon, PlusIcon, UploadIcon,
   SearchIcon, EditIcon, TrashIcon,
 } from '../lib/tkajui'
-import {
-  ActionTile,
-  DieFace,
-  DonjonBadge,
-  DonjonButton,
-  DonjonButtonGroup,
-  DonjonCard,
-  DonjonInput,
-  DonjonPictogram,
-  DonjonProgressBar,
-  DonjonSelect,
-  DonjonSlider,
-  DonjonTabs,
-  DonjonToggle,
-  EventLog,
-  GameTransition,
-  HexTile,
-  NumericDisplay,
-  PhaseIndicator,
-  PlayerPanel,
-  ResourceBar,
-  ShieldIcon,
-  SwordIcon,
-  TowerIcon,
-  BaseIcon,
-  // Loot icons used in mini-previews (list / inventory-grid / timeline)
-  PotionIcon, GemIcon, KeyIcon, BoltIcon,
-  // New: framed image + gameplay + game layout
-  FramedImage,
-  Cooldown,
-  Minimap,
-  Timeline,
-  Scoreboard,
-  Leaderboard,
-  // Newly added donjon variants — disclosure / navigation / data / form / media
-  DonjonAccordion,
-  DonjonBreadcrumb,
-  DonjonCombobox,
-  DonjonDescriptionList,
-  DonjonList,
-  DonjonNumberInput,
-  DonjonPagination,
-  DonjonStat,
-  DonjonSubmitButton,
-  DonjonTable,
-  DonjonTextArea,
-  DonjonThumbnail,
-  DiceTower,
-  // Donjon form primitives + diamond choice controls
-  DonjonField,
-  DonjonForm,
-  DonjonCheckbox,
-  DonjonCheckboxGroup,
-  DonjonRadio,
-  DonjonRadioGroup,
-  DonjonNotchMenu,
-  // Player colors for DiceTower preview
-  red,
-} from '../lib/donjon'
+import { ActionTile, DieFace, DonjonBadge, DonjonButton, DonjonButtonGroup, DonjonCard, DonjonInput, DonjonPictogram, DonjonProgressBar, DonjonSelect, DonjonSlider, DonjonTabs, DonjonToggle, EventLog, GameTransition, HexTile, NumericDisplay, PhaseIndicator, PlayerPanel, ResourceBar, ShieldIcon, SwordIcon, TowerIcon, BaseIcon, // Loot icons used in mini-previews (list / inventory-grid / timeline)
+  PotionIcon, GemIcon, KeyIcon, BoltIcon, // New: framed image + gameplay + game layout
+  FramedImage, Cooldown, Minimap, Timeline, Scoreboard, Leaderboard, // Newly added donjon variants — disclosure / navigation / data / form / media
+  DonjonAccordion, DonjonBreadcrumb, DonjonCombobox, DonjonDescriptionList, DonjonList, DonjonNumberInput, DonjonPagination, DonjonStat, DonjonSubmitButton, DonjonTable, DonjonTextArea, DonjonThumbnail, DiceTower, // Donjon form primitives + diamond choice controls
+  DonjonField, DonjonCheckbox, DonjonCheckboxGroup, DonjonRadio, DonjonRadioGroup, DonjonNotchMenu, // Player colors for DiceTower preview
+  red } from '../lib/donjon'
 
 /* ── Tech stack data ── */
 const TECH_STACK = [

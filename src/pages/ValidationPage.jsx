@@ -230,7 +230,7 @@ const state = error ? 'error' : warning ? 'warning' : validated ? 'success' : fo
           <PasswordStrength strength={3} />
           <PasswordStrength strength={4} />
         </Preview>
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
+        { }
         {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
         <CodeBlock code={`function getPasswordStrength(password) {
   let score = 0

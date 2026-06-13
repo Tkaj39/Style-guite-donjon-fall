@@ -1,7 +1,5 @@
 import { useLibVariant, ShowcasePage, Section } from '../styleguide/ShowcasePage'
-import {
-  bg3, borderSubtle, gold, goldDim, goldMid, textDisabled,
-} from '../lib/donjon/tokens'
+import { borderSubtle, gold, goldDim, goldMid, textDisabled } from '../lib/donjon/tokens'
 import {
   accent, surface1, surface2, textHigh, textLow, textMid,
 } from '../lib/tkajui/tokens'
@@ -121,7 +119,7 @@ function DonjonPillar({ title, children }) {
       <p style={{ margin: 0, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: gold }}>
         {title}
       </p>
-      {/* eslint-disable-next-line donjon/no-hardcoded-hex -- multi-hex per line nebo komplex (auto-fix skipnul) */}
+      { }
       <p style={{ margin: 0, fontSize: '0.9375rem', color: textMid, lineHeight: 1.65 }}>
         {children}
       </p>

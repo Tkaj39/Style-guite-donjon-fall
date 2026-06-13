@@ -2,17 +2,7 @@ import { useEffect, useRef, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { useModalPageInert } from '../shared/useModalPageInert'
 import { octagon } from '../shared/octagon'
-import {
-  surface2, surface3,
-  borderDefault, borderMid,
-  textHigh, textMid,
-  successColor, successBg, successBorder, successText,
-  successHeaderBg, successDescColor,
-  dangerColor, dangerBg, dangerBorder, dangerText,
-  dangerHeaderBg, dangerDescColor,
-  warningColor, warningBg, warningBorder, warningText,
-  warningHeaderBg, warningDescColor,
-} from './tokens'
+import { surface2, surface3, borderDefault, borderMid, textHigh, textMid, successColor, successBg, successBorder, successText, successHeaderBg, successDescColor, dangerColor, dangerBg, dangerBorder, dangerText, dangerHeaderBg, dangerDescColor, warningColor, warningBg, warningBorder, warningHeaderBg, warningDescColor } from './tokens'
 
 /* ── Varianty ── */
 const VARIANTS = {

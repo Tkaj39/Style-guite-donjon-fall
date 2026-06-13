@@ -20,13 +20,7 @@ import DonjonBadge from './DonjonBadge'
 import { RohOrnament, ornamentHForCx } from './Ornaments'
 import { octagon, octagonInner } from '../shared/octagon'
 import { useModalPageInert } from '../shared/useModalPageInert'
-import {
-  gold, goldDim,
-  bg0, bg2, bg3, bg4, bgDeep,
-  borderDefault, borderMid,
-  textMid, textLow, textFaint,
-  gainColor, dangerColor, warningColor,
-} from './tokens'
+import { gold, goldDim, bg3, bg4, bgDeep, borderDefault, borderMid, textMid, textLow, textFaint, gainColor, dangerColor, warningColor } from './tokens'
 
 const Z_NOTIF_CENTER = 1800
 

@@ -3,10 +3,7 @@ import ActionTile from '../lib/donjon/ActionTile'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import { CodeBlock } from '../styleguide/ShowcasePage'
 import { SwordIcon, ShieldIcon, TowerIcon, CastleIcon, BombIcon } from '../lib/donjon/icons'
-import {
-  gold, bg2, bg3, bgDeep, borderDefault,
-  textMid, textFaint, textParchment, textHigh,
-} from '../lib/donjon/tokens'
+import { gold, bg2, borderDefault, textMid, textFaint } from '../lib/donjon/tokens'
 
 const PAGE    = { padding: '40px 32px', maxWidth: 860, margin: '0 auto' }
 const H1      = { fontSize: '1.5rem', fontWeight: 700, color: gold, letterSpacing: '0.04em', marginBottom: 4 }

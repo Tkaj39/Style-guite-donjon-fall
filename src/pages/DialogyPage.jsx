@@ -1,7 +1,5 @@
 import { useState } from 'react'
-import {
-  dangerText, goldDim, goldMid, successColor, successText, textFaint, textHighest,
-} from '../lib/donjon/tokens'
+import { dangerText, goldDim, goldMid, successColor, successText, textFaint } from '../lib/donjon/tokens'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'

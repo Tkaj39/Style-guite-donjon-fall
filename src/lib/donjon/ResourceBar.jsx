@@ -5,11 +5,7 @@
    sees where the zones start.
    Zone boundaries are visible through the fill (zIndex: 2).
    ─────────────────────────────────────────────────────────────────────── */
-import {
-  bg2, borderDefault,
-  textMid, textLow, textFaint,
-  gainColor, dangerColor, warningColor, infoColor, magicColor, shieldColor,
-} from './tokens'
+import { bg2, borderDefault, textMid, textLow, gainColor, dangerColor, warningColor, infoColor, magicColor, shieldColor } from './tokens'
 
 const VARIANT_FILL = {
   hp:      null,          // uses threshold logic based on pct

@@ -1,8 +1,5 @@
 import { useState, Fragment } from 'react'
-import {
-  bg4, bgDeep, borderMuted, borderMutedActive, dangerText, gold, goldDim, goldMid,
-  textActive, textFaint, textHighest, VARIANT_HEADER_BG,
-} from '../lib/donjon/tokens'
+import { bg4, bgDeep, borderMuted, borderMutedActive, dangerText, gold, goldDim, goldMid, textActive, textFaint, VARIANT_HEADER_BG } from '../lib/donjon/tokens'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import DonjonBadge from '../lib/donjon/DonjonBadge'

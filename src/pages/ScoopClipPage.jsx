@@ -32,7 +32,7 @@ function PickerBtn({ active, onClick, children, disabled }) {
         // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         border: `1px solid ${active ? gold : '#2a2838'}`,
         background: active ? `${gold}18` : 'transparent',
-        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+         
         // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         color: active ? gold : disabled ? '#3a3848' : '#8a8899',
         fontSize: '0.6875rem',

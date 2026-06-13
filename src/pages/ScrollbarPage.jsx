@@ -56,7 +56,7 @@ export default function ScrollbarPage() {
             style={{}}
           />
         </Preview>
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
+        { }
         {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
         <style>{`
           /* Donjon scrollbar — výchozí */
@@ -81,7 +81,7 @@ export default function ScrollbarPage() {
         title="CSS implementace"
         description="Dvě varianty — výchozí (6px, zlatý hover) a tenká pro sidebar/panel (4px)."
       >
-        {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
+        { }
         {/* eslint-disable-next-line donjon/no-hardcoded-hex -- hex v code snippet text (ukázka pro uživatele) */}
         <CodeBlock code={`/* ── Donjon scrollbar — výchozí (6px) ── */
 .donjon-scrollbar::-webkit-scrollbar {

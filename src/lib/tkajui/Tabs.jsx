@@ -4,12 +4,7 @@
    Clean TkajUI palette.
    ─────────────────────────────────────────────────────────────────────── */
 
-import {
-  accent,
-  surface1, surface2, surface3,
-  borderDefault, borderMid,
-  textHigh, textMid, textLow,
-} from './tokens'
+import { accent, surface1, surface3, borderDefault, borderMid, textHigh, textMid, textLow } from './tokens'
 
 const VARIANTS = {
   underline: {

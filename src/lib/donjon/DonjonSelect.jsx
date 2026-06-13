@@ -5,12 +5,7 @@
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useRef, useEffect, useId } from 'react'
 import { octagon } from '../shared/octagon'
-import {
-  gold, goldDim, goldMid,
-  bg2, bg3, bgDeep,
-  textHigh, textMid, textLow, textFaint,
-  dangerColor, successColor, warningColor, infoColor,
-} from './tokens'
+import { gold, goldDim, goldMid, bg3, bgDeep, textHigh, textMid, textLow, textFaint, dangerColor, successColor, warningColor, infoColor } from './tokens'
 
 /* Variant lookup — parity with TkajUI Select.
    For each variant: active border (focus/open), idle border, label. */

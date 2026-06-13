@@ -1,12 +1,5 @@
 import { octagon } from '../shared/octagon'
-import {
-  surface2, surface3, surface4,
-  borderDefault, borderMid,
-  textHigh, textMid,
-  accent,
-  dangerColor, dangerBg, dangerBorder, dangerText, dangerHeaderBg, dangerDescColor,
-  successColor, successBg, successBorder, successText, successHeaderBg, successDescColor,
-} from './tokens'
+import { surface3, surface4, borderDefault, textHigh, textMid, dangerColor, dangerBg, dangerBorder, dangerText, dangerHeaderBg, dangerDescColor, successColor, successBg, successBorder, successText, successHeaderBg, successDescColor } from './tokens'
 
 const variants = {
   default: {

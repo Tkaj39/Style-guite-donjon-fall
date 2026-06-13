@@ -9,11 +9,7 @@ import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { sections } from './Sidebar'
 import { registry } from '../data/componentRegistry'
-import {
-  gold, goldMid, goldDim,
-  bgDeep, bg2, bg3, borderDefault, borderMid,
-  textHigh, textMid, textLow,
-} from '../lib/donjon/tokens'
+import { gold, goldMid, goldDim, bgDeep, bg2, borderDefault, borderMid, textHigh, textMid, textLow } from '../lib/donjon/tokens'
 
 /* ── Flatten nav data do jednoho searchable seznamu ── */
 function buildIndex() {

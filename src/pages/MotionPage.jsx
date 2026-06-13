@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import useGameAnimation from '../lib/donjon/useGameAnimation'
 import GameTransition, { gameTransitionPresets } from '../lib/donjon/GameTransition'
 import DonjonButton from '../lib/donjon/DonjonButton'

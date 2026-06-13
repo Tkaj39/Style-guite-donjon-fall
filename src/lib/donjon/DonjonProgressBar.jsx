@@ -2,11 +2,7 @@
    Game HP / resource bar with color thresholds, ticks and damage flash.
    Automatic color thresholds: >50% green · 25–50% gold · <25% red.
    ─────────────────────────────────────────────────────────────────────── */
-import {
-  gold, bg2, bg3,
-  gainColor, dangerColor, warningColor, infoColor, magicColor,
-  textMid, textLow, textFaint,
-} from './tokens'
+import { gold, bg2, bg3, gainColor, dangerColor, warningColor, infoColor, magicColor, textMid, textLow } from './tokens'
 
 function thresholdColor(pct) {
   if (pct > 50) return gainColor
