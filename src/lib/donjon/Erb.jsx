@@ -202,6 +202,7 @@ export function Shield({
           position: 'absolute',
           left: '50%',
           bottom: hrotEdgeInset,
+          height: hrotHeight,
           transform: 'translateX(-50%)',
           pointerEvents: 'none',
           lineHeight: 0,  // removes the baseline gap around the inline-svg
