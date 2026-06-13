@@ -32,6 +32,9 @@ export default function DonjonTooltip({
   delay     = 120,
   disabled  = false,
   autoFlip  = true,      // automatically flip when the tooltip would overflow the viewport
+  className,
+  style,
+  ...rest
 }) {
   const v = VARIANTS[variant] ?? VARIANTS.default
   const [pos, setPos]               = useState(null)
@@ -67,7 +70,9 @@ export default function DonjonTooltip({
       onMouseLeave={hide}
       onFocus={show}
       onBlur={hide}
-      style={{ display: 'inline-block', position: 'relative' }}
+      className={className}
+      style={{ display: 'inline-block', position: 'relative', ...style }}
+      {...rest}
     >
       {children}
 

@@ -34,6 +34,9 @@ export default function DonjonCard({
   footer,
   variant = 'default',
   ornament = 'decorated',
+  className,
+  style,
+  ...rest
 }) {
   const rawId = useId()
   const uid = rawId.replace(/:/g, '')
@@ -50,7 +53,7 @@ export default function DonjonCard({
 
   return (
     /* Outer border shell */
-    <div style={{ clipPath: octagon(cx), background: v.border, padding: 1 }}>
+    <div className={className} style={{ clipPath: octagon(cx), background: v.border, padding: 1, ...style }} {...rest}>
     {/* Inner fill */}
     <div
       style={{
