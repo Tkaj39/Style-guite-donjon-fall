@@ -81,7 +81,7 @@ export default function TextSelectionPage() {
               { ctx: 'Code blok (CodeBlock)',  bg: 'rgba(64,128,192,0.40)', color: textActive,   note: 'Modrý — kód má vlastní kontext' },
               { ctx: 'Chybový text',          bg: 'rgba(192,64,64,0.35)',  color: textActive,   note: 'Červený — v error stavu (vzácné)' },
               { ctx: 'no-select (UI prvky)',  bg: 'n/a',                   color: 'n/a',        note: 'user-select: none — tlačítka, labely, badge' },
-            ].map(({ ctx, bg, color, note }) => (
+            ].map(({ ctx, bg, color: _color, note }) => (
               <div key={ctx} style={{ display: 'grid', gridTemplateColumns: '180px 200px 1fr', gap: 10, padding: '8px 12px', background: bg0, border: `1px solid ${goldDim}18`, borderRadius: 3 }}>
                 <span style={{ fontSize: '0.8125rem', color: textCool }}>{ctx}</span>
                 <code style={{ fontSize: '0.6875rem', color: goldMid, lineHeight: 1.5 }}>{bg}</code>

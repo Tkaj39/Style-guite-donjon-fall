@@ -43,7 +43,7 @@ function resolveTicks(ticks, min, max) {
 }
 
 /* Thumb rendering podle shape — variant-aware */
-function Thumb({ pct, shape, size: thumbD, disabled, v }) {
+function Thumb({ pct, shape, size: thumbD, disabled: _disabled, v }) {
   const baseStyle = {
     position: 'absolute',
     left: `${pct}%`,

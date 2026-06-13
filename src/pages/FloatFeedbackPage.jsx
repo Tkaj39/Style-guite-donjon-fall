@@ -137,7 +137,7 @@ function MultiDemo() {
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {VARIANTS.map(({ variant, text, color, label }) => (
+        {VARIANTS.map(({ variant, text, color, label: _label }) => (
           <TriggerButton
             key={variant}
             label={`${text}`}

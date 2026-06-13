@@ -46,7 +46,7 @@ const PLAYERS = [
 export default function PlayerPanelPage() {
   const [activeIdx, setActiveIdx] = useState(0)
   const [hpValues, setHpValues]   = useState(PLAYERS.map(p => p.hp))
-  const [eliminated, setEliminated] = useState([false, false, false, false])
+  const [eliminated, _setEliminated] = useState([false, false, false, false])
 
   const dealDamage = (i) => {
     const dmg = Math.floor(Math.random() * 20 + 8)
