@@ -15,7 +15,7 @@ Audit scope: ~103 components (all default exports of `src/lib/tkajui/*.jsx` and
   - Without this, users can't add `data-testid`, custom `aria-*`, tour steps, etc.
   - **Fix:** ~1 line per file (add to destructure + spread on the root element)
 
-- [ ] **#2 Resolve `tkajui/Select.variant` dead prop**
+- [x] **#2 Resolve `tkajui/Select.variant` dead prop** ✓ done — restored 5-variant VARIANTS lookup, wired into outer border, dropdown shadow, and selected-option check icon. Parity with DonjonSelect.
   - After cleaning `VARIANTS` object, `variant` is accepted but **does nothing**.
   - DonjonSelect applies variant visually; tkajui Select doesn't anymore.
   - **Pick one:**

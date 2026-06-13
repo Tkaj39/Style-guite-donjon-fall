@@ -5,7 +5,16 @@
    ─────────────────────────────────────────────────────────────────────── */
 import { useState, useRef, useEffect, useId } from 'react'
 import { octagon } from '../shared/octagon'
-import { surface2, surface4, borderDefault, borderMid, accent, textHigh, textMid, textLow, zDropdown } from './tokens'
+import { surface2, surface4, borderDefault, borderMid, accent, textHigh, textMid, textLow, successColor, successBorder, dangerColor, dangerBorder, warningColor, warningBorder, infoColor, infoBorder, zDropdown } from './tokens'
+
+/* Per-variant border/active palette — parity with DonjonSelect. */
+const VARIANTS = {
+  default: { idle: borderDefault, active: accent       },
+  danger:  { idle: dangerBorder,  active: dangerColor  },
+  success: { idle: successBorder, active: successColor },
+  warning: { idle: warningBorder, active: warningColor },
+  info:    { idle: infoBorder,    active: infoColor    },
+}
 
 const SIZES = {
   xs: { h: 24, fontSize: '0.6875rem', px: 8,  cx: 3 },
@@ -43,7 +52,7 @@ export default function Select({
   placeholder = 'Select an option…',
   label,
   size = 'md',
-  variant: _variant = 'default',
+  variant = 'default',
   disabled = false,
   id: externalId,
 }) {
@@ -104,8 +113,9 @@ export default function Select({
     triggerRef.current?.focus()
   }
 
-  // Dynamic border: open or keyboard-focused → accent, else default
-  const outerBorder = (open || focused) ? accent : borderDefault
+  // Dynamic border: open or keyboard-focused → variant active, else variant idle
+  const v = VARIANTS[variant] ?? VARIANTS.default
+  const outerBorder = (open || focused) ? v.active : v.idle
 
   return (
     <div style={{ position: 'relative', display: 'inline-block', width: '100%' }}>
@@ -184,7 +194,7 @@ export default function Select({
             border: `1px solid ${borderMid}`,
             borderRadius: 4,
             overflow: 'hidden',
-            boxShadow: `0 8px 24px rgba(0,0,0,0.5), 0 0 0 1px ${accent}22`,
+            boxShadow: `0 8px 24px rgba(0,0,0,0.5), 0 0 0 1px ${v.active}22`,
           }}
         >
           {safeOptions.map((opt, i) => {
@@ -213,7 +223,7 @@ export default function Select({
               >
                 <span>{opt.label}</span>
                 {isSelected && (
-                  <span style={{ color: accent }}><CheckIcon /></span>
+                  <span style={{ color: v.active }}><CheckIcon /></span>
                 )}
               </div>
             )
