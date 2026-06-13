@@ -9,7 +9,7 @@ Audit scope: ~103 components (all default exports of `src/lib/tkajui/*.jsx` and
 
 ## 🔴 Critical
 
-- [ ] **#1 Add `className, style, ...rest` passthrough to 6 Donjon components**
+- [x] **#1 Add `className, style, ...rest` passthrough to 6 Donjon components** ✓ done (commit `afe0fb7`)
   - DonjonModal, DonjonTabs, DonjonToggle, DonjonSelect, DonjonTooltip, DonjonCard
   - tkajui counterparts already forward them — Donjon breaks parity
   - Without this, users can't add `data-testid`, custom `aria-*`, tour steps, etc.
