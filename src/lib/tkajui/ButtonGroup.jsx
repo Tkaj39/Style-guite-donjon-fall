@@ -13,7 +13,7 @@ const sizeMap = {
  * Variants: menu | tabs. Clean UI palette.
  */
 export default function ButtonGroup({
-  variant = 'menu',
+  variant: _variant = 'menu',
   size = 'md',
   dividers = false,
   items = [],

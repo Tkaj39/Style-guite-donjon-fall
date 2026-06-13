@@ -18,7 +18,7 @@ import {
    Sdílená stavová matice (stejná pro obě knihovny)
    ══════════════════════════════════════════════════════════════════════════ */
 
-function StateRow({ state, required, description, components, accentColor = goldMid, textColor = textCool, bg = bg0, border = `${goldDim}18`, faintColor = textDeep }) {
+function StateRow({ state, required, description, components, accentColor = goldMid, textColor = textCool, bg: _bg = bg0, border = `${goldDim}18`, faintColor = textDeep }) {
   const reqColor = required ? successColor : textColor
   return (
     <div style={{

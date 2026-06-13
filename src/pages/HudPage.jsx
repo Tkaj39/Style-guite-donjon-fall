@@ -97,7 +97,7 @@ function VPCounter({ players }) {
 }
 
 /* ── Action bar ── */
-function ActionBar({ actions, activePlayer }) {
+function ActionBar({ actions, activePlayer: _activePlayer }) {
   return (
     <div style={{
       display: 'flex', gap: 6, padding: '8px 12px',

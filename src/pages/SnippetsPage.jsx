@@ -118,8 +118,8 @@ function Snippet({ label, preview, code, previewStyle }) {
 /* ════════════════════════════════════════════════════════════════════════ */
 
 export default function SnippetsPage() {
-  const [hp, setHp]             = useState(72)
-  const [mana, setMana]         = useState(45)
+  const [hp, _setHp]            = useState(72)
+  const [mana, _setMana]        = useState(45)
   const [volume, setVolume]     = useState(70)
   const [sfx, setSfx]           = useState(true)
   const [lang, setLang]         = useState('cs')

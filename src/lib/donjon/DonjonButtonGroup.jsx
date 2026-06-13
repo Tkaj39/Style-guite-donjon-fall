@@ -11,7 +11,7 @@ const sizeMap = {
 }
 
 export default function DonjonButtonGroup({
-  variant = 'menu',
+  variant: _variant = 'menu',
   ornament = 'decorated',
   size = 'md',
   dividers = false,

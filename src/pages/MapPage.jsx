@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { bg4, bgDeep, borderDefault, borderMuted, failColor, goldDim, goldMid, textFaint } from '../lib/donjon/tokens'
 import HexTile from '../lib/donjon/HexTile'
-import DieFace from '../lib/donjon/DieFace'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
