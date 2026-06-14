@@ -93,6 +93,26 @@ describe('Accessibility (axe audit)', () => {
     expect(await axe(container)).toHaveNoViolations()
   })
 
+  it('Modal open without title + aria-label passes axe audit', async () => {
+    const { container } = render(
+      <Modal open aria-label="Settings menu" onClose={() => {}}>
+        <p>Configure your options.</p>
+      </Modal>
+    )
+    expect(await axe(container)).toHaveNoViolations()
+  })
+
+  it('Modal without title has no aria-labelledby, but has aria-label', () => {
+    render(
+      <Modal open aria-label="Settings menu" onClose={() => {}}>
+        <p>Configure your options.</p>
+      </Modal>
+    )
+    const dialog = document.querySelector('dialog')
+    expect(dialog).not.toHaveAttribute('aria-labelledby')
+    expect(dialog).toHaveAttribute('aria-label', 'Settings menu')
+  })
+
   it('Tooltip passes axe audit', async () => {
     const { container } = render(
       <Tooltip content="Button hint">

@@ -64,6 +64,7 @@ export default function Modal({
   open,
   onClose,
   title,
+  'aria-label': ariaLabel,
   description,
   children,
   footer,
@@ -106,6 +107,7 @@ export default function Modal({
       onCancel={handleCancel}
       onClick={handleBackdropClick}
       aria-labelledby={title ? titleId : undefined}
+      aria-label={!title ? ariaLabel : undefined}
       className="modal-dialog"
     >
       {/* Panel — direct child, targeted by @starting-style animations */}
