@@ -84,9 +84,9 @@ describe('Accessibility (axe audit)', () => {
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('Modal isOpen with title passes axe audit', async () => {
+  it('Modal open with title passes axe audit', async () => {
     const { container } = render(
-      <Modal isOpen title="Confirmation" onClose={() => {}}>
+      <Modal open title="Confirmation" onClose={() => {}}>
         <p>Do you really want to continue?</p>
       </Modal>
     )
@@ -137,7 +137,7 @@ describe('ARIA attribute checks', () => {
   })
 
   it('Modal has role="dialog" with aria-labelledby', () => {
-    render(<Modal isOpen title="Test" onClose={() => {}} />)
+    render(<Modal open title="Test" onClose={() => {}} />)
     const dialog = screen.getByRole('dialog')
     // aria-modal is implicit with native showModal() — we don't test the explicit attribute
     expect(dialog).toHaveAttribute('aria-labelledby')

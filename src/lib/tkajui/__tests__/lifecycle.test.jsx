@@ -14,21 +14,21 @@ describe('Modal lifecycle', () => {
     HTMLDialogElement.prototype.close.mockClear()
   })
 
-  it('isOpen=true → showModal() is called', () => {
-    render(<Modal isOpen title="T" onClose={() => {}} />)
+  it('open=true → showModal() is called', () => {
+    render(<Modal open title="T" onClose={() => {}} />)
     expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalledTimes(1)
   })
 
-  it('isOpen false→true → showModal() is called after the change', () => {
-    const { rerender } = render(<Modal isOpen={false} title="T" onClose={() => {}} />)
+  it('open false→true → showModal() is called after the change', () => {
+    const { rerender } = render(<Modal open={false} title="T" onClose={() => {}} />)
     expect(HTMLDialogElement.prototype.showModal).not.toHaveBeenCalled()
-    rerender(<Modal isOpen title="T" onClose={() => {}} />)
+    rerender(<Modal open title="T" onClose={() => {}} />)
     expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalledTimes(1)
   })
 
-  it('isOpen true→false → close() is called', () => {
-    const { rerender } = render(<Modal isOpen title="T" onClose={() => {}} />)
-    rerender(<Modal isOpen={false} title="T" onClose={() => {}} />)
+  it('open true→false → close() is called', () => {
+    const { rerender } = render(<Modal open title="T" onClose={() => {}} />)
+    rerender(<Modal open={false} title="T" onClose={() => {}} />)
     expect(HTMLDialogElement.prototype.close).toHaveBeenCalledTimes(1)
   })
 })
@@ -146,8 +146,8 @@ describe('Select lifecycle', () => {
 // ─── Portals — rendering into document.body ─────────────────────────────────
 
 describe('Portal rendering', () => {
-  it('Modal isOpen=true → dialog is in document.body', () => {
-    render(<Modal isOpen title="Portal" onClose={() => {}} />)
+  it('Modal open=true → dialog is in document.body', () => {
+    render(<Modal open title="Portal" onClose={() => {}} />)
     const dialog = screen.getByRole('dialog')
     // Modal renders directly into the tree (not via portal), but is present in the DOM
     expect(dialog).toBeInTheDocument()

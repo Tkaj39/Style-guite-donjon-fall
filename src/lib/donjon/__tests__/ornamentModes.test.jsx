@@ -74,7 +74,7 @@ describe('donjon ornament modes', () => {
   it('DonjonModal plain mode removes decorative nodes', () => {
     const { rerender } = render(
       <DonjonModal
-        isOpen
+        open
         onClose={() => {}}
         title="Confirmation"
         description="Are you sure you want to leave the game?"
@@ -88,7 +88,7 @@ describe('donjon ornament modes', () => {
 
     rerender(
       <DonjonModal
-        isOpen
+        open
         onClose={() => {}}
         ornament="plain"
         title="Confirmation"

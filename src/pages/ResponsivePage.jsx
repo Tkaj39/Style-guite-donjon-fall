@@ -244,7 +244,7 @@ function GameHUD({ players }) {
 // → nikdy nepřesahuje viewport, vždy 16px margin na každé straně
 
 <DonjonModal
-  isOpen={isOpen}
+  open={open}
   onClose={() => setOpen(false)}
   title="Výsledek kola"
   size="md"   // md = max 480px, ale < 480px viewportu = 100% - 32px
@@ -253,7 +253,7 @@ function GameHUD({ players }) {
 </DonjonModal>`}</Code>
 
         <DonjonModal
-          isOpen={modalOpen}
+          open={modalOpen}
           onClose={() => setModalOpen(false)}
           title="Responzivní modal"
           description="Zmenši okno pro ukázku responzivního chování"
