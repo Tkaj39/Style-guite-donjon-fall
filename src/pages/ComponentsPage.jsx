@@ -870,7 +870,7 @@ const MINI_PREVIEWS = {
       <Cooldown shape="linear" remaining={3000} total={5000} size={100} />
     </div>
   ),
-  minimap: <Minimap src="https://picsum.photos/seed/map/180/180" size={96} viewport={{ x: 0.35, y: 0.3, w: 0.3, h: 0.3 }} markers={[
+  minimap: <Minimap src="https://picsum.photos/seed/map/180/180" width={96} viewport={{ x: 0.35, y: 0.3, w: 0.3, h: 0.3 }} markers={[
     // eslint-disable-next-line donjon/no-hardcoded-hex -- mini preview accent colors
     { x: 0.5, y: 0.5, color: '#FFC183' },
     // eslint-disable-next-line donjon/no-hardcoded-hex -- mini preview accent colors

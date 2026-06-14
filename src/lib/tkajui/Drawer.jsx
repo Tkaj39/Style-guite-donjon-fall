@@ -38,7 +38,10 @@ function focusables(root) {
  * @param {boolean} open
  * @param {() => void} onClose
  * @param {'left'|'right'|'top'|'bottom'} [side='right']
- * @param {number|string} [size=320]   Panel dimension on the cross axis.
+ * @param {number|string} [size=320]   Panel dimension on the cross axis (px or any CSS length).
+ *                                     Note: this is NOT the t-shirt scale used by Button/Input/etc.
+ *                                     For side='left'|'right' it sets the panel width; for
+ *                                     side='top'|'bottom' it sets the panel height.
  * @param {string} [title]
  * @param {boolean} [closeOnBackdrop=true]
  * @param {boolean} [closeOnEscape=true]

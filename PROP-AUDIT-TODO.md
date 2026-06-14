@@ -35,13 +35,11 @@ Audit scope: ~103 components (all default exports of `src/lib/tkajui/*.jsx` and
 
 ## 🟡 Medium drift
 
-- [ ] **#5 `size` has two meanings — split scale from dimension**
-  - **Scale** (`xs|sm|md|lg`): Button, Card, Input, Modal, Avatar, Tabs, …
-  - **Pixel value**: `Drawer size = 320`, `Minimap size = 180`
-  - **Fix:** rename pixel ones — `Drawer.size` → `Drawer.width`,
-    `Minimap.size` → `Minimap.width`
-  - Also `HeroImage.height = 'md'` is a string scale named like a pixel
-    dimension — either `size = 'md'` (scale) or `height = 320` (pixel)
+- [x] **#5 `size` has two meanings — split scale from dimension** ✓ done with revisions to the original proposal:
+  - **Minimap**: `size` → `width` (clean rename; was always a width).
+  - **Drawer/DonjonDrawer**: kept `size` (semantically side-agnostic — sets cross-axis width for left/right, height for top/bottom). Renaming to `width` would mislead on top/bottom sides. Improved JSDoc to clarify it's a CSS length (not a t-shirt scale).
+  - **HeroImage/DonjonHeroImage**: kept the `'sm'|'md'|'lg'|'xl'|number` union on `height`. Both modes describe the same axis ("how tall is the panel"), so splitting into two props would add API surface for marginal gain. Improved JSDoc to make the union explicit.
+  - Updated callsites + componentMeta. Build + 562/562 tests pass.
 
 - [x] **#6 `Pictogram` vs `DonjonPictogram` — overlapping color controls** ✓ partial — JSDoc + componentMeta now document the three axes (variant = preset, color = icon-color override, bare = frame mode) with an explicit priority matrix. Kept all 3 props because the audit's "reduce to 2" proposal would change established semantics: `<DonjonPictogram variant="danger" />` currently renders a bare red icon (variant just picks color when bare) and consumers rely on that. A full reduction (e.g. dropping `bare` so `variant` always implies framed) would migrate every existing bare-with-variant call; deferred unless explicitly requested.
 
