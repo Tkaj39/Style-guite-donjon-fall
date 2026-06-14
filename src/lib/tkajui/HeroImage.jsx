@@ -25,8 +25,14 @@ const HEIGHTS = {
 /**
  * @param {string} src                 Background image URL.
  * @param {string} [alt='']            Background-image alt.
- * @param {'sm'|'md'|'lg'|'xl'|number} [height='md']  Token (responsive)
- *                                     or raw px (fixed).
+ * @param {'sm'|'md'|'lg'|'xl'|number} [height='md']  Two modes:
+ *                                     - **t-shirt scale** ('sm'|'md'|'lg'|'xl'): responsive
+ *                                       (aspect ratio + min/max). Recommended for in-flow heroes.
+ *                                     - **number** (pixels): fixed height. Escape hatch for
+ *                                       custom layouts.
+ *                                     Note: HeroImage is the only component where `height`
+ *                                     accepts both — kept as a union because the scale and the
+ *                                     px values both legitimately refer to "panel height."
  * @param {'bottom'|'full'|'none'} [overlay='bottom']
  *   bottom = dark gradient bottom→middle, full = uniform dim, none = no scrim.
  * @param {string} [title]

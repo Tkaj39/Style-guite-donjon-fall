@@ -22,7 +22,9 @@ import { bg2, gold, goldDim, borderDefault } from './tokens'
  * @param {string} [background]     Solid bg if no src.
  * @param {{x, y, w, h}} [viewport] Visible area (all 0–1 normalized).
  * @param {MinimapMarker[]} [markers]
- * @param {number|string} [size=180]  Container width.
+ * @param {number|string} [width=180] Container width (px or any CSS length).
+ *                                    Note: NOT the t-shirt scale (xs/sm/md/lg). Height is derived
+ *                                    from `width / aspect`.
  * @param {number} [aspect=1]         w / h ratio.
  * @param {(x: number, y: number) => void} [onClick]
  */
@@ -31,7 +33,7 @@ export default function Minimap({
   background,
   viewport,
   markers = [],
-  size = 180,
+  width = 180,
   aspect = 1,
   onClick,
   className,
@@ -39,8 +41,8 @@ export default function Minimap({
   ...rest
 }) {
   const ref = useRef(null)
-  const w = typeof size === 'number' ? size : size
-  const h = typeof size === 'number' ? Math.round(size / aspect) : `calc(${size} / ${aspect})`
+  const w = width
+  const h = typeof width === 'number' ? Math.round(width / aspect) : `calc(${width} / ${aspect})`
 
   const handle = (e) => {
     if (!onClick || !ref.current) return

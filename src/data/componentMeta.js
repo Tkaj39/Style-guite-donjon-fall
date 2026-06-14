@@ -909,7 +909,7 @@ export const componentMeta = {
     props: [
       { name: 'src',      type: 'string',                                    required: true,  description: 'Background image URL.' },
       { name: 'alt',      type: 'string',                                    required: false, default: "''",          description: 'Image alt text.' },
-      { name: 'height',   type: `${enumType(HERO_IMAGE_HEIGHT_VALUES)} | number`, required: false, default: "'md'",       description: 'Height token (sm=180, md=280, lg=380, xl=520) or raw px.' },
+      { name: 'height',   type: `${enumType(HERO_IMAGE_HEIGHT_VALUES)} | number`, required: false, default: "'md'",       description: 'Two modes: (1) t-shirt scale string — responsive sizing (sm=180/md=280/lg=380/xl=520 max px + min/max bounds), or (2) raw number — fixed pixel height. Union is intentional: both modes legitimately describe "panel height".' },
       { name: 'overlay',  type: enumType(HERO_IMAGE_OVERLAY_VALUES),         required: false, default: "'bottom'",   description: 'Scrim style: bottom = gradient bottom→middle, full = uniform dim, none = no scrim.' },
       { name: 'title',    type: 'string',                                    required: false, description: 'Bold heading.' },
       { name: 'subtitle', type: 'string',                                    required: false, description: 'Sub-heading.' },
@@ -1660,7 +1660,7 @@ export const componentMeta = {
       { name: 'background', type: 'string',                                       required: false, description: 'Solid background when no src.' },
       { name: 'viewport',   type: '{x, y, w, h}',                                  required: false, description: 'Visible area rectangle (all 0–1).' },
       { name: 'markers',    type: 'Array<{x, y, color?, label?}>',                required: false, description: 'Marker dots, coords 0–1.' },
-      { name: 'size',       type: 'number | string',                              required: false, default: '180', description: 'Container width.' },
+      { name: 'width',      type: 'number | string',                              required: false, default: '180', description: 'Container width in px (or any CSS length). NOT the t-shirt scale.' },
       { name: 'aspect',     type: 'number',                                       required: false, default: '1',   description: 'Width / height ratio.' },
       { name: 'onClick',    type: '(x: number, y: number) => void',                required: false, description: 'Normalized click handler.' },
     ],

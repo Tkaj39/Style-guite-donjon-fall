@@ -99,7 +99,7 @@ function MinimapDemo() {
     <Stack gap="md">
       <Minimap
         src="https://picsum.photos/seed/map/300/300"
-        size={200}
+        width={200}
         viewport={vp}
         markers={[
           { x: 0.5,  y: 0.4, color: gold,        label: 'You' },
@@ -237,7 +237,7 @@ export default function GameLayoutPage() {
         <Preview><MinimapDemo /></Preview>
         <CodeBlock code={`<Minimap
   src="/map.png"
-  size={200}
+  width={200}
   viewport={{ x: 0.4, y: 0.3, w: 0.2, h: 0.2 }}
   markers={[
     { x: 0.5, y: 0.4, color: gold,        label: 'You' },
