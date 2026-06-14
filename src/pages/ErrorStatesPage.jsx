@@ -203,7 +203,7 @@ addToast({
         </Preview>
         <CodeBlock code={`{/* Systémová chyba → Modal danger */}
 <Modal
-  isOpen={!!criticalError}
+  open={!!criticalError}
   onClose={() => {}}         // nelze zavřít bez akce
   closeOnBackdrop={false}
   closeOnEscape={false}

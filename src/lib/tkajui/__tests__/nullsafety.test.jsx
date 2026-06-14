@@ -149,12 +149,12 @@ describe('Slider edge values', () => {
 // ─── Modal — null/undefined safety ─────────────────────────────────────────
 
 describe('Modal null/undefined safety', () => {
-  it('title={null} isOpen onClose → renders without crashing', () => {
-    expect(() => render(<Modal isOpen title={null} onClose={() => {}} />)).not.toThrow()
+  it('title={null} open onClose → renders without crashing', () => {
+    expect(() => render(<Modal open title={null} onClose={() => {}} />)).not.toThrow()
   })
 
-  it('children={null} isOpen onClose → renders without crashing', () => {
-    expect(() => render(<Modal isOpen title="T" onClose={() => {}}>{null}</Modal>)).not.toThrow()
+  it('children={null} open onClose → renders without crashing', () => {
+    expect(() => render(<Modal open title="T" onClose={() => {}}>{null}</Modal>)).not.toThrow()
   })
 })
 

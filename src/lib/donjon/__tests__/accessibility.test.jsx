@@ -86,18 +86,18 @@ describe('donjon — axe audit', () => {
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('DonjonModal isOpen with title passes axe audit', async () => {
+  it('DonjonModal open with title passes axe audit', async () => {
     const { container } = render(
-      <DonjonModal isOpen title="Confirmation" onClose={() => {}}>
+      <DonjonModal open title="Confirmation" onClose={() => {}}>
         <p>Are you sure you want to leave the game?</p>
       </DonjonModal>
     )
     expect(await axe(container)).toHaveNoViolations()
   })
 
-  it('DonjonModal isOpen without title + aria-label passes axe audit', async () => {
+  it('DonjonModal open without title + aria-label passes axe audit', async () => {
     const { container } = render(
-      <DonjonModal isOpen aria-label="Game menu" onClose={() => {}}>
+      <DonjonModal open aria-label="Game menu" onClose={() => {}}>
         <p>Modal content without a heading</p>
       </DonjonModal>
     )
@@ -160,7 +160,7 @@ describe('donjon — ARIA attributes', () => {
 
   it('DonjonModal has role="dialog" and is reachable via getByRole', () => {
     render(
-      <DonjonModal isOpen title="Test" onClose={() => {}}>
+      <DonjonModal open title="Test" onClose={() => {}}>
         <p>Content</p>
       </DonjonModal>
     )
@@ -171,7 +171,7 @@ describe('donjon — ARIA attributes', () => {
 
   it('DonjonModal with title sets aria-labelledby pointing to the h2', () => {
     render(
-      <DonjonModal isOpen title="Modal title" onClose={() => {}}>
+      <DonjonModal open title="Modal title" onClose={() => {}}>
         <p>Content</p>
       </DonjonModal>
     )
@@ -185,7 +185,7 @@ describe('donjon — ARIA attributes', () => {
 
   it('DonjonModal without title has no aria-labelledby, but has aria-label', () => {
     render(
-      <DonjonModal isOpen aria-label="Game menu" onClose={() => {}}>
+      <DonjonModal open aria-label="Game menu" onClose={() => {}}>
         <p>Content</p>
       </DonjonModal>
     )
@@ -196,7 +196,7 @@ describe('donjon — ARIA attributes', () => {
 
   it('DonjonModal close button has aria-label="Close"', () => {
     render(
-      <DonjonModal isOpen title="Test" onClose={() => {}}>
+      <DonjonModal open title="Test" onClose={() => {}}>
         <p>Content</p>
       </DonjonModal>
     )
@@ -249,12 +249,12 @@ describe('donjon — ARIA attributes', () => {
   })
 })
 
-// ── isOpen=false — modal does not render ─────────────────────────────────────
+// ── open=false — modal does not render ─────────────────────────────────────
 
 describe('DonjonModal — closed state', () => {
-  it('isOpen=false → dialog is not in the DOM', () => {
+  it('open=false → dialog is not in the DOM', () => {
     const { container } = render(
-      <DonjonModal isOpen={false} title="Test" onClose={() => {}}>
+      <DonjonModal open={false} title="Test" onClose={() => {}}>
         <p>Content</p>
       </DonjonModal>
     )

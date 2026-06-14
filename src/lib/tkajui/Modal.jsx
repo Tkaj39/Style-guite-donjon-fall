@@ -61,7 +61,7 @@ function CloseIcon() {
 }
 
 export default function Modal({
-  isOpen,
+  open,
   onClose,
   title,
   description,
@@ -79,15 +79,15 @@ export default function Modal({
   const w        = SIZES[size] ?? SIZES.md
   const dialogRef = useRef(null)
 
-  useModalPageInert(isOpen)
+  useModalPageInert(open)
 
   /* ── Open / close via the native <dialog> API ── */
   useEffect(() => {
     const el = dialogRef.current
     if (!el) return
-    if (isOpen) el.showModal()
+    if (open) el.showModal()
     else if (el.open) el.close()
-  }, [isOpen])
+  }, [open])
 
   /* ESC key — the cancel event precedes close, can be prevented */
   function handleCancel(e) {

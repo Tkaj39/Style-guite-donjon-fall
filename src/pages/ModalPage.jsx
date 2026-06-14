@@ -21,7 +21,7 @@ function ModalDemo({ ModalCmp, Btn, label, buttonVariant = 'default', children, 
       <Btn variant={buttonVariant} size="sm" onClick={() => setOpen(true)}>
         {label}
       </Btn>
-      <ModalCmp isOpen={open} onClose={() => setOpen(false)} {...modalProps}>
+      <ModalCmp open={open} onClose={() => setOpen(false)} {...modalProps}>
         {children}
       </ModalCmp>
     </>
@@ -37,7 +37,7 @@ function FooterModalDemo({ ModalCmp, Btn, label, buttonVariant = 'default', titl
         {label}
       </Btn>
       <ModalCmp
-        isOpen={open}
+        open={open}
         onClose={() => setOpen(false)}
         title={title}
         description={description}
@@ -62,7 +62,7 @@ function NoCloseBtnDemo({ ModalCmp, Btn }) {
     <>
       <Btn size="sm" onClick={() => setOpen(true)}>Bez close tlačítka</Btn>
       <ModalCmp
-        isOpen={open}
+        open={open}
         onClose={() => setOpen(false)}
         showCloseButton={false}
         title="Bez close tlačítka"
@@ -124,7 +124,7 @@ function InertDemo({ ModalCmp, Btn }) {
         </p>
       </div>
       <Btn size="sm" onClick={() => setOpen(true)}>Otevřít modál (inert demo)</Btn>
-      <ModalCmp isOpen={open} onClose={() => setOpen(false)} title="inert na pozadí">
+      <ModalCmp open={open} onClose={() => setOpen(false)} title="inert na pozadí">
         <p style={{ color: goldMid, fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>
           Obsah za tímto modálem má atribut <code style={{ color: gold, fontFamily: 'monospace' }}>inert</code> —
           prohlížeč automaticky zabrání focusu, klikům i přečtení čtečkou obrazovky.
@@ -175,15 +175,15 @@ function ModalContent() {
             </p>
           </ModalDemo>
         </Preview>
-        <CodeBlock code={`<${cmp} isOpen={open} onClose={() => setOpen(false)} size="sm" title="Malý modál">
+        <CodeBlock code={`<${cmp} open={open} onClose={() => setOpen(false)} size="sm" title="Malý modál">
   …obsah…
 </${cmp}>
 
-<${cmp} isOpen={open} onClose={() => setOpen(false)} size="md" title="Středný modál">
+<${cmp} open={open} onClose={() => setOpen(false)} size="md" title="Středný modál">
   …obsah…
 </${cmp}>
 
-<${cmp} isOpen={open} onClose={() => setOpen(false)} size="lg" title="Velký modál">
+<${cmp} open={open} onClose={() => setOpen(false)} size="lg" title="Velký modál">
   …obsah…
 </${cmp}>`} />
       </Section>
@@ -217,11 +217,11 @@ function ModalContent() {
             </ModalDemo>
           ))}
         </Preview>
-        <CodeBlock code={`<${cmp} variant="danger" title="Nebezpečná akce" isOpen={open} onClose={onClose}>
+        <CodeBlock code={`<${cmp} variant="danger" title="Nebezpečná akce" open={open} onClose={onClose}>
   Tato akce je nevratná.
 </${cmp}>
 
-<${cmp} variant="success" title="Úspěch" isOpen={open} onClose={onClose}>
+<${cmp} variant="success" title="Úspěch" open={open} onClose={onClose}>
   Operace proběhla úspěšně.
 </${cmp}>`} />
       </Section>
@@ -246,7 +246,7 @@ function ModalContent() {
             </ModalDemo>
           </Preview>
           <CodeBlock code={`<DonjonModal
-  isOpen={open}
+  open={open}
   onClose={() => setOpen(false)}
   title="Výchozí decorated režim"
 >
@@ -254,7 +254,7 @@ function ModalContent() {
 </DonjonModal>
 
 <DonjonModal
-  isOpen={open}
+  open={open}
   onClose={() => setOpen(false)}
   ornament="plain"
   title="Plain gold-frame režim"
@@ -305,7 +305,7 @@ function ModalContent() {
     <>
       <${btnCmp} onClick={() => setOpen(true)}>Opustit hru</${btnCmp}>
       <${cmp}
-        isOpen={open}
+        open={open}
         onClose={() => setOpen(false)}
         title="Opustit hru?"
         variant="danger"
@@ -339,7 +339,7 @@ function ModalContent() {
             </p>
           </ModalDemo>
         </Preview>
-        <CodeBlock code={`<${cmp} isOpen={open} onClose={() => setOpen(false)}>
+        <CodeBlock code={`<${cmp} open={open} onClose={() => setOpen(false)}>
   Vlastní obsah bez standardní hlavičky.
 </${cmp}>`} />
       </Section>
@@ -395,7 +395,7 @@ function ModalContent() {
         <button>Nedosažitelné tlačítko</button>
       </main>
 
-      <${cmp} isOpen={open} onClose={() => setOpen(false)} title="Dialog">
+      <${cmp} open={open} onClose={() => setOpen(false)} title="Dialog">
         Obsah modálu — pozadí je inert.
       </${cmp}>
     </>

@@ -23,7 +23,7 @@ Audit scope: ~103 components (all default exports of `src/lib/tkajui/*.jsx` and
     - (b) remove the `variant` prop entirely from tkajui Select (smaller API)
   - **Recommendation:** (a) — design-system parity is more valuable
 
-- [ ] **#3 Rename `isOpen` → `open` on Modal/DonjonModal**
+- [x] **#3 Rename `isOpen` → `open` on Modal/DonjonModal** ✓ done — both components + 9 consumers + 6 test files + componentMeta. CommandPalette/Sidebar (styleguide internals) deliberately left for a separate decision since they're not in the public API.
   - Other dialog-style components use `open`: Drawer, DonjonDrawer, Backdrop,
     AchievementToast, RewardPopup
   - Radix / MUI / shadcn convention is `open`

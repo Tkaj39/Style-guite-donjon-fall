@@ -124,14 +124,14 @@ describe('consistency — size prop renders without crashing', () => {
   it('Modal size="sm"/"md"/"lg" → renders without crashing', () => {
     for (const size of ['sm', 'md', 'lg']) {
       expect(() =>
-        render(<Modal isOpen title="Test" onClose={() => {}} size={size} />)
+        render(<Modal open title="Test" onClose={() => {}} size={size} />)
       ).not.toThrow()
     }
   })
 
   it('Modal unknown size → renders without crashing (fallback)', () => {
     expect(() =>
-      render(<Modal isOpen title="Test" onClose={() => {}} size="xl" />)
+      render(<Modal open title="Test" onClose={() => {}} size="xl" />)
     ).not.toThrow()
   })
 })
@@ -213,7 +213,7 @@ describe('consistency — unknown variant renders without crashing', () => {
 
   it('Modal variant="unknown"', () => {
     expect(() =>
-      render(<Modal isOpen title="Test" onClose={() => {}} variant="unknown" />)
+      render(<Modal open title="Test" onClose={() => {}} variant="unknown" />)
     ).not.toThrow()
   })
 

@@ -55,7 +55,7 @@ function CloseIcon() {
 
 /* ── DonjonModal ── */
 export default function DonjonModal({
-  isOpen,
+  open,
   onClose,
   title,
   'aria-label': ariaLabel,
@@ -86,15 +86,15 @@ export default function DonjonModal({
   const bodyPadding = `20px ${!title && showCloseButton ? 52 : hasOrnaments ? 28 : 24}px 20px ${hasOrnaments ? 28 : 24}px`
   const footerPadding = hasOrnaments ? '12px 28px 14px' : '12px 24px 14px'
 
-  useModalPageInert(isOpen)
+  useModalPageInert(open)
 
   /* ── Open / close via the native <dialog> API ── */
   useEffect(() => {
     const el = dialogRef.current
     if (!el) return
-    if (isOpen) el.showModal()
+    if (open) el.showModal()
     else if (el.open) el.close()
-  }, [isOpen])
+  }, [open])
 
   /* ESC key */
   function handleCancel(e) {

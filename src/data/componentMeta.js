@@ -1804,7 +1804,7 @@ export const componentMeta = {
     status: 'documented',
     showcaseRoute: '/modal',
     props: [
-      { name: 'isOpen',          type: 'boolean',                                           required: true,  description: 'Controls the modal visibility.' },
+      { name: 'open',            type: 'boolean',                                           required: true,  description: 'Controls the modal visibility.' },
       { name: 'onClose',         type: '() => void',                                        required: true,  description: 'Close callback — invoked by Escape, the backdrop, and the close button.' },
       { name: 'title',           type: 'string',                                            required: false, description: 'Header title. When omitted, the header is not rendered.' },
       { name: 'description',     type: 'string',                                            required: false, description: 'Subtitle below the title.' },
@@ -1831,7 +1831,7 @@ export const componentMeta = {
     status: 'documented',
     showcaseRoute: '/modal',
     props: [
-      { name: 'isOpen',          type: 'boolean',                                           required: true,  description: 'Controls the modal visibility.' },
+      { name: 'open',            type: 'boolean',                                           required: true,  description: 'Controls the modal visibility.' },
       { name: 'onClose',         type: '() => void',                                        required: true,  description: 'Close callback.' },
       { name: 'title',           type: 'string',                                            required: false, description: 'Header title.' },
       { name: 'description',     type: 'string',                                            required: false, description: 'Subtitle below the title.' },

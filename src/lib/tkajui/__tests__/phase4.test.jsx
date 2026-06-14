@@ -11,32 +11,32 @@ describe('Modal', () => {
     HTMLDialogElement.prototype.close.mockClear()
   })
 
-  it('isOpen=false → dialog is not open', () => {
-    render(<Modal isOpen={false} onClose={() => {}} title="Test" />)
+  it('open=false → dialog is not open', () => {
+    render(<Modal open={false} onClose={() => {}} title="Test" />)
     // Native <dialog> stays in the DOM, but showModal() was not called → open=false
     const dialog = document.querySelector('dialog')
     expect(dialog).toBeInTheDocument()
     expect(dialog.open).toBe(false)
   })
 
-  it('isOpen=true → renders role="dialog"', () => {
-    render(<Modal isOpen title="Confirmation" onClose={() => {}} />)
+  it('open=true → renders role="dialog"', () => {
+    render(<Modal open title="Confirmation" onClose={() => {}} />)
     expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
-  it('isOpen=true → dialog.open is true', () => {
-    render(<Modal isOpen title="Confirmation" onClose={() => {}} />)
+  it('open=true → dialog.open is true', () => {
+    render(<Modal open title="Confirmation" onClose={() => {}} />)
     // aria-modal is implicit with native showModal() — we test the open state
     expect(screen.getByRole('dialog').open).toBe(true)
   })
 
   it('title prop → text is visible', () => {
-    render(<Modal isOpen title="Confirmation" onClose={() => {}} />)
+    render(<Modal open title="Confirmation" onClose={() => {}} />)
     expect(screen.getByText('Confirmation')).toBeInTheDocument()
   })
 
   it('aria-labelledby points to the title element', () => {
-    render(<Modal isOpen title="Confirmation" onClose={() => {}} />)
+    render(<Modal open title="Confirmation" onClose={() => {}} />)
     const dialog = screen.getByRole('dialog')
     const labelId = dialog.getAttribute('aria-labelledby')
     const titleEl = document.getElementById(labelId)
@@ -46,7 +46,7 @@ describe('Modal', () => {
 
   it('children render inside', () => {
     render(
-      <Modal isOpen title="T" onClose={() => {}}>
+      <Modal open title="T" onClose={() => {}}>
         <p data-testid="body">Modal body</p>
       </Modal>
     )
@@ -55,14 +55,14 @@ describe('Modal', () => {
 
   it('Close button calls onClose', () => {
     const onClose = vi.fn()
-    render(<Modal isOpen title="Test" onClose={onClose} />)
+    render(<Modal open title="Test" onClose={onClose} />)
     fireEvent.click(screen.getByLabelText('Close'))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('Escape key calls onClose', () => {
     const onClose = vi.fn()
-    render(<Modal isOpen title="Test" onClose={onClose} />)
+    render(<Modal open title="Test" onClose={onClose} />)
     // Native dialog: ESC fires the cancel event on <dialog>, not keyDown on document
     fireEvent(screen.getByRole('dialog'), new Event('cancel', { bubbles: false, cancelable: true }))
     expect(onClose).toHaveBeenCalledTimes(1)
@@ -70,21 +70,21 @@ describe('Modal', () => {
 
   it('closeOnEscape=false → Escape does not call onClose', () => {
     const onClose = vi.fn()
-    render(<Modal isOpen title="Test" onClose={onClose} closeOnEscape={false} />)
+    render(<Modal open title="Test" onClose={onClose} closeOnEscape={false} />)
     fireEvent(screen.getByRole('dialog'), new Event('cancel', { bubbles: false, cancelable: true }))
     expect(onClose).not.toHaveBeenCalled()
   })
 
   it('clicking the backdrop calls onClose', () => {
     const onClose = vi.fn()
-    render(<Modal isOpen title="Test" onClose={onClose} />)
+    render(<Modal open title="Test" onClose={onClose} />)
     fireEvent.click(screen.getByRole('dialog'))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('clicking inside the panel does not call onClose', () => {
     const onClose = vi.fn()
-    render(<Modal isOpen title="Test" onClose={onClose} />)
+    render(<Modal open title="Test" onClose={onClose} />)
     // The panel calls stopPropagation — a click on the content does not reach the backdrop handler
     fireEvent.click(screen.getByRole('heading', { level: 2 }))
     expect(onClose).not.toHaveBeenCalled()
@@ -92,61 +92,61 @@ describe('Modal', () => {
 
   it('closeOnBackdrop=false → clicking the backdrop does not call onClose', () => {
     const onClose = vi.fn()
-    render(<Modal isOpen title="Test" onClose={onClose} closeOnBackdrop={false} />)
+    render(<Modal open title="Test" onClose={onClose} closeOnBackdrop={false} />)
     fireEvent.click(screen.getByRole('dialog'))
     expect(onClose).not.toHaveBeenCalled()
   })
 
-  it('isOpen=true → scroll lock is provided by the browser via the top layer', () => {
-    render(<Modal isOpen title="Test" onClose={() => {}} />)
+  it('open=true → scroll lock is provided by the browser via the top layer', () => {
+    render(<Modal open title="Test" onClose={() => {}} />)
     // Native <dialog> showModal() locks scroll at the browser level (top-layer),
     // not via document.body.style.overflow — we verify the open state
     expect(screen.getByRole('dialog').open).toBe(true)
   })
 
-  it('isOpen true→false → dialog closes', () => {
-    const { rerender } = render(<Modal isOpen title="Test" onClose={() => {}} />)
-    rerender(<Modal isOpen={false} title="Test" onClose={() => {}} />)
+  it('open true→false → dialog closes', () => {
+    const { rerender } = render(<Modal open title="Test" onClose={() => {}} />)
+    rerender(<Modal open={false} title="Test" onClose={() => {}} />)
     expect(HTMLDialogElement.prototype.close).toHaveBeenCalledTimes(1)
   })
 
   it('description prop → text is visible', () => {
-    render(<Modal isOpen title="T" description="Action description" onClose={() => {}} />)
+    render(<Modal open title="T" description="Action description" onClose={() => {}} />)
     expect(screen.getByText('Action description')).toBeInTheDocument()
   })
 
   it('footer prop → is rendered', () => {
-    render(<Modal isOpen title="T" onClose={() => {}} footer={<button>OK</button>} />)
+    render(<Modal open title="T" onClose={() => {}} footer={<button>OK</button>} />)
     expect(screen.getByText('OK')).toBeInTheDocument()
   })
 
   it('showCloseButton=false → no Close button', () => {
-    render(<Modal isOpen title="T" onClose={() => {}} showCloseButton={false} />)
+    render(<Modal open title="T" onClose={() => {}} showCloseButton={false} />)
     expect(screen.queryByLabelText('Close')).not.toBeInTheDocument()
   })
 
   it('size="sm" → renders without crashing', () => {
-    expect(() => render(<Modal isOpen title="T" onClose={() => {}} size="sm" />)).not.toThrow()
+    expect(() => render(<Modal open title="T" onClose={() => {}} size="sm" />)).not.toThrow()
   })
 
   it('size="lg" → renders without crashing', () => {
-    expect(() => render(<Modal isOpen title="T" onClose={() => {}} size="lg" />)).not.toThrow()
+    expect(() => render(<Modal open title="T" onClose={() => {}} size="lg" />)).not.toThrow()
   })
 
   it('variant="danger" → renders without crashing', () => {
-    expect(() => render(<Modal isOpen title="T" onClose={() => {}} variant="danger" />)).not.toThrow()
+    expect(() => render(<Modal open title="T" onClose={() => {}} variant="danger" />)).not.toThrow()
   })
 
   it('unknown variant → renders without crashing (fallback)', () => {
-    expect(() => render(<Modal isOpen title="T" onClose={() => {}} variant="unknown" />)).not.toThrow()
+    expect(() => render(<Modal open title="T" onClose={() => {}} variant="unknown" />)).not.toThrow()
   })
 
-  it('title=null, isOpen, onClose → renders without crashing', () => {
-    expect(() => render(<Modal isOpen title={null} onClose={() => {}} />)).not.toThrow()
+  it('title=null, open, onClose → renders without crashing', () => {
+    expect(() => render(<Modal open title={null} onClose={() => {}} />)).not.toThrow()
   })
 
-  it('children=null, isOpen, onClose → renders without crashing', () => {
-    expect(() => render(<Modal isOpen title="T" onClose={() => {}}>{null}</Modal>)).not.toThrow()
+  it('children=null, open, onClose → renders without crashing', () => {
+    expect(() => render(<Modal open title="T" onClose={() => {}}>{null}</Modal>)).not.toThrow()
   })
 })
 
