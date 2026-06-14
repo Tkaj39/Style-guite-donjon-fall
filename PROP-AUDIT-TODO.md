@@ -29,10 +29,7 @@ Audit scope: ~103 components (all default exports of `src/lib/tkajui/*.jsx` and
   - Radix / MUI / shadcn convention is `open`
   - **Breaking change** — but small footprint, one-shot rename
 
-- [ ] **#4 Add DonjonRadio/RadioGroup/Checkbox/CheckboxGroup**
-  - tkajui/Form.jsx exports 6: Field, Form, Radio, RadioGroup, Checkbox, CheckboxGroup
-  - donjon/DonjonForm.jsx exports 2: DonjonField, DonjonForm — **parity broken**
-  - Donjon* should mirror the full set
+- [x] **#4 Add DonjonRadio/RadioGroup/Checkbox/CheckboxGroup** ✓ already done — **audit miss.** Components live in `src/lib/donjon/DonjonChoiceControls.jsx` (380 lines, diamond aesthetic, 5-variant) and are exported from the barrel. The audit checked only `DonjonForm.jsx` and missed the sibling file. No action needed.
 
 ---
 
