@@ -1,26 +1,48 @@
 /**
  * Pictogram — donjon-fall-ui variant
  *
- * Overrides the visual style of the TkajUI Pictogram: game aesthetic, dark
- * background with a subtle octagonal clip, gold / fantasy color schemes.
+ * Three orthogonal axes:
  *
- * API parity with TkajUI Pictogram:
- *   The `color` prop overrides the variant palette — for drop-in compat with
- *   TkajUI, where `<Pictogram color="#FFC183" />` assigns the icon color
- *   directly. When `color` is passed, `variant` is ignored.
+ *   variant — semantic color preset ('active'|'passive'|'disabled'|'danger'|'success').
+ *             Drives icon color + (when framed) bg / border / glow as one bundle.
+ *   color   — icon color override. Wins over the variant's icon color in BOTH
+ *             modes. Does NOT affect bg / border / glow.
+ *   bare    — visual mode. true (default) = icon only. false = octagonal frame
+ *             with bg, border, and glow from the variant.
+ *
+ * Priority for the rendered icon color:
+ *   1. `color` prop (explicit override)
+ *   2. variant's color (semantic preset)
+ *
+ * Frame styling (bg / border / glow) comes solely from `variant` — `color`
+ * does not touch it. When `bare={true}`, none of bg / border / glow apply.
+ *
+ * Drop-in TkajUI compat: `<DonjonPictogram color="#FFC183" />` reproduces the
+ * tkajui-style "just a colored icon" call (bare default + color override).
  *
  * @param {React.ComponentType} icon      - SVG component from donjon/icons
  * @param {'sm'|'md'|'lg'|'xl'} size      - default 'md'
- * @param {string}              color     - icon color override (parity with TkajUI). When passed, overrides `variant`.
- * @param {'active'|'passive'|'disabled'|'danger'|'success'} variant - default 'active'
- * @param {boolean}             bare      - false = with octagonal frame and background (default: true = icon only)
+ * @param {string}              color     - icon color override. Beats variant's icon color. Does not affect frame styling.
+ * @param {'active'|'passive'|'disabled'|'danger'|'success'} variant - default 'active'. Picks the semantic color preset (+ frame palette when bare=false).
+ * @param {boolean}             bare      - default true (icon only). false adds the octagonal frame with bg / border / glow from the variant.
  * @param {string}              className
  * @param {object}              style
  *
  * @example
- * <DonjonPictogram icon={SwordIcon} size="lg" variant="active" />
- * <DonjonPictogram icon={ShieldIcon} size="sm" color="#FFC183" />  // TkajUI-style
- * <DonjonPictogram icon={ShieldIcon} size="sm" variant="passive" bare />
+ * // Just an icon in the active gold (default)
+ * <DonjonPictogram icon={SwordIcon} size="lg" />
+ *
+ * // Semantic color preset, still bare
+ * <DonjonPictogram icon={SwordIcon} size="lg" variant="danger" />
+ *
+ * // TkajUI-style explicit color override (bare)
+ * <DonjonPictogram icon={ShieldIcon} size="sm" color="#FFC183" />
+ *
+ * // Framed with the variant's full palette
+ * <DonjonPictogram icon={ShieldIcon} size="md" variant="success" bare={false} />
+ *
+ * // Framed (success bg / border / glow) with a custom icon color
+ * <DonjonPictogram icon={ShieldIcon} size="md" variant="success" color={gold} bare={false} />
  */
 
 import { octagon, octagonInner } from '../shared/octagon'
