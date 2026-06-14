@@ -45,10 +45,7 @@ Audit scope: ~103 components (all default exports of `src/lib/tkajui/*.jsx` and
 
 - [x] **#6 `Pictogram` vs `DonjonPictogram` — overlapping color controls** ✓ partial — JSDoc + componentMeta now document the three axes (variant = preset, color = icon-color override, bare = frame mode) with an explicit priority matrix. Kept all 3 props because the audit's "reduce to 2" proposal would change established semantics: `<DonjonPictogram variant="danger" />` currently renders a bare red icon (variant just picks color when bare) and consumers rely on that. A full reduction (e.g. dropping `bare` so `variant` always implies framed) would migrate every existing bare-with-variant call; deferred unless explicitly requested.
 
-- [ ] **#7 `aria-label` parity**
-  - DonjonModal has `'aria-label': ariaLabel`; Modal doesn't
-  - DonjonToggle + Toggle both have it ✓
-  - **Fix:** add `aria-label` to tkajui Modal — accessibility props need 1:1 parity
+- [x] **#7 `aria-label` parity** ✓ done — tkajui Modal now accepts `'aria-label'` and renders it on `<dialog>` when `title` is absent (mirrors DonjonModal). componentMeta updated for both. Added 2 axe + assertion tests to `tkajui/__tests__/accessibility.test.jsx` matching the donjon test pattern.
 
 ---
 
