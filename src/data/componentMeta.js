@@ -2481,7 +2481,7 @@ export const componentMeta = {
   /* ── Utility / Clip components ────────────────────────────────────── */
 
   'donjon-pictogram': {
-    description: 'Game variant of Pictogram — icon with a dark octagonal background and a gold / fantasy color palette. Five variants (active, passive, disabled, danger, success), four sizes, optional bare mode without a background. Drop-in compat with TkajUI Pictogram via the `color` prop.',
+    description: 'Game variant of Pictogram — icon with optional octagonal frame and a gold / fantasy palette. Three orthogonal axes: `variant` (semantic color preset, 5 values), `color` (icon color override, beats variant), `bare` (frame on/off; default bare). Drop-in compat with TkajUI Pictogram via the `color` prop.',
     subcategory: 'extends-tkajui',
     extendsSlug: 'pictogram',
     differencesFromBase: [
@@ -2494,9 +2494,9 @@ export const componentMeta = {
     props: [
       { name: 'icon',      type: 'React.ComponentType<{width, height}>', required: true,  description: 'SVG component from donjon/icons.' },
       { name: 'size',      type: enumType(DONJON_PICTOGRAM_SIZE_VALUES),                  required: false, default: "'md'",      description: 'Icon size (16 / 24 / 32 / 48 px).' },
-      { name: 'color',     type: 'string',                               required: false, description: 'Icon color override — parity with TkajUI Pictogram. When provided, overrides `variant`. CSS color (hex / rgb / token).' },
-      { name: 'variant',   type: enumType(DONJON_PICTOGRAM_VARIANT_VALUES), required: false, default: "'active'", description: 'Color variant — drives the icon color and background. Ignored when `color` is provided.' },
-      { name: 'bare',      type: 'boolean',                              required: false, default: 'true',      description: 'No background — just the icon with a game color. bare={false} adds an octagonal frame with a dark background.' },
+      { name: 'color',     type: 'string',                               required: false, description: 'Icon color override. Beats the variant\'s icon color (priority: color > variant.color). Does NOT affect bg / border / glow — those come from `variant` and only apply when `bare={false}`. CSS color (hex / rgb / token).' },
+      { name: 'variant',   type: enumType(DONJON_PICTOGRAM_VARIANT_VALUES), required: false, default: "'active'", description: 'Semantic color preset. Drives the icon color (fallback when `color` is absent) and — when `bare={false}` — the bg / border / glow palette as one bundle.' },
+      { name: 'bare',      type: 'boolean',                              required: false, default: 'true',      description: 'Visual mode. true (default) = icon only; variant contributes only the icon color. false = octagonal frame with bg / border / glow from `variant`. `color` overrides the icon color in either mode.' },
       { name: 'className', type: 'string',                               required: false, description: 'Tailwind classes on the wrapping span.' },
       { name: 'style',     type: 'CSSProperties',                        required: false, description: 'Inline styles on the wrapping span.' },
     ],
