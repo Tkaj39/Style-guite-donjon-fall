@@ -125,6 +125,9 @@ export default function DonjonBadge({
   size    = 'md',
   dot     = false,
   icon,
+  className,
+  style,
+  ...rest
 }) {
   const v = VARIANTS[variant] ?? VARIANTS.default
   const s = SIZES[size]       ?? SIZES.md
@@ -134,11 +137,14 @@ export default function DonjonBadge({
 
   return (
     <span
+      className={className}
       style={{
         display: 'inline-flex',
         alignSelf: 'flex-start',
         filter: v.glow ? `drop-shadow(0 0 4px ${v.glow}55)` : 'none',
+        ...style,
       }}
+      {...rest}
     >
       {/* Outer wrapper — border color */}
       <span

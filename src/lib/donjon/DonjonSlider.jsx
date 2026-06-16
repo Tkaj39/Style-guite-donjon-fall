@@ -99,6 +99,9 @@ export default function DonjonSlider({
   formatValue,
   ticks,                       // number or array — visual markers on the track
   thumbShape   = 'diamond',    // 'diamond' | 'circle' | 'octagon'
+  className,
+  style,
+  ...rest
 }) {
   const v    = VARIANTS[variant] ?? VARIANTS.default
   const s    = SIZES[size] ?? SIZES.md
@@ -107,7 +110,7 @@ export default function DonjonSlider({
   const tickValues = resolveTicks(ticks, min, max)
 
   return (
-    <div style={{ width: '100%', opacity: disabled ? 0.45 : 1 }}>
+    <div className={className} style={{ width: '100%', opacity: disabled ? 0.45 : 1, ...style }} {...rest}>
 
       {/* Label row */}
       {(label || showValue) && (

@@ -67,7 +67,7 @@ const PADDING = { sm: 5, md: 7, lg: 10, xl: 14 }
 // cx for the octagonal clip (30 % of padding → corner rounding)
 const CX = { sm: 3, md: 4, lg: 5, xl: 7 }
 
-export default function DonjonPictogram({ icon: Icon, size = 'md', color, variant = 'active', bare = true, className, style = {} }) {
+export default function DonjonPictogram({ icon: Icon, size = 'md', color, variant = 'active', bare = true, className, style = {}, ...rest }) {
   const px  = SIZES[size]  ?? SIZES.md
   const pad = PADDING[size] ?? PADDING.md
   const cx  = CX[size] ?? CX.md
@@ -82,6 +82,7 @@ export default function DonjonPictogram({ icon: Icon, size = 'md', color, varian
       <span
         className={className}
         style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: iconColor, ...style }}
+        {...rest}
       >
         <Icon width={px} height={px} />
       </span>
@@ -108,6 +109,7 @@ export default function DonjonPictogram({ icon: Icon, size = 'md', color, varian
         color: iconColor,
         ...style,
       }}
+      {...rest}
     >
       <span style={{
         position: 'absolute',
