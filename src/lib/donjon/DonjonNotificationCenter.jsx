@@ -134,6 +134,9 @@ export default function DonjonNotificationCenter({
   position   = 'bottom-right',
   ornament   = 'decorated', // 'plain' | 'decorated'
   onClear,
+  className,
+  style,
+  ...rest
 }) {
   const hasOrnaments = ornament === 'decorated'
   const [open, setOpen]   = useState(false)
@@ -162,14 +165,19 @@ export default function DonjonNotificationCenter({
   }, [open, events.length])
 
   return createPortal(
-    <div style={{
-      position:  'fixed',
-      zIndex:    Z_NOTIF_CENTER,
-      display:   'flex',
-      flexDirection: 'column',
-      alignItems,
-      ...anchorPos,
-    }}>
+    <div
+      className={className}
+      style={{
+        position:  'fixed',
+        zIndex:    Z_NOTIF_CENTER,
+        display:   'flex',
+        flexDirection: 'column',
+        alignItems,
+        ...anchorPos,
+        ...style,
+      }}
+      {...rest}
+    >
 
       {/* ── Panel ── */}
       <GameTransition show={open} preset={panelPreset} duration={240}>

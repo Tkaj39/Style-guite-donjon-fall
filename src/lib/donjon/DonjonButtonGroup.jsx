@@ -18,6 +18,9 @@ export default function DonjonButtonGroup({
   items = [],
   value,
   onChange,
+  className,
+  style,
+  ...rest
 }) {
   const s = sizeMap[size] ?? sizeMap.md
   const ORN_BASES = { decorated: 24, zkosen: 22, roh: 25 }
@@ -38,13 +41,16 @@ export default function DonjonButtonGroup({
   ─────────────────────────────────────────────────────────────────────── */
   const groupInner = (
     <div
+      className={hasOrnaments ? className : undefined}
       style={{
         display: 'inline-flex',
         alignItems: 'center',
         gap: 0,
         ...(hasOrnaments ? {} : { clipPath: octagon(s.cx) }),
+        ...(hasOrnaments ? style : undefined),
       }}
       role="group"
+      {...(hasOrnaments ? rest : {})}
     >
       {safeItems.map((item, i) => {
         const isActive = item.value === value
@@ -146,14 +152,19 @@ export default function DonjonButtonGroup({
 
   if (!hasOrnaments) {
     return (
-      <div style={{
-        display: 'inline-flex',
-        alignSelf: 'flex-start',
-        clipPath: octagon(s.cx),
-        background: VARIANT_BORDER.default,
-        padding: 1,
-        boxSizing: 'border-box',
-      }}>
+      <div
+        className={className}
+        style={{
+          display: 'inline-flex',
+          alignSelf: 'flex-start',
+          clipPath: octagon(s.cx),
+          background: VARIANT_BORDER.default,
+          padding: 1,
+          boxSizing: 'border-box',
+          ...style,
+        }}
+        {...rest}
+      >
         {groupInner}
       </div>
     )

@@ -41,6 +41,7 @@ export default function DonjonProgressBar({
   indeterminate = false,
   style,
   className,
+  ...rest
 }) {
   const v   = VARIANTS[variant] ?? VARIANTS.default
   const s   = SIZES[size]       ?? SIZES.md
@@ -51,7 +52,7 @@ export default function DonjonProgressBar({
   const displayLabel = label ?? v.label
 
   return (
-    <div style={{ width: '100%', ...style }} className={className}>
+    <div style={{ width: '100%', ...style }} className={className} {...rest}>
 
       {/* Header */}
       {(displayLabel || showValue) && (
