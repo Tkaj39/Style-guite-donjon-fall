@@ -440,7 +440,7 @@ const MINI_PREVIEWS = {
   // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   pictogram: <Pictogram icon={SwordIcon} size="lg" color="#d9b46b" />,
   // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-  'scoop-clip': <ScoopClip r={0.18} style={{ width: 84, height: 38, background: '#191922', border: '1px solid #34343c' }} />,
+  'scoop-clip': <ScoopClip cornerSize={0.18} style={{ width: 84, height: 38, background: '#191922', border: '1px solid #34343c' }} />,
   // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   'notched-box': <NotchedBox style={{ width: 92, height: 42, background: '#17171f', border: '1px solid #30303a' }}><NotchedBox.Slot><span className="text-[9px] text-neutral-400">VP</span></NotchedBox.Slot></NotchedBox>,
   'corner-ornament': <div className="relative h-12 w-16 rounded border border-neutral-700 bg-neutral-900"><div className="absolute left-1 top-1 h-2.5 w-2.5 rounded-sm border border-amber-700/50" /></div>,

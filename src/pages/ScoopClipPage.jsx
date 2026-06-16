@@ -113,7 +113,7 @@ function InteractiveDemo() {
   const col = COLOR_OPTIONS[colorIdx]
 
   const snippet = `<ScoopClip
-  r={${r}}
+  cornerSize={${r}}
   borderColor="${col.value}44"
   style={{
     height: ${height},
@@ -195,7 +195,7 @@ function InteractiveDemo() {
             {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
             <span style={{ fontSize: '0.5rem', color: '#3a3848', fontFamily: 'monospace', width: 36, textAlign: 'right', flexShrink: 0 }}>{w}px</span>
             <ScoopClip
-              r={r}
+              cornerSize={r}
               borderColor={`${col.value}44`}
               style={{
                 width: w,
@@ -208,7 +208,7 @@ function InteractiveDemo() {
               }}
             >
               <span style={{ fontSize: '0.6875rem', color: col.value, fontFamily: 'monospace' }}>
-                r={r.toFixed(2)}
+                cornerSize={r.toFixed(2)}
               </span>
             </ScoopClip>
           </div>
@@ -291,7 +291,7 @@ export default function ScoopClipPage() {
                   >
                     <span style={{ fontSize: '0.6875rem', color: goldDim, fontFamily: 'monospace' }}>size="{size}"</span>
                   </ScoopClip>
-                  <p style={nano}>{size} · r={r}px</p>
+                  <p style={nano}>{size} · cornerSize={r}px</p>
                 </div>
               ))}
             </div>
@@ -372,14 +372,14 @@ clipPath: octagon(16)                    // octagon utility
             </p>
             <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'flex-end' }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <ScoopClip shape="bezier" r={16/64} borderColor={gold} borderWidth={1}
+                <ScoopClip shape="bezier" cornerSize={16/64} borderColor={gold} borderWidth={1}
                   style={{ width: 210, height: 64, background: bgDeep }} />
-                <p style={nano}>bezier · r=0.25</p>
+                <p style={nano}>bezier · cornerSize=0.25</p>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <ScoopClip shape="circle" r={16} borderColor={gold} borderWidth={1}
+                <ScoopClip shape="circle" cornerSize={16} borderColor={gold} borderWidth={1}
                   style={{ width: 210, height: 64, background: bgDeep }} />
-                <p style={nano}>circle · r=16px</p>
+                <p style={nano}>circle · cornerSize=16px</p>
               </div>
             </div>
             <p style={{ ...nano, marginTop: 10, color: textFaint, fontSize: '0.6875rem' }}>
@@ -414,7 +414,7 @@ clipPath: octagon(16)                    // octagon utility
               {[0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40].map(r => (
                 <div key={r} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <ScoopClip
-                    shape="bezier" r={r}
+                    shape="bezier" cornerSize={r}
                     borderColor={`${goldDim}44`}
                     style={{
                       width: 110, height: 52,
@@ -438,7 +438,7 @@ clipPath: octagon(16)                    // octagon utility
               {[5, 8, 11, 13, 16, 18, 21].map(r => (
                 <div key={r} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <ScoopClip
-                    shape="circle" r={r}
+                    shape="circle" cornerSize={r}
                     borderColor={`${goldDim}44`}
                     style={{
                       width: 110, height: 52,
@@ -473,7 +473,7 @@ clipPath: octagon(16)                    // octagon utility
               <div key={w} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span style={{ fontSize: '0.5rem', color: textFaint, fontFamily: 'monospace', width: 36, textAlign: 'right', flexShrink: 0 }}>{w}px</span>
                 <ScoopClip
-                  shape="bezier" r={0.25}
+                  shape="bezier" cornerSize={0.25}
                   borderColor={`${goldDim}33`}
                   style={{
                     width: w,
@@ -497,7 +497,7 @@ clipPath: octagon(16)                    // octagon utility
               <div key={w} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span style={{ fontSize: '0.5rem', color: textFaint, fontFamily: 'monospace', width: 36, textAlign: 'right', flexShrink: 0 }}>{w}px</span>
                 <ScoopClip
-                  shape="circle" r={11}
+                  shape="circle" cornerSize={11}
                   borderColor={`${goldDim}33`}
                   style={{
                     width: w,
@@ -535,7 +535,7 @@ clipPath: octagon(16)                    // octagon utility
             ].map(({ color, label }) => (
               <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <ScoopClip
-                  r={0.25}
+                  cornerSize={0.25}
                   borderColor={`${color}55`}
                   style={{
                     width: 120,
@@ -567,7 +567,7 @@ clipPath: octagon(16)                    // octagon utility
             {/* Tlačítko */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
               <ScoopClip
-                r={0.28}
+                cornerSize={0.28}
                 borderColor={`${goldDim}66`}
                 style={{
                   height: 40,
@@ -585,7 +585,7 @@ clipPath: octagon(16)                    // octagon utility
             {/* Badge / label */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
               <ScoopClip
-                r={0.35}
+                cornerSize={0.35}
                 borderColor={`${successColor}44`}
                 style={{
                   height: 24,
@@ -603,7 +603,7 @@ clipPath: octagon(16)                    // octagon utility
             {/* Panel / karta */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
               <ScoopClip
-                r={0.08}
+                cornerSize={0.08}
                 borderColor={borderDefault}
                 style={{
                   width: 180,
@@ -637,7 +637,7 @@ clipPath: octagon(16)                    // octagon utility
                     <span style={{ fontSize: '0.5625rem', color: textFaint, fontFamily: 'monospace', width: 28 }}>{label}</span>
                     <div style={{ flex: 1, height: 16, position: 'relative', background: bg2, border: `1px solid ${borderDefault}`, borderRadius: 2, overflow: 'hidden' }}>
                       <ScoopClip
-                        r={0.30}
+                        cornerSize={0.30}
                         style={{
                           position: 'absolute', top: 0, left: 0,
                           width: `${pct}%`, height: '100%',
@@ -678,7 +678,7 @@ clipPath: octagon(16)                    // octagon utility
 
 // ── Základní použití ──
 <ScoopClip
-  r={0.25}
+  cornerSize={0.25}
   borderColor="#FFC18344"   // border sleduje scoop tvar — nepoužívej CSS border
   style={{
     height: 52,
@@ -752,10 +752,10 @@ clipPath: octagon(16)                    // octagon utility
                 background: bg3, border: 'none',
               }}>
                 <div style={{ padding: 16, color: textHigh, fontSize: '0.875rem' }}>Decorated</div>
-                <ScoopOrnament r={18} corner="tl" bgFill={bg3} />
-                <ScoopOrnament r={18} corner="tr" bgFill={bg3} />
-                <ScoopOrnament r={18} corner="bl" bgFill={bg3} />
-                <ScoopOrnament r={18} corner="br" bgFill={bg3} />
+                <ScoopOrnament cornerSize={18} corner="tl" bgFill={bg3} />
+                <ScoopOrnament cornerSize={18} corner="tr" bgFill={bg3} />
+                <ScoopOrnament cornerSize={18} corner="bl" bgFill={bg3} />
+                <ScoopOrnament cornerSize={18} corner="br" bgFill={bg3} />
               </ScoopClip>
             </div>
           </div>
@@ -768,10 +768,10 @@ clipPath: octagon(16)                    // octagon utility
                 background: bg3, border: 'none',
               }}>
                 <div style={{ padding: 16, color: textHigh, fontSize: '0.875rem' }}>Danger</div>
-                <ScoopOrnament r={18} corner="tl" color={dangerColor} bgFill={bg3} />
-                <ScoopOrnament r={18} corner="tr" color={dangerColor} bgFill={bg3} />
-                <ScoopOrnament r={18} corner="bl" color={dangerColor} bgFill={bg3} />
-                <ScoopOrnament r={18} corner="br" color={dangerColor} bgFill={bg3} />
+                <ScoopOrnament cornerSize={18} corner="tl" color={dangerColor} bgFill={bg3} />
+                <ScoopOrnament cornerSize={18} corner="tr" color={dangerColor} bgFill={bg3} />
+                <ScoopOrnament cornerSize={18} corner="bl" color={dangerColor} bgFill={bg3} />
+                <ScoopOrnament cornerSize={18} corner="br" color={dangerColor} bgFill={bg3} />
               </ScoopClip>
             </div>
           </div>
@@ -789,10 +789,10 @@ clipPath: octagon(16)                    // octagon utility
                     background: bg3, border: 'none',
                   }}>
                     <div />
-                    <ScoopOrnament r={r} corner="tl" bgFill={bg3} />
-                    <ScoopOrnament r={r} corner="tr" bgFill={bg3} />
-                    <ScoopOrnament r={r} corner="bl" bgFill={bg3} />
-                    <ScoopOrnament r={r} corner="br" bgFill={bg3} />
+                    <ScoopOrnament cornerSize={r} corner="tl" bgFill={bg3} />
+                    <ScoopOrnament cornerSize={r} corner="tr" bgFill={bg3} />
+                    <ScoopOrnament cornerSize={r} corner="bl" bgFill={bg3} />
+                    <ScoopOrnament cornerSize={r} corner="br" bgFill={bg3} />
                   </ScoopClip>
                 </div>
                 <span style={{ fontSize: '0.6875rem', color: textLow, fontFamily: 'ui-monospace, monospace' }}>r={r}</span>
@@ -813,8 +813,8 @@ clipPath: octagon(16)                    // octagon utility
               <div style={{ padding: '14px 24px', color: gold, fontSize: '0.875rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                 ⚔ Bitva u Mostu
               </div>
-              <ScoopOrnament r={20} corner="tl" bgFill={bg4} />
-              <ScoopOrnament r={20} corner="tr" bgFill={bg4} />
+              <ScoopOrnament cornerSize={20} corner="tl" bgFill={bg4} />
+              <ScoopOrnament cornerSize={20} corner="tr" bgFill={bg4} />
             </ScoopClip>
           </div>
         </div>
@@ -827,18 +827,18 @@ import { ScoopOrnament } from 'donjon-fall-ui'
   <div>Tvůj obsah</div>
 
   {/* 4 rohy — bgFill = barva podkladu (matchne pozadí karty pro splývající diamond) */}
-  <ScoopOrnament r={18} corner="tl" bgFill={bg3} />
-  <ScoopOrnament r={18} corner="tr" bgFill={bg3} />
-  <ScoopOrnament r={18} corner="bl" bgFill={bg3} />
-  <ScoopOrnament r={18} corner="br" bgFill={bg3} />
+  <ScoopOrnament cornerSize={18} corner="tl" bgFill={bg3} />
+  <ScoopOrnament cornerSize={18} corner="tr" bgFill={bg3} />
+  <ScoopOrnament cornerSize={18} corner="bl" bgFill={bg3} />
+  <ScoopOrnament cornerSize={18} corner="br" bgFill={bg3} />
 </ScoopClip>
 
 {/* Varianty barvy */}
-<ScoopOrnament r={20} corner="tl" color={dangerColor} bgFill={bg3} />
+<ScoopOrnament cornerSize={20} corner="tl" color={dangerColor} bgFill={bg3} />
 
 {/* Jen horní rohy — hlavička panelu */}
-<ScoopOrnament r={20} corner="tl" />
-<ScoopOrnament r={20} corner="tr" />`} />
+<ScoopOrnament cornerSize={20} corner="tl" />
+<ScoopOrnament cornerSize={20} corner="tr" />`} />
       </Section>
 
       {/* ── Props ── */}

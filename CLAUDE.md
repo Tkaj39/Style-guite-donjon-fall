@@ -230,6 +230,15 @@ selBgMagic   = '#2F2544'
 - `createToastContext()` from `../../utils/toastContext` — used by both Toast variants
 - `useModalPageInert(isOpen)` from `../../hooks/useModalPageInert` — for open dialogs
 
+### Prop defaults — `bordered` and `dividers`
+
+- **`bordered = true`** universally. Every component with this prop defaults to bordered: Accordion, Avatar, HUDLayout, List, SidebarLayout, StickyBar, Table, Timeline, DonjonForm. Bordered is the design-system default; explicit `bordered={false}` opts out for embedded contexts.
+- **`dividers` depends on category**:
+  - `true` on **list-style** components — List/DonjonList, NotchMenu/DonjonNotchMenu. Sequential rows where the divider helps the eye separate items.
+  - `false` on **group/sparse** components — ButtonGroup/DonjonButtonGroup, DescriptionList/DonjonDescriptionList. Dividers would visually fragment the compact layout.
+
+  tkajui ↔ donjon are paired 1:1 on every default.
+
 ---
 
 ## Adding a new component — checklist

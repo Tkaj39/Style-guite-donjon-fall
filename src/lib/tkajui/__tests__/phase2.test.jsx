@@ -218,7 +218,13 @@ describe('ScoopClip', () => {
     expect(cp).toHaveAttribute('clipPathUnits', 'objectBoundingBox')
   })
 
-  it('r=0.25 → path data contains 0.25', () => {
+  it('cornerSize=0.25 → path data contains 0.25', () => {
+    const { container } = render(<ScoopClip cornerSize={0.25}><span>x</span></ScoopClip>)
+    const path = container.querySelector('clipPath path')
+    expect(path.getAttribute('d')).toContain('0.25')
+  })
+
+  it('deprecated r alias still applies (backward compat)', () => {
     const { container } = render(<ScoopClip r={0.25}><span>x</span></ScoopClip>)
     const path = container.querySelector('clipPath path')
     expect(path.getAttribute('d')).toContain('0.25')
@@ -247,12 +253,12 @@ describe('ScoopClip', () => {
     expect(container.querySelector('div')).toHaveClass('custom')
   })
 
-  it('r=0 → does not crash', () => {
-    expect(() => render(<ScoopClip r={0}><span>x</span></ScoopClip>)).not.toThrow()
+  it('cornerSize=0 → does not crash', () => {
+    expect(() => render(<ScoopClip cornerSize={0}><span>x</span></ScoopClip>)).not.toThrow()
   })
 
-  it('r=0.5 → does not crash (boundary value)', () => {
-    expect(() => render(<ScoopClip r={0.5}><span>x</span></ScoopClip>)).not.toThrow()
+  it('cornerSize=0.5 → does not crash (boundary value)', () => {
+    expect(() => render(<ScoopClip cornerSize={0.5}><span>x</span></ScoopClip>)).not.toThrow()
   })
 })
 

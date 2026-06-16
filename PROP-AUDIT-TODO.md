@@ -49,9 +49,16 @@ Audit scope: ~103 components (all default exports of `src/lib/tkajui/*.jsx` and
 
 ## 🟢 Nits
 
-- [ ] `bordered` defaults disagree — pick a convention (`true` by default = decorated)
-- [ ] `ScoopClip.r` is `DEPRECATED` — plan removal milestone
-- [ ] Several Donjon* lack `...rest` → can't attach native refs/handlers to the root
+- [x] **`bordered` defaults** ✓ already consistent — audit miss. All 12 components with a `bordered` prop default to `true` (Accordion/DonjonAccordion, List/DonjonList, Table/DonjonTable, Avatar, HUDLayout, Timeline, SidebarLayout, StickyBar, DonjonForm). No change needed.
+
+- [x] **`dividers` defaults** ✓ principled, documented — what the audit actually meant. `dividers` splits:
+  - `true`: List/DonjonList, NotchMenu/DonjonNotchMenu (sequential rows where separation helps reading)
+  - `false`: ButtonGroup/DonjonButtonGroup, DescriptionList/DonjonDescriptionList (compact / sparse layouts where dividers would visually fragment)
+
+  tkajui ↔ donjon are paired 1:1 on every default. The convention is now noted in CLAUDE.md.
+
+- [x] **`ScoopClip.r` is `DEPRECATED`** ✓ done — added a dev-mode `console.warn` when `r` is passed (guarded by `import.meta.env.PROD`), migrated all 4 internal callsites to `cornerSize` (ComponentsPage, ScoopClipPage x2, ShapesPage CodeBlock + textual hint). The `r` alias stays accepted for one more release cycle; remove in the next major.
+- [x] **Several Donjon* lack `...rest`** ✓ done (commit `c135f53`) — DonjonBadge, DonjonButtonGroup, DonjonNotificationCenter, DonjonPictogram, DonjonProgressBar, DonjonSlider now forward `className/style/...rest`. DonjonToast (factory wrapper, no visual root) intentionally skipped.
 
 ---
 
