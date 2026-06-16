@@ -913,7 +913,7 @@ import ScoopClip from '../lib/tkajui/ScoopClip'
 
 // ── Scoop (B) — ScoopClip, pseudo-responsive ──
 // Vhodné pro pevnou výšku + proměnnou šířku
-<ScoopClip r={0.25} style={{ height: 52, padding: '0 18px', background: '#1E1C3A' }}>
+<ScoopClip cornerSize={0.25} style={{ height: 52, padding: '0 18px', background: '#1E1C3A' }}>
   Obsah
 </ScoopClip>
 
@@ -936,7 +936,7 @@ import ScoopClip from '../lib/tkajui/ScoopClip'
             {[100, 160, 240].map(w => (
               <ScoopClip
                 key={w}
-                r={0.25}
+                cornerSize={0.25}
                 // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
                 borderColor="#40A05540"
                 style={{
@@ -946,7 +946,7 @@ import ScoopClip from '../lib/tkajui/ScoopClip'
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}
               >
-                <span style={{ fontSize: '0.75rem', color: successColor, fontFamily: inter }}>w={w}px · r=0.25</span>
+                <span style={{ fontSize: '0.75rem', color: successColor, fontFamily: inter }}>w={w}px · cornerSize=0.25</span>
               </ScoopClip>
             ))}
           </div>
@@ -956,7 +956,7 @@ import ScoopClip from '../lib/tkajui/ScoopClip'
 import ScoopClip from '../lib/tkajui/ScoopClip'
 
 <ScoopClip
-  r={0.25}        // relativní hloubka 0–1 (doporučeno 0.20–0.28)
+  cornerSize={0.25}  // relativní hloubka 0–1 (doporučeno 0.20–0.28)
   style={{        // předáno na vnitřní div
     height: 52,
     padding: '0 18px',
@@ -1013,7 +1013,7 @@ import ScoopClip from '../lib/tkajui/ScoopClip'
           <p>✓ Cut je výchozí varianta pro Donjon Fall — geometrický herní charakter.</p>
           <p>✓ Round a Pill jsou responsive (inset round) — fungují s libovolnou šířkou.</p>
           <p>✓ Scoop s pevnými rozměry: element musí mít přesně w×h — scoopPath(w, h, r).</p>
-          <p>✓ Scoop s variabilní šířkou: použij ScoopClip s r=0.25 — objectBoundingBox přístup.</p>
+          <p>✓ Scoop s variabilní šířkou: použij ScoopClip s cornerSize=0.25 — objectBoundingBox přístup.</p>
           <p>✓ Corner ornaments: vždy 4× — TL, TR, BL, BR pomocí CSS transform (scaleX/scaleY/-1).</p>
           <p>✓ Ornament color: <code className="text-neutral-300">goldDim</code> (gold-dark) pro výchozí, player color pro herní kontexty.</p>
           <p>✗ Nikdy nepoužívej <code className="text-neutral-300">border-radius</code> a <code className="text-neutral-300">clip-path</code> zároveň — clip-path vždy vyhraje.</p>

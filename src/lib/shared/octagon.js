@@ -104,7 +104,7 @@ export function scoopPath(w, h, r) {
  * Pseudo-responzivní: souřadnice jsou 0–1 relativně k elementu.
  * Funguje dobře pro konstantní poměr stran; při výrazné změně šířky se prohnutí mírně deformuje.
  *
- * Použití: přidej <ScoopClipDef id="my-scoop" r={0.2} /> do SVG defs,
+ * Použití: přidej <ScoopClipDef id="my-scoop" cornerSize={0.2} /> do SVG defs,
  *          pak style={{ clipPath: 'url(#my-scoop)' }} na elementu.
  *
  * @param {number} r  relativní hloubka scoopnutí (0–1, doporučeno 0.18–0.28)

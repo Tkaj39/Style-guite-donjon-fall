@@ -41,7 +41,7 @@ export default function ScoopClip({
   shape = 'bezier',
   size,
   cornerSize,
-  r,                 // DEPRECATED — use cornerSize
+  r,                 // DEPRECATED — use cornerSize. Will be removed in the next major.
   children,
   style = {},
   className,
@@ -52,6 +52,11 @@ export default function ScoopClip({
   const clipId = `scoop-${id}`
 
   // Backward compat: cornerSize wins, then the r alias
+  if (r !== undefined && !import.meta.env.PROD) {
+    console.warn(
+      "[ScoopClip] The 'r' prop is deprecated and will be removed in the next major release. Use 'cornerSize' instead — same value, clearer name."
+    )
+  }
   const explicitSize = cornerSize ?? r
 
   const isCircle = shape === 'circle'

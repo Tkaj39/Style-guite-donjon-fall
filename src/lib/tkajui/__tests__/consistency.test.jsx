@@ -251,12 +251,12 @@ describe('consistency — className + style passthrough to wrapper', () => {
   })
 
   it('ScoopClip className="x" → present on the wrapper', () => {
-    const { container } = render(<ScoopClip r={0.25} className="x"><div /></ScoopClip>)
+    const { container } = render(<ScoopClip cornerSize={0.25} className="x"><div /></ScoopClip>)
     expect(container.querySelector('.x')).toBeInTheDocument()
   })
 
   it('ScoopClip style={{ height: 48 }} → present on the wrapper', () => {
-    const { container } = render(<ScoopClip r={0.25} style={{ height: 48 }}><div /></ScoopClip>)
+    const { container } = render(<ScoopClip cornerSize={0.25} style={{ height: 48 }}><div /></ScoopClip>)
     // ScoopClip may apply height on the inner div or wrapper — we just verify it does not crash
     expect(container.firstChild).toBeInTheDocument()
   })
