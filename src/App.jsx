@@ -56,7 +56,6 @@ const MotionPage           = lazy(() => import('./pages/MotionPage'))
 const InteractionStatesPage = lazy(() => import('./pages/InteractionStatesPage'))
 const ZIndexPage           = lazy(() => import('./pages/ZIndexPage'))
 const AccessibilityPage    = lazy(() => import('./pages/AccessibilityPage'))
-const ContrastLabPage      = lazy(() => import('./pages/ContrastLabPage'))
 const FeedbackHierarchyPage = lazy(() => import('./pages/FeedbackHierarchyPage'))
 const ErrorStatesPage      = lazy(() => import('./pages/ErrorStatesPage'))
 const EmptyStatesPage      = lazy(() => import('./pages/EmptyStatesPage'))
@@ -158,7 +157,6 @@ export default function App() {
         <Route path="interaction-states" element={<S><InteractionStatesPage /></S>} />
         <Route path="z-index"            element={<S><ZIndexPage /></S>} />
         <Route path="accessibility"      element={<S><AccessibilityPage /></S>} />
-        <Route path="contrast-lab"       element={<S><ContrastLabPage /></S>} />
         <Route path="feedback-hierarchy" element={<S><FeedbackHierarchyPage /></S>} />
         <Route path="error-states"       element={<S><ErrorStatesPage /></S>} />
         <Route path="empty-states"       element={<S><EmptyStatesPage /></S>} />
