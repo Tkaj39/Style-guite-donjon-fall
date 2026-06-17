@@ -1,6 +1,7 @@
 import { textFaint, textParchment, gold, goldDim, bg4, bgDeep, borderMuted } from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DonjonCard from '../lib/donjon/DonjonCard'
+import { octagon, octagonInner } from '../lib/shared/octagon'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
 import { players } from '../data/gameUiMockData'
@@ -200,6 +201,7 @@ function SettingsModal({ activeTab = 'zvuk', size = 'desktop' }) {
   const isTablet  = size === 'tablet'
 
   const modalW = isDesktop ? 420 : isTablet ? 320 : 190
+  const cx     = isDesktop ? 12 : isTablet ? 10 : 8  // octagon chamfer scales with modal size
   const tabs   = ['zvuk', 'jazyk', 'ovladani', 'grafika']
 
   const headerFs = isDesktop ? '0.5625rem' : isTablet ? '0.5rem' : '0.4375rem'
@@ -212,13 +214,21 @@ function SettingsModal({ activeTab = 'zvuk', size = 'desktop' }) {
   const TabContent = TAB_COMPONENTS[activeTab]
 
   return (
+    /* Donjon octagonal modal shell — border-trick:
+       outer wrapper = gold border color + octagon clip,
+       inner wrapper = panel fill + octagon-inner clip, 1px padding = border width. */
     <div style={{
       width: modalW,
+      clipPath: octagon(cx),
+      background: `${goldDim}99`,
+      padding: 1,
+      boxShadow: '0 20px 60px #00000099',
+      filter: `drop-shadow(0 0 1px ${goldDim}66)`,
+    }}>
+    <div style={{
+      clipPath: octagonInner(cx),
       // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       background: '#1C1A2E',
-      border: `1px solid ${borderMuted}`,
-      borderRadius: 6,
-      boxShadow: '0 20px 60px #00000099',
       display: 'flex', flexDirection: 'column',
       overflow: 'hidden',
     }}>
@@ -280,6 +290,7 @@ function SettingsModal({ activeTab = 'zvuk', size = 'desktop' }) {
           background: '#2A2020', boxShadow: '0 0 6px #FFC18322',
         }}>Uložit →</div>
       </div>
+    </div>
     </div>
   )
 }
