@@ -752,10 +752,10 @@ clipPath: octagon(16)                    // octagon utility
                 background: bg3, border: 'none',
               }}>
                 <div style={{ padding: 16, color: textHigh, fontSize: '0.875rem' }}>Decorated</div>
-                <ScoopOrnament cornerSize={18} corner="tl" bgFill={bg3} />
-                <ScoopOrnament cornerSize={18} corner="tr" bgFill={bg3} />
-                <ScoopOrnament cornerSize={18} corner="bl" bgFill={bg3} />
-                <ScoopOrnament cornerSize={18} corner="br" bgFill={bg3} />
+                <ScoopOrnament r={18} corner="tl" bgFill={bg3} />
+                <ScoopOrnament r={18} corner="tr" bgFill={bg3} />
+                <ScoopOrnament r={18} corner="bl" bgFill={bg3} />
+                <ScoopOrnament r={18} corner="br" bgFill={bg3} />
               </ScoopClip>
             </div>
           </div>
@@ -768,10 +768,10 @@ clipPath: octagon(16)                    // octagon utility
                 background: bg3, border: 'none',
               }}>
                 <div style={{ padding: 16, color: textHigh, fontSize: '0.875rem' }}>Danger</div>
-                <ScoopOrnament cornerSize={18} corner="tl" color={dangerColor} bgFill={bg3} />
-                <ScoopOrnament cornerSize={18} corner="tr" color={dangerColor} bgFill={bg3} />
-                <ScoopOrnament cornerSize={18} corner="bl" color={dangerColor} bgFill={bg3} />
-                <ScoopOrnament cornerSize={18} corner="br" color={dangerColor} bgFill={bg3} />
+                <ScoopOrnament r={18} corner="tl" color={dangerColor} bgFill={bg3} />
+                <ScoopOrnament r={18} corner="tr" color={dangerColor} bgFill={bg3} />
+                <ScoopOrnament r={18} corner="bl" color={dangerColor} bgFill={bg3} />
+                <ScoopOrnament r={18} corner="br" color={dangerColor} bgFill={bg3} />
               </ScoopClip>
             </div>
           </div>
@@ -789,10 +789,10 @@ clipPath: octagon(16)                    // octagon utility
                     background: bg3, border: 'none',
                   }}>
                     <div />
-                    <ScoopOrnament cornerSize={r} corner="tl" bgFill={bg3} />
-                    <ScoopOrnament cornerSize={r} corner="tr" bgFill={bg3} />
-                    <ScoopOrnament cornerSize={r} corner="bl" bgFill={bg3} />
-                    <ScoopOrnament cornerSize={r} corner="br" bgFill={bg3} />
+                    <ScoopOrnament r={r} corner="tl" bgFill={bg3} />
+                    <ScoopOrnament r={r} corner="tr" bgFill={bg3} />
+                    <ScoopOrnament r={r} corner="bl" bgFill={bg3} />
+                    <ScoopOrnament r={r} corner="br" bgFill={bg3} />
                   </ScoopClip>
                 </div>
                 <span style={{ fontSize: '0.6875rem', color: textLow, fontFamily: 'ui-monospace, monospace' }}>r={r}</span>
@@ -813,8 +813,8 @@ clipPath: octagon(16)                    // octagon utility
               <div style={{ padding: '14px 24px', color: gold, fontSize: '0.875rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                 ⚔ Bitva u Mostu
               </div>
-              <ScoopOrnament cornerSize={20} corner="tl" bgFill={bg4} />
-              <ScoopOrnament cornerSize={20} corner="tr" bgFill={bg4} />
+              <ScoopOrnament r={20} corner="tl" bgFill={bg4} />
+              <ScoopOrnament r={20} corner="tr" bgFill={bg4} />
             </ScoopClip>
           </div>
         </div>
@@ -827,18 +827,18 @@ import { ScoopOrnament } from 'donjon-fall-ui'
   <div>Tvůj obsah</div>
 
   {/* 4 rohy — bgFill = barva podkladu (matchne pozadí karty pro splývající diamond) */}
-  <ScoopOrnament cornerSize={18} corner="tl" bgFill={bg3} />
-  <ScoopOrnament cornerSize={18} corner="tr" bgFill={bg3} />
-  <ScoopOrnament cornerSize={18} corner="bl" bgFill={bg3} />
-  <ScoopOrnament cornerSize={18} corner="br" bgFill={bg3} />
+  <ScoopOrnament r={18} corner="tl" bgFill={bg3} />
+  <ScoopOrnament r={18} corner="tr" bgFill={bg3} />
+  <ScoopOrnament r={18} corner="bl" bgFill={bg3} />
+  <ScoopOrnament r={18} corner="br" bgFill={bg3} />
 </ScoopClip>
 
 {/* Varianty barvy */}
-<ScoopOrnament cornerSize={20} corner="tl" color={dangerColor} bgFill={bg3} />
+<ScoopOrnament r={20} corner="tl" color={dangerColor} bgFill={bg3} />
 
 {/* Jen horní rohy — hlavička panelu */}
-<ScoopOrnament cornerSize={20} corner="tl" />
-<ScoopOrnament cornerSize={20} corner="tr" />`} />
+<ScoopOrnament r={20} corner="tl" />
+<ScoopOrnament r={20} corner="tr" />`} />
       </Section>
 
       {/* ── Props ── */}
