@@ -216,7 +216,29 @@ export const sections = [
         ],
       },
       { to: '/tabs',         label: 'Tabs',         library: 'both' },
+      {
+        to: '/navigation', label: 'Navigation', library: 'both',
+        children: [
+          { to: '/navigation#breadcrumb',   label: 'Breadcrumb' },
+          { to: '/navigation#pagination',   label: 'Pagination' },
+          { to: '/navigation#context-menu', label: 'ContextMenu' },
+        ],
+      },
       { to: '/layout',       label: 'Layout (Stack / Grid / Box / …)', library: 'both' },
+      {
+        to: '/layout-structures', label: 'Layout structures', library: 'both',
+        children: [
+          { to: '/layout-structures#sticky-bar',     label: 'StickyBar' },
+          { to: '/layout-structures#sidebar-layout', label: 'SidebarLayout' },
+        ],
+      },
+      {
+        to: '/inventory', label: 'Inventory', library: 'tkajui',
+        children: [
+          { to: '/inventory#slot', label: 'InventorySlot' },
+          { to: '/inventory#grid', label: 'InventoryGrid' },
+        ],
+      },
       {
         to: '/media', label: 'Media', library: 'both',
         children: [
@@ -310,6 +332,21 @@ export const sections = [
           { to: '/dialogs#zacatek-tahu',       label: 'Začátek tahu' },
           { to: '/dialogs#vyhra-hry',          label: 'Výhra hry' },
           { to: '/dialogs#nahla-smrt',         label: 'Náhlá smrt' },
+        ],
+      },
+      {
+        to: '/gameplay', label: 'Gameplay scény',
+        children: [
+          { to: '/gameplay#dialogue',     label: 'Dialogue' },
+          { to: '/gameplay#choice-panel', label: 'ChoicePanel' },
+        ],
+      },
+      {
+        to: '/game-layout', label: 'Game layout',
+        children: [
+          { to: '/game-layout#hud-layout', label: 'HUDLayout' },
+          { to: '/game-layout#scoreboard', label: 'Scoreboard' },
+          { to: '/game-layout#minimap',    label: 'Minimap' },
         ],
       },
       {
