@@ -49,7 +49,6 @@ const MANUAL_TASKS = [
     group: 'Accessibility & contrast',
     items: [
       { status: 'done', text: 'WCAG contrast utility (src/lib/shared/contrast.js) — math helpers + 24 testů' },
-      { status: 'done', text: 'Contrast Lab playground (/contrast-lab) — matice text × bg, AA/AAA per cell' },
       { status: 'done', text: 'pickContrastText helper v ColorsPage Swatch (textHigh viditelný na světlém)' },
       { status: 'done', text: 'WCAG audit napříč komponentami — contrast-audit.test.js (32 párů) reportuje ratio + assertions per pair. Našel + opravil 2 issues: textLow #4c4c68 → #6e6e8f (sub AA-large), primaryText×accent reklasifikován na AA-large (button text bold).' },
       { status: 'done', text: 'ESLint pravidlo donjon/contrast-check — AST scan inline style {color, background}, resolves tokeny + literal hexy, kontroluje WCAG (default AA-large). Skipne pokud bg alpha < 50% nebo ratio = 1.0 (decorative). 7 legitimate findings disabled s reasonem, 0 vykřičníků v lib/pages.' },

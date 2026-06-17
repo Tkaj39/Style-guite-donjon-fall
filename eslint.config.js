@@ -110,7 +110,7 @@ export default [
   // semi-transparent backgrounds). Eskaluj na 'error' až po validaci.
   {
     files: ['src/lib/**/*.jsx', 'src/pages/**/*.jsx'],
-    ignores: ['src/pages/ColorsPage.jsx', 'src/pages/ContrastLabPage.jsx'],
+    ignores: ['src/pages/ColorsPage.jsx'],
     plugins: { donjon: donjonPlugin },
     rules: {
       'donjon/contrast-check': ['warn', { level: 'AA-large' }],

@@ -178,7 +178,6 @@ export const sections = [
         ],
       },
       { to: '/accessibility',      label: 'Accessibility',       library: 'both' },
-      { to: '/contrast-lab',       label: 'Contrast Lab',        library: 'both' },
       { to: '/feedback-hierarchy', label: 'Feedback Hierarchy',  library: 'both' },
       { to: '/error-states',       label: 'Error States',        library: 'both' },
       { to: '/empty-states',       label: 'Empty States',        library: 'both' },
