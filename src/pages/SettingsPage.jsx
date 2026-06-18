@@ -15,14 +15,16 @@ function MiniSlider({ label, pct, labelW = 64, fs = '0.4375rem' }) {
       <span style={{ fontSize: fs, color: goldDim, width: labelW, flexShrink: 0 }}>{label}</span>
       <div style={{
         flex: 1, height: 3, background: bgDeep,
-        borderRadius: 2, position: 'relative', overflow: 'visible',
+        clipPath: octagon(1), position: 'relative', overflow: 'visible',
       }}>
-        <div style={{ width: `${pct}%`, height: '100%', background: gold, borderRadius: 2 }} />
+        <div style={{ width: `${pct}%`, height: '100%', background: gold, clipPath: octagon(1) }} />
+        {/* Diamond thumb — donjon thumb aesthetic (square rotated 45°) */}
         <div style={{
-          position: 'absolute', top: -4,
-          left: `${pct}%`, transform: 'translateX(-50%)',
-          width: 8, height: 8, borderRadius: '50%',
-          background: gold, border: '1px solid #12111F',
+          position: 'absolute', top: -3,
+          left: `${pct}%`, transform: 'translateX(-50%) rotate(45deg)',
+          width: 7, height: 7,
+          background: gold,
+          border: '1px solid #12111F',
           flexShrink: 0,
         }} />
       </div>
@@ -39,17 +41,28 @@ function MiniToggle({ on, label, fs = '0.4375rem', labelW = 80 }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
       <span style={{ fontSize: fs, color: goldDim, width: labelW, flexShrink: 0 }}>{label}</span>
+      {/* Donjon sharp toggle — octagonal track + diamond thumb */}
       <div style={{
-        width: 26, height: 13, borderRadius: 7, flexShrink: 0,
+        width: 26, height: 13, flexShrink: 0,
+        clipPath: octagon(3),
         // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
         background: on ? '#FFC18330' : bgDeep,
-        border: `1px solid ${on ? `${gold}66` : borderMuted}`,
+        padding: 1,
         position: 'relative',
       }}>
         <div style={{
-          position: 'absolute', top: 2,
-          left: on ? 14 : 2,
-          width: 7, height: 7, borderRadius: '50%',
+          clipPath: octagonInner(3),
+          width: '100%', height: '100%',
+          // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
+          background: on ? '#FFC18330' : bgDeep,
+          border: `1px solid ${on ? `${gold}66` : borderMuted}`,
+        }} />
+        {/* Diamond thumb */}
+        <div style={{
+          position: 'absolute', top: 3,
+          left: on ? 16 : 4,
+          width: 6, height: 6,
+          transform: 'rotate(45deg)',
           background: on ? gold : textFaint,
         }} />
       </div>
