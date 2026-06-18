@@ -139,7 +139,7 @@ function MapSelectDesktopLayout() {
         display: 'flex', alignItems: 'center',
         justifyContent: 'flex-end', padding: '0 20px', flexShrink: 0,
       }}>
-        <DonjonButton size="xs" variant="primary">Potvrdit výběr →</DonjonButton>
+        <DonjonButton size="xs">Potvrdit výběr →</DonjonButton>
       </div>
     </div>
   )
@@ -185,7 +185,7 @@ function MapSelectTabletLayout() {
         display: 'flex', alignItems: 'center',
         justifyContent: 'flex-end', padding: '0 16px', flexShrink: 0,
       }}>
-        <DonjonButton size="xs" variant="primary">Potvrdit →</DonjonButton>
+        <DonjonButton size="xs">Potvrdit →</DonjonButton>
       </div>
     </div>
   )
@@ -241,7 +241,7 @@ function MapSelectMobileLayout() {
         display: 'flex', alignItems: 'center',
         justifyContent: 'flex-end', padding: '0 12px', flexShrink: 0,
       }}>
-        <DonjonButton size="xs" variant="primary">Potvrdit →</DonjonButton>
+        <DonjonButton size="xs">Potvrdit →</DonjonButton>
       </div>
     </div>
   )
