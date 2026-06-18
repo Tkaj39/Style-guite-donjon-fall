@@ -89,7 +89,7 @@ function MenuDesktopLayout() {
           </p>
         </div>
 
-        <DonjonButton size="xs" variant="primary" fullWidth>▶  Nová hra</DonjonButton>
+        <DonjonButton size="xs" fullWidth>▶  Nová hra</DonjonButton>
         <DonjonButton size="xs" disabled fullWidth>Pokračovat</DonjonButton>
         <DonjonButton size="xs" fullWidth>⚙  Nastavení</DonjonButton>
         <DonjonButton size="xs" fullWidth>Konec</DonjonButton>
@@ -124,7 +124,7 @@ function MenuTabletLayout() {
         </p>
       </div>
       <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 9 }}>
-        <DonjonButton size="xs" variant="primary" fullWidth>▶  Nová hra</DonjonButton>
+        <DonjonButton size="xs" fullWidth>▶  Nová hra</DonjonButton>
         <DonjonButton size="xs" disabled fullWidth>Pokračovat</DonjonButton>
         <DonjonButton size="xs" fullWidth>⚙  Nastavení</DonjonButton>
         <DonjonButton size="xs" fullWidth>Konec</DonjonButton>
@@ -159,7 +159,7 @@ function MenuMobileLayout() {
         </p>
       </div>
       <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 6 }}>
-        <DonjonButton size="xs" variant="primary" fullWidth>▶  Nová hra</DonjonButton>
+        <DonjonButton size="xs" fullWidth>▶  Nová hra</DonjonButton>
         <DonjonButton size="xs" disabled fullWidth>Pokračovat</DonjonButton>
         <DonjonButton size="xs" fullWidth>⚙  Nastavení</DonjonButton>
         <DonjonButton size="xs" fullWidth>Konec</DonjonButton>
