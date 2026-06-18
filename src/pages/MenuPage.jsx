@@ -1,8 +1,9 @@
 import HexTile from '../lib/donjon/HexTile'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
+import DonjonButton from '../lib/donjon/DonjonButton'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
-import { gold, goldDim, bg2, bg4, bgDeep, borderSubtle, borderMuted, textFaint } from '../lib/donjon/tokens'
+import { gold, goldDim, bg4, borderSubtle, textFaint } from '../lib/donjon/tokens'
 
 /* ── Dekorativní prázdná hex mřížka ── */
 function EmptyHexGrid({ cols = 5, rows = 4 }) {
@@ -26,28 +27,6 @@ function EmptyHexGrid({ cols = 5, rows = 4 }) {
           )
         })
       )}
-    </div>
-  )
-}
-
-/* ── Mini menu tlačítko ── */
-function MiniMenuBtn({ label, primary = false, disabled = false, fs = '0.5rem', py = 7, px = 14 }) {
-  return (
-    <div style={{
-      padding: `${py}px ${px}px`,
-      border: `1px solid ${primary ? `${gold}88` : disabled ? bg2 : borderMuted}`,
-      borderRadius: 4,
-       
-      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-      background: primary ? '#2A2020' : disabled ? '#12111F' : bgDeep,
-      color: primary ? gold : disabled ? bg4 : goldDim,
-      fontSize: fs,
-      fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
-      textAlign: 'center',
-      boxShadow: primary ? '0 0 10px #FFC18322' : 'none',
-      opacity: disabled ? 0.5 : 1,
-    }}>
-      {label}
     </div>
   )
 }
@@ -110,10 +89,10 @@ function MenuDesktopLayout() {
           </p>
         </div>
 
-        <MiniMenuBtn label="▶  Nová hra" primary />
-        <MiniMenuBtn label="Pokračovat" disabled />
-        <MiniMenuBtn label="⚙  Nastavení" />
-        <MiniMenuBtn label="Konec" />
+        <DonjonButton size="xs" variant="primary" fullWidth>▶  Nová hra</DonjonButton>
+        <DonjonButton size="xs" disabled fullWidth>Pokračovat</DonjonButton>
+        <DonjonButton size="xs" fullWidth>⚙  Nastavení</DonjonButton>
+        <DonjonButton size="xs" fullWidth>Konec</DonjonButton>
       </div>
     </div>
   )
@@ -145,10 +124,10 @@ function MenuTabletLayout() {
         </p>
       </div>
       <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 9 }}>
-        <MiniMenuBtn label="▶  Nová hra" primary fs="0.5625rem" py={9} />
-        <MiniMenuBtn label="Pokračovat" disabled fs="0.5625rem" py={9} />
-        <MiniMenuBtn label="⚙  Nastavení" fs="0.5625rem" py={9} />
-        <MiniMenuBtn label="Konec" fs="0.5625rem" py={9} />
+        <DonjonButton size="xs" variant="primary" fullWidth>▶  Nová hra</DonjonButton>
+        <DonjonButton size="xs" disabled fullWidth>Pokračovat</DonjonButton>
+        <DonjonButton size="xs" fullWidth>⚙  Nastavení</DonjonButton>
+        <DonjonButton size="xs" fullWidth>Konec</DonjonButton>
       </div>
     </div>
   )
@@ -180,10 +159,10 @@ function MenuMobileLayout() {
         </p>
       </div>
       <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 6 }}>
-        <MiniMenuBtn label="▶  Nová hra" primary fs="0.4375rem" py={6} px={10} />
-        <MiniMenuBtn label="Pokračovat" disabled fs="0.4375rem" py={6} px={10} />
-        <MiniMenuBtn label="⚙  Nastavení" fs="0.4375rem" py={6} px={10} />
-        <MiniMenuBtn label="Konec" fs="0.4375rem" py={6} px={10} />
+        <DonjonButton size="xs" variant="primary" fullWidth>▶  Nová hra</DonjonButton>
+        <DonjonButton size="xs" disabled fullWidth>Pokračovat</DonjonButton>
+        <DonjonButton size="xs" fullWidth>⚙  Nastavení</DonjonButton>
+        <DonjonButton size="xs" fullWidth>Konec</DonjonButton>
       </div>
     </div>
   )
