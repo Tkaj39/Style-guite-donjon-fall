@@ -1,70 +1,73 @@
-# App screens — donjon vizuální rozkol
+# App screens — donjon vizuální rozkol ✓ vyřešeno
 
-## Problém
+Původní stav (viz historie): 5 stránek v sekci "Obrazovky aplikace"
+renderovalo generic dark-theme dashboard se zaoblenými rohy místo
+autentického donjon vizuálu — chybělo octagon/clip-path a ornamenty.
 
-Sekce **"Obrazovky aplikace"** v sidebaru má reprezentovat ukázky reálných
-obrazovek hry donjon-fall-ui (hlavní menu, výběr mapy, načítání, nastavení).
-Mají vypadat jako **autentický herní UI** — chamfer/octagon rohy, ornamenty
-(HexOrnament, ScoopOrnament, SideOrnament, CornerOrnament, Erb), gold-on-dark
-parchment paletu.
+**Stav nyní: všech 5 stránek používá donjon vizuální jazyk a/nebo
+reálné knihovní komponenty.**
 
-Stávající stránky importují tokeny a sem tam `<DonjonBadge>` / `<DonjonCard>`,
-ale **renderují generic dark-theme dashboard se zaoblenými rohy** (CSS
-`borderRadius:`) místo octagonálního clip-pathu. Vůbec nepoužívají ornaments
-(s výjimkou MapSelectPage, který má 2 octagon výskyty).
+## Před & po — metriky
 
-To je významný design-system rozkol — obrazovky aplikace mají být **flagship
-demo donjon knihovny**, ale prakticky nevypadají jinak než generic UI.
+| Page | clipPath: octagon + ornaments | borderRadius (rounded) | Stav |
+|------|------------------------------:|------------------------:|------|
+| **SettingsPage**     | 1 → mnoho (4-fázový rework)        | 15 → minimum     | ✓ |
+| **MenuPage**         | 0 → DonjonButton ornaments         | 1 → 0            | ✓ |
+| **MapSelectPage**    | 2 → DonjonButton + octagon cards   | 6 → minimum      | ✓ |
+| **LoadingAppPage**   | 0 → DonjonProgressBar              | 2 → 0            | ✓ |
+| **LoadingGamePage**  | 0 → DonjonProgressBar + octagon    | 5 → 0            | ✓ |
 
-## Metrika — počty výskytů
+## Co se udělalo
 
-Audit z `grep -cE` na každé stránce:
+### SettingsPage (4 PR — fáze 1-4)
+- **Modal shell**: `borderRadius: 6` → `clipPath: octagon(cx)` border-trick
+  (cx=12 desktop / 10 tablet / 8 mobile). Gold border + drop-shadow glow.
+- **Taby**: flat underline → oktagonové chamfered chips s gold-tint pozadím.
+  Separator: `bg4` → `goldDim33`.
+- **Slider/Toggle**: kruhové thumby → diamond (rotate 45°). Toggle track:
+  pill `borderRadius: 7` → `clipPath: octagon(3)` s border-trick.
+- **Footer buttons**: `borderRadius: 3` → border-trick s clipPath: octagon(3).
+  Save dostal gold border + drop-shadow glow.
 
-| Page | `clipPath: octagon(...)` + ornaments | `borderRadius:` (rounded) | Verdict |
-|------|--------------------------------------|----------------------------|---------|
-| **MenuPage** | 0 | 1 | Žádný donjon vizuál |
-| **MapSelectPage** | 2 | 6 | Trochu, ale dominuje round |
-| **LoadingAppPage** | 0 | 2 | Žádný donjon vizuál |
-| **LoadingGamePage** | 0 | 5 | Žádný donjon vizuál |
-| **SettingsPage** | 1 | **15** | Worst offender |
+### MenuPage
+- Smazaný `MiniMenuBtn` helper (21 řádků hand-rolled `<div>` button stylů).
+- Všechny 4 menu položky × 3 viewporty → `<DonjonButton size="xs"
+  variant="primary"|disabled fullWidth>` — lib komponenta s vlastními
+  octagon ornaments.
 
-## Co by tam mělo být místo `borderRadius`
+### MapSelectPage
+- Smazaný `NavBtn` helper (17 řádků).
+- "Potvrdit" CTA × 3 viewporty → `<DonjonButton size="xs" variant="primary">`.
+- `MapCard`: `borderRadius: 4` → `clipPath: octagon(shellCx)` border-trick
+  (cx=4 regulární / 3 compact). Selected stav: gold@88 border + drop-shadow.
 
-Per `CLAUDE.md` → "Component shape (clip-path)":
+### LoadingAppPage
+- Smazaný `ProgressBar` helper (18 řádků).
+- → `<DonjonProgressBar value={pct} size="sm" />` (4px tall, matches
+  původní výšku).
 
-- **Donjon**: `octagon(cx)` s `cx=10–14` podle velikosti panelu
-- **Border trick**: outer wrapper = `background: borderColor`, inner wrapper =
-  `background: fillColor`, `padding: borderWidth`
-- **Ornaments na rozích**: `<CornerOrnament corner="tl|tr|bl|br" />` (a 3 další)
-- **Ornaments na hraně**: `<SideOrnament side="..." />`, `<HexOrnament />`,
-  `<ScoopOrnament />`
-- **Player identity**: `<Erb />` nebo `<PlayerIdentityBadge />` (ne generic
-  avatar kruh)
+### LoadingGamePage
+- Smazaný `ProgressBar` helper (15 řádků).
+- → `<DonjonProgressBar value={pct} size="sm" />`.
+- `PlayerPill`: `borderRadius: 3` → border-trick octagon (cx=3). Player
+  color dot → 6×6 diamond (rotate 45°).
+- Outline map kontejner: `borderRadius: 4` → border-trick octagon (cx=5)
+  kolem `#0D0C1A` panelu.
 
-## Doporučený rework
+## Reference
 
-Pořadí podle dopadu (worst-first):
+Po fázi 4 SettingsPage byl audit původně koncipován jako "audit-only",
+ale dotaženo do reálné implementace na žádost uživatele (5 commitů
++ 4 fáze SettingsPage).
 
-1. **SettingsPage** — 15 rounded vs 1 octagon. Tabs, slidery, checkboxy
-   v generic stylu. Měly by používat `<DonjonTabs ornament="decorated">`,
-   `<DonjonSlider thumbShape="diamond">`, `<DonjonCheckbox>`.
-2. **MenuPage** — first impression hry. Žádné ornamenty na hlavních CTA,
-   buttony bez octagonu. Měly by být `<DonjonButton size="lg" ornament="decorated">`.
-3. **LoadingGamePage** — herní loading screen, hodí se ScoopOrnament rámeček
-   + Erb pro identitu hráče.
-4. **LoadingAppPage** — app-level loading; minimum donjon vizuálu (logo +
-   progress) je OK, ale měl by alespoň používat octagonální `<DonjonProgressBar>`
-   místo CSS bar.
-5. **MapSelectPage** — už má 2 octagon výskyty (karta mapy?), zbytek je
-   generic. `<DonjonCard ornament="decorated">` na karty map, ornament rámeček
-   kolem celého layoutu.
+Použité donjon komponenty:
+- `<DonjonButton>` (MenuPage, MapSelectPage)
+- `<DonjonProgressBar>` (LoadingAppPage, LoadingGamePage)
+- Existující `<HexTile>` a `<DonjonBadge>` zachovány
+- `octagon()` + `octagonInner()` border-trick pattern (SettingsPage,
+  MapCard, PlayerPill, outline map frame)
 
 ## Workflow
 
-Per `CLAUDE.md`: každá stránka na vlastní `feat/<page>-donjon-rework` branch,
-merge `--no-ff`. Doporučená scope per PR: 1 stránka = 1 PR. Hrubý odhad
-~2–4 hodiny na stránku (komplexní rework layoutu).
-
-Alternativa: vytvořit jednu **sdílenou `<AppScreenShell>` komponentu** ve
-`styleguide/` s octagon shellem + corner ornaments + parchment bg, pak ji
-aplikovat na všech 5 stránek najednou. Menší code surface, rychlejší rollout.
+Per `CLAUDE.md`: 9 PR (každá fáze/stránka na vlastní `feat/...` branch,
+merge `--no-ff` do master). Žádná lint/test regrese.
