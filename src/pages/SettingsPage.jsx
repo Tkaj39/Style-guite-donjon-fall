@@ -67,12 +67,16 @@ function Divider() {
 
 /* ── Tab tlačítko ── */
 function TabBtn({ label, active, fs = '0.4375rem', px = 8, py = 4 }) {
+  /* Active tab is rendered as an octagonal chamfered chip (donjon visual cue)
+     instead of a flat bottom-border underline. Inactive tabs stay plain. */
+  const cx = Math.max(2, Math.round(py * 0.45))
   return (
     <div style={{
       padding: `${py}px ${px}px`,
       fontSize: fs, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
       color: active ? gold : textFaint,
-      borderBottom: `2px solid ${active ? gold : 'transparent'}`,
+      clipPath: active ? octagon(cx) : undefined,
+      background: active ? `${gold}1F` : 'transparent',
       cursor: 'default', flexShrink: 0,
     }}>
       {label}
@@ -249,7 +253,7 @@ function SettingsModal({ activeTab = 'zvuk', size = 'desktop' }) {
       {/* Taby */}
       <div style={{
         display: 'flex',
-        borderBottom: `1px solid ${bg4}`,
+        borderBottom: `1px solid ${goldDim}33`,
         // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         padding: '0 12px', gap: 2, background: '#14132A',
       }}>
