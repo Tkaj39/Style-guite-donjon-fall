@@ -1,26 +1,8 @@
 import DonjonBadge from '../lib/donjon/DonjonBadge'
+import DonjonProgressBar from '../lib/donjon/DonjonProgressBar'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
-import { gold, goldDim, bg4, bgDeep, textFaint } from '../lib/donjon/tokens'
-
-/* ── Progress bar ── */
-function ProgressBar({ pct, width = '100%' }) {
-  return (
-    <div style={{
-      width, height: 4, background: bgDeep,
-      borderRadius: 2, overflow: 'hidden',
-      border: `1px solid ${bg4}`,
-    }}>
-      <div style={{
-        height: '100%',
-        width: `${pct}%`,
-        background: `linear-gradient(90deg, ${gold} 0%, ${goldDim} 100%)`,
-        borderRadius: 2,
-        boxShadow: '0 0 6px #FFC18355',
-      }} />
-    </div>
-  )
-}
+import { gold, goldDim, bg4, textFaint } from '../lib/donjon/tokens'
 
 /* ── Centrovaný obsah načítací obrazovky ── */
 function LoadingContent({ titleSize = '1.5rem', subtitleSize = '0.5rem', statusSize = '0.4375rem', pct = 67 }) {
@@ -56,7 +38,7 @@ function LoadingContent({ titleSize = '1.5rem', subtitleSize = '0.5rem', statusS
 
       {/* Progress sekce */}
       <div style={{ width: '100%', maxWidth: 280, display: 'flex', flexDirection: 'column', gap: 8 }}>
-        <ProgressBar pct={pct} />
+        <DonjonProgressBar value={pct} size="sm" />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span style={{ fontSize: statusSize, color: goldDim }}>Načítání herních dat…</span>
           <span style={{
