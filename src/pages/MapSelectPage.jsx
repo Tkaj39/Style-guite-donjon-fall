@@ -1,6 +1,8 @@
 import DonjonBadge from '../lib/donjon/DonjonBadge'
-import { textFaint, textParchment, gold, goldDim, bg4, bgDeep, borderMuted } from '../lib/donjon/tokens'
+import DonjonButton from '../lib/donjon/DonjonButton'
+import { textFaint, textParchment, gold, bg4, bgDeep } from '../lib/donjon/tokens'
 import DonjonCard from '../lib/donjon/DonjonCard'
+import { octagon, octagonInner } from '../lib/shared/octagon'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
 
@@ -41,18 +43,23 @@ function MapCard({ map, cardW = 100, compact = false }) {
   // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
   const dotColor = selected ? '#FFC18366' : 'bg4'
 
+  /* Donjon octagonal card shell — border-trick at thumbnail scale. */
+  const shellCx = compact ? 3 : 4
   return (
     <div style={{
       width: cardW,
-      // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
-      border: `1px solid ${selected ? '#FFC18388' : bg4}`,
-      borderRadius: 4,
+      clipPath: octagon(shellCx),
+      background: selected ? `${gold}88` : bg4,
+      padding: 1,
+      filter: selected ? `drop-shadow(0 0 6px ${gold}33)` : undefined,
+      flexShrink: 0,
+    }}>
+    <div style={{
+      clipPath: octagonInner(shellCx),
       // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
       background: selected ? '#1C1A2E' : bgDeep,
-      boxShadow: selected ? '0 0 14px #FFC18322' : 'none',
       padding: compact ? '6px' : '8px',
       display: 'flex', flexDirection: 'column', gap: compact ? 4 : 6,
-      flexShrink: 0,
     }}>
       {/* Thumbnail — hex dots */}
       <div style={{
@@ -88,24 +95,6 @@ function MapCard({ map, cardW = 100, compact = false }) {
         </p>
       </div>
     </div>
-  )
-}
-
-/* ── Tlačítko zpět / potvrdit ── */
-function NavBtn({ label, primary = false, fs = '0.4375rem', py = 5, px = 10 }) {
-  return (
-    <div style={{
-      padding: `${py}px ${px}px`,
-      border: `1px solid ${primary ? `${gold}88` : borderMuted}`,
-      borderRadius: 4,
-      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-      background: primary ? '#2A2020' : bgDeep,
-      color: primary ? gold : goldDim,
-      fontSize: fs, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
-      boxShadow: primary ? '0 0 8px #FFC18322' : 'none',
-      whiteSpace: 'nowrap',
-    }}>
-      {label}
     </div>
   )
 }
@@ -150,7 +139,7 @@ function MapSelectDesktopLayout() {
         display: 'flex', alignItems: 'center',
         justifyContent: 'flex-end', padding: '0 20px', flexShrink: 0,
       }}>
-        <NavBtn label="Potvrdit výběr →" primary />
+        <DonjonButton size="xs" variant="primary">Potvrdit výběr →</DonjonButton>
       </div>
     </div>
   )
@@ -196,7 +185,7 @@ function MapSelectTabletLayout() {
         display: 'flex', alignItems: 'center',
         justifyContent: 'flex-end', padding: '0 16px', flexShrink: 0,
       }}>
-        <NavBtn label="Potvrdit →" primary fs="0.375rem" py={4} px={8} />
+        <DonjonButton size="xs" variant="primary">Potvrdit →</DonjonButton>
       </div>
     </div>
   )
@@ -252,7 +241,7 @@ function MapSelectMobileLayout() {
         display: 'flex', alignItems: 'center',
         justifyContent: 'flex-end', padding: '0 12px', flexShrink: 0,
       }}>
-        <NavBtn label="Potvrdit →" primary fs="0.3125rem" py={3} px={6} />
+        <DonjonButton size="xs" variant="primary">Potvrdit →</DonjonButton>
       </div>
     </div>
   )
