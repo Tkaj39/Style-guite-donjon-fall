@@ -291,21 +291,35 @@ function SettingsModal({ activeTab = 'zvuk', size = 'desktop' }) {
         // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         borderTop: `1px solid ${bg4}`, background: '#14132A',
       }}>
+        {/* Donjon-style octagonal footer buttons — border-trick gives
+            the chamfered shell, padding sits inside the inner clip. */}
         <div style={{
-          padding: isDesktop ? '4px 12px' : '3px 8px',
-          fontSize: tabFs, color: goldDim, fontWeight: 700,
-          letterSpacing: '0.08em', textTransform: 'uppercase',
-          border: `1px solid ${borderMuted}`, borderRadius: 3,
-          background: bgDeep,
-        }}>Zrušit</div>
+          clipPath: octagon(3),
+          background: borderMuted,
+          padding: 1,
+        }}>
+          <div style={{
+            clipPath: octagonInner(3),
+            padding: isDesktop ? '3px 11px' : '2px 7px',
+            fontSize: tabFs, color: goldDim, fontWeight: 700,
+            letterSpacing: '0.08em', textTransform: 'uppercase',
+            background: bgDeep,
+          }}>Zrušit</div>
+        </div>
         <div style={{
-          padding: isDesktop ? '4px 12px' : '3px 8px',
-          fontSize: tabFs, color: gold, fontWeight: 700,
-          letterSpacing: '0.08em', textTransform: 'uppercase',
-          border: '1px solid #FFC18355', borderRadius: 3,
-          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-          background: '#2A2020', boxShadow: '0 0 6px #FFC18322',
-        }}>Uložit →</div>
+          clipPath: octagon(3),
+          background: `${gold}99`,
+          padding: 1,
+          filter: `drop-shadow(0 0 4px ${gold}33)`,
+        }}>
+          <div style={{
+            clipPath: octagonInner(3),
+            padding: isDesktop ? '3px 11px' : '2px 7px',
+            fontSize: tabFs, color: gold, fontWeight: 700,
+            letterSpacing: '0.08em', textTransform: 'uppercase',
+            background: `${gold}1A`,
+          }}>Uložit →</div>
+        </div>
       </div>
     </div>
     </div>
