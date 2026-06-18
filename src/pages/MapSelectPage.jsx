@@ -1,6 +1,6 @@
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DonjonButton from '../lib/donjon/DonjonButton'
-import { textFaint, textParchment, gold, bg4, bgDeep } from '../lib/donjon/tokens'
+import { textFaint, textParchment, gold, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import { octagon, octagonInner } from '../lib/shared/octagon'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
@@ -49,9 +49,8 @@ function MapCard({ map, cardW = 100, compact = false }) {
     <div style={{
       width: cardW,
       clipPath: octagon(shellCx),
-      background: selected ? `${gold}88` : bg4,
+      background: selected ? goldDim : bg4,
       padding: 1,
-      filter: selected ? `drop-shadow(0 0 6px ${gold}33)` : undefined,
       flexShrink: 0,
     }}>
     <div style={{
@@ -85,8 +84,8 @@ function MapCard({ map, cardW = 100, compact = false }) {
           </p>
           {selected && (
             <div style={{
-              width: 6, height: 6, borderRadius: '50%',
-              background: gold, boxShadow: `0 0 4px ${gold}`,
+              width: 6, height: 6, transform: 'rotate(45deg)',
+              background: gold,
             }} />
           )}
         </div>
