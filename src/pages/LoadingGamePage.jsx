@@ -1,28 +1,14 @@
 import HexTile from '../lib/donjon/HexTile'
 import { textFaint, textParchment, gold, goldDim, bg4, bgDeep, borderMuted } from '../lib/donjon/tokens'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
+import DonjonProgressBar from '../lib/donjon/DonjonProgressBar'
+import { octagon, octagonInner } from '../lib/shared/octagon'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
 import { players } from '../data/gameUiMockData'
 
 const p1 = players[0]
 const p2 = players[1]
-
-/* ── Progress bar ── */
-function ProgressBar({ pct }) {
-  return (
-    <div style={{
-      width: '100%', height: 3, background: bgDeep,
-      borderRadius: 2, overflow: 'hidden', border: `1px solid ${bg4}`,
-    }}>
-      <div style={{
-        height: '100%', width: `${pct}%`,
-        background: `linear-gradient(90deg, ${gold} 0%, ${goldDim} 100%)`,
-        borderRadius: 2, boxShadow: '0 0 5px #FFC18344',
-      }} />
-    </div>
-  )
-}
 
 /* ── Outline hex mřížka (prázdné hexy bez kostek) ── */
 function OutlineMap({ cols = 5, rows = 3, hexSize = 'sm', scale = 1 }) {
@@ -60,15 +46,23 @@ function OutlineMap({ cols = 5, rows = 3, hexSize = 'sm', scale = 1 }) {
 /* ── Hráčský badge ── */
 function PlayerPill({ player, label }) {
   return (
-    <div style={{
-      display: 'flex', alignItems: 'center', gap: 5,
-      background: bgDeep, border: `1px solid ${bg4}`,
-      borderRadius: 3, padding: '3px 8px',
-    }}>
-      <div style={{ width: 6, height: 6, borderRadius: '50%', background: player.color, flexShrink: 0 }} />
-      <span style={{ fontSize: '0.4375rem', color: textParchment, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-        {label}
-      </span>
+    /* Donjon octagonal pill — border-trick at thumbnail scale. */
+    <div style={{ clipPath: octagon(3), background: bg4, padding: 1 }}>
+      <div style={{
+        clipPath: octagonInner(3),
+        display: 'flex', alignItems: 'center', gap: 5,
+        background: bgDeep,
+        padding: '3px 8px',
+      }}>
+        {/* Diamond marker — player color */}
+        <div style={{
+          width: 6, height: 6, transform: 'rotate(45deg)',
+          background: player.color, flexShrink: 0,
+        }} />
+        <span style={{ fontSize: '0.4375rem', color: textParchment, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+          {label}
+        </span>
+      </div>
     </div>
   )
 }
@@ -117,15 +111,22 @@ function LoadingGameContent({ size = 'desktop' }) {
         </p>
       </div>
 
-      {/* Outline hex mapa */}
+      {/* Outline hex mapa — donjon octagonal frame */}
       <div style={{
-        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-        background: '#0D0C1A', borderRadius: 4,
-        border: '1px solid #1E1D30',
-        padding: 10, opacity: 0.7,
-        overflow: 'hidden',
+        clipPath: octagon(5),
+        background: bg4,
+        padding: 1,
+        opacity: 0.7,
         width: isMobile ? 120 : isTablet ? 160 : 220,
         height: isMobile ? 60 : isTablet ? 72 : 90,
+      }}>
+      <div style={{
+        clipPath: octagonInner(5),
+        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+        background: '#0D0C1A',
+        padding: 10,
+        overflow: 'hidden',
+        width: '100%', height: '100%', boxSizing: 'border-box',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
         <OutlineMap
@@ -133,6 +134,7 @@ function LoadingGameContent({ size = 'desktop' }) {
           hexSize={isMobile ? 'xs' : 'sm'}
           scale={mapScale}
         />
+      </div>
       </div>
 
       {/* Progress sekce */}
@@ -144,7 +146,7 @@ function LoadingGameContent({ size = 'desktop' }) {
             fontVariantNumeric: 'tabular-nums',
           }}>{pct}%</span>
         </div>
-        <ProgressBar pct={pct} />
+        <DonjonProgressBar value={pct} size="sm" />
       </div>
     </div>
   )
