@@ -14,44 +14,61 @@ const DEMO_TURN  = 3
 const DEMO_PHASE = 'Akce'
 const DEMO_VP    = [3, 2]
 
-/* ── 3×3 hex mapa — statická scéna ──
-   [0] prázdný  [1] p1/4    [2] prázdný
-   [3] p2/3     [4] ohnisko [5] p1/2
-   [6] prázdný  [7] p2/5    [8] prázdný   */
-const HEXES = [
-  { state: 'empty' },
-  { state: 'base',         owner: p1.color, die: { v: 4, c: p1.color } },
-  { state: 'empty' },
-  { state: 'base',         owner: p2.color, die: { v: 3, c: p2.color } },
-  { state: 'focal-active' },
-  { state: 'base',         owner: p1.color, die: { v: 2, c: p1.color } },
-  { state: 'empty' },
-  { state: 'base',         owner: p2.color, die: { v: 5, c: p2.color } },
-  { state: 'empty' },
+/* ── Herní plán — 7×5 hex mřížka ──────────────────────────────────────────
+   Per rules: 5 startovních hexů hráče 1 (nahoře), 5 hráče 2 (dole),
+   3 ohniska v prostřední řadě, zbytek prázdné hexy. Tečka = empty hex,
+   B1/B2 = base hráče 1/2 s kostkou (vykresleno přes die.v), F = focal-active. */
+const _ = (state, opts = {}) => ({ state, ...opts })
+const BOARD_ROWS = [
+  // Row 0 — startovní hexy hráče 1 (5×)
+  [
+    _('base', { owner: p1.color, die: { v: 5, c: p1.color } }),
+    _('base', { owner: p1.color, die: { v: 4, c: p1.color } }),
+    _('base', { owner: p1.color, die: { v: 3, c: p1.color } }),
+    _('base', { owner: p1.color, die: { v: 2, c: p1.color } }),
+    _('base', { owner: p1.color, die: { v: 1, c: p1.color } }),
+  ],
+  // Row 1 — prázdná
+  [_('empty'), _('empty'), _('empty'), _('empty'), _('empty')],
+  // Row 2 — prázdná
+  [_('empty'), _('empty'), _('empty'), _('empty'), _('empty')],
+  // Row 3 — 3 ohniska rozmístěná na pozicích 0, 2, 4
+  [_('focal-active'), _('empty'), _('focal-active'), _('empty'), _('focal-active')],
+  // Row 4 — prázdná
+  [_('empty'), _('empty'), _('empty'), _('empty'), _('empty')],
+  // Row 5 — prázdná
+  [_('empty'), _('empty'), _('empty'), _('empty'), _('empty')],
+  // Row 6 — startovní hexy hráče 2 (5×)
+  [
+    _('base', { owner: p2.color, die: { v: 1, c: p2.color } }),
+    _('base', { owner: p2.color, die: { v: 2, c: p2.color } }),
+    _('base', { owner: p2.color, die: { v: 3, c: p2.color } }),
+    _('base', { owner: p2.color, die: { v: 4, c: p2.color } }),
+    _('base', { owner: p2.color, die: { v: 5, c: p2.color } }),
+  ],
 ]
 
-/* ── 3×3 hex grid ──
-   Pointy-top hexes, liché řady posunuty doprava o půl kroku.
+/* ── Hex grid renderer ──
+   Pointy-top hexes, liché řady posunuté doprava o půl kroku.
    dieTop = vzdálenost top od vrcholu hexu kde má být střed xs die (24px → top=12). */
 function HexGrid({ cellW = 42, cellH = 48, gap = 4 }) {
-  const dieTop = Math.round(cellH / 2) - 12  // střed hexu - polovina xs die
+  const dieTop = Math.round(cellH / 2) - 12
   const rowH   = Math.round(cellH * 0.75) + gap
   const colW   = cellW + gap
   const halfOff = Math.round(colW / 2)
 
-  const totalW = 3 * colW + halfOff - gap
-  const totalH = 2 * rowH + cellH
-  const rows   = [[0,1,2],[3,4,5],[6,7,8]]
+  const cols   = BOARD_ROWS[0].length
+  const totalW = cols * colW + halfOff - gap
+  const totalH = (BOARD_ROWS.length - 1) * rowH + cellH
 
   return (
     <div style={{ position: 'relative', width: totalW, height: totalH, flexShrink: 0 }}>
-      {rows.map((row, ri) =>
-        row.map((hi, ci) => {
+      {BOARD_ROWS.map((row, ri) =>
+        row.map((h, ci) => {
           const x = ci * colW + (ri % 2 === 1 ? halfOff : 0)
           const y = ri * rowH
-          const h = HEXES[hi]
           return (
-            <div key={hi} style={{ position: 'absolute', left: x, top: y }}>
+            <div key={`${ri}-${ci}`} style={{ position: 'absolute', left: x, top: y }}>
               <div style={{ position: 'relative', width: cellW, height: cellH, overflow: 'visible' }}>
                 <HexTile state={h.state} owner={h.owner} size="sm" />
                 {h.die && (
