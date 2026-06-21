@@ -14,58 +14,59 @@ const DEMO_TURN  = 3
 const DEMO_PHASE = 'Akce'
 const DEMO_VP    = [3, 2]
 
-/* ── Herní plán — 7×5 hex mřížka ──────────────────────────────────────────
-   Per rules: 5 startovních hexů hráče 1 (nahoře), 5 hráče 2 (dole),
-   3 ohniska v prostřední řadě, zbytek prázdné hexy. Tečka = empty hex,
-   B1/B2 = base hráče 1/2 s kostkou (vykresleno přes die.v), F = focal-active. */
+/* ── Herní plán — 9-řadý hexagonální cluster (5-6-7-8-9-8-7-6-5) ──
+   Per pravidla: 5 startovních hexů hráče 1 (nahoře), 5 hráče 2 (dole),
+   3 ohniska v prostřední (9-políčkové) řadě, zbytek prázdné hexy.
+   Tvar: hexagonální cluster — řady se rozšiřují ke středu a zase
+   zužují, takže centerování naturálně produkuje halfOff zarovnání
+   sousedních řad (pointy-top tiling).                                  */
 const _ = (state, opts = {}) => ({ state, ...opts })
+const E = () => _('empty')
+const F = () => _('focal-active')
+const B1 = (v) => _('base', { owner: p1.color, die: { v, c: p1.color } })
+const B2 = (v) => _('base', { owner: p2.color, die: { v, c: p2.color } })
+
 const BOARD_ROWS = [
   // Row 0 — startovní hexy hráče 1 (5×)
-  [
-    _('base', { owner: p1.color, die: { v: 5, c: p1.color } }),
-    _('base', { owner: p1.color, die: { v: 4, c: p1.color } }),
-    _('base', { owner: p1.color, die: { v: 3, c: p1.color } }),
-    _('base', { owner: p1.color, die: { v: 2, c: p1.color } }),
-    _('base', { owner: p1.color, die: { v: 1, c: p1.color } }),
-  ],
-  // Row 1 — prázdná
-  [_('empty'), _('empty'), _('empty'), _('empty'), _('empty')],
-  // Row 2 — prázdná
-  [_('empty'), _('empty'), _('empty'), _('empty'), _('empty')],
-  // Row 3 — 3 ohniska rozmístěná na pozicích 0, 2, 4
-  [_('focal-active'), _('empty'), _('focal-active'), _('empty'), _('focal-active')],
-  // Row 4 — prázdná
-  [_('empty'), _('empty'), _('empty'), _('empty'), _('empty')],
-  // Row 5 — prázdná
-  [_('empty'), _('empty'), _('empty'), _('empty'), _('empty')],
-  // Row 6 — startovní hexy hráče 2 (5×)
-  [
-    _('base', { owner: p2.color, die: { v: 1, c: p2.color } }),
-    _('base', { owner: p2.color, die: { v: 2, c: p2.color } }),
-    _('base', { owner: p2.color, die: { v: 3, c: p2.color } }),
-    _('base', { owner: p2.color, die: { v: 4, c: p2.color } }),
-    _('base', { owner: p2.color, die: { v: 5, c: p2.color } }),
-  ],
+  [B1(5), B1(4), B1(3), B1(2), B1(1)],
+  // Row 1 — 6 prázdných
+  [E(), E(), E(), E(), E(), E()],
+  // Row 2 — 7 prázdných
+  [E(), E(), E(), E(), E(), E(), E()],
+  // Row 3 — 8 prázdných
+  [E(), E(), E(), E(), E(), E(), E(), E()],
+  // Row 4 (střed) — 9 polí, 3 ohniska na pozicích 1, 4, 7
+  [E(), F(), E(), E(), F(), E(), E(), F(), E()],
+  // Row 5 — 8 prázdných
+  [E(), E(), E(), E(), E(), E(), E(), E()],
+  // Row 6 — 7 prázdných
+  [E(), E(), E(), E(), E(), E(), E()],
+  // Row 7 — 6 prázdných
+  [E(), E(), E(), E(), E(), E()],
+  // Row 8 — startovní hexy hráče 2 (5×)
+  [B2(1), B2(2), B2(3), B2(4), B2(5)],
 ]
 
 /* ── Hex grid renderer ──
-   Pointy-top hexes, liché řady posunuté doprava o půl kroku.
-   dieTop = vzdálenost top od vrcholu hexu kde má být střed xs die (24px → top=12). */
+   Pointy-top hexes, řady horizontálně centrované — protože každá řada
+   má jinou šířku, centerování automaticky produkuje halfOff zarovnání
+   sousedních řad. Žádná explicitní liché/sudé switch logika nepotřeba.
+   dieTop = vzdálenost top od vrcholu hexu kde má být střed xs die. */
 function HexGrid({ cellW = 42, cellH = 48, gap = 4 }) {
   const dieTop = Math.round(cellH / 2) - 12
   const rowH   = Math.round(cellH * 0.75) + gap
   const colW   = cellW + gap
-  const halfOff = Math.round(colW / 2)
 
-  const cols   = BOARD_ROWS[0].length
-  const totalW = cols * colW + halfOff - gap
-  const totalH = (BOARD_ROWS.length - 1) * rowH + cellH
+  const maxCols = Math.max(...BOARD_ROWS.map(r => r.length))
+  const totalW  = maxCols * colW - gap
+  const totalH  = (BOARD_ROWS.length - 1) * rowH + cellH
 
   return (
     <div style={{ position: 'relative', width: totalW, height: totalH, flexShrink: 0 }}>
       {BOARD_ROWS.map((row, ri) =>
         row.map((h, ci) => {
-          const x = ci * colW + (ri % 2 === 1 ? halfOff : 0)
+          const baseX = (maxCols - row.length) * colW / 2
+          const x = baseX + ci * colW
           const y = ri * rowH
           return (
             <div key={`${ri}-${ci}`} style={{ position: 'absolute', left: x, top: y }}>
@@ -270,13 +271,15 @@ function TabletLayout() {
     <>
       <MiniHUD size="sm" />
 
-      {/* Mapa — vycentrovaná */}
+      {/* Mapa — vycentrovaná, scaled na šířku tablet framu */}
       <div style={{
         flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
         // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-        background: '#0F0E1E',
+        background: '#0F0E1E', overflow: 'hidden',
       }}>
-        <HexGrid />
+        <div style={{ transform: 'scale(0.85)', transformOrigin: 'center' }}>
+          <HexGrid />
+        </div>
       </div>
 
       {/* Skóre */}
@@ -326,7 +329,7 @@ function MobileLayout() {
         // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         background: '#0F0E1E', overflow: 'hidden',
       }}>
-        <div style={{ transform: 'scale(0.82)', transformOrigin: 'center' }}>
+        <div style={{ transform: 'scale(0.5)', transformOrigin: 'center' }}>
           <HexGrid />
         </div>
       </div>
