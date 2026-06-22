@@ -152,11 +152,12 @@ function MiniScoreHeader({ size = 'md' }) {
     <div style={{
       height: c.h, background: bgDeep,
       borderBottom: `1px solid ${goldDim}33`,
-      display: 'flex', alignItems: 'center',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      gap: c.px,
       padding: `0 ${c.px}px`, flexShrink: 0,
     }}>
       <Chip player={p1} vp={DEMO_VP[0]} active={DEMO_ACTIVE_PLAYER === 0} idx={0} />
-      <div style={{ flex: 1, textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 1 }}>
+      <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 1 }}>
         <span style={{ fontSize: c.fsSmall, color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
           Tah {DEMO_TURN} · {DEMO_PHASE}
         </span>
