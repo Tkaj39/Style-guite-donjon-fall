@@ -2,6 +2,7 @@ import HexTile from '../lib/donjon/HexTile'
 import { textFaint, textParchment, gold, goldDim, bg0, bg4, bgDeep, dangerColor } from '../lib/donjon/tokens'
 import { octagon } from '../lib/shared/octagon'
 import DieFace from '../lib/donjon/DieFace'
+import { Shield } from '../lib/donjon/Erb'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { FRAME } from '../styleguide/DeviceFrame'
@@ -97,15 +98,15 @@ function HexGrid({ cellW = 42, cellH = 48, gap = 4 }) {
 /* ── Sdílené mini-UI komponenty ── */
 
 /* ── Skóre header — HUD VP Counter pattern v compact chip podobě ──
-   P1 chip (diamond marker + label + 5 progress barů + VP) | turn indikátor |
+   P1 chip (Erb shield + label + 5 progress barů + VP) | turn indikátor |
    P2 chip stejný layout zrcadlený. Aktivní hráč má gold-tint pozadí.       */
 const DEMO_ACTIVE_PLAYER = 0  // 0 = P1, 1 = P2
 const MAX_VP = 5
 function MiniScoreHeader({ size = 'md' }) {
   const cfg = {
-    md:  { h: 44, fs: '0.5625rem', fsSmall: '0.4375rem', dot: 8, barW: 8, barH: 5, px: 14 },
-    sm:  { h: 38, fs: '0.5rem',    fsSmall: '0.4375rem', dot: 7, barW: 6, barH: 4, px: 12 },
-    xs:  { h: 32, fs: '0.4375rem', fsSmall: '0.375rem',  dot: 6, barW: 4, barH: 3, px: 8  },
+    md:  { h: 44, fs: '0.5625rem', fsSmall: '0.4375rem', erb: 18, barW: 8, barH: 5, px: 14 },
+    sm:  { h: 38, fs: '0.5rem',    fsSmall: '0.4375rem', erb: 16, barW: 6, barH: 4, px: 12 },
+    xs:  { h: 32, fs: '0.4375rem', fsSmall: '0.375rem',  erb: 14, barW: 4, barH: 3, px: 8  },
   }
   const c = cfg[size] ?? cfg.md
 
@@ -117,11 +118,8 @@ function MiniScoreHeader({ size = 'md' }) {
       background: active ? `${gold}33` : 'transparent',
       flexShrink: 0,
     }}>
-      {/* Diamond marker */}
-      <div style={{
-        width: c.dot, height: c.dot, transform: 'rotate(45deg)',
-        background: player.color, flexShrink: 0,
-      }} />
+      {/* Player marker — smallest Erb shield (numeric size — chip-scaled) */}
+      <Shield playerColor={player.color} size={c.erb} showSymbol={false} />
       {/* Hráč label */}
       <span style={{
         fontSize: c.fs,
