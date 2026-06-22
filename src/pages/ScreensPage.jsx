@@ -1,5 +1,5 @@
 import HexTile from '../lib/donjon/HexTile'
-import { textFaint, textParchment, gold, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
+import { textFaint, textParchment, gold, goldDim, bg0, bg4, bgDeep, dangerColor } from '../lib/donjon/tokens'
 import { octagon } from '../lib/shared/octagon'
 import DieFace from '../lib/donjon/DieFace'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
@@ -96,39 +96,55 @@ function HexGrid({ cellW = 42, cellH = 48, gap = 4 }) {
 
 /* ── Sdílené mini-UI komponenty ── */
 
-/* ── Skóre header — P1 chip vlevo | "Hráč X na tahu" uprostřed | P2 chip vpravo ──
-   Aktivní hráč (DEMO_ACTIVE_PLAYER) má svůj chip zvýrazněný gold borderem. */
+/* ── Skóre header — HUD VP Counter pattern v compact chip podobě ──
+   P1 chip (diamond marker + label + 5 progress barů + VP) | turn indikátor |
+   P2 chip stejný layout zrcadlený. Aktivní hráč má gold-tint pozadí.       */
 const DEMO_ACTIVE_PLAYER = 0  // 0 = P1, 1 = P2
+const MAX_VP = 5
 function MiniScoreHeader({ size = 'md' }) {
   const cfg = {
-    md:  { h: 38, fs: '0.5625rem', fsSmall: '0.4375rem', dot: 8,  px: 14, gap: 10 },
-    sm:  { h: 32, fs: '0.5rem',    fsSmall: '0.4375rem', dot: 7,  px: 12, gap: 8  },
-    xs:  { h: 28, fs: '0.4375rem', fsSmall: '0.375rem',  dot: 6,  px: 8,  gap: 6  },
+    md:  { h: 44, fs: '0.5625rem', fsSmall: '0.4375rem', dot: 8, barW: 8, barH: 5, px: 14 },
+    sm:  { h: 38, fs: '0.5rem',    fsSmall: '0.4375rem', dot: 7, barW: 6, barH: 4, px: 12 },
+    xs:  { h: 32, fs: '0.4375rem', fsSmall: '0.375rem',  dot: 6, barW: 4, barH: 3, px: 8  },
   }
   const c = cfg[size] ?? cfg.md
 
   const Chip = ({ player, vp, active, idx }) => (
     <div style={{
-      display: 'flex', alignItems: 'center', gap: c.gap / 2,
+      display: 'flex', alignItems: 'center', gap: 6,
       padding: `${Math.round(c.h * 0.18)}px ${c.px - 2}px`,
       clipPath: octagon(3),
       background: active ? `${gold}33` : 'transparent',
       flexShrink: 0,
     }}>
+      {/* Diamond marker */}
       <div style={{
         width: c.dot, height: c.dot, transform: 'rotate(45deg)',
         background: player.color, flexShrink: 0,
       }} />
+      {/* Hráč label */}
       <span style={{
         fontSize: c.fs,
         color: active ? gold : textParchment,
         fontWeight: 700, letterSpacing: '0.06em',
       }}>H{idx + 1}</span>
+      {/* VP progress bary — HUD VP Counter pattern */}
+      <div style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+        {Array.from({ length: MAX_VP }, (_, i) => (
+          <div key={i} style={{
+            width: c.barW, height: c.barH,
+            borderRadius: 1,
+            background: i < vp ? player.color : `${goldDim}33`,
+            boxShadow: i < vp ? `0 0 3px ${player.color}66` : 'none',
+          }} />
+        ))}
+      </div>
+      {/* VP číslo */}
       <span style={{
         fontSize: c.fs,
         color: active ? gold : goldDim,
-        fontWeight: 700, marginLeft: 4,
-      }}>{vp} VP</span>
+        fontWeight: 700, fontVariantNumeric: 'tabular-nums',
+      }}>{vp}</span>
     </div>
   )
 
@@ -153,23 +169,40 @@ function MiniScoreHeader({ size = 'md' }) {
   )
 }
 
-function MiniActionBtn({ label, active = false, danger = false, small = false }) {
+/* ── HUD Action Bar pattern — label nahoře, keycap chip dole ─────────────
+   Replikováno z /hud Action Bar sekce: každá akce má label a keycap
+   shortcut zobrazený jako monospace chip pod ním. Velikosti per viewport. */
+function MiniActionTile({ label, keycap, active = false, danger = false, size = 'md' }) {
+  const cfg = {
+    md: { padding: '5px 10px', fs: '0.5rem',    keyFs: '0.4rem',    keyPad: '1px 4px', minW: 64, gap: 2 },
+    sm: { padding: '4px 8px',  fs: '0.4375rem', keyFs: '0.375rem',  keyPad: '0 3px',   minW: 54, gap: 2 },
+    xs: { padding: '3px 5px',  fs: '0.375rem',  keyFs: '0.3125rem', keyPad: '0 2px',   minW: 44, gap: 1 },
+  }
+  const c = cfg[size] ?? cfg.md
+  const borderC = danger ? `${dangerColor}66` : active ? `${gold}66` : `${goldDim}33`
+  const textC   = danger ? dangerColor : active ? gold : textParchment
+
   return (
     <div style={{
+      padding: c.padding,
       background: active ? bg4 : bgDeep,
-       
-       
-      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-      border: `1px solid ${danger ? '#5A2020' : active ? '#5A5878' : '#252342'}`,
-      borderRadius: 3,
-      padding: small ? '3px 7px' : '5px 10px',
-      fontSize: small ? '0.4375rem' : '0.5rem',
-      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-      color: danger ? '#803030' : active ? textParchment : textFaint,
-      fontWeight: 600, letterSpacing: '0.05em',
-      whiteSpace: 'nowrap', flexShrink: 0,
+      border: `1px solid ${borderC}`,
+      borderRadius: 2,
+      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: c.gap,
+      minWidth: c.minW, flexShrink: 0,
     }}>
-      {label}
+      <span style={{
+        fontSize: c.fs, color: textC,
+        fontWeight: 600, letterSpacing: '0.04em', whiteSpace: 'nowrap',
+      }}>{label}</span>
+      {keycap && (
+        /* eslint-disable-next-line donjon/contrast-check -- HUD Action Bar pattern: keycap is intentionally subdued (matches /hud showcase) */
+        <code style={{
+          fontSize: c.keyFs, color: textFaint,
+          background: bg0, padding: c.keyPad, borderRadius: 1,
+          fontFamily: 'monospace', letterSpacing: '0.04em',
+        }}>{keycap}</code>
+      )}
     </div>
   )
 }
@@ -197,10 +230,10 @@ function PCLayout() {
         display: 'flex', gap: 8, flexShrink: 0,
         justifyContent: 'center',
       }}>
-        <MiniActionBtn label="Pohyb kostky" active />
-        <MiniActionBtn label="Pohyb věže" />
-        <MiniActionBtn label="Kolaps věže" danger />
-        <MiniActionBtn label="Přehazování" />
+        <MiniActionTile label="Pohyb kostky" keycap="M"   active size="md" />
+        <MiniActionTile label="Pohyb věže"   keycap="V"          size="md" />
+        <MiniActionTile label="Kolaps věže"  keycap="K"   danger size="md" />
+        <MiniActionTile label="Přehazování"  keycap="R"          size="md" />
       </div>
     </>
   )
@@ -231,10 +264,10 @@ function TabletLayout() {
         display: 'flex', gap: 6, flexShrink: 0,
         justifyContent: 'center', flexWrap: 'wrap',
       }}>
-        <MiniActionBtn label="Pohyb kostky" active small />
-        <MiniActionBtn label="Pohyb věže" small />
-        <MiniActionBtn label="Kolaps věže" danger small />
-        <MiniActionBtn label="Přehazování" small />
+        <MiniActionTile label="Pohyb kostky" keycap="M"   active size="sm" />
+        <MiniActionTile label="Pohyb věže"   keycap="V"          size="sm" />
+        <MiniActionTile label="Kolaps věže"  keycap="K"   danger size="sm" />
+        <MiniActionTile label="Přehazování"  keycap="R"          size="sm" />
       </div>
     </>
   )
@@ -242,10 +275,10 @@ function TabletLayout() {
 
 /* ── Mobile layout ── */
 const MOBILE_ACTIONS = [
-  { label: 'Pohyb\nkostky', active: true,  danger: false },
-  { label: 'Pohyb\nvěže',   active: false, danger: false },
-  { label: 'Kolaps\nvěže',  active: false, danger: true  },
-  { label: 'Přehaz.',       active: false, danger: false },
+  { label: 'Pohyb\nkostky', keycap: 'M', active: true,  danger: false },
+  { label: 'Pohyb\nvěže',   keycap: 'V', active: false, danger: false },
+  { label: 'Kolaps\nvěže',  keycap: 'K', active: false, danger: true  },
+  { label: 'Přehaz.',       keycap: 'R', active: false, danger: false },
 ]
 
 function MobileLayout() {
@@ -264,32 +297,38 @@ function MobileLayout() {
         </div>
       </div>
 
-      {/* 4 akční čtverce */}
+      {/* 4 akční čtverce — HUD Action Bar pattern */}
       <div style={{
         // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-        borderTop: `1px solid ${bg4}`, background: '#161525',
+        borderTop: `1px solid ${goldDim}33`, background: '#161525',
         padding: '6px 8px',
         display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
         gap: 5, flexShrink: 0,
       }}>
-        {MOBILE_ACTIONS.map((a, i) => (
-          <div key={i} style={{
-            background: a.active ? bg4 : bgDeep,
-             
-             
-            // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-            border: `1px solid ${a.danger ? '#5A2020' : a.active ? '#5A5878' : '#252342'}`,
-            borderRadius: 4, padding: '5px 4px', minHeight: 34,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '0.375rem',
-            // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-            color: a.danger ? '#803030' : a.active ? textParchment : textFaint,
-            fontWeight: 600, letterSpacing: '0.03em',
-            textAlign: 'center', lineHeight: 1.3, whiteSpace: 'pre-line',
-          }}>
-            {a.label}
-          </div>
-        ))}
+        {MOBILE_ACTIONS.map((a, i) => {
+          const borderC = a.danger ? `${dangerColor}66` : a.active ? `${gold}66` : `${goldDim}33`
+          const textC   = a.danger ? dangerColor : a.active ? gold : textParchment
+          return (
+            <div key={i} style={{
+              background: a.active ? bg4 : bgDeep,
+              border: `1px solid ${borderC}`,
+              borderRadius: 2, padding: '3px 2px', minHeight: 34,
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1,
+            }}>
+              <span style={{
+                fontSize: '0.375rem', color: textC,
+                fontWeight: 600, letterSpacing: '0.03em',
+                textAlign: 'center', lineHeight: 1.2, whiteSpace: 'pre-line',
+              }}>{a.label}</span>
+              {/* eslint-disable-next-line donjon/contrast-check -- HUD Action Bar pattern: keycap is intentionally subdued (matches /hud showcase) */}
+              <code style={{
+                fontSize: '0.3125rem', color: textFaint,
+                background: bg0, padding: '0 2px', borderRadius: 1,
+                fontFamily: 'monospace',
+              }}>{a.keycap}</code>
+            </div>
+          )
+        })}
       </div>
     </>
   )
