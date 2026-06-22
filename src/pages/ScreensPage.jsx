@@ -1,5 +1,5 @@
 import HexTile from '../lib/donjon/HexTile'
-import { textFaint, textParchment, gold, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
+import { textFaint, textParchment, gold, goldDim } from '../lib/donjon/tokens'
 import { octagon } from '../lib/shared/octagon'
 import DieFace from '../lib/donjon/DieFace'
 import { Shield } from '../lib/donjon/Erb'
@@ -150,8 +150,7 @@ function MiniScoreHeader({ size = 'md' }) {
 
   return (
     <div style={{
-      height: c.h, background: bgDeep,
-      borderBottom: `1px solid ${goldDim}33`,
+      height: c.h,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       gap: c.px,
       padding: `0 ${c.px}px`, flexShrink: 0,
@@ -222,10 +221,8 @@ function PCLayout() {
         <HexGrid />
       </div>
 
-      {/* Akce — lib ActionTile row, plná velikost */}
+      {/* Akce — lib ActionTile row, plná velikost (transparent menu) */}
       <div style={{
-        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-        borderTop: `1px solid ${goldDim}33`, background: '#161525',
         padding: '10px 16px', flexShrink: 0,
         display: 'flex', justifyContent: 'center',
       }}>
@@ -252,10 +249,8 @@ function TabletLayout() {
         </div>
       </div>
 
-      {/* Akce — lib ActionTile row, mírně zmenšená */}
+      {/* Akce — lib ActionTile row, mírně zmenšená (transparent menu) */}
       <div style={{
-        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-        borderTop: `1px solid ${bg4}`, background: '#161525',
         padding: '6px 8px', flexShrink: 0,
         display: 'flex', justifyContent: 'center',
       }}>
@@ -282,10 +277,8 @@ function MobileLayout() {
         </div>
       </div>
 
-      {/* Akce — lib ActionTile row, scaled na 230px mobil frame */}
+      {/* Akce — lib ActionTile row, scaled na 230px mobil frame (transparent menu) */}
       <div style={{
-        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-        borderTop: `1px solid ${goldDim}33`, background: '#161525',
         padding: '4px 4px 0', flexShrink: 0,
         display: 'flex', justifyContent: 'center',
         overflow: 'hidden',
