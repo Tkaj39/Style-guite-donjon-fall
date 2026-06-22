@@ -1,8 +1,10 @@
 import HexTile from '../lib/donjon/HexTile'
-import { textFaint, textParchment, gold, goldDim, bg0, bg4, bgDeep, dangerColor } from '../lib/donjon/tokens'
+import { textFaint, textParchment, gold, goldDim, bg4, bgDeep } from '../lib/donjon/tokens'
 import { octagon } from '../lib/shared/octagon'
 import DieFace from '../lib/donjon/DieFace'
 import { Shield } from '../lib/donjon/Erb'
+import ActionTile from '../lib/donjon/ActionTile'
+import { MoveIcon, TowerIcon, BombIcon, DiceIcon } from '../lib/donjon/icons'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { FRAME } from '../styleguide/DeviceFrame'
@@ -168,40 +170,39 @@ function MiniScoreHeader({ size = 'md' }) {
   )
 }
 
-/* ── HUD Action Bar pattern — label nahoře, keycap chip dole ─────────────
-   Replikováno z /hud Action Bar sekce: každá akce má label a keycap
-   shortcut zobrazený jako monospace chip pod ním. Velikosti per viewport. */
-function MiniActionTile({ label, keycap, active = false, danger = false, size = 'md' }) {
-  const cfg = {
-    md: { padding: '5px 10px', fs: '0.5rem',    keyFs: '0.4rem',    keyPad: '1px 4px', minW: 64, gap: 2 },
-    sm: { padding: '4px 8px',  fs: '0.4375rem', keyFs: '0.375rem',  keyPad: '0 3px',   minW: 54, gap: 2 },
-    xs: { padding: '3px 5px',  fs: '0.375rem',  keyFs: '0.3125rem', keyPad: '0 2px',   minW: 44, gap: 1 },
-  }
-  const c = cfg[size] ?? cfg.md
-  const borderC = danger ? `${dangerColor}66` : active ? `${gold}66` : `${goldDim}33`
-  const textC   = danger ? dangerColor : active ? gold : textParchment
+/* ── Action Bar — sdílená data pro 3 layouty ──────────────────────────────
+   Stejné akce jako /hud Action Bar; přepínáme jen scale + container. */
+const SCREEN_ACTIONS = [
+  { label: 'Pohyb kostky', keycap: 'M', icon: <MoveIcon />,  variant: 'move',    selected: true },
+  { label: 'Pohyb věže',   keycap: 'V', icon: <TowerIcon />, variant: 'default' },
+  { label: 'Kolaps věže',  keycap: 'K', icon: <BombIcon />,  variant: 'attack' },
+  { label: 'Přehazování',  keycap: 'R', icon: <DiceIcon />,  variant: 'special' },
+]
 
+/* Wrapper kolem lib <ActionTile> — fixní size="sm" (80×72), per-viewport
+   scale na celé řadě (PC 1.0, tablet 0.95, mobil 0.62 — aby 4 tile sedly
+   do 230px frame šířky bez overflow). */
+function MiniActionRow({ scale = 1 }) {
   return (
     <div style={{
-      padding: c.padding,
-      background: active ? bg4 : bgDeep,
-      border: `1px solid ${borderC}`,
-      borderRadius: 2,
-      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: c.gap,
-      minWidth: c.minW, flexShrink: 0,
+      display: 'flex',
+      gap: Math.max(4, Math.round(8 * scale)),
+      transform: `scale(${scale})`,
+      transformOrigin: 'center top',
     }}>
-      <span style={{
-        fontSize: c.fs, color: textC,
-        fontWeight: 600, letterSpacing: '0.04em', whiteSpace: 'nowrap',
-      }}>{label}</span>
-      {keycap && (
-        /* eslint-disable-next-line donjon/contrast-check -- HUD Action Bar pattern: keycap is intentionally subdued (matches /hud showcase) */
-        <code style={{
-          fontSize: c.keyFs, color: textFaint,
-          background: bg0, padding: c.keyPad, borderRadius: 1,
-          fontFamily: 'monospace', letterSpacing: '0.04em',
-        }}>{keycap}</code>
-      )}
+      {SCREEN_ACTIONS.map(a => (
+        <div key={a.label} style={{ width: 80, flexShrink: 0 }}>
+          <ActionTile
+            icon={a.icon}
+            title={a.label}
+            description={`[ ${a.keycap} ]`}
+            variant={a.variant}
+            selected={a.selected}
+            size="sm"
+            ornament="decorated"
+          />
+        </div>
+      ))}
     </div>
   )
 }
@@ -221,18 +222,14 @@ function PCLayout() {
         <HexGrid />
       </div>
 
-      {/* Akce — řada tlačítek dole */}
+      {/* Akce — lib ActionTile row, plná velikost */}
       <div style={{
         // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         borderTop: `1px solid ${goldDim}33`, background: '#161525',
-        padding: '10px 16px',
-        display: 'flex', gap: 8, flexShrink: 0,
-        justifyContent: 'center',
+        padding: '10px 16px', flexShrink: 0,
+        display: 'flex', justifyContent: 'center',
       }}>
-        <MiniActionTile label="Pohyb kostky" keycap="M"   active size="md" />
-        <MiniActionTile label="Pohyb věže"   keycap="V"          size="md" />
-        <MiniActionTile label="Kolaps věže"  keycap="K"   danger size="md" />
-        <MiniActionTile label="Přehazování"  keycap="R"          size="md" />
+        <MiniActionRow scale={1} />
       </div>
     </>
   )
@@ -255,31 +252,20 @@ function TabletLayout() {
         </div>
       </div>
 
-      {/* Akce — plná řada tlačítek */}
+      {/* Akce — lib ActionTile row, mírně zmenšená */}
       <div style={{
         // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         borderTop: `1px solid ${bg4}`, background: '#161525',
-        padding: '8px 12px',
-        display: 'flex', gap: 6, flexShrink: 0,
-        justifyContent: 'center', flexWrap: 'wrap',
+        padding: '6px 8px', flexShrink: 0,
+        display: 'flex', justifyContent: 'center',
       }}>
-        <MiniActionTile label="Pohyb kostky" keycap="M"   active size="sm" />
-        <MiniActionTile label="Pohyb věže"   keycap="V"          size="sm" />
-        <MiniActionTile label="Kolaps věže"  keycap="K"   danger size="sm" />
-        <MiniActionTile label="Přehazování"  keycap="R"          size="sm" />
+        <MiniActionRow scale={0.85} />
       </div>
     </>
   )
 }
 
 /* ── Mobile layout ── */
-const MOBILE_ACTIONS = [
-  { label: 'Pohyb\nkostky', keycap: 'M', active: true,  danger: false },
-  { label: 'Pohyb\nvěže',   keycap: 'V', active: false, danger: false },
-  { label: 'Kolaps\nvěže',  keycap: 'K', active: false, danger: true  },
-  { label: 'Přehaz.',       keycap: 'R', active: false, danger: false },
-]
-
 function MobileLayout() {
   return (
     <>
@@ -296,38 +282,15 @@ function MobileLayout() {
         </div>
       </div>
 
-      {/* 4 akční čtverce — HUD Action Bar pattern */}
+      {/* Akce — lib ActionTile row, scaled na 230px mobil frame */}
       <div style={{
         // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
         borderTop: `1px solid ${goldDim}33`, background: '#161525',
-        padding: '6px 8px',
-        display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: 5, flexShrink: 0,
+        padding: '4px 4px 0', flexShrink: 0,
+        display: 'flex', justifyContent: 'center',
+        overflow: 'hidden',
       }}>
-        {MOBILE_ACTIONS.map((a, i) => {
-          const borderC = a.danger ? `${dangerColor}66` : a.active ? `${gold}66` : `${goldDim}33`
-          const textC   = a.danger ? dangerColor : a.active ? gold : textParchment
-          return (
-            <div key={i} style={{
-              background: a.active ? bg4 : bgDeep,
-              border: `1px solid ${borderC}`,
-              borderRadius: 2, padding: '3px 2px', minHeight: 34,
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1,
-            }}>
-              <span style={{
-                fontSize: '0.375rem', color: textC,
-                fontWeight: 600, letterSpacing: '0.03em',
-                textAlign: 'center', lineHeight: 1.2, whiteSpace: 'pre-line',
-              }}>{a.label}</span>
-              {/* eslint-disable-next-line donjon/contrast-check -- HUD Action Bar pattern: keycap is intentionally subdued (matches /hud showcase) */}
-              <code style={{
-                fontSize: '0.3125rem', color: textFaint,
-                background: bg0, padding: '0 2px', borderRadius: 1,
-                fontFamily: 'monospace',
-              }}>{a.keycap}</code>
-            </div>
-          )
-        })}
+        <MiniActionRow scale={0.62} />
       </div>
     </>
   )
