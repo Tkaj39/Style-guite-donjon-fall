@@ -307,8 +307,13 @@ useEffect(() => {
         description="Textové animace nad hexem při herní události — VP získáno, kostka ztracena, akce blokována."
       >
         <Preview>
-          {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-          <div style={{ position: 'relative', height: 100, width: 240, background: '#0E0C22', borderRadius: 4, border: `1px solid ${goldDim}20`, overflow: 'hidden' }}>
+          <div style={{ clipPath: octagon(4), background: `${goldDim}33`, padding: 1, width: 240, height: 100 }}>
+          <div style={{
+            clipPath: octagonInner(4),
+            position: 'relative', width: '100%', height: '100%',
+            // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
+            background: '#0E0C22', overflow: 'hidden',
+          }}>
             {/* Simulace float feedbacku */}
             <div style={{
               position: 'absolute', left: '50%', top: '60%',
@@ -335,6 +340,7 @@ useEffect(() => {
                 100% { opacity: 0; transform: translateX(-50%) translateY(-48px); }
               }
             `}</style>
+          </div>
           </div>
         </Preview>
         <CodeBlock code={`/* FloatFeedback — animovaný text nad herním prvkem */
@@ -438,15 +444,18 @@ function FloatFeedback({ text, color, x, y, onDone }) {
               <p style={{ margin: '0 0 12px', fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 V HUD kontextu — hráč 1 vs hráč 2 (2-hráčová partie)
               </p>
+              <div style={{ clipPath: octagon(4), background: `${goldDim}55`, padding: 1, maxWidth: 400 }}>
               <div style={{
+                clipPath: octagonInner(4),
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-                background: '#0E0C22', border: '1px solid #1E1D30',
-                borderRadius: 4, padding: '8px 16px', maxWidth: 400,
+                background: '#0E0C22',
+                padding: '8px 16px',
               }}>
                 <PlayerIdentityBadge player={players[0]} />
                 <span style={{ fontSize: '0.625rem', color: borderMuted, fontWeight: 700, padding: '0 12px' }}>vs</span>
                 <PlayerIdentityBadge player={players[1]} />
+              </div>
               </div>
             </div>
           </div>
@@ -479,30 +488,26 @@ function FloatFeedback({ text, color, x, y, onDone }) {
                 Blokovaná akce
               </p>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                <div style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 6,
-                  padding: '5px 10px', borderRadius: 3,
-                  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-                  background: '#3D181815', border: '1px solid #C0404030',
-                  fontSize: '0.75rem', color: failColor,
-                }}>
-                  <svg viewBox="0 0 10 10" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-                    <circle cx="5" cy="5" r="4" /><path d="M3 3l4 4M7 3l-4 4" />
-                  </svg>
-                  Akce blokována
-                </div>
-                <div style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 6,
-                  padding: '5px 10px', borderRadius: 3,
-                  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-                  background: '#3D181815', border: '1px solid #C0404030',
-                  fontSize: '0.75rem', color: failColor,
-                }}>
-                  <svg viewBox="0 0 10 10" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-                    <circle cx="5" cy="5" r="4" /><path d="M3 3l4 4M7 3l-4 4" />
-                  </svg>
-                  Pohyb na toto pole zakázán
-                </div>
+                {['Akce blokována', 'Pohyb na toto pole zakázán'].map(text => (
+                  <div key={text} style={{
+                    // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize danger-tinted background
+                    clipPath: octagon(2), background: '#C0404033', padding: 1,
+                  }}>
+                    <div style={{
+                      clipPath: octagonInner(2),
+                      display: 'inline-flex', alignItems: 'center', gap: 6,
+                      padding: '5px 10px',
+                      // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize danger-tinted background
+                      background: '#3D181815',
+                      fontSize: '0.75rem', color: failColor,
+                    }}>
+                      <svg viewBox="0 0 10 10" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                        <circle cx="5" cy="5" r="4" /><path d="M3 3l4 4M7 3l-4 4" />
+                      </svg>
+                      {text}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
             {/* Danger — kritický VP */}
@@ -511,16 +516,22 @@ function FloatFeedback({ text, color, x, y, onDone }) {
                 Danger — soupeř na dosah vítězství (4 z 5 VP)
               </p>
               <div style={{
-                display: 'inline-flex', alignItems: 'center', gap: 10,
-                padding: '8px 14px', borderRadius: 4,
-                // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-                background: '#3D181820', border: `1px solid ${failColor}`,
-                boxShadow: '0 0 12px #C0404035',
+                display: 'inline-block',
+                clipPath: octagon(4), background: failColor, padding: 1,
+                boxShadow: `0 0 12px ${failColor}55`,
               }}>
-                <Shield player={players[1]} size="xs" showSymbol={false} />
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: failColor }}>Hráč 2</span>
-                <span style={{ fontSize: '0.6875rem', color: goldDim }}>4 / 5 VP</span>
-                <DonjonBadge variant="danger" size="sm">Pozor!</DonjonBadge>
+                <div style={{
+                  clipPath: octagonInner(4),
+                  display: 'inline-flex', alignItems: 'center', gap: 10,
+                  padding: '8px 14px',
+                  // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize danger-tinted background
+                  background: '#3D181820',
+                }}>
+                  <Shield player={players[1]} size="xs" showSymbol={false} />
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: failColor }}>Hráč 2</span>
+                  <span style={{ fontSize: '0.6875rem', color: goldDim }}>4 / 5 VP</span>
+                  <DonjonBadge variant="danger" size="sm">Pozor!</DonjonBadge>
+                </div>
               </div>
             </div>
             {/* Neaktivní hráč */}
@@ -531,26 +542,36 @@ function FloatFeedback({ text, color, x, y, onDone }) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {/* Aktivní */}
                 <div style={{
-                  display: 'flex', alignItems: 'center', gap: 10,
-                  padding: '6px 12px', borderRadius: 4, maxWidth: 260,
-                  background: `${players[0].color}12`, border: `1px solid ${players[0].color}55`,
+                  clipPath: octagon(4), background: `${players[0].color}aa`, padding: 1, maxWidth: 260,
                   boxShadow: `0 0 10px ${players[0].color}30`,
                 }}>
-                  <Shield player={players[0]} size="xs" />
-                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: textActive }}>Hráč 1</span>
-                  <DonjonBadge variant="success" size="sm">Na tahu</DonjonBadge>
+                  <div style={{
+                    clipPath: octagonInner(4),
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '6px 12px',
+                    background: `${players[0].color}12`,
+                  }}>
+                    <Shield player={players[0]} size="xs" />
+                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: textActive }}>Hráč 1</span>
+                    <DonjonBadge variant="success" size="sm">Na tahu</DonjonBadge>
+                  </div>
                 </div>
                 {/* Neaktivní */}
                 <div style={{
-                  display: 'flex', alignItems: 'center', gap: 10,
-                  padding: '6px 12px', borderRadius: 4, maxWidth: 260,
-                  background: bg0, border: '1px solid #1E1D3060',
+                  clipPath: octagon(4), background: `${goldDim}33`, padding: 1, maxWidth: 260,
                   opacity: 0.6,
                 }}>
-                  <Shield player={players[1]} size="xs" showSymbol={false} />
-                  {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
-                  <span style={{ fontSize: '0.75rem', color: '#6A6880' }}>Hráč 2</span>
-                  <DonjonBadge variant="default" size="sm">Čeká</DonjonBadge>
+                  <div style={{
+                    clipPath: octagonInner(4),
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '6px 12px',
+                    background: bg0,
+                  }}>
+                    <Shield player={players[1]} size="xs" showSymbol={false} />
+                    {/* eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt) */}
+                    <span style={{ fontSize: '0.75rem', color: '#6A6880' }}>Hráč 2</span>
+                    <DonjonBadge variant="default" size="sm">Čeká</DonjonBadge>
+                  </div>
                 </div>
               </div>
             </div>
