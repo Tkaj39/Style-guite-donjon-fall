@@ -1,125 +1,164 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { bg0, borderMuted, borderSubtle, failColor, gold, goldDim, goldMid, successColor, textActive, textCool, textDeep, textFaint } from '../lib/donjon/tokens'
+import { bg0, bg4, bgDeep, borderMuted, borderSubtle, failColor, gold, goldDim, goldMid, successColor, textActive, textCool, textDeep, textFaint } from '../lib/donjon/tokens'
+import { octagon, octagonInner } from '../lib/shared/octagon'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { Shield, PlayerIdentityBadge } from '../lib/donjon/Erb'
 import { players } from '../data/gameUiMockData'
 
-/* ── Player indicator ── */
+/* ── Player indicator ── donjon: octagonal border-trick + diamond markers */
 function PlayerIndicator({ name, color, vp, isActive, diceCount }) {
+  const borderC = isActive ? color : `${goldDim}55`
   return (
     <div style={{
-      display: 'flex', alignItems: 'center', gap: 10,
-      padding: '8px 12px',
-      background: isActive ? `${color}18` : bg0,
-      border: `1px solid ${isActive ? color : `${goldDim}30`}`,
-      borderRadius: 4,
-      boxShadow: isActive ? `0 0 10px ${color}40` : 'none',
+      clipPath: octagon(4),
+      background: borderC,
+      padding: 1,
       minWidth: 200,
+      boxShadow: isActive ? `0 0 10px ${color}40` : 'none',
     }}>
-      <div style={{ width: 10, height: 10, borderRadius: '50%', background: color, flexShrink: 0, boxShadow: `0 0 6px ${color}` }} />
-      <span style={{ fontSize: '0.875rem', fontWeight: isActive ? 700 : 400, color: textActive, flex: 1 }}>{name}</span>
-      <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
-        {Array.from({ length: diceCount }).map((_, i) => (
-          <div key={i} style={{ width: 8, height: 8, borderRadius: 1, background: color, opacity: 0.7 }} />
-        ))}
+      <div style={{
+        clipPath: octagonInner(4),
+        display: 'flex', alignItems: 'center', gap: 10,
+        padding: '8px 12px',
+        background: isActive ? `${color}18` : bgDeep,
+      }}>
+        {/* Diamond color marker */}
+        <div style={{
+          width: 10, height: 10, transform: 'rotate(45deg)',
+          background: color, flexShrink: 0,
+          boxShadow: `0 0 6px ${color}`,
+        }} />
+        <span style={{ fontSize: '0.875rem', fontWeight: isActive ? 700 : 400, color: textActive, flex: 1 }}>{name}</span>
+        {/* Dice pips → diamond markers */}
+        <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
+          {Array.from({ length: diceCount }).map((_, i) => (
+            <div key={i} style={{
+              width: 6, height: 6, transform: 'rotate(45deg)',
+              background: color, opacity: 0.8,
+            }} />
+          ))}
+        </div>
+        <DonjonBadge size="sm" variant="default">{vp} VP</DonjonBadge>
       </div>
-      <DonjonBadge size="sm" variant="default">{vp} VP</DonjonBadge>
     </div>
   )
 }
 
-/* ── Turn tracker ── */
+/* ── Turn tracker ── donjon: octagonal shell + flat segments + octagonal phase chips */
 function TurnTracker({ current, total, phase }) {
   const phases = ['Pohyb', 'Útok', 'Stavba']
   return (
-    <div style={{
-      display: 'flex', flexDirection: 'column', gap: 6,
-      padding: '10px 14px',
-      background: bg0,
-      border: `1px solid ${goldDim}30`,
-      borderRadius: 4,
-      minWidth: 180,
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-        <span style={{ fontSize: '0.625rem', color: textDeep, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Kolo</span>
-        <span style={{ fontSize: '1.125rem', fontWeight: 700, color: textActive }}>{current} <span style={{ fontSize: '0.75rem', color: textDeep }}>/ {total}</span></span>
-      </div>
-      <div style={{ display: 'flex', gap: 2 }}>
-        {Array.from({ length: total }).map((_, i) => (
-          <div key={i} style={{
-            flex: 1, height: 3, borderRadius: 2,
-            background: i < current ? goldMid : i === current - 1 ? gold : borderSubtle,
-          }} />
-        ))}
-      </div>
-      <div style={{ display: 'flex', gap: 4 }}>
-        {phases.map((p, i) => (
-          <div key={p} style={{
-            padding: '2px 6px', borderRadius: 2,
-            fontSize: '0.625rem', fontWeight: i === phase ? 700 : 400,
-            // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
-            background: i === phase ? '#B8956A20' : 'transparent',
-            // eslint-disable-next-line donjon/no-hardcoded-hex -- alpha-tail v middle stringu (manuální transformace na template literal)
-            border: `1px solid ${i === phase ? '#B8956A50' : 'transparent'}`,
-            color: i === phase ? goldMid : textDeep,
-          }}>{p}</div>
-        ))}
+    <div style={{ clipPath: octagon(4), background: `${goldDim}55`, padding: 1, minWidth: 180 }}>
+      <div style={{
+        clipPath: octagonInner(4),
+        display: 'flex', flexDirection: 'column', gap: 6,
+        padding: '10px 14px',
+        background: bgDeep,
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+          <span style={{ fontSize: '0.625rem', color: textDeep, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Kolo</span>
+          <span style={{ fontSize: '1.125rem', fontWeight: 700, color: textActive, fontVariantNumeric: 'tabular-nums' }}>
+            {current} <span style={{ fontSize: '0.75rem', color: textDeep }}>/ {total}</span>
+          </span>
+        </div>
+        {/* Round progress — flat segments (no border-radius) */}
+        <div style={{ display: 'flex', gap: 2 }}>
+          {Array.from({ length: total }).map((_, i) => (
+            <div key={i} style={{
+              flex: 1, height: 3,
+              background: i < current ? goldMid : i === current - 1 ? gold : borderSubtle,
+              boxShadow: i === current - 1 ? `0 0 4px ${gold}88` : 'none',
+            }} />
+          ))}
+        </div>
+        {/* Phase chips — octagonal */}
+        <div style={{ display: 'flex', gap: 4 }}>
+          {phases.map((p, i) => {
+            const isActive = i === phase
+            return (
+              <div key={p} style={{
+                clipPath: octagon(2),
+                background: isActive ? `${gold}33` : 'transparent',
+                padding: '2px 8px',
+                fontSize: '0.625rem', fontWeight: isActive ? 700 : 400,
+                color: isActive ? gold : textDeep,
+                letterSpacing: '0.04em',
+              }}>{p}</div>
+            )
+          })}
+        </div>
       </div>
     </div>
   )
 }
 
-/* ── VP counter ── */
+/* ── VP counter ── donjon: octagonal shell + diamond markers + flat segments */
 function VPCounter({ players }) {
   const max = 5
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: '10px 14px', background: bg0, border: `1px solid ${goldDim}30`, borderRadius: 4, minWidth: 200 }}>
-      <span style={{ fontSize: '0.625rem', color: textDeep, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Vítězné body</span>
-      {players.map(({ name, color, vp }) => (
-        <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ width: 8, height: 8, borderRadius: '50%', background: color, flexShrink: 0 }} />
-          <span style={{ fontSize: '0.75rem', color: textCool, width: 60 }}>{name}</span>
-          <div style={{ flex: 1, display: 'flex', gap: 3 }}>
-            {Array.from({ length: max }).map((_, i) => (
-              <div key={i} style={{
-                flex: 1, height: 8, borderRadius: 2,
-                background: i < vp ? color : borderSubtle,
-                boxShadow: i < vp ? `0 0 4px ${color}60` : 'none',
-                transition: 'background 0.2s',
-              }} />
-            ))}
+    <div style={{ clipPath: octagon(4), background: `${goldDim}55`, padding: 1, minWidth: 200 }}>
+      <div style={{
+        clipPath: octagonInner(4),
+        display: 'flex', flexDirection: 'column', gap: 6,
+        padding: '10px 14px',
+        background: bgDeep,
+      }}>
+        <span style={{ fontSize: '0.625rem', color: textDeep, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Vítězné body</span>
+        {players.map(({ name, color, vp }) => (
+          <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            {/* Diamond marker */}
+            <div style={{
+              width: 8, height: 8, transform: 'rotate(45deg)',
+              background: color, flexShrink: 0,
+            }} />
+            <span style={{ fontSize: '0.75rem', color: textCool, width: 60 }}>{name}</span>
+            <div style={{ flex: 1, display: 'flex', gap: 3 }}>
+              {Array.from({ length: max }).map((_, i) => (
+                <div key={i} style={{
+                  flex: 1, height: 8,
+                  background: i < vp ? color : borderSubtle,
+                  boxShadow: i < vp ? `0 0 4px ${color}60` : 'none',
+                  transition: 'background 0.2s',
+                }} />
+              ))}
+            </div>
+            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: textActive, width: 20, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{vp}</span>
           </div>
-          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: textActive, width: 20, textAlign: 'right' }}>{vp}</span>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }
 
-/* ── Action bar ── */
+/* ── Action bar ── donjon: octagonal outer shell + flat action tiles + keycap chips */
 function ActionBar({ actions, activePlayer: _activePlayer }) {
   return (
-    <div style={{
-      display: 'flex', gap: 6, padding: '8px 12px',
-      background: bg0, border: `1px solid ${goldDim}30`, borderRadius: 4,
-    }}>
-      {actions.map(({ label, key, available }) => (
-        <div key={label} style={{
-          padding: '6px 12px',
-          // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-          background: available ? '#1E1C3A' : bg0,
-          border: `1px solid ${available ? `${goldDim}40` : `${goldDim}20`}`,
-          borderRadius: 2,
-          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
-          opacity: available ? 1 : 0.4,
-          cursor: available ? 'pointer' : 'not-allowed',
-          minWidth: 60,
-        }}>
-          <span style={{ fontSize: '0.8125rem', color: available ? textActive : textDeep }}>{label}</span>
-          {/* eslint-disable-next-line donjon/no-hardcoded-hex, donjon/contrast-check -- TODO: tokenize keycap chip; current 2.24:1 is intentionally subdued, only seen as secondary keymap reminder */}
-          <code style={{ fontSize: '0.5625rem', color: textDeep, background: '#0E0C22', padding: '1px 4px', borderRadius: 2 }}>{key}</code>
-        </div>
-      ))}
+    <div style={{ clipPath: octagon(4), background: `${goldDim}55`, padding: 1 }}>
+      <div style={{
+        clipPath: octagonInner(4),
+        display: 'flex', gap: 6, padding: '8px 12px',
+        background: bgDeep,
+      }}>
+        {actions.map(({ label, key, available }) => (
+          <div key={label} style={{
+            padding: '6px 12px',
+            background: available ? bg4 : 'transparent',
+            border: `1px solid ${available ? `${goldDim}55` : `${goldDim}22`}`,
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
+            opacity: available ? 1 : 0.4,
+            cursor: available ? 'pointer' : 'not-allowed',
+            minWidth: 60,
+          }}>
+            <span style={{ fontSize: '0.8125rem', color: available ? textActive : textDeep, letterSpacing: '0.04em' }}>{label}</span>
+            {/* eslint-disable-next-line donjon/contrast-check -- HUD Action Bar pattern: keycap intentionally subdued (secondary keymap reminder) */}
+            <code style={{
+              fontSize: '0.5625rem', color: textFaint,
+              background: bg0, padding: '1px 5px',
+              fontFamily: 'monospace', letterSpacing: '0.05em',
+            }}>{key}</code>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
