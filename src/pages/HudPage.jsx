@@ -108,11 +108,8 @@ function VPCounter({ players }) {
         <span style={{ fontSize: '0.625rem', color: textDeep, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Vítězné body</span>
         {players.map(({ name, color, vp }) => (
           <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            {/* Diamond marker */}
-            <div style={{
-              width: 8, height: 8, transform: 'rotate(45deg)',
-              background: color, flexShrink: 0,
-            }} />
+            {/* Player marker — smallest Erb shield (xs = 24×28) */}
+            <Shield playerColor={color} size="xs" showSymbol={false} />
             <span style={{ fontSize: '0.75rem', color: textCool, width: 60 }}>{name}</span>
             <div style={{ flex: 1, display: 'flex', gap: 3 }}>
               {Array.from({ length: max }).map((_, i) => (
