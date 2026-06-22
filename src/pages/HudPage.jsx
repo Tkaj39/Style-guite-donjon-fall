@@ -1,7 +1,9 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { bg0, bg4, bgDeep, borderMuted, borderSubtle, failColor, gold, goldDim, goldMid, successColor, textActive, textCool, textDeep, textFaint } from '../lib/donjon/tokens'
+import { bg0, bgDeep, borderMuted, borderSubtle, failColor, gold, goldDim, goldMid, successColor, textActive, textCool, textDeep, textFaint } from '../lib/donjon/tokens'
 import { octagon, octagonInner } from '../lib/shared/octagon'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
+import ActionTile from '../lib/donjon/ActionTile'
+import { MoveIcon, SwordIcon, TowerIcon, HourglassIcon } from '../lib/donjon/icons'
 import { Shield, PlayerIdentityBadge } from '../lib/donjon/Erb'
 import { players } from '../data/gameUiMockData'
 
@@ -130,43 +132,40 @@ function VPCounter({ players }) {
   )
 }
 
-/* ── Action bar ── donjon: octagonal outer shell + flat action tiles + keycap chips */
+/* ── Action bar ── uses real <ActionTile> lib component
+   Mapping: each HUD action → ActionTile with matching variant + icon.
+   Keyboard shortcut is passed as the description prop (small text under title). */
+const ACTION_ICONS = {
+  M: <MoveIcon />,
+  A: <SwordIcon />,
+  B: <TowerIcon />,
+  E: <HourglassIcon />,
+}
+const ACTION_VARIANTS = {
+  M: 'move',
+  A: 'attack',
+  B: 'default',
+  E: 'default',
+}
 function ActionBar({ actions, activePlayer: _activePlayer }) {
   return (
     <div style={{ clipPath: octagon(4), background: `${goldDim}55`, padding: 1 }}>
       <div style={{
         clipPath: octagonInner(4),
-        display: 'flex', gap: 6, padding: '8px 12px',
+        display: 'flex', gap: 8, padding: '10px 14px',
         background: bgDeep,
       }}>
         {actions.map(({ label, key, available }) => (
-          <div key={label} style={{
-            clipPath: octagon(3),
-            background: available ? `${goldDim}77` : `${goldDim}22`,
-            padding: 1,
-            opacity: available ? 1 : 0.4,
-            cursor: available ? 'pointer' : 'not-allowed',
-            minWidth: 60,
-          }}>
-            <div style={{
-              clipPath: octagonInner(3),
-              padding: '6px 12px',
-              background: available ? bg4 : bg0,
-              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
-            }}>
-              <span style={{ fontSize: '0.8125rem', color: available ? textActive : textDeep, letterSpacing: '0.04em' }}>{label}</span>
-              {/* Keycap — octagonal mini chip (border-trick at sub-pixel cx) */}
-              <div style={{ clipPath: octagon(2), background: `${goldDim}44`, padding: 1 }}>
-                {/* eslint-disable-next-line donjon/contrast-check -- HUD Action Bar pattern: keycap intentionally subdued (secondary keymap reminder) */}
-                <code style={{
-                  display: 'block',
-                  clipPath: octagonInner(2),
-                  fontSize: '0.5625rem', color: textFaint,
-                  background: bg0, padding: '1px 6px',
-                  fontFamily: 'monospace', letterSpacing: '0.05em',
-                }}>{key}</code>
-              </div>
-            </div>
+          <div key={label} style={{ width: 80 }}>
+            <ActionTile
+              icon={ACTION_ICONS[key]}
+              title={label}
+              description={`[ ${key} ]`}
+              variant={ACTION_VARIANTS[key]}
+              disabled={!available}
+              size="sm"
+              ornament="decorated"
+            />
           </div>
         ))}
       </div>
