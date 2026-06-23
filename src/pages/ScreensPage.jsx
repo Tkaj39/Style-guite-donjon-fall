@@ -223,7 +223,7 @@ function PCLayout() {
 
       {/* Akce — lib ActionTile row, plná velikost (transparent menu, no padding) */}
       <div style={{
-        flexShrink: 0,
+        flexShrink: 0, paddingBottom: 3,
         display: 'flex', justifyContent: 'center',
       }}>
         <MiniActionRow scale={1} />
@@ -251,7 +251,7 @@ function TabletLayout() {
 
       {/* Akce — lib ActionTile row, mírně zmenšená (transparent menu, no padding) */}
       <div style={{
-        flexShrink: 0,
+        flexShrink: 0, paddingBottom: 3,
         display: 'flex', justifyContent: 'center',
       }}>
         <MiniActionRow scale={0.9} />
@@ -279,7 +279,7 @@ function MobileLayout() {
 
       {/* Akce — lib ActionTile row, scaled na 230px mobil frame (transparent menu, no padding) */}
       <div style={{
-        flexShrink: 0,
+        flexShrink: 0, paddingBottom: 3,
         display: 'flex', justifyContent: 'center',
         overflow: 'hidden',
       }}>

@@ -68,6 +68,9 @@ export default function ActionTile({
 
   const isBlocked     = disabled || locked
   const hasOrnaments  = ornament === 'decorated'
+  // HexOrnaments (top/bottom horizontal accents) skipped at xs — too cluttered
+  // at the 48×44 tile size; only the 4 corner RohOrnament brackets stay.
+  const hasHexOrnaments = hasOrnaments && size !== 'xs'
   // Corner ornament height scaled from cx (not from tile height — that was a magic formula)
   const ornH          = hasOrnaments ? ornamentHForCx(s.cx, 'roh') : 0
   // Ornament width for the horizontal padding calc (≈ cx for roh)
@@ -142,8 +145,8 @@ export default function ActionTile({
       {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}tr`} flip color={ornamentColor} bgFill={ornamentBgFill} />}
       {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}bl`} bottom color={ornamentColor} bgFill={ornamentBgFill} />}
       {hasOrnaments && <RohOrnament h={ornH} uid={`${uid}br`} flip bottom color={ornamentColor} bgFill={ornamentBgFill} />}
-      {hasOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={s.cx + 4} color={ornamentColor} bgFill={ornamentBgFill} />}
-      {hasOrnaments && <HexOrnament uid={`${uid}hb`} flip edgePadL={s.cx + 4} color={ornamentColor} bgFill={ornamentBgFill} />}
+      {hasHexOrnaments && <HexOrnament uid={`${uid}ht`} edgePadL={s.cx + 4} color={ornamentColor} bgFill={ornamentBgFill} />}
+      {hasHexOrnaments && <HexOrnament uid={`${uid}hb`} flip edgePadL={s.cx + 4} color={ornamentColor} bgFill={ornamentBgFill} />}
 
       {/* Icon */}
       <div style={{
