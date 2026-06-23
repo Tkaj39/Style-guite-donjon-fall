@@ -131,6 +131,8 @@ export function Shield({
   // proportional to size, min 2px to stay visible on smaller shields too.
   const hexEdgeInset  = Math.max(2, Math.round(s.w * 0.06))
   const hrotEdgeInset = Math.max(2, Math.round(s.w * 0.06))
+  // Ring thickness scales with shield size: min 2 px, ~8 % of width otherwise.
+  const ring = Math.max(2, Math.round(s.w * 0.08))
 
   return (
     <div style={{
@@ -139,10 +141,21 @@ export function Shield({
       filter: `drop-shadow(0 0 8px ${color}55)`,
       flexShrink: 0,
     }}>
-      {/* Outer border */}
+      {/* Gold outer frame — full size, clipped to erb shape. Renders as
+          a visible gold ring around the player-color middle ring. Ring
+          thickness scales with shield size: min 2 px, ~8 % of width otherwise. */}
       <div style={{
         width: s.w, height: s.h,
         clipPath: clip,
+        background: gold,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      {/* Player-color middle ring — sits inside the gold frame. */}
+      <div style={{
+        width: s.w - ring * 2, height: s.h - ring * 2,
+        clipPath: isPrapor ? getPraporClip(s.w - ring * 2, s.h - ring * 2) : clip,
         background: color,
         display: 'flex',
         alignItems: symAlign,
@@ -170,11 +183,11 @@ export function Shield({
           </div>
         )}
 
-        {/* Inner fill */}
+        {/* Inner fill — sits inside the player-color middle ring */}
         <div style={{
-          width: s.w - 3, height: s.h - 3,
+          width: s.w - ring * 4, height: s.h - ring * 4,
           // For the prapor we recompute the clip for the inner dimensions so the tip aligns with outer.
-          clipPath: isPrapor ? getPraporClip(s.w - 3, s.h - 3) : clip,
+          clipPath: isPrapor ? getPraporClip(s.w - ring * 4, s.h - ring * 4) : clip,
           background: color + '22',
           display: 'flex',
           alignItems: symAlign,
@@ -215,6 +228,7 @@ export function Shield({
             </span>
           )}
         </div>
+      </div>
       </div>
 
       {/* HrotErbu — under the bottom tip (outside the outer, so it isn't clipped
