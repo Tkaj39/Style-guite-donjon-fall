@@ -1,15 +1,17 @@
 import HexTile from '../lib/donjon/HexTile'
-import { textFaint, textParchment, gold, goldDim, bgDeep } from '../lib/donjon/tokens'
+import { textFaint, gold, goldDim, bgDeep } from '../lib/donjon/tokens'
 import { octagon } from '../lib/shared/octagon'
 import DieFace from '../lib/donjon/DieFace'
 import { Shield } from '../lib/donjon/Erb'
 import ActionTile from '../lib/donjon/ActionTile'
-import { MoveIcon, TowerIcon, BombIcon, DiceIcon } from '../lib/donjon/icons'
+import { MoveIcon, SwordIcon, ShieldIcon, TowerIcon, BombIcon, DiceIcon } from '../lib/donjon/icons'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { FRAME } from '../styleguide/DeviceFrame'
 import { players } from '../data/gameUiMockData'
 
+/* Per-player pictograms shown inside the Erb shield in the score header. */
+const PLAYER_ICONS = [<SwordIcon />, <ShieldIcon />]
 const p1 = players[0] // červený
 const p2 = players[1] // modrý
 
@@ -142,14 +144,8 @@ function MiniScoreHeader({ size = 'md' }) {
         : `${bgDeep}cc`,
       flexShrink: 0,
     }}>
-      {/* Player marker — smallest Erb shield (numeric size — chip-scaled) */}
-      <Shield playerColor={player.color} size={c.erb} showSymbol={false} />
-      {/* Hráč label */}
-      <span style={{
-        fontSize: c.fs,
-        color: active ? gold : textParchment,
-        fontWeight: 700, letterSpacing: '0.06em',
-      }}>H{idx + 1}</span>
+      {/* Player marker — Erb shield with player's pictogram (no H1/H2 label) */}
+      <Shield playerColor={player.color} size={c.erb} icon={PLAYER_ICONS[idx]} />
       {/* VP progress bary — HUD VP Counter pattern */}
       <div style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
         {Array.from({ length: MAX_VP }, (_, i) => (
