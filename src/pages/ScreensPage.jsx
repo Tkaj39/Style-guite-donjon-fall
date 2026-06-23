@@ -146,12 +146,12 @@ function MiniScoreHeader({ size = 'md' }) {
     }}>
       {/* Player marker — Erb shield with player's pictogram (no H1/H2 label) */}
       <Shield playerColor={player.color} size={c.erb} icon={PLAYER_ICONS[idx]} />
-      {/* VP progress bary — HUD VP Counter pattern */}
+      {/* VP progress bary — chamfered pips (mirror HudPage VP Counter pattern) */}
       <div style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
         {Array.from({ length: MAX_VP }, (_, i) => (
           <div key={i} style={{
             width: c.barW, height: c.barH,
-            borderRadius: 1,
+            clipPath: octagon(1),
             background: i < vp ? player.color : `${goldDim}33`,
             boxShadow: i < vp ? `0 0 3px ${player.color}66` : 'none',
           }} />
