@@ -1,6 +1,7 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { bg0, bgDeep, borderMuted, borderSubtle, failColor, gold, goldDim, goldMid, successColor, textActive, textDeep, textFaint } from '../lib/donjon/tokens'
 import { octagon, octagonInner } from '../lib/shared/octagon'
+import { RohOrnament, ornamentHForCx } from '../lib/donjon/Ornaments'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import ActionTile from '../lib/donjon/ActionTile'
 import { MoveIcon, SwordIcon, ShieldIcon, TowerIcon, HourglassIcon } from '../lib/donjon/icons'
@@ -94,36 +95,57 @@ function TurnTracker({ current, total, phase }) {
   )
 }
 
-/* ── VP counter ── donjon: octagonal shell + diamond markers + flat segments */
+/* ── VP counter ── donjon: corner ornaments + chamfered VP segments */
 function VPCounter({ players }) {
   const max = 5
+  const ornH = ornamentHForCx(8, 'roh')  // 4 RohOrnaments at the corners
   return (
-    <div style={{ clipPath: octagon(4), background: `${goldDim}55`, padding: 1, minWidth: 200 }}>
-      <div style={{
-        clipPath: octagonInner(4),
-        display: 'flex', flexDirection: 'column', gap: 6,
-        padding: '10px 14px',
-        background: bgDeep,
-      }}>
-        <span style={{ fontSize: '0.625rem', color: textDeep, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Vítězné body</span>
-        {players.map(({ name, color, vp, icon }) => (
-          <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            {/* Player marker — Erb shield with player's faction pictogram */}
-            <Shield playerColor={color} size="xs" icon={icon} />
-            <div style={{ flex: 1, display: 'flex', gap: 3 }}>
-              {Array.from({ length: max }).map((_, i) => (
-                <div key={i} style={{
-                  flex: 1, height: 8,
-                  background: i < vp ? color : borderSubtle,
-                  boxShadow: i < vp ? `0 0 4px ${color}60` : 'none',
-                  transition: 'background 0.2s',
-                }} />
-              ))}
+    <div style={{ position: 'relative', minWidth: 200 }}>
+      {/* Outer octagonal shell — border-trick */}
+      <div style={{ clipPath: octagon(8), background: `${goldDim}55`, padding: 1 }}>
+        <div style={{
+          clipPath: octagonInner(8),
+          display: 'flex', flexDirection: 'column', gap: 6,
+          padding: '12px 16px',
+          background: bgDeep,
+        }}>
+          <span style={{ fontSize: '0.625rem', color: textDeep, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Vítězné body</span>
+          {players.map(({ name, color, vp, icon }) => (
+            <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              {/* Player marker — Erb shield with player's faction pictogram */}
+              <Shield playerColor={color} size="xs" icon={icon} />
+              {/* Chamfered VP segments — each pip is an octagonal border-trick */}
+              <div style={{ flex: 1, display: 'flex', gap: 4 }}>
+                {Array.from({ length: max }).map((_, i) => {
+                  const filled = i < vp
+                  return (
+                    <div key={i} style={{
+                      flex: 1,
+                      clipPath: octagon(2),
+                      background: filled ? color : `${goldDim}55`,
+                      padding: 1,
+                      boxShadow: filled ? `0 0 4px ${color}80` : 'none',
+                      transition: 'background 0.2s, box-shadow 0.2s',
+                    }}>
+                      <div style={{
+                        clipPath: octagonInner(2),
+                        height: 8,
+                        background: filled ? color : borderSubtle,
+                      }} />
+                    </div>
+                  )
+                })}
+              </div>
+              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: textActive, width: 20, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{vp}</span>
             </div>
-            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: textActive, width: 20, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{vp}</span>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
+      {/* 4 corner RohOrnament brackets — absolute, hover above the shell */}
+      <RohOrnament h={ornH} uid="vp-tl" />
+      <RohOrnament h={ornH} uid="vp-tr" flip />
+      <RohOrnament h={ornH} uid="vp-bl" bottom />
+      <RohOrnament h={ornH} uid="vp-br" flip bottom />
     </div>
   )
 }
