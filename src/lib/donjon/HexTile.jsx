@@ -91,8 +91,11 @@ function resolveLook(property, focal, state, owner) {
   let border = overlay.border ?? base.border
   let fill   = overlay.fill   ?? base.fill
   if (property === 'base' && owner) {
-    border = overlay.border ?? owner
-    fill   = overlay.fill   ?? (owner + '33')
+    /* Base hex: dark outline (parity with empty hexes) so neighbouring
+       bases stay visible as separate tiles, not a single colored blob.
+       Owner color drives the fill instead of the border. */
+    border = overlay.border ?? borderMuted
+    fill   = overlay.fill   ?? owner
   }
 
   // Marker: explicit `null` in the overlay (move/attack/blocked) clears the
