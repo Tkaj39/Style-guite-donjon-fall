@@ -176,6 +176,7 @@ export default function HexTile({
   size = 'md',
   label,
   showLabel = false,
+  texture,
 }) {
   const s = HEX_TILE_SIZES[size] ?? HEX_TILE_SIZES.md
   const [resolvedProperty, resolvedFocal, resolvedState] = normalize({ property, focal, state })
@@ -183,6 +184,14 @@ export default function HexTile({
 
   const iconSize = HEX_TILE_ICON_SIZES[size] ?? HEX_TILE_ICON_SIZES.md
   const dotSize  = HEX_TILE_DOT_SIZES[size]  ?? HEX_TILE_DOT_SIZES.md
+
+  // Texture overrides the fill ONLY on empty cells — focal/base keep their
+  // semantic fills (player color, focal gold). On empty, the texture covers
+  // the inner hex via background-image with cover sizing + center anchor.
+  const useTexture = texture && resolvedProperty === 'empty'
+  const innerFillStyle = useTexture
+    ? { backgroundImage: `url(${texture})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+    : { background: look.fill }
 
   return (
     <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
@@ -198,7 +207,7 @@ export default function HexTile({
             top: HEX_TILE_BORDER_WIDTH, left: HEX_TILE_BORDER_WIDTH,
             right: HEX_TILE_BORDER_WIDTH, bottom: HEX_TILE_BORDER_WIDTH,
             clipPath: HEX_CLIP,
-            background: look.fill,
+            ...innerFillStyle,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
