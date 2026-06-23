@@ -55,11 +55,14 @@ const BASE_LOOK = { border: null, fill: null, marker: null, glow: null, opacity:
 // property visuals (fill, marker icon, owner color) remain VISIBLE underneath
 // — you can tell a focal cell from a base cell from an empty cell at a glance
 // regardless of the current interaction state.
+/* Each interaction state carries BOTH a colored border AND a tint that
+   gets layered over the texture/fill — the colored fill keeps the state
+   readable even when the 1 px border collides with a neighbour's border. */
 const STATE_OVERLAY = {
   default:  {},
-  selected: { border: textActive,  glow: `0 0 12px ${textActive}66` },
-  move:     { border: gainColor,   glow: `0 0 10px ${gainColor}55`   },
-  attack:   { border: dangerColor, glow: `0 0 10px ${dangerColor}55` },
+  selected: { border: textActive,  tint: `${textActive}55`,  glow: `0 0 12px ${textActive}66` },
+  move:     { border: gainColor,   tint: `${gainColor}55`,   glow: `0 0 10px ${gainColor}55`   },
+  attack:   { border: dangerColor, tint: `${dangerColor}55`, glow: `0 0 10px ${dangerColor}55` },
   blocked:  { border: borderMid,   glow: null, opacity: 0.45 },
 }
 
@@ -107,6 +110,7 @@ function resolveLook(property, focal, state, owner) {
   return {
     border:  border ?? borderMuted,
     fill:    fill   ?? bgDeep,
+    tint:    overlay.tint    ?? null,
     glow:    overlay.glow    ?? base.glow,
     opacity: overlay.opacity ?? base.opacity,
     marker,
@@ -193,10 +197,20 @@ export default function HexTile({
   // Texture overrides the fill ONLY on empty cells — focal/base keep their
   // semantic fills (player color, focal gold). On empty, the texture covers
   // the inner hex via background-image with cover sizing + center anchor.
+  // When an interaction state carries a `tint`, it layers ON TOP of the
+  // texture/fill via a flat linear-gradient — keeps the colored state
+  // unmistakable even when 1 px borders collide between neighbours.
   const useTexture = texture && resolvedProperty === 'empty'
+  const tintLayer = look.tint ? `linear-gradient(${look.tint}, ${look.tint})` : null
   const innerFillStyle = useTexture
-    ? { backgroundImage: `url(${texture})`, backgroundSize: 'cover', backgroundPosition: 'center' }
-    : { background: look.fill }
+    ? {
+        backgroundImage: tintLayer ? `${tintLayer}, url(${texture})` : `url(${texture})`,
+        backgroundSize:  tintLayer ? 'auto, cover'   : 'cover',
+        backgroundPosition: 'center',
+      }
+    : tintLayer
+      ? { backgroundImage: tintLayer, background: look.fill }
+      : { background: look.fill }
 
   return (
     <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
