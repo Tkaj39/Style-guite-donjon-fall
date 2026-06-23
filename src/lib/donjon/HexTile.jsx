@@ -200,17 +200,22 @@ export default function HexTile({
   // When an interaction state carries a `tint`, it layers ON TOP of the
   // texture/fill via a flat linear-gradient — keeps the colored state
   // unmistakable even when 1 px borders collide between neighbours.
+  // Vignette: subtle radial darkening near the edges → tile reads as
+  // gently recessed. Layered on TOP of everything (first in the list).
+  const VIGNETTE = 'radial-gradient(ellipse at center, transparent 65%, rgba(0, 0, 0, 0.45) 100%)'
   const useTexture = texture && resolvedProperty === 'empty'
   const tintLayer = look.tint ? `linear-gradient(${look.tint}, ${look.tint})` : null
+  const layers = [VIGNETTE, tintLayer, useTexture ? `url(${texture})` : null].filter(Boolean)
   const innerFillStyle = useTexture
     ? {
-        backgroundImage: tintLayer ? `${tintLayer}, url(${texture})` : `url(${texture})`,
-        backgroundSize:  tintLayer ? 'auto, cover'   : 'cover',
+        backgroundImage: layers.join(', '),
+        backgroundSize:  layers.map(l => l.startsWith('url') ? 'cover' : 'auto').join(', '),
         backgroundPosition: 'center',
       }
-    : tintLayer
-      ? { backgroundImage: tintLayer, background: look.fill }
-      : { background: look.fill }
+    : {
+        backgroundImage: layers.join(', '),
+        background: look.fill,
+      }
 
   return (
     <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
