@@ -1,5 +1,5 @@
 import HexTile from '../lib/donjon/HexTile'
-import { textFaint, textParchment, gold, goldDim } from '../lib/donjon/tokens'
+import { textFaint, textParchment, gold, goldDim, bgDeep } from '../lib/donjon/tokens'
 import { octagon } from '../lib/shared/octagon'
 import DieFace from '../lib/donjon/DieFace'
 import { Shield } from '../lib/donjon/Erb'
@@ -126,7 +126,9 @@ function MiniScoreHeader({ size = 'md' }) {
       display: 'flex', alignItems: 'center', gap: 6,
       padding: `${Math.round(c.h * 0.18)}px ${c.px - 2}px`,
       clipPath: octagon(3),
-      background: active ? `${gold}33` : 'transparent',
+      /* Semi-transparent dark backdrop — readable text on grass, texture
+         still subtly visible. Active hráč má gold tint + tmavý baseline. */
+      background: active ? `${gold}66` : `${bgDeep}cc`,
       flexShrink: 0,
     }}>
       {/* Player marker — smallest Erb shield (numeric size — chip-scaled) */}
@@ -165,7 +167,12 @@ function MiniScoreHeader({ size = 'md' }) {
       flexShrink: 0,
     }}>
       <Chip player={p1} vp={DEMO_VP[0]} active={DEMO_ACTIVE_PLAYER === 0} idx={0} />
-      <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 1 }}>
+      <div style={{
+        textAlign: 'center', display: 'flex', flexDirection: 'column',
+        justifyContent: 'center', gap: 1,
+        padding: `${Math.round(c.h * 0.12)}px ${c.px - 2}px`,
+        clipPath: octagon(3), background: `${bgDeep}cc`,
+      }}>
         <span style={{ fontSize: c.fsSmall, color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
           Tah {DEMO_TURN} · {DEMO_PHASE}
         </span>
