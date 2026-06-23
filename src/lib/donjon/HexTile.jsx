@@ -42,8 +42,10 @@ const LEGACY_STATE_TO_TRIPLE = {
 // `marker` values: null (none) | 'dot' (passive focal) | 'flame' (active focal).
 const EMPTY_LOOK = { border: borderMuted, fill: bgDeep, marker: null,  glow: null, opacity: 1 }
 
-const FOCAL_PASSIVE_LOOK = { border: focalPassiveBorder, fill: focalPassiveBg, marker: 'dot',   glow: null, opacity: 1 }
-const FOCAL_ACTIVE_LOOK  = { border: gold,               fill: focalActiveBg,  marker: 'flame', glow: `0 0 14px ${gold}66`, opacity: 1 }
+/* Borders unified to borderMuted (same as empty) — fill + marker + glow
+   carry the focal semantics, so the honeycomb seam stays crisp at gap=0. */
+const FOCAL_PASSIVE_LOOK = { border: borderMuted, fill: focalPassiveBg, marker: 'dot',   glow: null, opacity: 1 }
+const FOCAL_ACTIVE_LOOK  = { border: borderMuted, fill: focalActiveBg,  marker: 'flame', glow: `0 0 14px ${gold}66`, opacity: 1 }
 
 // `base` derives border + fill from the `owner` color (see resolveLook).
 const BASE_LOOK = { border: null, fill: null, marker: null, glow: null, opacity: 1 }
