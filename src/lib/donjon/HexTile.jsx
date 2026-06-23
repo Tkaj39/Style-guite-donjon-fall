@@ -199,7 +199,13 @@ export default function HexTile({
   return (
     <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
       <div style={{
-        filter: look.glow ? `drop-shadow(${look.glow})` : undefined,
+        /* Base drop-shadow strongly pushed down (Y offset) — gives each hex
+           visual depth above the textured field. Combined with the look glow
+           when a state demands it (selected / move / attack / focal active). */
+        filter: [
+          'drop-shadow(0 6px 5px rgba(0, 0, 0, 0.55))',
+          look.glow ? `drop-shadow(${look.glow})` : null,
+        ].filter(Boolean).join(' '),
         opacity: look.opacity,
       }}>
         {/* Outer border layer */}
