@@ -173,7 +173,7 @@ function MiniScoreHeader({ size = 'md' }) {
    Per uživatel: tlačítka jen s piktogramy, žádný titulek ani shortcut text.
    title prop drží aria-label, ale renderuje empty span — vizuálně jen ikona. */
 const SCREEN_ACTIONS = [
-  { label: 'Pohyb kostky', icon: <MoveIcon />,  variant: 'move',    selected: true },
+  { label: 'Pohyb kostky', icon: <MoveIcon />,  variant: 'move' },
   { label: 'Pohyb věže',   icon: <TowerIcon />, variant: 'default' },
   { label: 'Kolaps věže',  icon: <BombIcon />,  variant: 'attack' },
   { label: 'Přehazování',  icon: <DiceIcon />,  variant: 'special' },
