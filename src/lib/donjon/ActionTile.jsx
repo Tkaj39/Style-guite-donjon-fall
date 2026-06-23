@@ -156,18 +156,20 @@ export default function ActionTile({
         {icon}
       </div>
 
-      {/* Title */}
-      <span style={{
-        fontSize: s.titleSize,
-        fontWeight: 600,
-        color: disabled ? textFaint : selected ? textHigh : textMid,
-        letterSpacing: '0.04em',
-        textAlign: 'center',
-        lineHeight: 1.2,
-        transition: 'color 0.15s',
-      }}>
-        {title}
-      </span>
+      {/* Title — skipped when empty/undefined so icon-only tiles center the icon */}
+      {title && (
+        <span style={{
+          fontSize: s.titleSize,
+          fontWeight: 600,
+          color: disabled ? textFaint : selected ? textHigh : textMid,
+          letterSpacing: '0.04em',
+          textAlign: 'center',
+          lineHeight: 1.2,
+          transition: 'color 0.15s',
+        }}>
+          {title}
+        </span>
+      )}
 
       {/* Description — optional */}
       {description && (
