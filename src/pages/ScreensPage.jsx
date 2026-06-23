@@ -127,8 +127,11 @@ function MiniScoreHeader({ size = 'md' }) {
       padding: `${Math.round(c.h * 0.18)}px ${c.px - 2}px`,
       clipPath: octagon(3),
       /* Semi-transparent dark backdrop — readable text on grass, texture
-         still subtly visible. Active hráč má gold tint + tmavý baseline. */
-      background: active ? `${gold}66` : `${bgDeep}cc`,
+         still subtly visible. Active hráč: gold tint VRSTVENÝ nad solid
+         dark bgDeep (ne přes trávu) → kontrast pro gold text zůstává. */
+      background: active
+        ? `linear-gradient(${gold}55, ${gold}55), ${bgDeep}`
+        : `${bgDeep}cc`,
       flexShrink: 0,
     }}>
       {/* Player marker — smallest Erb shield (numeric size — chip-scaled) */}
