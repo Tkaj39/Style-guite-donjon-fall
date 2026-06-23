@@ -56,7 +56,7 @@ const BOARD_ROWS = [
    má jinou šířku, centerování automaticky produkuje halfOff zarovnání
    sousedních řad. Žádná explicitní liché/sudé switch logika nepotřeba.
    dieTop = vzdálenost top od vrcholu hexu kde má být střed xs die. */
-function HexGrid({ cellW = 42, cellH = 48, gap = 4 }) {
+function HexGrid({ cellW = 42, cellH = 48, gap = 4, texture }) {
   const dieTop = Math.round(cellH / 2) - 12
   const rowH   = Math.round(cellH * 0.75) + gap
   const colW   = cellW + gap
@@ -75,7 +75,7 @@ function HexGrid({ cellW = 42, cellH = 48, gap = 4 }) {
           return (
             <div key={`${ri}-${ci}`} style={{ position: 'absolute', left: x, top: y }}>
               <div style={{ position: 'relative', width: cellW, height: cellH, overflow: 'visible' }}>
-                <HexTile state={h.state} owner={h.owner} size="sm" />
+                <HexTile state={h.state} owner={h.owner} size="sm" texture={texture} />
                 {h.die && (
                   <div style={{
                     position: 'absolute',
@@ -104,6 +104,15 @@ function HexGrid({ cellW = 42, cellH = 48, gap = 4 }) {
    P2 chip stejný layout zrcadlený. Aktivní hráč má gold-tint pozadí.       */
 const DEMO_ACTIVE_PLAYER = 0  // 0 = P1, 1 = P2
 const MAX_VP = 5
+
+/* ── Grass texture per breakpoint ──────────────────────────────────────────
+   Same tile, 3 resolutions. Smaller resolutions for mobile/tablet save
+   bandwidth; PC gets the crisp 1024 version. */
+const GRASS_TEXTURE = {
+  desktop: '/textures/grass_tile_1024x1024.jpg',
+  tablet:  '/textures/grass_tile_512x512.jpg',
+  mobile:  '/textures/grass_tile_256x256.jpg',
+}
 function MiniScoreHeader({ size = 'md' }) {
   const cfg = {
     md:  { h: 44, fs: '0.5625rem', fsSmall: '0.4375rem', erb: 18, barW: 8, barH: 5, px: 14 },
@@ -212,13 +221,14 @@ function PCLayout() {
     <>
       <MiniScoreHeader size="md" />
 
-      {/* Mapa — vycentrovaná v celé šířce */}
+      {/* Mapa — vycentrovaná v celé šířce, grass tile bg */}
       <div style={{
         flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-        background: '#0F0E1E', overflow: 'hidden',
+        backgroundImage: `url(${GRASS_TEXTURE.desktop})`,
+        backgroundSize: '256px 256px', backgroundRepeat: 'repeat',
+        overflow: 'hidden',
       }}>
-        <HexGrid />
+        <HexGrid texture={GRASS_TEXTURE.desktop} />
       </div>
 
       {/* Akce — lib ActionTile row, plná velikost (transparent menu, no padding) */}
@@ -238,14 +248,15 @@ function TabletLayout() {
     <>
       <MiniScoreHeader size="sm" />
 
-      {/* Mapa — vycentrovaná, scaled na šířku tablet framu */}
+      {/* Mapa — vycentrovaná, scaled na šířku tablet framu, grass tile bg */}
       <div style={{
         flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-        background: '#0F0E1E', overflow: 'hidden',
+        backgroundImage: `url(${GRASS_TEXTURE.tablet})`,
+        backgroundSize: '256px 256px', backgroundRepeat: 'repeat',
+        overflow: 'hidden',
       }}>
         <div style={{ transform: 'scale(0.85)', transformOrigin: 'center' }}>
-          <HexGrid />
+          <HexGrid texture={GRASS_TEXTURE.tablet} />
         </div>
       </div>
 
@@ -266,14 +277,15 @@ function MobileLayout() {
     <>
       <MiniScoreHeader size="xs" />
 
-      {/* Mapa — mírně zmenšena */}
+      {/* Mapa — mírně zmenšena, grass tile bg */}
       <div style={{
         flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-        background: '#0F0E1E', overflow: 'hidden',
+        backgroundImage: `url(${GRASS_TEXTURE.mobile})`,
+        backgroundSize: '256px 256px', backgroundRepeat: 'repeat',
+        overflow: 'hidden',
       }}>
         <div style={{ transform: 'scale(0.5)', transformOrigin: 'center' }}>
-          <HexGrid />
+          <HexGrid texture={GRASS_TEXTURE.mobile} />
         </div>
       </div>
 
