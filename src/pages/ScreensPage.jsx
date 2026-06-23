@@ -170,16 +170,17 @@ function MiniScoreHeader({ size = 'md' }) {
 }
 
 /* ── Action Bar — sdílená data pro 3 layouty ──────────────────────────────
-   Stejné akce jako /hud Action Bar; přepínáme jen scale + container. */
+   Per uživatel: tlačítka jen s piktogramy, žádný titulek ani shortcut text.
+   title prop drží aria-label, ale renderuje empty span — vizuálně jen ikona. */
 const SCREEN_ACTIONS = [
-  { label: 'Pohyb kostky', keycap: 'M', icon: <MoveIcon />,  variant: 'move',    selected: true },
-  { label: 'Pohyb věže',   keycap: 'V', icon: <TowerIcon />, variant: 'default' },
-  { label: 'Kolaps věže',  keycap: 'K', icon: <BombIcon />,  variant: 'attack' },
-  { label: 'Přehazování',  keycap: 'R', icon: <DiceIcon />,  variant: 'special' },
+  { label: 'Pohyb kostky', icon: <MoveIcon />,  variant: 'move',    selected: true },
+  { label: 'Pohyb věže',   icon: <TowerIcon />, variant: 'default' },
+  { label: 'Kolaps věže',  icon: <BombIcon />,  variant: 'attack' },
+  { label: 'Přehazování',  icon: <DiceIcon />,  variant: 'special' },
 ]
 
 /* Wrapper kolem lib <ActionTile> — fixní size="sm" (80×72), per-viewport
-   scale na celé řadě (PC 1.0, tablet 0.95, mobil 0.62 — aby 4 tile sedly
+   scale na celé řadě (PC 1.0, tablet 0.85, mobil 0.62 — aby 4 tile sedly
    do 230px frame šířky bez overflow). */
 function MiniActionRow({ scale = 1 }) {
   return (
@@ -190,11 +191,10 @@ function MiniActionRow({ scale = 1 }) {
       transformOrigin: 'center top',
     }}>
       {SCREEN_ACTIONS.map(a => (
-        <div key={a.label} style={{ width: 80, flexShrink: 0 }}>
+        <div key={a.label} style={{ width: 80, flexShrink: 0 }} aria-label={a.label}>
           <ActionTile
             icon={a.icon}
-            title={a.label}
-            description={`[ ${a.keycap} ]`}
+            title=""
             variant={a.variant}
             selected={a.selected}
             size="sm"
