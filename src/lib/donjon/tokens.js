@@ -219,8 +219,9 @@ export const HEX_TILE_SIZES = {
 }
 
 /** Border thickness (px) — the visible outer outline of a hex tile.
- *  Implemented as the inset between the outer border layer and inner fill. */
-export const HEX_TILE_BORDER_WIDTH = 2
+ *  Implemented as the inset between the outer border layer and inner fill.
+ *  Kept at 1 so neighbouring hexes at gap=0 don't double up into a 4 px seam. */
+export const HEX_TILE_BORDER_WIDTH = 1
 
 /** Inner icon size (px) per HexTile size — used by FlameIcon on focal-active. */
 export const HEX_TILE_ICON_SIZES = { sm: 8, md: 10, lg: 14 }

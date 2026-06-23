@@ -208,9 +208,11 @@ export default function HexTile({
         ].filter(Boolean).join(' '),
         opacity: look.opacity,
       }}>
-        {/* Outer border layer */}
+        {/* Border-trick — outer hex clipped to full shape and filled with
+           the border color; inner hex inset by HEX_TILE_BORDER_WIDTH and
+           clipped again, filled with the actual cell content. The clip
+           ensures the border follows the hex shape exactly. */}
         <div style={{ position: 'relative', width: s.w, height: s.h, clipPath: HEX_CLIP, background: look.border }}>
-          {/* Inner fill layer — HEX_TILE_BORDER_WIDTH inset via absolute positioning */}
           <div style={{
             position: 'absolute',
             top: HEX_TILE_BORDER_WIDTH, left: HEX_TILE_BORDER_WIDTH,
