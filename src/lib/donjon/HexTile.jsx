@@ -202,7 +202,7 @@ export default function HexTile({
   // unmistakable even when 1 px borders collide between neighbours.
   // Vignette: subtle radial darkening near the edges → tile reads as
   // gently recessed. Layered on TOP of everything (first in the list).
-  const VIGNETTE = 'radial-gradient(ellipse at center, transparent 65%, rgba(0, 0, 0, 0.45) 100%)'
+  const VIGNETTE = 'radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.85) 100%)'
   const useTexture = texture && resolvedProperty === 'empty'
   const tintLayer = look.tint ? `linear-gradient(${look.tint}, ${look.tint})` : null
   const layers = [VIGNETTE, tintLayer, useTexture ? `url(${texture})` : null].filter(Boolean)
