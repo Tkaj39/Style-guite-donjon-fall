@@ -200,10 +200,24 @@ export default function HexTile({
   // When an interaction state carries a `tint`, it layers ON TOP of the
   // texture/fill via a flat linear-gradient — keeps the colored state
   // unmistakable even when 1 px borders collide between neighbours.
-  // Vignette: subtle radial darkening near the edges → tile reads as
-  // gently recessed. Layered on TOP of everything (first in the list).
-  const VIGNETTE = 'radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.85) 100%)'
   const useTexture = texture && resolvedProperty === 'empty'
+  // Vignette: subtle radial darkening near the edges, color matched to the
+  // cell's natural fill — empty+grass fades to dark green, base fades to a
+  // dark version of the player color (computed with CSS color-mix), focal
+  // fades to a dark amber. Tile reads as gently recessed in its own palette.
+  let vignetteEdge
+  if (resolvedProperty === 'base' && owner) {
+    vignetteEdge = `color-mix(in srgb, ${owner} 30%, black)`
+  } else if (resolvedProperty === 'focal') {
+    // eslint-disable-next-line donjon/no-hardcoded-hex -- dark amber edge for focal vignette
+    vignetteEdge = '#2A1C0A'
+  } else if (useTexture) {
+    // eslint-disable-next-line donjon/no-hardcoded-hex -- dark green edge matched to grass
+    vignetteEdge = '#0E1A0A'
+  } else {
+    vignetteEdge = 'rgba(0, 0, 0, 0.85)'
+  }
+  const VIGNETTE = `radial-gradient(ellipse at center, transparent 45%, ${vignetteEdge} 100%)`
   const tintLayer = look.tint ? `linear-gradient(${look.tint}, ${look.tint})` : null
   const layers = [VIGNETTE, tintLayer, useTexture ? `url(${texture})` : null].filter(Boolean)
   const innerFillStyle = useTexture
