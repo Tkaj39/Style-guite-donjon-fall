@@ -217,7 +217,7 @@ export default function HexTile({
   } else {
     vignetteEdge = 'rgba(0, 0, 0, 0.85)'
   }
-  const VIGNETTE = `radial-gradient(ellipse at center, transparent 45%, ${vignetteEdge} 100%)`
+  const VIGNETTE = `radial-gradient(ellipse at center, transparent 60%, ${vignetteEdge} 100%)`
   const tintLayer = look.tint ? `linear-gradient(${look.tint}, ${look.tint})` : null
   const layers = [VIGNETTE, tintLayer, useTexture ? `url(${texture})` : null].filter(Boolean)
   const innerFillStyle = useTexture
