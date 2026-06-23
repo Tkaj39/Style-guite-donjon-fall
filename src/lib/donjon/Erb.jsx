@@ -8,6 +8,7 @@
      • shape="prapor" — banner with a fixed tip, variable length.
                         Tip = 28.9% of width (fixed). Body of arbitrary length.
    ─────────────────────────────────────────────────────────────────────── */
+import { cloneElement, isValidElement } from 'react'
 import {
   bg2, gold, goldDim, neutralColor, textHighest,
   SHIELD_SIZES, SHIELD_ASPECT_RATIO, SHIELD_ORNAMENT_MIN_WIDTH,
@@ -180,17 +181,26 @@ export function Shield({
           justifyContent: 'center',
           paddingTop: symPadTop,
         }}>
-          {showSymbol && icon && (
-            <span style={{
-              color: color,
-              fontSize: symFontSize,
-              lineHeight: 1,
-              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-              filter: `drop-shadow(0 0 6px ${color}88)`,
-            }}>
-              {icon}
-            </span>
-          )}
+          {showSymbol && icon && (() => {
+            // Icon rendered bigger than the Roman numeral (60 % of shield width)
+            // and recoloured with high contrast (textHighest) so the pictogram
+            // pops against the faint color@22 shield interior. cloneElement
+            // overrides the icon's own width/height attributes.
+            const iconSize = Math.round(s.w * 0.6)
+            const sized = isValidElement(icon)
+              ? cloneElement(icon, { width: iconSize, height: iconSize })
+              : icon
+            return (
+              <span style={{
+                color: textHighest,
+                lineHeight: 1,
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                filter: `drop-shadow(0 0 4px ${color})`,
+              }}>
+                {sized}
+              </span>
+            )
+          })()}
           {showSymbol && !icon && sym && (
             <span style={{
               color: color,
