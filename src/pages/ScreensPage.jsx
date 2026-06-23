@@ -56,7 +56,7 @@ const BOARD_ROWS = [
    má jinou šířku, centerování automaticky produkuje halfOff zarovnání
    sousedních řad. Žádná explicitní liché/sudé switch logika nepotřeba.
    dieTop = vzdálenost top od vrcholu hexu kde má být střed xs die. */
-function HexGrid({ cellW = 42, cellH = 48, gap = 4, texture }) {
+function HexGrid({ cellW = 42, cellH = 48, gap = 0, texture }) {
   const dieTop = Math.round(cellH / 2) - 12
   const rowH   = Math.round(cellH * 0.75) + gap
   const colW   = cellW + gap
