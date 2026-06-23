@@ -218,19 +218,20 @@ function MiniActionRow({ scale = 1 }) {
 /* ── PC layout — Skóre nahoře | Mapa | Akce dole ── */
 function PCLayout() {
   return (
-    <>
+    /* Grass bg na celém layout containeru → prosvítá pod transparent menus */
+    <div style={{
+      flex: 1, display: 'flex', flexDirection: 'column',
+      backgroundImage: `url(${GRASS_TEXTURE.desktop})`,
+      backgroundSize: '256px 256px', backgroundRepeat: 'repeat',
+    }}>
       <MiniScoreHeader size="md" />
-
-      {/* Mapa — vycentrovaná v celé šířce, grass tile bg */}
+      {/* Mapa — vycentrovaná v celé šířce */}
       <div style={{
         flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        backgroundImage: `url(${GRASS_TEXTURE.desktop})`,
-        backgroundSize: '256px 256px', backgroundRepeat: 'repeat',
         overflow: 'hidden',
       }}>
         <HexGrid texture={GRASS_TEXTURE.desktop} />
       </div>
-
       {/* Akce — lib ActionTile row, plná velikost (transparent menu, no padding) */}
       <div style={{
         flexShrink: 0, paddingBottom: 3,
@@ -238,28 +239,28 @@ function PCLayout() {
       }}>
         <MiniActionRow scale={1} />
       </div>
-    </>
+    </div>
   )
 }
 
 /* ── Tablet layout — Skóre nahoře | Mapa | Akce dole ── */
 function TabletLayout() {
   return (
-    <>
+    <div style={{
+      flex: 1, display: 'flex', flexDirection: 'column',
+      backgroundImage: `url(${GRASS_TEXTURE.tablet})`,
+      backgroundSize: '256px 256px', backgroundRepeat: 'repeat',
+    }}>
       <MiniScoreHeader size="sm" />
-
-      {/* Mapa — vycentrovaná, scaled na šířku tablet framu, grass tile bg */}
+      {/* Mapa — vycentrovaná, scaled na šířku tablet framu */}
       <div style={{
         flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        backgroundImage: `url(${GRASS_TEXTURE.tablet})`,
-        backgroundSize: '256px 256px', backgroundRepeat: 'repeat',
         overflow: 'hidden',
       }}>
         <div style={{ transform: 'scale(0.85)', transformOrigin: 'center' }}>
           <HexGrid texture={GRASS_TEXTURE.tablet} />
         </div>
       </div>
-
       {/* Akce — lib ActionTile row, mírně zmenšená (transparent menu, no padding) */}
       <div style={{
         flexShrink: 0, paddingBottom: 3,
@@ -267,28 +268,28 @@ function TabletLayout() {
       }}>
         <MiniActionRow scale={0.9} />
       </div>
-    </>
+    </div>
   )
 }
 
 /* ── Mobile layout ── */
 function MobileLayout() {
   return (
-    <>
+    <div style={{
+      flex: 1, display: 'flex', flexDirection: 'column',
+      backgroundImage: `url(${GRASS_TEXTURE.mobile})`,
+      backgroundSize: '256px 256px', backgroundRepeat: 'repeat',
+    }}>
       <MiniScoreHeader size="xs" />
-
-      {/* Mapa — mírně zmenšena, grass tile bg */}
+      {/* Mapa — mírně zmenšena */}
       <div style={{
         flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        backgroundImage: `url(${GRASS_TEXTURE.mobile})`,
-        backgroundSize: '256px 256px', backgroundRepeat: 'repeat',
         overflow: 'hidden',
       }}>
         <div style={{ transform: 'scale(0.5)', transformOrigin: 'center' }}>
           <HexGrid texture={GRASS_TEXTURE.mobile} />
         </div>
       </div>
-
       {/* Akce — lib ActionTile row, scaled na 230px mobil frame (transparent menu, no padding) */}
       <div style={{
         flexShrink: 0, paddingBottom: 3,
@@ -297,7 +298,7 @@ function MobileLayout() {
       }}>
         <MiniActionRow scale={0.75} />
       </div>
-    </>
+    </div>
   )
 }
 
