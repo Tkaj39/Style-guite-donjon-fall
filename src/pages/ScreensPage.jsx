@@ -153,7 +153,7 @@ function MiniScoreHeader({ size = 'md' }) {
       height: c.h,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       gap: c.px,
-      padding: `0 ${c.px}px`, flexShrink: 0,
+      flexShrink: 0,
     }}>
       <Chip player={p1} vp={DEMO_VP[0]} active={DEMO_ACTIVE_PLAYER === 0} idx={0} />
       <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 1 }}>
@@ -221,9 +221,9 @@ function PCLayout() {
         <HexGrid />
       </div>
 
-      {/* Akce — lib ActionTile row, plná velikost (transparent menu) */}
+      {/* Akce — lib ActionTile row, plná velikost (transparent menu, no padding) */}
       <div style={{
-        padding: '10px 16px', flexShrink: 0,
+        flexShrink: 0,
         display: 'flex', justifyContent: 'center',
       }}>
         <MiniActionRow scale={1} />
@@ -249,9 +249,9 @@ function TabletLayout() {
         </div>
       </div>
 
-      {/* Akce — lib ActionTile row, mírně zmenšená (transparent menu) */}
+      {/* Akce — lib ActionTile row, mírně zmenšená (transparent menu, no padding) */}
       <div style={{
-        padding: '6px 8px', flexShrink: 0,
+        flexShrink: 0,
         display: 'flex', justifyContent: 'center',
       }}>
         <MiniActionRow scale={0.9} />
@@ -277,9 +277,9 @@ function MobileLayout() {
         </div>
       </div>
 
-      {/* Akce — lib ActionTile row, scaled na 230px mobil frame (transparent menu) */}
+      {/* Akce — lib ActionTile row, scaled na 230px mobil frame (transparent menu, no padding) */}
       <div style={{
-        padding: '4px 4px 0', flexShrink: 0,
+        flexShrink: 0,
         display: 'flex', justifyContent: 'center',
         overflow: 'hidden',
       }}>
