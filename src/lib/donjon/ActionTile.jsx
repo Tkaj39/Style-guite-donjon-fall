@@ -9,6 +9,7 @@ import { RohOrnament, HexOrnament, ornamentHForCx, ORNAMENT_BASE_WIDTH } from '.
 import { gold, goldDim, goldMid, bg3, borderDefault, borderMid, textHigh, textMid, textLow, textFaint, dangerColor, gainColor, magicColor, infoColor, infoDark, selBgInfo, selBgDanger, selBgGain, selBgMagic } from './tokens'
 
 const SIZES = {
+  xs: { w: 48,  h: 44,  cx: 8,  iconArea: 20, titleSize: '0.5rem',    descSize: '0.4375rem', costSize: '0.5rem',    radius: 2 },
   sm: { w: 80,  h: 72,  cx: 14, iconArea: 28, titleSize: '0.6875rem', descSize: '0.6rem',    costSize: '0.6875rem', radius: 3 },
   md: { w: 110, h: 96,  cx: 18, iconArea: 36, titleSize: '0.75rem',   descSize: '0.6875rem', costSize: '0.75rem',   radius: 4 },
   lg: { w: 148, h: 130, cx: 22, iconArea: 48, titleSize: '0.875rem',  descSize: '0.75rem',   costSize: '0.8125rem', radius: 4 },

@@ -79,7 +79,7 @@ export const DONJON_TOOLTIP_VARIANT_VALUES = ['default', 'danger', 'success', 'w
 
 // ── Game-exclusive primitives ─────────────────────────────────────────────
 
-export const ACTION_TILE_SIZE_VALUES     = ['sm', 'md', 'lg']
+export const ACTION_TILE_SIZE_VALUES     = ['xs', 'sm', 'md', 'lg']
 export const ACTION_TILE_VARIANT_VALUES  = ['default', 'attack', 'move', 'special']
 export const ACTION_TILE_ORNAMENT_VALUES = ['plain', 'decorated']
 

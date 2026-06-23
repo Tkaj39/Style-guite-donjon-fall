@@ -191,13 +191,13 @@ function MiniActionRow({ scale = 1 }) {
       transformOrigin: 'center top',
     }}>
       {SCREEN_ACTIONS.map(a => (
-        <div key={a.label} style={{ width: 80, flexShrink: 0 }} aria-label={a.label}>
+        <div key={a.label} style={{ width: 48, flexShrink: 0 }} aria-label={a.label}>
           <ActionTile
             icon={a.icon}
             title=""
             variant={a.variant}
             selected={a.selected}
-            size="sm"
+            size="xs"
             ornament="decorated"
           />
         </div>
@@ -254,7 +254,7 @@ function TabletLayout() {
         padding: '6px 8px', flexShrink: 0,
         display: 'flex', justifyContent: 'center',
       }}>
-        <MiniActionRow scale={0.85} />
+        <MiniActionRow scale={0.9} />
       </div>
     </>
   )
@@ -283,7 +283,7 @@ function MobileLayout() {
         display: 'flex', justifyContent: 'center',
         overflow: 'hidden',
       }}>
-        <MiniActionRow scale={0.62} />
+        <MiniActionRow scale={0.75} />
       </div>
     </>
   )
