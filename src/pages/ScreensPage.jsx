@@ -29,6 +29,11 @@ const E = () => _('empty')
 const F = () => _('focal-active')
 const B1 = (v) => _('base', { owner: p1.color, die: { v, c: p1.color } })
 const B2 = (v) => _('base', { owner: p2.color, die: { v, c: p2.color } })
+/* Demo interaction states — colored tints over the grass so the player
+   sees what's selected, where they can move, where they can attack. */
+const SEL_F = () => ({ property: 'focal', focal: 'active', state: 'selected' })
+const MV    = () => ({ property: 'empty', state: 'move' })
+const AT    = () => ({ property: 'empty', state: 'attack' })
 
 const BOARD_ROWS = [
   // Row 0 — startovní hexy hráče 1 (5×)
@@ -37,12 +42,12 @@ const BOARD_ROWS = [
   [E(), E(), E(), E(), E(), E()],
   // Row 2 — 7 prázdných
   [E(), E(), E(), E(), E(), E(), E()],
-  // Row 3 — 8 prázdných
-  [E(), E(), E(), E(), E(), E(), E(), E()],
-  // Row 4 (střed) — 9 polí, 3 ohniska na pozicích 1, 4, 7
-  [E(), F(), E(), E(), F(), E(), E(), F(), E()],
-  // Row 5 — 8 prázdných
-  [E(), E(), E(), E(), E(), E(), E(), E()],
+  // Row 3 — 8 polí (po stranách selected focal jsou move targets)
+  [E(), E(), E(), MV(), MV(), E(), E(), E()],
+  // Row 4 (střed) — 9 polí, prostřední ohnisko je VYBRANÉ, krajní attack
+  [E(), F(), E(), MV(), SEL_F(), MV(), E(), F(), AT()],
+  // Row 5 — 8 polí (move targets pod selected)
+  [E(), E(), E(), MV(), MV(), E(), E(), E()],
   // Row 6 — 7 prázdných
   [E(), E(), E(), E(), E(), E(), E()],
   // Row 7 — 6 prázdných
@@ -75,7 +80,10 @@ function HexGrid({ cellW = 42, cellH = 48, gap = 0, texture }) {
           return (
             <div key={`${ri}-${ci}`} style={{ position: 'absolute', left: x, top: y }}>
               <div style={{ position: 'relative', width: cellW, height: cellH, overflow: 'visible' }}>
-                <HexTile state={h.state} owner={h.owner} size="sm" texture={texture} />
+                <HexTile
+                  property={h.property} focal={h.focal} state={h.state}
+                  owner={h.owner} size="sm" texture={texture}
+                />
                 {h.die && (
                   <div style={{
                     position: 'absolute',
