@@ -87,6 +87,8 @@ export function Shield({
   width,
   height,
   showSymbol = true,
+  icon,                       // optional ReactNode — renders inside the shield
+                              // instead of the Roman numeral (when provided)
   ornament = 'plain',
   ornamentColor = 'gold',
 }) {
@@ -178,7 +180,18 @@ export function Shield({
           justifyContent: 'center',
           paddingTop: symPadTop,
         }}>
-          {showSymbol && sym && (
+          {showSymbol && icon && (
+            <span style={{
+              color: color,
+              fontSize: symFontSize,
+              lineHeight: 1,
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              filter: `drop-shadow(0 0 6px ${color}88)`,
+            }}>
+              {icon}
+            </span>
+          )}
+          {showSymbol && !icon && sym && (
             <span style={{
               color: color,
               fontWeight: 900,

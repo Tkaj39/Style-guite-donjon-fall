@@ -1,9 +1,9 @@
 import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
-import { bg0, bgDeep, borderMuted, borderSubtle, failColor, gold, goldDim, goldMid, successColor, textActive, textCool, textDeep, textFaint } from '../lib/donjon/tokens'
+import { bg0, bgDeep, borderMuted, borderSubtle, failColor, gold, goldDim, goldMid, successColor, textActive, textDeep, textFaint } from '../lib/donjon/tokens'
 import { octagon, octagonInner } from '../lib/shared/octagon'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import ActionTile from '../lib/donjon/ActionTile'
-import { MoveIcon, SwordIcon, TowerIcon, HourglassIcon } from '../lib/donjon/icons'
+import { MoveIcon, SwordIcon, ShieldIcon, TowerIcon, HourglassIcon } from '../lib/donjon/icons'
 import { Shield, PlayerIdentityBadge } from '../lib/donjon/Erb'
 import { players } from '../data/gameUiMockData'
 
@@ -106,11 +106,10 @@ function VPCounter({ players }) {
         background: bgDeep,
       }}>
         <span style={{ fontSize: '0.625rem', color: textDeep, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Vítězné body</span>
-        {players.map(({ name, color, vp }) => (
-          <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            {/* Player marker — smallest Erb shield (xs = 24×28) */}
-            <Shield playerColor={color} size="xs" showSymbol={false} />
-            <span style={{ fontSize: '0.75rem', color: textCool, width: 60 }}>{name}</span>
+        {players.map(({ name, color, vp, icon }) => (
+          <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            {/* Player marker — Erb shield with player's faction pictogram */}
+            <Shield playerColor={color} size="xs" icon={icon} />
             <div style={{ flex: 1, display: 'flex', gap: 3 }}>
               {Array.from({ length: max }).map((_, i) => (
                 <div key={i} style={{
@@ -172,8 +171,8 @@ function ActionBar({ actions, activePlayer: _activePlayer }) {
 
 const PLAYERS = [
   // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-  { name: 'Hráč 1', color: '#4080C0', vp: 3 },
-  { name: 'Hráč 2', color: failColor, vp: 1 },
+  { name: 'Hráč 1', color: '#4080C0', vp: 3, icon: <SwordIcon /> },
+  { name: 'Hráč 2', color: failColor,  vp: 1, icon: <ShieldIcon /> },
 ]
 
 const ACTIONS = [
