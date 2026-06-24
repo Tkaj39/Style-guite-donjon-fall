@@ -2281,6 +2281,20 @@ export const componentMeta = {
     relatedSlugs: ['resource-bar', 'numeric-display', 'erb'],
   },
 
+  'vp-counter': {
+    description: 'HUD panel showing per-player Victory Point progress. Octagonal shell with 4 corner RohOrnament brackets; one row per player composed of an Erb shield (with optional pictogram), chamfered VP pips and the current VP number. The VPPips sub-component is exported separately so compact chip-style indicators can reuse the same pip styling.',
+    subcategory: 'exclusive',
+    status: 'stable',
+    showcaseRoute: '/hud',
+    props: [
+      { name: 'players', type: 'Array<{ id?, color, vp, icon? }>', required: true,  description: 'Player list — one row per player.' },
+      { name: 'max',     type: 'number',                            required: false, default: '5',                   description: 'Target VP count (number of pips per row).' },
+      { name: 'title',   type: 'string',                            required: false, default: "'Vítězné body'",        description: 'Panel title. Set to empty string to hide.' },
+      { name: 'minWidth',type: 'number',                            required: false, default: '200',                 description: 'Minimum panel width in px.' },
+    ],
+    relatedSlugs: ['erb', 'player-panel', 'hud-layout'],
+  },
+
   'resource-bar': {
     description: 'Game resource bar for HP, mana, stamina or shield. Intentionally a reference plain baseline with no ornamental layer; on top of a generic progress bar it adds danger zones and a damage flash overlay.',
     subcategory: 'exclusive',
