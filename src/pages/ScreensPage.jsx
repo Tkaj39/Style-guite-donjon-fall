@@ -1,6 +1,6 @@
 import HexTile from '../lib/donjon/HexTile'
 import { textFaint, gold, goldDim, bgDeep } from '../lib/donjon/tokens'
-import { octagon } from '../lib/shared/octagon'
+import { octagon, octagonInner } from '../lib/shared/octagon'
 import DieFace from '../lib/donjon/DieFace'
 import { Shield } from '../lib/donjon/Erb'
 import ActionTile from '../lib/donjon/ActionTile'
@@ -132,37 +132,42 @@ function MiniScoreHeader({ size = 'md' }) {
   const c = cfg[size] ?? cfg.md
 
   const Chip = ({ player, vp, active, idx }) => (
+    /* Two-layer border (DonjonCard pattern) — outer = border color, inner = fill,
+       1 px padding shows the chamfered gold frame around the chip. */
     <div style={{
-      display: 'flex', alignItems: 'center', gap: 6,
-      padding: `${Math.round(c.h * 0.18)}px ${c.px - 2}px`,
       clipPath: octagon(3),
-      /* Semi-transparent dark backdrop — readable text on grass, texture
-         still subtly visible. Active hráč: gold tint VRSTVENÝ nad solid
-         dark bgDeep (ne přes trávu) → kontrast pro gold text zůstává. */
-      background: active
-        ? `linear-gradient(${gold}55, ${gold}55), ${bgDeep}`
-        : `${bgDeep}cc`,
+      background: active ? gold : `${goldDim}77`,
+      padding: 1,
       flexShrink: 0,
     }}>
-      {/* Player marker — Erb shield with player's pictogram (no H1/H2 label) */}
-      <Shield playerColor={player.color} size={c.erb} icon={PLAYER_ICONS[idx]} />
-      {/* VP progress bary — chamfered pips (mirror HudPage VP Counter pattern) */}
-      <div style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-        {Array.from({ length: MAX_VP }, (_, i) => (
-          <div key={i} style={{
-            width: c.barW, height: c.barH,
-            clipPath: octagon(1),
-            background: i < vp ? player.color : `${goldDim}33`,
-            boxShadow: i < vp ? `0 0 3px ${player.color}66` : 'none',
-          }} />
-        ))}
+      <div style={{
+        clipPath: octagonInner(3),
+        display: 'flex', alignItems: 'center', gap: 6,
+        padding: `${Math.round(c.h * 0.18)}px ${c.px - 2}px`,
+        background: active
+          ? `linear-gradient(${gold}55, ${gold}55), ${bgDeep}`
+          : `${bgDeep}cc`,
+      }}>
+        {/* Player marker — Erb shield with player's pictogram */}
+        <Shield playerColor={player.color} size={c.erb} icon={PLAYER_ICONS[idx]} />
+        {/* VP progress bary — chamfered pips (mirror HudPage VP Counter pattern) */}
+        <div style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+          {Array.from({ length: MAX_VP }, (_, i) => (
+            <div key={i} style={{
+              width: c.barW, height: c.barH,
+              clipPath: octagon(1),
+              background: i < vp ? player.color : `${goldDim}33`,
+              boxShadow: i < vp ? `0 0 3px ${player.color}66` : 'none',
+            }} />
+          ))}
+        </div>
+        {/* VP číslo */}
+        <span style={{
+          fontSize: c.fs,
+          color: active ? gold : goldDim,
+          fontWeight: 700, fontVariantNumeric: 'tabular-nums',
+        }}>{vp}</span>
       </div>
-      {/* VP číslo */}
-      <span style={{
-        fontSize: c.fs,
-        color: active ? gold : goldDim,
-        fontWeight: 700, fontVariantNumeric: 'tabular-nums',
-      }}>{vp}</span>
     </div>
   )
 
@@ -174,18 +179,22 @@ function MiniScoreHeader({ size = 'md' }) {
       flexShrink: 0,
     }}>
       <Chip player={p1} vp={DEMO_VP[0]} active={DEMO_ACTIVE_PLAYER === 0} idx={0} />
-      <div style={{
-        textAlign: 'center', display: 'flex', flexDirection: 'column',
-        justifyContent: 'center', gap: 1,
-        padding: `${Math.round(c.h * 0.12)}px ${c.px - 2}px`,
-        clipPath: octagon(3), background: `${bgDeep}cc`,
-      }}>
-        <span style={{ fontSize: c.fsSmall, color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-          Tah {DEMO_TURN} · {DEMO_PHASE}
-        </span>
-        <span style={{ fontSize: c.fs, color: gold, fontWeight: 700, letterSpacing: '0.05em' }}>
-          Hráč {DEMO_ACTIVE_PLAYER + 1} na tahu
-        </span>
+      {/* Tah/AKCE indicator — two-layer border, parity with chips */}
+      <div style={{ clipPath: octagon(3), background: `${goldDim}77`, padding: 1 }}>
+        <div style={{
+          clipPath: octagonInner(3),
+          textAlign: 'center', display: 'flex', flexDirection: 'column',
+          justifyContent: 'center', gap: 1,
+          padding: `${Math.round(c.h * 0.12)}px ${c.px - 2}px`,
+          background: `${bgDeep}cc`,
+        }}>
+          <span style={{ fontSize: c.fsSmall, color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+            Tah {DEMO_TURN} · {DEMO_PHASE}
+          </span>
+          <span style={{ fontSize: c.fs, color: gold, fontWeight: 700, letterSpacing: '0.05em' }}>
+            Hráč {DEMO_ACTIVE_PLAYER + 1} na tahu
+          </span>
+        </div>
       </div>
       <Chip player={p2} vp={DEMO_VP[1]} active={DEMO_ACTIVE_PLAYER === 1} idx={1} />
     </div>
