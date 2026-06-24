@@ -61,8 +61,9 @@ export default function VPCounter({
             <>
               <PlayerRow player={players[0]} max={max} />
               {/* Spacer keeps the absolute-positioned HexIcon centered between
-                  the two flex children. */}
-              <div style={{ flex: 1 }} />
+                  the two flex children. minWidth ≈ hex width so the VP numbers
+                  don't collide with the divider when the panel is narrow. */}
+              <div style={{ flex: 1, minWidth: 48 }} />
               {players[1] && <PlayerRow player={players[1]} max={max} mirror />}
             </>
           ) : (
