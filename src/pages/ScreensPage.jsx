@@ -3,6 +3,7 @@ import { textFaint, gold, goldDim, bgDeep } from '../lib/donjon/tokens'
 import { octagon, octagonInner } from '../lib/shared/octagon'
 import DieFace from '../lib/donjon/DieFace'
 import { Shield } from '../lib/donjon/Erb'
+import { VPPips } from '../lib/donjon/VPCounter'
 import ActionTile from '../lib/donjon/ActionTile'
 import { MoveIcon, SwordIcon, ShieldIcon, TowerIcon, BombIcon, DiceIcon } from '../lib/donjon/icons'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
@@ -150,26 +151,9 @@ function MiniScoreHeader({ size = 'md' }) {
       }}>
         {/* Player marker — Erb shield with player's pictogram */}
         <Shield playerColor={player.color} size={c.erb} icon={PLAYER_ICONS[idx]} />
-        {/* VP progress bary — border-trick pips, 1:1 s HudPage VP Counter */}
-        <div style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-          {Array.from({ length: MAX_VP }, (_, i) => {
-            const filled = i < vp
-            return (
-              <div key={i} style={{
-                width: c.barW, height: c.barH,
-                clipPath: octagon(1),
-                background: filled ? player.color : `${goldDim}55`,
-                padding: 0.5,
-                boxShadow: filled ? `0 0 3px ${player.color}80` : 'none',
-              }}>
-                <div style={{
-                  clipPath: octagonInner(1),
-                  width: '100%', height: '100%',
-                  background: filled ? player.color : `${goldDim}22`,
-                }} />
-              </div>
-            )
-          })}
+        {/* VP pipy — lib <VPPips>, sjednoceno s HudPage VP Counter */}
+        <div style={{ width: c.barW * MAX_VP + 2 * (MAX_VP - 1) }}>
+          <VPPips color={player.color} vp={vp} max={MAX_VP} height={c.barH} gap={2} />
         </div>
         {/* VP číslo */}
         <span style={{

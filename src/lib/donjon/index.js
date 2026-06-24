@@ -453,6 +453,18 @@ export { default as NumericDisplay } from './NumericDisplay'
 export { default as PlayerPanel } from './PlayerPanel'
 
 /**
+ * VPCounter — donjon HUD panel showing per-player Victory Point progress.
+ * Octagonal shell with corner ornaments + Erb shield + chamfered VP pips.
+ * @prop {Array<{ id?, color, vp, icon? }>} players - Player list, one row each.
+ * @prop {number} max - Target VP count (number of pips per row, default 5).
+ * @prop {string} title - Panel title (default 'Vítězné body').
+ * @prop {number} minWidth - Minimum panel width in px (default 200).
+ * @example
+ * <VPCounter players={[{ color: infoColor, vp: 3, icon: <SwordIcon /> }]} max={5} />
+ */
+export { default as VPCounter, VPPips } from './VPCounter'
+
+/**
  * Clickable action tile — icon, title, description, action cost.
  * Different from Button: tile shape (not strip), icon-forward, cost badge in the corner, lock state.
  * @prop {React.ReactNode} icon - Icon (SVG or component)
