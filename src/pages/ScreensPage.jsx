@@ -129,7 +129,7 @@ const SCORE_PLAYERS = [
   { id: 2, color: p2.color, vp: DEMO_VP[1], icon: PLAYER_ICONS[1] },
 ]
 function MiniScoreHeader({ size = 'md' }) {
-  const minWidth = { md: 220, sm: 200, xs: 180 }[size] ?? 220
+  const minWidth = { md: 260, sm: 240, xs: 222 }[size] ?? 260
   const padding  = { md: '8px 8px 0', sm: '6px 6px 0', xs: '4px 4px 0' }[size]
   return (
     <div style={{ padding, display: 'flex', justifyContent: 'center', flexShrink: 0 }}>
