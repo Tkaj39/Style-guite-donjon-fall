@@ -129,7 +129,10 @@ const SCORE_PLAYERS = [
   { id: 2, color: p2.color, vp: DEMO_VP[1], icon: PLAYER_ICONS[1] },
 ]
 function MiniScoreHeader({ size = 'md' }) {
-  const minWidth = { md: 260, sm: 240, xs: 222 }[size] ?? 260
+  // Mobile drops the pip row (compact) so Erb + number + hex + number + Erb
+  // fits within the 230 px device frame.
+  const compact  = size === 'xs'
+  const minWidth = compact ? 180 : { md: 260, sm: 240 }[size] ?? 260
   const padding  = { md: '8px 8px 0', sm: '6px 6px 0', xs: '4px 4px 0' }[size]
   return (
     <div style={{ padding, display: 'flex', justifyContent: 'center', flexShrink: 0 }}>
@@ -138,6 +141,7 @@ function MiniScoreHeader({ size = 'md' }) {
         max={MAX_VP}
         title={`Tah ${DEMO_TURN} · ${DEMO_PHASE}\nHráč ${DEMO_ACTIVE_PLAYER + 1} na tahu`}
         layout="row"
+        compact={compact}
         minWidth={minWidth}
       />
     </div>

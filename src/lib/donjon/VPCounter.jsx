@@ -38,6 +38,7 @@ export default function VPCounter({
   title = 'Vítězné body',
   layout = 'column',
   minWidth = 200,
+  compact = false,
 }) {
   const rawId = useId()
   const uid = rawId.replace(/:/g, '')
@@ -59,12 +60,12 @@ export default function VPCounter({
         }}>
           {isRow ? (
             <>
-              <PlayerRow player={players[0]} max={max} />
+              <PlayerRow player={players[0]} max={max} compact={compact} />
               {/* Spacer keeps the absolute-positioned HexIcon centered between
                   the two flex children. minWidth ≈ hex width so the VP numbers
                   don't collide with the divider when the panel is narrow. */}
               <div style={{ flex: 1, minWidth: 48 }} />
-              {players[1] && <PlayerRow player={players[1]} max={max} mirror />}
+              {players[1] && <PlayerRow player={players[1]} max={max} mirror compact={compact} />}
             </>
           ) : (
             <>
@@ -75,7 +76,7 @@ export default function VPCounter({
                 }}>{title}</span>
               )}
               {players.map((p, idx) => (
-                <PlayerRow key={p.id ?? idx} player={p} max={max} />
+                <PlayerRow key={p.id ?? idx} player={p} max={max} compact={compact} />
               ))}
             </>
           )}
@@ -110,7 +111,7 @@ export default function VPCounter({
   )
 }
 
-function PlayerRow({ player, max, mirror = false }) {
+function PlayerRow({ player, max, mirror = false, compact = false }) {
   const { color, vp, icon } = player
   return (
     <div style={{
@@ -118,7 +119,9 @@ function PlayerRow({ player, max, mirror = false }) {
       flexDirection: mirror ? 'row-reverse' : 'row',
     }}>
       <Shield playerColor={color} size="xs" icon={icon} />
-      <VPPips color={color} vp={vp} max={max} />
+      {/* Compact mode skips the pip row — only Erb + VP number remain.
+          Useful for narrow row layouts (mobile header strip). */}
+      {!compact && <VPPips color={color} vp={vp} max={max} />}
       <span style={{
         fontSize: '0.75rem', fontWeight: 700, color: textActive,
         width: 20, textAlign: mirror ? 'left' : 'right',
