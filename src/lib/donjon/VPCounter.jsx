@@ -6,8 +6,9 @@
 import { useId } from 'react'
 import { octagon, octagonInner } from '../shared/octagon'
 import { Shield } from './Erb'
+import { HexIcon } from './icons'
 import { RohOrnament, ornamentHForCx } from './Ornaments'
-import { bgDeep, borderSubtle, goldDim, textActive, textDeep } from './tokens'
+import { bgDeep, borderSubtle, gold, goldDim, textActive, textDeep } from './tokens'
 
 /**
  * @param {object} props
@@ -60,14 +61,13 @@ export default function VPCounter({
           {isRow ? (
             <>
               <PlayerRow player={players[0]} max={max} />
-              {title && (
-                <span style={{
-                  flex: 1, textAlign: 'center',
-                  fontSize: '0.625rem', color: textDeep,
-                  textTransform: 'uppercase', letterSpacing: '0.1em',
-                  lineHeight: 1.3, whiteSpace: 'pre-wrap',
-                }}>{title}</span>
-              )}
+              {/* Center slot — decorative HexIcon as a divider between players */}
+              <div style={{
+                flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: gold, filter: `drop-shadow(0 0 6px ${gold}66)`,
+              }}>
+                <HexIcon width={28} height={28} />
+              </div>
               {players[1] && <PlayerRow player={players[1]} max={max} mirror />}
             </>
           ) : (
