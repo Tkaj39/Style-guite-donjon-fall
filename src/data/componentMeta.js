@@ -2291,6 +2291,7 @@ export const componentMeta = {
       { name: 'max',     type: 'number',                            required: false, default: '5',                   description: 'Target VP count (number of pips per row).' },
       { name: 'title',   type: 'string',                            required: false, default: "'Vítězné body'",        description: 'Panel title. In row layout shown between players as the turn/phase info.' },
       { name: 'layout',  type: "'column'|'row'",                    required: false, default: "'column'",            description: 'column = vertical stacked panel; row = horizontal strip (P1 ‖ title ‖ P2).' },
+      { name: 'compact', type: 'boolean',                           required: false, default: 'false',               description: 'Skip the VP pip row — only Erb + VP number remain. Useful for narrow row layouts (mobile header).' },
       { name: 'minWidth',type: 'number',                            required: false, default: '200',                 description: 'Minimum panel width in px.' },
     ],
     relatedSlugs: ['erb', 'player-panel', 'hud-layout'],
