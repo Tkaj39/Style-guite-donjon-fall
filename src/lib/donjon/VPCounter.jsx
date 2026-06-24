@@ -6,7 +6,6 @@
 import { useId } from 'react'
 import { octagon, octagonInner } from '../shared/octagon'
 import { Shield } from './Erb'
-import { HexIcon } from './icons'
 import { RohOrnament, ornamentHForCx } from './Ornaments'
 import { bgDeep, borderSubtle, gold, goldDim, textActive, textDeep } from './tokens'
 
@@ -61,13 +60,9 @@ export default function VPCounter({
           {isRow ? (
             <>
               <PlayerRow player={players[0]} max={max} />
-              {/* Center slot — decorative HexIcon as a divider between players */}
-              <div style={{
-                flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: gold, filter: `drop-shadow(0 0 6px ${gold}66)`,
-              }}>
-                <HexIcon width={28} height={28} />
-              </div>
+              {/* Spacer keeps the absolute-positioned HexIcon centered between
+                  the two flex children. */}
+              <div style={{ flex: 1 }} />
               {players[1] && <PlayerRow player={players[1]} max={max} mirror />}
             </>
           ) : (
@@ -90,6 +85,26 @@ export default function VPCounter({
       <RohOrnament h={ornH} uid={`${uid}-tr`} flip />
       <RohOrnament h={ornH} uid={`${uid}-bl`} bottom />
       <RohOrnament h={ornH} uid={`${uid}-br`} flip bottom />
+      {/* Row layout: HexIcon divider centered on the panel, overflowing
+          top + bottom by 2 px so it visibly breaks the clipped shell. */}
+      {isRow && (
+        <div style={{
+          position: 'absolute',
+          top: -2, bottom: -2, left: '50%',
+          transform: 'translateX(-50%)',
+          aspectRatio: '1 / 1',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          color: gold, filter: `drop-shadow(0 0 6px ${gold}66)`,
+          pointerEvents: 'none',
+        }}>
+          <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
+            <path
+              d="M12 2.5L20.5 7.25V16.75L12 21.5L3.5 16.75V7.25L12 2.5Z"
+              stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+      )}
     </div>
   )
 }
