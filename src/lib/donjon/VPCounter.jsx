@@ -12,9 +12,13 @@ import { bgDeep, borderSubtle, goldDim, textActive, textDeep } from './tokens'
 /**
  * @param {object} props
  * @param {Array<{ id?: number|string, color: string, vp: number, icon?: React.ReactNode }>} props.players
- *   List of players. Each renders one row.
+ *   List of players. Each renders one row in column layout, one cell in row layout.
  * @param {number} [props.max=5]      Target VP count (number of pips per row).
  * @param {string} [props.title='Vítězné body']  Panel title (set to '' to hide).
+ *   In `layout='row'` the title sits between players instead of above them.
+ * @param {'column'|'row'} [props.layout='column']
+ *   'column' — vertical panel, players stacked under the title.
+ *   'row'    — horizontal strip, player 1 ‖ title (info) ‖ player 2.
  * @param {number} [props.minWidth=200] Minimum panel width in px.
  *
  * @example
@@ -22,16 +26,23 @@ import { bgDeep, borderSubtle, goldDim, textActive, textDeep } from './tokens'
  *   { id: 1, color: infoColor, vp: 3, icon: <SwordIcon /> },
  *   { id: 2, color: failColor, vp: 1, icon: <ShieldIcon /> },
  * ]} max={5} />
+ *
+ * @example
+ * // Row layout — score header strip with turn info between players
+ * <VPCounter players={[p1, p2]} max={5}
+ *   title="Tah 3 · Akce — Hráč 1 na tahu" layout="row" />
  */
 export default function VPCounter({
   players,
   max = 5,
   title = 'Vítězné body',
+  layout = 'column',
   minWidth = 200,
 }) {
   const rawId = useId()
   const uid = rawId.replace(/:/g, '')
   const ornH = ornamentHForCx(8, 'roh')
+  const isRow = layout === 'row'
 
   return (
     <div style={{ position: 'relative', minWidth }}>
@@ -39,19 +50,39 @@ export default function VPCounter({
       <div style={{ clipPath: octagon(8), background: `${goldDim}55`, padding: 1 }}>
         <div style={{
           clipPath: octagonInner(8),
-          display: 'flex', flexDirection: 'column', gap: 6,
-          padding: '12px 16px',
+          display: 'flex',
+          flexDirection: isRow ? 'row' : 'column',
+          alignItems: isRow ? 'center' : 'stretch',
+          gap: isRow ? 12 : 6,
+          padding: isRow ? '8px 14px' : '12px 16px',
           background: bgDeep,
         }}>
-          {title && (
-            <span style={{
-              fontSize: '0.625rem', color: textDeep,
-              textTransform: 'uppercase', letterSpacing: '0.1em',
-            }}>{title}</span>
+          {isRow ? (
+            <>
+              <PlayerRow player={players[0]} max={max} />
+              {title && (
+                <span style={{
+                  flex: 1, textAlign: 'center',
+                  fontSize: '0.625rem', color: textDeep,
+                  textTransform: 'uppercase', letterSpacing: '0.1em',
+                  lineHeight: 1.3, whiteSpace: 'pre-wrap',
+                }}>{title}</span>
+              )}
+              {players[1] && <PlayerRow player={players[1]} max={max} mirror />}
+            </>
+          ) : (
+            <>
+              {title && (
+                <span style={{
+                  fontSize: '0.625rem', color: textDeep,
+                  textTransform: 'uppercase', letterSpacing: '0.1em',
+                }}>{title}</span>
+              )}
+              {players.map((p, idx) => (
+                <PlayerRow key={p.id ?? idx} player={p} max={max} />
+              ))}
+            </>
           )}
-          {players.map((p, idx) => (
-            <PlayerRow key={p.id ?? idx} player={p} max={max} />
-          ))}
         </div>
       </div>
       {/* 4 corner RohOrnaments */}
@@ -63,15 +94,19 @@ export default function VPCounter({
   )
 }
 
-function PlayerRow({ player, max }) {
+function PlayerRow({ player, max, mirror = false }) {
   const { color, vp, icon } = player
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 10,
+      flexDirection: mirror ? 'row-reverse' : 'row',
+    }}>
       <Shield playerColor={color} size="xs" icon={icon} />
       <VPPips color={color} vp={vp} max={max} />
       <span style={{
         fontSize: '0.75rem', fontWeight: 700, color: textActive,
-        width: 20, textAlign: 'right', fontVariantNumeric: 'tabular-nums',
+        width: 20, textAlign: mirror ? 'left' : 'right',
+        fontVariantNumeric: 'tabular-nums',
       }}>{vp}</span>
     </div>
   )
