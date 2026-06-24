@@ -1,9 +1,7 @@
 import HexTile from '../lib/donjon/HexTile'
-import { textFaint, gold, goldDim, bgDeep } from '../lib/donjon/tokens'
-import { octagon, octagonInner } from '../lib/shared/octagon'
+import { goldDim } from '../lib/donjon/tokens'
 import DieFace from '../lib/donjon/DieFace'
-import { Shield } from '../lib/donjon/Erb'
-import { VPPips } from '../lib/donjon/VPCounter'
+import VPCounter from '../lib/donjon/VPCounter'
 import ActionTile from '../lib/donjon/ActionTile'
 import { MoveIcon, SwordIcon, ShieldIcon, TowerIcon, BombIcon, DiceIcon } from '../lib/donjon/icons'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
@@ -124,73 +122,23 @@ const GRASS_TEXTURE = {
   tablet:  '/textures/grass_tile_512x512.jpg',
   mobile:  '/textures/grass_tile_256x256.jpg',
 }
+/* Score header — lib <VPCounter> panel s turn info v titulku, padding scaled
+   per viewport so the panel fits inside even the 230 px mobile frame. */
+const SCORE_PLAYERS = [
+  { id: 1, color: p1.color, vp: DEMO_VP[0], icon: PLAYER_ICONS[0] },
+  { id: 2, color: p2.color, vp: DEMO_VP[1], icon: PLAYER_ICONS[1] },
+]
 function MiniScoreHeader({ size = 'md' }) {
-  const cfg = {
-    md:  { h: 44, fs: '0.5625rem', fsSmall: '0.4375rem', erb: 18, barW: 8, barH: 5, px: 14 },
-    sm:  { h: 38, fs: '0.5rem',    fsSmall: '0.4375rem', erb: 16, barW: 6, barH: 4, px: 12 },
-    xs:  { h: 32, fs: '0.4375rem', fsSmall: '0.375rem',  erb: 14, barW: 4, barH: 3, px: 8  },
-  }
-  const c = cfg[size] ?? cfg.md
-
-  const Chip = ({ player, vp, active, idx }) => (
-    /* Two-layer border (DonjonCard pattern) — outer = border color, inner = fill,
-       1 px padding shows the chamfered gold frame around the chip. */
-    <div style={{
-      clipPath: octagon(3),
-      background: active ? gold : `${goldDim}77`,
-      padding: 1,
-      flexShrink: 0,
-    }}>
-      <div style={{
-        clipPath: octagonInner(3),
-        display: 'flex', alignItems: 'center', gap: 6,
-        padding: `${Math.round(c.h * 0.18)}px ${c.px - 2}px`,
-        background: active
-          ? `linear-gradient(${gold}55, ${gold}55), ${bgDeep}`
-          : `${bgDeep}cc`,
-      }}>
-        {/* Player marker — Erb shield with player's pictogram */}
-        <Shield playerColor={player.color} size={c.erb} icon={PLAYER_ICONS[idx]} />
-        {/* VP pipy — lib <VPPips>, sjednoceno s HudPage VP Counter */}
-        <div style={{ width: c.barW * MAX_VP + 2 * (MAX_VP - 1) }}>
-          <VPPips color={player.color} vp={vp} max={MAX_VP} height={c.barH} gap={2} />
-        </div>
-        {/* VP číslo */}
-        <span style={{
-          fontSize: c.fs,
-          color: active ? gold : goldDim,
-          fontWeight: 700, fontVariantNumeric: 'tabular-nums',
-        }}>{vp}</span>
-      </div>
-    </div>
-  )
-
+  const minWidth = { md: 220, sm: 200, xs: 180 }[size] ?? 220
+  const padding  = { md: '8px 8px 0', sm: '6px 6px 0', xs: '4px 4px 0' }[size]
   return (
-    <div style={{
-      height: c.h,
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      gap: c.px,
-      flexShrink: 0,
-    }}>
-      <Chip player={p1} vp={DEMO_VP[0]} active={DEMO_ACTIVE_PLAYER === 0} idx={0} />
-      {/* Tah/AKCE indicator — two-layer border, parity with chips */}
-      <div style={{ clipPath: octagon(3), background: `${goldDim}77`, padding: 1 }}>
-        <div style={{
-          clipPath: octagonInner(3),
-          textAlign: 'center', display: 'flex', flexDirection: 'column',
-          justifyContent: 'center', gap: 1,
-          padding: `${Math.round(c.h * 0.12)}px ${c.px - 2}px`,
-          background: `${bgDeep}cc`,
-        }}>
-          <span style={{ fontSize: c.fsSmall, color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-            Tah {DEMO_TURN} · {DEMO_PHASE}
-          </span>
-          <span style={{ fontSize: c.fs, color: gold, fontWeight: 700, letterSpacing: '0.05em' }}>
-            Hráč {DEMO_ACTIVE_PLAYER + 1} na tahu
-          </span>
-        </div>
-      </div>
-      <Chip player={p2} vp={DEMO_VP[1]} active={DEMO_ACTIVE_PLAYER === 1} idx={1} />
+    <div style={{ padding, display: 'flex', justifyContent: 'center', flexShrink: 0 }}>
+      <VPCounter
+        players={SCORE_PLAYERS}
+        max={MAX_VP}
+        title={`Tah ${DEMO_TURN} · ${DEMO_PHASE} — Hráč ${DEMO_ACTIVE_PLAYER + 1} na tahu`}
+        minWidth={minWidth}
+      />
     </div>
   )
 }
