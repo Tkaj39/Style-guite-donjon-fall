@@ -136,7 +136,8 @@ function MiniScoreHeader({ size = 'md' }) {
       <VPCounter
         players={SCORE_PLAYERS}
         max={MAX_VP}
-        title={`Tah ${DEMO_TURN} · ${DEMO_PHASE} — Hráč ${DEMO_ACTIVE_PLAYER + 1} na tahu`}
+        title={`Tah ${DEMO_TURN} · ${DEMO_PHASE}\nHráč ${DEMO_ACTIVE_PLAYER + 1} na tahu`}
+        layout="row"
         minWidth={minWidth}
       />
     </div>
