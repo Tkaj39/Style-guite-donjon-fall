@@ -1,6 +1,7 @@
 import HexTile from '../lib/donjon/HexTile'
 import { textFaint, gold, goldDim, bgDeep } from '../lib/donjon/tokens'
 import { octagon } from '../lib/shared/octagon'
+import { RohOrnament, ornamentHForCx } from '../lib/donjon/Ornaments'
 import DieFace from '../lib/donjon/DieFace'
 import { Shield } from '../lib/donjon/Erb'
 import ActionTile from '../lib/donjon/ActionTile'
@@ -131,7 +132,9 @@ function MiniScoreHeader({ size = 'md' }) {
   }
   const c = cfg[size] ?? cfg.md
 
+  const ornH = ornamentHForCx(3, 'roh')
   const Chip = ({ player, vp, active, idx }) => (
+    <div style={{ position: 'relative', flexShrink: 0 }}>
     <div style={{
       display: 'flex', alignItems: 'center', gap: 6,
       padding: `${Math.round(c.h * 0.18)}px ${c.px - 2}px`,
@@ -142,7 +145,6 @@ function MiniScoreHeader({ size = 'md' }) {
       background: active
         ? `linear-gradient(${gold}55, ${gold}55), ${bgDeep}`
         : `${bgDeep}cc`,
-      flexShrink: 0,
     }}>
       {/* Player marker — Erb shield with player's pictogram (no H1/H2 label) */}
       <Shield playerColor={player.color} size={c.erb} icon={PLAYER_ICONS[idx]} />
@@ -163,6 +165,12 @@ function MiniScoreHeader({ size = 'md' }) {
         color: active ? gold : goldDim,
         fontWeight: 700, fontVariantNumeric: 'tabular-nums',
       }}>{vp}</span>
+    </div>
+      {/* 4 corner RohOrnament brackets — mirror HudPage VP Counter */}
+      <RohOrnament h={ornH} uid={`chip-${idx}-tl`} />
+      <RohOrnament h={ornH} uid={`chip-${idx}-tr`} flip />
+      <RohOrnament h={ornH} uid={`chip-${idx}-bl`} bottom />
+      <RohOrnament h={ornH} uid={`chip-${idx}-br`} flip bottom />
     </div>
   )
 
