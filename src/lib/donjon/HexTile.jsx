@@ -194,13 +194,14 @@ export default function HexTile({
   const iconSize = HEX_TILE_ICON_SIZES[size] ?? HEX_TILE_ICON_SIZES.md
   const dotSize  = HEX_TILE_DOT_SIZES[size]  ?? HEX_TILE_DOT_SIZES.md
 
-  // Texture overrides the fill ONLY on empty cells — focal/base keep their
-  // semantic fills (player color, focal gold). On empty, the texture covers
-  // the inner hex via background-image with cover sizing + center anchor.
+  // Texture covers empty AND base cells (so player bases visually sit ON
+  // the terrain). For base cells the player color shows as a semi-transparent
+  // tint LAYERED OVER the texture (instead of a solid fill blocking it).
+  // focal cells keep their semantic gold fill.
   // When an interaction state carries a `tint`, it layers ON TOP of the
   // texture/fill via a flat linear-gradient — keeps the colored state
   // unmistakable even when 1 px borders collide between neighbours.
-  const useTexture = texture && resolvedProperty === 'empty'
+  const useTexture = texture && (resolvedProperty === 'empty' || resolvedProperty === 'base')
   // Vignette: subtle radial darkening near the edges, color matched to the
   // cell's natural fill — empty+grass fades to dark green, base fades to a
   // dark version of the player color (computed with CSS color-mix), focal
@@ -218,7 +219,12 @@ export default function HexTile({
     vignetteEdge = 'rgba(0, 0, 0, 0.85)'
   }
   const VIGNETTE = `radial-gradient(ellipse at center, transparent 65%, ${vignetteEdge} 100%)`
-  const tintLayer = look.tint ? `linear-gradient(${look.tint}, ${look.tint})` : null
+  // tintLayer: state overlay (selected / move / attack) OR base owner color
+  // as a semi-transparent layer over the grass texture.
+  let tintLayer = look.tint ? `linear-gradient(${look.tint}, ${look.tint})` : null
+  if (!tintLayer && resolvedProperty === 'base' && owner && useTexture) {
+    tintLayer = `linear-gradient(${owner}aa, ${owner}aa)`
+  }
   const layers = [VIGNETTE, tintLayer, useTexture ? `url(${texture})` : null].filter(Boolean)
   const innerFillStyle = useTexture
     ? {
