@@ -12,6 +12,7 @@
 import { useId } from 'react'
 import { octagon, octagonInner } from '../shared/octagon'
 import ActionTile from './ActionTile'
+import DonjonTooltip from './DonjonTooltip'
 import { RohOrnament, ornamentHForCx } from './Ornaments'
 import { bgDeep, goldDim } from './tokens'
 
@@ -84,12 +85,8 @@ export default function ActionBar({
       transform: scale !== 1 ? `scale(${scale})` : undefined,
       transformOrigin: 'center top',
     }}>
-      {actions.map((a, i) => (
-        <div
-          key={a.id ?? a.label ?? i}
-          style={{ width: tileW, flexShrink: 0 }}
-          aria-label={!showLabel ? a.label : undefined}
-        >
+      {actions.map((a, i) => {
+        const tile = (
           <ActionTile
             icon={a.icon}
             title={showLabel ? a.label : ''}
@@ -101,8 +98,29 @@ export default function ActionBar({
             size={size}
             ornament="decorated"
           />
-        </div>
-      ))}
+        )
+        return (
+          <div
+            key={a.id ?? a.label ?? i}
+            style={{ width: tileW, flexShrink: 0 }}
+            aria-label={!showLabel ? a.label : undefined}
+          >
+            {/* Icon-only tiles get the label as a tooltip — keyboard /
+                screen-reader users still read it; touch users see it on
+                long-press. Labeled tiles don't need a tooltip since the
+                title is already on-screen. */}
+            {!showLabel ? (
+              <DonjonTooltip
+                content={a.label}
+                title={a.keycap ? `[ ${a.keycap} ]` : undefined}
+                placement="top"
+              >
+                {tile}
+              </DonjonTooltip>
+            ) : tile}
+          </div>
+        )
+      })}
     </div>
   )
 
