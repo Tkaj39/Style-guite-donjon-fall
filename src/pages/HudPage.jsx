@@ -97,8 +97,8 @@ function TurnTracker({ current, total, phase }) {
 
 const PLAYERS = [
   // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
-  { name: 'Hráč 1', color: '#4080C0', vp: 3, icon: <SwordIcon /> },
-  { name: 'Hráč 2', color: failColor,  vp: 1, icon: <ShieldIcon /> },
+  { name: 'Hráč 1', color: '#4080C0', vp: 3, icon: <SwordIcon />,  active: true },
+  { name: 'Hráč 2', color: failColor,  vp: 1, icon: <ShieldIcon />, active: false },
 ]
 
 /* Action data shape mirrors the lib <ActionBar> contract:
