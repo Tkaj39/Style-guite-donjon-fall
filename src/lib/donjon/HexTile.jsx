@@ -219,22 +219,29 @@ export default function HexTile({
     vignetteEdge = 'rgba(0, 0, 0, 0.85)'
   }
   const VIGNETTE = `radial-gradient(ellipse at center, transparent 65%, ${vignetteEdge} 100%)`
-  // tintLayer: state overlay (selected / move / attack) OR base owner color
-  // as a semi-transparent layer over the grass texture.
+  // tintLayer: state overlay (selected / move / attack) OR base owner color.
+  // Base tint uses MULTIPLY blend with the grass texture so the player color
+  // shifts the terrain's hue/brightness instead of just overlaying with alpha
+  // — gives a richer, more integrated look than a flat semi-transparent layer.
   let tintLayer = look.tint ? `linear-gradient(${look.tint}, ${look.tint})` : null
+  let tintBlend = 'normal'
   if (!tintLayer && resolvedProperty === 'base' && owner && useTexture) {
-    tintLayer = `linear-gradient(${owner}aa, ${owner}aa)`
+    tintLayer = `linear-gradient(${owner}, ${owner})`
+    tintBlend = 'multiply'
   }
   const layers = [VIGNETTE, tintLayer, useTexture ? `url(${texture})` : null].filter(Boolean)
+  const blendModes = ['normal', tintLayer ? tintBlend : null, useTexture ? 'normal' : null].filter(Boolean).join(', ')
   const innerFillStyle = useTexture
     ? {
         backgroundImage: layers.join(', '),
         backgroundSize:  layers.map(l => l.startsWith('url') ? 'cover' : 'auto').join(', '),
         backgroundPosition: 'center',
+        backgroundBlendMode: blendModes,
       }
     : {
         backgroundImage: layers.join(', '),
         background: look.fill,
+        backgroundBlendMode: blendModes,
       }
 
   return (
