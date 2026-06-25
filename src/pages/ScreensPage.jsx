@@ -165,7 +165,6 @@ function MiniActionRow({ scale = 1 }) {
     <ActionBar
       actions={SCREEN_ACTIONS}
       size="xs"
-      bordered={false}
       showLabel={false}
       showKeycap={false}
       scale={scale}
