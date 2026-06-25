@@ -1,5 +1,5 @@
 import {
-  gold, textActive, textFaint, bgDeep, gainColor, dangerColor, borderMid, borderMuted,
+  gold, textFaint, bgDeep, gainColor, dangerColor, borderMid, borderMuted,
   focalActiveBg, focalPassiveBg, focalPassiveBorder,
   HEX_TILE_SIZES, HEX_TILE_BORDER_WIDTH, HEX_TILE_ICON_SIZES, HEX_TILE_DOT_SIZES,
 } from './tokens'
@@ -58,9 +58,13 @@ const BASE_LOOK = { border: null, fill: null, marker: null, glow: null, opacity:
 /* Each interaction state carries BOTH a colored border AND a tint that
    gets layered over the texture/fill — the colored fill keeps the state
    readable even when the 1 px border collides with a neighbour's border. */
+/* selected uses gold (warm, saturated) rather than textActive (cool cream)
+   so it pops off the green move tints — gold-vs-green sits on opposite
+   sides of the wheel, much higher contrast than textActive-vs-green.
+   The glow is doubled (inner sharp + outer halo) to draw the eye. */
 const STATE_OVERLAY = {
   default:  {},
-  selected: { border: textActive,  tint: `${textActive}55`,  glow: `0 0 12px ${textActive}66` },
+  selected: { border: gold,        tint: `${gold}66`,        glow: `0 0 8px ${gold}, 0 0 18px ${gold}99` },
   move:     { border: gainColor,   tint: `${gainColor}55`,   glow: `0 0 10px ${gainColor}55`   },
   attack:   { border: dangerColor, tint: `${dangerColor}55`, glow: `0 0 10px ${dangerColor}55` },
   blocked:  { border: borderMid,   glow: null, opacity: 0.45 },
