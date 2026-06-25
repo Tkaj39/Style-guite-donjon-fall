@@ -74,7 +74,8 @@ export default function ActionBar({
   const uid = rawId.replace(/:/g, '')
   const { tileW } = SIZE_DIMS[size] ?? SIZE_DIMS.sm
   const gap = Math.max(4, Math.round(8 * scale))
-  const ornH = ornamentHForCx(4, 'roh')
+  const cx = 8     // chamfer size — two steps up from the previous cx=4
+  const ornH = ornamentHForCx(cx, 'roh')
 
   const row = (
     <div style={{
@@ -110,10 +111,10 @@ export default function ActionBar({
   return (
     <div style={{ position: 'relative', display: 'inline-block' }}>
       {/* Octagonal shell — two-layer border-trick (parity with DonjonCard) */}
-      <div style={{ clipPath: octagon(4), background: `${goldDim}55`, padding: 1 }}>
+      <div style={{ clipPath: octagon(cx), background: `${goldDim}55`, padding: 1 }}>
         <div style={{
-          clipPath: octagonInner(4),
-          display: 'flex', gap: 8, padding: '10px 14px',
+          clipPath: octagonInner(cx),
+          display: 'flex', gap: 8, padding: 8,
           background: bgDeep,
         }}>
           {row}
