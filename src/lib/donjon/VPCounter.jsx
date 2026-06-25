@@ -7,7 +7,7 @@ import { useId } from 'react'
 import { octagon, octagonInner } from '../shared/octagon'
 import { Shield } from './Erb'
 import { RohOrnament, ornamentHForCx } from './Ornaments'
-import { bgDeep, borderSubtle, gold, goldDim, textActive, textDeep } from './tokens'
+import { bgDeep, borderSubtle, gold, goldDim, textDeep } from './tokens'
 
 /**
  * @param {object} props
@@ -133,10 +133,15 @@ function PlayerRow({ player, max, mirror = false, compact = false }) {
       {/* Compact mode skips the pip row — only Erb + VP number remain.
           Useful for narrow row layouts (mobile header strip). */}
       {!compact && <VPPips color={color} vp={vp} max={max} />}
+      {/* VP number — the most important score on the screen.
+          Glanceable: tabular-nums, bold, colored to match the player,
+          slightly larger so it reads from across the room. Filter-glow
+          on the active row to draw the eye to the on-turn score. */}
       <span style={{
-        fontSize: '0.75rem', fontWeight: 700, color: textActive,
-        width: 20, textAlign: mirror ? 'left' : 'right',
-        fontVariantNumeric: 'tabular-nums',
+        fontSize: '1.125rem', fontWeight: 800, color,
+        width: 24, textAlign: mirror ? 'left' : 'right',
+        fontVariantNumeric: 'tabular-nums', lineHeight: 1,
+        filter: active ? `drop-shadow(0 0 6px ${color}aa)` : undefined,
       }}>{vp}</span>
     </div>
   )
