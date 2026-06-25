@@ -112,13 +112,24 @@ export default function VPCounter({
 }
 
 function PlayerRow({ player, max, mirror = false, compact = false }) {
-  const { color, vp, icon } = player
+  const { color, vp, icon, active } = player
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 10,
       flexDirection: mirror ? 'row-reverse' : 'row',
+      /* Active player: dim the inactive rows so the active one pops.
+         No layout shift — pure visual contrast. */
+      opacity: active === false ? 0.55 : 1,
     }}>
-      <Shield playerColor={color} size="xs" icon={icon} />
+      {/* Erb wrapped in a glow halo when active — extra drop-shadow
+          in the player color makes "whose turn it is" unmissable. */}
+      <div style={{
+        filter: active ? `drop-shadow(0 0 8px ${color}) drop-shadow(0 0 14px ${color}88)` : undefined,
+        transition: 'filter 0.2s',
+        display: 'inline-flex',
+      }}>
+        <Shield playerColor={color} size="xs" icon={icon} />
+      </div>
       {/* Compact mode skips the pip row — only Erb + VP number remain.
           Useful for narrow row layouts (mobile header strip). */}
       {!compact && <VPPips color={color} vp={vp} max={max} />}

@@ -125,8 +125,8 @@ const GRASS_TEXTURE = {
 /* Score header — lib <VPCounter> panel s turn info v titulku, padding scaled
    per viewport so the panel fits inside even the 230 px mobile frame. */
 const SCORE_PLAYERS = [
-  { id: 1, color: p1.color, vp: DEMO_VP[0], icon: PLAYER_ICONS[0] },
-  { id: 2, color: p2.color, vp: DEMO_VP[1], icon: PLAYER_ICONS[1] },
+  { id: 1, color: p1.color, vp: DEMO_VP[0], icon: PLAYER_ICONS[0], active: DEMO_ACTIVE_PLAYER === 0 },
+  { id: 2, color: p2.color, vp: DEMO_VP[1], icon: PLAYER_ICONS[1], active: DEMO_ACTIVE_PLAYER === 1 },
 ]
 function MiniScoreHeader({ size = 'md' }) {
   // Mobile drops the pip row (compact) so Erb + number + hex + number + Erb
