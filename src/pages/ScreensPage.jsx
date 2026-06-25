@@ -2,7 +2,7 @@ import HexTile from '../lib/donjon/HexTile'
 import { goldDim } from '../lib/donjon/tokens'
 import DieFace from '../lib/donjon/DieFace'
 import VPCounter from '../lib/donjon/VPCounter'
-import ActionTile from '../lib/donjon/ActionTile'
+import ActionBar from '../lib/donjon/ActionBar'
 import { MoveIcon, SwordIcon, ShieldIcon, TowerIcon, BombIcon, DiceIcon } from '../lib/donjon/icons'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
@@ -158,30 +158,18 @@ const SCREEN_ACTIONS = [
   { label: 'Přehazování',  icon: <DiceIcon />,  variant: 'special' },
 ]
 
-/* Wrapper kolem lib <ActionTile> — fixní size="sm" (80×72), per-viewport
-   scale na celé řadě (PC 1.0, tablet 0.85, mobil 0.62 — aby 4 tile sedly
-   do 230px frame šířky bez overflow). */
+/* Bottom action strip — lib <ActionBar> in icon-only / borderless mode,
+   per-viewport scale lets the same xs tiles fit each device frame. */
 function MiniActionRow({ scale = 1 }) {
   return (
-    <div style={{
-      display: 'flex',
-      gap: Math.max(4, Math.round(8 * scale)),
-      transform: `scale(${scale})`,
-      transformOrigin: 'center top',
-    }}>
-      {SCREEN_ACTIONS.map(a => (
-        <div key={a.label} style={{ width: 48, flexShrink: 0 }} aria-label={a.label}>
-          <ActionTile
-            icon={a.icon}
-            title=""
-            variant={a.variant}
-            selected={a.selected}
-            size="xs"
-            ornament="decorated"
-          />
-        </div>
-      ))}
-    </div>
+    <ActionBar
+      actions={SCREEN_ACTIONS}
+      size="xs"
+      bordered={false}
+      showLabel={false}
+      showKeycap={false}
+      scale={scale}
+    />
   )
 }
 
