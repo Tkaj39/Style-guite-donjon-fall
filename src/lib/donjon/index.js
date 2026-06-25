@@ -482,6 +482,21 @@ export { default as VPCounter, VPPips } from './VPCounter'
 export { default as ActionTile } from './ActionTile'
 
 /**
+ * ActionBar — donjon strip of action buttons. Each entry renders as
+ * an <ActionTile>; the wrapper handles row layout + optional octagonal
+ * shell with 4 corner RohOrnaments.
+ * @prop {Array<{label, icon?, variant?, keycap?, selected?, disabled?, onClick?}>} actions
+ * @prop {'xs'|'sm'|'md'} size - ActionTile size (default 'sm').
+ * @prop {boolean} bordered - Octagonal shell + corner brackets (default true).
+ * @prop {boolean} showLabel - Pass label to the tile's title (default true).
+ * @prop {boolean} showKeycap - Pass `[ keycap ]` as the tile description (default true).
+ * @prop {number} scale - CSS transform scale for fine-tuning (default 1).
+ * @example
+ * <ActionBar actions={[{ label: 'Move', icon: <MoveIcon />, variant: 'move', keycap: 'M' }]} />
+ */
+export { default as ActionBar } from './ActionBar'
+
+/**
  * List of game events with auto-scroll to the most recent.
  * Types: gain(green) · loss(red) · event(gold) · warning(amber) · system(grey)
  * @prop {Array<{id?, type, text, detail?, round?}>} events - Log entries

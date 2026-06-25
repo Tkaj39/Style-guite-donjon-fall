@@ -2281,6 +2281,22 @@ export const componentMeta = {
     relatedSlugs: ['resource-bar', 'numeric-display', 'erb'],
   },
 
+  'action-bar': {
+    description: 'HUD strip of action buttons. Each entry renders as an <ActionTile>; the wrapper handles row layout (gap, scale), optional octagonal shell with 4 corner RohOrnaments, and the keycap / label / icon-only conventions. bordered=true fits a standalone HUD panel; bordered=false fits embedded floating contexts (e.g. floating over a map).',
+    subcategory: 'exclusive',
+    status: 'stable',
+    showcaseRoute: '/hud',
+    props: [
+      { name: 'actions',    type: 'Array<{ label, icon?, variant?, keycap?, selected?, disabled?, onClick? }>', required: true,  description: 'One ActionTile per entry.' },
+      { name: 'size',       type: "'xs'|'sm'|'md'",                                                              required: false, default: "'sm'",   description: 'ActionTile size and per-tile width slot.' },
+      { name: 'bordered',   type: 'boolean',                                                                     required: false, default: 'true',   description: 'Render the donjon octagonal shell + 4 corner RohOrnament brackets.' },
+      { name: 'showLabel',  type: 'boolean',                                                                     required: false, default: 'true',   description: 'Pass each action.label as the ActionTile title.' },
+      { name: 'showKeycap', type: 'boolean',                                                                     required: false, default: 'true',   description: 'Pass `[ keycap ]` as the ActionTile description.' },
+      { name: 'scale',      type: 'number',                                                                      required: false, default: '1',      description: 'CSS transform scale on the row.' },
+    ],
+    relatedSlugs: ['action-tile', 'vp-counter', 'hud-layout'],
+  },
+
   'vp-counter': {
     description: 'HUD panel showing per-player Victory Point progress. Octagonal shell with 4 corner RohOrnament brackets; one row per player composed of an Erb shield (with optional pictogram), chamfered VP pips and the current VP number. The VPPips sub-component is exported separately so compact chip-style indicators can reuse the same pip styling.',
     subcategory: 'exclusive',

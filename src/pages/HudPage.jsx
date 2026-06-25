@@ -2,8 +2,8 @@ import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/Showcas
 import { bg0, bgDeep, borderMuted, borderSubtle, failColor, gold, goldDim, goldMid, successColor, textActive, textDeep, textFaint } from '../lib/donjon/tokens'
 import { octagon, octagonInner } from '../lib/shared/octagon'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
-import ActionTile from '../lib/donjon/ActionTile'
 import VPCounter from '../lib/donjon/VPCounter'
+import ActionBar from '../lib/donjon/ActionBar'
 import { MoveIcon, SwordIcon, ShieldIcon, TowerIcon, HourglassIcon } from '../lib/donjon/icons'
 import { Shield, PlayerIdentityBadge } from '../lib/donjon/Erb'
 import { players } from '../data/gameUiMockData'
@@ -95,58 +95,19 @@ function TurnTracker({ current, total, phase }) {
   )
 }
 
-/* ── Action bar ── uses real <ActionTile> lib component
-   Mapping: each HUD action → ActionTile with matching variant + icon.
-   Keyboard shortcut is passed as the description prop (small text under title). */
-const ACTION_ICONS = {
-  M: <MoveIcon />,
-  A: <SwordIcon />,
-  B: <TowerIcon />,
-  E: <HourglassIcon />,
-}
-const ACTION_VARIANTS = {
-  M: 'move',
-  A: 'attack',
-  B: 'default',
-  E: 'default',
-}
-function ActionBar({ actions, activePlayer: _activePlayer }) {
-  return (
-    <div style={{ clipPath: octagon(4), background: `${goldDim}55`, padding: 1 }}>
-      <div style={{
-        clipPath: octagonInner(4),
-        display: 'flex', gap: 8, padding: '10px 14px',
-        background: bgDeep,
-      }}>
-        {actions.map(({ label, key, available }) => (
-          <div key={label} style={{ width: 80 }}>
-            <ActionTile
-              icon={ACTION_ICONS[key]}
-              title={label}
-              description={`[ ${key} ]`}
-              variant={ACTION_VARIANTS[key]}
-              disabled={!available}
-              size="sm"
-              ornament="decorated"
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
 const PLAYERS = [
   // eslint-disable-next-line donjon/no-hardcoded-hex -- TODO: tokenize nebo rationalizovat (tech debt)
   { name: 'Hráč 1', color: '#4080C0', vp: 3, icon: <SwordIcon /> },
   { name: 'Hráč 2', color: failColor,  vp: 1, icon: <ShieldIcon /> },
 ]
 
+/* Action data shape mirrors the lib <ActionBar> contract:
+   { label, icon, variant, keycap, disabled } */
 const ACTIONS = [
-  { label: 'Pohyb', key: 'M', available: true },
-  { label: 'Útok',  key: 'A', available: true },
-  { label: 'Stavba', key: 'B', available: false },
-  { label: 'Konec', key: 'E', available: true },
+  { label: 'Pohyb',  icon: <MoveIcon />,      variant: 'move',    keycap: 'M' },
+  { label: 'Útok',   icon: <SwordIcon />,     variant: 'attack',  keycap: 'A' },
+  { label: 'Stavba', icon: <TowerIcon />,     variant: 'default', keycap: 'B', disabled: true },
+  { label: 'Konec',  icon: <HourglassIcon />, variant: 'default', keycap: 'E' },
 ]
 
 export default function HudPage() {
