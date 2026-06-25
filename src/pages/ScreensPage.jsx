@@ -3,7 +3,7 @@ import { goldDim } from '../lib/donjon/tokens'
 import DieFace from '../lib/donjon/DieFace'
 import VPCounter from '../lib/donjon/VPCounter'
 import ActionBar from '../lib/donjon/ActionBar'
-import { MoveIcon, SwordIcon, ShieldIcon, TowerIcon, BombIcon, DiceIcon } from '../lib/donjon/icons'
+import { MoveIcon, SwordIcon, ShieldIcon, PushIcon, TowerCollapseIcon, DiceIcon } from '../lib/donjon/icons'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { FRAME } from '../styleguide/DeviceFrame'
@@ -27,7 +27,7 @@ const DEMO_VP    = [3, 2]
    sousedních řad (pointy-top tiling).                                  */
 const _ = (state, opts = {}) => ({ state, ...opts })
 const E = () => _('empty')
-const F = () => _('focal-active')
+const FP = () => _('focal-passive')         // exists but not this turn's target
 const B1 = (v) => _('base', { owner: p1.color, die: { v, c: p1.color } })
 const B2 = (v) => _('base', { owner: p2.color, die: { v, c: p2.color } })
 /* Demo interaction states — colored tints over the grass so the player
@@ -45,8 +45,9 @@ const BOARD_ROWS = [
   [E(), E(), E(), E(), E(), E(), E()],
   // Row 3 — 8 polí (po stranách selected focal jsou move targets)
   [E(), E(), E(), MV(), MV(), E(), E(), E()],
-  // Row 4 (střed) — 9 polí, prostřední ohnisko je VYBRANÉ, krajní attack
-  [E(), F(), E(), MV(), SEL_F(), MV(), E(), F(), AT()],
+  // Row 4 (střed) — 9 polí. Prostřední ohnisko VYBRANÉ (zlatý glow),
+  // dvě krajní ohniska jsou PASIVNÍ (existují, ale ne pro tento tah).
+  [E(), FP(), E(), MV(), SEL_F(), MV(), E(), FP(), AT()],
   // Row 5 — 8 polí (move targets pod selected)
   [E(), E(), E(), MV(), MV(), E(), E(), E()],
   // Row 6 — 7 prázdných
@@ -152,10 +153,10 @@ function MiniScoreHeader({ size = 'md' }) {
    Per uživatel: tlačítka jen s piktogramy, žádný titulek ani shortcut text.
    title prop drží aria-label, ale renderuje empty span — vizuálně jen ikona. */
 const SCREEN_ACTIONS = [
-  { label: 'Pohyb kostky', icon: <MoveIcon />,  variant: 'move' },
-  { label: 'Pohyb věže',   icon: <TowerIcon />, variant: 'default' },
-  { label: 'Kolaps věže',  icon: <BombIcon />,  variant: 'attack' },
-  { label: 'Přehazování',  icon: <DiceIcon />,  variant: 'special' },
+  { label: 'Pohyb kostky', icon: <MoveIcon />,          variant: 'move'    },
+  { label: 'Pohyb věže',   icon: <PushIcon />,          variant: 'default' },
+  { label: 'Kolaps věže',  icon: <TowerCollapseIcon />, variant: 'attack'  },
+  { label: 'Přehazování',  icon: <DiceIcon />,          variant: 'special' },
 ]
 
 /* Bottom action strip — lib <ActionBar> in icon-only / borderless mode,
