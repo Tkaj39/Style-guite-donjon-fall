@@ -39,6 +39,16 @@ export default function VPCounter({
   layout = 'column',
   minWidth = 200,
   compact = false,
+  // Row layout only — content rendered inside the centered hex divider.
+  // Any combination of the three slots is supported:
+  //   centerValue alone    → single value centered in the hex
+  //   centerLeft + Right   → "L  R" with the icon (or default HexIcon
+  //     glyph kept as background) between them
+  //   centerIcon overrides the default HexIcon glyph behind the values
+  centerValue,
+  centerLeft,
+  centerRight,
+  centerIcon,
 }) {
   const rawId = useId()
   const uid = rawId.replace(/:/g, '')
@@ -87,8 +97,10 @@ export default function VPCounter({
       <RohOrnament h={ornH} uid={`${uid}-tr`} flip />
       <RohOrnament h={ornH} uid={`${uid}-bl`} bottom />
       <RohOrnament h={ornH} uid={`${uid}-br`} flip bottom />
-      {/* Row layout: HexIcon divider centered on the panel, overflowing
-          top + bottom by 2 px so it visibly breaks the clipped shell. */}
+      {/* Row layout: hex divider centered on the panel, overflowing top
+          + bottom by 2 px so it visibly breaks the clipped shell. The hex
+          outline (SVG) is the background; optional content (1 value or
+          2 values + icon) layers on top centered inside the hex. */}
       {isRow && (
         <div style={{
           position: 'absolute',
@@ -99,16 +111,64 @@ export default function VPCounter({
           color: gold, filter: `drop-shadow(0 0 6px ${gold}66)`,
           pointerEvents: 'none',
         }}>
-          <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%">
+          {/* Hex outline */}
+          <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%"
+               style={{ position: 'absolute', inset: 0 }}>
             <path
               d="M12 2.5L20.5 7.25V16.75L12 21.5L3.5 16.75V7.25L12 2.5Z"
               stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"
             />
           </svg>
+          {/* Inner content — overlay positioned dead center */}
+          <CenterContent
+            value={centerValue}
+            left={centerLeft}
+            right={centerRight}
+            icon={centerIcon}
+          />
         </div>
       )}
     </div>
   )
+}
+
+/* CenterContent — what shows inside the row layout's centered hex.
+   Three modes:
+     - `value` alone → single number centered in the hex
+     - `left` + `right` → both numbers side-by-side with `icon` between
+       (or no icon if `icon` is null)
+     - none → nothing rendered (hex stays decorative outline) */
+function CenterContent({ value, left, right, icon }) {
+  // Single value mode
+  if (value != null && left == null && right == null) {
+    return (
+      <span style={{
+        position: 'relative',
+        fontSize: '0.875rem', fontWeight: 800, color: gold,
+        fontVariantNumeric: 'tabular-nums', lineHeight: 1,
+      }}>{value}</span>
+    )
+  }
+  // Two-value mode (with optional icon between)
+  if (left != null || right != null) {
+    return (
+      <span style={{
+        position: 'relative',
+        display: 'inline-flex', alignItems: 'center', gap: 2,
+        fontSize: '0.6875rem', fontWeight: 800, color: gold,
+        fontVariantNumeric: 'tabular-nums', lineHeight: 1,
+      }}>
+        {left != null && <span>{left}</span>}
+        {icon !== null && (
+          <span style={{ display: 'inline-flex', lineHeight: 0, fontSize: '0.625rem' }}>
+            {icon ?? '·'}
+          </span>
+        )}
+        {right != null && <span>{right}</span>}
+      </span>
+    )
+  }
+  return null
 }
 
 function PlayerRow({ player, max, mirror = false, compact = false }) {
