@@ -179,10 +179,10 @@ const PHASES = ['Pohyb', 'Útok', 'Stavba']
       <Section
         id="vp-counter"
         title="VP Counter"
-        description="Progress bary pro každého hráče — segmentové zobrazení VP vůči cíli."
+        description="Horizontální HUD strip — aktivní hráč vlevo, ohnisko (hex) uprostřed, soupeř vpravo. Aktivní řádek svítí player color, neaktivní fade na 55 % opacity. VP číslo velké + colored player color s glow."
       >
         <Preview>
-          <VPCounter players={PLAYERS} />
+          <VPCounter players={PLAYERS} layout="row" minWidth={300} />
         </Preview>
         <CodeBlock code={`{/* VP progress — segmenty do cílového počtu */}
 {Array.from({ length: targetVP }).map((_, i) => (
