@@ -413,6 +413,82 @@ After `git push origin master`:
 
 ---
 
+## Game UI lib components — quick reference
+
+Recent (2026-06) extractions from HudPage + ScreensPage. Both pages now
+compose the same lib components so the canonical look is single-source.
+
+### `<VPCounter>` (src/lib/donjon/VPCounter.jsx)
+HUD score panel with two layouts:
+- `layout='column'` (default) — vertical stacked rows under a title.
+- `layout='row'` — horizontal strip: PlayerRow ‖ central hex divider ‖
+  mirrored PlayerRow. Used as ScreensPage MiniScoreHeader.
+
+Key props:
+- `players: [{ id, color, vp, icon, active }]` — `active: true` triggers
+  the player-color drop-shadow glow on the Erb + colored VP digit;
+  `active: false` rows fade to 0.55 opacity.
+- `compact: boolean` — drops the VPPips row, leaves only Erb + VP number.
+  Set to true on narrow row layouts (mobile header in a 230 px frame).
+- Central hex content (row layout only): `centerValue` (single number)
+  OR `centerLeft` + `centerRight` + `centerIcon` (two values with a
+  pictogram separator). Hex outline is bgDeep-filled with a thin gold
+  stroke (strokeWidth=0.75) and overflows the shell by 10 px each side.
+- Exports a named `VPPips` sub-component so chip-scale callers reuse the
+  exact pip styling (octagonal border-trick with player-color glow).
+
+### `<ActionBar>` (src/lib/donjon/ActionBar.jsx)
+HUD strip of `<ActionTile>` buttons + optional octagonal shell.
+
+Key props:
+- `actions: [{ label, icon, variant, keycap, selected, disabled }]`
+- `size: 'xs'|'sm'|'md'` — tile width 48/80/110.
+- `bordered` (default `true`) — octagonal shell + 4 corner RohOrnaments
+  at cx=8 with uniform 8 px padding. Set `false` for floating contexts
+  (ScreensPage uses bordered=false so the tiles float over the grass).
+- `showLabel` (default `true`) / `showKeycap` (default `true`) — when
+  showLabel=false, each tile is wrapped in a DonjonTooltip so the
+  label still surfaces on hover / for screen readers.
+- `scale: number` — CSS transform on the row for shrinking inside
+  narrow device-frame previews.
+
+### `<ActionTile>` plastic styling
+At ornament='decorated' the tile gets a `linear-gradient(bg3 → bg4)`
+idle background, `inset 0 1px 0 rgba(255,255,255,0.08)` top highlight,
+`inset 0 -6px 8px rgba(0,0,0,0.25)` bottom shadow, and a
+`filter: drop-shadow(0 2px 3px rgba(0,0,0,0.55))` for lift. isBlocked
+disables all of these. Don't reintroduce solid flat bgs on idle tiles.
+
+### `<HexTile>` (recent additions)
+- `texture` prop applies to **empty** AND **base** cells. On base, the
+  owner color is layered over the grass with `background-blend-mode:
+  multiply` so the terrain shows through the player tint instead of a
+  flat owner solid fill.
+- Focal markers come from `FocalPointActiveIcon` / `FocalPointPassiveIcon`
+  (not inline flame / diamond glyphs). Passive focal has opacity 0.6 so
+  the active focal pops as the current turn's target.
+- Selected state uses `gold` (warm) instead of `textActive` (cool cream)
+  — contrasts cleanly against the green `move` state tint and the
+  grass texture.
+
+### `<Shield>` (donjon/Erb.jsx)
+- `icon` prop renders a sized + cloned ReactNode inside the shield with
+  high-contrast `textHighest` color + drop-shadow glow in the player
+  color. Use it instead of `showSymbol={true}` when you want a faction
+  pictogram instead of the Roman-numeral default.
+- Now has a visible gold outer frame (ring thickness scales with shield
+  size — 2 px on xs).
+
+### Action / focal icon catalogue (semantic names)
+- `MoveIcon` — die movement
+- `TowerIcon` — tower silhouette (Pohyb věže)
+- `TowerCollapseIcon` — falling tower (Kolaps věže)
+- `RerollIcon` — 5-pip die + refresh arrow above (Přehazování)
+- `FocalPointActiveIcon` / `FocalPointPassiveIcon` — hex focal markers
+- `HexIcon` — generic hex glyph (used as VPCounter divider)
+
+---
+
 ## Testing
 
 Tests live in `src/lib/tkajui/__tests__/` and `src/lib/donjon/__tests__/`.
