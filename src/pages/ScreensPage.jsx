@@ -144,6 +144,7 @@ function MiniScoreHeader({ size = 'md' }) {
         layout="row"
         compact={compact}
         minWidth={minWidth}
+        centerValue={DEMO_TURN}
       />
     </div>
   )

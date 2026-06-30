@@ -182,7 +182,13 @@ const PHASES = ['Pohyb', 'Útok', 'Stavba']
         description="Horizontální HUD strip — aktivní hráč vlevo, ohnisko (hex) uprostřed, soupeř vpravo. Aktivní řádek svítí player color, neaktivní fade na 55 % opacity. VP číslo velké + colored player color s glow."
       >
         <Preview>
-          <VPCounter players={PLAYERS} layout="row" minWidth={300} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'flex-start' }}>
+            {/* Central hex shows a single turn number */}
+            <VPCounter players={PLAYERS} layout="row" minWidth={300} centerValue={3} />
+            {/* Or pair of values (current/total turns) with a separator icon */}
+            <VPCounter players={PLAYERS} layout="row" minWidth={300}
+              centerLeft={3} centerRight={10} centerIcon="/" />
+          </div>
         </Preview>
         <CodeBlock code={`{/* VP progress — segmenty do cílového počtu */}
 {Array.from({ length: targetVP }).map((_, i) => (
