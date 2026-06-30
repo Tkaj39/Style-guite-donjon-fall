@@ -3,6 +3,7 @@ import {
   focalActiveBg, focalPassiveBg, focalPassiveBorder,
   HEX_TILE_SIZES, HEX_TILE_BORDER_WIDTH, HEX_TILE_ICON_SIZES, HEX_TILE_DOT_SIZES,
 } from './tokens'
+import { FocalPointActiveIcon, FocalPointPassiveIcon } from './icons'
 import { hexPointyTop } from '../shared/polygon'
 
 const HEX_CLIP = hexPointyTop()
@@ -123,19 +124,32 @@ function resolveLook(property, focal, state, owner) {
   }
 }
 
-function FlameIcon({ size = 10 }) {
+/* Focal markers — use the lib icons (FocalPointActiveIcon /
+   FocalPointPassiveIcon) so the hex pictogram matches the rest of the
+   donjon icon set. Color comes from inline `color`; drop-shadow glow
+   is preserved on the active marker. Doubled the render size relative
+   to the legacy FlameIcon/DiamondDot since the new pictograms have
+   more inner detail (radial rays / dashed ring). */
+function FocalActiveMarker({ size = 14 }) {
   return (
-    <svg viewBox="0 0 16 16" fill="currentColor" width={size} height={size} style={{ color: gold, filter: `drop-shadow(0 0 3px ${gold}88)` }}>
-      <path d="M8 16c3.314 0 6-2 6-5.5 0-1.5-.5-4-2.5-6 .25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16Z" />
-    </svg>
+    <span style={{
+      color: gold,
+      filter: `drop-shadow(0 0 3px ${gold}88)`,
+      display: 'inline-flex', lineHeight: 0,
+    }}>
+      <FocalPointActiveIcon width={size} height={size} />
+    </span>
   )
 }
 
-function DiamondDot({ size = 6 }) {
+function FocalPassiveMarker({ size = 12 }) {
   return (
-    <svg viewBox="0 0 10 10" width={size} height={size} style={{ color: focalPassiveBorder }}>
-      <polygon points="5,0 10,5 5,10 0,5" fill="currentColor" opacity={0.7} />
-    </svg>
+    <span style={{
+      color: focalPassiveBorder,
+      display: 'inline-flex', lineHeight: 0, opacity: 0.7,
+    }}>
+      <FocalPointPassiveIcon width={size} height={size} />
+    </span>
   )
 }
 
@@ -277,8 +291,8 @@ export default function HexTile({
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-            {look.marker === 'flame' && <FlameIcon size={iconSize} />}
-            {look.marker === 'dot'   && <DiamondDot size={dotSize} />}
+            {look.marker === 'flame' && <FocalActiveMarker  size={Math.round(iconSize * 1.6)} />}
+            {look.marker === 'dot'   && <FocalPassiveMarker size={Math.round(dotSize  * 1.8)} />}
           </div>
         </div>
       </div>
