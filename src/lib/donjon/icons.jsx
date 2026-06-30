@@ -546,3 +546,27 @@ export function TurnOrderIcon({ width = 24, height = 24 }) {
     </svg>
   )
 }
+
+/** Reroll the die — curved refresh arrow above a clearly visible die face. */
+export function RerollIcon({ width = 24, height = 24 }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" width={width} height={height}>
+      {/* Refresh arrow arching across the top */}
+      <path
+        d="M4 9.5C4 6.5 7 4.5 10.5 4.5C14 4.5 16 7 16 7"
+        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"
+      />
+      <path
+        d="M14 4.5L16.5 7L14 9.5"
+        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"
+      />
+      {/* Die — square + 5-pip face for clear "this is a die" read */}
+      <rect x="6" y="11" width="12" height="11" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
+      <circle cx="9"    cy="14"   r="1"   fill="currentColor"/>
+      <circle cx="15"   cy="14"   r="1"   fill="currentColor"/>
+      <circle cx="12"   cy="16.5" r="1"   fill="currentColor"/>
+      <circle cx="9"    cy="19"   r="1"   fill="currentColor"/>
+      <circle cx="15"   cy="19"   r="1"   fill="currentColor"/>
+    </svg>
+  )
+}
