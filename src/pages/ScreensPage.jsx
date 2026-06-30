@@ -3,7 +3,7 @@ import { goldDim } from '../lib/donjon/tokens'
 import DieFace from '../lib/donjon/DieFace'
 import VPCounter from '../lib/donjon/VPCounter'
 import ActionBar from '../lib/donjon/ActionBar'
-import { MoveIcon, SwordIcon, ShieldIcon, TowerIcon, TowerCollapseIcon, DiceIcon } from '../lib/donjon/icons'
+import { MoveIcon, SwordIcon, ShieldIcon, TowerIcon, TowerCollapseIcon, TurnOrderIcon } from '../lib/donjon/icons'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
 import DeviceFrame, { FRAME } from '../styleguide/DeviceFrame'
@@ -156,7 +156,7 @@ const SCREEN_ACTIONS = [
   { label: 'Pohyb kostky', icon: <MoveIcon />,          variant: 'move'    },
   { label: 'Pohyb věže',   icon: <TowerIcon />,         variant: 'default' },
   { label: 'Kolaps věže',  icon: <TowerCollapseIcon />, variant: 'attack'  },
-  { label: 'Přehazování',  icon: <DiceIcon />,          variant: 'special' },
+  { label: 'Přehazování',  icon: <TurnOrderIcon />,     variant: 'special' },
 ]
 
 /* Bottom action strip — lib <ActionBar> in icon-only / borderless mode,
