@@ -6,7 +6,7 @@
 import { useState, useId } from 'react'
 import { octagon, octagonInner } from '../shared/octagon'
 import { RohOrnament, HexOrnament, ornamentHForCx, ORNAMENT_BASE_WIDTH } from './Ornaments'
-import { gold, goldDim, goldMid, bg3, borderDefault, borderMid, textHigh, textMid, textLow, textFaint, dangerColor, gainColor, magicColor, infoColor, infoDark, selBgInfo, selBgDanger, selBgGain, selBgMagic } from './tokens'
+import { gold, goldDim, goldMid, bg3, bg4, borderDefault, borderMid, textHigh, textMid, textLow, textFaint, dangerColor, gainColor, magicColor, infoColor, infoDark, selBgInfo, selBgDanger, selBgGain, selBgMagic } from './tokens'
 
 const SIZES = {
   xs: { w: 48,  h: 44,  cx: 8,  iconArea: 20, titleSize: '0.5rem',    descSize: '0.4375rem', costSize: '0.5rem',    radius: 2 },
@@ -95,10 +95,14 @@ export default function ActionTile({
                         : hovered   ? bg3              // solid bg3 (= effective hover bg)
                         : selected  ? v.selBgSolid     // solid pre-computed tinted bg
                         : undefined                    // idle = default bg4
+  // Plastic look: idle bg is a subtle vertical gradient (bg3 → bg4 bottom)
+  // for a "lit from top" bevel; hover lifts to a brighter solid; selected
+  // keeps its variant tint.
+  const idleBgPlastic = `linear-gradient(180deg, ${bg3} 0%, ${bg4} 100%)`
   const effectiveBg     = isBlocked ? 'transparent'
                         : hovered   ? bg3
                         : selected  ? v.selBg
-                        : 'transparent'
+                        : idleBgPlastic
 
   const buttonEl = (
     <button
@@ -122,6 +126,18 @@ export default function ActionTile({
         ...(hasOrnaments ? {
           clipPath: octagonInner(s.cx),
           padding: `8px ${padH}px 10px`,
+          // Plastic depth: drop-shadow for lift, inset top highlight for
+          // a "glass" sheen on the upper edge, inset bottom shadow for
+          // body depth. drop-shadow filter respects clip-path; inset
+          // box-shadows are clipped INSIDE the octagon.
+          filter: isBlocked
+            ? undefined
+            : `drop-shadow(0 2px 3px rgba(0, 0, 0, 0.55))`,
+          boxShadow: isBlocked
+            ? 'none'
+            : selected
+              ? `0 0 10px ${v.selBorder}33, inset 0 1px 0 rgba(255, 255, 255, 0.10), inset 0 -6px 8px rgba(0, 0, 0, 0.3)`
+              : `inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 -6px 8px rgba(0, 0, 0, 0.25)`,
         } : {
           border: `1px solid ${effectiveBorder}`,
           borderRadius: s.radius,
