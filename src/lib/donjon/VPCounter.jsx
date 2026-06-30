@@ -98,13 +98,14 @@ export default function VPCounter({
       <RohOrnament h={ornH} uid={`${uid}-bl`} bottom />
       <RohOrnament h={ornH} uid={`${uid}-br`} flip bottom />
       {/* Row layout: hex divider centered on the panel, overflowing top
-          + bottom by 2 px so it visibly breaks the clipped shell. The hex
-          outline (SVG) is the background; optional content (1 value or
-          2 values + icon) layers on top centered inside the hex. */}
+          + bottom by 10 px so the hex visibly punches through the clipped
+          shell as a prominent focal element. The hex outline (SVG) is the
+          background; optional content (1 value or 2 values + icon) layers
+          on top centered inside the hex. */}
       {isRow && (
         <div style={{
           position: 'absolute',
-          top: -2, bottom: -2, left: '50%',
+          top: -10, bottom: -10, left: '50%',
           transform: 'translateX(-50%)',
           aspectRatio: '1 / 1',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
