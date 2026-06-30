@@ -185,9 +185,10 @@ const PHASES = ['Pohyb', 'Útok', 'Stavba']
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'flex-start' }}>
             {/* Central hex shows a single turn number */}
             <VPCounter players={PLAYERS} layout="row" minWidth={300} centerValue={3} />
-            {/* Or pair of values (current/total turns) with a separator icon */}
+            {/* Or pair of values (current/total turns) with a pictogram separator */}
             <VPCounter players={PLAYERS} layout="row" minWidth={300}
-              centerLeft={3} centerRight={10} centerIcon="/" />
+              centerLeft={3} centerRight={10}
+              centerIcon={<HourglassIcon width={10} height={10} />} />
           </div>
         </Preview>
         <CodeBlock code={`{/* VP progress — segmenty do cílového počtu */}
