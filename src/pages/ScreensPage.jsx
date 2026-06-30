@@ -160,16 +160,21 @@ const SCREEN_ACTIONS = [
 ]
 
 /* Bottom action strip — lib <ActionBar> in icon-only / borderless mode,
-   per-viewport scale lets the same xs tiles fit each device frame. */
+   per-viewport scale lets the same xs tiles fit each device frame.
+   Centered horizontally via flex wrapper so the row floats over the grass
+   instead of left-aligned in the parent column. */
 function MiniActionRow({ scale = 1 }) {
   return (
-    <ActionBar
-      actions={SCREEN_ACTIONS}
-      size="xs"
-      showLabel={false}
-      showKeycap={false}
-      scale={scale}
-    />
+    <div style={{ display: 'flex', justifyContent: 'center', flexShrink: 0, paddingBottom: 6 }}>
+      <ActionBar
+        actions={SCREEN_ACTIONS}
+        size="xs"
+        bordered={false}
+        showLabel={false}
+        showKeycap={false}
+        scale={scale}
+      />
+    </div>
   )
 }
 
