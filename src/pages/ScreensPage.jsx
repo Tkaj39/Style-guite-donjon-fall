@@ -190,13 +190,7 @@ function PCLayout() {
       }}>
         <HexGrid texture={GRASS_TEXTURE.desktop} />
       </div>
-      {/* Akce — lib ActionTile row, plná velikost (transparent menu, no padding) */}
-      <div style={{
-        flexShrink: 0, paddingBottom: 3,
-        display: 'flex', justifyContent: 'center',
-      }}>
-        <MiniActionRow scale={1} />
-      </div>
+      <MiniActionRow scale={1} />
     </div>
   )
 }
@@ -219,13 +213,7 @@ function TabletLayout() {
           <HexGrid texture={GRASS_TEXTURE.tablet} />
         </div>
       </div>
-      {/* Akce — lib ActionTile row, mírně zmenšená (transparent menu, no padding) */}
-      <div style={{
-        flexShrink: 0, paddingBottom: 3,
-        display: 'flex', justifyContent: 'center',
-      }}>
-        <MiniActionRow scale={0.9} />
-      </div>
+      <MiniActionRow scale={0.9} />
     </div>
   )
 }
@@ -248,14 +236,7 @@ function MobileLayout() {
           <HexGrid texture={GRASS_TEXTURE.mobile} />
         </div>
       </div>
-      {/* Akce — lib ActionTile row, scaled na 230px mobil frame (transparent menu, no padding) */}
-      <div style={{
-        flexShrink: 0, paddingBottom: 3,
-        display: 'flex', justifyContent: 'center',
-        overflow: 'hidden',
-      }}>
-        <MiniActionRow scale={0.75} />
-      </div>
+      <MiniActionRow scale={0.75} />
     </div>
   )
 }
