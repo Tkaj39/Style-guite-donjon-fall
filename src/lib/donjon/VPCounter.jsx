@@ -117,7 +117,7 @@ export default function VPCounter({
                style={{ position: 'absolute', inset: 0 }}>
             <path
               d="M12 2.5L20.5 7.25V16.75L12 21.5L3.5 16.75V7.25L12 2.5Z"
-              stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"
+              stroke="currentColor" strokeWidth="0.75" strokeLinejoin="round"
             />
           </svg>
           {/* Inner content — overlay positioned dead center */}
