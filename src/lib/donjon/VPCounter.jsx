@@ -112,11 +112,14 @@ export default function VPCounter({
           color: gold, filter: `drop-shadow(0 0 6px ${gold}66)`,
           pointerEvents: 'none',
         }}>
-          {/* Hex outline */}
-          <svg viewBox="0 0 24 24" fill="none" width="100%" height="100%"
+          {/* Hex shape — dark fill + gold outline. The dark interior
+              lifts the hex visually above the shell and makes the centered
+              content (turn number / pair) cleanly readable. */}
+          <svg viewBox="0 0 24 24" width="100%" height="100%"
                style={{ position: 'absolute', inset: 0 }}>
             <path
               d="M12 2.5L20.5 7.25V16.75L12 21.5L3.5 16.75V7.25L12 2.5Z"
+              fill={bgDeep}
               stroke="currentColor" strokeWidth="0.75" strokeLinejoin="round"
             />
           </svg>
