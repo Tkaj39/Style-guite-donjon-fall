@@ -3,6 +3,7 @@ import DieFace from '../lib/donjon/DieFace'
 import DiceTower from '../lib/donjon/DiceTower'
 import {
   bg2, bgDeep, borderDefault, borderMuted, dangerColor, gold, goldDim, textActive, textFaint, textMid,
+  HEX_TILE_SIZES, DIE_TOWER_SIZES, DIE_SIZE_FOR_HEX,
 } from '../lib/donjon/tokens'
 import HexTile from '../lib/donjon/HexTile'
 import DonjonCard from '../lib/donjon/DonjonCard'
@@ -15,16 +16,6 @@ import { useBreakpoint } from '../lib/shared/useBreakpoint'
 function statLabel(s) {
   const labels = { default: 'Default', selected: 'Vybraný', rerolled: 'Přehozeno', damaged: 'Poškozeno' }
   return labels[s] ?? s
-}
-
-// PEEK and box per size — coordinated with HexTile sizeMap so tower fits on hex.
-// Kept locally because dieSize computation in TowerOnHexDemo (below) reads `box`/`peek`
-// directly. The actual stacking is now delegated to <DiceTower> from the lib.
-const towerSizeConfig = {
-  xs: { box: 24, peek: 10 }, // tower of 3: 44px ≤ sm hex height 48px
-  sm: { box: 32, peek: 16 }, // tower of 3: 64px ≤ md hex height 72px
-  md: { box: 48, peek: 20 }, // tower of 3: 88px ≤ lg hex height 96px
-  lg: { box: 64, peek: 26 },
 }
 
 // Thin adapter — accepts the demo data shape ({ value, owner }) and resolves
@@ -50,25 +41,25 @@ function StatPill({ label, value, color }) {
   )
 }
 
-const hexDims = { sm: { w: 42, h: 48 }, md: { w: 62, h: 72 }, lg: { w: 83, h: 96 } }
-
-function DieOnHex({ dieValue = 4, dieSize = 'xs', playerColor, hexState = 'empty', hexSize = 'sm', owner }) {
+function DieOnHex({ dieValue = 4, dieSize, playerColor, hexState = 'empty', hexSize = 'sm', owner }) {
+  const resolvedDieSize = dieSize ?? DIE_SIZE_FOR_HEX[hexSize] ?? DIE_SIZE_FOR_HEX.sm
   const p = owner != null ? players.find(p => p.id === owner) : players[0]
   const color = playerColor ?? p?.color ?? goldDim
-  const { w, h } = hexDims[hexSize] ?? hexDims.sm
+  const { w, h } = HEX_TILE_SIZES[hexSize] ?? HEX_TILE_SIZES.sm
   return (
     <div style={{ position: 'relative', width: w, height: h, flexShrink: 0 }}>
       <HexTile state={hexState} owner={color} size={hexSize} />
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-        <DieFace value={dieValue} playerColor={color} size={dieSize} />
+        <DieFace value={dieValue} playerColor={color} size={resolvedDieSize} />
       </div>
     </div>
   )
 }
 
-function TowerOnHex({ tower, dieSize = 'xs', hexState = 'empty', hexSize = 'sm' }) {
-  const { w, h } = hexDims[hexSize] ?? hexDims.sm
-  const cfg = towerSizeConfig[dieSize] ?? towerSizeConfig.xs
+function TowerOnHex({ tower, dieSize, hexState = 'empty', hexSize = 'sm' }) {
+  const resolvedDieSize = dieSize ?? DIE_SIZE_FOR_HEX[hexSize] ?? DIE_SIZE_FOR_HEX.sm
+  const { w, h } = HEX_TILE_SIZES[hexSize] ?? HEX_TILE_SIZES.sm
+  const cfg = DIE_TOWER_SIZES[resolvedDieSize] ?? DIE_TOWER_SIZES.sm
   const n = tower.length
   // bottom die center from top of tower = (n-1)*peek + box/2
   const bottomDieCenter = (n - 1) * cfg.peek + cfg.box / 2
@@ -79,7 +70,7 @@ function TowerOnHex({ tower, dieSize = 'xs', hexState = 'empty', hexSize = 'sm' 
     <div style={{ position: 'relative', width: w, height: h, flexShrink: 0 }}>
       <HexTile state={hexState} size={hexSize} />
       <div style={{ position: 'absolute', top: topOffset, left: '50%', transform: 'translateX(-50%)' }}>
-        <TowerStack dice={tower} size={dieSize} />
+        <TowerStack dice={tower} size={resolvedDieSize} />
       </div>
     </div>
   )
@@ -598,19 +589,19 @@ const mixedTower = [{ owner:2, value:3 }, { owner:1, value:1 }, { owner:1, value
               <p style={{ margin: 0, fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Kostka na hexu</p>
               <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-end' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                  <DieOnHex dieValue={5} dieSize="xs" hexSize="sm" owner={1} />
+                  <DieOnHex dieValue={5} hexSize="sm" owner={1} />
                   <span style={{ fontSize: '0.5rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>xs / sm hex</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                  <DieOnHex dieValue={3} dieSize="xs" hexSize="sm" owner={2} />
+                  <DieOnHex dieValue={3} hexSize="sm" owner={2} />
                   <span style={{ fontSize: '0.5rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>xs / sm hex</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                  <DieOnHex dieValue={4} dieSize="sm" hexSize="md" owner={1} />
+                  <DieOnHex dieValue={4} hexSize="md" owner={1} />
                   <span style={{ fontSize: '0.5rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>sm / md hex</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                  <DieOnHex dieValue={6} dieSize="md" hexSize="lg" owner={1} />
+                  <DieOnHex dieValue={6} hexSize="lg" owner={1} />
                   <span style={{ fontSize: '0.5rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>md / lg hex</span>
                 </div>
               </div>
@@ -621,25 +612,48 @@ const mixedTower = [{ owner:2, value:3 }, { owner:1, value:1 }, { owner:1, value
               <p style={{ margin: 0, fontSize: '0.625rem', color: textFaint, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Věž na hexu — 3 kostky</p>
               <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-end' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                  <TowerOnHex tower={[{ owner:1,value:2 },{ owner:1,value:4 },{ owner:1,value:5 }]} dieSize="xs" hexSize="sm" />
+                  <TowerOnHex tower={[{ owner:1,value:2 },{ owner:1,value:4 },{ owner:1,value:5 }]} hexSize="sm" />
                   <span style={{ fontSize: '0.5rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>xs / sm hex</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                  <TowerOnHex tower={[{ owner:2,value:3 },{ owner:1,value:1 },{ owner:1,value:6 }]} dieSize="xs" hexSize="sm" />
+                  <TowerOnHex tower={[{ owner:2,value:3 },{ owner:1,value:1 },{ owner:1,value:6 }]} hexSize="sm" />
                   <span style={{ fontSize: '0.5rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>smíšená / sm hex</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                  <TowerOnHex tower={[{ owner:1,value:2 },{ owner:1,value:4 },{ owner:1,value:5 }]} dieSize="sm" hexSize="md" />
+                  <TowerOnHex tower={[{ owner:1,value:2 },{ owner:1,value:4 },{ owner:1,value:5 }]} hexSize="md" />
                   <span style={{ fontSize: '0.5rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>sm / md hex</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                  <TowerOnHex tower={[{ owner:1,value:2 },{ owner:1,value:4 },{ owner:1,value:5 }]} dieSize="md" hexSize="lg" />
+                  <TowerOnHex tower={[{ owner:1,value:2 },{ owner:1,value:4 },{ owner:1,value:5 }]} hexSize="lg" />
                   <span style={{ fontSize: '0.5rem', color: textFaint, letterSpacing: '0.08em', textTransform: 'uppercase' }}>md / lg hex</span>
                 </div>
               </div>
             </div>
           </div>
         </Preview>
+        <CodeBlock code={`import {
+  DIE_SIZE_FOR_HEX,
+  boardPieceSizes,
+  HEX_TILE_SIZES,
+  DIE_FACE_SIZES,
+  DIE_TOWER_SIZES,
+} from 'donjon-fall-ui'
+
+// Token map — which die size sits on which hex
+DIE_SIZE_FOR_HEX
+// { sm: 'xs', md: 'sm', lg: 'md' }
+
+// Prefer this in game apps: pick a hex tier, get geometry + die size
+const { hexSize, dieSize, hex, die, tower } = boardPieceSizes('md')
+// hexSize 'md', dieSize 'sm'
+// hex  → HEX_TILE_SIZES.md
+// die  → DIE_FACE_SIZES.sm
+// tower → DIE_TOWER_SIZES.sm  (box + peek; same die size as a single die)
+
+<HexTile size={hexSize} />
+<DieFace size={dieSize} value={4} playerColor={red} />
+<DiceTower size={dieSize} dice={[/* … */]} />
+`} />
       </Section>
 
       {/* Reroll animace */}

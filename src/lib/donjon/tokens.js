@@ -229,6 +229,57 @@ export const HEX_TILE_ICON_SIZES = { sm: 8, md: 10, lg: 14 }
 /** Inner diamond-dot size (px) per HexTile size — used on focal-passive. */
 export const HEX_TILE_DOT_SIZES = { sm: 5, md: 6, lg: 9 }
 
+// ── Die face / tower sizing ───────────────────────────────────────────────
+// Pointy-top hex ↔ die pairing (DicePage): xs on sm hex, sm on md, md on lg.
+// A 3-die tower must fit the hex height (box + 2×peek ≤ hex.h).
+
+/** DieFace preset sizes — box + pip geometry (px / rem). */
+export const DIE_FACE_SIZES = {
+  xs: { box: 24, dot: 3, cx: 3.5, fontSize: '0.5rem' },
+  sm: { box: 32, dot: 4, cx: 5,   fontSize: '0.625rem' },
+  md: { box: 48, dot: 6, cx: 7.5, fontSize: '0.75rem' },
+  lg: { box: 64, dot: 8, cx: 10,  fontSize: '0.875rem' },
+}
+
+/** Peek (px) of each lower die in a tower — keyed by die size token. */
+const DIE_TOWER_PEEK = { xs: 10, sm: 16, md: 20, lg: 26 }
+
+/** Tower geometry — `box` from DIE_FACE_SIZES, `peek` for stack overlap. */
+export const DIE_TOWER_SIZES = Object.fromEntries(
+  Object.entries(DIE_FACE_SIZES).map(([key, { box }]) => [
+    key,
+    { box, peek: DIE_TOWER_PEEK[key] },
+  ])
+)
+
+/**
+ * Die size token for each HexTile size. Single die and towers share this key.
+ * Geometry: HEX_TILE_SIZES[hex], DIE_FACE_SIZES[die], DIE_TOWER_SIZES[die].
+ */
+export const DIE_SIZE_FOR_HEX = {
+  sm: 'xs',
+  md: 'sm',
+  lg: 'md',
+}
+
+/**
+ * Resolved board piece sizes for a hex tier — reads the size tables via
+ * DIE_SIZE_FOR_HEX. Game apps should pick a hex tier and use this instead of
+ * hand-rolled pairings.
+ * @param {'sm'|'md'|'lg'} [hexSize='md']
+ */
+export function boardPieceSizes(hexSize = 'md') {
+  const hs = HEX_TILE_SIZES[hexSize] ? hexSize : 'md'
+  const dieSize = DIE_SIZE_FOR_HEX[hs]
+  return {
+    hexSize: hs,
+    dieSize,
+    hex: HEX_TILE_SIZES[hs],
+    die: DIE_FACE_SIZES[dieSize],
+    tower: DIE_TOWER_SIZES[dieSize],
+  }
+}
+
 // Public enums for HexTile axes moved to ./enums.js (HEX_TILE_PROPERTY_VALUES,
 // HEX_TILE_FOCAL_VALUES, HEX_TILE_STATE_VALUES) — same naming pattern as the
 // rest of the library, see ./enums.js for the full list.

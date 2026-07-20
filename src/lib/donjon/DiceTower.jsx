@@ -32,7 +32,7 @@
    ─────────────────────────────────────────────────────────────────── */
 import { useRef, useState } from 'react'
 import DieFace from './DieFace'
-import { gold, goldDim, textHigh, textMid, borderDefault } from './tokens'
+import { gold, goldDim, textHigh, textMid, borderDefault, DIE_TOWER_SIZES } from './tokens'
 
 /**
  * @typedef {object} DiceTowerEntry
@@ -41,17 +41,6 @@ import { gold, goldDim, textHigh, textMid, borderDefault } from './tokens'
  * @prop {'default'|'selected'|'rerolled'|'damaged'} [state]
  *                                Per-die DieFace state override.
  */
-
-// Tower geometry per size — `box` mirrors DieFace.sizeMap.box, `peek`
-// is how many px of each lower die remain visible after overlap. Tuned
-// so a 3-die tower fits cleanly on the corresponding hex (see HexTile
-// sizeMap), with comfortable readability.
-const SIZE = {
-  xs: { box: 24, peek: 10 },
-  sm: { box: 32, peek: 16 },
-  md: { box: 48, peek: 20 },
-  lg: { box: 64, peek: 26 },
-}
 
 /**
  * @param {DiceTowerEntry[]} dice            Stack bottom → top.
@@ -87,7 +76,7 @@ export default function DiceTower({
   style,
   ...rest
 }) {
-  const s = SIZE[size] ?? SIZE.md
+  const s = DIE_TOWER_SIZES[size] ?? DIE_TOWER_SIZES.md
   const isEmpty = dice.length === 0
   const topIndex = dice.length - 1
 
