@@ -10,9 +10,12 @@
  * The single source of truth for player colors. Defines 6 distinct,
  * mutually distinguishable shades — each in three variants:
  *
- *   - `<color>`       — primary color (dice, shields, player UI accents)
+ *   - `<color>` / primary — player identity: dice, shields, HUD accents,
+ *     AND HexTile base cells (`owner={primary}`) as a multiply tint over grass
+ *     (ScreensPage / donjon-fall-redux). Same hue everywhere the player shows.
  *   - `<color>Light`  — light variant (text on dark backgrounds, sub-info)
- *   - `<color>Dark`   — dark variant (base on the map, owned territory)
+ *   - `<color>Dark`   — deep/recessed surfaces and optional solid fills when
+ *     no grass texture is used — NOT the map-base tint (that is primary).
  *
  * Convention: up to 6 players (red, blue, green, yellow, purple, orange).
  * Values are synchronised with the primaries from `gameUiMockData.js`
@@ -22,7 +25,7 @@
  *   import { red, blueDark, playerColors } from 'donjon-fall-ui'
  *
  *   <Shield playerColor={red} />
- *   <HexTile state="base" playerColor={playerColors[0].primary} />
+ *   <HexTile property="base" owner={playerColors[0].primary} texture={grassTile1024} />
  *   {playerColors.map(p => <DieFace playerColor={p.primary} />)}
  *
  * Or via CSS:
@@ -46,7 +49,7 @@ export const yellowLight = '#F4E2A0'
 export const purpleLight = '#DAC0F0'
 export const orangeLight = '#F8D0B8'
 
-/* ── Dark variants (base / owned territory) ─────────────────────────── */
+/* ── Dark variants (recessed UI / solid fill without grass) ──────────── */
 export const redDark     = '#3D1818'
 export const blueDark    = '#122340'
 export const greenDark   = '#122F1A'

@@ -168,7 +168,9 @@ function FocalPassiveMarker({ size = 12 }) {
  * @param {'empty'|'focal'|'base'} [property='empty']
  * @param {'active'|'passive'} [focal='passive']  Only used when property='focal'.
  * @param {'default'|'selected'|'move'|'attack'|'blocked'} [state='default']
- * @param {string} [owner]   Player color (#hex); used when property='base'.
+ * @param {string} [owner]   Player **primary** color (#hex); used when property='base'.
+ *   Pass `playerColorsByKey.red.primary` (etc.) — not the dark variant. With `texture`,
+ *   primary is multiply-blended over grass (ScreensPage / game apps).
  * @param {'sm'|'md'|'lg'} [size='md']
  * @param {string} [label]
  * @param {boolean} [showLabel=false]
@@ -186,8 +188,8 @@ function FocalPassiveMarker({ size = 12 }) {
  * <HexTile property="focal" focal="active" state="selected" />
  *
  * @example
- * // Player's base
- * <HexTile property="base" owner={player.color} />
+ * // Player's base — owner = primary; texture = grass (multiply tint)
+ * <HexTile property="base" owner={player.primary} texture={grassTile1024} />
  *
  * @example
  * // Cell marked as a move target

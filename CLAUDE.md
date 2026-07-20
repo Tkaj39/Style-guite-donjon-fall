@@ -463,7 +463,8 @@ disables all of these. Don't reintroduce solid flat bgs on idle tiles.
 - `texture` prop applies to **empty** AND **base** cells. On base, the
   owner color is layered over the grass with `background-blend-mode:
   multiply` so the terrain shows through the player tint instead of a
-  flat owner solid fill.
+  flat owner solid fill. Pass the player's **primary** as `owner` (same
+  as ScreensPage / donjon-fall-redux) — not the dark variant.
 - Focal markers come from `FocalPointActiveIcon` / `FocalPointPassiveIcon`
   (not inline flame / diamond glyphs). Passive focal has opacity 0.6 so
   the active focal pops as the current turn's target.

@@ -461,7 +461,7 @@ export default function HexagonPage() {
       <Section id="pravidla" title="Pravidla použití">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">
           <p>✓ Vlastnost (property) a stav (state) jsou nezávislé — kombinuj je libovolně dle herní logiky.</p>
-          <p>✓ Barva owner prop je hráčova identitní barva — použij ji konzistentně ve všech prvcích UI pro daného hráče.</p>
+          <p>✓ Barva `owner` je hráčova **primární** barva (ne dark) — stejná jako na kostkách/štítech; na základně s `texture` se multiply-blenduje přes trávu.</p>
           <p>✓ Aktivní ohnisko = property=&quot;focal&quot; focal=&quot;active&quot;. Pasivní = property=&quot;focal&quot; (focal=&quot;passive&quot; je default).</p>
           <p>✓ Aktivní/pasivní (focal) je game-state — určuje ho herní logika. Vybraný (state=&quot;selected&quot;) je hráčská interakce. Jsou nezávislé.</p>
           <p>✓ Pro mini-mapu (overview) použij size=&quot;sm&quot; — zbytečně velké hexy v mini-mapě narušují přehlednost.</p>
