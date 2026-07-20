@@ -570,6 +570,7 @@ export { default as GameTransition, gameTransitionPresets } from './GameTransiti
 
 // ── Game assets ─────────────────────────────────────────────────────────
 
+
 /**
  * Hexagonal tile for the game board. Three orthogonal axes:
  *   `property` = what the cell IS  (empty / focal / base)

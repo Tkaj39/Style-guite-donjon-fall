@@ -9,6 +9,7 @@
     "dist",
     "*.js",
     "*.jsx",
+    "textures",
     "donjon.css",
     "enums.js",
     "README.md",
@@ -22,6 +23,7 @@
     "./tokens":       { "source": "./tokens.js",       "types": "./dist/tokens.d.ts",       "import": "./dist/tokens.js",       "require": "./dist/tokens.cjs" },
     "./enums":        { "source": "./enums.js",        "types": "./dist/enums.d.ts",        "import": "./dist/enums.js",        "require": "./dist/enums.cjs" },
     "./playerColors": { "source": "./playerColors.js", "types": "./dist/playerColors.d.ts", "import": "./dist/playerColors.js", "require": "./dist/playerColors.cjs" },
+    "./textures":     { "source": "./textures.js",     "import": "./textures.js",            "require": "./textures.js" },
     "./styles":       "./donjon.css",
     "./donjon.css":   "./donjon.css",
     "./package.json": "./package.json"

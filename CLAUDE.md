@@ -470,6 +470,11 @@ disables all of these. Don't reintroduce solid flat bgs on idle tiles.
 - Selected state uses `gold` (warm) instead of `textActive` (cool cream)
   — contrasts cleanly against the green `move` state tint and the
   grass texture.
+- Grass tile **files** for consumers: import from `donjon-fall-ui/textures`
+  (`grassTile1024` etc.). That subpath ships as source + `textures/*.jpg`
+  (not tsup `dist/`) so `import.meta.url` keeps working — see the header
+  in `src/lib/donjon/textures.js`. Style-guide ScreensPage may still use
+  `/public/textures/…` absolute URLs.
 
 ### `<Shield>` (donjon/Erb.jsx)
 - `icon` prop renders a sized + cloned ReactNode inside the shield with

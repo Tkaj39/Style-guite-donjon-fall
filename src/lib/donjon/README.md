@@ -39,6 +39,9 @@ export function StartScreen() {
 | `donjon-fall-ui/enums` | `*_VALUES` arrays for enum-typed props. |
 | `donjon-fall-ui/styles` | `donjon.css` — `:root { --donjon-* }` custom properties + `.dj-clip-focus` + `.dj-segment-button` utility classes. |
 | `donjon-fall-ui/playerColors` | 6 player colors × 3 variants for multi-player UIs. |
+| `donjon-fall-ui/textures` | Grass meadow tile URL strings (`grassTile1024` / `512` / `256`, plus `grassTiles`) for screen backgrounds and `HexTile texture={…}`. |
+
+> **Note on `./textures`:** Unlike `./tokens` (and the other JS subpaths), this entry is **not** built by tsup into `dist/`. It ships as source `textures.js` next to the `textures/*.jpg` folder so `import.meta.url` asset resolution stays valid for Vite and npm. Prefer this subpath over the main barrel — textures are intentionally not re-exported from `donjon-fall-ui` root.
 
 ## Component categories
 
