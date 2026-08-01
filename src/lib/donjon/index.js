@@ -568,6 +568,31 @@ export { default as useBreakpoint } from './useBreakpoint'
  */
 export { default as GameTransition, gameTransitionPresets } from './GameTransition'
 
+/**
+ * Named CSS keyframe presets for game-piece choreography (die move, combat
+ * push, focal pulse, …). Keyframes ship in `donjon-fall-ui/styles`.
+ * @see animationStyle, useCssAnimation, GAME_PIECE_HEX
+ */
+export {
+  gameAnimationPresets,
+  animationStyle,
+  resolveGameAnimation,
+  GAME_PIECE_HEX,
+} from './gameAnimations'
+
+/**
+ * Remount-on-play helper for CSS keyframe animations.
+ * Attach `{...bind}` to a wrapper, call `play()` to restart.
+ * @param {string|object} preset - Key into gameAnimationPresets, or inline config
+ * @param {{ onEnd?: () => void, duration?: number }} [options]
+ * @returns {{ playing, animKey, play, style, bind }}
+ * @example
+ * const move = useCssAnimation('dieMove')
+ * <div {...move.bind}><DieFace value={3} /></div>
+ * <button onClick={move.play} disabled={move.playing}>Play</button>
+ */
+export { default as useCssAnimation } from './useCssAnimation'
+
 // ── Game assets ─────────────────────────────────────────────────────────
 
 

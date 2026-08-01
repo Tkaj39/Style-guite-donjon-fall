@@ -135,13 +135,14 @@ export const sections = [
     label: 'Principy',
     items: [
       {
+        // GUIDE UPDATE: replaced dead #keyframes link with #game-piece (CSS presets API)
         to: '/motion', label: 'Motion', library: 'both',
         children: [
           { to: '/motion#timing',     label: 'Timing tokeny' },
           { to: '/motion#easing',     label: 'Easing křivky' },
           { to: '/motion#hook',       label: 'useGameAnimation' },
           { to: '/motion#transition', label: 'GameTransition' },
-          { to: '/motion#keyframes',  label: 'CSS keyframes' },
+          { to: '/motion#game-piece', label: 'Game-piece CSS' },
           { to: '/motion#kombinace',  label: 'Herní kombinace' },
         ],
       },
@@ -461,8 +462,10 @@ export const sections = [
         ],
       },
       {
+        // GUIDE UPDATE: #usage first — consumer API before choreography catalog
         to: '/animations', label: 'Animace',
         children: [
+          { to: '/animations#usage',          label: 'Použití ve hře' },
           { to: '/animations#pohyb-kostky',   label: 'Pohyb kostky' },
           { to: '/animations#pohyb-veze',     label: 'Pohyb věže' },
           { to: '/animations#souboj-push',    label: 'Souboj — Push' },
@@ -473,6 +476,7 @@ export const sections = [
           { to: '/animations#ohnisko',        label: 'Ohnisko' },
           { to: '/animations#nelegalni-akce', label: 'Nelegální akce' },
           { to: '/animations#sudden-death',   label: 'Sudden death' },
+          { to: '/animations#pravidla',       label: 'Pravidla' },
         ],
       },
       {

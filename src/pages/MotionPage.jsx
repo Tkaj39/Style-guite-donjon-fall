@@ -253,9 +253,13 @@ export default function MotionPage() {
   return (
     <div style={PAGE}>
       <h1 style={H1}>Motion & Animace</h1>
+      {/* GUIDE UPDATE: clarify split between UI motion (this page) and game-piece CSS (/animations) */}
       <p style={{ fontSize: '0.875rem', color: textMid, marginBottom: 32 }}>
-        Animační systém: timing tokeny, Web Animations API hook a GameTransition wrapper.
-        Konzistentní timing, zero-dependency animace, žádné magic numbers napříč library.
+        Animační systém: timing tokeny, Web Animations API hook (<code style={{ color: gold }}>useGameAnimation</code>)
+        a <code style={{ color: gold }}>GameTransition</code> wrapper pro UI panely.
+        Herní kousky (kostka, věž, ohnisko) mají samostatné CSS presets — viz{' '}
+        <a href="/animations#usage" style={{ color: gold }}> /animations#usage</a>
+        {' '}a sekci <a href="#game-piece" style={{ color: gold }}>Game-piece CSS</a> níže.
       </p>
 
       <Section
@@ -501,6 +505,40 @@ onGameEnd={() => victory()         // výsledek`}</Code>
 
       <div style={DIVIDER} />
 
+      {/*
+        GUIDE UPDATE (feat/export-game-piece-animations):
+        Pointer from Motion (UI motion) → game-piece CSS API. Full catalog + demos on /animations.
+      */}
+      <Section
+        id="game-piece"
+        title="Game-piece CSS animations"
+        desc="Die/tower moves, combat push, focal pulses and reject — named CSS keyframe presets in donjon-fall-ui. Not the same as useGameAnimation (WAAPI) or GameTransition (panel enter/exit)."
+      >
+        <Demo style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 8 }}>
+          <p style={{ margin: 0, fontSize: '0.8125rem', color: textMid, lineHeight: 1.6, maxWidth: 640 }}>
+            1. <code style={{ color: gold }}>import 'donjon-fall-ui/styles'</code> — keyframes live in <code style={{ color: gold }}>donjon.css</code>.
+            {' '}2. Single-shot: <code style={{ color: gold }}>useCssAnimation('dieMove')</code> → <code style={{ color: gold }}>{'{...bind}'}</code> + <code style={{ color: gold }}>play()</code>.
+            {' '}3. Own sequencing: <code style={{ color: gold }}>animationStyle('dieShake')</code> on your phase state.
+            {' '}Full preset table and live demos: <a href="/animations#usage" style={{ color: gold }}>/animations#usage</a>.
+          </p>
+        </Demo>
+        <Code>{`import { useCssAnimation, animationStyle, DieFace } from 'donjon-fall-ui'
+import 'donjon-fall-ui/styles'   // required for @keyframes
+
+// Single-shot (remount-on-play):
+const move = useCssAnimation('dieMove', { onEnd: () => commitMove() })
+<div {...move.bind}><DieFace value={3} playerColor={color} /></div>
+<button onClick={move.play} disabled={move.playing}>Play</button>
+
+// Phase machine you already own:
+style={{ animation: phase === 'shake' ? animationStyle('dieShake') : 'none' }}
+
+// Always-on infinite pulse (no remount):
+style={{ animation: stuck ? animationStyle('dieStuckPulse') : 'none' }}`}</Code>
+      </Section>
+
+      <div style={DIVIDER} />
+
       {/* ── Pravidla ── */}
       <Section id="pravidla" title="Pravidla použití">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
@@ -510,9 +548,12 @@ onGameEnd={() => victory()         // výsledek`}</Code>
             ['✓', `Vstupní animace (easingEnter) jsou delší než výstupní (easingExit) — hráč potřebuje čas "přistání" vidět.`],
             ['✓', `easingBounce pouze pro herní feedback (VP, spawn) — ne pro funkční UI přechody (modal, hover).`],
             ['✓', `GameTransition vždy pro mount/unmount UI prvků — nikdy neměň herní stav uprostřed přechodu.`],
+            // GUIDE UPDATE: point at game-piece CSS API
+            ['✓', `Herní kousky (kostka/věž/ohnisko): useCssAnimation / animationStyle + donjon-fall-ui/styles — viz /animations#usage.`],
             ['✓', `Respektuj prefers-reduced-motion — animace s herním obsahem zakázat, funkční (loading spinner) ponechat.`],
             ['✗', `Nespouštěj více dramatických animací najednou — jedna dramatická animace na scénu.`],
             ['✗', `Neopakuj animace v smyčce pro dekoraci — herní UI není demo reel, pohyb musí nést informaci.`],
+            ['✗', `Nemíchej useGameAnimation (WAAPI) s CSS keyframe presets pro stejný pohyb — vyber jeden mechanismus.`],
           ].map(([icon, text], i) => (
             <p key={i} style={{ margin: 0, fontSize: '0.8125rem', color: icon === '✓' ? textMid : textFaint, display: 'flex', gap: 8, lineHeight: 1.5 }}>
               <span style={{ color: icon === '✓' ? gainColor : dangerColor, flexShrink: 0 }}>{icon}</span>

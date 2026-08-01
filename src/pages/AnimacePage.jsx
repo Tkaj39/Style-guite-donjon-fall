@@ -3,20 +3,53 @@ import DonjonCard from '../lib/donjon/DonjonCard'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DieFace from '../lib/donjon/DieFace'
 import FloatFeedback from '../lib/donjon/FloatFeedback'
+import useCssAnimation from '../lib/donjon/useCssAnimation'
+import { animationStyle, gameAnimationPresets } from '../lib/donjon/gameAnimations'
 import HexTile from '../lib/donjon/HexTile'
-import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
+import { ShowcasePage, Section, Preview, CodeBlock } from '../styleguide/ShowcasePage'
 import { players } from '../data/gameUiMockData'
 import {
-  bg4, bgDeep, borderMid, borderMuted, dangerColor, gold, goldDim, textFaint, textParchment,
+  bg2, bg4, bgDeep, borderDefault, borderMid, borderMuted, dangerColor, gold, goldDim,
+  textFaint, textHigh, textMid, textParchment,
 } from '../lib/donjon/tokens'
+
+/*
+ * GUIDE UPDATE (feat/export-game-piece-animations):
+ * Consumer-facing docs for gameAnimationPresets / animationStyle / useCssAnimation.
+ * Spec cards below still describe choreography; the #usage section teaches the npm API.
+ */
+
+/** Preset → when-to-use labels for the #usage catalog table (keeps guide readable). */
+const PRESET_GUIDE = [
+  { key: 'dieMove',            use: 'Single-hex die or whole-tower move' },
+  { key: 'dieMove2',           use: 'Two-hex die move' },
+  { key: 'dieMoveOnto',        use: 'Jump onto a die (land on tower stack)' },
+  { key: 'dieMoveOffTower',    use: 'Jump off a tower top onto a hex' },
+  { key: 'dieMoveUp',          use: 'One hex up — bent / L-shaped moves' },
+  { key: 'dieShake',           use: 'Combat impact (−1 on attacker)' },
+  { key: 'dieDrop',            use: 'Occupy — drop onto an empty hex' },
+  { key: 'dieCollapse',        use: 'Tower collapse — fall and fade' },
+  { key: 'dieRerollSpin',      use: 'Action / focal reroll (3D Y-spin)' },
+  { key: 'dieReject',          use: 'Illegal move feedback' },
+  { key: 'dieStuckPulse',      use: 'Sudden death — infinite stuck glow' },
+  { key: 'dieTopHighlight',    use: 'Flash which die in a tower will act' },
+  { key: 'formationPush',      use: 'Partial formation nudge' },
+  { key: 'formationPushFull',  use: 'Push defender one full hex' },
+  { key: 'formationPushOffMap', use: 'Push defender off the board' },
+  { key: 'hexFocalPulse',      use: 'Active focal evaluation pulse' },
+  { key: 'focalActivate',      use: 'New focal activation flash' },
+  { key: 'floatFeedback',      use: 'Floating +/- / VP text (FloatFeedback)' },
+]
 
 /* ── Static spec helpers ── */
 
-function AnimSpec({ duration, easing, trigger, description, children }) {
+function AnimSpec({ duration, easing, trigger, description, preset, children }) {
   return (
     <DonjonCard>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          {/* preset badge added so catalog demos map to gameAnimationPresets keys */}
+          {preset && <DonjonBadge variant="success">{preset}</DonjonBadge>}
           <DonjonBadge variant="default">{duration}</DonjonBadge>
           <DonjonBadge variant="default">{easing}</DonjonBadge>
           <DonjonBadge variant="info">{trigger}</DonjonBadge>
@@ -118,14 +151,7 @@ function DemoShell({ label, children }) {
 /* ── Individual demo components ── */
 
 function MoveTowerDemo() {
-  const [key, setKey] = useState(0)
-  const [playing, setPlaying] = useState(false)
-
-  function play() {
-    if (playing) return
-    setPlaying(true)
-    setKey(k => k + 1)
-  }
+  const move = useCssAnimation('dieMove')
 
   return (
     <DemoShell label="Pohyb věže — live demo">
@@ -135,12 +161,14 @@ function MoveTowerDemo() {
           <HexTile state="selected" size="md" />
           {/* Animovaný wrapper = celá věž se přesune najednou */}
           <div style={{ position: 'absolute', inset: 0, overflow: 'visible' }}>
-            <div key={key}
+            <div
+              key={move.animKey}
               style={{
                 position: 'relative', width: '100%', height: '100%', overflow: 'visible',
-                animation: key > 0 ? 'die-move 320ms ease-in-out both' : 'none',
+                ...move.style,
               }}
-              onAnimationEnd={() => setPlaying(false)}>
+              onAnimationEnd={move.bind.onAnimationEnd}
+            >
               {/* Vrchní kostka (i=0, N=2): top = 20 - 1×16 = 4 */}
               <div style={{ position: 'absolute', top: 4, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
                 <DieFace value={5} playerColor={p1.color} size="sm" />
@@ -155,7 +183,7 @@ function MoveTowerDemo() {
         {/* Cílový hex */}
         <HexTile state="move" size="md" />
       </div>
-      <PlayButton onClick={play} playing={playing} />
+      <PlayButton onClick={move.play} playing={move.playing} />
     </DemoShell>
   )
 }
@@ -187,7 +215,7 @@ function CombatPhase1Demo() {
           <HexTile state="selected" size="md" />
           <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
             <div key={key}
-              style={{ animation: key > 0 ? 'die-shake 180ms ease-in both' : 'none' }}
+              style={{ animation: key > 0 ? animationStyle('dieShake') : 'none' }}
               onAnimationEnd={handleEnd}>
               <DieFace value={value} playerColor={p1.color} size="sm" />
             </div>
@@ -236,7 +264,7 @@ function OccupyDemo() {
           {/* Útočník — vrchní kostka věže, finální top: 4 (= top 20 - 16px krok), padá shora, zIndex: 2 */}
           <div style={{ position: 'absolute', top: 4, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
             <div key={key}
-              style={{ animation: key > 0 ? 'die-drop 240ms ease-in-out both' : 'none' }}
+              style={{ animation: key > 0 ? animationStyle('dieDrop') : 'none' }}
               onAnimationEnd={handleEnd}>
               <DieFace value={4} playerColor={p1.color} size="sm" />
             </div>
@@ -283,7 +311,7 @@ function RerollActionDemo() {
           <HexTile state="selected" size="md" />
           <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', perspective: 200 }}>
             <div key={key}
-              style={{ animation: key > 0 ? 'die-reroll-spin 500ms ease-in-out both' : 'none' }}
+              style={{ animation: key > 0 ? animationStyle('dieRerollSpin') : 'none' }}
               onAnimationEnd={handleEnd}>
               <DieFace value={value} playerColor={p1.color} size="sm" />
             </div>
@@ -332,7 +360,7 @@ function RerollFocalDemo() {
           <HexTile state="focal-active" size="md" />
           <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', perspective: 200 }}>
             <div key={key}
-              style={{ animation: key > 0 ? 'die-reroll-spin 500ms ease-in-out both' : 'none' }}
+              style={{ animation: key > 0 ? animationStyle('dieRerollSpin') : 'none' }}
               onAnimationEnd={handleEnd}>
               <DieFace value={value} playerColor={p1.color} size="sm" />
             </div>
@@ -395,7 +423,7 @@ function CollapseDemo() {
               </div>
               <div key={key} style={{
                 position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', zIndex: 1,
-                animation: key > 0 ? 'die-collapse 300ms ease-in forwards' : 'none',
+                animation: key > 0 ? animationStyle('dieCollapse') : 'none',
               }}
               onAnimationEnd={handleEnd}>
                 <DieFace value={1} playerColor={p2.color} size="sm" state="damaged" />
@@ -463,7 +491,7 @@ function FocalDemo() {
           <div key={hexKey}
             style={{
               position: 'absolute', inset: 0, overflow: 'visible',
-              animation: hexKey > 0 ? 'hex-focal-pulse 500ms ease-out both' : 'none',
+              animation: hexKey > 0 ? animationStyle('hexFocalPulse') : 'none',
             }}
             onAnimationEnd={() => handlePulseEnd()}>
             <HexTile state={focalState} size="md" />
@@ -471,7 +499,7 @@ function FocalDemo() {
           {/* Kostka na ohnisku — ohniskový reroll spin */}
           <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', perspective: 200, zIndex: 2 }}>
             <div key={dieKey}
-              style={{ animation: dieKey > 0 ? 'die-reroll-spin 500ms ease-in-out both' : 'none' }}
+              style={{ animation: dieKey > 0 ? animationStyle('dieRerollSpin') : 'none' }}
               onAnimationEnd={handleRerollEnd}>
               <DieFace value={dieValue} playerColor={p1.color} size="sm" />
             </div>
@@ -498,14 +526,7 @@ function FocalDemo() {
 /* ── Move variant demos ── */
 
 function MoveTwoHexDemo() {
-  const [key, setKey] = useState(0)
-  const [playing, setPlaying] = useState(false)
-
-  function play() {
-    if (playing) return
-    setPlaying(true)
-    setKey(k => k + 1)
-  }
+  const move = useCssAnimation('dieMove2')
 
   return (
     <DemoShell label="Pohyb o dvě políčka">
@@ -513,9 +534,7 @@ function MoveTwoHexDemo() {
         <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible', zIndex: 1 }}>
           <HexTile state="selected" size="md" />
           <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
-            <div key={key}
-              style={{ animation: key > 0 ? 'die-move-2 380ms ease-in-out both' : 'none' }}
-              onAnimationEnd={() => setPlaying(false)}>
+            <div {...move.bind}>
               <DieFace value={4} playerColor={p1.color} size="sm" />
             </div>
           </div>
@@ -523,7 +542,7 @@ function MoveTwoHexDemo() {
         <HexTile state="move" size="md" />
         <HexTile state="move" size="md" />
       </div>
-      <PlayButton onClick={play} playing={playing} />
+      <PlayButton onClick={move.play} playing={move.playing} />
     </DemoShell>
   )
 }
@@ -549,7 +568,7 @@ function JumpOntoDieDemo() {
           {!landed && (
             <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
               <div key={key}
-                style={{ animation: key > 0 ? 'die-move-onto 280ms ease-in-out both' : 'none' }}
+                style={{ animation: key > 0 ? animationStyle('dieMoveOnto') : 'none' }}
                 onAnimationEnd={() => { setLanded(true); setPlaying(false) }}>
                 <DieFace value={4} playerColor={p1.color} size="sm" />
               </div>
@@ -602,7 +621,7 @@ function JumpOffTowerDemo() {
           {!moved && (
             <div style={{ position: 'absolute', top: 4, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
               <div key={key}
-                style={{ animation: key > 0 ? 'die-move-off-tower 280ms ease-in-out both' : 'none' }}
+                style={{ animation: key > 0 ? animationStyle('dieMoveOffTower') : 'none' }}
                 onAnimationEnd={() => { setMoved(true); setPlaying(false) }}>
                 <DieFace value={5} playerColor={p1.color} size="sm" />
               </div>
@@ -665,10 +684,10 @@ function TopDieHighlightDemo() {
           </div>
           <div style={{ position: 'absolute', top: 4, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
             <div key={highlightKey}
-              style={{ animation: highlightKey > 0 ? 'die-top-highlight 300ms ease-out' : 'none' }}
+              style={{ animation: highlightKey > 0 ? animationStyle('dieTopHighlight') : 'none' }}
               onAnimationEnd={handleHighlightEnd}>
               <div key={shakeKey}
-                style={{ animation: shakeKey > 0 ? 'die-shake 180ms ease-in both' : 'none' }}
+                style={{ animation: shakeKey > 0 ? animationStyle('dieShake') : 'none' }}
                 onAnimationEnd={handleShakeEnd}>
                 <DieFace value={topValue} playerColor={p1.color} size="sm" />
               </div>
@@ -720,7 +739,7 @@ function CollapseNoVPDemo() {
               </div>
               <div key={key} style={{
                 position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', zIndex: 1,
-                animation: key > 0 ? 'die-collapse 300ms ease-in forwards' : 'none',
+                animation: key > 0 ? animationStyle('dieCollapse') : 'none',
               }}
               onAnimationEnd={() => { setCollapsed(true); setPlaying(false) }}>
                 <DieFace value={1} playerColor={p1.color} size="sm" />
@@ -739,14 +758,7 @@ function CollapseNoVPDemo() {
 
 /* Nelegální akce — reject animace */
 function RejectDemo() {
-  const [key, setKey] = useState(0)
-  const [playing, setPlaying] = useState(false)
-
-  function play() {
-    if (playing) return
-    setPlaying(true)
-    setKey(k => k + 1)
-  }
+  const reject = useCssAnimation('dieReject')
 
   return (
     <DemoShell label="Nelegální akce — reject">
@@ -754,16 +766,14 @@ function RejectDemo() {
         <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
           <HexTile state="selected" size="md" />
           <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
-            <div key={key}
-              style={{ animation: key > 0 ? 'die-reject 320ms ease-in-out both' : 'none' }}
-              onAnimationEnd={() => setPlaying(false)}>
+            <div {...reject.bind}>
               <DieFace value={4} playerColor={p1.color} size="sm" />
             </div>
           </div>
         </div>
         <HexTile state="blocked" size="md" />
       </div>
-      <PlayButton onClick={play} playing={playing} />
+      <PlayButton onClick={reject.play} playing={reject.playing} />
     </DemoShell>
   )
 }
@@ -823,14 +833,14 @@ function FocalChainDemo() {
           <div key={hexAKey}
             style={{
               position: 'absolute', inset: 0, overflow: 'visible',
-              animation: hexAKey > 0 && phase === 'pulsing' ? 'hex-focal-pulse 500ms ease-out both' : 'none',
+              animation: hexAKey > 0 && phase === 'pulsing' ? animationStyle('hexFocalPulse') : 'none',
             }}
             onAnimationEnd={handleHexAPulseEnd}>
             <HexTile state={hexAState} size="md" />
           </div>
           <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', perspective: 200, zIndex: 2 }}>
             <div key={dieKey}
-              style={{ animation: dieKey > 0 ? 'die-reroll-spin 500ms ease-in-out both' : 'none' }}
+              style={{ animation: dieKey > 0 ? animationStyle('dieRerollSpin') : 'none' }}
               onAnimationEnd={handleRerollEnd}>
               <DieFace value={dieValue} playerColor={p1.color} size="sm" />
             </div>
@@ -845,7 +855,7 @@ function FocalChainDemo() {
           <div key={hexBKey}
             style={{
               position: 'absolute', inset: 0, overflow: 'visible',
-              animation: hexBKey > 0 ? 'focal-activate 400ms ease-out' : 'none',
+              animation: hexBKey > 0 ? animationStyle('focalActivate') : 'none',
             }}
             onAnimationEnd={handleHexBActivateEnd}>
             <HexTile state={hexBState} size="md" />
@@ -905,7 +915,7 @@ function BentMoveDemo() {
           {phase === 'hop2' && (
             <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
               <div key={hop2Key}
-                style={{ animation: 'die-move-up 260ms ease-in-out both' }}
+                style={{ animation: animationStyle('dieMoveUp') }}
                 onAnimationEnd={handleHop2End}>
                 <DieFace value={3} playerColor={p1.color} size="sm" />
               </div>
@@ -920,7 +930,7 @@ function BentMoveDemo() {
             <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
               {phase === 'hop1' ? (
                 <div key={hop1Key}
-                  style={{ animation: 'die-move 260ms ease-in-out both' }}
+                  style={{ animation: animationStyle('dieMove', { duration: 260 }) }}
                   onAnimationEnd={handleHop1End}>
                   <DieFace value={3} playerColor={p1.color} size="sm" />
                 </div>
@@ -977,7 +987,7 @@ function FriendlyPassthroughDemo() {
             <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
               {phase === 'hop1' ? (
                 <div key={hop1Key}
-                  style={{ animation: 'die-move-onto 280ms ease-in-out both' }}
+                  style={{ animation: animationStyle('dieMoveOnto') }}
                   onAnimationEnd={handleHop1End}>
                   <DieFace value={4} playerColor={p1.color} size="sm" />
                 </div>
@@ -1005,7 +1015,7 @@ function FriendlyPassthroughDemo() {
           {phase === 'hop2' && (
             <div style={{ position: 'absolute', top: 4, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
               <div key={hop2Key}
-                style={{ animation: 'die-move-off-tower 280ms ease-in-out both' }}
+                style={{ animation: animationStyle('dieMoveOffTower') }}
                 onAnimationEnd={handleHop2End}>
                 <DieFace value={4} playerColor={p1.color} size="sm" />
               </div>
@@ -1074,7 +1084,7 @@ function TowerCombatDemo() {
           {/* Vrchní kostka — třese se při útoku */}
           <div style={{ position: 'absolute', top: 4, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
             <div key={shakeKey}
-              style={{ animation: shakeKey > 0 ? 'die-shake 180ms ease-in both' : 'none' }}
+              style={{ animation: shakeKey > 0 ? animationStyle('dieShake') : 'none' }}
               onAnimationEnd={handleShakeEnd}>
               <DieFace value={topValue} playerColor={p1.color} size="sm" />
             </div>
@@ -1088,7 +1098,7 @@ function TowerCombatDemo() {
           {phase !== 'done' && (
             <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
               <div key={slideKey}
-                style={{ animation: slideKey > 0 ? 'formation-push 320ms ease-out both' : 'none' }}
+                style={{ animation: slideKey > 0 ? animationStyle('formationPush') : 'none' }}
                 onAnimationEnd={phase === 'push' ? handlePushEnd : undefined}>
                 <DieFace value={3} playerColor={p2.color} size="sm" />
               </div>
@@ -1166,7 +1176,7 @@ function PushFullDemo() {
           <HexTile state="selected" size="md" />
           <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
             <div key={attackKey}
-              style={{ animation: attackKey > 0 ? 'die-shake 180ms ease-in both' : 'none' }}
+              style={{ animation: attackKey > 0 ? animationStyle('dieShake') : 'none' }}
               onAnimationEnd={handleShakeEnd}>
               <DieFace value={attackValue} playerColor={p1.color} size="sm" />
             </div>
@@ -1180,13 +1190,13 @@ function PushFullDemo() {
           <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', perspective: 200 }}>
             {defPhase === 'reroll' ? (
               <div key={rerollKey}
-                style={{ animation: 'die-reroll-spin 500ms ease-in-out both' }}
+                style={{ animation: animationStyle('dieRerollSpin') }}
                 onAnimationEnd={handleRerollEnd}>
                 <DieFace value={defValue} playerColor={p2.color} size="sm" />
               </div>
             ) : (defPhase === 'slide' || defPhase === 'done') ? (
               <div key={slideKey}
-                style={{ animation: slideKey > 0 ? 'formation-push-full 360ms ease-out both' : 'none' }}
+                style={{ animation: slideKey > 0 ? animationStyle('formationPushFull') : 'none' }}
                 onAnimationEnd={defPhase === 'slide' ? handleSlideEnd : undefined}>
                 <DieFace value={defValue} playerColor={p2.color} size="sm" />
               </div>
@@ -1238,7 +1248,7 @@ function PushOffMapDemo() {
           {phase === 'slide' && (
             <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
               <div key={slideKey}
-                style={{ animation: 'formation-push 320ms ease-out both' }}
+                style={{ animation: animationStyle('formationPush') }}
                 onAnimationEnd={handleSlideEnd}>
                 <DieFace value={2} playerColor={p2.color} size="sm" />
               </div>
@@ -1248,7 +1258,7 @@ function PushOffMapDemo() {
           {phase === 'collapse' && (
             <div style={{ position: 'absolute', top: 20, left: 'calc(50% + 42px)', transform: 'translateX(-50%)' }}>
               <div key={collapseKey}
-                style={{ animation: 'die-collapse 300ms ease-in forwards' }}
+                style={{ animation: animationStyle('dieCollapse') }}
                 onAnimationEnd={handleCollapseEnd}>
                 <DieFace value={2} playerColor={p2.color} size="sm" />
               </div>
@@ -1299,7 +1309,7 @@ function PushEncircledDemo() {
           {phase === 'slide' && (
             <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
               <div key={slideKey}
-                style={{ animation: 'formation-push-full 360ms ease-out both' }}
+                style={{ animation: animationStyle('formationPushFull') }}
                 onAnimationEnd={handleSlideEnd}>
                 <DieFace value={2} playerColor={p2.color} size="sm" />
               </div>
@@ -1309,7 +1319,7 @@ function PushEncircledDemo() {
           {phase === 'collapse' && (
             <div style={{ position: 'absolute', top: 20, left: 'calc(50% + 74px)', transform: 'translateX(-50%)' }}>
               <div key={collapseKey}
-                style={{ animation: 'die-collapse 300ms ease-in forwards' }}
+                style={{ animation: animationStyle('dieCollapse') }}
                 onAnimationEnd={handleCollapseEnd}>
                 <DieFace value={2} playerColor={p2.color} size="sm" />
               </div>
@@ -1341,7 +1351,7 @@ function SuddenDeathDemo() {
         <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
           <HexTile state="selected" size="md" />
           <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
-            <div style={{ animation: active ? 'die-stuck-pulse 1200ms ease-in-out infinite' : 'none' }}>
+            <div style={{ animation: active ? animationStyle('dieStuckPulse') : 'none' }}>
               <DieFace value={3} playerColor={p1.color} size="sm" />
             </div>
           </div>
@@ -1400,7 +1410,7 @@ function SignalTravelDemo() {
               key={keys[i]}
               style={{
                 position: 'absolute', inset: 0, overflow: 'visible',
-                animation: keys[i] > 0 ? 'focal-activate 400ms ease-out forwards' : 'none',
+                animation: keys[i] > 0 ? animationStyle('focalActivate', { fill: 'forwards' }) : 'none',
               }}
             >
               <HexTile state="focal-passive" size="md" />
@@ -1437,7 +1447,7 @@ function JumpOffCombatPowerDemo() {
           {!moved && (
             <div style={{ position: 'absolute', top: 4, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
               <div key={key}
-                style={{ animation: key > 0 ? 'die-move-off-tower 280ms ease-in-out both' : 'none' }}
+                style={{ animation: key > 0 ? animationStyle('dieMoveOffTower') : 'none' }}
                 onAnimationEnd={() => { setMoved(true); setPlaying(false) }}>
                 <DieFace value={5} playerColor={p1.color} size="sm" />
               </div>
@@ -1491,7 +1501,7 @@ function PushChainDemo() {
               <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
                 {phase === 'slide' ? (
                   <div key={slideKey}
-                    style={{ animation: 'formation-push-full 360ms ease-out both' }}
+                    style={{ animation: animationStyle('formationPushFull') }}
                     onAnimationEnd={i === 0 ? () => { setPhase('done'); setPlaying(false) } : undefined}>
                     <DieFace value={d.v} playerColor={p2.color} size="sm" />
                   </div>
@@ -1558,7 +1568,7 @@ function AttackerRemainsDemo() {
           {phase === 'move' && (
             <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
               <div key={moveKey}
-                style={{ animation: 'die-move 260ms ease-in-out both' }}
+                style={{ animation: animationStyle('dieMove', { duration: 260 }) }}
                 onAnimationEnd={handleMoveEnd}>
                 <DieFace value={atkValue} playerColor={p1.color} size="sm" />
               </div>
@@ -1578,7 +1588,7 @@ function AttackerRemainsDemo() {
             <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)', zIndex: 1 }}>
               {phase === 'push' ? (
                 <div key={pushKey}
-                  style={{ animation: 'formation-push-full 360ms ease-out both' }}
+                  style={{ animation: animationStyle('formationPushFull') }}
                   onAnimationEnd={handlePushEnd}>
                   <DieFace value={3} playerColor={p2.color} size="sm" />
                 </div>
@@ -1591,7 +1601,7 @@ function AttackerRemainsDemo() {
           {(phase === 'shake' || phase === 'push' || phase === 'done') && (
             <div style={{ position: 'absolute', top: phase === 'done' ? 20 : 4, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
               <div key={shakeKey}
-                style={{ animation: phase === 'shake' ? 'die-shake 180ms ease-in both' : 'none' }}
+                style={{ animation: phase === 'shake' ? animationStyle('dieShake') : 'none' }}
                 onAnimationEnd={phase === 'shake' ? handleShakeEnd : undefined}>
                 <DieFace value={atkValue} playerColor={p1.color} size="sm" />
               </div>
@@ -1626,8 +1636,131 @@ export default function AnimacePage() {
     <ShowcasePage
       library="donjon"
       title="Animace"
-      description="Specifikace herních animací — trigger, trvání, easing a popis efektu. Každá sekce obsahuje statické klíčové snímky a živé demo."
+      description="Game-piece animation catalog for donjon-fall-ui — how to import presets in the game, then the full choreography specs and live demos."
     >
+      {/*
+        ── GUIDE: consumer API (added with game-piece export) ──────────────
+        Readers need this before the choreography catalog below. Covers
+        imports, useCssAnimation vs animationStyle, preset table, hex CSS vars.
+        ──────────────────────────────────────────────────────────────────── */}
+      <Section
+        id="usage"
+        title="Použití ve hře"
+        description="Keyframes ship in donjon-fall-ui/styles. Named presets + a remount-on-play hook live on the main barrel. Multi-phase combat/move sequences stay in the game app — the library only provides single-shot primitives."
+      >
+        <div style={{
+          display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20,
+          padding: 16, background: bg2, border: `1px solid ${borderDefault}`, borderRadius: 4,
+        }}>
+          <p style={{ margin: 0, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: textFaint }}>
+            Co patří kam
+          </p>
+          {[
+            ['UI enter/exit panels', 'GameTransition + gameTransitionPresets', '/motion#transition'],
+            ['Imperative WAAPI effects (shake/pop on HUD)', 'useGameAnimation', '/motion#hook'],
+            ['Die / tower / focal CSS keyframes', 'useCssAnimation + animationStyle + gameAnimationPresets', '/animations#usage'],
+            ['Multi-step combat (push → reroll → collapse)', 'Game app state machine; call presets per phase', '—'],
+          ].map(([what, api, where]) => (
+            <div key={what} style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr auto', gap: 12, fontSize: '0.75rem', color: textMid }}>
+              <span style={{ color: textParchment }}>{what}</span>
+              <code style={{ color: gold, fontSize: '0.6875rem' }}>{api}</code>
+              <span style={{ color: textFaint }}>{where}</span>
+            </div>
+          ))}
+        </div>
+
+        <p style={{ margin: '0 0 8px', fontSize: '0.75rem', fontWeight: 600, color: gold, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+          1. Single-shot play — useCssAnimation
+        </p>
+        <CodeBlock code={`import { useCssAnimation, DieFace } from 'donjon-fall-ui'
+import 'donjon-fall-ui/styles'   // required — @keyframes live here
+
+function MoveDieButton() {
+  // play() remounts via key; playing clears on animationend
+  const move = useCssAnimation('dieMove', {
+    onEnd: () => { /* commit board state after the tween */ },
+  })
+
+  return (
+    <>
+      <div {...move.bind}>
+        <DieFace value={3} playerColor={player.color} />
+      </div>
+      <button onClick={move.play} disabled={move.playing}>Play</button>
+    </>
+  )
+}`} />
+
+        <p style={{ margin: '20px 0 8px', fontSize: '0.75rem', fontWeight: 600, color: gold, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+          2. Own the phase machine — animationStyle
+        </p>
+        <CodeBlock code={`import { animationStyle } from 'donjon-fall-ui'
+import 'donjon-fall-ui/styles'
+
+// When you already track phase / keys (push sequences, focal chains):
+style={{ animation: phase === 'shake' ? animationStyle('dieShake') : 'none' }}
+
+// Duration override (catalog demos sometimes use 260 ms for dieMove):
+style={{ animation: animationStyle('dieMove', { duration: 260 }) }}
+
+// Always-on infinite pulse — no remount, no useCssAnimation:
+style={{ animation: stuck ? animationStyle('dieStuckPulse') : 'none' }}`} />
+
+        <p style={{ margin: '20px 0 8px', fontSize: '0.75rem', fontWeight: 600, color: gold, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+          3. Preset catalog
+        </p>
+        <div style={{
+          border: `1px solid ${borderDefault}`, borderRadius: 4, overflow: 'hidden', marginBottom: 16,
+        }}>
+          {/* Header uses textMid on bgDeep for AA contrast (textFaint fails contrast-check here) */}
+          <div style={{
+            display: 'grid', gridTemplateColumns: '140px 120px 70px 1fr', gap: 8,
+            padding: '8px 12px', background: bgDeep, fontSize: '0.625rem',
+            fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: textMid,
+          }}>
+            <span>Preset key</span>
+            <span>@keyframes</span>
+            <span>ms</span>
+            <span>When to use</span>
+          </div>
+          {PRESET_GUIDE.map(({ key, use }, i) => {
+            const p = gameAnimationPresets[key]
+            return (
+              <div
+                key={key}
+                style={{
+                  display: 'grid', gridTemplateColumns: '140px 120px 70px 1fr', gap: 8,
+                  padding: '7px 12px', fontSize: '0.75rem',
+                  background: i % 2 === 0 ? `${borderDefault}0A` : 'transparent',
+                  borderTop: `1px solid ${borderDefault}44`,
+                  alignItems: 'center',
+                }}
+              >
+                <code style={{ color: gold, fontSize: '0.6875rem' }}>{key}</code>
+                <code style={{ color: textMid, fontSize: '0.625rem' }}>{p.name}</code>
+                <span style={{ color: textHigh }}>{p.duration}{p.iterationCount === 'infinite' ? ' ∞' : ''}</span>
+                <span style={{ color: textFaint, fontSize: '0.6875rem' }}>{use}</span>
+              </div>
+            )
+          })}
+        </div>
+
+        <p style={{ margin: '0 0 8px', fontSize: '0.75rem', fontWeight: 600, color: gold, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+          4. Hex geometry CSS variables
+        </p>
+        <p style={{ margin: '0 0 8px', fontSize: '0.8125rem', color: textMid, lineHeight: 1.55 }}>
+          Move distances read <code style={{ color: gold }}>--donjon-hex-*</code> from{' '}
+          <code style={{ color: gold }}>donjon.css</code>. Defaults match md HexTile (62×72 + 12 px gap).
+          Override on <code style={{ color: gold }}>:root</code> if the board uses another size.
+        </p>
+        <CodeBlock code={`:root {
+  --donjon-hex-step-x: 74px;   /* one hex right */
+  --donjon-hex-step-y: 84px;   /* one hex up */
+  --donjon-hex-arc-y: -12px;   /* mid-arc lift */
+  --donjon-tower-stack: 16px;  /* top die offset in a tower */
+}`} />
+      </Section>
+
       <Section
         id="pohyb-kostky"
         title="Pohyb kostky"
@@ -1636,10 +1769,11 @@ export default function AnimacePage() {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <AnimSpec
+              preset="dieMove"
               duration="260 ms"
               easing="ease-in-out"
               trigger="Výběr cílového hexu — přímý pohyb"
-              description="Kostka se přesune po malém oblouku z výchozího hexu na cílový. Pohyb naznačuje taktický záměr — ne přímá lineární trajektorie."
+              description="Kostka se přesune po malém oblouku z výchozího hexu na cílový. Pohyb naznačuje taktický záměr — ne přímá lineární trajektorie. Ve hře: animationStyle('dieMove', { duration: 260 })."
             >
               <FrameRow>
                 <HexWithDie hexState="selected" dieValue={4} dieColor={p1.color} />
@@ -1648,6 +1782,7 @@ export default function AnimacePage() {
               </FrameRow>
             </AnimSpec>
             <AnimSpec
+              preset="dieMove + dieMoveUp"
               duration="2 × 260 ms"
               easing="ease-in-out"
               trigger="Pohyb se změnou směru"
@@ -1662,6 +1797,7 @@ export default function AnimacePage() {
               </FrameRow>
             </AnimSpec>
             <AnimSpec
+              preset="dieMoveOnto → dieMoveOffTower"
               duration="280 ms + 280 ms"
               easing="ease-in-out"
               trigger="Průchod přes vlastní kostku"
@@ -1704,6 +1840,7 @@ export default function AnimacePage() {
       >
         <Preview>
           <AnimSpec
+            preset="dieMove"
             duration="320 ms"
             easing="ease-in-out"
             trigger="Výběr cílového hexu pro věž"
@@ -1735,6 +1872,7 @@ export default function AnimacePage() {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <AnimSpec
+              preset="dieShake"
               duration="180 ms"
               easing="ease-in"
               trigger="Fáze 1 — útočník vstoupí na pole"
@@ -1748,6 +1886,7 @@ export default function AnimacePage() {
               </FrameRow>
             </AnimSpec>
             <AnimSpec
+              preset="dieRerollSpin"
               duration="500 ms"
               easing="ease-in-out"
               trigger="Fáze 2a — obránce přehodí první kostku formace"
@@ -1761,6 +1900,7 @@ export default function AnimacePage() {
               </FrameRow>
             </AnimSpec>
             <AnimSpec
+              preset="formationPushFull"
               duration="360 ms"
               easing="ease-out"
               trigger="Fáze 2b — formace odtlačena (Push)"
@@ -1781,6 +1921,7 @@ export default function AnimacePage() {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <AnimSpec
+              preset="formationPushFull"
               duration="—"
               easing="—"
               trigger="Výsledek A — volný hex"
@@ -1794,6 +1935,7 @@ export default function AnimacePage() {
               </FrameRow>
             </AnimSpec>
             <AnimSpec
+              preset="formationPushOffMap"
               duration="380 ms"
               easing="ease-in"
               trigger="Výsledek B — okraj mapy"
@@ -1807,6 +1949,7 @@ export default function AnimacePage() {
               </FrameRow>
             </AnimSpec>
             <AnimSpec
+              preset="formationPushFull → dieCollapse"
               duration="360 + 300 ms"
               easing="ease-out + ease-in"
               trigger="Výsledek C — obklíčení"
@@ -1831,12 +1974,14 @@ export default function AnimacePage() {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <AnimSpec
+              preset="formationPushFull"
               duration="360 ms"
               easing="ease-out"
               trigger="Push formace — simultánní odsun všech obránců"
               description="Celá obranná formace (2–3 kostky) se posune najednou o jeden hex. Všechny kostky sdílejí stejný časový klíč animace — simultánní start, simultánní přistání."
             />
             <AnimSpec
+              preset="dieMove → dieShake → formationPushFull"
               duration="260 + 180 + 360 ms"
               easing="ease-in-out / ease-in / ease-out"
               trigger="Útočník zůstane — klasický Push (A→B, shake, defender→C)"
@@ -1859,6 +2004,7 @@ export default function AnimacePage() {
       >
         <Preview>
           <AnimSpec
+            preset="dieDrop"
             duration="240 ms"
             easing="ease-in-out"
             trigger="Výběr Occupy (Fáze 2)"
@@ -1888,6 +2034,7 @@ export default function AnimacePage() {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <AnimSpec
+              preset="dieShake → formationPush"
               duration="180 ms + 320 ms"
               easing="ease-in + ease-out"
               trigger="Věž vstoupí na nepřátelské pole"
@@ -1917,6 +2064,7 @@ export default function AnimacePage() {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <AnimSpec
+              preset="dieTopHighlight"
               duration="300 ms"
               easing="ease-out"
               trigger="Před akcí věže — highlight vrchní kostky"
@@ -1949,6 +2097,7 @@ export default function AnimacePage() {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <AnimSpec
+              preset="dieRerollSpin"
               duration="500 ms"
               easing="ease-in-out"
               trigger="Akční reroll — hod nová ≥ původní"
@@ -1962,6 +2111,7 @@ export default function AnimacePage() {
               </FrameRow>
             </AnimSpec>
             <AnimSpec
+              preset="dieRerollSpin"
               duration="500 ms"
               easing="ease-in-out"
               trigger="Ohniskový reroll — hod nová ≤ původní − 1"
@@ -1976,6 +2126,7 @@ export default function AnimacePage() {
               </FrameRow>
             </AnimSpec>
             <AnimSpec
+              preset="dieRerollSpin"
               duration="500 ms"
               easing="ease-in-out"
               trigger="Neutrální výsledek — hodnota zůstává"
@@ -2005,6 +2156,7 @@ export default function AnimacePage() {
       >
         <Preview>
           <AnimSpec
+            preset="dieCollapse"
             duration="300 ms"
             easing="ease-in"
             trigger="Kolaps věže — nepřátelská kostka na dně → +1 VP"
@@ -2025,6 +2177,7 @@ export default function AnimacePage() {
             </FrameRow>
           </AnimSpec>
           <AnimSpec
+            preset="dieCollapse"
             duration="300 ms"
             easing="ease-in"
             trigger="Kolaps věže — vlastní kostka na dně (bez VP)"
@@ -2061,6 +2214,7 @@ export default function AnimacePage() {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <AnimSpec
+              preset="hexFocalPulse"
               duration="500 ms"
               easing="ease-out"
               trigger="Vyhodnocení ohniska — zisk VP + reroll kostky"
@@ -2086,6 +2240,7 @@ export default function AnimacePage() {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <AnimSpec
+              preset="hexFocalPulse → focalActivate"
               duration="500 + 500 + 400 ms"
               easing="ease-out / ease-in-out / ease-out"
               trigger="Plný chain — vyhodnocení a přepnutí skupiny ohnisek"
@@ -2107,6 +2262,7 @@ export default function AnimacePage() {
         <Preview>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <AnimSpec
+              preset="focalActivate"
               duration="3 × 400 ms (offset +320 ms)"
               easing="ease-out"
               trigger="Signal travel — aktivace se šíří skupinou ohnisek"
@@ -2126,6 +2282,7 @@ export default function AnimacePage() {
       >
         <Preview>
           <AnimSpec
+            preset="dieReject"
             duration="320 ms"
             easing="ease-in-out"
             trigger="Pokus o nelegální akci"
@@ -2152,6 +2309,7 @@ export default function AnimacePage() {
       >
         <Preview>
           <AnimSpec
+            preset="dieStuckPulse"
             duration="1200 ms (infinite)"
             easing="ease-in-out"
             trigger="Konec tahu — žádný legální pohyb ani akce"
@@ -2161,7 +2319,7 @@ export default function AnimacePage() {
               <div style={{ position: 'relative', width: 62, height: 72, flexShrink: 0, overflow: 'visible' }}>
                 <HexTile state="selected" size="md" />
                 <div style={{ position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)' }}>
-                  <div style={{ animation: 'die-stuck-pulse 1200ms ease-in-out infinite' }}>
+                  <div style={{ animation: animationStyle('dieStuckPulse') }}>
                     <DieFace value={3} playerColor={p1.color} size="sm" />
                   </div>
                 </div>
@@ -2177,14 +2335,18 @@ export default function AnimacePage() {
         </Preview>
       </Section>
 
+      {/* GUIDE: usage rules — includes export API reminder after catalog sections */}
       <Section id="pravidla" title="Pravidla použití">
         <div className="flex flex-col gap-2 text-sm text-neutral-400">
           <p>✓ Animuj jen co přináší informaci — pohyb musí mít herní nebo UI důvod (feedback, přechod stavu).</p>
           <p>✓ Délka: rychlé reakce 80–160 ms, UI přechody 200–300 ms, dramatické herní eventy 400–600 ms.</p>
           <p>✓ GameTransition pro přechody obrazovek — nikdy neměň stav hry uprostřed přechodu.</p>
+          <p>✓ Herní kousky: pojmenovaný preset (<code>useCssAnimation('dieMove')</code> / <code>animationStyle('dieShake')</code>), vždy s <code>import 'donjon-fall-ui/styles'</code>. Viz <a href="#usage" style={{ color: gold }}>#usage</a>.</p>
+          <p>✓ Multi-fázové sekvence (push chain, focal chain) orchestruj ve hře — knihovna dodává jen single-shot keyframes.</p>
           <p>✓ Respektuj prefers-reduced-motion — dramatické animace zakázat, funkční (loading) ponechat.</p>
           <p>✗ Nepoužívej animace pro dekoraci bez herního kontextu — herní UI není demo reel.</p>
           <p>✗ Nespouštěj více dramatických animací najednou — jedna dramatická animace na scénu.</p>
+          <p>✗ Nekopíruj hardcoded <code>'die-move 320ms …'</code> stringy — používej <code>animationStyle('dieMove')</code>.</p>
         </div>
       </Section>
     </ShowcasePage>
