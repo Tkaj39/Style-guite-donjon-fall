@@ -37,8 +37,40 @@ export function StartScreen() {
 | `donjon-fall-ui` | All React components + token re-exports. |
 | `donjon-fall-ui/tokens` | Gold palette + bg/border/text tokens + game colors. |
 | `donjon-fall-ui/enums` | `*_VALUES` arrays for enum-typed props. |
-| `donjon-fall-ui/styles` | `donjon.css` — `:root { --donjon-* }` custom properties + `.dj-clip-focus` + `.dj-segment-button` utility classes. |
+| `donjon-fall-ui/styles` | `donjon.css` — `:root { --donjon-* }` custom properties, game-piece `@keyframes`, component keyframes, `.dj-clip-focus` + `.dj-segment-button`. |
 | `donjon-fall-ui/playerColors` | 6 player colors × 3 variants for multi-player UIs. |
+| `donjon-fall-ui/textures` | Grass meadow tile URL strings (`grassTile1024` / `512` / `256`, plus `grassTiles`) for screen backgrounds and `HexTile texture={…}`. |
+
+> **Note on `./textures`:** Unlike `./tokens` (and the other JS subpaths), this entry is **not** built by tsup into `dist/`. It ships as source `textures.js` next to the `textures/*.jpg` folder so `import.meta.url` asset resolution stays valid for Vite and npm. Prefer this subpath over the main barrel — textures are intentionally not re-exported from `donjon-fall-ui` root.
+
+## Game-piece animations
+
+CSS keyframes for die/tower moves, combat push, focal pulses, reject, etc. ship in `donjon-fall-ui/styles`. Named presets + a remount-on-play hook live on the main barrel. Multi-phase combat sequences stay in the game app.
+
+```jsx
+import {
+  DieFace, useCssAnimation, animationStyle, gameAnimationPresets,
+} from 'donjon-fall-ui'
+import 'donjon-fall-ui/styles'
+
+function MoveDie() {
+  const move = useCssAnimation('dieMove')
+  return (
+    <>
+      <div {...move.bind}><DieFace value={3} /></div>
+      <button onClick={move.play} disabled={move.playing}>Play</button>
+    </>
+  )
+}
+
+// Always-on infinite pulse (no remount):
+// style={{ animation: stuck ? animationStyle('dieStuckPulse') : 'none' }}
+
+// Retarget distances for a non-md hex size:
+// :root { --donjon-hex-step-x: 96px; --donjon-hex-step-y: 108px; }
+```
+
+See the style-guide `/animations` page for the full catalog and `/motion` for `GameTransition` + `useGameAnimation` (WAAPI).
 
 ## Component categories
 

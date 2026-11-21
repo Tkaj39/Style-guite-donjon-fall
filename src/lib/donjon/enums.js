@@ -99,6 +99,30 @@ export const FLOAT_FEEDBACK_VARIANT_VALUES = ['default', 'danger', 'success', 'w
 
 export const GAME_TRANSITION_PRESET_VALUES = ['fadeScale', 'slideUp', 'slideDown', 'pop', 'fade', 'slideLeft']
 
+/** CSS keyframe preset keys for game-piece choreography (`gameAnimationPresets`). */
+export const GAME_ANIMATION_PRESET_VALUES = [
+  'dieMove',
+  'dieMove2',
+  'dieMoveOnto',
+  'dieMoveOffTower',
+  'dieMoveUp',
+  'dieShake',
+  'dieDrop',
+  'dieCollapse',
+  'dieRerollSpin',
+  'dieReroll',
+  'dieReject',
+  'dieStuckPulse',
+  'dieTopHighlight',
+  'formationPush',
+  'formationPushFull',
+  'formationPushOffMap',
+  'hexFocalPulse',
+  'focalActivate',
+  'floatFeedback',
+  'vpPop',
+]
+
 export const HEX_TILE_PROPERTY_VALUES = ['empty', 'focal', 'base']
 export const HEX_TILE_FOCAL_VALUES    = ['active', 'passive']
 export const HEX_TILE_STATE_VALUES    = ['default', 'selected', 'move', 'attack', 'blocked']

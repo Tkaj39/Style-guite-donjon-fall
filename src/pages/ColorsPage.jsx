@@ -274,12 +274,12 @@ function DonjonHexy() {
         ]}
       />
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-3">Základna — tmavá barva hráče</p>
+        <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-3">Základna — primární barva hráče (owner na HexTile, multiply přes trávu)</p>
         <div className="grid grid-cols-6 gap-2">
           {players.map((p) => (
             <div key={p.label} className="flex flex-col gap-1.5">
-              <div className="h-9 rounded-sm border border-white/10" style={{ background: p.dark }} />
-              <p className="text-[10px] font-mono text-neutral-500 text-center">{p.dark}</p>
+              <div className="h-9 rounded-sm border border-white/10" style={{ background: p.primary }} />
+              <p className="text-[10px] font-mono text-neutral-500 text-center">{p.primary}</p>
               <p className="text-[10px] text-neutral-600 text-center">{p.label}</p>
             </div>
           ))}
@@ -391,7 +391,7 @@ import { accent, surface2, borderDefault, textHigh, dangerColor } from 'tkajui/t
       <Section
         id="barvy-hracu"
         title="Barvy hráčů"
-        description="Hra podporuje 2–6 hráčů. Každý hráč má trojici: primární (kostky, UI akcenty), světlá (text na tmavém), tmavá (základna na mapě)."
+        description="Hra podporuje 2–6 hráčů. Každý hráč má trojici: primární (kostky, UI akcenty, základna na mapě jako multiply tint přes trávu), světlá (text na tmavém), tmavá (zasunuté plochy / solid fill bez textury — ne tint základny)."
       >
         <DonjonHraci />
       </Section>

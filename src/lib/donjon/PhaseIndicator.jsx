@@ -142,7 +142,7 @@ export default function PhaseIndicator({
 
         /* Horizontal */
         return (
-          <div key={phase.id} style={{ display: 'flex', alignItems: 'center', flex: isLast ? 'none' : 1 }}>
+          <div key={phase.id} style={{ flex: 1, display: 'flex', justifyContent: 'center', position: 'relative', minWidth: 0 }}>
             {/* Dot + label */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
               {dotEl}
@@ -162,12 +162,15 @@ export default function PhaseIndicator({
             {/* Connector (not after the last one) */}
             {!isLast && (
               <div style={{
-                flex: 1,
+                position: 'absolute',
+                top: s.dotD / 2 - s.lineH / 2,
+                left: '50%',
+                width: '100%',
                 height: s.lineH,
                 background: connectorColor,
-                marginBottom: parseFloat(s.labelSize) * 16 * 1.2 + 5,  // align with the dot
-                marginLeft: 4, marginRight: 4,
                 transition: 'background 0.3s',
+                zIndex: 0,
+                pointerEvents: 'none',
               }} />
             )}
           </div>

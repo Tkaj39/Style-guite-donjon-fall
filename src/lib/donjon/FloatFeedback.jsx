@@ -15,6 +15,7 @@
  */
 
 import { gold, goldDim, dangerColor, gainColor } from './tokens'
+import { animationStyle } from './gameAnimations'
 
 const variantStyle = {
   gain:    { color: gainColor,    textShadow: `0 0 8px ${gainColor}88`    },
@@ -44,7 +45,7 @@ export default function FloatFeedback({
         top: -8,
         left: '50%',
         transform: 'translateX(-50%)',
-        animation: 'float-feedback 700ms ease-out forwards',
+        animation: animationStyle('floatFeedback'),
         fontSize: '0.6875rem',
         fontWeight: 700,
         letterSpacing: '0.04em',

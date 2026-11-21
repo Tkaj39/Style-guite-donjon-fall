@@ -1,12 +1,5 @@
 import { octagon } from '../shared/octagon'
-import { goldDim, textHigh } from './tokens'
-
-const sizeMap = {
-  xs: { box: 24, dot: 3, cx: 3.5, fontSize: '0.5rem'    }, // fits sm hex (42×48), tower of 3 ≤ 44px
-  sm: { box: 32, dot: 4, cx: 5,   fontSize: '0.625rem'  }, // fits md hex (62×72), tower of 3 ≤ 64px
-  md: { box: 48, dot: 6, cx: 7.5, fontSize: '0.75rem'   }, // fits lg hex (83×96), tower of 3 ≤ 88px
-  lg: { box: 64, dot: 8, cx: 10,  fontSize: '0.875rem'  },
-}
+import { goldDim, textHigh, DIE_FACE_SIZES } from './tokens'
 
 // Standard D6 dot positions — [col, row] in 3×3 grid (0..2)
 const dotPositions = {
@@ -26,7 +19,7 @@ const stateConfig = {
 }
 
 export default function DieFace({ value = 1, playerColor = goldDim, size = 'md', state = 'default' }) {
-  const s = sizeMap[size] ?? sizeMap.md
+  const s = DIE_FACE_SIZES[size] ?? DIE_FACE_SIZES.md
   const cfg = stateConfig[state] ?? stateConfig.default
   const dots = dotPositions[value] ?? dotPositions[1]
 

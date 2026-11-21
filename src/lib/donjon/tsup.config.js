@@ -1,6 +1,11 @@
 /* tsup build config for donjon-fall-ui.
    Produces dist/ with ESM + CJS bundles + .d.ts. The donjon.css ships
-   verbatim via the `files` allowlist. */
+   verbatim via the `files` allowlist.
+
+   textures.js is intentionally NOT an entry here — it ships as source
+   next to textures/*.jpg (see package.json exports "./textures" and the
+   header comment in textures.js). Bundling it into dist/ would break
+   import.meta.url paths to the JPGs. */
 import { defineConfig } from 'tsup'
 
 export default defineConfig({

@@ -4,7 +4,8 @@
     "checkJs": false,
     "declaration": true,
     "emitDeclarationOnly": false,
-    "noEmit": false,
+    // IDE / tsc: check only. Package .d.ts come from tsup (dts: true → dist/).
+    "noEmit": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "target": "ES2022",

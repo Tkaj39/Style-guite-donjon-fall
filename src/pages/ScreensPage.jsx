@@ -28,6 +28,7 @@ const DEMO_VP    = [3, 2]
 const _ = (state, opts = {}) => ({ state, ...opts })
 const E = () => _('empty')
 const FP = () => _('focal-passive')         // exists but not this turn's target
+/* Base owner = player primary (not dark) — multiply tint over grass texture. */
 const B1 = (v) => _('base', { owner: p1.color, die: { v, c: p1.color } })
 const B2 = (v) => _('base', { owner: p2.color, die: { v, c: p2.color } })
 /* Demo interaction states — colored tints over the grass so the player
