@@ -499,10 +499,11 @@ export const sections = [
       {
         to: '/screens', label: 'Obrazovky (herní)',
         children: [
-          { to: '/screens#desktop',  label: 'PC — 1280px+' },
-          { to: '/screens#tablet',   label: 'Tablet — 768px' },
-          { to: '/screens#mobile',   label: 'Mobil — 375px' },
-          { to: '/screens#srovnani', label: 'Srovnání' },
+          { to: '/screens#desktop',       label: 'PC — 1280px+' },
+          { to: '/screens#tablet',        label: 'Tablet — 768px' },
+          { to: '/screens#mobile',        label: 'Mobil — 375px' },
+          { to: '/screens#cekajici-hrac', label: 'Čekající hráč' },
+          { to: '/screens#srovnani',      label: 'Srovnání' },
         ],
       },
     ],
