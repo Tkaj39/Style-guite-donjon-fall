@@ -1,14 +1,15 @@
 /* ── OpponentTurnBanner ────────────────────────────────────────────────────
    HUD banner shown in place of the ActionBar when it is not this player's
-   turn. Octagonal shell with a gold border and deep-blue fill. The message
-   "<Color> turn" is painted in the on-turn player's color, so the waiting
-   player instantly sees whose turn it is.
+   turn. Octagonal shell with a gold border; the body is painted in the
+   on-turn player's DARK variant, the "<Name> turn" message in the PRIMARY
+   variant — so the banner reads unmistakably as that player's color
+   throughout.
 
    Drop-in for <ActionBar>: heights per size match ActionTile heights
    (xs 44, sm 72, md 96 px).
    ────────────────────────────────────────────────────────────────────── */
 import { octagon, octagonInner } from '../shared/octagon'
-import { gold, bg0 } from './tokens'
+import { gold } from './tokens'
 
 /* Heights mirror ActionTile heights per size so the banner can swap in
    for <ActionBar> without resizing the HUD strip. */
@@ -20,9 +21,9 @@ const SIZE_DIMS = {
 
 /**
  * @param {object} props
- * @param {{ color: string, name: string }} props.player
- *   Player currently on turn. `color` paints the message, `name` is used
- *   in the default message ("<name> turn").
+ * @param {{ primary: string, dark: string, name: string }} props.player
+ *   Player currently on turn. From `playerColors[i]` or any object with
+ *   `primary` (message color), `dark` (fill) and `name` (default message).
  * @param {'xs'|'sm'|'md'} [props.size='sm']
  *   Matches ActionBar's size scale so the banner is a drop-in replacement.
  * @param {string} [props.message]
@@ -31,10 +32,11 @@ const SIZE_DIMS = {
  * @param {string} [props.className]
  *
  * @example
- * // Shown instead of ActionBar for the waiting player
+ * import { playerColors } from 'donjon-fall-ui'
+ *
  * {isMyTurn
  *   ? <ActionBar actions={myActions} size="sm" />
- *   : <OpponentTurnBanner player={activePlayer} size="sm" />}
+ *   : <OpponentTurnBanner player={playerColors[activePlayerIdx]} size="sm" />}
  */
 export default function OpponentTurnBanner({
   player,
@@ -45,7 +47,9 @@ export default function OpponentTurnBanner({
 }) {
   if (!player) return null
   const s = SIZE_DIMS[size] ?? SIZE_DIMS.sm
-  const text = message ?? `${player.name} turn`
+  const primary = player.primary ?? player.color
+  const dark    = player.dark ?? player.darkColor
+  const text    = message ?? `${player.name} turn`
 
   return (
     /* Outer border shell — clip-path octagon painted in gold = the border */
@@ -62,13 +66,13 @@ export default function OpponentTurnBanner({
         ...style,
       }}
     >
-      {/* Inner fill — deep blue, slightly smaller clip to let the gold peek
-          through as a 1 px border on every edge. */}
+      {/* Inner fill — player's dark variant, slightly smaller clip so the
+          gold peeks through as a 1 px border on every edge. */}
       <div
         style={{
           height: '100%',
           clipPath: octagonInner(s.cx, 1),
-          background: `linear-gradient(150deg, rgba(32, 30, 86, 0.98) 0%, ${bg0} 100%)`,
+          background: dark,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -81,8 +85,8 @@ export default function OpponentTurnBanner({
             fontWeight: 700,
             letterSpacing: s.letterSpacing,
             textTransform: 'uppercase',
-            color: player.color,
-            textShadow: `0 0 6px ${player.color}55, 0 1px 2px rgba(0,0,0,0.6)`,
+            color: primary,
+            textShadow: `0 0 8px ${primary}66, 0 1px 2px rgba(0,0,0,0.75)`,
             whiteSpace: 'nowrap',
             lineHeight: 1,
           }}

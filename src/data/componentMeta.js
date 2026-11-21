@@ -2299,12 +2299,12 @@ export const componentMeta = {
   },
 
   'opponent-turn-banner': {
-    description: 'HUD banner shown in place of <ActionBar> when the viewing player is NOT on turn. Octagonal shell with a gold border and deep-blue fill; the message „<Color> turn" is painted in the on-turn player\'s color so the waiting player instantly sees whose turn it is. Heights per size mirror ActionTile heights (xs 44, sm 72, md 96 px), so the banner is a drop-in replacement in the HUD strip.',
+    description: 'HUD banner shown in place of <ActionBar> when the viewing player is NOT on turn. Octagonal shell with a gold border; the body is painted in the on-turn player\'s DARK variant and the message „<Name> turn" in the PRIMARY variant — so the banner reads unmistakably as that player\'s color throughout. Heights per size mirror ActionTile heights (xs 44, sm 72, md 96 px), so the banner is a drop-in replacement in the HUD strip.',
     subcategory: 'exclusive',
     status: 'stable',
     showcaseRoute: '/opponent-turn-banner',
     props: [
-      { name: 'player',    type: '{ color: string, name: string }', required: true,  description: 'Player currently on turn. `color` paints the banner fill, `name` is used in the default message.' },
+      { name: 'player',    type: '{ primary: string, dark: string, name: string }', required: true,  description: 'Player currently on turn — pass a playerColors[i] entry (or any object with primary, dark, name). `primary` paints the message, `dark` paints the body fill, `name` is used in the default message.' },
       { name: 'size',      type: "'xs'|'sm'|'md'",                 required: false, default: "'sm'", description: 'Matches ActionBar size scale so the banner can swap in without resizing the HUD.' },
       { name: 'message',   type: 'string',                         required: false, description: 'Overrides the default „<player.name> turn" text — for localization or custom status.' },
       { name: 'style',     type: 'CSSProperties',                  required: false, description: 'Inline styles on the banner wrapper.' },
