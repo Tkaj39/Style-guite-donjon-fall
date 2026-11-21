@@ -54,7 +54,12 @@ export default function PhaseIndicator({
   const currentIdx = phases.findIndex(p => p.id === currentPhase)
 
   /* Shadow + gold ring treatment for plain indicator on textured bgs. */
-  const labelShadow = backdrop ? '0 1px 2px rgba(0,0,0,0.85), 0 0 2px rgba(0,0,0,0.9)' : undefined
+  const labelShadow = backdrop
+    ? '0 0 3px rgba(0,0,0,0.95), 0 0 2px rgba(0,0,0,0.95), 0 1px 2px rgba(0,0,0,1), 0 -1px 2px rgba(0,0,0,0.9)'
+    : undefined
+  const connectorShadow = backdrop
+    ? '0 0 0 1px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.6)'
+    : undefined
 
   return (
     <div
@@ -126,6 +131,7 @@ export default function PhaseIndicator({
                     width: s.lineH,
                     height: s.connectorH,
                     background: connectorColor,
+                    boxShadow: connectorShadow,
                     transition: 'background 0.3s',
                     marginTop: 2,
                   }} />
@@ -179,6 +185,7 @@ export default function PhaseIndicator({
                 width: '100%',
                 height: s.lineH,
                 background: connectorColor,
+                boxShadow: connectorShadow,
                 transition: 'background 0.3s',
                 zIndex: 0,
                 pointerEvents: 'none',
