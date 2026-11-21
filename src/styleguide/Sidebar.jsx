@@ -404,6 +404,15 @@ export const sections = [
         ],
       },
       {
+        to: '/opponent-turn-banner', label: 'OpponentTurnBanner',
+        children: [
+          { to: '/opponent-turn-banner#zakladni',       label: 'Základní použití' },
+          { to: '/opponent-turn-banner#velikosti',      label: 'Velikosti' },
+          { to: '/opponent-turn-banner#varianty-barev', label: 'Barvy hráčů' },
+          { to: '/opponent-turn-banner#vlastni-text',   label: 'Vlastní text' },
+        ],
+      },
+      {
         to: '/event-log', label: 'EventLog',
         children: [
           { to: '/event-log#demo',    label: 'Demo' },
