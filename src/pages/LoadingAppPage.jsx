@@ -84,10 +84,10 @@ export default function LoadingAppPage() {
       library="donjon"
     >
       <ComponentsUsed items={[
-        { name: 'DonjonProgressBar', library: 'donjon', role: 'Progres načítání aplikace (67 %)' },
-        { name: 'DonjonBadge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
-        { name: 'DeviceFrame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
-        { name: 'ComparisonRow', library: 'shared', role: 'Trojice zařízení vedle sebe' },
+        { name: 'DonjonProgressBar', slug: 'donjon-progress-bar', library: 'donjon', role: 'Progres načítání aplikace (67 %)' },
+        { name: 'DonjonBadge', slug: 'donjon-badge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
+        { name: 'DeviceFrame', slug: 'device-frame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
+        { name: 'ComparisonRow', slug: 'device-frame', library: 'shared', role: 'Trojice zařízení vedle sebe' },
       ]} />
 
       <Section

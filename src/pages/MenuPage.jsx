@@ -178,11 +178,11 @@ export default function MenuPage() {
       library="donjon"
     >
       <ComponentsUsed items={[
-        { name: 'DonjonButton', library: 'donjon', role: 'Menu tlačítka — Nová hra, Pokračovat, Nastavení, Konec' },
-        { name: 'DonjonBadge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
-        { name: 'HexTile', library: 'donjon', role: 'Dekorativní prázdná hex mřížka na pozadí' },
-        { name: 'DeviceFrame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
-        { name: 'ComparisonRow', library: 'shared', role: 'Trojice zařízení vedle sebe' },
+        { name: 'DonjonButton', slug: 'donjon-button', library: 'donjon', role: 'Menu tlačítka — Nová hra, Pokračovat, Nastavení, Konec' },
+        { name: 'DonjonBadge', slug: 'donjon-badge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
+        { name: 'HexTile', slug: 'hex-tile', library: 'donjon', role: 'Dekorativní prázdná hex mřížka na pozadí' },
+        { name: 'DeviceFrame', slug: 'device-frame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
+        { name: 'ComparisonRow', slug: 'device-frame', library: 'shared', role: 'Trojice zařízení vedle sebe' },
       ]} />
 
       <Section
