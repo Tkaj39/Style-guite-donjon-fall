@@ -54,12 +54,12 @@ export default function PhaseIndicator({
   const currentIdx = phases.findIndex(p => p.id === currentPhase)
 
   const backdropStyle = backdrop ? {
-    background: 'rgba(12, 10, 34, 0.78)',
-    border: `1px solid ${borderDefault}`,
+    background: 'rgba(32, 30, 86, 0.88)',
+    border: `1px solid ${gold}`,
     borderRadius: 6,
     padding: orientation === 'vertical' ? '12px 14px' : '10px 14px 8px',
-    backdropFilter: 'blur(2px)',
-    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35)',
+    backdropFilter: 'blur(3px)',
+    boxShadow: `0 2px 10px rgba(0, 0, 0, 0.45), inset 0 0 12px ${gold}18`,
   } : {}
 
   return (
