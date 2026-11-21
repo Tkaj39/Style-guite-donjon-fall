@@ -497,6 +497,21 @@ export { default as ActionTile } from './ActionTile'
 export { default as ActionBar } from './ActionBar'
 
 /**
+ * OpponentTurnBanner — HUD banner shown in place of the ActionBar when
+ * the viewing player is NOT on turn. Solid player-color fill + short
+ * "<Color> turn" message. Height matches ActionTile per size (xs/sm/md),
+ * so it is a drop-in replacement in the HUD strip.
+ * @prop {{color: string, name: string}} player - Player currently on turn.
+ * @prop {'xs'|'sm'|'md'} size - Matches ActionBar size (default 'sm').
+ * @prop {string} [message] - Overrides the default "<name> turn" text.
+ * @example
+ * {isMyTurn
+ *   ? <ActionBar actions={myActions} size="sm" />
+ *   : <OpponentTurnBanner player={activePlayer} size="sm" />}
+ */
+export { default as OpponentTurnBanner } from './OpponentTurnBanner'
+
+/**
  * List of game events with auto-scroll to the most recent.
  * Types: gain(green) · loss(red) · event(gold) · warning(amber) · system(grey)
  * @prop {Array<{id?, type, text, detail?, round?}>} events - Log entries

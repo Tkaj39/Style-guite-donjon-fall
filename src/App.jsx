@@ -77,6 +77,7 @@ const ResourceBarPage      = lazy(() => import('./pages/ResourceBarPage'))
 const NumericDisplayPage   = lazy(() => import('./pages/NumericDisplayPage'))
 const PlayerPanelPage      = lazy(() => import('./pages/PlayerPanelPage'))
 const ActionTilePage       = lazy(() => import('./pages/ActionTilePage'))
+const OpponentTurnBannerPage = lazy(() => import('./pages/OpponentTurnBannerPage'))
 const EventLogPage         = lazy(() => import('./pages/EventLogPage'))
 const PhaseIndicatorPage          = lazy(() => import('./pages/PhaseIndicatorPage'))
 const NotificationCenterPage      = lazy(() => import('./pages/NotificationCenterPage'))
@@ -177,6 +178,7 @@ export default function App() {
         <Route path="numeric-display"   element={<S><NumericDisplayPage /></S>} />
         <Route path="player-panel"      element={<S><PlayerPanelPage /></S>} />
         <Route path="action-tile"       element={<S><ActionTilePage /></S>} />
+        <Route path="opponent-turn-banner" element={<S><OpponentTurnBannerPage /></S>} />
         <Route path="event-log"         element={<S><EventLogPage /></S>} />
         <Route path="phase-indicator"        element={<S><PhaseIndicatorPage /></S>} />
         <Route path="notification-center"    element={<S><NotificationCenterPage /></S>} />

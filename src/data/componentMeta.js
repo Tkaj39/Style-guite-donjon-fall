@@ -2298,6 +2298,21 @@ export const componentMeta = {
     relatedSlugs: ['action-tile', 'vp-counter', 'hud-layout'],
   },
 
+  'opponent-turn-banner': {
+    description: 'HUD banner shown in place of <ActionBar> when the viewing player is NOT on turn. A solid rectangle painted with the on-turn player\'s color plus a short „<Color> turn" message — so the waiting player instantly sees whose turn it is instead of a greyed-out tile row. Heights per size mirror ActionTile heights (xs 44, sm 72, md 96 px), so the banner is a drop-in replacement in the HUD strip.',
+    subcategory: 'exclusive',
+    status: 'stable',
+    showcaseRoute: '/opponent-turn-banner',
+    props: [
+      { name: 'player',    type: '{ color: string, name: string }', required: true,  description: 'Player currently on turn. `color` paints the banner fill, `name` is used in the default message.' },
+      { name: 'size',      type: "'xs'|'sm'|'md'",                 required: false, default: "'sm'", description: 'Matches ActionBar size scale so the banner can swap in without resizing the HUD.' },
+      { name: 'message',   type: 'string',                         required: false, description: 'Overrides the default „<player.name> turn" text — for localization or custom status.' },
+      { name: 'style',     type: 'CSSProperties',                  required: false, description: 'Inline styles on the banner wrapper.' },
+      { name: 'className', type: 'string',                         required: false, description: 'Additional CSS classes on the banner wrapper.' },
+    ],
+    relatedSlugs: ['action-bar', 'action-tile', 'player-panel'],
+  },
+
   'vp-counter': {
     description: 'HUD panel showing per-player Victory Point progress. Octagonal shell with 4 corner RohOrnament brackets; one row per player composed of an Erb shield (with optional pictogram), chamfered VP pips and the current VP number. The VPPips sub-component is exported separately so compact chip-style indicators can reuse the same pip styling.',
     subcategory: 'exclusive',
