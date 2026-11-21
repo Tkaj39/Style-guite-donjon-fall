@@ -3,6 +3,8 @@ import { goldDim } from '../lib/donjon/tokens'
 import DieFace from '../lib/donjon/DieFace'
 import VPCounter from '../lib/donjon/VPCounter'
 import ActionBar from '../lib/donjon/ActionBar'
+import OpponentTurnBanner from '../lib/donjon/OpponentTurnBanner'
+import { playerColors } from '../lib/donjon/playerColors'
 import { MoveIcon, SwordIcon, ShieldIcon, TowerIcon, TowerCollapseIcon, RerollIcon } from '../lib/donjon/icons'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
@@ -181,8 +183,21 @@ function MiniActionRow({ scale = 1 }) {
   )
 }
 
+/* Waiting-player strip — OpponentTurnBanner in place of the ActionBar.
+   Takes the on-turn player and the same `scale` used by MiniActionRow so
+   the banner shrinks to fit the preview frame. */
+function MiniWaitingBanner({ scale = 1, player }) {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', flexShrink: 0, paddingBottom: 6, padding: '0 10px 6px' }}>
+      <div style={{ transform: `scale(${scale})`, transformOrigin: 'bottom center', width: '100%', maxWidth: 420 }}>
+        <OpponentTurnBanner player={player} size="xs" />
+      </div>
+    </div>
+  )
+}
+
 /* ── PC layout — Skóre nahoře | Mapa | Akce dole ── */
-function PCLayout() {
+function PCLayout({ waiting = false, activePlayer }) {
   return (
     /* Grass bg na celém layout containeru → prosvítá pod transparent menus */
     <div style={{
@@ -198,13 +213,15 @@ function PCLayout() {
       }}>
         <HexGrid texture={GRASS_TEXTURE.desktop} />
       </div>
-      <MiniActionRow scale={1} />
+      {waiting
+        ? <MiniWaitingBanner scale={1} player={activePlayer} />
+        : <MiniActionRow scale={1} />}
     </div>
   )
 }
 
 /* ── Tablet layout — Skóre nahoře | Mapa | Akce dole ── */
-function TabletLayout() {
+function TabletLayout({ waiting = false, activePlayer }) {
   return (
     <div style={{
       flex: 1, display: 'flex', flexDirection: 'column',
@@ -221,13 +238,15 @@ function TabletLayout() {
           <HexGrid texture={GRASS_TEXTURE.tablet} />
         </div>
       </div>
-      <MiniActionRow scale={0.9} />
+      {waiting
+        ? <MiniWaitingBanner scale={0.9} player={activePlayer} />
+        : <MiniActionRow scale={0.9} />}
     </div>
   )
 }
 
 /* ── Mobile layout ── */
-function MobileLayout() {
+function MobileLayout({ waiting = false, activePlayer }) {
   return (
     <div style={{
       flex: 1, display: 'flex', flexDirection: 'column',
@@ -244,13 +263,15 @@ function MobileLayout() {
           <HexGrid texture={GRASS_TEXTURE.mobile} />
         </div>
       </div>
-      <MiniActionRow scale={0.75} />
+      {waiting
+        ? <MiniWaitingBanner scale={0.75} player={activePlayer} />
+        : <MiniActionRow scale={0.75} />}
     </div>
   )
 }
 
 /* ── Srovnání — všechna tři zmenšena vedle sebe ── */
-function ComparisonRow() {
+function ComparisonRow({ waiting = false, activePlayer }) {
   const items = [
     { type: 'desktop', scale: 0.38, Layout: PCLayout     },
     { type: 'tablet',  scale: 0.50, Layout: TabletLayout  },
@@ -278,7 +299,7 @@ function ComparisonRow() {
             }}>
               <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}>
                 <DeviceFrame type={type}>
-                  <Layout />
+                  <Layout waiting={waiting} activePlayer={activePlayer} />
                 </DeviceFrame>
               </div>
             </div>
@@ -302,7 +323,8 @@ export default function ScreensPage() {
         { name: 'HexTile', slug: 'hex-tile', library: 'donjon', role: 'Herní pole — základny, ohniska, pohyb, útok' },
         { name: 'DieFace', slug: 'die-face', library: 'donjon', role: 'Kostka hráče na základnovém hexu' },
         { name: 'VPCounter', slug: 'vp-counter', library: 'donjon', role: 'Skóre header s VP, hráči a tahem' },
-        { name: 'ActionBar', slug: 'action-bar', library: 'donjon', role: 'Spodní pás akčních tlačítek' },
+        { name: 'ActionBar', slug: 'action-bar', library: 'donjon', role: 'Spodní pás akčních tlačítek (hráč na tahu)' },
+        { name: 'OpponentTurnBanner', slug: 'opponent-turn-banner', library: 'donjon', role: 'Spodní banner čekajícího hráče — barva soupeře' },
         { name: 'DonjonBadge', slug: 'donjon-badge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
         { name: 'DeviceFrame', slug: 'device-frame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
       ]} />
@@ -340,6 +362,16 @@ export default function ScreensPage() {
           <DeviceFrame type="mobile">
             <MobileLayout />
           </DeviceFrame>
+        </Preview>
+      </Section>
+
+      <Section
+        id="cekajici-hrac"
+        title="Perspektiva čekajícího hráče"
+        description="Pokud není hráč na tahu, spodní pás akčních tlačítek je nahrazen OpponentTurnBanner s barvou soupeře — zlatý okraj, tmavá výplň v jeho barvě, text v jeho primární barvě. Výška zůstává stejná jako ActionBar, takže se layout nerozbije."
+      >
+        <Preview>
+          <ComparisonRow waiting activePlayer={playerColors[0]} />
         </Preview>
       </Section>
 
