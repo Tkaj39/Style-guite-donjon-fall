@@ -1,28 +1,28 @@
 /* ── OpponentTurnBanner ────────────────────────────────────────────────────
    HUD banner shown in place of the ActionBar when it is not this player's
-   turn. A solid rectangle filled with the on-turn player's color plus a
-   short "<Color> turn" message, so the waiting player instantly sees whose
-   turn it is without scanning a greyed-out tile row.
+   turn. Octagonal shell with a gold border and deep-blue fill. The message
+   "<Color> turn" is painted in the on-turn player's color, so the waiting
+   player instantly sees whose turn it is.
 
-   Drop-in for <ActionBar>: its height per size matches ActionTile heights
-   (xs 44, sm 72, md 96 px), so the HUD footprint stays the same whether
-   the player is on turn or waiting.
+   Drop-in for <ActionBar>: heights per size match ActionTile heights
+   (xs 44, sm 72, md 96 px).
    ────────────────────────────────────────────────────────────────────── */
-import { textHigh } from './tokens'
+import { octagon, octagonInner } from '../shared/octagon'
+import { gold, bg0 } from './tokens'
 
 /* Heights mirror ActionTile heights per size so the banner can swap in
    for <ActionBar> without resizing the HUD strip. */
 const SIZE_DIMS = {
-  xs: { h: 44, fontSize: '0.75rem',  letterSpacing: '0.12em', padX: 18 },
-  sm: { h: 72, fontSize: '1rem',     letterSpacing: '0.14em', padX: 28 },
-  md: { h: 96, fontSize: '1.25rem',  letterSpacing: '0.16em', padX: 36 },
+  xs: { h: 44, cx: 8,  padX: 18, fontSize: '0.75rem',  letterSpacing: '0.12em' },
+  sm: { h: 72, cx: 10, padX: 28, fontSize: '1rem',     letterSpacing: '0.14em' },
+  md: { h: 96, cx: 14, padX: 36, fontSize: '1.25rem',  letterSpacing: '0.16em' },
 }
 
 /**
  * @param {object} props
  * @param {{ color: string, name: string }} props.player
- *   Player currently on turn. `color` paints the banner fill. `name` is
- *   used in the default message ("<name> turn").
+ *   Player currently on turn. `color` paints the message, `name` is used
+ *   in the default message ("<name> turn").
  * @param {'xs'|'sm'|'md'} [props.size='sm']
  *   Matches ActionBar's size scale so the banner is a drop-in replacement.
  * @param {string} [props.message]
@@ -48,35 +48,48 @@ export default function OpponentTurnBanner({
   const text = message ?? `${player.name} turn`
 
   return (
+    /* Outer border shell — clip-path octagon painted in gold = the border */
     <div
       role="status"
       aria-live="polite"
       className={className}
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
         height: s.h,
-        padding: `0 ${s.padX}px`,
-        background: player.color,
-        boxShadow: `inset 0 0 0 2px rgba(0,0,0,0.25), 0 2px 8px rgba(0,0,0,0.45)`,
+        clipPath: octagon(s.cx),
+        background: gold,
+        padding: 1,
+        boxShadow: `0 2px 8px rgba(0,0,0,0.45)`,
         ...style,
       }}
     >
-      <span
+      {/* Inner fill — deep blue, slightly smaller clip to let the gold peek
+          through as a 1 px border on every edge. */}
+      <div
         style={{
-          fontSize: s.fontSize,
-          fontWeight: 700,
-          letterSpacing: s.letterSpacing,
-          textTransform: 'uppercase',
-          color: textHigh,
-          textShadow: '0 1px 2px rgba(0,0,0,0.55), 0 0 2px rgba(0,0,0,0.5)',
-          whiteSpace: 'nowrap',
-          lineHeight: 1,
+          height: '100%',
+          clipPath: octagonInner(s.cx, 1),
+          background: `linear-gradient(150deg, rgba(32, 30, 86, 0.98) 0%, ${bg0} 100%)`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: `0 ${s.padX}px`,
         }}
       >
-        {text}
-      </span>
+        <span
+          style={{
+            fontSize: s.fontSize,
+            fontWeight: 700,
+            letterSpacing: s.letterSpacing,
+            textTransform: 'uppercase',
+            color: player.color,
+            textShadow: `0 0 6px ${player.color}55, 0 1px 2px rgba(0,0,0,0.6)`,
+            whiteSpace: 'nowrap',
+            lineHeight: 1,
+          }}
+        >
+          {text}
+        </span>
+      </div>
     </div>
   )
 }
