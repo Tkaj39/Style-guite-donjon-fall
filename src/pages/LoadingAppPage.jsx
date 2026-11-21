@@ -1,6 +1,7 @@
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DonjonProgressBar from '../lib/donjon/DonjonProgressBar'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
+import ComponentsUsed from '../styleguide/ComponentsUsed'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
 import { gold, goldDim, bg4, textFaint } from '../lib/donjon/tokens'
 
@@ -82,6 +83,13 @@ export default function LoadingAppPage() {
       description="Úvodní obrazovka při spuštění hry — zobrazí se před načtením herních dat a assetů. Minimální, atmosférický design: logo + progress bar + status. Stejné rozložení na všech zařízeních."
       library="donjon"
     >
+      <ComponentsUsed items={[
+        { name: 'DonjonProgressBar', library: 'donjon', role: 'Progres načítání aplikace (67 %)' },
+        { name: 'DonjonBadge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
+        { name: 'DeviceFrame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
+        { name: 'ComparisonRow', library: 'shared', role: 'Trojice zařízení vedle sebe' },
+      ]} />
+
       <Section
         id="desktop"
         title="Desktop — 1280px+"

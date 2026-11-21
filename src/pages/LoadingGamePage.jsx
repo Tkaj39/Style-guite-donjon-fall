@@ -4,6 +4,7 @@ import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DonjonProgressBar from '../lib/donjon/DonjonProgressBar'
 import { octagon, octagonInner } from '../lib/shared/octagon'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
+import ComponentsUsed from '../styleguide/ComponentsUsed'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
 import { players } from '../data/gameUiMockData'
 
@@ -160,6 +161,15 @@ export default function LoadingGamePage() {
       description="Přechodová obrazovka mezi výběrem mapy a spuštěním herního plánu. Zobrazuje hráče, název mapy, schématickou mapu v obrysu a progress bar."
       library="donjon"
     >
+      <ComponentsUsed items={[
+        { name: 'HexTile', library: 'donjon', role: 'Prázdné hexy tvořící obrysovou mapu' },
+        { name: 'DonjonProgressBar', library: 'donjon', role: 'Progres přípravy bitevního pole (78 %)' },
+        { name: 'DonjonBadge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
+        { name: 'octagon / octagonInner', library: 'shared', role: 'Octagonální tvar hráčských pilulek a rámu mapy' },
+        { name: 'DeviceFrame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
+        { name: 'ComparisonRow', library: 'shared', role: 'Trojice zařízení vedle sebe' },
+      ]} />
+
       <Section
         id="desktop"
         title="Desktop — 1280px+"

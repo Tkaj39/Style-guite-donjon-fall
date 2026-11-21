@@ -4,6 +4,7 @@ import { textFaint, textParchment, gold, goldDim, bg4, bgDeep } from '../lib/don
 import DonjonCard from '../lib/donjon/DonjonCard'
 import { octagon, octagonInner } from '../lib/shared/octagon'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
+import ComponentsUsed from '../styleguide/ComponentsUsed'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
 
 /* ── Mock data — dostupné mapy ── */
@@ -254,6 +255,14 @@ export default function MapSelectPage() {
       description="Obrazovka výběru herní mapy před spuštěním partie. Každá karta ukazuje název, počet hexů, hráčů a cílový VP. Vybraná karta je zvýrazněna zlatým okrajem."
       library="donjon"
     >
+      <ComponentsUsed items={[
+        { name: 'DonjonButton', library: 'donjon', role: 'Potvrdit výběr mapy' },
+        { name: 'DonjonBadge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
+        { name: 'DonjonCard', library: 'donjon', role: 'Obálka detailu karty mapy' },
+        { name: 'DeviceFrame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
+        { name: 'ComparisonRow', library: 'shared', role: 'Trojice zařízení vedle sebe' },
+      ]} />
+
       <Section
         id="desktop"
         title="Desktop — 1280px+"
