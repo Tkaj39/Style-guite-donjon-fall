@@ -189,6 +189,43 @@ export default function PhaseIndicatorPage() {
 
       <div style={DIVIDER} />
 
+      {/* ── Backdrop na texturovaném pozadí ── */}
+      <Section
+        id="backdrop"
+        title="Backdrop (na textuře, např. tráva)"
+        desc="Plain PhaseIndicator je nečitelný na světlé/texturované ploše (herní tráva, obrázek). Prop backdrop ho obalí do tmavého semi-opakního kontejneru, který tvoří čitelný základ bez nutnosti vlastní obálky."
+      >
+        <div
+          style={{
+            background: "url('/textures/grass_tile_512x512.jpg') repeat",
+            backgroundSize: '220px',
+            padding: 28,
+            borderRadius: 4,
+            border: `1px solid ${borderDefault}`,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 20,
+          }}
+        >
+          <div>
+            <p style={{ fontSize: '0.625rem', color: '#fff', textShadow: '0 1px 2px rgba(0,0,0,0.9)', margin: '0 0 8px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              bez backdrop (nečitelné)
+            </p>
+            <PhaseIndicator phases={FAZE_TAHU} currentPhase="souboj" size="md" />
+          </div>
+          <div>
+            <p style={{ fontSize: '0.625rem', color: '#fff', textShadow: '0 1px 2px rgba(0,0,0,0.9)', margin: '0 0 8px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              backdrop
+            </p>
+            <PhaseIndicator phases={FAZE_TAHU} currentPhase="souboj" size="md" backdrop />
+          </div>
+        </div>
+        <Code>{`{/* Použití na herní obrazovce nad travní texturou */}
+<PhaseIndicator phases={FAZE_TAHU} currentPhase="souboj" backdrop />`}</Code>
+      </Section>
+
+      <div style={DIVIDER} />
+
       {/* ── S ikonami ── */}
       <Section id="ikony" title="S ikonami" desc="Každá fáze může mít vlastní icon (ReactNode).">
         <Demo>
