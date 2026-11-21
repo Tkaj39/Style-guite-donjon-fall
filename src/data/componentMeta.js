@@ -2299,7 +2299,7 @@ export const componentMeta = {
   },
 
   'opponent-turn-banner': {
-    description: 'HUD banner shown in place of <ActionBar> when the viewing player is NOT on turn. A solid rectangle painted with the on-turn player\'s color plus a short „<Color> turn" message — so the waiting player instantly sees whose turn it is instead of a greyed-out tile row. Heights per size mirror ActionTile heights (xs 44, sm 72, md 96 px), so the banner is a drop-in replacement in the HUD strip.',
+    description: 'HUD banner shown in place of <ActionBar> when the viewing player is NOT on turn. Octagonal shell with a gold border and deep-blue fill; the message „<Color> turn" is painted in the on-turn player\'s color so the waiting player instantly sees whose turn it is. Heights per size mirror ActionTile heights (xs 44, sm 72, md 96 px), so the banner is a drop-in replacement in the HUD strip.',
     subcategory: 'exclusive',
     status: 'stable',
     showcaseRoute: '/opponent-turn-banner',
