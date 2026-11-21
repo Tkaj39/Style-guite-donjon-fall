@@ -44,6 +44,7 @@ export default function PhaseIndicator({
   currentPhase,
   orientation  = 'horizontal',   // 'horizontal' | 'vertical'
   size         = 'md',
+  backdrop     = false,          // wrap in dark semi-opaque container for use on textured bgs
   onPhaseClick,
   style,
   className,
@@ -52,13 +53,23 @@ export default function PhaseIndicator({
 
   const currentIdx = phases.findIndex(p => p.id === currentPhase)
 
+  const backdropStyle = backdrop ? {
+    background: 'rgba(12, 10, 34, 0.78)',
+    border: `1px solid ${borderDefault}`,
+    borderRadius: 6,
+    padding: orientation === 'vertical' ? '12px 14px' : '10px 14px 8px',
+    backdropFilter: 'blur(2px)',
+    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.35)',
+  } : {}
+
   return (
     <div
       style={{
-        display: 'flex',
+        display: orientation === 'vertical' ? 'inline-flex' : 'flex',
         flexDirection: orientation === 'vertical' ? 'column' : 'row',
         alignItems: orientation === 'vertical' ? 'flex-start' : 'center',
         gap: 0,
+        ...backdropStyle,
         ...style,
       }}
       className={className}
