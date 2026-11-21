@@ -6,6 +6,7 @@ import ActionBar from '../lib/donjon/ActionBar'
 import { MoveIcon, SwordIcon, ShieldIcon, TowerIcon, TowerCollapseIcon, RerollIcon } from '../lib/donjon/icons'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
+import ComponentsUsed from '../styleguide/ComponentsUsed'
 import DeviceFrame, { FRAME } from '../styleguide/DeviceFrame'
 import { players } from '../data/gameUiMockData'
 
@@ -297,6 +298,15 @@ export default function ScreensPage() {
       title="Obrazovky"
       description="Ukázka herního rozložení na třech zařízeních — PC, tablet a mobil. Každý breakpoint přizpůsobuje rozmístění herních prvků. Obsah je statický — jde o prioritizaci a rozmístění, ne o živou herní logiku."
     >
+      <ComponentsUsed items={[
+        { name: 'HexTile', library: 'donjon', role: 'Herní pole — základny, ohniska, pohyb, útok' },
+        { name: 'DieFace', library: 'donjon', role: 'Kostka hráče na základnovém hexu' },
+        { name: 'VPCounter', library: 'donjon', role: 'Skóre header s VP, hráči a tahem' },
+        { name: 'ActionBar', library: 'donjon', role: 'Spodní pás akčních tlačítek' },
+        { name: 'DonjonBadge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
+        { name: 'DeviceFrame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
+      ]} />
+
       <Section
         id="desktop"
         title="PC — 1280px+"

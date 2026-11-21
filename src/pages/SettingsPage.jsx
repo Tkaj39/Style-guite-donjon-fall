@@ -3,6 +3,7 @@ import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DonjonCard from '../lib/donjon/DonjonCard'
 import { octagon, octagonInner } from '../lib/shared/octagon'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
+import ComponentsUsed from '../styleguide/ComponentsUsed'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
 import { players } from '../data/gameUiMockData'
 
@@ -404,6 +405,14 @@ export default function SettingsPage() {
       description="Modální dialog nastavení — zobrazí se jako overlay přes aktivní herní obrazovku. Obsahuje čtyři taby: Zvuk, Jazyk, Ovládání, Grafika."
       library="donjon"
     >
+      <ComponentsUsed items={[
+        { name: 'DonjonBadge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
+        { name: 'DonjonCard', library: 'donjon', role: 'Obálka náhledu jednotlivých tabů' },
+        { name: 'octagon / octagonInner', library: 'shared', role: 'Octagonální tvar modalu, toggle, slideru a footer tlačítek' },
+        { name: 'DeviceFrame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
+        { name: 'ComparisonRow', library: 'shared', role: 'Trojice zařízení vedle sebe' },
+      ]} />
+
       <Section
         id="desktop"
         title="Desktop — 1280px+"

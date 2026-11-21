@@ -2,6 +2,7 @@ import HexTile from '../lib/donjon/HexTile'
 import DonjonBadge from '../lib/donjon/DonjonBadge'
 import DonjonButton from '../lib/donjon/DonjonButton'
 import { ShowcasePage, Section, Preview } from '../styleguide/ShowcasePage'
+import ComponentsUsed from '../styleguide/ComponentsUsed'
 import DeviceFrame, { ComparisonRow } from '../styleguide/DeviceFrame'
 import { gold, goldDim, bg4, borderSubtle, textFaint } from '../lib/donjon/tokens'
 
@@ -176,6 +177,14 @@ export default function MenuPage() {
       description="Vstupní bod aplikace — výběr herního režimu před spuštěním partie. Desktop zobrazuje dvoupanelové rozložení s dekorativní mapou; tablet a mobil centrovaný sloupec."
       library="donjon"
     >
+      <ComponentsUsed items={[
+        { name: 'DonjonButton', library: 'donjon', role: 'Menu tlačítka — Nová hra, Pokračovat, Nastavení, Konec' },
+        { name: 'DonjonBadge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
+        { name: 'HexTile', library: 'donjon', role: 'Dekorativní prázdná hex mřížka na pozadí' },
+        { name: 'DeviceFrame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
+        { name: 'ComparisonRow', library: 'shared', role: 'Trojice zařízení vedle sebe' },
+      ]} />
+
       <Section
         id="desktop"
         title="Desktop — 1280px+"
