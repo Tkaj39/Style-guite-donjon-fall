@@ -53,14 +53,8 @@ export default function PhaseIndicator({
 
   const currentIdx = phases.findIndex(p => p.id === currentPhase)
 
-  const backdropStyle = backdrop ? {
-    background: 'rgba(32, 30, 86, 0.88)',
-    border: `1px solid ${gold}`,
-    borderRadius: 6,
-    padding: orientation === 'vertical' ? '12px 14px' : '10px 14px 8px',
-    backdropFilter: 'blur(3px)',
-    boxShadow: `0 2px 10px rgba(0, 0, 0, 0.45), inset 0 0 12px ${gold}18`,
-  } : {}
+  /* Shadow + gold ring treatment for plain indicator on textured bgs. */
+  const labelShadow = backdrop ? '0 1px 2px rgba(0,0,0,0.85), 0 0 2px rgba(0,0,0,0.9)' : undefined
 
   return (
     <div
@@ -69,7 +63,6 @@ export default function PhaseIndicator({
         flexDirection: orientation === 'vertical' ? 'column' : 'row',
         alignItems: orientation === 'vertical' ? 'flex-start' : 'center',
         gap: 0,
-        ...backdropStyle,
         ...style,
       }}
       className={className}
@@ -83,13 +76,17 @@ export default function PhaseIndicator({
 
         /* Barvy */
         const dotBg      = isDone ? gainColor : isCurrent ? gold : bg2
-        const dotBorder  = isDone ? gainColor : isCurrent ? gold : borderDefault
-        const dotColor   = isDone ? bg0 : isCurrent ? bg0 : textFaint
-        const labelColor = isDone ? textLow : isCurrent ? gold : textFaint
+        const dotBorder  = backdrop
+          ? (isDone ? gainColor : gold)
+          : (isDone ? gainColor : isCurrent ? gold : borderDefault)
+        const dotColor   = isDone ? bg0 : isCurrent ? bg0 : (backdrop ? textLow : textFaint)
+        const labelColor = isDone ? textLow : isCurrent ? gold : (backdrop ? textLow : textFaint)
         const labelW     = isCurrent ? 600 : 400
 
         /* Connector (line between phases) */
-        const connectorColor = isDone ? `${gainColor}66` : `${borderDefault}66`
+        const connectorColor = isDone
+          ? `${gainColor}66`
+          : (backdrop ? `${gold}55` : `${borderDefault}66`)
 
         const dotEl = (
           <div
@@ -99,8 +96,10 @@ export default function PhaseIndicator({
               width: s.dotD, height: s.dotD, borderRadius: '50%',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               background: dotBg,
-              border: `${isCurrent ? 2 : 1}px solid ${dotBorder}`,
-              boxShadow: isCurrent ? `0 0 10px ${gold}55, 0 0 4px ${gold}33` : 'none',
+              border: `${isCurrent || backdrop ? 2 : 1}px solid ${dotBorder}`,
+              boxShadow: isCurrent
+                ? `0 0 10px ${gold}55, 0 0 4px ${gold}33`
+                : (backdrop ? `0 0 0 1px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.5)` : 'none'),
               transition: 'all 0.2s',
               cursor: isClickable ? 'pointer' : 'default',
               flexShrink: 0,
@@ -138,11 +137,11 @@ export default function PhaseIndicator({
                 paddingTop: (s.dotD - parseFloat(s.labelSize) * 16 * 1.3) / 2,
                 paddingBottom: isLast ? 0 : s.connectorH + 4,
               }}>
-                <span style={{ fontSize: s.labelSize, fontWeight: labelW, color: labelColor, lineHeight: 1.3 }}>
+                <span style={{ fontSize: s.labelSize, fontWeight: labelW, color: labelColor, lineHeight: 1.3, textShadow: labelShadow }}>
                   {phase.label}
                 </span>
                 {phase.description && isCurrent && (
-                  <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: textLow, lineHeight: 1.4 }}>
+                  <p style={{ margin: '2px 0 0', fontSize: '0.625rem', color: textLow, lineHeight: 1.4, textShadow: labelShadow }}>
                     {phase.description}
                   </p>
                 )}
@@ -165,6 +164,7 @@ export default function PhaseIndicator({
                 transition: 'color 0.2s',
                 textAlign: 'center',
                 lineHeight: 1.2,
+                textShadow: labelShadow,
               }}>
                 {phase.label}
               </span>
