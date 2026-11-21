@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Section } from './ShowcasePage'
-import { gold, goldDim, textFaint, borderSubtle } from '../lib/donjon/tokens'
+import { gold, goldDim, textMid, bg2, bg3 } from '../lib/donjon/tokens'
 
 /* ── Library labels — krátká jmenovka vedle každého chipu. ── */
 const LIB_LABELS = {
@@ -55,8 +55,8 @@ export default function ComponentsUsed({ items }) {
                   gap: 2,
                   padding: '6px 10px',
                   borderRadius: 4,
-                  border: `1px solid ${goldDim}55`,
-                  background: `${borderSubtle}80`,
+                  border: `1px solid ${goldDim}`,
+                  background: bg2,
                   maxWidth: 260,
                   textDecoration: 'none',
                   color: 'inherit',
@@ -78,7 +78,7 @@ export default function ComponentsUsed({ items }) {
                         fontWeight: 600,
                         letterSpacing: '0.08em',
                         textTransform: 'uppercase',
-                        color: textFaint,
+                        color: textMid,
                       }}>
                         {LIB_LABELS[it.library] ?? it.library}
                       </span>
@@ -86,7 +86,7 @@ export default function ComponentsUsed({ items }) {
                     {it.role && (
                       <span style={{
                         fontSize: '0.6875rem',
-                        color: textFaint,
+                        color: textMid,
                         lineHeight: 1.35,
                       }}>
                         {it.role}
@@ -122,7 +122,7 @@ export default function ComponentsUsed({ items }) {
         ))}
       </div>
       <style href="donjon-components-used-hover" precedence="low">{`
-        .donjon-components-used-chip:hover { border-color: ${gold} !important; background: ${borderSubtle} !important; }
+        .donjon-components-used-chip:hover { border-color: ${gold} !important; background: ${bg3} !important; }
       `}</style>
     </Section>
   )
