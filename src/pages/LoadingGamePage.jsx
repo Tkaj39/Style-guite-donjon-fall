@@ -162,12 +162,12 @@ export default function LoadingGamePage() {
       library="donjon"
     >
       <ComponentsUsed items={[
-        { name: 'HexTile', library: 'donjon', role: 'Prázdné hexy tvořící obrysovou mapu' },
-        { name: 'DonjonProgressBar', library: 'donjon', role: 'Progres přípravy bitevního pole (78 %)' },
-        { name: 'DonjonBadge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
+        { name: 'HexTile', slug: 'hex-tile', library: 'donjon', role: 'Prázdné hexy tvořící obrysovou mapu' },
+        { name: 'DonjonProgressBar', slug: 'donjon-progress-bar', library: 'donjon', role: 'Progres přípravy bitevního pole (78 %)' },
+        { name: 'DonjonBadge', slug: 'donjon-badge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
         { name: 'octagon / octagonInner', library: 'shared', role: 'Octagonální tvar hráčských pilulek a rámu mapy' },
-        { name: 'DeviceFrame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
-        { name: 'ComparisonRow', library: 'shared', role: 'Trojice zařízení vedle sebe' },
+        { name: 'DeviceFrame', slug: 'device-frame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
+        { name: 'ComparisonRow', slug: 'device-frame', library: 'shared', role: 'Trojice zařízení vedle sebe' },
       ]} />
 
       <Section

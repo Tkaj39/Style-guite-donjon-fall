@@ -406,11 +406,11 @@ export default function SettingsPage() {
       library="donjon"
     >
       <ComponentsUsed items={[
-        { name: 'DonjonBadge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
-        { name: 'DonjonCard', library: 'donjon', role: 'Obálka náhledu jednotlivých tabů' },
+        { name: 'DonjonBadge', slug: 'donjon-badge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
+        { name: 'DonjonCard', slug: 'donjon-card', library: 'donjon', role: 'Obálka náhledu jednotlivých tabů' },
         { name: 'octagon / octagonInner', library: 'shared', role: 'Octagonální tvar modalu, toggle, slideru a footer tlačítek' },
-        { name: 'DeviceFrame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
-        { name: 'ComparisonRow', library: 'shared', role: 'Trojice zařízení vedle sebe' },
+        { name: 'DeviceFrame', slug: 'device-frame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
+        { name: 'ComparisonRow', slug: 'device-frame', library: 'shared', role: 'Trojice zařízení vedle sebe' },
       ]} />
 
       <Section

@@ -299,12 +299,12 @@ export default function ScreensPage() {
       description="Ukázka herního rozložení na třech zařízeních — PC, tablet a mobil. Každý breakpoint přizpůsobuje rozmístění herních prvků. Obsah je statický — jde o prioritizaci a rozmístění, ne o živou herní logiku."
     >
       <ComponentsUsed items={[
-        { name: 'HexTile', library: 'donjon', role: 'Herní pole — základny, ohniska, pohyb, útok' },
-        { name: 'DieFace', library: 'donjon', role: 'Kostka hráče na základnovém hexu' },
-        { name: 'VPCounter', library: 'donjon', role: 'Skóre header s VP, hráči a tahem' },
-        { name: 'ActionBar', library: 'donjon', role: 'Spodní pás akčních tlačítek' },
-        { name: 'DonjonBadge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
-        { name: 'DeviceFrame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
+        { name: 'HexTile', slug: 'hex-tile', library: 'donjon', role: 'Herní pole — základny, ohniska, pohyb, útok' },
+        { name: 'DieFace', slug: 'die-face', library: 'donjon', role: 'Kostka hráče na základnovém hexu' },
+        { name: 'VPCounter', slug: 'vp-counter', library: 'donjon', role: 'Skóre header s VP, hráči a tahem' },
+        { name: 'ActionBar', slug: 'action-bar', library: 'donjon', role: 'Spodní pás akčních tlačítek' },
+        { name: 'DonjonBadge', slug: 'donjon-badge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
+        { name: 'DeviceFrame', slug: 'device-frame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
       ]} />
 
       <Section

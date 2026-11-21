@@ -256,11 +256,11 @@ export default function MapSelectPage() {
       library="donjon"
     >
       <ComponentsUsed items={[
-        { name: 'DonjonButton', library: 'donjon', role: 'Potvrdit výběr mapy' },
-        { name: 'DonjonBadge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
-        { name: 'DonjonCard', library: 'donjon', role: 'Obálka detailu karty mapy' },
-        { name: 'DeviceFrame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
-        { name: 'ComparisonRow', library: 'shared', role: 'Trojice zařízení vedle sebe' },
+        { name: 'DonjonButton', slug: 'donjon-button', library: 'donjon', role: 'Potvrdit výběr mapy' },
+        { name: 'DonjonBadge', slug: 'donjon-badge', library: 'donjon', role: 'Popisky layoutu v sekci Srovnání' },
+        { name: 'DonjonCard', slug: 'donjon-card', library: 'donjon', role: 'Obálka detailu karty mapy' },
+        { name: 'DeviceFrame', slug: 'device-frame', library: 'shared', role: 'Rámeček zařízení pro náhled obrazovky' },
+        { name: 'ComparisonRow', slug: 'device-frame', library: 'shared', role: 'Trojice zařízení vedle sebe' },
       ]} />
 
       <Section

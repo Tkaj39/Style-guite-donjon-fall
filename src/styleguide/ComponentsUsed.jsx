@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Section } from './ShowcasePage'
 import { gold, goldDim, textFaint, borderSubtle } from '../lib/donjon/tokens'
 
@@ -47,55 +48,82 @@ export default function ComponentsUsed({ items }) {
               {LIB_LABELS[lib] ?? lib}
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              {groups[lib].map((it, i) => (
-                <div
-                  key={`${it.name}-${i}`}
-                  style={{
-                    display: 'inline-flex',
-                    flexDirection: 'column',
-                    gap: 2,
-                    padding: '6px 10px',
-                    borderRadius: 4,
-                    border: `1px solid ${goldDim}55`,
-                    background: `${borderSubtle}80`,
-                    maxWidth: 260,
-                  }}
-                  title={it.role ?? undefined}
-                >
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                    <span style={{
-                      fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-                      fontSize: '0.75rem',
-                      color: gold,
-                      fontWeight: 600,
-                    }}>
-                      {it.name}
-                    </span>
-                    <span style={{
-                      fontSize: '0.5625rem',
-                      fontWeight: 600,
-                      letterSpacing: '0.08em',
-                      textTransform: 'uppercase',
-                      color: textFaint,
-                    }}>
-                      {LIB_LABELS[it.library] ?? it.library}
-                    </span>
+              {groups[lib].map((it, i) => {
+                const chipStyle = {
+                  display: 'inline-flex',
+                  flexDirection: 'column',
+                  gap: 2,
+                  padding: '6px 10px',
+                  borderRadius: 4,
+                  border: `1px solid ${goldDim}55`,
+                  background: `${borderSubtle}80`,
+                  maxWidth: 260,
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  transition: 'border-color 120ms, background 120ms',
+                }
+                const inner = (
+                  <>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                      <span style={{
+                        fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+                        fontSize: '0.75rem',
+                        color: gold,
+                        fontWeight: 600,
+                      }}>
+                        {it.name}
+                      </span>
+                      <span style={{
+                        fontSize: '0.5625rem',
+                        fontWeight: 600,
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        color: textFaint,
+                      }}>
+                        {LIB_LABELS[it.library] ?? it.library}
+                      </span>
+                    </div>
+                    {it.role && (
+                      <span style={{
+                        fontSize: '0.6875rem',
+                        color: textFaint,
+                        lineHeight: 1.35,
+                      }}>
+                        {it.role}
+                      </span>
+                    )}
+                  </>
+                )
+                if (it.slug) {
+                  return (
+                    <Link
+                      key={`${it.name}-${i}`}
+                      to={`/components/${it.slug}`}
+                      style={{ ...chipStyle, cursor: 'pointer' }}
+                      title={it.role ?? undefined}
+                      className="donjon-components-used-chip"
+                    >
+                      {inner}
+                    </Link>
+                  )
+                }
+                return (
+                  <div
+                    key={`${it.name}-${i}`}
+                    style={chipStyle}
+                    title={it.role ?? undefined}
+                  >
+                    {inner}
                   </div>
-                  {it.role && (
-                    <span style={{
-                      fontSize: '0.6875rem',
-                      color: textFaint,
-                      lineHeight: 1.35,
-                    }}>
-                      {it.role}
-                    </span>
-                  )}
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
         ))}
       </div>
+      <style href="donjon-components-used-hover" precedence="low">{`
+        .donjon-components-used-chip:hover { border-color: ${gold} !important; background: ${borderSubtle} !important; }
+      `}</style>
     </Section>
   )
 }
