@@ -571,9 +571,8 @@ export const sections = [
       {
         to: '/game-admin', label: 'Game Admin',
         children: [
-          { to: '/game-admin#phase',    label: 'Posloupnost tahů' },
-          { to: '/game-admin#value',    label: 'Hodnota kostky' },
-          { to: '/game-admin#position', label: 'Pozice kostky' },
+          { to: '/game-admin#phase', label: 'Posloupnost tahů' },
+          { to: '/game-admin#dice',  label: 'Kostky — hodnota + pozice' },
         ],
       },
     ],
