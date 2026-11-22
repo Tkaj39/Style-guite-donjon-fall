@@ -91,6 +91,7 @@ const DataDisplayPage             = lazy(() => import('./pages/DataDisplayPage')
 const NavigationPage              = lazy(() => import('./pages/NavigationPage'))
 const GameplayPage                = lazy(() => import('./pages/GameplayPage'))
 const GameLayoutPage              = lazy(() => import('./pages/GameLayoutPage'))
+const GameAdminPage               = lazy(() => import('./pages/GameAdminPage'))
 
 export default function App() {
   const [searchParams] = useSearchParams()
@@ -193,6 +194,7 @@ export default function App() {
         <Route path="navigation"             element={<S><NavigationPage /></S>} />
         <Route path="gameplay"               element={<S><GameplayPage /></S>} />
         <Route path="game-layout"            element={<S><GameLayoutPage /></S>} />
+        <Route path="game-admin"             element={<S><GameAdminPage /></S>} />
       </Route>
     </Routes>
     </LibPreferenceProvider>
