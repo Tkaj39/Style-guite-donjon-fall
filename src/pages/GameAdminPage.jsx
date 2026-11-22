@@ -195,8 +195,23 @@ export default function GameAdminPage() {
       <Section
         id="prehled"
         title="Admin panel"
-        description="Vlevo editovatelná obrazovka v DeviceFrame, vpravo tooling v TkajUI paletě (studené modré = debug nástroje) oproti teplé zlaté hře."
+        description="Nahoře nástroj pro posloupnost tahů (ovládá celý výhled), vlevo editovatelná obrazovka v DeviceFrame, vpravo tooling pro manipulaci s kostkami v TkajUI paletě (studené modré = debug nástroje) oproti teplé zlaté hře."
       >
+        {/* TOP — turn / phase control (full width) */}
+        <div id="phase" style={{ marginBottom: 16 }}>
+          <Card title="Posloupnost tahů">
+            <div style={{ padding: 16 }}>
+              <AdminPhaseTool
+                phases={FAZE_TAHU}
+                currentPhase={phase}
+                onPhaseChange={handlePhaseChange}
+                turn={turn}
+                onTurnChange={setTurn}
+              />
+            </div>
+          </Card>
+        </div>
+
         <div style={{
           display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap',
         }}>
@@ -219,27 +234,13 @@ export default function GameAdminPage() {
             </DeviceFrame>
           </div>
 
-          {/* RIGHT — admin tools */}
+          {/* RIGHT — die manipulation tools */}
           <div style={{
             position: 'sticky', top: 16,
             display: 'flex', flexDirection: 'column', gap: 16,
             flex: '0 0 auto',
             minWidth: 360, maxWidth: 420, width: 380,
           }}>
-            <div id="phase">
-              <Card title="Posloupnost tahů">
-                <div style={{ padding: 16 }}>
-                  <AdminPhaseTool
-                    phases={FAZE_TAHU}
-                    currentPhase={phase}
-                    onPhaseChange={handlePhaseChange}
-                    turn={turn}
-                    onTurnChange={setTurn}
-                  />
-                </div>
-              </Card>
-            </div>
-
             <div id="value">
               <Card title="Hodnota kostky">
                 <div style={{ padding: 16 }}>
