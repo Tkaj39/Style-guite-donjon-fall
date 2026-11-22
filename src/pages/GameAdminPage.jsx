@@ -18,8 +18,8 @@ import { textMid, textLow, surface2, borderDefault } from '../lib/tkajui/tokens'
 
 import EditableGameBoard from './game-admin/EditableGameBoard'
 import AdminPhaseTool from './game-admin/AdminPhaseTool'
-import AdminDieValueTool from './game-admin/AdminDieValueTool'
-import AdminDiePositionTool from './game-admin/AdminDiePositionTool'
+import AdminDieEditorBar from './game-admin/AdminDieEditorBar'
+import DieChipPicker from './game-admin/DieChipPicker'
 
 const FAZE_TAHU = [
   { id: 'pohyb',  label: 'Pohyb' },
@@ -111,6 +111,10 @@ export default function GameAdminPage() {
 
   const boardWithIds = useMemo(() => withDieIds(board), [board])
   const dice = useMemo(() => collectDice(boardWithIds), [boardWithIds])
+  const selectedDie = useMemo(
+    () => dice.find(d => d.id === selectedDieId) ?? null,
+    [dice, selectedDieId]
+  )
 
   const scorePlayers = [
     { id: 1, color: p1.primary, vp: 3, icon: PLAYER_ICONS[0], active: activePlayerIdx === 0 },
@@ -140,44 +144,56 @@ export default function GameAdminPage() {
   }
 
   const handleCellClick = (row, col) => {
-    if (!isPlacingDie || selectedDieId == null) return
     const target = board[row]?.[col]
     if (!target) return
-    // Only empty cells (non-base, no die) accept a placement.
-    if (target.property === 'base' || target.die) return
 
-    const match = /^d-(\d+)-(\d+)$/.exec(selectedDieId)
-    if (!match) return
-    const fromR = Number(match[1])
-    const fromC = Number(match[2])
-    if (fromR === row && fromC === col) {
+    // Placement mode: try to move the selected die to an empty cell.
+    if (isPlacingDie && selectedDieId != null) {
+      // Only empty cells (non-base, no die) accept a placement.
+      if (target.property === 'base' || target.die) return
+
+      const match = /^d-(\d+)-(\d+)$/.exec(selectedDieId)
+      if (!match) return
+      const fromR = Number(match[1])
+      const fromC = Number(match[2])
+      if (fromR === row && fromC === col) {
+        setIsPlacingDie(false)
+        return
+      }
+
+      const fromCell = board[fromR][fromC]
+      if (!fromCell?.die) return
+
+      setBoard(prev => prev.map((r, ri) =>
+        r.map((cell, ci) => {
+          if (ri === fromR && ci === fromC) {
+            // Leave the owner tint behind so the base hex keeps its player
+            // color, but the die itself has moved on.
+            const { die: _die, ...rest } = cell
+            return rest
+          }
+          if (ri === row && ci === col) {
+            return {
+              ...cell,
+              die: { v: fromCell.die.v, c: fromCell.die.c },
+            }
+          }
+          return cell
+        })
+      ))
+      // New id after the move:
+      setSelectedDieId(dieId(row, col))
       setIsPlacingDie(false)
       return
     }
 
-    const fromCell = board[fromR][fromC]
-    if (!fromCell?.die) return
-
-    setBoard(prev => prev.map((r, ri) =>
-      r.map((cell, ci) => {
-        if (ri === fromR && ci === fromC) {
-          // Leave the owner tint behind so the base hex keeps its player
-          // color, but the die itself has moved on.
-          const { die: _die, ...rest } = cell
-          return rest
-        }
-        if (ri === row && ci === col) {
-          return {
-            ...cell,
-            die: { v: fromCell.die.v, c: fromCell.die.c },
-          }
-        }
-        return cell
-      })
-    ))
-    // New id after the move:
-    setSelectedDieId(dieId(row, col))
-    setIsPlacingDie(false)
+    // Idle mode: click on a cell with a die selects it. Click on an
+    // empty cell clears the selection.
+    if (target.die) {
+      setSelectedDieId(dieId(row, col))
+    } else {
+      setSelectedDieId(null)
+    }
   }
 
   const resetBoard = () => {
@@ -230,44 +246,42 @@ export default function GameAdminPage() {
                 isPlacing={isPlacingDie}
                 onCellClick={handleCellClick}
               />
-              <MiniActionRow />
+              {/* Bottom strip — context-sensitive.
+                  No die selected → normal MiniActionRow.
+                  Die selected    → inline value + position editor. */}
+              {selectedDie
+                ? <AdminDieEditorBar
+                    die={selectedDie}
+                    isPlacing={isPlacingDie}
+                    onChangeValue={(v) => setDieValue(selectedDieId, v)}
+                    onStartPlacing={() => setIsPlacingDie(true)}
+                    onCancelPlacing={() => setIsPlacingDie(false)}
+                    onDeselect={() => { setSelectedDieId(null); setIsPlacingDie(false) }}
+                  />
+                : <MiniActionRow />}
             </DeviceFrame>
           </div>
 
-          {/* RIGHT — die manipulation tools */}
-          <div style={{
+          {/* RIGHT — compact dice list (click to select) */}
+          <div id="dice" style={{
             position: 'sticky', top: 16,
             display: 'flex', flexDirection: 'column', gap: 16,
             flex: '0 0 auto',
-            minWidth: 360, maxWidth: 420, width: 380,
+            minWidth: 300, maxWidth: 380, width: 340,
           }}>
-            <div id="value">
-              <Card title="Hodnota kostky">
-                <div style={{ padding: 16 }}>
-                  <AdminDieValueTool
-                    dice={dice}
-                    selectedDieId={selectedDieId}
-                    onSelectDie={setSelectedDieId}
-                    onChangeValue={setDieValue}
-                  />
-                </div>
-              </Card>
-            </div>
-
-            <div id="position">
-              <Card title="Pozice kostky">
-                <div style={{ padding: 16 }}>
-                  <AdminDiePositionTool
-                    dice={dice}
-                    selectedDieId={selectedDieId}
-                    onSelectDie={(id) => { setSelectedDieId(id); setIsPlacingDie(false) }}
-                    isPlacing={isPlacingDie}
-                    onStartPlacing={() => setIsPlacingDie(true)}
-                    onCancelPlacing={() => setIsPlacingDie(false)}
-                  />
-                </div>
-              </Card>
-            </div>
+            <Card title="Kostky na plánu">
+              <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <p style={{ margin: 0, fontSize: '0.75rem', color: textLow, lineHeight: 1.4 }}>
+                  Klikni na kostku v seznamu nebo přímo na plánu.
+                  Dole v obrazovce se pak zobrazí volby pro hodnotu a pozici.
+                </p>
+                <DieChipPicker
+                  dice={dice}
+                  selectedDieId={selectedDieId}
+                  onSelectDie={(id) => { setSelectedDieId(id); setIsPlacingDie(false) }}
+                />
+              </div>
+            </Card>
 
             <div>
               <button
