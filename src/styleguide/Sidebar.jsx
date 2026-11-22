@@ -564,6 +564,20 @@ export const sections = [
       },
     ],
   },
+  {
+    label: 'Administrace',
+    library: 'donjon',
+    items: [
+      {
+        to: '/game-admin', label: 'Game Admin',
+        children: [
+          { to: '/game-admin#phase',    label: 'Posloupnost tahů' },
+          { to: '/game-admin#value',    label: 'Hodnota kostky' },
+          { to: '/game-admin#position', label: 'Pozice kostky' },
+        ],
+      },
+    ],
+  },
 ]
 
 // ── Komponenty ────────────────────────────────────────────────────────────────
