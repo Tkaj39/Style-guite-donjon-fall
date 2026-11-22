@@ -1,11 +1,11 @@
 /* ── DieChipPicker ───────────────────────────────────────────────────────
-   Horizontal scrollable row of die chips used by the Value + Position
-   admin tools. Each chip = small DieFace + "r{row}c{col}" label. Selected
-   chip gets an accent outline. Page-local. */
+   Chip picker used by the admin dice panel. Layout is driven by
+   `columns`: pass a number N to render as an N-column grid, or omit
+   it for the default horizontal scrollable row. Page-local. */
 import DieFace from '../../lib/donjon/DieFace'
 import { accent, borderDefault, surface2, surface3, textMid, textLow } from '../../lib/tkajui/tokens'
 
-export default function DieChipPicker({ dice, selectedDieId, onSelectDie }) {
+export default function DieChipPicker({ dice, selectedDieId, onSelectDie, columns }) {
   if (!dice.length) {
     return (
       <p style={{ margin: 0, fontSize: '0.75rem', color: textLow }}>
@@ -13,11 +13,24 @@ export default function DieChipPicker({ dice, selectedDieId, onSelectDie }) {
       </p>
     )
   }
+
+  const containerStyle = columns
+    ? {
+        display: 'grid',
+        gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+        gap: 6,
+        padding: 2,
+      }
+    : {
+        display: 'flex',
+        gap: 8,
+        overflowX: 'auto',
+        padding: '4px 2px 10px',
+        scrollbarWidth: 'thin',
+      }
+
   return (
-    <div style={{
-      display: 'flex', gap: 8, overflowX: 'auto',
-      padding: '4px 2px 10px', scrollbarWidth: 'thin',
-    }}>
+    <div style={containerStyle}>
       {dice.map(d => {
         const isSelected = d.id === selectedDieId
         return (

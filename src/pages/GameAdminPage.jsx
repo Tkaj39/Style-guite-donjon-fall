@@ -231,7 +231,7 @@ export default function GameAdminPage() {
         <div style={{
           display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap',
         }}>
-          {/* LEFT — editable game view */}
+          {/* LEFT — editable game view with in-frame dice sidebar */}
           <div style={{ flex: '1 1 480px', minWidth: 480 }}>
             <DeviceFrame type="desktop">
               <MiniScoreHeader
@@ -240,12 +240,56 @@ export default function GameAdminPage() {
                 phaseLabel={phaseLabel}
                 activeIdx={activePlayerIdx}
               />
-              <EditableGameBoard
-                board={boardWithIds}
-                selectedDieId={selectedDieId}
-                isPlacing={isPlacingDie}
-                onCellClick={handleCellClick}
-              />
+              {/* Board + in-game dice sidebar — fills the vertical space
+                  between the score header and the bottom strip. */}
+              <div style={{
+                flex: 1,
+                display: 'flex',
+                alignItems: 'stretch',
+                justifyContent: 'center',
+                gap: 12,
+                padding: '8px 8px 0',
+                minHeight: 0,
+              }}>
+                <div style={{
+                  flex: 1, display: 'flex',
+                  alignItems: 'center', justifyContent: 'center',
+                  overflow: 'hidden',
+                }}>
+                  <EditableGameBoard
+                    board={boardWithIds}
+                    selectedDieId={selectedDieId}
+                    isPlacing={isPlacingDie}
+                    onCellClick={handleCellClick}
+                  />
+                </div>
+                <div id="dice" style={{
+                  flex: '0 0 auto',
+                  width: 170,
+                  display: 'flex', flexDirection: 'column',
+                  gap: 6,
+                  padding: '6px 6px 10px',
+                  background: `${surface2}dd`,
+                  border: `1px solid ${borderDefault}`,
+                  borderRadius: 6,
+                  overflow: 'auto',
+                }}>
+                  <p style={{
+                    margin: 0, padding: '2px 4px',
+                    fontSize: '0.5625rem', fontWeight: 700,
+                    letterSpacing: '0.1em', textTransform: 'uppercase',
+                    color: textMid,
+                  }}>
+                    Kostky na plánu
+                  </p>
+                  <DieChipPicker
+                    dice={dice}
+                    selectedDieId={selectedDieId}
+                    onSelectDie={(id) => { setSelectedDieId(id); setIsPlacingDie(false) }}
+                    columns={2}
+                  />
+                </div>
+              </div>
               {/* Bottom strip — context-sensitive.
                   No die selected → normal MiniActionRow.
                   Die selected    → inline value + position editor. */}
@@ -262,24 +306,19 @@ export default function GameAdminPage() {
             </DeviceFrame>
           </div>
 
-          {/* RIGHT — compact dice list (click to select) */}
-          <div id="dice" style={{
+          {/* RIGHT — just the reset button, help text */}
+          <div style={{
             position: 'sticky', top: 16,
             display: 'flex', flexDirection: 'column', gap: 16,
             flex: '0 0 auto',
-            minWidth: 300, maxWidth: 380, width: 340,
+            minWidth: 240, maxWidth: 320, width: 280,
           }}>
-            <Card title="Kostky na plánu">
+            <Card title="Ovládání">
               <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <p style={{ margin: 0, fontSize: '0.75rem', color: textLow, lineHeight: 1.4 }}>
-                  Klikni na kostku v seznamu nebo přímo na plánu.
-                  Dole v obrazovce se pak zobrazí volby pro hodnotu a pozici.
+                  Vyber kostku kliknutím na plán nebo v seznamu na obrazovce vpravo.
+                  Dole se objeví volby pro hodnotu a pozici.
                 </p>
-                <DieChipPicker
-                  dice={dice}
-                  selectedDieId={selectedDieId}
-                  onSelectDie={(id) => { setSelectedDieId(id); setIsPlacingDie(false) }}
-                />
               </div>
             </Card>
 
