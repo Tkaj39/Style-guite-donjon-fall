@@ -20,7 +20,7 @@ import EditableGameBoard from './game-admin/EditableGameBoard'
 import AdminPhaseTool from './game-admin/AdminPhaseTool'
 import AdminDieEditorBar from './game-admin/AdminDieEditorBar'
 import DieChipPicker from './game-admin/DieChipPicker'
-import TurnHistoryList from './game-admin/TurnHistoryList'
+import EventLog from '../lib/donjon/EventLog'
 
 const FAZE_TAHU = [
   { id: 'pohyb',  label: 'Pohyb' },
@@ -62,46 +62,22 @@ const SCREEN_ACTIONS = [
   { label: 'Přehazování',  icon: <RerollIcon />,        variant: 'special' },
 ]
 
-/* ── Mock turn history ────────────────────────────────────────────────────
-   Static canned data so the history panel shows meaningful content on the
-   style-guide. In a real client, this would stream from the game state. */
-const TURN_HISTORY = [
-  {
-    turn: 1,
-    playerColor: p1.primary,
-    playerLabel: 'Hráč 1',
-    phases: [
-      { label: 'Pohyb',  state: 'done' },
-      { label: 'Akce',   state: 'done' },
-      { label: 'Souboj', state: 'skipped' },
-      { label: 'Konec',  state: 'done' },
-    ],
-    actions: ['Pohyb kostky r0c4 → r1c4', 'Konec tahu'],
-  },
-  {
-    turn: 2,
-    playerColor: p2.primary,
-    playerLabel: 'Hráč 2',
-    phases: [
-      { label: 'Pohyb',  state: 'done' },
-      { label: 'Akce',   state: 'done' },
-      { label: 'Souboj', state: 'done' },
-      { label: 'Konec',  state: 'done' },
-    ],
-    actions: ['Pohyb kostky r8c4 → r7c4', 'Souboj — P1 r1c4 vs P2 r7c4 (P2 výhra)'],
-  },
-  {
-    turn: 3,
-    playerColor: p1.primary,
-    playerLabel: 'Hráč 1',
-    phases: [
-      { label: 'Pohyb',  state: 'done' },
-      { label: 'Akce',   state: 'current' },
-      { label: 'Souboj', state: 'future' },
-      { label: 'Konec',  state: 'future' },
-    ],
-    actions: ['Pohyb věže r0c0 → r0c1'],
-  },
+/* ── Mock turn history as EventLog entries ───────────────────────────────
+   Flattened for <EventLog>: one row per game event, grouped by `round`.
+   `type` drives colour + icon (gain / loss / event / warning / system). */
+const TURN_EVENTS = [
+  { round: 1, type: 'system', text: 'Tah 1 — Hráč 1' },
+  { round: 1, type: 'event',  text: 'Pohyb kostky r0c4 → r1c4' },
+  { round: 1, type: 'system', text: 'Konec tahu' },
+
+  { round: 2, type: 'system', text: 'Tah 2 — Hráč 2' },
+  { round: 2, type: 'event',  text: 'Pohyb kostky r8c4 → r7c4' },
+  { round: 2, type: 'gain',   text: 'Souboj vyhrán', detail: 'P2 r7c4 vs P1 r1c4' },
+  { round: 2, type: 'system', text: 'Konec tahu' },
+
+  { round: 3, type: 'system', text: 'Tah 3 — Hráč 1' },
+  { round: 3, type: 'event',  text: 'Pohyb věže r0c0 → r0c1' },
+  { round: 3, type: 'warning', text: 'Čeká se na akci' },
 ]
 
 function dieId(row, col) { return `d-${row}-${col}` }
@@ -295,25 +271,18 @@ export default function GameAdminPage() {
               }}>
                 <div id="history" style={{
                   flex: '0 0 auto',
-                  width: 125,
+                  width: 160,
                   display: 'flex', flexDirection: 'column',
-                  gap: 4,
-                  padding: '4px 2px',
                   minHeight: 0,
                 }}>
-                  <p style={{
-                    margin: 0, padding: '2px 4px',
-                    fontSize: '0.5625rem', fontWeight: 700,
-                    letterSpacing: '0.1em', textTransform: 'uppercase',
-                    color: '#fff',
-                    textShadow: '0 1px 2px rgba(0,0,0,0.9), 0 0 2px rgba(0,0,0,0.9)',
-                  }}>
-                    Historie tahů
-                  </p>
-                  <TurnHistoryList
-                    entries={TURN_HISTORY}
-                    currentTurn={turn}
-                    compact
+                  <EventLog
+                    events={TURN_EVENTS}
+                    title="Historie tahů"
+                    ornament="plain"
+                    showRound
+                    groupByRound
+                    autoScroll
+                    maxHeight={360}
                   />
                 </div>
 
