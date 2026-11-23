@@ -20,6 +20,7 @@ import EditableGameBoard from './game-admin/EditableGameBoard'
 import AdminPhaseTool from './game-admin/AdminPhaseTool'
 import AdminDieEditorBar from './game-admin/AdminDieEditorBar'
 import DieChipPicker from './game-admin/DieChipPicker'
+import TurnHistoryList from './game-admin/TurnHistoryList'
 
 const FAZE_TAHU = [
   { id: 'pohyb',  label: 'Pohyb' },
@@ -57,9 +58,50 @@ const INITIAL_BOARD = [
 
 const SCREEN_ACTIONS = [
   { label: 'Pohyb kostky', icon: <MoveIcon />,          variant: 'move'    },
-  { label: 'Pohyb věže',   icon: <TowerIcon />,         variant: 'default' },
-  { label: 'Kolaps věže',  icon: <TowerCollapseIcon />, variant: 'attack'  },
+  { label: 'Pohyb věže',   icon: <TowerIcon />,         variant: 'default' },  { label: 'Kolaps věže',  icon: <TowerCollapseIcon />, variant: 'attack'  },
   { label: 'Přehazování',  icon: <RerollIcon />,        variant: 'special' },
+]
+
+/* ── Mock turn history ────────────────────────────────────────────────────
+   Static canned data so the history panel shows meaningful content on the
+   style-guide. In a real client, this would stream from the game state. */
+const TURN_HISTORY = [
+  {
+    turn: 1,
+    playerColor: p1.primary,
+    playerLabel: 'Hráč 1',
+    phases: [
+      { label: 'Pohyb',  state: 'done' },
+      { label: 'Akce',   state: 'done' },
+      { label: 'Souboj', state: 'skipped' },
+      { label: 'Konec',  state: 'done' },
+    ],
+    actions: ['Pohyb kostky r0c4 → r1c4', 'Konec tahu'],
+  },
+  {
+    turn: 2,
+    playerColor: p2.primary,
+    playerLabel: 'Hráč 2',
+    phases: [
+      { label: 'Pohyb',  state: 'done' },
+      { label: 'Akce',   state: 'done' },
+      { label: 'Souboj', state: 'done' },
+      { label: 'Konec',  state: 'done' },
+    ],
+    actions: ['Pohyb kostky r8c4 → r7c4', 'Souboj — P1 r1c4 vs P2 r7c4 (P2 výhra)'],
+  },
+  {
+    turn: 3,
+    playerColor: p1.primary,
+    playerLabel: 'Hráč 1',
+    phases: [
+      { label: 'Pohyb',  state: 'done' },
+      { label: 'Akce',   state: 'current' },
+      { label: 'Souboj', state: 'future' },
+      { label: 'Konec',  state: 'future' },
+    ],
+    actions: ['Pohyb věže r0c0 → r0c1'],
+  },
 ]
 
 function dieId(row, col) { return `d-${row}-${col}` }
@@ -306,40 +348,37 @@ export default function GameAdminPage() {
             </DeviceFrame>
           </div>
 
-          {/* RIGHT — just the reset button, help text */}
-          <div style={{
+          {/* RIGHT — turn history */}
+          <div id="history" style={{
             position: 'sticky', top: 16,
             display: 'flex', flexDirection: 'column', gap: 16,
             flex: '0 0 auto',
-            minWidth: 240, maxWidth: 320, width: 280,
+            minWidth: 260, maxWidth: 320, width: 290,
           }}>
-            <Card title="Ovládání">
-              <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
-                <p style={{ margin: 0, fontSize: '0.75rem', color: textLow, lineHeight: 1.4 }}>
-                  Vyber kostku kliknutím na plán nebo v seznamu na obrazovce vpravo.
-                  Dole se objeví volby pro hodnotu a pozici.
-                </p>
+            <Card title="Historie tahů">
+              <div style={{ padding: 12, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <TurnHistoryList
+                  entries={TURN_HISTORY}
+                  currentTurn={turn}
+                />
+                <button
+                  type="button"
+                  onClick={resetBoard}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    background: surface2,
+                    border: `1px solid ${borderDefault}`,
+                    color: textMid,
+                    borderRadius: 4,
+                    fontSize: '0.75rem',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Reset plánu
+                </button>
               </div>
             </Card>
-
-            <div>
-              <button
-                type="button"
-                onClick={resetBoard}
-                style={{
-                  width: '100%',
-                  padding: '8px 12px',
-                  background: surface2,
-                  border: `1px solid ${borderDefault}`,
-                  color: textMid,
-                  borderRadius: 4,
-                  fontSize: '0.75rem',
-                  cursor: 'pointer',
-                }}
-              >
-                Reset plánu
-              </button>
-            </div>
           </div>
         </div>
       </Section>
