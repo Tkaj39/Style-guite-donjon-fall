@@ -1,10 +1,14 @@
 /* ── AdminDieEditorBar ─────────────────────────────────────────────────────
    Slot-in replacement for MiniActionRow inside the game-admin DeviceFrame.
    Shown while a die is selected: row of 1-6 value chips + Position toggle
-   + Clear selection.
+   + Clear selection. Wrapped in the donjon octagonal shell to match the
+   other HUD panels (EventLog, DieChipPicker groups, DonjonCard).
    ────────────────────────────────────────────────────────────────────── */
+import { useId } from 'react'
 import DieFace from '../../lib/donjon/DieFace'
-import { gold, goldDim, bg2, textHigh, textLow } from '../../lib/donjon/tokens'
+import { gold, goldDim, bg2, bgDeep, textHigh, textLow } from '../../lib/donjon/tokens'
+import { octagon, octagonInner } from '../../lib/shared/octagon'
+import { RohOrnament, ornamentHForCx } from '../../lib/donjon/Ornaments'
 
 function ValueChip({ v, color, active, onClick }) {
   return (
@@ -42,76 +46,107 @@ export default function AdminDieEditorBar({
 }) {
   if (!die) return null
 
+  const cx   = 10
+  const rohH = ornamentHForCx(cx, 'roh')
+  const rawId = useId()
+  const uid   = rawId.replace(/:/g, '')
+
   return (
     <div style={{
+      /* Shell is centered horizontally so it keeps the bottom-bar vibe
+         without stretching across the full frame width. */
       display: 'flex',
-      alignItems: 'center',
       justifyContent: 'center',
-      gap: 10,
-      padding: '6px 12px',
-      flexWrap: 'wrap',
+      padding: '6px 8px 8px',
     }}>
-      {/* Die identifier */}
+      {/* Outer octagonal border shell — gold rim via border-trick. */}
       <div style={{
-        display: 'inline-flex', alignItems: 'center', gap: 6,
-        fontSize: '0.625rem', fontWeight: 600, letterSpacing: '0.08em',
-        textTransform: 'uppercase', color: textLow, whiteSpace: 'nowrap',
+        clipPath: octagon(cx),
+        background: goldDim,
+        padding: 1,
       }}>
-        <span style={{ color: textHigh }}>Kostka</span>
-        <span>r{die.row}·c{die.col}</span>
-      </div>
+        {/* Inner panel — deep-blue fill + the actual controls. */}
+        <div style={{
+          position: 'relative',
+          clipPath: octagonInner(cx, 1),
+          background: bgDeep,
+          padding: '10px 22px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 12,
+          flexWrap: 'wrap',
+        }}>
+          {/* Die identifier */}
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            fontSize: '0.625rem', fontWeight: 600, letterSpacing: '0.08em',
+            textTransform: 'uppercase', color: textLow, whiteSpace: 'nowrap',
+            position: 'relative', zIndex: 1,
+          }}>
+            <span style={{ color: textHigh }}>Kostka</span>
+            <span>r{die.row}·c{die.col}</span>
+          </div>
 
-      {/* Values 1–6 */}
-      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-        {[1, 2, 3, 4, 5, 6].map(v => (
-          <ValueChip
-            key={v}
-            v={v}
-            color={die.playerColor}
-            active={v === die.value}
-            onClick={() => onChangeValue(v)}
-          />
-        ))}
-      </div>
+          {/* Values 1–6 */}
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, position: 'relative', zIndex: 1 }}>
+            {[1, 2, 3, 4, 5, 6].map(v => (
+              <ValueChip
+                key={v}
+                v={v}
+                color={die.playerColor}
+                active={v === die.value}
+                onClick={() => onChangeValue(v)}
+              />
+            ))}
+          </div>
 
-      {/* Position + Deselect */}
-      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-        <button
-          type="button"
-          onClick={isPlacing ? onCancelPlacing : onStartPlacing}
-          style={{
-            padding: '6px 12px',
-            background: isPlacing ? gold : 'transparent',
-            color: isPlacing ? bg2 : gold,
-            border: `1px solid ${gold}`,
-            borderRadius: 4,
-            fontSize: '0.6875rem',
-            fontWeight: 600,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            cursor: 'pointer',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {isPlacing ? 'Zruš umístění' : 'Změnit pozici'}
-        </button>
-        <button
-          type="button"
-          onClick={onDeselect}
-          title="Zruš výběr"
-          style={{
-            padding: '6px 10px',
-            background: 'transparent',
-            color: textLow,
-            border: `1px solid ${goldDim}`,
-            borderRadius: 4,
-            fontSize: '0.6875rem',
-            fontWeight: 600,
-            cursor: 'pointer',
-          }}
-        >
-          ×
-        </button>
+          {/* Position + Deselect */}
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, position: 'relative', zIndex: 1 }}>
+            <button
+              type="button"
+              onClick={isPlacing ? onCancelPlacing : onStartPlacing}
+              style={{
+                padding: '6px 12px',
+                background: isPlacing ? gold : 'transparent',
+                color: isPlacing ? bg2 : gold,
+                border: `1px solid ${gold}`,
+                borderRadius: 4,
+                fontSize: '0.6875rem',
+                fontWeight: 600,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {isPlacing ? 'Zruš umístění' : 'Změnit pozici'}
+            </button>
+            <button
+              type="button"
+              onClick={onDeselect}
+              title="Zruš výběr"
+              style={{
+                padding: '6px 10px',
+                background: 'transparent',
+                color: textLow,
+                border: `1px solid ${goldDim}`,
+                borderRadius: 4,
+                fontSize: '0.6875rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+              }}
+            >
+              ×
+            </button>
+          </div>
+
+          {/* Corner ornaments — match EventLog / DieChipPicker treatment. */}
+          <RohOrnament h={rohH} uid={`${uid}l`} />
+          <RohOrnament h={rohH} uid={`${uid}r`} flip />
+          <RohOrnament h={rohH} uid={`${uid}lb`} bottom />
+          <RohOrnament h={rohH} uid={`${uid}rb`} bottom flip />
+        </div>
       </div>
     </div>
   )
