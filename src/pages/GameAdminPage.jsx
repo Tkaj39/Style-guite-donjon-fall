@@ -295,20 +295,18 @@ export default function GameAdminPage() {
               }}>
                 <div id="history" style={{
                   flex: '0 0 auto',
-                  width: 150,
+                  width: 125,
                   display: 'flex', flexDirection: 'column',
                   gap: 4,
-                  padding: '6px 6px 8px',
-                  background: `${surface2}dd`,
-                  border: `1px solid ${borderDefault}`,
-                  borderRadius: 6,
+                  padding: '4px 2px',
                   minHeight: 0,
                 }}>
                   <p style={{
                     margin: 0, padding: '2px 4px',
                     fontSize: '0.5625rem', fontWeight: 700,
                     letterSpacing: '0.1em', textTransform: 'uppercase',
-                    color: textMid,
+                    color: '#fff',
+                    textShadow: '0 1px 2px rgba(0,0,0,0.9), 0 0 2px rgba(0,0,0,0.9)',
                   }}>
                     Historie tahů
                   </p>
@@ -334,20 +332,18 @@ export default function GameAdminPage() {
 
                 <div id="dice" style={{
                   flex: '0 0 auto',
-                  width: 150,
+                  width: 125,
                   display: 'flex', flexDirection: 'column',
                   gap: 6,
-                  padding: '6px 6px 8px',
-                  background: `${surface2}dd`,
-                  border: `1px solid ${borderDefault}`,
-                  borderRadius: 6,
+                  padding: '4px 2px',
                   overflow: 'auto',
                 }}>
                   <p style={{
                     margin: 0, padding: '2px 4px',
                     fontSize: '0.5625rem', fontWeight: 700,
                     letterSpacing: '0.1em', textTransform: 'uppercase',
-                    color: textMid,
+                    color: '#fff',
+                    textShadow: '0 1px 2px rgba(0,0,0,0.9), 0 0 2px rgba(0,0,0,0.9)',
                   }}>
                     Kostky na plánu
                   </p>
