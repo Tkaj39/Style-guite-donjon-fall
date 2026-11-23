@@ -230,13 +230,13 @@ export default function GameAdminPage() {
         { name: 'EventLog',           slug: 'event-log',            library: 'donjon', role: 'Historie tahů (přes HistoryPanel)' },
         { name: 'DieFace',            slug: 'die-face',             library: 'donjon', role: 'Vykreslení kostky v panelech i editoru' },
 
-        { name: 'MiniScoreHeader',    library: 'donjon', role: 'Horní score header obrazovky (page-local)' },
-        { name: 'MiniActionRow',      library: 'donjon', role: 'Spodní pás akcí, když není kostka vybraná (page-local)' },
-        { name: 'HistoryPanel',       library: 'donjon', role: 'Levý sidebar s Game log (page-local wrapper nad EventLog)' },
-        { name: 'DicePanel',          library: 'donjon', role: 'Pravý sidebar Kostky na plánu (page-local)' },
-        { name: 'DieChipPicker',      library: 'donjon', role: 'Oktagonální skupiny kostek v DicePanel (page-local)' },
-        { name: 'EditableGameBoard',  library: 'donjon', role: 'Interaktivní hexagonální plán (page-local)' },
-        { name: 'AdminDieEditorBar',  library: 'donjon', role: 'Dolní bar hodnoty + pozice při vybrání kostky (page-local)' },
+        { name: 'MiniScoreHeader',    slug: 'mini-score-header',    library: 'donjon', role: 'Horní score header obrazovky (page-local)' },
+        { name: 'MiniActionRow',      slug: 'mini-action-row',      library: 'donjon', role: 'Spodní pás akcí, když není kostka vybraná (page-local)' },
+        { name: 'HistoryPanel',       slug: 'history-panel',        library: 'donjon', role: 'Levý sidebar s Game log (page-local wrapper nad EventLog)' },
+        { name: 'DicePanel',          slug: 'dice-panel',           library: 'donjon', role: 'Pravý sidebar Kostky na plánu (page-local)' },
+        { name: 'DieChipPicker',      slug: 'die-chip-picker',      library: 'donjon', role: 'Oktagonální skupiny kostek v DicePanel (page-local)' },
+        { name: 'EditableGameBoard',  slug: 'editable-game-board',  library: 'donjon', role: 'Interaktivní hexagonální plán (page-local)' },
+        { name: 'AdminDieEditorBar',  slug: 'admin-die-editor-bar', library: 'donjon', role: 'Dolní bar hodnoty + pozice při vybrání kostky (page-local)' },
       ]} />
 
       <Section

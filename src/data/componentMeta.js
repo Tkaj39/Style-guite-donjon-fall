@@ -2713,4 +2713,111 @@ export const componentMeta = {
     relatedSlugs: ['layout', 'sidebar', 'device-frame'],
   },
 
+  /* ── Game Admin — page-local panels ──────────────────────────────────── */
+
+  'history-panel': {
+    description: 'Game Admin left in-frame sidebar: thin wrapper around <EventLog ornament="decorated" showRound autoScroll /> that fixes the sidebar footprint (width + maxHeight) and the decorated ornamental treatment. Page-local, lives under src/pages/game-admin/.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/game-admin',
+    props: [
+      { name: 'events',    type: 'EventLogEntry[]', required: true,  description: 'List of events forwarded to EventLog.' },
+      { name: 'title',     type: 'string',          required: false, default: "'Game log'", description: 'Header shown above the entries.' },
+      { name: 'width',     type: 'number',          required: false, default: '160',  description: 'Sidebar width in px.' },
+      { name: 'maxHeight', type: 'number',          required: false, default: '270',  description: 'Sidebar max height in px (~80 % of the board).' },
+    ],
+    relatedSlugs: ['event-log', 'dice-panel', 'editable-game-board'],
+  },
+
+  'dice-panel': {
+    description: 'Game Admin right in-frame sidebar: "Kostky na plánu" title + grouped-by-colour <DieChipPicker>. Page-local, lives under src/pages/game-admin/.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/game-admin',
+    props: [
+      { name: 'dice',           type: 'DieItem[]',               required: true,  description: 'All dice currently on the board.' },
+      { name: 'selectedDieId',  type: 'string | null',           required: true,  description: 'Id of the currently selected die, for highlight.' },
+      { name: 'onSelectDie',    type: '(id: string) => void',    required: true,  description: 'Fired when a die chip is clicked.' },
+      { name: 'title',          type: 'string',                  required: false, default: "'Kostky na plánu'", description: 'Header shown above the dice.' },
+      { name: 'width',          type: 'number',                  required: false, default: '125',  description: 'Sidebar width in px.' },
+      { name: 'maxHeight',      type: 'number',                  required: false, default: '270',  description: 'Sidebar max height in px.' },
+    ],
+    relatedSlugs: ['die-chip-picker', 'die-face', 'history-panel'],
+  },
+
+  'die-chip-picker': {
+    description: 'Chip picker for dice in the Game Admin. Three layout modes: default horizontal scroll row, columns={N} grid, or groupByColor — one donjon octagonal shell per player colour with corner RohOrnaments and a gold-glow highlight on the DieFace itself for the selected die. Page-local.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/game-admin',
+    props: [
+      { name: 'dice',          type: 'DieItem[]',              required: true,  description: 'Dice to render.' },
+      { name: 'selectedDieId', type: 'string | null',          required: true,  description: 'Currently selected die id.' },
+      { name: 'onSelectDie',   type: '(id: string) => void',   required: true,  description: 'Click handler.' },
+      { name: 'columns',       type: 'number',                 required: false, description: 'Grid column count. Omit together with groupByColor to get the default horizontal scroll row.' },
+      { name: 'groupByColor',  type: 'boolean',                required: false, default: 'false', description: 'Groups dice by playerColor into donjon-styled columns (one shell per colour).' },
+    ],
+    relatedSlugs: ['die-face', 'dice-panel'],
+  },
+
+  'editable-game-board': {
+    description: 'Game Admin board: an editable copy of the ScreensPage HexGrid. Each cell is clickable, the selected die cell renders in `selected` state and empty cells render in `move` state while `isPlacing` is true. Page-local.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/game-admin',
+    props: [
+      { name: 'board',         type: 'BoardCell[][]',               required: true,  description: '2-D grid of cells (with ids on dice).' },
+      { name: 'selectedDieId', type: 'string | null',               required: true,  description: 'Id of the currently selected die.' },
+      { name: 'isPlacing',     type: 'boolean',                     required: true,  description: 'When true, every empty cell tints as a move target.' },
+      { name: 'onCellClick',   type: '(row: number, col: number) => void', required: true, description: 'Click handler for every cell.' },
+      { name: 'cellW',         type: 'number',                      required: false, default: '42', description: 'Hex cell width.' },
+      { name: 'cellH',         type: 'number',                      required: false, default: '48', description: 'Hex cell height.' },
+      { name: 'gap',           type: 'number',                      required: false, default: '0',  description: 'Gap between cells.' },
+    ],
+    relatedSlugs: ['hex-tile', 'die-face', 'dice-panel'],
+  },
+
+  'admin-die-editor-bar': {
+    description: 'Game Admin bottom bar shown while a die is selected: identifier, 1–6 value chips (via <DieFace>) and a "Změnit pozici"/"Zruš umístění" toggle + clear-selection button. Wrapped in the donjon octagonal shell (gold rim + bgDeep fill + 4 RohOrnaments). Page-local.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/game-admin',
+    props: [
+      { name: 'die',             type: '{ id, playerColor, value, row, col }', required: true, description: 'Currently selected die.' },
+      { name: 'isPlacing',       type: 'boolean',                              required: true, description: 'True while waiting for a cell click to move the die.' },
+      { name: 'onChangeValue',   type: '(value: number) => void',              required: true, description: 'Fired when a new value chip is clicked.' },
+      { name: 'onStartPlacing',  type: '() => void',                           required: true, description: 'Fired to enter placing mode.' },
+      { name: 'onCancelPlacing', type: '() => void',                           required: true, description: 'Fired to cancel placing mode.' },
+      { name: 'onDeselect',      type: '() => void',                           required: true, description: 'Fired to clear the current selection.' },
+    ],
+    relatedSlugs: ['die-face', 'action-bar', 'dice-panel'],
+  },
+
+  'mini-score-header': {
+    description: 'Game Admin top score header: thin wrapper around the lib <VPCounter layout="row" centerValue={turn} /> with a fixed title string. Page-local.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/game-admin',
+    props: [
+      { name: 'players',    type: 'Player[]',   required: true,  description: 'Players shown in the score header.' },
+      { name: 'turn',       type: 'number',     required: true,  description: 'Current turn number (also rendered in the central hex).' },
+      { name: 'phaseLabel', type: 'string',     required: true,  description: 'Label of the current phase used in the title tooltip.' },
+      { name: 'activeIdx',  type: 'number',     required: true,  description: 'Index of the on-turn player (highlighted).' },
+      { name: 'minWidth',   type: 'number',     required: false, default: '260', description: 'Minimum header width.' },
+    ],
+    relatedSlugs: ['vp-counter', 'mini-action-row'],
+  },
+
+  'mini-action-row': {
+    description: 'Game Admin bottom action strip shown when no die is selected: thin wrapper around the lib <ActionBar size="xs" bordered={false} /> in icon-only mode. Page-local.',
+    subcategory: 'exclusive',
+    status: 'documented',
+    showcaseRoute: '/game-admin',
+    props: [
+      { name: 'actions', type: 'ActionDefinition[]', required: true,  description: 'Action descriptors forwarded to ActionBar.' },
+      { name: 'scale',   type: 'number',             required: false, default: '1', description: 'Scale factor on the row (for narrow frames).' },
+    ],
+    relatedSlugs: ['action-bar', 'admin-die-editor-bar'],
+  },
+
 }
