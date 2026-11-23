@@ -1,17 +1,99 @@
 /* ── DieChipPicker ───────────────────────────────────────────────────────
-   Chip picker used by the admin dice panel. Layout is driven by
-   `columns`: pass a number N to render as an N-column grid, or omit
-   it for the default horizontal scrollable row. Page-local. */
+   Chip picker used by the admin dice panel. Layout modes:
+     - omit both → horizontal scrollable row of individual chips
+     - columns={N} → N-column grid of individual chips
+     - groupByColor → one dark block per player colour, each a vertical
+       stack of borderless dice; selected die itself glows instead of
+       getting a frame.
+   Page-local. */
 import DieFace from '../../lib/donjon/DieFace'
 import { accent, borderDefault, surface2, surface3, textMid, textLow } from '../../lib/tkajui/tokens'
+import { gold } from '../../lib/donjon/tokens'
 
-export default function DieChipPicker({ dice, selectedDieId, onSelectDie, columns }) {
+function GroupedByColor({ dice, selectedDieId, onSelectDie }) {
+  // Preserve first-seen order per playerColor so the groups show up
+  // in the order the dice sit on the board.
+  const groups = []
+  const byColor = new Map()
+  for (const d of dice) {
+    if (!byColor.has(d.playerColor)) {
+      const g = { color: d.playerColor, items: [] }
+      byColor.set(d.playerColor, g)
+      groups.push(g)
+    }
+    byColor.get(d.playerColor).items.push(d)
+  }
+
+  return (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: `repeat(${groups.length}, minmax(0, 1fr))`,
+      gap: 6,
+      alignItems: 'start',
+    }}>
+      {groups.map((g, gi) => (
+        <div key={gi} style={{
+          display: 'flex', flexDirection: 'column',
+          gap: 4,
+          padding: '6px 4px',
+          background: surface2,
+          border: `1px solid ${borderDefault}`,
+          borderRadius: 6,
+        }}>
+          {g.items.map(d => {
+            const isSelected = d.id === selectedDieId
+            return (
+              <button
+                key={d.id}
+                type="button"
+                onClick={() => onSelectDie(d.id)}
+                style={{
+                  display: 'flex', flexDirection: 'column',
+                  alignItems: 'center', gap: 1,
+                  padding: 0,
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  opacity: selectedDieId && !isSelected ? 0.45 : 1,
+                  transition: 'opacity 0.12s',
+                }}
+              >
+                <span style={{
+                  display: 'inline-flex',
+                  filter: isSelected ? `drop-shadow(0 0 6px ${gold}) drop-shadow(0 0 2px ${gold})` : 'none',
+                  transform: isSelected ? 'scale(1.15)' : 'scale(1)',
+                  transition: 'transform 0.12s, filter 0.12s',
+                }}>
+                  <DieFace value={d.value} playerColor={d.playerColor} size="xs" />
+                </span>
+                <span style={{
+                  fontSize: '0.5rem',
+                  color: isSelected ? gold : textMid,
+                  fontVariantNumeric: 'tabular-nums',
+                  letterSpacing: '0.02em',
+                }}>
+                  r{d.row}c{d.col}
+                </span>
+              </button>
+            )
+          })}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export default function DieChipPicker({ dice, selectedDieId, onSelectDie, columns, groupByColor }) {
   if (!dice.length) {
     return (
       <p style={{ margin: 0, fontSize: '0.75rem', color: textLow }}>
         Žádná kostka na plánu.
       </p>
     )
+  }
+
+  if (groupByColor) {
+    return <GroupedByColor dice={dice} selectedDieId={selectedDieId} onSelectDie={onSelectDie} />
   }
 
   const containerStyle = columns

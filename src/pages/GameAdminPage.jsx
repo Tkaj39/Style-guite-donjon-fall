@@ -331,7 +331,7 @@ export default function GameAdminPage() {
                       dice={dice}
                       selectedDieId={selectedDieId}
                       onSelectDie={(id) => { setSelectedDieId(id); setIsPlacingDie(false) }}
-                      columns={2}
+                      groupByColor
                     />
                   </div>
                 </div>
