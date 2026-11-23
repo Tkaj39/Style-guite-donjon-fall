@@ -250,90 +250,102 @@ export default function GameAdminPage() {
           {/* LEFT — editable game view with in-frame history + dice sidebars */}
           <div style={{ flex: '1 1 480px', minWidth: 480 }}>
             <DeviceFrame type="desktop">
-              <MiniScoreHeader
-                players={scorePlayers}
-                turn={turn}
-                phaseLabel={phaseLabel}
-                activeIdx={activePlayerIdx}
-              />
-              {/* History (L) | Board (center) | Dice list (R) — fills the
-                  vertical space between the score header and bottom strip. */}
+              {/* Grass wrapper spans the whole frame interior so the score
+                  header, side panels and bottom bar all sit on the meadow
+                  texture — no black gaps around the admin components. */}
               <div style={{
                 flex: 1,
                 display: 'flex',
-                alignItems: 'stretch',
-                justifyContent: 'center',
-                gap: 10,
-                padding: '8px 8px 0',
-                minHeight: 0,
+                flexDirection: 'column',
+                backgroundImage: `url(/textures/grass_tile_1024x1024.jpg)`,
+                backgroundSize: '256px 256px',
+                backgroundRepeat: 'repeat',
               }}>
-                <div id="history" style={{
-                  flex: '0 0 auto',
-                  width: 200,
-                  display: 'flex', flexDirection: 'column',
+                <MiniScoreHeader
+                  players={scorePlayers}
+                  turn={turn}
+                  phaseLabel={phaseLabel}
+                  activeIdx={activePlayerIdx}
+                />
+                {/* History (L) | Board (center) | Dice list (R) — fills the
+                    vertical space between the score header and bottom strip. */}
+                <div style={{
+                  flex: 1,
+                  display: 'flex',
+                  alignItems: 'stretch',
+                  justifyContent: 'center',
+                  gap: 10,
+                  padding: '8px 8px 0',
                   minHeight: 0,
                 }}>
-                  <EventLog
-                    events={TURN_EVENTS}
-                    title="Game log"
-                    ornament="decorated"
-                    showRound
-                    autoScroll
-                    maxHeight={420}
-                  />
-                </div>
-
-                <div style={{
-                  flex: 1, display: 'flex',
-                  alignItems: 'center', justifyContent: 'center',
-                  overflow: 'hidden',
-                }}>
-                  <EditableGameBoard
-                    board={boardWithIds}
-                    selectedDieId={selectedDieId}
-                    isPlacing={isPlacingDie}
-                    onCellClick={handleCellClick}
-                  />
-                </div>
-
-                <div id="dice" style={{
-                  flex: '0 0 auto',
-                  width: 125,
-                  display: 'flex', flexDirection: 'column',
-                  gap: 6,
-                  padding: '4px 2px',
-                  overflow: 'auto',
-                }}>
-                  <p style={{
-                    margin: 0, padding: '2px 4px',
-                    fontSize: '0.5625rem', fontWeight: 700,
-                    letterSpacing: '0.1em', textTransform: 'uppercase',
-                    color: '#fff',
-                    textShadow: '0 1px 2px rgba(0,0,0,0.9), 0 0 2px rgba(0,0,0,0.9)',
+                  <div id="history" style={{
+                    flex: '0 0 auto',
+                    width: 200,
+                    display: 'flex', flexDirection: 'column',
+                    minHeight: 0,
                   }}>
-                    Kostky na plánu
-                  </p>
-                  <DieChipPicker
-                    dice={dice}
-                    selectedDieId={selectedDieId}
-                    onSelectDie={(id) => { setSelectedDieId(id); setIsPlacingDie(false) }}
-                    columns={2}
-                  />
+                    <EventLog
+                      events={TURN_EVENTS}
+                      title="Game log"
+                      ornament="decorated"
+                      showRound
+                      autoScroll
+                      maxHeight={420}
+                    />
+                  </div>
+
+                  <div style={{
+                    flex: 1, display: 'flex',
+                    alignItems: 'center', justifyContent: 'center',
+                    overflow: 'hidden',
+                  }}>
+                    <EditableGameBoard
+                      board={boardWithIds}
+                      selectedDieId={selectedDieId}
+                      isPlacing={isPlacingDie}
+                      onCellClick={handleCellClick}
+                    />
+                  </div>
+
+                  <div id="dice" style={{
+                    flex: '0 0 auto',
+                    width: 125,
+                    display: 'flex', flexDirection: 'column',
+                    gap: 6,
+                    padding: '4px 2px',
+                    overflow: 'auto',
+                  }}>
+                    <p style={{
+                      margin: 0, padding: '2px 4px',
+                      fontSize: '0.5625rem', fontWeight: 700,
+                      letterSpacing: '0.1em', textTransform: 'uppercase',
+                      color: '#fff',
+                      textShadow: '0 1px 2px rgba(0,0,0,0.9), 0 0 2px rgba(0,0,0,0.9)',
+                    }}>
+                      Kostky na plánu
+                    </p>
+                    <DieChipPicker
+                      dice={dice}
+                      selectedDieId={selectedDieId}
+                      onSelectDie={(id) => { setSelectedDieId(id); setIsPlacingDie(false) }}
+                      columns={2}
+                    />
+                  </div>
                 </div>
+                {/* Bottom strip — context-sensitive.
+                    No die selected → normal MiniActionRow.
+                    Die selected    → inline value + position editor. */}
+                {selectedDie
+                  ? <AdminDieEditorBar
+                      die={selectedDie}
+                      isPlacing={isPlacingDie}
+                      onChangeValue={(v) => setDieValue(selectedDieId, v)}
+                      onStartPlacing={() => setIsPlacingDie(true)}
+                      onCancelPlacing={() => setIsPlacingDie(false)}
+                      onDeselect={() => { setSelectedDieId(null); setIsPlacingDie(false) }}
+                    />
+                  : <MiniActionRow />}
               </div>
-              {/* Bottom strip — context-sensitive.
-                  No die selected → normal MiniActionRow.
-                  Die selected    → inline value + position editor. */}
-              {selectedDie
-                ? <AdminDieEditorBar
-                    die={selectedDie}
-                    isPlacing={isPlacingDie}
-                    onChangeValue={(v) => setDieValue(selectedDieId, v)}
-                    onStartPlacing={() => setIsPlacingDie(true)}
-                    onCancelPlacing={() => setIsPlacingDie(false)}
-                    onDeselect={() => { setSelectedDieId(null); setIsPlacingDie(false) }}
-                  />
-                : <MiniActionRow />}
             </DeviceFrame>
 
             {/* Reset — plain button below the frame */}

@@ -27,15 +27,10 @@ export default function EditableGameBoard({
 
   return (
     <div style={{
-      flex: 1, display: 'flex', flexDirection: 'column',
-      backgroundImage: `url(${GRASS_TEXTURE})`,
-      backgroundSize: '256px 256px', backgroundRepeat: 'repeat',
+      flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+      overflow: 'hidden',
     }}>
-      <div style={{
-        flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        overflow: 'hidden',
-      }}>
-        <div style={{ position: 'relative', width: totalW, height: totalH, flexShrink: 0 }}>
+      <div style={{ position: 'relative', width: totalW, height: totalH, flexShrink: 0 }}>
           {board.map((row, ri) =>
             row.map((h, ci) => {
               const baseX = (maxCols - row.length) * colW / 2
@@ -107,7 +102,6 @@ export default function EditableGameBoard({
             })
           )}
         </div>
-      </div>
     </div>
   )
 }
