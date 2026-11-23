@@ -62,22 +62,20 @@ const SCREEN_ACTIONS = [
   { label: 'Přehazování',  icon: <RerollIcon />,        variant: 'special' },
 ]
 
-/* ── Mock turn history as EventLog entries ───────────────────────────────
-   Flattened for <EventLog>: one row per game event, grouped by `round`.
-   `type` drives colour + icon (gain / loss / event / warning / system). */
+/* ── Mock game log for the <EventLog> ────────────────────────────────────
+   Matches the reference pattern: Game started, player turn markers,
+   "<Color> moved a die" rows with a destination coord detail. Rounds
+   render as K1/K2/… thanks to EventLog's showRound. */
 const TURN_EVENTS = [
-  { round: 1, type: 'system', text: 'Tah 1 — Hráč 1' },
-  { round: 1, type: 'event',  text: 'Pohyb kostky r0c4 → r1c4' },
-  { round: 1, type: 'system', text: 'Konec tahu' },
-
-  { round: 2, type: 'system', text: 'Tah 2 — Hráč 2' },
-  { round: 2, type: 'event',  text: 'Pohyb kostky r8c4 → r7c4' },
-  { round: 2, type: 'gain',   text: 'Souboj vyhrán', detail: 'P2 r7c4 vs P1 r1c4' },
-  { round: 2, type: 'system', text: 'Konec tahu' },
-
-  { round: 3, type: 'system', text: 'Tah 3 — Hráč 1' },
-  { round: 3, type: 'event',  text: 'Pohyb věže r0c0 → r0c1' },
-  { round: 3, type: 'warning', text: 'Čeká se na akci' },
+  { round: 1, type: 'system', text: 'Game started' },
+  { round: 1, type: 'loss',   text: 'Red moved a die',  detail: 'To (0, -1)' },
+  { round: 1, type: 'system', text: 'Blue’s turn' },
+  { round: 2, type: 'event',  text: 'Blue moved a die', detail: 'To (-2, 3)' },
+  { round: 2, type: 'system', text: 'Red’s turn' },
+  { round: 3, type: 'loss',   text: 'Red moved a die',  detail: 'To (1, -4)' },
+  { round: 3, type: 'system', text: 'Blue’s turn' },
+  { round: 4, type: 'event',  text: 'Blue moved a die', detail: 'To (-2, 0)' },
+  { round: 5, type: 'system', text: 'Red’s turn' },
 ]
 
 function dieId(row, col) { return `d-${row}-${col}` }
@@ -271,18 +269,17 @@ export default function GameAdminPage() {
               }}>
                 <div id="history" style={{
                   flex: '0 0 auto',
-                  width: 160,
+                  width: 200,
                   display: 'flex', flexDirection: 'column',
                   minHeight: 0,
                 }}>
                   <EventLog
                     events={TURN_EVENTS}
-                    title="Historie tahů"
-                    ornament="plain"
+                    title="Game log"
+                    ornament="decorated"
                     showRound
-                    groupByRound
                     autoScroll
-                    maxHeight={360}
+                    maxHeight={420}
                   />
                 </div>
 
