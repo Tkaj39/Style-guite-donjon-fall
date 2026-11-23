@@ -281,7 +281,7 @@ export default function GameAdminPage() {
                 }}>
                   <div id="history" style={{
                     flex: '0 0 auto',
-                    width: 200,
+                    width: 160,
                     maxHeight: 270,
                     display: 'flex', flexDirection: 'column',
                     minHeight: 0,
