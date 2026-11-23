@@ -20,6 +20,9 @@ import { componentMeta } from './componentMeta'
 const LAYOUT_GLOB = import.meta.glob('../styleguide/*.jsx')
 const TKAJUI_GLOB = import.meta.glob('../lib/tkajui/*.jsx')
 const DONJON_GLOB = import.meta.glob('../lib/donjon/*.jsx')
+/* Page-local game-admin panels — documented via componentMeta so their
+   chips on /game-admin link into /components/:slug just like lib ones. */
+const GAME_ADMIN_GLOB = import.meta.glob('../pages/game-admin/*.jsx')
 
 /* Explicitní override viditelnosti pro konkrétní komponenty */
 const VISIBILITY_OVERRIDES = {
@@ -139,6 +142,9 @@ function buildRegistry() {
     entries.push(applyMeta(makeEntry(path, 'root')))
   })
   Object.keys(DONJON_GLOB).forEach(path => {
+    entries.push(applyMeta(makeEntry(path, 'game-assets')))
+  })
+  Object.keys(GAME_ADMIN_GLOB).forEach(path => {
     entries.push(applyMeta(makeEntry(path, 'game-assets')))
   })
 
