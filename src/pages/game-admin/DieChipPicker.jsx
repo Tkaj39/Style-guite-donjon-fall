@@ -8,7 +8,10 @@
    Page-local. */
 import DieFace from '../../lib/donjon/DieFace'
 import { accent, borderDefault, surface2, surface3, textMid, textLow } from '../../lib/tkajui/tokens'
-import { gold } from '../../lib/donjon/tokens'
+import { gold, goldDim, bgDeep } from '../../lib/donjon/tokens'
+import { octagon, octagonInner } from '../../lib/shared/octagon'
+import { RohOrnament, ornamentHForCx } from '../../lib/donjon/Ornaments'
+import { useId } from 'react'
 
 function GroupedByColor({ dice, selectedDieId, onSelectDie }) {
   // Preserve first-seen order per playerColor so the groups show up
@@ -24,6 +27,12 @@ function GroupedByColor({ dice, selectedDieId, onSelectDie }) {
     byColor.get(d.playerColor).items.push(d)
   }
 
+  // Octagonal shell geometry — same pattern as DonjonCard / EventLog.
+  const cx   = 8
+  const rohH = ornamentHForCx(cx, 'roh')
+  const rawId = useId()
+  const uidBase = rawId.replace(/:/g, '')
+
   return (
     <div style={{
       display: 'grid',
@@ -31,54 +40,73 @@ function GroupedByColor({ dice, selectedDieId, onSelectDie }) {
       gap: 6,
       alignItems: 'start',
     }}>
-      {groups.map((g, gi) => (
-        <div key={gi} style={{
-          display: 'flex', flexDirection: 'column',
-          gap: 4,
-          padding: '6px 4px',
-          background: surface2,
-          border: `1px solid ${borderDefault}`,
-          borderRadius: 6,
-        }}>
-          {g.items.map(d => {
-            const isSelected = d.id === selectedDieId
-            return (
-              <button
-                key={d.id}
-                type="button"
-                onClick={() => onSelectDie(d.id)}
-                style={{
-                  display: 'flex', flexDirection: 'column',
-                  alignItems: 'center', gap: 1,
-                  padding: 0,
-                  background: 'transparent',
-                  border: 'none',
-                  cursor: 'pointer',
-                  opacity: selectedDieId && !isSelected ? 0.45 : 1,
-                  transition: 'opacity 0.12s',
-                }}
-              >
-                <span style={{
-                  display: 'inline-flex',
-                  filter: isSelected ? `drop-shadow(0 0 6px ${gold}) drop-shadow(0 0 2px ${gold})` : 'none',
-                  transform: isSelected ? 'scale(1.15)' : 'scale(1)',
-                  transition: 'transform 0.12s, filter 0.12s',
-                }}>
-                  <DieFace value={d.value} playerColor={d.playerColor} size="xs" />
-                </span>
-                <span style={{
-                  fontSize: '0.5rem',
-                  color: isSelected ? gold : textMid,
-                  fontVariantNumeric: 'tabular-nums',
-                  letterSpacing: '0.02em',
-                }}>
-                  r{d.row}c{d.col}
-                </span>
-              </button>
-            )
-          })}
-        </div>
-      ))}
+      {groups.map((g, gi) => {
+        const uid = `${uidBase}g${gi}`
+        return (
+          /* Outer border shell — gold rim around the clip-path octagon. */
+          <div key={gi} style={{
+            clipPath: octagon(cx),
+            background: goldDim,
+            padding: 1,
+          }}>
+            {/* Inner panel — donjon dark bg + the actual dice stack. */}
+            <div style={{
+              position: 'relative',
+              clipPath: octagonInner(cx, 1),
+              background: bgDeep,
+              padding: '10px 4px 10px',
+              display: 'flex', flexDirection: 'column',
+              gap: 4,
+            }}>
+              {g.items.map(d => {
+                const isSelected = d.id === selectedDieId
+                return (
+                  <button
+                    key={d.id}
+                    type="button"
+                    onClick={() => onSelectDie(d.id)}
+                    style={{
+                      display: 'flex', flexDirection: 'column',
+                      alignItems: 'center', gap: 1,
+                      padding: 0,
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: 'pointer',
+                      opacity: selectedDieId && !isSelected ? 0.45 : 1,
+                      transition: 'opacity 0.12s',
+                      position: 'relative',
+                      zIndex: 1,
+                    }}
+                  >
+                    <span style={{
+                      display: 'inline-flex',
+                      filter: isSelected ? `drop-shadow(0 0 6px ${gold}) drop-shadow(0 0 2px ${gold})` : 'none',
+                      transform: isSelected ? 'scale(1.15)' : 'scale(1)',
+                      transition: 'transform 0.12s, filter 0.12s',
+                    }}>
+                      <DieFace value={d.value} playerColor={d.playerColor} size="xs" />
+                    </span>
+                    <span style={{
+                      fontSize: '0.5rem',
+                      color: isSelected ? gold : textMid,
+                      fontVariantNumeric: 'tabular-nums',
+                      letterSpacing: '0.02em',
+                    }}>
+                      r{d.row}c{d.col}
+                    </span>
+                  </button>
+                )
+              })}
+
+              {/* Corner ornaments — match EventLog / DonjonCard treatment. */}
+              <RohOrnament h={rohH} uid={`${uid}l`} />
+              <RohOrnament h={rohH} uid={`${uid}r`} flip />
+              <RohOrnament h={rohH} uid={`${uid}lb`} bottom />
+              <RohOrnament h={rohH} uid={`${uid}rb`} bottom flip />
+            </div>
+          </div>
+        )
+      })}
     </div>
   )
 }
