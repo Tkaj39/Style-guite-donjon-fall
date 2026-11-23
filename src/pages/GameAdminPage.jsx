@@ -273,7 +273,7 @@ export default function GameAdminPage() {
         <div style={{
           display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap',
         }}>
-          {/* LEFT — editable game view with in-frame dice sidebar */}
+          {/* LEFT — editable game view with in-frame history + dice sidebars */}
           <div style={{ flex: '1 1 480px', minWidth: 480 }}>
             <DeviceFrame type="desktop">
               <MiniScoreHeader
@@ -282,17 +282,43 @@ export default function GameAdminPage() {
                 phaseLabel={phaseLabel}
                 activeIdx={activePlayerIdx}
               />
-              {/* Board + in-game dice sidebar — fills the vertical space
-                  between the score header and the bottom strip. */}
+              {/* History (L) | Board (center) | Dice list (R) — fills the
+                  vertical space between the score header and bottom strip. */}
               <div style={{
                 flex: 1,
                 display: 'flex',
                 alignItems: 'stretch',
                 justifyContent: 'center',
-                gap: 12,
+                gap: 10,
                 padding: '8px 8px 0',
                 minHeight: 0,
               }}>
+                <div id="history" style={{
+                  flex: '0 0 auto',
+                  width: 150,
+                  display: 'flex', flexDirection: 'column',
+                  gap: 4,
+                  padding: '6px 6px 8px',
+                  background: `${surface2}dd`,
+                  border: `1px solid ${borderDefault}`,
+                  borderRadius: 6,
+                  minHeight: 0,
+                }}>
+                  <p style={{
+                    margin: 0, padding: '2px 4px',
+                    fontSize: '0.5625rem', fontWeight: 700,
+                    letterSpacing: '0.1em', textTransform: 'uppercase',
+                    color: textMid,
+                  }}>
+                    Historie tahů
+                  </p>
+                  <TurnHistoryList
+                    entries={TURN_HISTORY}
+                    currentTurn={turn}
+                    compact
+                  />
+                </div>
+
                 <div style={{
                   flex: 1, display: 'flex',
                   alignItems: 'center', justifyContent: 'center',
@@ -305,12 +331,13 @@ export default function GameAdminPage() {
                     onCellClick={handleCellClick}
                   />
                 </div>
+
                 <div id="dice" style={{
                   flex: '0 0 auto',
-                  width: 170,
+                  width: 150,
                   display: 'flex', flexDirection: 'column',
                   gap: 6,
-                  padding: '6px 6px 10px',
+                  padding: '6px 6px 8px',
                   background: `${surface2}dd`,
                   border: `1px solid ${borderDefault}`,
                   borderRadius: 6,
@@ -346,39 +373,25 @@ export default function GameAdminPage() {
                   />
                 : <MiniActionRow />}
             </DeviceFrame>
-          </div>
 
-          {/* RIGHT — turn history */}
-          <div id="history" style={{
-            position: 'sticky', top: 16,
-            display: 'flex', flexDirection: 'column', gap: 16,
-            flex: '0 0 auto',
-            minWidth: 260, maxWidth: 320, width: 290,
-          }}>
-            <Card title="Historie tahů">
-              <div style={{ padding: 12, display: 'flex', flexDirection: 'column', gap: 10 }}>
-                <TurnHistoryList
-                  entries={TURN_HISTORY}
-                  currentTurn={turn}
-                />
-                <button
-                  type="button"
-                  onClick={resetBoard}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    background: surface2,
-                    border: `1px solid ${borderDefault}`,
-                    color: textMid,
-                    borderRadius: 4,
-                    fontSize: '0.75rem',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Reset plánu
-                </button>
-              </div>
-            </Card>
+            {/* Reset — plain button below the frame */}
+            <div style={{ marginTop: 12, display: 'flex', justifyContent: 'flex-end' }}>
+              <button
+                type="button"
+                onClick={resetBoard}
+                style={{
+                  padding: '6px 14px',
+                  background: surface2,
+                  border: `1px solid ${borderDefault}`,
+                  color: textMid,
+                  borderRadius: 4,
+                  fontSize: '0.75rem',
+                  cursor: 'pointer',
+                }}
+              >
+                Reset plánu
+              </button>
+            </div>
           </div>
         </div>
       </Section>
