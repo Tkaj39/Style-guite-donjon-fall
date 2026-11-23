@@ -13,11 +13,9 @@ import {
   MoveIcon, SwordIcon, ShieldIcon,
   TowerIcon, TowerCollapseIcon, RerollIcon,
 } from '../lib/donjon/icons'
-import Card from '../lib/tkajui/Card'
 import { textMid, textLow, surface2, borderDefault } from '../lib/tkajui/tokens'
 
 import EditableGameBoard from './game-admin/EditableGameBoard'
-import AdminPhaseTool from './game-admin/AdminPhaseTool'
 import AdminDieEditorBar from './game-admin/AdminDieEditorBar'
 import HistoryPanel from './game-admin/HistoryPanel'
 import DicePanel from './game-admin/DicePanel'
@@ -121,7 +119,7 @@ function withDieIds(board) {
 
 export default function GameAdminPage() {
   const [turn, setTurn] = useState(3)
-  const [phase, setPhase] = useState('akce')
+  const [phase] = useState('akce')
   const [board, setBoard] = useState(INITIAL_BOARD)
   const [selectedDieId, setSelectedDieId] = useState(null)
   const [isPlacingDie, setIsPlacingDie] = useState(false)
@@ -141,9 +139,7 @@ export default function GameAdminPage() {
   ]
   const phaseLabel = FAZE_TAHU.find(f => f.id === phase)?.label ?? phase
 
-  const handlePhaseChange = (next) => {
-    setPhase(next)
-  }
+
 
   // Decode id → (row, col) rather than relying on indexOf (cells with
   // equal shape could collide).
@@ -232,11 +228,7 @@ export default function GameAdminPage() {
         { name: 'VPCounter',          slug: 'vp-counter',           library: 'donjon', role: 'Skóre header s VP, hráči a tahem (přes MiniScoreHeader)' },
         { name: 'ActionBar',          slug: 'action-bar',           library: 'donjon', role: 'Spodní pás akcí (přes MiniActionRow)' },
         { name: 'EventLog',           slug: 'event-log',            library: 'donjon', role: 'Historie tahů (přes HistoryPanel)' },
-        { name: 'PhaseIndicator',     slug: 'phase-indicator',      library: 'donjon', role: 'Výběr aktuální fáze (uvnitř AdminPhaseTool)' },
         { name: 'DieFace',            slug: 'die-face',             library: 'donjon', role: 'Vykreslení kostky v panelech i editoru' },
-        { name: 'Card',               slug: 'card',                 library: 'tkajui', role: 'Obálka horního panelu Posloupnost tahů' },
-        { name: 'NumberInput',        slug: 'number-input',         library: 'tkajui', role: 'Vstup pro číslo tahu' },
-        { name: 'Button',             slug: 'button',               library: 'tkajui', role: 'Předchozí / Další fáze' },
 
         { name: 'MiniScoreHeader',    library: 'donjon', role: 'Horní score header obrazovky (page-local)' },
         { name: 'MiniActionRow',      library: 'donjon', role: 'Spodní pás akcí, když není kostka vybraná (page-local)' },
@@ -244,7 +236,6 @@ export default function GameAdminPage() {
         { name: 'DicePanel',          library: 'donjon', role: 'Pravý sidebar Kostky na plánu (page-local)' },
         { name: 'DieChipPicker',      library: 'donjon', role: 'Oktagonální skupiny kostek v DicePanel (page-local)' },
         { name: 'EditableGameBoard',  library: 'donjon', role: 'Interaktivní hexagonální plán (page-local)' },
-        { name: 'AdminPhaseTool',     library: 'donjon', role: 'Nástroj pro tah + fázi nahoře (page-local)' },
         { name: 'AdminDieEditorBar',  library: 'donjon', role: 'Dolní bar hodnoty + pozice při vybrání kostky (page-local)' },
       ]} />
 
@@ -253,21 +244,6 @@ export default function GameAdminPage() {
         title="Admin panel"
         description="Nahoře nástroj pro posloupnost tahů (ovládá celý výhled), vlevo editovatelná obrazovka v DeviceFrame, vpravo tooling pro manipulaci s kostkami v TkajUI paletě (studené modré = debug nástroje) oproti teplé zlaté hře."
       >
-        {/* TOP — turn / phase control (full width) */}
-        <div id="phase" style={{ marginBottom: 16 }}>
-          <Card title="Posloupnost tahů">
-            <div style={{ padding: 16 }}>
-              <AdminPhaseTool
-                phases={FAZE_TAHU}
-                currentPhase={phase}
-                onPhaseChange={handlePhaseChange}
-                turn={turn}
-                onTurnChange={setTurn}
-              />
-            </div>
-          </Card>
-        </div>
-
         <div style={{
           display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap',
         }}>
