@@ -18,8 +18,8 @@ export default function DieChipPicker({ dice, selectedDieId, onSelectDie, column
     ? {
         display: 'grid',
         gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-        gap: 6,
-        padding: 2,
+        gap: 3,
+        padding: 1,
       }
     : {
         display: 'flex',
@@ -28,6 +28,9 @@ export default function DieChipPicker({ dice, selectedDieId, onSelectDie, column
         padding: '4px 2px 10px',
         scrollbarWidth: 'thin',
       }
+
+  const chipPadding = columns ? '2px 4px 2px' : '6px 8px 4px'
+  const chipGap     = columns ? 1 : 4
 
   return (
     <div style={containerStyle}>
@@ -41,11 +44,11 @@ export default function DieChipPicker({ dice, selectedDieId, onSelectDie, column
             style={{
               flexShrink: 0,
               display: 'flex', flexDirection: 'column', alignItems: 'center',
-              gap: 4,
-              padding: '6px 8px 4px',
+              gap: chipGap,
+              padding: chipPadding,
               background: isSelected ? surface3 : surface2,
               border: `1px solid ${isSelected ? accent : borderDefault}`,
-              borderRadius: 6,
+              borderRadius: 4,
               cursor: 'pointer',
               boxShadow: isSelected ? `0 0 0 1px ${accent}55` : 'none',
               transition: 'all 0.12s',
@@ -53,8 +56,9 @@ export default function DieChipPicker({ dice, selectedDieId, onSelectDie, column
           >
             <DieFace value={d.value} playerColor={d.playerColor} size="xs" />
             <span style={{
-              fontSize: '0.5625rem', color: isSelected ? accent : textMid,
+              fontSize: '0.5rem', color: isSelected ? accent : textMid,
               fontVariantNumeric: 'tabular-nums',
+              letterSpacing: '0.02em',
             }}>
               r{d.row}c{d.col}
             </span>
