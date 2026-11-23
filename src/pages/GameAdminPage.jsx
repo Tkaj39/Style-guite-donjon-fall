@@ -267,12 +267,13 @@ export default function GameAdminPage() {
                   phaseLabel={phaseLabel}
                   activeIdx={activePlayerIdx}
                 />
-                {/* History (L) | Board (center) | Dice list (R) — fills the
-                    vertical space between the score header and bottom strip. */}
+                {/* History (L) | Board (center) | Dice list (R) — side
+                    panels are capped to ~80 % of the board height and
+                    vertically centered next to it. */}
                 <div style={{
                   flex: 1,
                   display: 'flex',
-                  alignItems: 'stretch',
+                  alignItems: 'center',
                   justifyContent: 'center',
                   gap: 10,
                   padding: '8px 8px 0',
@@ -281,6 +282,7 @@ export default function GameAdminPage() {
                   <div id="history" style={{
                     flex: '0 0 auto',
                     width: 200,
+                    maxHeight: 270,
                     display: 'flex', flexDirection: 'column',
                     minHeight: 0,
                   }}>
@@ -290,7 +292,7 @@ export default function GameAdminPage() {
                       ornament="decorated"
                       showRound
                       autoScroll
-                      maxHeight={420}
+                      maxHeight={270}
                     />
                   </div>
 
@@ -310,6 +312,7 @@ export default function GameAdminPage() {
                   <div id="dice" style={{
                     flex: '0 0 auto',
                     width: 125,
+                    maxHeight: 270,
                     display: 'flex', flexDirection: 'column',
                     gap: 6,
                     padding: '4px 2px',
