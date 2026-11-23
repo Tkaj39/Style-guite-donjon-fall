@@ -19,8 +19,11 @@ import { textMid, textLow, surface2, borderDefault } from '../lib/tkajui/tokens'
 import EditableGameBoard from './game-admin/EditableGameBoard'
 import AdminPhaseTool from './game-admin/AdminPhaseTool'
 import AdminDieEditorBar from './game-admin/AdminDieEditorBar'
-import DieChipPicker from './game-admin/DieChipPicker'
-import EventLog from '../lib/donjon/EventLog'
+import HistoryPanel from './game-admin/HistoryPanel'
+import DicePanel from './game-admin/DicePanel'
+import MiniScoreHeader from './game-admin/MiniScoreHeader'
+import MiniActionRow from './game-admin/MiniActionRow'
+import ComponentsUsed from '../styleguide/ComponentsUsed'
 
 const FAZE_TAHU = [
   { id: 'pohyb',  label: 'Pohyb' },
@@ -224,6 +227,27 @@ export default function GameAdminPage() {
       title="Game Admin"
       description="QA/debug surface mirroring the herní obrazovku. Umožňuje měnit číslo tahu, fázi, hodnoty jednotlivých kostek a jejich pozice přímo na plánu."
     >
+      <ComponentsUsed items={[
+        { name: 'DeviceFrame',        slug: 'device-frame',         library: 'shared', role: 'PC rámeček obrazovky' },
+        { name: 'VPCounter',          slug: 'vp-counter',           library: 'donjon', role: 'Skóre header s VP, hráči a tahem (přes MiniScoreHeader)' },
+        { name: 'ActionBar',          slug: 'action-bar',           library: 'donjon', role: 'Spodní pás akcí (přes MiniActionRow)' },
+        { name: 'EventLog',           slug: 'event-log',            library: 'donjon', role: 'Historie tahů (přes HistoryPanel)' },
+        { name: 'PhaseIndicator',     slug: 'phase-indicator',      library: 'donjon', role: 'Výběr aktuální fáze (uvnitř AdminPhaseTool)' },
+        { name: 'DieFace',            slug: 'die-face',             library: 'donjon', role: 'Vykreslení kostky v panelech i editoru' },
+        { name: 'Card',               slug: 'card',                 library: 'tkajui', role: 'Obálka horního panelu Posloupnost tahů' },
+        { name: 'NumberInput',        slug: 'number-input',         library: 'tkajui', role: 'Vstup pro číslo tahu' },
+        { name: 'Button',             slug: 'button',               library: 'tkajui', role: 'Předchozí / Další fáze' },
+
+        { name: 'MiniScoreHeader',    library: 'donjon', role: 'Horní score header obrazovky (page-local)' },
+        { name: 'MiniActionRow',      library: 'donjon', role: 'Spodní pás akcí, když není kostka vybraná (page-local)' },
+        { name: 'HistoryPanel',       library: 'donjon', role: 'Levý sidebar s Game log (page-local wrapper nad EventLog)' },
+        { name: 'DicePanel',          library: 'donjon', role: 'Pravý sidebar Kostky na plánu (page-local)' },
+        { name: 'DieChipPicker',      library: 'donjon', role: 'Oktagonální skupiny kostek v DicePanel (page-local)' },
+        { name: 'EditableGameBoard',  library: 'donjon', role: 'Interaktivní hexagonální plán (page-local)' },
+        { name: 'AdminPhaseTool',     library: 'donjon', role: 'Nástroj pro tah + fázi nahoře (page-local)' },
+        { name: 'AdminDieEditorBar',  library: 'donjon', role: 'Dolní bar hodnoty + pozice při vybrání kostky (page-local)' },
+      ]} />
+
       <Section
         id="prehled"
         title="Admin panel"
@@ -279,21 +303,8 @@ export default function GameAdminPage() {
                   padding: '8px 8px 0',
                   minHeight: 0,
                 }}>
-                  <div id="history" style={{
-                    flex: '0 0 auto',
-                    width: 160,
-                    maxHeight: 270,
-                    display: 'flex', flexDirection: 'column',
-                    minHeight: 0,
-                  }}>
-                    <EventLog
-                      events={TURN_EVENTS}
-                      title="Game log"
-                      ornament="decorated"
-                      showRound
-                      autoScroll
-                      maxHeight={270}
-                    />
+                  <div id="history">
+                    <HistoryPanel events={TURN_EVENTS} />
                   </div>
 
                   <div style={{
@@ -309,29 +320,11 @@ export default function GameAdminPage() {
                     />
                   </div>
 
-                  <div id="dice" style={{
-                    flex: '0 0 auto',
-                    width: 125,
-                    maxHeight: 270,
-                    display: 'flex', flexDirection: 'column',
-                    gap: 6,
-                    padding: '4px 2px',
-                    overflow: 'auto',
-                  }}>
-                    <p style={{
-                      margin: 0, padding: '2px 4px',
-                      fontSize: '0.5625rem', fontWeight: 700,
-                      letterSpacing: '0.1em', textTransform: 'uppercase',
-                      color: '#fff',
-                      textShadow: '0 1px 2px rgba(0,0,0,0.9), 0 0 2px rgba(0,0,0,0.9)',
-                    }}>
-                      Kostky na plánu
-                    </p>
-                    <DieChipPicker
+                  <div id="dice">
+                    <DicePanel
                       dice={dice}
                       selectedDieId={selectedDieId}
                       onSelectDie={(id) => { setSelectedDieId(id); setIsPlacingDie(false) }}
-                      groupByColor
                     />
                   </div>
                 </div>
@@ -347,7 +340,7 @@ export default function GameAdminPage() {
                       onCancelPlacing={() => setIsPlacingDie(false)}
                       onDeselect={() => { setSelectedDieId(null); setIsPlacingDie(false) }}
                     />
-                  : <MiniActionRow />}
+                  : <MiniActionRow actions={SCREEN_ACTIONS} />}
               </div>
             </DeviceFrame>
 
@@ -392,38 +385,6 @@ export default function GameAdminPage() {
 }
 
 /* ── Inlined mini surface pieces ─────────────────────────────────────────
-   Trimmed copies of the ScreensPage helpers so GameAdminPage can parametrize
-   turn / phase / active player per-render (ScreensPage uses module-level
-   constants). */
-
-const MAX_VP = 5
-
-function MiniScoreHeader({ players, turn, phaseLabel, activeIdx }) {
-  return (
-    <div style={{ padding: '8px 8px 0', display: 'flex', justifyContent: 'center', flexShrink: 0 }}>
-      <VPCounter
-        players={players}
-        max={MAX_VP}
-        title={`Tah ${turn} · ${phaseLabel}\nHráč ${activeIdx + 1} na tahu`}
-        layout="row"
-        minWidth={260}
-        centerValue={turn}
-      />
-    </div>
-  )
-}
-
-function MiniActionRow() {
-  return (
-    <div style={{ display: 'flex', justifyContent: 'center', flexShrink: 0, paddingBottom: 6 }}>
-      <ActionBar
-        actions={SCREEN_ACTIONS}
-        size="xs"
-        bordered={false}
-        showLabel={false}
-        showKeycap={false}
-      />
-    </div>
-  )
-}
+   MiniScoreHeader and MiniActionRow live in src/pages/game-admin/ now;
+   this file wires them to local state + the canonical action set. */
 
